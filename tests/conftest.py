@@ -74,7 +74,7 @@ def pytest_collection_modifyitems(items):
 
 def create_user(group_name):
     future = timezone.now() + datetime.timedelta(days=10000)
-    user = baker.make(User, expiration_date=future, email='test@example.com')
+    user = baker.make(User, expiration_date=future, email='test@example.com', privacy_level=1)
 
     if group_name == "all":
         user.user_permissions.set(Permission.objects.all())
@@ -82,8 +82,6 @@ def create_user(group_name):
         group = Group.objects.get(name=group_name)
         user.groups.add(group)
 
-    user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
-    user.user_permissions.remove(Permission.objects.get(codename='privacy_level_2'))
     user.user_permissions.remove(Permission.objects.get(codename='access_study'))
     user.user_permissions.remove(Permission.objects.get(codename='search_participations'))
 

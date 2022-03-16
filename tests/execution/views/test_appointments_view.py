@@ -132,8 +132,7 @@ def test_appointment_resource_overlap(client, member, participation, time):
 
 def test_appointment_change_appointment_permission(client, member, participation):
     future = timezone.now() + datetime.timedelta(days=10000)
-    user = baker.make(User, expiration_date=future, email='test@example.com')
-    user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
+    user = baker.make(User, expiration_date=future, email='test@example.com', privacy_level=1)
     user.user_permissions.add(Permission.objects.get(codename='recruit'))
     StudyMembership.objects.create(user=user, study=participation.study)
 

@@ -74,10 +74,10 @@ class Command(BaseCommand):
                 'last_name': last_name,
                 'email': name + '@example.com',
                 'expiration_date': expiration_date,
+                'privacy_level': 1,
             }
             user, created = User.objects.get_or_create(username=name, defaults=defaults)
             if created:
                 user.set_password(User.DEMO_PASSWORD)
-                user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
                 user.groups.set(Group.objects.filter(name__in=groups))
                 user.save()

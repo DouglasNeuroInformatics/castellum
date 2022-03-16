@@ -40,6 +40,7 @@ class User(AbstractUser):
     )
     expiration_date = DateTimeField(_('Expiration date'), blank=True, null=True)
     token = models.CharField(max_length=64, unique=True, default=generate_token)
+    privacy_level = models.PositiveIntegerField(_('Privacy level'), default=0)
 
     class Meta:
         ordering = ['username']
@@ -48,15 +49,8 @@ class User(AbstractUser):
             ('privacy_level_2', _('Can access privacy level 2')),
         ]
 
-    def get_privacy_level(self):
-        for level in range(2, 0, -1):
-            perm = 'castellum_auth.privacy_level_{}'.format(level)
-            if self.has_perm(perm):
-                return level
-        return 0
-
     def has_privacy_level(self, level):
-        return self.get_privacy_level() >= level
+        return self.privacy_level >= level
 
     def get_full_name(self):
         return super().get_full_name() or self.get_username()

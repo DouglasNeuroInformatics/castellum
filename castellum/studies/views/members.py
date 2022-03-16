@@ -81,7 +81,7 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
 
         for user in self.object.members.all():
             if user.has_perm('studies.change_study', obj=self.object):
-                if user.get_privacy_level() < max_privacy_level:
+                if user.privacy_level < max_privacy_level:
                     yield user.get_full_name()
 
 

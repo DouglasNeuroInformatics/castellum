@@ -41,7 +41,7 @@
                     <td class="align-middle">
                         <small>{% for group in form.instance.user.groups.all %}{{ group }}<br>{% endfor %}</small>
                     </td>
-                    <td class="align-middle text-center">{{ form.instance.user.get_privacy_level }}</td>
+                    <td class="align-middle text-center">{{ form.instance.user.privacy_level }}</td>
                     {% for value, label in form.groups.field.choices %}
                         <td class="align-middle text-center">
                             <input type="checkbox" class="form-check-input" name="{{ form.groups.name }}" value="{{ value }}" form="membership-form-{{ form.instance.pk }}" {% if value in form.groups.value %}checked{% endif %}>

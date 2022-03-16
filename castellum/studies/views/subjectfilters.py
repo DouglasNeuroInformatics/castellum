@@ -158,9 +158,8 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
         min_privacy_level = 2
         for member in self.study.members.all():
             if member.has_perm('studies.change_study', obj=self.study):
-                privacy_level = member.get_privacy_level()
-                if privacy_level < min_privacy_level:
-                    min_privacy_level = privacy_level
+                if user.privacy_level < min_privacy_level:
+                    min_privacy_level = user.privacy_level
 
         return AttributeDescription.objects.filter(
             subjectfilter__group__study=self.study,
