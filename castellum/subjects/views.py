@@ -613,7 +613,11 @@ class BaseMaintenanceView(PermissionRequiredMixin, ListView):
     permission_required = 'subjects.change_subject'
 
     def get_queryset(self):
-        return super().get_queryset().filter(to_be_deleted__isnull=True)
+        return super().get_queryset().filter(
+            to_be_deleted__isnull=True,
+            deceased=False,
+            blocked=False,
+        )
 
 
 class MaintenanceAttributesView(BaseMaintenanceView):
@@ -633,7 +637,6 @@ class MaintenanceAttributesView(BaseMaintenanceView):
             .filter(
                 filter_queries.has_consent(),
                 filter_queries.uuid_filter(full_age),
-                deceased=False,
                 completeness__lt=total,
             )
             .order_by('completeness')
@@ -710,7 +713,6 @@ class MaintenanceConsentView(BaseMaintenanceView):
             filter_queries.uuid_filter(full_age),
             filter_queries.has_consent(),
             consent__underage_when_given=True,
-            deceased=False,
         )
 
     def get_by_deprecated_document(self):
@@ -719,7 +721,7 @@ class MaintenanceConsentView(BaseMaintenanceView):
             .exclude(pk__in=Subject.objects.filter(
                 filter_queries.has_consent(exclude_deprecated=True)
             ))
-            .filter(consent__status=Consent.CONFIRMED, deceased=False)
+            .filter(consent__status=Consent.CONFIRMED)
         )
 
     def get_queryset(self):
@@ -749,7 +751,7 @@ class MaintenanceWaitingView(BaseMaintenanceView):
     def get_queryset(self):
         return (
             super().get_queryset()
-            .filter(consent__status=Consent.WAITING, deceased=False)
+            .filter(consent__status=Consent.WAITING)
             .order_by('pk')
         )
 
@@ -760,11 +762,10 @@ class MaintenanceReliabilityView(BaseMaintenanceView):
 
     def get_queryset(self):
         return (
-            Subject.objects
+            super().get_queryset()
             .annotate_reliability()
             .annotate(ratio=100 * models.F('reliability_issues') / models.F('reliability_total'))
             .filter(
-                to_be_deleted__isnull=True,
                 reliability_issues__gt=1,
                 ratio__gte=50,
             )
@@ -777,10 +778,8 @@ class MaintenanceEstrangedSubjectsView(BaseMaintenanceView):
     tab = 'estranged_subjects'
 
     def get_queryset(self):
-        return Subject.objects.filter(
+        return super().get_queryset().filter(
             filter_queries.has_consent(include_waiting=True),
-            blocked=False,
-            deceased=False,
             updated_at__lte=timezone.now() - settings.CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD,
         ).order_by("updated_at")
 
