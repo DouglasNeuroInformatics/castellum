@@ -762,11 +762,11 @@ class MaintenanceReliabilityView(BaseMaintenanceView):
         return (
             Subject.objects
             .annotate_reliability()
-            .annotate(ratio=models.F('reliability_issues') / models.F('reliability_total'))
+            .annotate(ratio=100 * models.F('reliability_issues') / models.F('reliability_total'))
             .filter(
                 to_be_deleted__isnull=True,
                 reliability_issues__gt=1,
-                ratio__gte=0.5,
+                ratio__gte=50,
             )
             .order_by('-ratio')
         )
