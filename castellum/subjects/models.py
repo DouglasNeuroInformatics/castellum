@@ -28,6 +28,9 @@ from django.utils.functional import cached_property
 from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
+from parler.models import TranslatableModel
+from parler.models import TranslatedFields
+
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
@@ -41,6 +44,19 @@ class SubjectQuerySet(models.QuerySet):
                 'reliabilityentry', filter=models.Q(reliabilityentry__was_reliable=False)
             ),
         )
+
+
+class PrivacyLevelLabel(TranslatableModel):
+    value = models.PositiveIntegerField(_('Value'), choices=[(0, '0'), (1, '1'), (2, '2')])
+    translations = TranslatedFields(
+        label=models.CharField(_('Label'), max_length=64),
+    )
+
+    class Meta:
+        ordering = ['value']
+
+    def __str__(self):
+        return '{} ({})'.format(self.value, self.label)
 
 
 class Subject(TimeStampedModel):
