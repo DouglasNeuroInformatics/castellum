@@ -32,6 +32,11 @@ def generate_token():
     return secrets.token_urlsafe()
 
 
+class PrivacyLevel(models.Model):
+    value = models.IntegerField(_('Value'))
+    label = models.CharField(_('Label'), max_length=64)
+
+
 class User(AbstractUser):
     DEMO_PASSWORD = 'password'
 
