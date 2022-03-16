@@ -22,6 +22,17 @@ def create_privacy_levels(apps, schema_editor):
         level.save()
 
 
+def set_privacy_levels(apps, schema_editor):
+    PrivacyLevelLabel = apps.get_model('subjects', 'PrivacyLevelLabel')
+    Subject = apps.get_model('subjects', 'Subject')
+
+    level = PrivacyLevelLabel.objects.get(value=1)
+    Subject.objects.filter(privacy_level=1).update(privacy_level_label=level)
+
+    level = PrivacyLevelLabel.objects.get(value=2)
+    Subject.objects.filter(privacy_level=2).update(privacy_level_label=level)
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -65,4 +76,5 @@ class Migration(migrations.Migration):
             name='privacy_level_label',
             field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='subjects.privacylevellabel', null=True),
         ),
+        migrations.RunPython(set_privacy_levels),
     ]
