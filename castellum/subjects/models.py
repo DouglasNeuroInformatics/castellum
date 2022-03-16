@@ -97,6 +97,14 @@ class Subject(TimeStampedModel):
             (2, _('2 (high)')),
         ],
     )
+    privacy_level_label = models.ForeignKey(
+        PrivacyLevelLabel,
+        verbose_name=_('Privacy level'),
+        help_text=_('Users need at least this level to access this subject'),
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+    )
 
     to_be_deleted = models.DateField(
         _('To be deleted'),

@@ -59,4 +59,10 @@ class Migration(migrations.Migration):
             bases=(parler.models.TranslatedFieldsModelMixin, models.Model),
         ),
         migrations.RunPython(create_privacy_levels),
+
+        migrations.AddField(
+            model_name='subject',
+            name='privacy_level_label',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='subjects.privacylevellabel', null=True),
+        ),
     ]
