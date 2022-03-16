@@ -42,7 +42,6 @@ class Command(BaseCommand):
         )
         full_age_subjects = Subject.objects.filter(
             filter_queries.uuid_filter(full_age_contacts),
-            deceased=False,
         )
         consents = Consent.objects.filter(
             underage_when_given=True,
