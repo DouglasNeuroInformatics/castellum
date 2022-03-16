@@ -51,12 +51,19 @@ class DataProtectionForm(forms.ModelForm):
         model = Subject
         fields = ['privacy_level']
         widgets = {
-            'privacy_level': forms.RadioSelect,
             'source': DatalistWidget(datalist=(
                 Subject.objects.order_by('source').values_list('source', flat=True).distinct
             )),
         }
 
+    privacy_level = forms.TypedChoiceField(
+        label=_('Privacy level'),
+        help_text=_('Users need at least this level to access this subject'),
+        widget=forms.RadioSelect,
+        choices=settings.CASTELLUM_PRIVACY_LEVELS,
+        coerce=int,
+        required=True,
+    )
     consent_status = Consent._meta.get_field('status').formfield(
         label=_('Recruitment consent'),
         help_text=_(
@@ -149,9 +156,15 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
     class Meta:
         model = Subject
         fields = ['privacy_level']
-        widgets = {
-            'privacy_level': forms.RadioSelect,
-        }
+
+    privacy_level = forms.TypedChoiceField(
+        label=_('Privacy level'),
+        help_text=_('Users need at least this level to access this subject'),
+        widget=forms.RadioSelect,
+        choices=settings.CASTELLUM_PRIVACY_LEVELS,
+        coerce=int,
+        required=True,
+    )
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)

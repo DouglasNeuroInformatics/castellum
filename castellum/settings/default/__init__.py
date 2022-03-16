@@ -103,6 +103,12 @@ CASTELLUM_DEFAULT_EXECUTION_TAGS = [
     ('contact required', 'warning'),
 ]
 
+CASTELLUM_PRIVACY_LEVELS = [
+    (0, '0 (regular)'),
+    (1, '1 (increased)'),
+    (2, '2 (high)'),
+]
+
 # Email for announcing new GDPR requests
 # make sure to setup a cron-job for ``notify_to_be_deleted``
 CASTELLUM_GDPR_NOTIFICATION_TO = []
