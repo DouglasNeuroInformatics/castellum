@@ -57,4 +57,9 @@ class Migration(migrations.Migration):
             name='privacy_level',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='castellum_auth.privacylevel'),
         ),
+
+        migrations.AlterModelOptions(
+            name='user',
+            options={'ordering': ['username']},
+        ),
     ]

@@ -49,10 +49,6 @@ class User(AbstractUser):
 
     class Meta:
         ordering = ['username']
-        permissions = [
-            ('privacy_level_1', _('Can access privacy level 1')),
-            ('privacy_level_2', _('Can access privacy level 2')),
-        ]
 
     def get_privacy_level(self):
         return self.privacy_level.value
