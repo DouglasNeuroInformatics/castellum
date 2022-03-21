@@ -77,4 +77,9 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='subjects.privacylevellabel', null=True),
         ),
         migrations.RunPython(set_privacy_levels),
+
+        migrations.RemoveField(
+            model_name='subject',
+            name='privacy_level',
+        ),
     ]

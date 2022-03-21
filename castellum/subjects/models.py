@@ -87,16 +87,6 @@ class Subject(TimeStampedModel):
         related_name='+',
     )
 
-    privacy_level = models.PositiveIntegerField(
-        _('Privacy level'),
-        help_text=_('Users need at least this level to access this subject'),
-        default=0,
-        choices=[
-            (0, _('0 (regular)')),
-            (1, _('1 (increased)')),
-            (2, _('2 (high)')),
-        ],
-    )
     privacy_level_label = models.ForeignKey(
         PrivacyLevelLabel,
         verbose_name=_('Privacy level'),
