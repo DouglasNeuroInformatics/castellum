@@ -112,7 +112,8 @@ def fake_language():
 
 
 def fake_subject():
-    return Subject(privacy_level=fake.random.randint(0, 2), attributes=fake_attributes())
+    # TODO
+    return Subject(attributes=fake_attributes())
 
 
 def fake_studysession(study):
