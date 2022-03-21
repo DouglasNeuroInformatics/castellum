@@ -191,9 +191,6 @@ CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED = False
 #
 # This setting can be helpful if you want to distinguish different
 # reasons for assigning a privacy level.
-#
-# Note: Django will warn you about changes that require a migration.
-# That warning can be ignored.
 CASTELLUM_CUSTOM_PRIVACY_LEVELS = [
     # (0.5, '1 (slightly increased)'),
 ]

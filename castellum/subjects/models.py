@@ -75,11 +75,6 @@ class Subject(TimeStampedModel):
         _('Privacy level'),
         help_text=_('Users need at least this level to access this subject'),
         default=0,
-        choices=sorted([
-            (0, _('0 (regular)')),
-            (1, _('1 (increased)')),
-            (2, _('2 (high)')),
-        ] + settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS),
     )
 
     to_be_deleted = models.DateField(
