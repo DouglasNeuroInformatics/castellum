@@ -50,7 +50,8 @@ logger = logging.getLogger(__name__)
 
 class SchedulerFetchParticipationMixin:
     def fetch_scheduler_appointments(self):
-        changes = []
+        base_url = self.request.build_absolute_uri('/')
+        count = 0
         for session in self.study.studysession_set.exclude(schedule_id=None):
             pseudonym = get_pseudonym(self.subject, session.domain)
             try:
@@ -61,11 +62,9 @@ class SchedulerFetchParticipationMixin:
 
             change = Appointment.change(session, self.participation, start)
             if change:
-                changes.append(change)
-        send_appointment_notifications(
-            self.participation, changes, self.request.build_absolute_uri('/')
-        )
-        return len(changes)
+                count += 1
+                send_appointment_notifications(self.participation, change, base_url)
+        return count
 
     def get(self, request, *args, **kwargs):
         if settings.SCHEDULER_URL:
@@ -135,12 +134,9 @@ class BaseAppointmentsUpdateView(
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        send_appointment_notifications(
-            self.object,
-            form.appointment_changes,
-            self.request.build_absolute_uri('/'),
-            user=self.request.user,
-        )
+        base_url = self.request.build_absolute_uri('/')
+        for change in form.appointment_changes:
+            send_appointment_notifications(self.object, change, base_url, user=self.request.user)
 
         messages.success(self.request, _('Data has been saved.'))
         if self.has_participation_overlap():
