@@ -20,7 +20,7 @@ def test_appointment_notifications(conductor, participation, start):
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt(start), None)],
+            (dt(start), None),
             'http://example.com',
         )
     assert len(mail.outbox) == 1
@@ -36,7 +36,7 @@ def test_appointment_notifications_no_relevant_change(conductor, participation, 
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt(start), None)],
+            (dt(start), None),
             'http://example.com',
         )
     assert len(mail.outbox) == 0
@@ -46,26 +46,17 @@ def test_appointment_notifications_weekend(conductor, participation):
     with freeze_time('2017-01-06'):
         send_appointment_notifications(
             participation,
-            [(dt('2017-01-09 12:00'), dt('2017-01-09 13:00'))],  # friday to monday
+            (dt('2017-01-09 12:00'), dt('2017-01-09 13:00')),  # friday to monday
             'http://example.com',
         )
     assert len(mail.outbox) == 1
-
-
-def test_appointment_notifications_no_change(conductor, participation):
-    send_appointment_notifications(
-        participation,
-        [],
-        'http://example.com',
-    )
-    assert len(mail.outbox) == 0
 
 
 def test_appointment_notifications_no_members(participation):
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt('2017-01-01 12:00'), None)],
+            (dt('2017-01-01 12:00'), None),
             'http://example.com',
         )
     assert len(mail.outbox) == 0
@@ -75,7 +66,7 @@ def test_appointment_notifications_cc(user, conductor, participation):
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt('2017-01-01 12:00'), None)],
+            (dt('2017-01-01 12:00'), None),
             'http://example.com',
             user=user,
         )
@@ -87,7 +78,7 @@ def test_no_appointment_notifications_if_only_conductor(conductor, participation
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt('2017-01-01 12:00'), None)],
+            (dt('2017-01-01 12:00'), None),
             'http://example.com',
             user=conductor,
         )
