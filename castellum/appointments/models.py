@@ -84,22 +84,19 @@ class Appointment(models.Model):
     def change_start(session, participation, start):
         appointment = participation.appointment_set.filter(session=session).first()
 
-        changes = []
-
         if appointment:
+            old = appointment.start
             if not start:
-                changes.append((appointment.start, None))
                 appointment.delete()
+                return (old, None)
             elif start != appointment.start:
-                changes.append((appointment.start, start))
                 appointment.start = start
                 appointment.reminded = False
                 appointment.save()
+                return (old, start)
         elif start:
-            changes.append((None, start))
-            participation.appointment_set.create(
+            appointment = participation.appointment_set.create(
                 session=session,
                 start=start,
             )
-
-        return changes
+            return (None, start)

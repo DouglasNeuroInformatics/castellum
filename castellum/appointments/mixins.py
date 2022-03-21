@@ -59,7 +59,9 @@ class SchedulerFetchParticipationMixin:
                 logger.error('Fetching schedule for session {} failed: {}'.format(session.pk, e))
                 continue
 
-            changes += Appointment.change_start(session, self.participation, start)
+            change = Appointment.change_start(session, self.participation, start)
+            if change:
+                changes.append(change)
         send_appointment_notifications(
             self.participation, changes, self.request.build_absolute_uri('/')
         )

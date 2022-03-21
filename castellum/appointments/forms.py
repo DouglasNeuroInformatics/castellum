@@ -84,7 +84,9 @@ class AppointmentsForm(forms.ModelForm):
 
         for session in self.instance.study.studysession_set.all():
             start = self.cleaned_data.get('appointment-{}'.format(session.pk))
-            self.appointment_changes += Appointment.change_start(session, participation, start)
+            change = Appointment.change_start(session, participation, start)
+            if change:
+                self.appointment_changes.append(change)
         return participation
 
     @property
