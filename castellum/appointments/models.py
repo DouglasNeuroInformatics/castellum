@@ -94,21 +94,26 @@ class Appointment(models.Model):
         if appointment:
             old = appointment.start
             if not start:
+                conductors = appointment.assigned_conductors.all()
                 appointment.delete()
-                return (old, None)
+                return (old, start, [c.user for c in conductors])
             else:
-                if conductors is not None:
+                if conductors is None:
+                    conductors = appointment.assigned_conductors.all()
+                else:
                     appointment.assigned_conductors.set(conductors)
                 if start != appointment.start:
                     appointment.start = start
                     appointment.reminded = False
                     appointment.save()
-                    return (old, start)
+                    return (old, start, [c.user for c in conductors])
         elif start:
             appointment = participation.appointment_set.create(
                 session=session,
                 start=start,
             )
-            if conductors is not None:
+            if conductors is None:
+                conductors = []
+            else:
                 appointment.assigned_conductors.set(conductors)
-            return (None, start)
+            return (None, start, [c.user for c in conductors])
