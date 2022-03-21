@@ -132,6 +132,12 @@ def study_groups(django_db_setup, django_db_blocker):
         call_command('loaddata', 'study_groups')
 
 
+@pytest.fixture(scope='session', autouse=True)
+def privacy_level_labels(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        call_command('loaddata', 'privacy_level_labels')
+
+
 @pytest.fixture
 def user(db):
     return create_user("all")
