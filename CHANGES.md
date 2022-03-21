@@ -1,3 +1,9 @@
+# 0.73.2 (2022-03-21)
+
+-   Fixed link to participations in subject overview
+-   Fixed crash when editing users via the admin UI
+
+
 # 0.73.1 (2022-03-15)
 
 -   Fixed missing translations
