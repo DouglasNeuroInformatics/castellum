@@ -71,7 +71,7 @@ def send_appointment_notifications(participation, change, base_url, user=None):
     start = timezone.now()
     end = add_working_days(start, 2)
 
-    old, new = change
+    old, new, recipients = change
 
     if not (
         (old and old >= start and old <= end)
@@ -101,8 +101,11 @@ def send_appointment_notifications(participation, change, base_url, user=None):
             )),
         }
 
-    recipients = [u.email for u in participation.study.conductors if u != user]
-    if recipients:
+    if not recipients:
+        recipients = participation.study.conductors
+
+    to = [u.email for u in recipients if u != user]
+    if to:
         with MailContext('internal') as ctx:
             return ctx.send_mail(
                 settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
@@ -111,7 +114,7 @@ def send_appointment_notifications(participation, change, base_url, user=None):
                     settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY,
                     settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN,
                 ),
-                recipients,
+                to,
                 cc=[u.email for u in [user] if u],
             )
 
