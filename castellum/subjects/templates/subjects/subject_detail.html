@@ -94,7 +94,7 @@
             {% if subject.has_legal_basis %}
                 {{ subject|display:'has_study_consent' }}
             {% else %}
-                {% url 'subjects:add-to-study' subject.uuid as url %}
+                {% url 'subjects:participation-list' subject.uuid as url %}
                 {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktranslate %}
             {% endif %}
         </dd>
