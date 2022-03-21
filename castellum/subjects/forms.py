@@ -52,9 +52,6 @@ class DataProtectionForm(forms.ModelForm):
         fields = ['privacy_level']
         widgets = {
             'privacy_level': forms.RadioSelect,
-            'source': DatalistWidget(datalist=(
-                Subject.objects.order_by('source').values_list('source', flat=True).distinct
-            )),
         }
 
     consent_status = Consent._meta.get_field('status').formfield(
@@ -181,6 +178,9 @@ class AdditionalInfoForm(forms.ModelForm):
         ]
         widgets = {
             'additional_suitability_document': forms.CheckboxSelectMultiple(),
+            'source': DatalistWidget(datalist=(
+                Subject.objects.order_by('source').values_list('source', flat=True).distinct
+            )),
         }
 
     def __init__(self, *args, **kwargs):
