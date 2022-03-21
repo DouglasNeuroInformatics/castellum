@@ -1,4 +1,5 @@
 from model_bakery import baker
+from castellum.subjects.models import PrivacyLevelLabel
 
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import Participation
@@ -31,7 +32,7 @@ def test_participation_status(client, conductor, study_in_execution_status, subj
 
 
 def test_privacy_level(client, conductor, study_in_execution_status, subject):
-    subject.privacy_level = 2
+    subject.privacy_level_label = baker.make(PrivacyLevelLabel, value=2)
     subject.save()
 
     study = study_in_execution_status

@@ -37,6 +37,7 @@ def test_data_protection_200(request, client, user_fixture, subject):
 
 def test_data_protection_post_valid(client, user, subject):
     client.force_login(user)
+    # TODO
     assert subject.privacy_level == 0
 
     url = '/subjects/{}/data-protection/'.format(subject.uuid)

@@ -128,6 +128,7 @@ def test_no_create_tab_on_incomplete_name(client, user):
 def test_create(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
+    # TODO
     response = client.post('/subjects/', {
         'search': 'foo bar foo@example.com',
         'privacy_level': 0,

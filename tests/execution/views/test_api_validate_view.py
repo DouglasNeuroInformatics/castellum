@@ -1,4 +1,5 @@
 from model_bakery import baker
+from castellum.subjects.models import PrivacyLevelLabel
 
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.models import Domain
@@ -44,7 +45,7 @@ def test_unrelated_domain(client, conductor, study_in_execution_status, subject)
 
 
 def test_ignore_privacylevel(client, conductor, study_in_execution_status, subject):
-    subject.privacy_level = 2
+    subject.privacy_level_label = baker.make(PrivacyLevelLabel, value=2)
     subject.save()
 
     study = study_in_execution_status

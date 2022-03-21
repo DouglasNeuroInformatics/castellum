@@ -1,4 +1,6 @@
 import datetime
+from model_bakery import baker
+from castellum.subjects.models import PrivacyLevelLabel
 
 import pytest
 
@@ -241,7 +243,7 @@ def test_contact_form_with_legal_representatives_add_privacy_level(user, full_da
         'legal_representatives_add': [contact.subject.uuid],
     })
 
-    contact.subject.privacy_level = 2
+    contact.subject.privacy_level_label = baker.make(PrivacyLevelLabel, value=2)
     contact.subject.save()
 
     form = ContactForm(user=user, data=full_data, instance=contact)
