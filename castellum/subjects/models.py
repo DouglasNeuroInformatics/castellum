@@ -188,10 +188,10 @@ class Subject(TimeStampedModel):
     @property
     def has_legal_basis(self):
         return (
-            self.has_consent_or_waiting
+            (not self.deceased and self.has_consent_or_waiting)
             or self.has_study_consent
             or self.contact.is_legal_representative
-            or self.blocked
+            or (not self.deceased and self.blocked)
         )
 
     @cached_property
