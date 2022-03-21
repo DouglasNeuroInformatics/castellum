@@ -71,7 +71,7 @@ class Subject(TimeStampedModel):
         related_name='+',
     )
 
-    privacy_level = models.PositiveIntegerField(
+    privacy_level = models.FloatField(
         _('Privacy level'),
         help_text=_('Users need at least this level to access this subject'),
         default=0,
