@@ -88,15 +88,15 @@ class Appointment(models.Model):
 
         if appointment:
             if not start:
-                changes.append((appointment.start, appointment))
+                changes.append((appointment.start, None))
                 appointment.delete()
             elif start != appointment.start:
-                changes.append((appointment.start, appointment))
+                changes.append((appointment.start, start))
                 appointment.start = start
                 appointment.reminded = False
                 appointment.save()
         elif start:
-            changes.append((None, appointment))
+            changes.append((None, start))
             participation.appointment_set.create(
                 session=session,
                 start=start,
