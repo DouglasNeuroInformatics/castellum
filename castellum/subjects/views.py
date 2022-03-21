@@ -553,7 +553,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        response = super().delete(self, request, *args, **kwargs)
+        response = super().delete(request, *args, **kwargs)
         monitoring_logger.info('Participation in Study {} deleted by {}'.format(
             self.object.study.name, self.request.user.pk
         ))
