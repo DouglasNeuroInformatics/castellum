@@ -92,7 +92,7 @@ class Appointment(models.Model):
         appointment = participation.appointment_set.filter(session=session).first()
 
         if appointment:
-            old = appointment.start
+            old = (appointment.start, set(c.user for c in appointment.assigned_conductors.all()))
             if not start:
                 appointment.delete()
                 return (old, None)
@@ -103,12 +103,17 @@ class Appointment(models.Model):
                     appointment.start = start
                     appointment.reminded = False
                     appointment.save()
-                    return (old, start)
         elif start:
+            old = None
             appointment = participation.appointment_set.create(
                 session=session,
                 start=start,
             )
             if conductors is not None:
                 appointment.assigned_conductors.set(conductors)
-            return (None, start)
+        else:
+            return None
+
+        new = (start, set(c.user for c in appointment.assigned_conductors.all()))
+        if old != new:
+            return (old, new)

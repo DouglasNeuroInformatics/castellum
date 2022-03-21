@@ -74,22 +74,22 @@ def send_appointment_notifications(participation, change, base_url, user=None):
     old, new = change
 
     if not (
-        (old and old >= start and old <= end)
-        or (new and new >= start and new <= end)
+        (old and old[0] >= start and old[0] <= end)
+        or (new and new[0] >= start and new[0] <= end)
     ):
         return
 
-    def format_datetime(dt):
-        if not dt:
+    def format_state(state):
+        if not state:
             return _('not scheduled')
-        return formats.date_format(timezone.localtime(dt), 'DATETIME_FORMAT')
+        return formats.date_format(timezone.localtime(state[0]), 'DATETIME_FORMAT')
 
     def get_mail_data():
         return {
             'study': participation.study,
             'changes': '{} -> {}'.format(
-                format_datetime(old),
-                format_datetime(new),
+                format_state(old),
+                format_state(new),
             ),
             'participation_url': urljoin(base_url, reverse(
                 'execution:participation-detail',
