@@ -39,7 +39,7 @@ class UserCreationAdminForm(UserCreationForm):
     def save(self, *args, **kwargs):
         if not self.cleaned_data["password1"]:
             self.cleaned_data["password1"] = None
-        return super().save(self, *args, **kwargs)
+        return super().save(*args, **kwargs)
 
 
 class UserChangeAdminForm(UserChangeForm):
@@ -53,7 +53,7 @@ class UserChangeAdminForm(UserChangeForm):
     def save(self, *args, **kwargs):
         if not self.instance.token:
             self.instance.token = generate_token()
-        return super().save(self, *args, **kwargs)
+        return super().save(*args, **kwargs)
 
 
 class AuthenticationForm(BaseAuthenticationForm):
