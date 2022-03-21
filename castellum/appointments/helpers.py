@@ -67,17 +67,16 @@ def get_reminder_body(name, session, dt):
     )
 
 
-def send_appointment_notifications(participation, changes, base_url, user=None):
+def send_appointment_notifications(participation, change, base_url, user=None):
     start = timezone.now()
     end = add_working_days(start, 2)
-    relevant_changes = [
-        (old, new) for (old, new) in changes if (
-            (old and old >= start and old <= end) or
-            (new and new >= start and new <= end)
-        )
-    ]
 
-    if not relevant_changes:
+    old, new = change
+
+    if not (
+        (old and old >= start and old <= end)
+        or (new and new >= start and new <= end)
+    ):
         return
 
     def format_datetime(dt):
@@ -88,10 +87,10 @@ def send_appointment_notifications(participation, changes, base_url, user=None):
     def get_mail_data():
         return {
             'study': participation.study,
-            'changes': '\n'.join('{} -> {}'.format(
+            'changes': '{} -> {}'.format(
                 format_datetime(old),
                 format_datetime(new),
-            ) for (old, new) in relevant_changes),
+            ),
             'participation_url': urljoin(base_url, reverse(
                 'execution:participation-detail',
                 args=[participation.study.pk, participation.pk]
@@ -168,5 +167,5 @@ def fetch_scheduler_appointments(study, base_url, timeout=0):
             change = Appointment.change(session, participation, start)
             if change:
                 count += 1
-                send_appointment_notifications(participation, [change], base_url)
+                send_appointment_notifications(participation, change, base_url)
     return count
