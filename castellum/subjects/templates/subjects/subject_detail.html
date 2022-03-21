@@ -50,7 +50,7 @@
 
         <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
         <dd class="col-sm-6">
-            {{ subject.privacy_level }}
+            {{ subject.privacy_level|ceil }}
             <i class="fas fa-user-shield text-{{ subject|privacy_level }}" aria-hidden="true"></i>
         </dd>
 

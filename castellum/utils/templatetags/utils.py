@@ -19,6 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import math
 import os
 from urllib.parse import parse_qs
 from urllib.parse import urlencode
@@ -68,6 +69,11 @@ def display(value, field_name=None):
 @register.filter(name='list')
 def _list(qs):
     return list(qs)
+
+
+@register.filter(name='ceil')
+def _ceil(x):
+    return math.ceil(x)
 
 
 @register.filter
