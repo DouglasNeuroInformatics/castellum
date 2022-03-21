@@ -69,7 +69,7 @@
     <h2 class="h4">{% translate 'Legal basis for data processing' %}</h2>
 
     {% if not subject.has_legal_basis %}
-        <p class="alert alert-warning">{% translate 'Currently there is no legal basis for storing this subject. Please provide at least one of these options.' %}</p>
+        <p class="alert alert-warning">{% translate 'Currently there is no legal basis for storing this subject. This subject will be deleted unless you provide at least one of these options.' %}</p>
     {% endif %}
 
     <dl class="row">
@@ -78,7 +78,9 @@
             <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR' %}</small>
         </dt>
         <dd class="col-sm-6">
-            {% if subject.has_legal_basis %}
+            {% if subject.deceased %}
+                <em>{% translate 'deceased' %}</em>
+            {% elif subject.has_legal_basis %}
                 {{ subject|display:'has_consent_or_waiting' }}
             {% else %}
                 {% url 'subjects:data-protection' subject.uuid as url %}
@@ -117,7 +119,9 @@
             <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. f GDPR' %}</small>
         </dt>
         <dd class="col-sm-6">
-            {% if subject.has_legal_basis %}
+            {% if subject.deceased %}
+                <em>{% translate 'deceased' %}</em>
+            {% elif subject.has_legal_basis %}
                 {{ subject|display:'blocked' }}
             {% else %}
                 {% url 'subjects:additional-info' subject.uuid as url %}
