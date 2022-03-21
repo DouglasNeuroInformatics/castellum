@@ -164,7 +164,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def post(self, request, *args, **kwargs):
-        if 'privacy_level' not in request.POST:
+        if 'privacy_level_label' not in request.POST:
             return super().post(request, *args, **kwargs)
 
         if not request.user.has_perm('subjects.change_subject'):
@@ -187,7 +187,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                     )
                     subject = contact.subject
 
-                subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
+                subject.privacy_level_label = privacy_level_form.cleaned_data['privacy_level_label']
                 subject.save()
 
                 monitoring_logger.info('SubjectData update: {} by {}'.format(
@@ -581,7 +581,7 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
         return context
 
     def post(self, request, *args, **kwargs):
-        if 'privacy_level' not in request.POST:
+        if 'privacy_level_label' not in request.POST:
             return super().post(request, *args, **kwargs)
 
         if not request.user.has_perm('subjects.change_subject'):
@@ -593,7 +593,9 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
 
         if form.is_valid() and privacy_level_form.is_valid() and contact_form.is_valid():
             contact = contact_form.save()
-            contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
+            contact.subject.privacy_level_label = (
+                privacy_level_form.cleaned_data['privacy_level_label']
+            )
             contact.subject.save()
 
             monitoring_logger.info('SubjectData update: {} by {}'.format(

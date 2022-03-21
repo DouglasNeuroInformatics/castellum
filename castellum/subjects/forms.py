@@ -49,9 +49,9 @@ def get_initial_consent_status(subject):
 class DataProtectionForm(forms.ModelForm):
     class Meta:
         model = Subject
-        fields = ['privacy_level']
+        fields = ['privacy_level_label']
         widgets = {
-            'privacy_level': forms.RadioSelect,
+            'privacy_level_label': forms.RadioSelect,
             'source': DatalistWidget(datalist=(
                 Subject.objects.order_by('source').values_list('source', flat=True).distinct
             )),
@@ -85,11 +85,13 @@ class DataProtectionForm(forms.ModelForm):
         self.fields['export_requested'].initial = self.instance.export_requested
         self.fields['consent_status'].initial = get_initial_consent_status(self.instance)
 
+        self.fields['privacy_level_label'].empty_label = _('0 (regular)')
+
     def clean(self):
         cleaned_data = super().clean()
 
-        privacy_level = cleaned_data.get('privacy_level', 0)
-        if not self.user.has_privacy_level(privacy_level):
+        privacy_level_label = cleaned_data['privacy_level_label']
+        if privacy_level_label and not self.user.has_privacy_level(privacy_level_label.value):
             raise ValidationError(
                 _("Please choose lower privacy level for the subject."), code='invalid'
             )
@@ -148,20 +150,21 @@ class DataProtectionForm(forms.ModelForm):
 class SubjectPrivacyLevelForm(forms.ModelForm):
     class Meta:
         model = Subject
-        fields = ['privacy_level']
+        fields = ['privacy_level_label']
         widgets = {
-            'privacy_level': forms.RadioSelect,
+            'privacy_level_label': forms.RadioSelect,
         }
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = user
+        self.fields['privacy_level_label'].empty_label = _('0 (regular)')
 
     def clean(self):
         cleaned_data = super().clean()
 
-        privacy_level = cleaned_data.get('privacy_level', 0)
-        if not self.user.has_privacy_level(privacy_level):
+        privacy_level_label = cleaned_data['privacy_level_label']
+        if privacy_level_label and not self.user.has_privacy_level(privacy_level_label.value):
             raise ValidationError(
                 _("Please choose lower privacy level for the subject."),
                 code='invalid',

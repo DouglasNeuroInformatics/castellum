@@ -222,6 +222,13 @@ class Subject(TimeStampedModel):
         now = timezone.localtime()
         return not self.not_available_until or self.not_available_until <= now
 
+    @property
+    def privacy_level(self):
+        if self.privacy_level_label:
+            return self.privacy_level_label.value
+        else:
+            return 0
+
     def annotate_reliability(self):
         if hasattr(self, 'reliability_issues'):
             return

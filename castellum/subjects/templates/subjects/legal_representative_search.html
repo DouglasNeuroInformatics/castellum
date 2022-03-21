@@ -111,7 +111,7 @@
 
                             {% include 'contacts/__contact_form_top.html' with form=contact_form %}
 
-                            {% bootstrap_field privacy_level_form.privacy_level %}
+                            {% bootstrap_field privacy_level_form.privacy_level_label %}
 
                             {% include 'contacts/__contact_form_self.html' with form=contact_form %}
                             {{ form.search.as_hidden }}

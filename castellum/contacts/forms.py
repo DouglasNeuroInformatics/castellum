@@ -95,7 +95,7 @@ class ContactForm(forms.ModelForm):
             )
             self.fields['legal_representatives_remove'].choices = self.legal_representatives
             self.fields['legal_representatives_add'] = SubjectMultipleChoiceField(
-                Subject.objects.filter(privacy_level__lte=user.get_privacy_level()),
+                Subject.objects.exclude(privacy_level_label__value__gt=user.get_privacy_level()),
                 to_field_name='uuid',
                 required=False,
             )

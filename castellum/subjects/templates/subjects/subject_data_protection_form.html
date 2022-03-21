@@ -10,7 +10,7 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
-        {% bootstrap_field form.privacy_level %}
+        {% bootstrap_field form.privacy_level_label %}
 
         <div class="mb-3">
             <div class="form-check">

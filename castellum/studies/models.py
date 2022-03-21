@@ -266,7 +266,7 @@ class Study(models.Model):
     def get_invited_max_privacy_level(self):
         from castellum.recruitment.models import Participation
 
-        key = 'subject__privacy_level'
+        key = 'subject__privacy_level_label__value'
         result = (
             self.participation_set
             .filter(status=Participation.INVITED)
