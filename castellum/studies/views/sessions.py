@@ -52,7 +52,7 @@ class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
         'sessions_end',
     ]
     permission_required = 'studies.change_study'
-    is_onetime_invitation = False
+    is_anonymous_invitation = False
     is_filter_trial = False
     tab = 'sessions'
 
@@ -73,7 +73,7 @@ class StudySessionFormMixin(StudyMixin, PermissionRequiredMixin):
     model = StudySession
     form_class = SessionForm
     permission_required = 'studies.change_study'
-    is_onetime_invitation = False
+    is_anonymous_invitation = False
     is_filter_trial = False
     tab = 'sessions'
 
@@ -104,7 +104,7 @@ class StudySessionUpdateView(StudySessionFormMixin, UpdateView):
 class StudySessionDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = StudySession
     permission_required = 'studies.change_study'
-    is_onetime_invitation = False
+    is_anonymous_invitation = False
     is_filter_trial = False
     tab = 'sessions'
 

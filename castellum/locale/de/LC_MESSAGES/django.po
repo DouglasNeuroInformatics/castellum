@@ -2056,8 +2056,8 @@ msgid "Type"
 msgstr "Typ"
 
 #: castellum/studies/forms.py:114
-msgid "One time invitation"
-msgstr "Einmalige Einladung"
+msgid "Anonymous invitation"
+msgstr "Anonyme Einladung"
 
 #: castellum/studies/forms.py:131
 msgid "All subjects will be reminded {} days before each appointment."
@@ -2263,8 +2263,8 @@ msgid "Excluded studies"
 msgstr "Ausgeschlossene Studien"
 
 #: castellum/studies/models.py:172
-msgid "Is a one time invitation"
-msgstr "Ist eine einmalige Einladung"
+msgid "Is an anonymous invitation"
+msgstr "Ist eine anonyme Einladung"
 
 #: castellum/studies/models.py:174
 msgid ""
@@ -3005,8 +3005,8 @@ msgid "UUID"
 msgstr "UUID"
 
 #: castellum/subjects/models.py:64
-msgid "Does not want to participate in one time invitations"
-msgstr "Möchte nicht an einmaligen Einladungen teilnehmen"
+msgid "Does not want to participate in anonymous invitations"
+msgstr "Möchte nicht an anonymen Einladungen teilnehmen"
 
 #: castellum/subjects/models.py:69
 msgid "Does not want to participate in the following study types"

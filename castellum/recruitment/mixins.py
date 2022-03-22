@@ -22,7 +22,6 @@ import datetime
 import logging
 import random
 from typing import List
-from typing import Optional
 
 from django.conf import settings
 from django.contrib import messages
@@ -183,19 +182,12 @@ class BaseFollowUpFeed(BaseCalendarFeed):
 class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     template_name = 'recruitment/mail.html'
     form_class = SendMailForm
-    participation_status: Optional[int] = None
 
     def personalize_mail_body(self, mail_body, contact):
         return mail_body.replace('{name}', contact.full_name)
 
     def create_participations(self, batch_size):
         subjects = get_recruitable(self.study)
-
-        attempts = 0
-        if self.participation_status in [
-            Participation.NOT_REACHED, Participation.AWAITING_RESPONSE
-        ]:
-            attempts = 1
 
         participations = []
         with MailContext('recruitment') as ctx:
@@ -216,8 +208,8 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     participations.append(Participation(
                         study=self.study,
                         subject=pick,
-                        status=self.participation_status,
-                        attempts=attempts,
+                        status=Participation.AWAITING_RESPONSE,
+                        attempts=1,
                     ))
 
         return participations

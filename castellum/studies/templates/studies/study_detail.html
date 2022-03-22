@@ -21,7 +21,7 @@
         <dd class="col-sm-6">{% if object.consent %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
     </dl>
 
-    {% if not object.is_onetime_invitation %}
+    {% if not object.is_anonymous_invitation %}
         <h3 class="h5">{% translate "Sessions" %}</h3>
         <dl class="row">
             <dt class="col-sm-6">{% translate 'Count' %}</dt>
@@ -45,7 +45,7 @@
 
     <h3 class="h5">{% translate "Recruitment settings" %}</h3>
     <dl class="row">
-        {% if study.is_onetime_invitation %}
+        {% if study.is_anonymous_invitation %}
             <dt class="col-sm-6">{% translate 'Contacted subjects' %}</dt>
             <dd class="col-sm-6">{{ object.participation_set.count }}/{{ object.min_subject_count }}</dd>
         {% else %}
@@ -65,7 +65,7 @@
             {% endfor %}
         </dd>
 
-        {% if not object.is_onetime_invitation %}
+        {% if not object.is_anonymous_invitation %}
             <dt class="col-sm-6">{% translate 'Recruitment text provided' %}</dt>
             <dd class="col-sm-6">{% if object.recruitment_text %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
         {% endif %}
@@ -73,7 +73,7 @@
         <dt class="col-sm-6">{% translate 'Recruitment filters set' %}</dt>
         <dd class="col-sm-6">{% if study.has_filters %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
 
-        {% if not object.is_onetime_invitation %}
+        {% if not object.is_anonymous_invitation %}
             <dt class="col-sm-6">{% translate 'Exclusion criteria provided' %}</dt>
             <dd class="col-sm-6">{% if object.exclusion_criteria %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
         {% endif %}
