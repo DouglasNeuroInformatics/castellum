@@ -29,7 +29,6 @@ import requests
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.models import Participation
 from castellum.utils import scheduler
-from castellum.utils.forms import DateTimeField
 
 from .models import Appointment
 
@@ -49,15 +48,23 @@ class AppointmentsForm(forms.ModelForm):
         for session in self.sessions:
             key = 'appointment-{}'.format(session.pk)
             appointment = self.instance.appointment_set.filter(session=session).first()
-            self.fields[key] = DateTimeField(
-                label=self.format_session_name(session),
-                help_text=session.reminder_text,
+
+            self.fields[key] = Appointment._meta.get_field('start').formfield(
                 initial=appointment.start if appointment else None,
                 disabled=(
                     self.instance.status != Participation.INVITED
                     or bool(session.schedule_id)
                 ),
                 required=False,
+            )
+            self.fields['conductors-' + key] = (
+                Appointment._meta.get_field('assigned_conductors').formfield(
+                    initial=appointment.assigned_conductors.all() if appointment else [],
+                    disabled=(
+                        self.instance.status != Participation.INVITED
+                        or (bool(session.schedule_id) and not appointment)
+                    ),
+                )
             )
 
     def get_invitation_url(self, session):
@@ -87,9 +94,11 @@ class AppointmentsForm(forms.ModelForm):
         for session in self.sessions:
             key = 'appointment-{}'.format(session.pk)
             start = self.cleaned_data.get(key)
-            change = Appointment.change_start(session, participation, start)
+            conductors = self.cleaned_data.get('conductors-{}'.format(key))
+            change = Appointment.change(session, participation, start, conductors)
             if change:
                 self.appointment_changes.append(change)
+
         return participation
 
     @property
@@ -97,6 +106,9 @@ class AppointmentsForm(forms.ModelForm):
         for session in self.sessions:
             key = 'appointment-{}'.format(session.pk)
             yield {
+                'legend': self.format_session_name(session),
+                'reminder_text': session.reminder_text,
                 'field': self[key],
+                'assigned_conductors': self['conductors-' + key],
                 'invitation_url': self.get_invitation_url(session),
             }
