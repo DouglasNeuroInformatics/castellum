@@ -47,19 +47,3 @@ def test_stop(request, client, user_fixture, study):
 
     study.refresh_from_db()
     assert study.status is Study.EDIT
-
-
-def test_stop_deletes_assignments(
-    client, member, recruiter, study_in_execution_status, participation
-):
-    client.force_login(member)
-
-    participation.assigned_recruiter = recruiter.studymembership_set.get(
-        study=study_in_execution_status
-    )
-    participation.save()
-
-    client.post('/studies/{}/start/'.format(study_in_execution_status.pk))
-    participation.refresh_from_db()
-
-    assert participation.assigned_recruiter is None
