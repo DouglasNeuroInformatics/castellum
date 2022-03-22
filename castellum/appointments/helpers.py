@@ -165,7 +165,7 @@ def fetch_scheduler_appointments(study, base_url, timeout=0):
             pseudonym = get_pseudonym(participation.subject, session.domain)
             start = data.get(pseudonym)
 
-            change = Appointment.change_start(session, participation, start)
+            change = Appointment.change(session, participation, start)
             if change:
                 count += 1
                 send_appointment_notifications(participation, [change], base_url)

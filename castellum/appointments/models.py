@@ -88,7 +88,7 @@ class Appointment(models.Model):
         return self.start + MINUTE * self.session.duration
 
     @staticmethod
-    def change_start(session, participation, start):
+    def change(session, participation, start, conductors=None):
         appointment = participation.appointment_set.filter(session=session).first()
 
         if appointment:
@@ -96,14 +96,19 @@ class Appointment(models.Model):
             if not start:
                 appointment.delete()
                 return (old, None)
-            elif start != appointment.start:
-                appointment.start = start
-                appointment.reminded = False
-                appointment.save()
-                return (old, start)
+            else:
+                if conductors is not None:
+                    appointment.assigned_conductors.set(conductors)
+                if start != appointment.start:
+                    appointment.start = start
+                    appointment.reminded = False
+                    appointment.save()
+                    return (old, start)
         elif start:
             appointment = participation.appointment_set.create(
                 session=session,
                 start=start,
             )
+            if conductors is not None:
+                appointment.assigned_conductors.set(conductors)
             return (None, start)
