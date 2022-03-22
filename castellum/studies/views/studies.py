@@ -258,7 +258,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
                 self.object.executiontag_set.create(name=tag.name)
         else:
             CodingList.objects.create(
-                bits=settings.CASTELLUM_STUDY_DOMAIN_BITS,
+                bits=settings.CASTELLUM_STUDY_PSEUDONYM_BITS,
                 context=self.object,
             )
 
@@ -431,7 +431,7 @@ class StudyCodingListsView(StudyCodingListsMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         if self.request.POST.get('action') == 'add':
-            self.study.coding_lists.create(bits=settings.CASTELLUM_STUDY_DOMAIN_BITS)
+            self.study.coding_lists.create(bits=settings.CASTELLUM_STUDY_PSEUDONYM_BITS)
         elif self.request.POST.get('action') == 'name':
             coding_list = get_object_or_404(
                 self.study.coding_lists.all(), key=self.request.POST['coding_list']

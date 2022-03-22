@@ -34,7 +34,7 @@ def create_session_coding_list(sender, instance, using, **kwargs):
 
     if sender is StudySession and not instance.coding_lists.exists():
         CodingList.objects.create(
-            bits=settings.CASTELLUM_SESSION_DOMAIN_BITS,
+            bits=settings.CASTELLUM_SESSION_PSEUDONYM_BITS,
             context=instance,
         )
 
