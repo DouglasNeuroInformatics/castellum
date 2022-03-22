@@ -3,7 +3,7 @@ from model_bakery import baker
 
 from castellum.appointments.models import Appointment
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import CodingList
 from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import Participation
 from castellum.studies.models import StudySession
@@ -105,7 +105,7 @@ def test_participation_detail_view_tags(client, subject, conductor, study_in_exe
 def test_resolve_view(client, member, study_in_execution_status, subject):
     client.force_login(member)
 
-    domain = baker.make(Domain, context=study_in_execution_status)
+    coding_list = baker.make(CodingList, context=study_in_execution_status)
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
@@ -116,12 +116,12 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
     url = '/execution/{}/resolve/'.format(study_in_execution_status.pk)
 
     response = client.get(url)
-    assert b'<input type="hidden" name="domain"' in response.content
+    assert b'<input type="hidden" name="coding_list"' in response.content
 
-    pseudonym = get_pseudonym(subject, domain.key)
+    pseudonym = get_pseudonym(subject, coding_list.key)
 
     response = client.post(url, {
-        'domain': domain.key,
+        'coding_list': coding_list.key,
         'pseudonym': pseudonym,
     })
 
@@ -131,11 +131,11 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
     )
 
 
-def test_resolve_view_wrong_domain(client, member, study_in_execution_status, subject):
+def test_resolve_view_wrong_coding_list(client, member, study_in_execution_status, subject):
     client.force_login(member)
 
-    domain1 = baker.make(Domain, context=study_in_execution_status)
-    domain2 = baker.make(Domain, context=study_in_execution_status)
+    coding_list1 = baker.make(CodingList, context=study_in_execution_status)
+    coding_list2 = baker.make(CodingList, context=study_in_execution_status)
 
     baker.make(
         Participation,
@@ -147,11 +147,11 @@ def test_resolve_view_wrong_domain(client, member, study_in_execution_status, su
     url = '/execution/{}/resolve/'.format(study_in_execution_status.pk)
 
     response = client.get(url)
-    assert b'<select name="domain"' in response.content
+    assert b'<select name="coding_list"' in response.content
 
     response = client.post(url, {
-        'domain': domain1.key,
-        'pseudonym': get_pseudonym(subject, domain2.key),
+        'coding_list': coding_list1.key,
+        'pseudonym': get_pseudonym(subject, coding_list2.key),
     })
 
     assert response.status_code == 200

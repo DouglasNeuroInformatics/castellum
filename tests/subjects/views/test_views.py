@@ -2,7 +2,7 @@ import pytest
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
-from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import CodingList
 
 
 @pytest.mark.smoketest
@@ -150,7 +150,7 @@ def test_delete_post(client, user, contact):
 def test_pseudonyms_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    baker.make(Domain)
+    baker.make(CodingList)
     url = '/subjects/{}/pseudonyms/'.format(subject.uuid)
     response = client.get(url)
     assert response.status_code == 200
@@ -166,8 +166,8 @@ def test_pseudonyms_200(request, client, user_fixture, subject):
 def test_pseudonym_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    domain = baker.make(Domain)
-    url = '/subjects/{}/pseudonyms/{}/'.format(subject.uuid, domain.key)
+    coding_list = baker.make(CodingList)
+    url = '/subjects/{}/pseudonyms/{}/'.format(subject.uuid, coding_list.key)
     response = client.get(url)
     assert response.status_code == 200
 

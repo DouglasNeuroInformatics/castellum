@@ -52,7 +52,7 @@ class SchedulerFetchParticipationMixin:
     def fetch_scheduler_appointments(self):
         changes = []
         for session in self.study.studysession_set.exclude(schedule_id=None):
-            pseudonym = get_pseudonym(self.subject, session.domain)
+            pseudonym = get_pseudonym(self.subject, session.coding_list_key)
             try:
                 start = scheduler.get(session.schedule_id, pseudonym)
             except requests.RequestException as e:

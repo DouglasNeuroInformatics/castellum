@@ -22,7 +22,7 @@ from django.conf import settings
 from django.urls import path
 
 from .api import APIAttributesView
-from .api import APIDomainsView
+from .api import APICodingListsView
 from .api import APIPseudonymsView
 from .api import APIResolveView
 from .api import APIValidateView
@@ -74,7 +74,7 @@ urlpatterns = [
         name='participation-pseudonyms',
     ),
     path(
-        '<int:study_pk>/<int:pk>/pseudonyms/<domain>/',
+        '<int:study_pk>/<int:pk>/pseudonyms/<coding_list>/',
         ParticipationPseudonymView.as_view(),
         name='participation-pseudonym',
     ),
@@ -127,15 +127,18 @@ urlpatterns = [
 
 if settings.CASTELLUM_API_ENABLED:
     urlpatterns += [
-        path('api/studies/<int:pk>/domains/', APIDomainsView.as_view()),
-        path('api/studies/<int:pk>/domains/<uuid:domain>/', APIPseudonymsView.as_view()),
-        path('api/studies/<int:pk>/domains/<uuid:domain>/<pseudonym>/', APIValidateView.as_view()),
+        path('api/studies/<int:pk>/coding-lists/', APICodingListsView.as_view()),
+        path('api/studies/<int:pk>/coding-lists/<uuid:coding_list>/', APIPseudonymsView.as_view()),
         path(
-            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/attributes/',
+            'api/studies/<int:pk>/coding-lists/<uuid:coding_list>/<pseudonym>/',
+            APIValidateView.as_view(),
+        ),
+        path(
+            'api/studies/<int:study_pk>/coding-lists/<uuid:coding_list>/<pseudonym>/attributes/',
             APIAttributesView.as_view(),
         ),
         path(
-            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
+            'api/studies/<int:study_pk>/coding-lists/<uuid:coding_list>/<pseudonym>/<uuid:target_coding_list>/',  # noqa
             APIResolveView.as_view(),
         ),
     ]

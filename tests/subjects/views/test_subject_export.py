@@ -28,7 +28,7 @@ EXCLUDED = [
     'contenttypes.',
     'geofilters.Geolocation.',
     'mfa.MFAKey.',
-    'pseudonyms.Domain.',
+    'pseudonyms.CodingList.',
     'pseudonyms.Pseudonym.',
     'recruitment.AttributeCategory.',
     'recruitment.AttributeCategoryTranslation.',

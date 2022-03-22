@@ -46,7 +46,7 @@ from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import CodingList
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
@@ -113,8 +113,8 @@ def take_snapshot(study):
     study.snapshot = serializers.serialize('json', [
         study,
         *study.studymembership_set.all(),
-        *study.domains.all(),
-        *study.general_domains.all(),
+        *study.coding_lists.all(),
+        *study.general_coding_lists.all(),
         *study.studytag_set.all(),
         *study.studysession_set.all(),
         *study.subjectfiltergroup_set.all(),
@@ -235,13 +235,13 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             self.object.mail_body = self.duplicate.mail_body
             self.object.save()
 
-            self.object.general_domains.set(self.duplicate.general_domains.all())
+            self.object.general_coding_lists.set(self.duplicate.general_coding_lists.all())
 
-            for domain in self.duplicate.domains.all():
-                Domain.objects.create(
-                    name=domain.name,
-                    bits=domain.bits,
-                    content_type=domain.content_type,
+            for coding_list in self.duplicate.coding_lists.all():
+                CodingList.objects.create(
+                    name=coding_list.name,
+                    bits=coding_list.bits,
+                    content_type=coding_list.content_type,
                     object_id=self.object.pk,
                 )
 
@@ -257,7 +257,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             for tag in self.duplicate.executiontag_set.all():
                 self.object.executiontag_set.create(name=tag.name)
         else:
-            Domain.objects.create(
+            CodingList.objects.create(
                 bits=settings.CASTELLUM_STUDY_DOMAIN_BITS,
                 context=self.object,
             )
@@ -413,40 +413,42 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
-class StudyDomainsMixin(StudyMixin, PermissionRequiredMixin):
+class StudyCodingListsMixin(StudyMixin, PermissionRequiredMixin):
     permission_required = 'studies.change_study'
     is_anonymous_invitation = False
     is_filter_trial = False
-    tab = 'domains'
+    tab = 'coding-lists'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
+        context['general_coding_lists_exist'] = CodingList.objects.filter(object_id=None).exists()
         return context
 
 
-class StudyDomainsView(StudyDomainsMixin, TemplateView):
-    template_name = 'studies/study_domains_study.html'
-    subtab = 'domains-study'
+class StudyCodingListsView(StudyCodingListsMixin, TemplateView):
+    template_name = 'studies/study_coding_lists_study.html'
+    subtab = 'coding-lists-study'
 
     def post(self, request, *args, **kwargs):
         if self.request.POST.get('action') == 'add':
-            self.study.domains.create(bits=settings.CASTELLUM_STUDY_DOMAIN_BITS)
+            self.study.coding_lists.create(bits=settings.CASTELLUM_STUDY_DOMAIN_BITS)
         elif self.request.POST.get('action') == 'name':
-            domain = get_object_or_404(self.study.domains.all(), key=self.request.POST['domain'])
-            form_cls = modelform_factory(Domain, fields=['name'])
-            form = form_cls(data=self.request.POST, instance=domain)
+            coding_list = get_object_or_404(
+                self.study.coding_lists.all(), key=self.request.POST['coding_list']
+            )
+            form_cls = modelform_factory(CodingList, fields=['name'])
+            form = form_cls(data=self.request.POST, instance=coding_list)
             if form.is_valid():
                 form.save()
 
         return redirect(self.request.path)
 
 
-class StudyDomainsGeneralView(StudyDomainsMixin, UpdateView):
+class StudyCodingListsGeneralView(StudyCodingListsMixin, UpdateView):
     model = Study
-    fields = ['general_domains']
-    template_name = 'studies/study_domains_general.html'
-    subtab = 'domains-general'
+    fields = ['general_coding_lists']
+    template_name = 'studies/study_coding_lists_general.html'
+    subtab = 'coding-lists-general'
 
     def get_success_url(self):
         return self.request.path
@@ -457,16 +459,16 @@ class StudyDomainsGeneralView(StudyDomainsMixin, UpdateView):
         return super().form_valid(form)
 
 
-class StudyDomainDeleteView(StudyDomainsMixin, DeleteView):
-    model = Domain
-    template_name = 'studies/domain_confirm_delete.html'
-    subtab = 'domains-study'
+class StudyCodingListDeleteView(StudyCodingListsMixin, DeleteView):
+    model = CodingList
+    template_name = 'studies/coding_list_confirm_delete.html'
+    subtab = 'coding-lists-study'
 
     def get_object(self):
-        return get_object_or_404(self.study.domains.all(), key=self.kwargs['key'])
+        return get_object_or_404(self.study.coding_lists.all(), key=self.kwargs['key'])
 
     def get_success_url(self):
-        return reverse('studies:domains', args=[self.study.pk])
+        return reverse('studies:coding-lists', args=[self.study.pk])
 
 
 class StudyImportView(PermissionRequiredMixin, FormView):

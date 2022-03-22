@@ -22,7 +22,7 @@ def test_200(request, client, study, user_fixture):
 
 def test_lists_all_pseudonyms(client, conductor, study):
     participation = baker.make(Participation, study=study, status=Participation.INVITED)
-    study.domains.create()
+    study.coding_lists.create()
     client.force_login(conductor)
     response = client.get('/execution/{}/{}/pseudonyms/'.format(
         study.pk, participation.pk
@@ -35,7 +35,7 @@ def test_no_name(client, conductor, study, subject):
     participation = baker.make(
         Participation, subject=subject, study=study, status=Participation.INVITED
     )
-    study.domains.create()
+    study.coding_lists.create()
     client.force_login(conductor)
     response = client.get('/execution/{}/{}/pseudonyms/'.format(
         study.pk, participation.pk

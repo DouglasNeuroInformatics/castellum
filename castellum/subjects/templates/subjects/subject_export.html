@@ -28,7 +28,7 @@
         {% endif %}
     </form>
 
-    {% if has_participations or general_domains_exist %}
+    {% if has_participations or general_coding_lists_exist %}
         <div class="card d-print-none my-4">
             <div class="card-body">
                 <p>{% translate 'Remember to also gather information from the following external sources:' %}</p>
@@ -55,10 +55,10 @@
                             </div>
                         </li>
                     {% endfor %}
-                    {% if general_domains_exist %}
+                    {% if general_coding_lists_exist %}
                         <li class="table-list-item">
                             <div class="my-1 me-2">
-                                <div class="h4 d-inline">{% translate "General pseudonym domains" %}</div>
+                                <div class="h4 d-inline">{% translate "General coding lists" %}</div>
                             </div>
                             <div class="table-list-item-actions">
                                 <a class="btn btn-outline-primary my-1" href="{% url 'subjects:pseudonyms' subject.uuid %}">{% translate 'Pseudonyms' %}</a>

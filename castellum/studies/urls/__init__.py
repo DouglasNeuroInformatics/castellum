@@ -26,13 +26,13 @@ from ..views.api import APIStudyDetailView
 from ..views.api import APIStudyListView
 from ..views.recruitment import AnonymousInvitationMailRecruitmentView
 from ..views.studies import FilterTrialCreateView
+from ..views.studies import StudyCodingListDeleteView
+from ..views.studies import StudyCodingListsGeneralView
+from ..views.studies import StudyCodingListsView
 from ..views.studies import StudyCreateView
 from ..views.studies import StudyDeleteView
 from ..views.studies import StudyDetailView
 from ..views.studies import StudyDiffView
-from ..views.studies import StudyDomainDeleteView
-from ..views.studies import StudyDomainsGeneralView
-from ..views.studies import StudyDomainsView
 from ..views.studies import StudyExportView
 from ..views.studies import StudyFinishRecruitmentView
 from ..views.studies import StudyImportView
@@ -51,12 +51,16 @@ urlpatterns = [
     path('<int:pk>/', StudyDetailView.as_view(), name='detail'),
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
-    path('<int:pk>/domains/', StudyDomainsView.as_view(), name='domains'),
-    path('<int:pk>/domains/general/', StudyDomainsGeneralView.as_view(), name='domains-general'),
+    path('<int:pk>/coding-lists/', StudyCodingListsView.as_view(), name='coding-lists'),
     path(
-        '<int:study_pk>/domains/<uuid:key>/',
-        StudyDomainDeleteView.as_view(),
-        name='domain-delete',
+        '<int:pk>/coding-lists/general/',
+        StudyCodingListsGeneralView.as_view(),
+        name='coding-lists-general',
+    ),
+    path(
+        '<int:study_pk>/coding-lists/<uuid:key>/',
+        StudyCodingListDeleteView.as_view(),
+        name='coding-list-delete',
     ),
     path('<int:study_pk>/start/', StudyStartRecruitmentView.as_view(), name='start'),
     path('<int:study_pk>/finish/', StudyFinishRecruitmentView.as_view(), name='finish'),

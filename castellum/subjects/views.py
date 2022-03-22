@@ -55,7 +55,7 @@ from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym_if_exists
-from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import CodingList
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import AttributeDescription
@@ -247,7 +247,7 @@ class SubjectPseudonymsView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['domains'] = Domain.objects.filter(object_id=None)
+        context['coding_lists'] = CodingList.objects.filter(object_id=None)
         return context
 
 
@@ -262,11 +262,11 @@ class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
         )
 
     def get(self, request, *args, **kwargs):
-        domain = get_object_or_404(Domain, key=kwargs['domain'], object_id=None)
-        pseudonym = get_pseudonym_if_exists(self.subject, domain.key)
+        coding_list = get_object_or_404(CodingList, key=kwargs['coding_list'], object_id=None)
+        pseudonym = get_pseudonym_if_exists(self.subject, coding_list.key)
 
-        monitoring_logger.info('Pseudonym access: domain {} by {}'.format(
-            domain.key, self.request.user.pk
+        monitoring_logger.info('Pseudonym access: coding_list {} by {}'.format(
+            coding_list.key, self.request.user.pk
         ))
 
         return HttpResponse(pseudonym or '—')
@@ -289,8 +289,8 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['has_participations'] = self.object.participation_set.exists()
         context['is_last_legal_representative'] = self.is_last_legal_representative()
-        context['has_pseudonym_in_general_domain'] = (
-            self.subject.pseudonym_set.filter(domain__object_id=None).exists()
+        context['has_pseudonym_in_general_coding_list'] = (
+            self.subject.pseudonym_set.filter(coding_list__object_id=None).exists()
         )
         return context
 
@@ -320,7 +320,11 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         if self.object.export_requested:
             context['has_participations'] = self.object.participation_set.exists()
-            context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
+            context['general_coding_lists_exist'] = (
+                CodingList.objects
+                .filter(object_id=None)
+                .exists()
+            )
             context['appointments'] = Appointment.objects.filter(participation__subject=self.object)
 
             context['notes'] = self.object.subjectnote_set.all()

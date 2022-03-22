@@ -32,7 +32,7 @@ from castellum.castellum_auth.mixins import APIAuthMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
-from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import CodingList
 from castellum.recruitment.attribute_exporters import JSONExporter
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
@@ -47,10 +47,10 @@ class BaseAPIView(APIAuthMixin, StudyMixin, PermissionRequiredMixin, View):
     study_status = [Study.EXECUTION]
 
 
-class APIDomainsView(BaseAPIView):
+class APICodingListsView(BaseAPIView):
     def get(self, request, **kwargs):
-        data = [{'key': domain.key, 'name': domain.name} for domain in self.study.domains.all()]
-        return JsonResponse({'domains': data})
+        data = [{'key': cl.key, 'name': cl.name} for cl in self.study.coding_lists.all()]
+        return JsonResponse({'coding_lists': data})
 
 
 class APIValidateView(BaseAPIView):
@@ -60,10 +60,10 @@ class APIValidateView(BaseAPIView):
         except ValueError:
             raise Http404
 
-        domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+        coding_list = get_object_or_404(self.study.coding_lists, key=self.kwargs['coding_list'])
 
         try:
-            subject = get_subject(domain.key, pseudonym)
+            subject = get_subject(coding_list.key, pseudonym)
         except Subject.DoesNotExist:
             raise Http404
 
@@ -76,9 +76,9 @@ class APIValidateView(BaseAPIView):
 
 class APIPseudonymsView(BaseAPIView):
     def get(self, request, **kwargs):
-        domain = get_object_or_404(self.study.domains, key=kwargs['domain'])
+        coding_list = get_object_or_404(self.study.coding_lists, key=kwargs['coding_list'])
 
-        pseudonyms = [get_pseudonym(p.subject, domain.key) for p in (
+        pseudonyms = [get_pseudonym(p.subject, coding_list.key) for p in (
             self.study.participation_set
             .filter(status=Participation.INVITED)
             .select_related('subject')
@@ -94,10 +94,10 @@ class APIResolveView(BaseAPIView):
         except ValueError:
             raise Http404
 
-        domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+        coding_list = get_object_or_404(self.study.coding_lists, key=self.kwargs['coding_list'])
 
         try:
-            subject = get_subject(domain.key, pseudonym)
+            subject = get_subject(coding_list.key, pseudonym)
         except Subject.DoesNotExist:
             raise Http404
         get_object_or_404(
@@ -106,15 +106,15 @@ class APIResolveView(BaseAPIView):
         if not self.request.user.has_privacy_level(subject.privacy_level):
             raise PermissionDenied
 
-        domains = Domain.objects.filter(
-            models.Q(pk__in=self.study.domains.all())
-            | models.Q(pk__in=self.study.general_domains.filter(managers=request.user))
+        coding_lists = CodingList.objects.filter(
+            models.Q(pk__in=self.study.coding_lists.all())
+            | models.Q(pk__in=self.study.general_coding_lists.filter(managers=request.user))
         )
-        target_domain = get_object_or_404(domains, key=self.kwargs['target_domain'])
-        pseudonym = get_pseudonym(subject, target_domain.key)
+        target_coding_list = get_object_or_404(coding_lists, key=self.kwargs['target_coding_list'])
+        pseudonym = get_pseudonym(subject, target_coding_list.key)
 
-        monitoring_logger.info('Pseudonym access: domain {} by {}'.format(
-            target_domain.key, self.request.user.pk
+        monitoring_logger.info('Pseudonym access: coding_list {} by {}'.format(
+            target_coding_list.key, self.request.user.pk
         ))
 
         return JsonResponse({'pseudonym': pseudonym})
@@ -127,10 +127,10 @@ class APIAttributesView(BaseAPIView):
         except ValueError:
             raise Http404
 
-        domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+        coding_list = get_object_or_404(self.study.coding_lists, key=self.kwargs['coding_list'])
 
         try:
-            subject = get_subject(domain.key, pseudonym)
+            subject = get_subject(coding_list.key, pseudonym)
         except Subject.DoesNotExist:
             raise Http404
         get_object_or_404(

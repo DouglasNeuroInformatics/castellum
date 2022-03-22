@@ -33,20 +33,20 @@ class PseudonymField(forms.CharField):
             raise ValidationError(_('Invalid pseudonym'), code='invalid')
 
 
-class DomainForm(forms.Form):
-    domain = forms.ChoiceField(label=_('Domain'))
+class CodingListForm(forms.Form):
+    coding_list = forms.ChoiceField(label=_('Coding list'))
 
     def __init__(self, *args, context, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['domain'].choices = [(d.key, str(d)) for d in context.domains.all()]
-        if self.fields['domain'].choices:
-            self.fields['domain'].initial = self.fields['domain'].choices[0][0]
+        self.fields['coding_list'].choices = [(d.key, str(d)) for d in context.coding_lists.all()]
+        if self.fields['coding_list'].choices:
+            self.fields['coding_list'].initial = self.fields['coding_list'].choices[0][0]
         else:
-            self.fields['domain'].disabled = True
+            self.fields['coding_list'].disabled = True
             self.cleaned_data = {}
-            self.add_error(None, _('All pseudonym domains have been deleted.'))
+            self.add_error(None, _('All coding lists have been deleted.'))
 
 
-class PseudonymForm(DomainForm):
+class PseudonymForm(CodingListForm):
     pseudonym = PseudonymField(label=_('Pseudonym'))

@@ -2,24 +2,24 @@
 {% load i18n utils auth %}
 
 {% block content %}
-    {% if domains|length > 1 %}
+    {% if coding_lists|length > 1 %}
         <h3 class="h5">{% translate 'Pseudonyms' %}</h3>
         <dl class="row">
-            {% for domain in domains %}
-                <dt class="col-sm-6">{{ domain }}</dt>
+            {% for coding_list in coding_lists %}
+                <dt class="col-sm-6">{{ coding_list }}</dt>
                 <dd class="col-sm-6">
-                    <a href="{% url 'execution:participation-pseudonym' study.pk participation.pk domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
+                    <a href="{% url 'execution:participation-pseudonym' study.pk participation.pk coding_list.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
                         {% translate 'get pseudonym' %}
                     </a>
                 </dd>
             {% endfor %}
         </dl>
-    {% elif domains|length > 0 %}
+    {% elif coding_lists|length > 0 %}
         <dl class="row">
             <dt class="col-sm-6">{% translate 'Pseudonym' %}</dt>
-            {% for domain in domains %}
+            {% for coding_list in coding_lists %}
                 <dd class="col-sm-6">
-                    <a href="{% url 'execution:participation-pseudonym' study.pk participation.pk domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
+                    <a href="{% url 'execution:participation-pseudonym' study.pk participation.pk coding_list.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
                         {% translate 'get pseudonym' %}
                     </a>
                 </dd>

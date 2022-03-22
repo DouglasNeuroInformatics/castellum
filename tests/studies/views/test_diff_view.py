@@ -49,7 +49,7 @@ EXCLUDED = [
     'subjects.',
 
     # already covered by other fields (e.g. backrefs)
-    'pseudonyms.Domain.',  # 'studies.Study.domains'
+    'pseudonyms.CodingList.',  # 'studies.Study.coding_lists'
     'recruitment.SubjectFilter.',  # recruitment.SubjectFilterGroup.subjectfilter
     'recruitment.ExecutionTag.',  # studies.Study.executiontag
     'studies.Study.members',  # studies.Study.studymembership_set
@@ -59,7 +59,7 @@ EXCLUDED = [
     'studies.Study.previous_status',
     'studies.Study.snapshot',
     'studies.Study.status',
-    'studies.StudySession.domains',
+    'studies.StudySession.coding_lists',
     'studies.Study.is_filter_trial'
 ]
 

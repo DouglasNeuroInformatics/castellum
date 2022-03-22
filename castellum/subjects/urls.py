@@ -94,7 +94,7 @@ urlpatterns = [
     path('maintenance/notes/', MaintenanceNotesView.as_view(), name='maintenance-notes'),
     path('<uuid:uuid>/', SubjectDetailView.as_view(), name='detail'),
     path('<uuid:uuid>/pseudonyms/', SubjectPseudonymsView.as_view(), name='pseudonyms'),
-    path('<uuid:uuid>/pseudonyms/<domain>/', SubjectPseudonymView.as_view(), name='pseudonym'),
+    path('<uuid:uuid>/pseudonyms/<coding_list>/', SubjectPseudonymView.as_view(), name='pseudonym'),
     path('<uuid:uuid>/delete/', SubjectDeleteView.as_view(), name='delete'),
     path('<uuid:uuid>/export/', SubjectExportView.as_view(), name='export'),
     path('<uuid:uuid>/contact/', ContactUpdateView.as_view(), name='contact'),
@@ -139,5 +139,8 @@ urlpatterns = [
 
 if settings.CASTELLUM_API_ENABLED:
     urlpatterns += [
-        path('api/subjects/<uuid:domain>/<pseudonym>/attributes/', APIAttributesView.as_view()),
+        path(
+            'api/subjects/<uuid:coding_list>/<pseudonym>/attributes/',
+            APIAttributesView.as_view(),
+        ),
     ]

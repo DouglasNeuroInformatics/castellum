@@ -157,18 +157,18 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 #   /studies/api/studies/?status=<edit|execution|finished>
 # basic metadata of a study
 #   /studies/api/studies/<study_id>/
-# list of study domains:
-#   /execution/api/studies/<study_id>/domains/
-# list of pseudonyms in a domain:
-#   /execution/api/studies/<study_id>/domains/<domain>/
+# list of study coding lists:
+#   /execution/api/studies/<study_id>/coding-lists/
+# list of pseudonyms in a coding list:
+#   /execution/api/studies/<study_id>/coding-lists/<coding_list>/
 # validate a single pseudonym
-#   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/
+#   /execution/api/studies/<study_id>/coding-lists/<coding_list>/<pseudonym>/
 # get exportable attributes:
-#   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/attributes/
-# resolve pseudonym to a target domain (can also be a general domain):
-#   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/<target_domain>/
-# get exportable attributes for general domains
-#   /subjects/api/subjects/<domain>/<pseudonym>/attributes/
+#   /execution/api/studies/<study_id>/coding-lists/<coding_list>/<pseudonym>/attributes/
+# resolve pseudonym to a target coding list (can also be a general coding list):
+#   /execution/api/studies/<study_id>/coding-lists/<coding_list>/<pseudonym>/<target_coding_list>/
+# get exportable attributes for general coding lists
+#   /subjects/api/subjects/<coding_list>/<pseudonym>/attributes/
 CASTELLUM_API_ENABLED = False
 
 # If you want to allow external services to automatically add subjects

@@ -46,26 +46,28 @@ class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
         except ValueError:
             raise Http404
 
-        domain = get_object_or_404(request.user.general_domains, key=self.kwargs['domain'])
+        coding_list = get_object_or_404(
+            request.user.general_coding_lists, key=self.kwargs['coding_list']
+        )
 
         try:
-            subject = get_subject(domain.key, pseudonym)
+            subject = get_subject(coding_list.key, pseudonym)
         except Subject.DoesNotExist:
             raise Http404
 
         if not self.request.user.has_privacy_level(max(
             subject.privacy_level,
-            domain.get_exportable_attributes_max_privacy_level(),
+            coding_list.get_exportable_attributes_max_privacy_level(),
         )):
             raise PermissionDenied
 
         exporter = JSONExporter()
-        descriptions = domain.exportable_attributes.all()
+        descriptions = coding_list.exportable_attributes.all()
 
         attrs = exporter.get_subject_attributes(descriptions, subject)
 
-        monitoring_logger.info('Attribute export: domain {} subject {} by {}'.format(
-            domain.key, subject.pk, request.user.pk
+        monitoring_logger.info('Attribute export: coding_list {} subject {} by {}'.format(
+            coding_list.key, subject.pk, request.user.pk
         ))
 
         return JsonResponse(attrs)

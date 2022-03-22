@@ -4,26 +4,26 @@ Castellum allows you to keep the subject's contact information in a
 central place and use pseudonyms everywhere else.
 
 Subjects can have multiple pseudonyms. To know which is which, each
-pseudonym is tied to a *pseudonym domain*. There can be only one
-pseudonym for a subject in each domain.
+pseudonym is tied to a *coding list*. There can be only one
+pseudonym for a subject in each coding list.
 
-## General domains
+## General coding lists
 
-Most domains are linked to an object in Castellum, usually a study. But
-there can also be so called *general domains* which are not linked to
+Most coding lists are linked to an object in Castellum, usually a study. But
+there can also be so called *general coding lists* which are not linked to
 anything in Castellum. These can be useful to provide pseudonyms for
 external databases that are used accross studies, e.g. for blood samples
 or IQ scores.
 
-In order to use a general domain you need to perform these steps:
+In order to use a general coding list you need to perform these steps:
 
--   In the admin UI, create a domain that has a blank `content_type`
+-   In the admin UI, create a coding list that has a blank `content_type`
     and `object_id`.
 -   In the same UI, select which users need to be able to access this
-    general domain.
+    general coding list.
 -   Also in the same UI, select which attributes need to be accessible
-    for this domain via the API.
--   Study coordinators can then select which general domain they need to
+    for this coding list via the API.
+-   Study coordinators can then select which general coding list they need to
     access in their study.
 
 ## Legacy pseudonyms
@@ -35,21 +35,21 @@ how those legacy pseudonyms can be imported into Castellum.
 
 ### Import data
 
-To import legacy pseudonyms you first need to create such a domain.
+To import legacy pseudonyms you first need to create such a coding list.
 After that you can create the pseudonyms themselves:
 
-    from castellum.pseudonyms.models import Domain
+    from castellum.pseudonyms.models import CodingList
     from castellum.pseudonyms.models import Pseudonym
 
     mydata = […]
 
-    mydomain = Domain.objects.create()
-    print(mydomain.key)
+    my_coding_list = CodingList.objects.create()
+    print(my_coding_list.key)
 
     for subject, legacy_pseudonym in mydata:
         Pseudonym.objects.create(
             subject=subject,
-            domain=mydomain
+            coding_list=my_coding_list
             pseudonym=legacy_pseudonym,
         )
 

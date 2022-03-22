@@ -1,7 +1,7 @@
 import pytest
 from model_bakery import baker
 
-from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import CodingList
 from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
 
@@ -86,17 +86,17 @@ def test_duplicate_study_post(client, user):
     assert Study.objects.last().recruitment_text == 'foo bar'
 
 
-def test_duplicate_study_has_different_domains(client, user):
+def test_duplicate_study_has_different_coding_lists(client, user):
     client.force_login(user)
     original = baker.make(Study, recruitment_text='foo bar', members=[user])
-    original_domain = baker.make(Domain, context=original)
+    original_coding_list = baker.make(CodingList, context=original)
 
     client.post('/studies/create/?duplicate_pk={}'.format(original.pk), STUDY_FORM)
 
     new = Study.objects.exclude(pk=original.pk).get()
 
-    assert new.domains.count() == original.domains.count()
-    assert new.domains.first().key != original_domain.key
+    assert new.coding_lists.count() == original.coding_lists.count()
+    assert new.coding_lists.first().key != original_coding_list.key
 
 
 @pytest.mark.django_db

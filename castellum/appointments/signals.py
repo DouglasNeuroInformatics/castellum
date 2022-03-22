@@ -28,7 +28,7 @@ def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
 
     if sender is Participation and settings.SCHEDULER_URL:
         for session in instance.study.studysession_set.exclude(schedule_id=None):
-            pseudonym = get_pseudonym(instance.subject, session.domain)
+            pseudonym = get_pseudonym(instance.subject, session.coding_list_key)
             scheduler.delete(session.schedule_id, pseudonym)
 
 

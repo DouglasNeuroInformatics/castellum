@@ -29,7 +29,7 @@ class StudiesConfig(AppConfig):
     name = 'castellum.studies'
 
     def ready(self):
-        pre_delete.connect(signals.delete_study_domain)
+        pre_delete.connect(signals.delete_study_coding_list)
 
-        post_save.connect(signals.create_session_domain)
-        pre_delete.connect(signals.delete_session_domain)
+        post_save.connect(signals.create_session_coding_list)
+        pre_delete.connect(signals.delete_session_coding_list)

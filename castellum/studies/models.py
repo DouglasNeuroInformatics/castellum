@@ -35,7 +35,7 @@ from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 
 from castellum.castellum_auth.models import User
-from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import CodingList
 from castellum.utils.fields import ColorField
 from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
@@ -116,10 +116,10 @@ class Study(models.Model):
     snapshot = models.TextField(_('Snapshot'), blank=True, editable=False)
 
     members = models.ManyToManyField(User, through='StudyMembership')
-    domains = GenericRelation(Domain)
-    general_domains = models.ManyToManyField(
-        Domain,
-        verbose_name=_('General pseudonym domains'),
+    coding_lists = GenericRelation(CodingList)
+    general_coding_lists = models.ManyToManyField(
+        CodingList,
+        verbose_name=_('General coding lists'),
         blank=True,
         limit_choices_to={'object_id': None},
     )
@@ -413,7 +413,7 @@ class StudySession(models.Model):
     duration = models.PositiveIntegerField(_('Duration of a session in minutes'))
     type = models.ManyToManyField(StudyType, verbose_name=_('Type'), blank=True)
     resources = models.ManyToManyField(Resource, verbose_name=_('Resources'), blank=True)
-    domains = GenericRelation(Domain)
+    coding_lists = GenericRelation(CodingList)
     reminder_text = models.TextField(_('Additional text for reminder emails'), blank=True)
     schedule_id = models.CharField(
         _('External schedule ID'), max_length=64, blank=True, null=True, unique=True
@@ -424,10 +424,10 @@ class StudySession(models.Model):
         return '{} - {}'.format(self.study, self.name)
 
     @property
-    def domain(self):
-        domain = self.domains.first()
-        if domain:
-            return domain.key
+    def coding_list_key(self):
+        coding_list = self.coding_lists.first()
+        if coding_list:
+            return coding_list.key
 
 
 class StudyTag(models.Model):

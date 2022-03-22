@@ -9,18 +9,18 @@
     <table class="table">
         <thead>
             <tr>
-                <th>{% translate 'Domain key' %}</th>
-                <th>{% translate 'Domain name' %}</th>
+                <th>{% translate 'Coding list key' %}</th>
+                <th>{% translate 'Coding list name' %}</th>
                 <th>{% translate 'Pseudonym' %}</th>
             </tr>
         </thead>
         <tbody>
-            {% for domain in domains %}
+            {% for coding_list in coding_lists %}
                 <tr>
-                    <td>{{ domain|display:'key' }}</dt>
-                    <td>{{ domain|display:'name' }}</dt>
+                    <td>{{ coding_list|display:'key' }}</dt>
+                    <td>{{ coding_list|display:'name' }}</dt>
                     <td>
-                        <a href="{% url 'execution:participation-pseudonym' study.pk view.kwargs.pk domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
+                        <a href="{% url 'execution:participation-pseudonym' study.pk view.kwargs.pk coding_list.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
                             {% translate 'get pseudonym' %}
                         </a>
                     </dt>

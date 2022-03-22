@@ -3,7 +3,7 @@ from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import CodingList
 from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
@@ -153,8 +153,8 @@ def test_participation_create_delete_pseudonym():
     participation = baker.make(Participation, study=study)
 
     # create pseudonym
-    domain = baker.make(Domain, context=study)
-    get_pseudonym(participation.subject, domain.key)
+    coding_list = baker.make(CodingList, context=study)
+    get_pseudonym(participation.subject, coding_list.key)
 
     assert Pseudonym.objects.count() == start_count + 1
 

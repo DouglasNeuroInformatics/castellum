@@ -29,7 +29,7 @@ from castellum.subjects.models import Subject
 from castellum.utils import uuid_str
 
 
-class Domain(models.Model):
+class CodingList(models.Model):
     key = models.CharField(max_length=64, default=uuid_str, unique=True, editable=False)
     name = models.CharField(max_length=64, blank=True)
     bits = models.PositiveIntegerField(default=40)
@@ -40,8 +40,8 @@ class Domain(models.Model):
 
     managers = models.ManyToManyField(
         User,
-        verbose_name=_('Users who can access this domain'),
-        related_name='general_domains',
+        verbose_name=_('Users who can access this coding list'),
+        related_name='general_coding_lists',
         blank=True,
     )
     exportable_attributes = models.ManyToManyField(
@@ -65,13 +65,13 @@ class Domain(models.Model):
 
 class Pseudonym(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
-    domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
+    coding_list = models.ForeignKey(CodingList, on_delete=models.CASCADE)
     pseudonym = models.CharField(max_length=64, default=None)
 
     class Meta:
         unique_together = [
-            ['domain', 'pseudonym'],
-            ['domain', 'subject'],
+            ['coding_list', 'pseudonym'],
+            ['coding_list', 'subject'],
         ]
 
     def __str__(self):
@@ -79,5 +79,5 @@ class Pseudonym(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pseudonym:
-            self.pseudonym = settings.CASTELLUM_PSEUDONYM_GENERATE(self.domain.bits)
+            self.pseudonym = settings.CASTELLUM_PSEUDONYM_GENERATE(self.coding_list.bits)
         super().save(*args, **kwargs)

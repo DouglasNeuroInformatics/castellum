@@ -15,7 +15,7 @@ def test_fetch_scheduler_appointments(participation):
     participation.save()
 
     session = baker.make(StudySession, study=participation.study, schedule_id='test_scheduler')
-    pseudonym = get_pseudonym(participation.subject, session.domain)
+    pseudonym = get_pseudonym(participation.subject, session.coding_list_key)
     scheduler_data = {pseudonym: timezone.now()}
 
     with patch('castellum.utils.scheduler.get_bulk', return_value=scheduler_data) as mock:

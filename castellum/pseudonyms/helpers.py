@@ -22,7 +22,7 @@ from django.db.utils import IntegrityError
 
 from castellum.subjects.models import Subject
 
-from .models import Domain
+from .models import CodingList
 from .models import Pseudonym
 
 
@@ -35,27 +35,30 @@ def attempt(fn, attempts=10):
         return attempt(fn, attempts=attempts - 1)
 
 
-def get_subject(domain_key, pseudonym):
-    return Subject.objects.get(pseudonym__domain__key=domain_key, pseudonym__pseudonym=pseudonym)
+def get_subject(coding_list_key, pseudonym):
+    return Subject.objects.get(
+        pseudonym__coding_list__key=coding_list_key,
+        pseudonym__pseudonym=pseudonym,
+    )
 
 
-def get_pseudonym(subject, target_domain_key):
-    target_domain = Domain.objects.get(key=target_domain_key)
+def get_pseudonym(subject, target_coding_list_key):
+    target_coding_list = CodingList.objects.get(key=target_coding_list_key)
     target, __ = attempt(
-        lambda: Pseudonym.objects.get_or_create(subject=subject, domain=target_domain)
+        lambda: Pseudonym.objects.get_or_create(subject=subject, coding_list=target_coding_list)
     )
     return target.pseudonym
 
 
-def get_pseudonym_if_exists(subject, target_domain_key):
+def get_pseudonym_if_exists(subject, target_coding_list_key):
     # You should use ``get_pseudonym()`` in most cases as it does not
     # leak whether a pseudony exists.
-    target_domain = Domain.objects.get(key=target_domain_key)
-    target = Pseudonym.objects.filter(subject=subject, domain=target_domain).first()
+    target_coding_list = CodingList.objects.get(key=target_coding_list_key)
+    target = Pseudonym.objects.filter(subject=subject, coding_list=target_coding_list).first()
     return target.pseudonym if target else None
 
 
-def delete_pseudonym(domain_key, pseudonym):
-    p = Pseudonym.objects.get(domain__key=domain_key, pseudonym=pseudonym)
+def delete_pseudonym(coding_list_key, pseudonym):
+    p = Pseudonym.objects.get(coding_list__key=coding_list_key, pseudonym=pseudonym)
     p.subject = None
     p.save()

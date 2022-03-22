@@ -21,26 +21,26 @@
 from django.conf import settings
 
 
-def delete_study_domain(sender, instance, using, **kwargs):
+def delete_study_coding_list(sender, instance, using, **kwargs):
     from castellum.studies.models import Study
 
     if sender is Study:
-        instance.domains.all().delete()
+        instance.coding_lists.all().delete()
 
 
-def create_session_domain(sender, instance, using, **kwargs):
-    from castellum.pseudonyms.models import Domain
+def create_session_coding_list(sender, instance, using, **kwargs):
+    from castellum.pseudonyms.models import CodingList
     from castellum.studies.models import StudySession
 
-    if sender is StudySession and not instance.domains.exists():
-        Domain.objects.create(
+    if sender is StudySession and not instance.coding_lists.exists():
+        CodingList.objects.create(
             bits=settings.CASTELLUM_SESSION_DOMAIN_BITS,
             context=instance,
         )
 
 
-def delete_session_domain(sender, instance, using, **kwargs):
+def delete_session_coding_list(sender, instance, using, **kwargs):
     from castellum.studies.models import StudySession
 
     if sender is StudySession:
-        instance.domains.all().delete()
+        instance.coding_lists.all().delete()

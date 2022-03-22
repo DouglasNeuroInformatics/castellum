@@ -8,12 +8,12 @@ The following API endpoints can be enabled with the
 
 -   `/studies/api/studies/?status=<edit|execution|finished>`
 -   `/studies/api/studies/<study_id>/`
--   `/execution/api/studies/<study_id>/domains/`
--   `/execution/api/studies/<study_id>/domains/<domain>/`
--   `/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/`
--   `/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/attributes/`
--   `/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/<target_domain>/`
--   `/subjects/api/subjects/<domain>/<pseudonym>/attributes/`
+-   `/execution/api/studies/<study_id>/coding-lists/`
+-   `/execution/api/studies/<study_id>/coding-lists/<coding_list>/`
+-   `/execution/api/studies/<study_id>/coding-lists/<coding_list>/<pseudonym>/`
+-   `/execution/api/studies/<study_id>/coding-lists/<coding_list>/<pseudonym>/attributes/`
+-   `/execution/api/studies/<study_id>/coding-lists/<coding_list>/<pseudonym>/<target_coding_list>/`
+-   `/subjects/api/subjects/<coding_list>/<pseudonym>/attributes/`
 
 ## Authentication
 

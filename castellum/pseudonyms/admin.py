@@ -23,10 +23,10 @@ from django.contrib import admin
 from . import models
 
 
-class DomainAdmin(admin.ModelAdmin):
+class CodingListAdmin(admin.ModelAdmin):
     readonly_fields = ['key']
     search_fields = ['name', 'key']
 
 
-admin.site.register(models.Domain, DomainAdmin)
+admin.site.register(models.CodingList, CodingListAdmin)
 admin.site.register(models.Pseudonym)

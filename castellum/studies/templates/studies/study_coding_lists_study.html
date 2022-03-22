@@ -1,0 +1,48 @@
+{% extends "studies/study_coding_lists_base.html" %}
+{% load i18n auth django_bootstrap5 utils %}
+
+{% block title %}{% translate "Study coding lists" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <p>{% translate 'Pseudonyms allow you to store data about subjects without their names and other identifying data. Often it is sufficient to have one pseudonym per subject and study. However, if you need more than that you can create additional coding lists. Note that a pseudonym is only meaningful in combination with its coding list.' %}</p>
+    <ul class="p-0">
+        {% for coding_list in study.coding_lists.all %}
+            <li class="d-block">
+                <form method="post" class="row g-2 mb-3">
+                    <div class="col col-md-6">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="name">
+                        <input type="hidden" name="coding_list" value="{{ coding_list.key }}">
+                        <label class="d-block">
+                            <span class="visually-hidden">{{ coding_list|verbose_name:'name' }}</span>
+                            <input type="text" name="name" maxlength="64" class="form-control" placeholder="{{ coding_list.key }}" value="{{ coding_list.name }}">
+                        </label>
+                    </div>
+                    <div class="col-md">
+                        <label class="input-group">
+                            <span class="visually-hidden">{{ coding_list|verbose_name:'key' }}</span>
+                            <input id="coding_list_key_{{ coding_list.key }}" class="form-control text-truncate" value="{{ coding_list.key }}" readonly>
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-secondary" tabindex="-1" data-clipboard="#coding_list_key_{{ coding_list.key }}" data-animation="success" title="{% translate 'Copy key' %}">
+                                    {% icon 'copy' label=_('Copy key') %}
+                                </button>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col flex-grow-0">
+                        <button class="btn btn-secondary">{% translate 'Save' %}</button>
+                    </div>
+                    <div class="col flex-grow-0">
+                        <a href="{% url 'studies:coding-list-delete' study.pk coding_list.key %}" class="btn btn-danger">{% translate 'Delete' %}</a>
+                    </div>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <form method="post" class="d-print-none mb-3">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add">
+        <button class="btn btn-primary">{% translate 'Add coding list' %}</button>
+    </form>
+{% endblock %}

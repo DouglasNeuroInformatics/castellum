@@ -46,11 +46,11 @@ from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.mixins import SchedulerFetchStudyMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
-from castellum.pseudonyms.forms import DomainForm
+from castellum.pseudonyms.forms import CodingListForm
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
-from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import CodingList
 from castellum.recruitment.attribute_exporters import get_exporter
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.mixins import ParticipationMixin
@@ -112,10 +112,10 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = DomainForm(context=self.study)
+        context['form'] = CodingListForm(context=self.study)
         return context
 
-    def export(self, domain):
+    def export(self, coding_list):
         exporter = get_exporter()
         descriptions = self.study.exportable_attributes.all()
         response = HttpResponse(content_type='application/zip')
@@ -127,7 +127,7 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
             .filter(status=Participation.INVITED)
             .select_related('subject')
         ):
-            pseudonym = get_pseudonym(participation.subject, domain.key)
+            pseudonym = get_pseudonym(participation.subject, coding_list.key)
             subjects.append((pseudonym, participation.subject))
 
         filename = exporter.get_schema_filename()
@@ -152,12 +152,14 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
             self.study.get_exportable_attributes_max_privacy_level(),
         )):
             raise PermissionDenied
-        if 'domain' in self.request.GET:
-            domain = get_object_or_404(self.study.domains.all(), key=self.request.GET['domain'])
-            return self.export(domain)
-        elif self.study.domains.count() == 1:
-            domain = self.study.domains.get()
-            return self.export(domain)
+        if 'coding_list' in self.request.GET:
+            coding_list = get_object_or_404(
+                self.study.coding_lists.all(), key=self.request.GET['coding_list']
+            )
+            return self.export(coding_list)
+        elif self.study.coding_lists.count() == 1:
+            coding_list = self.study.coding_lists.get()
+            return self.export(coding_list)
         else:
             return super().get(request, **kwargs)
 
@@ -178,9 +180,9 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['domains'] = [
-            *self.study.domains.all(),
-            *self.study.general_domains.filter(managers=self.request.user),
+        context['coding_lists'] = [
+            *self.study.coding_lists.all(),
+            *self.study.general_coding_lists.filter(managers=self.request.user),
         ]
         return context
 
@@ -205,7 +207,7 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
         context['subject'] = None
         context['participation'] = None
 
-        context['domains'] = self.study.domains.all()
+        context['coding_lists'] = self.study.coding_lists.all()
 
         return context
 
@@ -221,15 +223,15 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
         )
 
     def get(self, request, *args, **kwargs):
-        qs = Domain.objects.filter(
-            models.Q(pk__in=self.study.domains.all())
-            | models.Q(pk__in=self.study.general_domains.filter(managers=request.user))
+        qs = CodingList.objects.filter(
+            models.Q(pk__in=self.study.coding_lists.all())
+            | models.Q(pk__in=self.study.general_coding_lists.filter(managers=request.user))
         )
-        domain = get_object_or_404(qs, key=kwargs['domain'])
-        pseudonym = get_pseudonym(self.subject, domain.key)
+        coding_list = get_object_or_404(qs, key=kwargs['coding_list'])
+        pseudonym = get_pseudonym(self.subject, coding_list.key)
 
-        monitoring_logger.info('Pseudonym access: domain {} by {}'.format(
-            domain.key, self.request.user.pk
+        monitoring_logger.info('Pseudonym access: coding_list {} by {}'.format(
+            coding_list.key, self.request.user.pk
         ))
 
         return HttpResponse(pseudonym)
@@ -326,7 +328,7 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
 
     def form_valid(self, form):
         try:
-            subject = get_subject(form.cleaned_data['domain'], form.cleaned_data['pseudonym'])
+            subject = get_subject(form.cleaned_data['coding_list'], form.cleaned_data['pseudonym'])
             participation = Participation.objects.filter(
                 study=self.study,
                 subject=subject,

@@ -28,7 +28,7 @@ def delete_participation_pseudonyms(sender, instance, using, **kwargs):
 
     if sender is Participation:
         Pseudonym.objects.filter(
-            domain__in=instance.study.domains.all(), subject=instance.subject
+            coding_list__in=instance.study.coding_lists.all(), subject=instance.subject
         ).update(subject=None)
 
 
