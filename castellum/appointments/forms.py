@@ -44,8 +44,9 @@ class AppointmentsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.invitation_urls = {}
-        for session in self.instance.study.studysession_set.all():
+        self.sessions = self.instance.study.studysession_set.all()
+
+        for session in self.sessions:
             key = 'appointment-{}'.format(session.pk)
             appointment = self.instance.appointment_set.filter(session=session).first()
             self.fields[key] = DateTimeField(
@@ -58,17 +59,18 @@ class AppointmentsForm(forms.ModelForm):
                 ),
                 required=False,
             )
-            if settings.SCHEDULER_URL and session.schedule_id:
-                if self.instance.status == Participation.INVITED:
-                    pseudonym = get_pseudonym(self.instance.subject, session.domain)
-                    try:
-                        url = scheduler.create_invitation_url(session.schedule_id, pseudonym)
-                    except requests.RequestException as e:
-                        logger.error(
-                            'Creating invitation for session {} failed: {}'.format(session.pk, e)
-                        )
-                        url = 'error'
-                    self.invitation_urls[key] = url
+
+    def get_invitation_url(self, session):
+        if settings.SCHEDULER_URL and session.schedule_id:
+            if self.instance.status == Participation.INVITED:
+                pseudonym = get_pseudonym(self.instance.subject, session.domain)
+                try:
+                    return scheduler.create_invitation_url(session.schedule_id, pseudonym)
+                except requests.RequestException as e:
+                    logger.error(
+                        'Creating invitation for session {} failed: {}'.format(session.pk, e)
+                    )
+                    return 'error'
 
     def format_session_name(self, session):
         duration = _('{}min').format(session.duration)
@@ -82,8 +84,9 @@ class AppointmentsForm(forms.ModelForm):
         participation = super().save(*args, **kwargs)
         self.appointment_changes = []
 
-        for session in self.instance.study.studysession_set.all():
-            start = self.cleaned_data.get('appointment-{}'.format(session.pk))
+        for session in self.sessions:
+            key = 'appointment-{}'.format(session.pk)
+            start = self.cleaned_data.get(key)
             change = Appointment.change_start(session, participation, start)
             if change:
                 self.appointment_changes.append(change)
@@ -91,9 +94,9 @@ class AppointmentsForm(forms.ModelForm):
 
     @property
     def appointments(self):
-        for key in self.fields:
-            if key.startswith('appointment-'):
-                yield {
-                    'field': self[key],
-                    'invitation_url': self.invitation_urls.get(key)
-                }
+        for session in self.sessions:
+            key = 'appointment-{}'.format(session.pk)
+            yield {
+                'field': self[key],
+                'invitation_url': self.get_invitation_url(session),
+            }
