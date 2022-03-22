@@ -193,7 +193,7 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class OneTimeInvitationMailRecruitmentView(BaseMailRecruitmentView):
+class AnonymousInvitationMailRecruitmentView(BaseMailRecruitmentView):
     permission_required = 'studies.change_study'
     is_anonymous_invitation = True
     base_template = 'studies/study_base.html'

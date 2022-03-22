@@ -24,7 +24,7 @@ from django.urls import path
 
 from ..views.api import APIStudyDetailView
 from ..views.api import APIStudyListView
-from ..views.recruitment import OneTimeInvitationMailRecruitmentView
+from ..views.recruitment import AnonymousInvitationMailRecruitmentView
 from ..views.studies import FilterTrialCreateView
 from ..views.studies import StudyCreateView
 from ..views.studies import StudyDeleteView
@@ -60,7 +60,7 @@ urlpatterns = [
     ),
     path('<int:study_pk>/start/', StudyStartRecruitmentView.as_view(), name='start'),
     path('<int:study_pk>/finish/', StudyFinishRecruitmentView.as_view(), name='finish'),
-    path('<int:pk>/mail/', OneTimeInvitationMailRecruitmentView.as_view(), name='mail'),
+    path('<int:pk>/mail/', AnonymousInvitationMailRecruitmentView.as_view(), name='mail'),
     path('<int:pk>/diff/', StudyDiffView.as_view(), name='diff'),
     path('<int:study_pk>/members/', include(members_urls)),
     path('<int:study_pk>/recruitmentsettings/', include(recruitment_urls)),
