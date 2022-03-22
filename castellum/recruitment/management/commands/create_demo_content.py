@@ -33,6 +33,7 @@ from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import Street
 from castellum.contacts.models import phonetic
+from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import AttributeChoice
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
@@ -133,6 +134,10 @@ def fake_study():
         recruitment_text=recruitment_text,
         sessions_start=fake.past_date(start_date="-30d"),
         sessions_end=fake.future_date(end_date="+30d"),
+    )
+    Domain.objects.create(
+        bits=settings.CASTELLUM_STUDY_DOMAIN_BITS,
+        context=study,
     )
     return study
 
