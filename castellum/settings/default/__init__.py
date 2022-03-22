@@ -183,5 +183,17 @@ CASTELLUM_API_ENABLED = False
 # maintenance dashboard).
 CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED = False
 
+# Additional privacy levels for subjects.
+#
+# Each level is a tuple of a float value and a label.
+# The effective level will be ``ceil(value)``.
+# The values must be unique.
+#
+# This setting can be helpful if you want to distinguish different
+# reasons for assigning a privacy level.
+CASTELLUM_CUSTOM_PRIVACY_LEVELS = [
+    # (0.5, '1 (slightly increased)'),
+]
+
 SCHEDULER_URL = ''
 SCHEDULER_TOKEN = ''

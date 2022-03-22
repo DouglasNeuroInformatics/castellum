@@ -51,7 +51,11 @@ class DataProtectionForm(forms.ModelForm):
         model = Subject
         fields = ['privacy_level']
         widgets = {
-            'privacy_level': forms.RadioSelect,
+            'privacy_level': forms.RadioSelect(choices=sorted([
+                (0.0, _('0 (regular)')),
+                (1.0, _('1 (increased)')),
+                (2.0, _('2 (high)')),
+            ] + settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS)),
         }
 
     consent_status = Consent._meta.get_field('status').formfield(
@@ -147,7 +151,11 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
         model = Subject
         fields = ['privacy_level']
         widgets = {
-            'privacy_level': forms.RadioSelect,
+            'privacy_level': forms.RadioSelect(choices=sorted([
+                (0.0, _('0 (regular)')),
+                (1.0, _('1 (increased)')),
+                (2.0, _('2 (high)')),
+            ] + settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS)),
         }
 
     def __init__(self, user, *args, **kwargs):

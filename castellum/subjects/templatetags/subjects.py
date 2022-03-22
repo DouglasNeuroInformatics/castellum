@@ -77,9 +77,9 @@ def export_mail_uri(context, participation):
 
 @register.filter
 def privacy_level(subject):
-    if subject.privacy_level >= 2:
+    if subject.privacy_level > 1:
         return 'danger'
-    elif subject.privacy_level == 1:
+    elif subject.privacy_level > 0:
         return 'warning'
     else:
         return 'body'
