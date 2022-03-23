@@ -43,9 +43,6 @@ class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
             item.session.study.pk, item.participation.pk
         ])
 
-    def item_attendees(self, item):
-        return [c.user for c in item.assigned_conductors.all()]
-
 
 class AppointmentFeedForStudy(
     ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseExecutionAppointmentFeed

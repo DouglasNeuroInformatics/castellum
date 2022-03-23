@@ -46,8 +46,6 @@ class BaseCalendarFeed(View):
                 event.add('description', self.item_description(item))
             elif hasattr(self, 'item_link'):
                 event.add('description', self._item_link(item))
-            for attendee in self.item_attendees(item):
-                event.add('attendee', attendee)
             cal.add_component(event)
 
         response = HttpResponse(content_type='text/calendar')
@@ -59,6 +57,3 @@ class BaseCalendarFeed(View):
 
     def _item_link(self, item):
         return self.request.build_absolute_uri(self.item_link(item))
-
-    def item_attendees(self, item):
-        return []
