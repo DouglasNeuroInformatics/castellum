@@ -52,7 +52,7 @@ urlpatterns = [
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
     path('<int:pk>/domains/', StudyDomainsView.as_view(), name='domains'),
-    path('<int:pk>/domains/general', StudyDomainsGeneralView.as_view(), name='domains-general'),
+    path('<int:pk>/domains/general/', StudyDomainsGeneralView.as_view(), name='domains-general'),
     path(
         '<int:study_pk>/domains/<uuid:key>/',
         StudyDomainDeleteView.as_view(),
