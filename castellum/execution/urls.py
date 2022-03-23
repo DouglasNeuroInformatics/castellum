@@ -141,4 +141,20 @@ if settings.CASTELLUM_API_ENABLED:
             'api/studies/<int:study_pk>/coding-lists/<uuid:coding_list>/<pseudonym>/<uuid:target_coding_list>/',  # noqa
             APIResolveView.as_view(),
         ),
+
+        # deprecated aliases
+        path('api/studies/<int:pk>/domains/', APICodingListsView.as_view()),
+        path('api/studies/<int:pk>/domains/<uuid:coding_list>/', APIPseudonymsView.as_view()),
+        path(
+            'api/studies/<int:pk>/domains/<uuid:coding_list>/<pseudonym>/',
+            APIValidateView.as_view(),
+        ),
+        path(
+            'api/studies/<int:study_pk>/domains/<uuid:coding_list>/<pseudonym>/attributes/',
+            APIAttributesView.as_view(),
+        ),
+        path(
+            'api/studies/<int:study_pk>/domains/<uuid:coding_list>/<pseudonym>/<uuid:target_coding_list>/',  # noqa
+            APIResolveView.as_view(),
+        ),
     ]

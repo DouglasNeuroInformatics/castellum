@@ -50,7 +50,8 @@ class BaseAPIView(APIAuthMixin, StudyMixin, PermissionRequiredMixin, View):
 class APICodingListsView(BaseAPIView):
     def get(self, request, **kwargs):
         data = [{'key': cl.key, 'name': cl.name} for cl in self.study.coding_lists.all()]
-        return JsonResponse({'coding_lists': data})
+        key = 'domains' if '/domains/' in request.path else 'coding_lists'
+        return JsonResponse({key: data})
 
 
 class APIValidateView(BaseAPIView):
