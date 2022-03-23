@@ -135,10 +135,6 @@ def fake_study():
         sessions_start=fake.past_date(start_date="-30d"),
         sessions_end=fake.future_date(end_date="+30d"),
     )
-    Domain.objects.create(
-        bits=settings.CASTELLUM_STUDY_DOMAIN_BITS,
-        context=study,
-    )
     return study
 
 
@@ -222,6 +218,12 @@ def generate_studies(count, stdout):
         except IntegrityError:
             continue
         i += 1
+
+        Domain.objects.create(
+            bits=settings.CASTELLUM_STUDY_DOMAIN_BITS,
+            context=study,
+        )
+
         session = fake_studysession(study)
         session.save()
         for name, color in settings.CASTELLUM_DEFAULT_EXECUTION_TAGS:
