@@ -1134,10 +1134,8 @@ msgid "Domain"
 msgstr "Domäne"
 
 #: castellum/pseudonyms/forms.py:48
-#, fuzzy
-#| msgid "Study has been deleted."
 msgid "All pseudonym domains have been deleted."
-msgstr "Die Studie wurde gelöscht"
+msgstr "Alle Pseudonym-Domänen wurden gelöscht"
 
 #: castellum/pseudonyms/models.py:43
 msgid "Users who can access this domain"
@@ -2413,16 +2411,13 @@ msgid "Study domains"
 msgstr "Studien-Domänen"
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "Are you sure you want to <strong>permanently delete</strong> the session "
-#| "\"%(name)s\" and all related appointments?"
+#, python-format
 msgid ""
 "Are you sure you want to <strong>permanently delete</strong> the domain "
 "\"%(object)s\" and all related pseudonyms?"
 msgstr ""
-"Sind Sie sicher, dass Sie die Sitzung \"%(name)s\" und alle zugehörigen "
-"Daten <strong>unwiederbringlich</strong> löschen möchten?"
+"Sind Sie sicher, dass Sie die Domäne \"%(object)s\" und alle zugehörigen "
+"Pseudonyme <strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:10
 msgid ""
@@ -2430,18 +2425,25 @@ msgid ""
 "corresponding contact information. Note, however, that additional steps "
 "might be necessary for full anonymization (e.g. for image data)."
 msgstr ""
+"Sobald ein Pseudonym gelöscht wurde ist es nicht mehr möglich die dazu "
+"gehörenden Kontaktdaten zu finden. Für die vollständige Anonymisieren (z.B. "
+"von Bilddaten) sind allerdings ggf. zusätzliche Schritte notwendig."
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:11
 msgid ""
 "The date when a domain should be deleted is usually defined in the ethics "
 "application and the study consent form."
 msgstr ""
+"Das Datum an dem eine Domäne gelöscht werden sollte ist üblicherweise im "
+"Ethikantrag und in der Studieneinwilligung definiert."
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:15
 msgid ""
 "I understand that I will no longer be able to find subjects based on "
 "pseudonyms from this domain."
 msgstr ""
+"Ich verstehe dass es nicht mehr möglich sein wird die Proband*innen zu den "
+"Pseudonyme aus dieser Domäne zu finden."
 
 #: castellum/studies/templates/studies/filtergroup.html:4
 #: castellum/studies/templates/studies/study_diff.html:141
@@ -3520,16 +3522,13 @@ msgid "Legal basis for data processing"
 msgstr "Rechtsgrundlage für die Datenverarbeitung"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:72
-#, fuzzy
-#| msgid ""
-#| "Currently there is no legal basis for storing this subject. Please "
-#| "provide at least one of these options."
 msgid ""
 "Currently there is no legal basis for storing this subject. This subject "
 "will be deleted unless you provide at least one of these options."
 msgstr ""
 "Aktuell gibt es keine gültige Rechtsgrundlage um die Daten dieser Proband*in "
-"zu speichern. Bitte wählen Sie mindestens eine dieser Optionen aus."
+"zu speichern. Die Proband*in wird gelöscht werden wenn Sie nicht mindestens "
+"eine dieser Optionen auswählen."
 
 #: castellum/subjects/templates/subjects/subject_detail.html:78
 msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR"
@@ -3538,7 +3537,7 @@ msgstr "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO"
 #: castellum/subjects/templates/subjects/subject_detail.html:82
 #: castellum/subjects/templates/subjects/subject_detail.html:123
 msgid "deceased"
-msgstr ""
+msgstr "verstorben"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:87
 #, python-format
