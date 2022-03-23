@@ -1777,7 +1777,7 @@ msgstr "Nicht geeignet"
 
 #: castellum/recruitment/templates/recruitment/contact.html:9
 msgid "Subject is unsuitable or blocked in another study."
-msgstr "Proband*in ist nicht geeignet order in einer anderen Studie blockiert."
+msgstr "Proband*in ist nicht geeignet oder in einer anderen Studie blockiert."
 
 #: castellum/recruitment/templates/recruitment/contact.html:14
 msgid ""
