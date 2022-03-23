@@ -508,8 +508,12 @@ class CalendarView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin
     tab = 'calendar'
 
     def render_appointment(self, appointment):
+        title = appointment.session.name
+        assignees = ', '.join(str(c.user) for c in appointment.assigned_conductors.all())
+        if assignees:
+            title = '{} ({})'.format(title, assignees)
         return {
-            'title': appointment.session.name,
+            'title': title,
             'start': appointment.start,
             'end': appointment.end,
             'url': reverse('execution:participation-detail', args=[
