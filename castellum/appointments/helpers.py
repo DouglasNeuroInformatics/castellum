@@ -89,7 +89,7 @@ def send_appointment_notifications(participation, change, base_url, user=None):
     def get_mail_data():
         return {
             'study': participation.study,
-            'changes': '{} -> {}'.format(
+            'change': '{} -> {}'.format(
                 format_state(old),
                 format_state(new),
             ),
