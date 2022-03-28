@@ -10,7 +10,13 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="sortDropdownButton">
                     {% for key, label in sort_options %}
-                        <button class="dropdown-item" name="sort" value="{{ key }}">{{ label }}</button>
+                        <button class="dropdown-item" name="sort" value="{{ key }}">
+                            {% if label.bootstrap_class %}
+                                <span class="badge {{ label.bootstrap_class }}">{{ label }}</span>
+                            {% else %}
+                                {{ label }}
+                            {% endif %}
+                        </button>
                     {% endfor %}
                 </div>
             </form>

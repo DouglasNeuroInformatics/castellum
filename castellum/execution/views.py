@@ -95,6 +95,13 @@ class ParticipationListView(
         sort = self.request.GET.get('sort')
         if sort == 'appointment_count':
             qs = qs.order_by('appointment_count')
+        elif sort and sort.startswith('tag-'):
+            try:
+                tag = self.study.executiontag_set.get(pk=sort[4:])
+                qs = qs.alias(has_tag=models.Count('pk', filter=models.Q(execution_tags=tag)))
+                qs = qs.order_by('-has_tag')
+            except ExecutionTag.DoesNotExist:
+                pass
 
         return qs
 
@@ -105,6 +112,8 @@ class ParticipationListView(
         sort_options = [('pk', _('Created at'))]
         if context['session_count'] > 0:
             sort_options.append(('appointment_count', _('Appointments')))
+        for tag in self.study.executiontag_set.all():
+            sort_options.append(('tag-{}'.format(tag.pk), tag))
 
         sort = self.request.GET.get('sort')
         sort_labels = dict(sort_options)
