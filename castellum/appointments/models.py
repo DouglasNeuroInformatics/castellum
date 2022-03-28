@@ -27,6 +27,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from castellum.recruitment.models import Participation
+from castellum.studies.models import StudyMembership
 from castellum.studies.models import StudySession
 from castellum.utils.expressions import MultiDurationExpr
 from castellum.utils.fields import DateTimeField
@@ -50,6 +51,12 @@ class Appointment(models.Model):
         Participation,
         on_delete=models.CASCADE,
         verbose_name=_('Participation'),
+    )
+    assigned_conductors = models.ManyToManyField(
+        StudyMembership,
+        verbose_name=_('Assigned conductors'),
+        blank=True,
+        related_name='+',
     )
 
     objects = AppointmentQuerySet.as_manager()
@@ -81,7 +88,7 @@ class Appointment(models.Model):
         return self.start + MINUTE * self.session.duration
 
     @staticmethod
-    def change_start(session, participation, start):
+    def change(session, participation, start, conductors=None):
         appointment = participation.appointment_set.filter(session=session).first()
 
         if appointment:
@@ -89,14 +96,19 @@ class Appointment(models.Model):
             if not start:
                 appointment.delete()
                 return (old, None)
-            elif start != appointment.start:
-                appointment.start = start
-                appointment.reminded = False
-                appointment.save()
-                return (old, start)
+            else:
+                if conductors is not None:
+                    appointment.assigned_conductors.set(conductors)
+                if start != appointment.start:
+                    appointment.start = start
+                    appointment.reminded = False
+                    appointment.save()
+                    return (old, start)
         elif start:
             appointment = participation.appointment_set.create(
                 session=session,
                 start=start,
             )
+            if conductors is not None:
+                appointment.assigned_conductors.set(conductors)
             return (None, start)

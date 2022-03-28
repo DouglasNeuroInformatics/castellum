@@ -30,17 +30,26 @@
         </p>
 
         {% for entry in form.appointments %}
-            <div class="mb-3">
-                {% bootstrap_field entry.field wrapper_class="" %}
-                {% if entry.invitation_url == 'error' %}
-                    <span class="text-danger">{% translate 'Error while contacting schedule' %}</span>
-                {% elif entry.invitation_url %}
-                    <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Select timeslot for this subject' %}</a>
-                    <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" data-animation="success" title="{% translate 'Copy link' %}">
-                        {% icon 'copy' label=_('Copy link') %}
-                    </button>
+            <fieldset class="mb-3">
+                <legend>{{ entry.legend }}</legend>
+                <div class="mb-2">
+                    {% bootstrap_field entry.field wrapper_class="" %}
+                    {% if entry.invitation_url == 'error' %}
+                        <span class="text-danger">{% translate 'Error while contacting schedule' %}</span>
+                    {% elif entry.invitation_url %}
+                        <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Select timeslot for this subject' %}</a>
+                        <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" data-animation="success" title="{% translate 'Copy link' %}">
+                            {% icon 'copy' label=_('Copy link') %}
+                        </button>
+                    {% endif %}
+                </div>
+                <div data-js="d-select2-clear">
+                    {% bootstrap_field entry.assigned_conductors %}
+                </div>
+                {% if entry.reminder_text %}
+                    <div class="form-text">{{ entry.reminder_text }}</div>
                 {% endif %}
-            </div>
+            </fieldset>
         {% endfor %}
 
         <div class="d-print-none mb-3">
