@@ -5,7 +5,7 @@
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'studies:index' %}">{% translate "Studies" %}</a></li>
     {% if study %}
-        <li class="breadcrumb-item"><a {% if study.status == study.EXECUTION %}href="{% url 'execution:study-detail' study.pk %}"{% endif %}>{% translate 'Execution for' %} {{ study.name }}</a></li>
+        <li class="breadcrumb-item"><a {% if study.status == study.EXECUTION %}href="{% url 'execution:participation-list' study.pk %}"{% endif %}>{% translate 'Execution for' %} {{ study.name }}</a></li>
     {% endif %}
     {% if participation %}
         <li class="breadcrumb-item"><a {% if study.status == study.EXECUTION %}href="{% url 'execution:participation-detail' study.pk participation.pk %}"{% endif %}>{{ participation.subject.contact.short_name }}</a></li>

@@ -22,7 +22,7 @@
     <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
-                <a class="nav-link {% if view.tab == 'list' %}active{% endif %}" href="{% url 'execution:study-detail' study.pk %}">
+                <a class="nav-link {% if view.tab == 'list' %}active{% endif %}" href="{% url 'execution:participation-list' study.pk %}">
                     {% translate 'List' %}
                 </a>
             </li>

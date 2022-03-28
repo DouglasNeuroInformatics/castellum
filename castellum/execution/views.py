@@ -72,21 +72,17 @@ from .forms import NewsMailForm
 monitoring_logger = logging.getLogger('monitoring.execution')
 
 
-class StudyDetailView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, DetailView):
-    template_name = 'execution/study_detail.html'
+class ParticipationListView(
+    SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, ListView
+):
+    template_name = 'execution/participation_list.html'
     model = Study
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'list'
 
-    def get_object(self):
-        return self.study
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context['list'] = []
-        participations = (
+    def get_queryset(self):
+        return (
             self.study.participation_set
             .with_appointment_count()
             .filter(status=Participation.INVITED)
@@ -94,12 +90,10 @@ class StudyDetailView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMi
                 models.Prefetch('subject', queryset=Subject.objects.annotate_reliability())
             )
         )
-        for participation in participations:
-            has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
-            context['list'].append((participation, has_access))
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['session_count'] = self.study.studysession_set.count()
-
         return context
 
 
@@ -243,7 +237,7 @@ class ParticipationDropoutView(ParticipationDetailMixin, DetailView):
         participation = self.get_object()
         participation.dropped_out = request.POST.get('dropped_out') == '1'
         participation.save()
-        return redirect('execution:study-detail', participation.study.pk)
+        return redirect('execution:participation-list', participation.study.pk)
 
 
 class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
@@ -255,7 +249,7 @@ class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
         participation.dropped_out = True
         participation.status = Participation.UNSUITABLE
         participation.save()
-        return redirect('execution:study-detail', participation.study.pk)
+        return redirect('execution:participation-list', participation.study.pk)
 
 
 class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
