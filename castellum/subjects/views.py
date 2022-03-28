@@ -86,7 +86,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
     def subjectcreationrequest(self):
         if 'from-request' in self.request.GET:
             pk = self.request.GET['from-request']
-            return get_object_or_404(SubjectCreationRequest, pk=pk)
+            return get_object_or_404(SubjectCreationRequest, data_is_deleted=False, pk=pk)
 
     def get_matches(self, search):
         user = self.request.user
