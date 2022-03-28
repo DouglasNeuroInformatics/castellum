@@ -105,6 +105,21 @@ def absolute_url(context, view_name, *args, **kwargs):
 
 
 @register.simple_tag(takes_context=True)
+def webcal_url(context, view_name, *args, **kwargs):
+    user = context['user']
+    url = absolute_url(context, view_name, *args, **kwargs)
+    p = urlparse(url)
+    return urlunparse([
+        'webcal',
+        p.netloc,
+        p.path,
+        p.params,
+        urlencode({'token': user.token}),
+        p.fragment,
+    ])
+
+
+@register.simple_tag(takes_context=True)
 def url_replace_param(context, url=None, **kwargs):
     if not url:
         url = context['request'].get_full_path()
