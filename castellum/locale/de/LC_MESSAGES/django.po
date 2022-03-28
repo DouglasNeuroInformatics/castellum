@@ -2421,11 +2421,6 @@ msgstr ""
 "Pseudonyme <strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:10
-#, fuzzy
-#| msgid ""
-#| "Once a pseudonym is deleted, it is no longer possible to find the "
-#| "corresponding contact information. Note, however, that additional steps "
-#| "might be necessary for full anonymization (e.g. for image data)."
 msgid ""
 "Once a pseudonym is deleted, it is no longer possible to find the "
 "corresponding contact information. Note, however, that additional steps "
@@ -2433,8 +2428,9 @@ msgid ""
 "data)."
 msgstr ""
 "Sobald ein Pseudonym gelöscht wurde ist es nicht mehr möglich die dazu "
-"gehörenden Kontaktdaten zu finden. Für die vollständige Anonymisieren (z.B. "
-"von Bilddaten) sind allerdings ggf. zusätzliche Schritte notwendig."
+"gehörenden Kontaktdaten zu finden. Für die vollständige Anonymisieren "
+"wissenschaftlicher Daten (z.B. Bilddaten) sind allerdings ggf. zusätzliche "
+"Schritte notwendig."
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:11
 msgid ""
