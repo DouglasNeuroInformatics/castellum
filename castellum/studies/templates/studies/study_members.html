@@ -34,7 +34,6 @@
                         <div class="font-weight-bold">{{ form.instance.user.get_full_name }}</div>
                         <form method="post" id="membership-form-{{ form.instance.pk }}">
                             {% csrf_token %}
-                            <input type="hidden" name="{{ form.user.name }}" value="{{ form.user.value }}">
                             <input type="hidden" name="membership" value="{{ form.instance.pk }}">
                         </form>
                     </td>
@@ -54,16 +53,14 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td class="align-middle">
+                <td class="align-middle" colspan="3">
                     <form method="post" id="membership-form-add">
                         {% csrf_token %}
                         <div data-js="d-select2">
-                            {% bootstrap_field form.user show_label=False wrapper_class='' %}
+                            {% bootstrap_field form.users show_label=False wrapper_class='' %}
                         </div>
                     </form>
                 </td>
-                <td></td>
-                <td></td>
                 {% for value, label in form.groups.field.choices %}
                     <td class="align-middle text-center">
                         <input type="checkbox" class="form-check-input" name="{{ form.groups.name }}" value="{{ value }}" form="membership-form-add">
