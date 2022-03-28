@@ -82,18 +82,35 @@ class ParticipationListView(
     tab = 'list'
 
     def get_queryset(self):
-        return (
+        qs = (
             self.study.participation_set
             .with_appointment_count()
             .filter(status=Participation.INVITED)
             .prefetch_related(
                 models.Prefetch('subject', queryset=Subject.objects.annotate_reliability())
             )
+            .order_by('pk')
         )
+
+        sort = self.request.GET.get('sort')
+        if sort == 'appointment_count':
+            qs = qs.order_by('appointment_count')
+
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['session_count'] = self.study.studysession_set.count()
+
+        sort_options = [('pk', _('Created at'))]
+        if context['session_count'] > 0:
+            sort_options.append(('appointment_count', _('Appointments')))
+
+        sort = self.request.GET.get('sort')
+        sort_labels = dict(sort_options)
+        context['sort_options'] = sort_options
+        context['sort_label'] = sort_labels.get(sort, sort_labels['pk'])
+
         return context
 
 

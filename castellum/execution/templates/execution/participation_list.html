@@ -2,6 +2,20 @@
 {% load i18n reliability auth utils %}
 
 {% block content %}
+    {% if sort_options|length > 1 %}
+        <div class="d-flex justify-content-end">
+            <form class="dropdown" method="get">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ sort_label }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="sortDropdownButton">
+                    {% for key, label in sort_options %}
+                        <button class="dropdown-item" name="sort" value="{{ key }}">{{ label }}</button>
+                    {% endfor %}
+                </div>
+            </form>
+        </div>
+    {% endif %}
     <ul class="table-list mt-3">
         {% for participation in object_list %}
             <li class="table-list-item">
