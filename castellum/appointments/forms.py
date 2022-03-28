@@ -43,7 +43,7 @@ class AppointmentsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.sessions = self.instance.study.studysession_set.all()
+        self.sessions = self.instance.study.studysession_set.order_by('pk')
 
         for session in self.sessions:
             key = 'appointment-{}'.format(session.pk)
