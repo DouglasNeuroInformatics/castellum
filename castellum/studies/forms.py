@@ -26,6 +26,7 @@ from django.conf import settings
 from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
+from castellum.castellum_auth.models import User
 from castellum.utils import scheduler
 from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import TagField
@@ -171,10 +172,21 @@ class ExcludedStudiesForm(forms.ModelForm):
 class MemberForm(forms.ModelForm):
     class Meta:
         model = StudyMembership
-        fields = ['user', 'groups']
+        fields = ['groups']
         widgets = {
             'groups': forms.CheckboxSelectMultiple(),
         }
+
+
+class MultiMemberForm(MemberForm):
+    users = forms.ModelMultipleChoiceField(User.objects.all(), label=_('Users'))
+
+    def save(self):
+        for user in self.cleaned_data['users']:
+            self.instance.pk = None
+            self.instance.user = user
+            self.instance.save()
+            self._save_m2m()
 
 
 class ImportForm(BaseImportForm):

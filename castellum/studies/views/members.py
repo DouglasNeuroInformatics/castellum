@@ -29,6 +29,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
 
 from ..forms import MemberForm
+from ..forms import MultiMemberForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
@@ -56,19 +57,22 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
         return context
 
     def get_form(self):
-        choices = [(None, '---')]
-        choices.extend([
-            (user.pk, str(user)) for user in User.objects.exclude(pk__in=self.object.members.all())
-        ])
-
         kwargs = self.get_form_kwargs()
+
         if 'membership' in self.request.POST:
             kwargs['instance'] = get_object_or_404(
                 self.study.studymembership_set, pk=self.request.POST['membership']
             )
 
-        form = MemberForm(**kwargs)
-        form.fields['user'].choices = choices
+            form = MemberForm(**kwargs)
+        else:
+            form = MultiMemberForm(**kwargs)
+            form.instance.study = self.object
+            form.fields['users'].choices = [
+                (user.pk, str(user))
+                for user in User.objects.exclude(pk__in=self.object.members.all())
+            ]
+
         return form
 
     def form_valid(self, form):
