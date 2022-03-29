@@ -112,7 +112,7 @@ class ParticipationListView(
         sort_options = [('pk', _('Created at'))]
         if context['session_count'] > 0:
             sort_options.append(('appointment_count', _('Appointments')))
-        for tag in self.study.executiontag_set.all():
+        for tag in self.study.executiontag_set.exclude(participation=None):
             sort_options.append(('tag-{}'.format(tag.pk), tag))
 
         sort = self.request.GET.get('sort')
