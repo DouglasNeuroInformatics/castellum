@@ -10,7 +10,7 @@
 
     <h2>{% translate 'Per User' %}</h2>
     <ul>
-        <li><a href="{% webcal_url 'recruitment:followups-user-feed' %}">{% translate 'follow-ups for all of my studies' %}</a></li>
+        <li><a href="{% webcal_url 'recruitment:followups-user-feed' %}">{% translate 'recruitment follow-ups for all of my studies' %}</a></li>
         <li><a href="{% webcal_url 'execution:calendar-user-feed' %}">{% translate 'appointments for all of my studies' %}</a></li>
     </ul>
 
@@ -24,7 +24,7 @@
                 {{ study }}
                 <ul>
                     {% if can_recruit %}
-                        <li><a href="{% webcal_url 'recruitment:followups-feed' study.pk %}">{% translate 'follow-ups' %}</a></li>
+                        <li><a href="{% webcal_url 'recruitment:followups-feed' study.pk %}">{% translate 'recruitment follow-ups' %}</a></li>
                     {% endif %}
                     {% if can_conduct %}
                         <li><a href="{% webcal_url 'execution:calendar-feed' study.pk %}">{% translate 'appointments' %}</a></li>
