@@ -42,19 +42,19 @@ from .views import ParticipationAppointmentsUpdateView
 from .views import ParticipationDetailView
 from .views import ParticipationDropoutConfirmView
 from .views import ParticipationDropoutView
+from .views import ParticipationListView
 from .views import ParticipationPseudonymsView
 from .views import ParticipationPseudonymView
 from .views import ParticipationUpdateView
 from .views import ProgressView
 from .views import ResolveView
-from .views import StudyDetailView
 from .views import TagView
 
 app_name = 'execution'
 urlpatterns = [
     path('calendar/feed/', AppointmentFeedForUser.as_view(), name='calendar-user-feed'),
     path('resources/<int:pk>/', ResourceFeed.as_view(), name='resource-feed'),
-    path('<int:study_pk>/', StudyDetailView.as_view(), name='study-detail'),
+    path('<int:study_pk>/', ParticipationListView.as_view(), name='participation-list'),
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
     path('<int:study_pk>/news/', NewsMailView.as_view(), name='news-mail'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),

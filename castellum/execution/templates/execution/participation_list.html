@@ -1,10 +1,31 @@
 {% extends "execution/study_base.html" %}
-{% load i18n reliability utils %}
+{% load i18n reliability auth utils %}
 
 {% block content %}
+    {% if sort_options|length > 1 %}
+        <div class="d-flex justify-content-end">
+            <form class="dropdown" method="get">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ sort_label }}
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdownButton">
+                    {% for key, label in sort_options %}
+                        <button class="dropdown-item" name="sort" value="{{ key }}">
+                            {% if label.bootstrap_class %}
+                                <span class="badge {{ label.bootstrap_class }}">{{ label }}</span>
+                            {% else %}
+                                {{ label }}
+                            {% endif %}
+                        </button>
+                    {% endfor %}
+                </div>
+            </form>
+        </div>
+    {% endif %}
     <ul class="table-list mt-3">
-        {% for participation, can_access in list %}
+        {% for participation in object_list %}
             <li class="table-list-item">
+                {% has_privacy_level participation.subject.privacy_level user as can_access %}
                 {% if can_access %}
                     <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-hidden="true"></svg>
                     <div class="d-inline-block my-1 me-2 {% if participation.dropped_out or participation.subject.blocked or participation.subject.deceased %}text-muted{% endif %}">

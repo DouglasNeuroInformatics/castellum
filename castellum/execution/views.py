@@ -72,21 +72,17 @@ from .forms import NewsMailForm
 monitoring_logger = logging.getLogger('monitoring.execution')
 
 
-class StudyDetailView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, DetailView):
-    template_name = 'execution/study_detail.html'
+class ParticipationListView(
+    SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, ListView
+):
+    template_name = 'execution/participation_list.html'
     model = Study
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'list'
 
-    def get_object(self):
-        return self.study
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context['list'] = []
-        participations = (
+    def get_queryset(self):
+        qs = (
             self.study.participation_set
             .with_appointment_count()
             .filter(status=Participation.INVITED)
@@ -94,11 +90,39 @@ class StudyDetailView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMi
                 models.Prefetch('subject', queryset=Subject.objects.annotate_reliability())
             )
         )
-        for participation in participations:
-            has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
-            context['list'].append((participation, has_access))
 
+        sort = self.request.GET.get('sort')
+        if sort == 'appointment_count':
+            qs = qs.order_by('appointment_count')
+        elif sort and sort.startswith('tag-'):
+            try:
+                tag = self.study.executiontag_set.get(pk=sort[4:])
+                qs = qs.alias(has_tag=models.Count('pk', filter=models.Q(execution_tags=tag)))
+                qs = qs.order_by('-has_tag')
+            except ExecutionTag.DoesNotExist:
+                pass
+        else:
+            return sorted(qs.all(), key=lambda participation: (
+                participation.subject.contact.last_name,
+                participation.subject.contact.first_name,
+            ))
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['session_count'] = self.study.studysession_set.count()
+
+        sort_options = [('name', _('Name'))]
+        if context['session_count'] > 0:
+            sort_options.append(('appointment_count', _('Appointments')))
+        for tag in self.study.executiontag_set.exclude(participation=None):
+            sort_options.append(('tag-{}'.format(tag.pk), tag))
+
+        sort = self.request.GET.get('sort')
+        sort_labels = dict(sort_options)
+        context['sort_options'] = sort_options
+        context['sort_label'] = sort_labels.get(sort, sort_labels['name'])
 
         return context
 
@@ -243,7 +267,7 @@ class ParticipationDropoutView(ParticipationDetailMixin, DetailView):
         participation = self.get_object()
         participation.dropped_out = request.POST.get('dropped_out') == '1'
         participation.save()
-        return redirect('execution:study-detail', participation.study.pk)
+        return redirect('execution:participation-list', participation.study.pk)
 
 
 class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
@@ -255,7 +279,7 @@ class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
         participation.dropped_out = True
         participation.status = Participation.UNSUITABLE
         participation.save()
-        return redirect('execution:study-detail', participation.study.pk)
+        return redirect('execution:participation-list', participation.study.pk)
 
 
 class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
