@@ -26,15 +26,18 @@ def test_participation_list_view(request, client, user_fixture, study_in_executi
     assert response.status_code == 200
 
 
-def test_participation_list_view_appointment_count(client, member, study_in_execution_status):
+def test_participation_list_view_appointment_count(
+    client, member, subject, study_in_execution_status
+):
     session = baker.make(StudySession, study=study_in_execution_status)
     baker.make(StudySession, study=study_in_execution_status)
     participation = baker.make(
-        Participation, status=Participation.INVITED, study=study_in_execution_status
+        Participation,
+        status=Participation.INVITED,
+        subject=subject,
+        study=study_in_execution_status,
     )
-    baker.make(
-        Appointment, participation=participation, session=session
-    )
+    baker.make(Appointment, participation=participation, session=session)
 
     client.force_login(member)
     url = '/execution/{}/'.format(study_in_execution_status.pk)

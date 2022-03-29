@@ -89,7 +89,6 @@ class ParticipationListView(
             .prefetch_related(
                 models.Prefetch('subject', queryset=Subject.objects.annotate_reliability())
             )
-            .order_by('pk')
         )
 
         sort = self.request.GET.get('sort')
@@ -102,6 +101,11 @@ class ParticipationListView(
                 qs = qs.order_by('-has_tag')
             except ExecutionTag.DoesNotExist:
                 pass
+        else:
+            return sorted(qs.all(), key=lambda participation: (
+                participation.subject.contact.last_name,
+                participation.subject.contact.first_name,
+            ))
 
         return qs
 
@@ -109,7 +113,7 @@ class ParticipationListView(
         context = super().get_context_data(**kwargs)
         context['session_count'] = self.study.studysession_set.count()
 
-        sort_options = [('pk', _('Created at'))]
+        sort_options = [('name', _('Name'))]
         if context['session_count'] > 0:
             sort_options.append(('appointment_count', _('Appointments')))
         for tag in self.study.executiontag_set.exclude(participation=None):
@@ -118,7 +122,7 @@ class ParticipationListView(
         sort = self.request.GET.get('sort')
         sort_labels = dict(sort_options)
         context['sort_options'] = sort_options
-        context['sort_label'] = sort_labels.get(sort, sort_labels['pk'])
+        context['sort_label'] = sort_labels.get(sort, sort_labels['name'])
 
         return context
 
