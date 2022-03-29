@@ -34,6 +34,8 @@ class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
     def item_title(self, item):
         if self.request.user.has_privacy_level(item.participation.subject.privacy_level):
             name = item.participation.subject.contact.full_name
+            for tag in item.participation.execution_tags.all():
+                name += ' #{}'.format(tag)
         else:
             name = _('(access denied)')
         title = '{} - {}'.format(name, item.session.name)
