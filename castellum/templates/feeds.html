@@ -10,8 +10,8 @@
 
     <h2>{% translate 'Per User' %}</h2>
     <ul>
-        <li><a href="{% webcal_url 'recruitment:followups-user-feed' %}">{% translate 'all follow-ups' %}</a></li>
-        <li><a href="{% webcal_url 'execution:calendar-user-feed' %}">{% translate 'all appointments' %}</a></li>
+        <li><a href="{% webcal_url 'recruitment:followups-user-feed' %}">{% translate 'recruitment follow-ups for all of my studies' %}</a></li>
+        <li><a href="{% webcal_url 'execution:calendar-user-feed' %}">{% translate 'appointments for all of my studies' %}</a></li>
     </ul>
 
     <h2>{% translate 'Per Study' %}</h2>
@@ -24,7 +24,7 @@
                 {{ study }}
                 <ul>
                     {% if can_recruit %}
-                        <li><a href="{% webcal_url 'recruitment:followups-feed' study.pk %}">{% translate 'follow-ups' %}</a></li>
+                        <li><a href="{% webcal_url 'recruitment:followups-feed' study.pk %}">{% translate 'recruitment follow-ups' %}</a></li>
                     {% endif %}
                     {% if can_conduct %}
                         <li><a href="{% webcal_url 'execution:calendar-feed' study.pk %}">{% translate 'appointments' %}</a></li>
@@ -41,10 +41,15 @@
     <ul>
         {% for resource in resources %}
             {% is_resource_manager user resource as can_manage_resource %}
-            {% if can_manage_resource %}
-                <li><a href="{% webcal_url 'execution:resource-feed' resource.pk %}">{{ resource }}</a></li>
-            {% endif %}
-            <li><a href="{% webcal_url 'recruitment:resource-feed' resource.pk %}">{{ resource }} {% translate '(without personal data)' %}</a></li>
+            <li>
+                {{ resource }}
+                <ul>
+                    {% if can_manage_resource %}
+                        <li><a href="{% webcal_url 'execution:resource-feed' resource.pk %}">{% translate 'appointments' %}</a></li>
+                    {% endif %}
+                    <li><a href="{% webcal_url 'recruitment:resource-feed' resource.pk %}">{% translate 'appointments' %} {% translate '(without personal data)' %}</a></li>
+                </ul>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}
