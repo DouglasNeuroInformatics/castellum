@@ -101,7 +101,16 @@ def send_appointment_notifications(participation, change, base_url, user=None):
             )),
         }
 
-    recipients = [u.email for u in participation.study.conductors if u != user]
+    if not old and new and new[1]:  # create
+        conductors = new[1]
+    elif not new and old and old[1]:  # delete
+        conductors = old[1]
+    elif new and old and new[1] and old[1]:  # change
+        conductors = old[1] | new[1]
+    else:
+        conductors = participation.study.conductors
+
+    recipients = [u.email for u in conductors if u != user]
     if recipients:
         with MailContext('internal') as ctx:
             return ctx.send_mail(
