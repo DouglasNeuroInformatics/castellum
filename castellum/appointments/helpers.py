@@ -82,7 +82,9 @@ def send_appointment_notifications(participation, change, base_url, user=None):
     def format_state(state):
         if not state:
             return _('not scheduled')
-        return formats.date_format(timezone.localtime(state[0]), 'DATETIME_FORMAT')
+        dt = formats.date_format(timezone.localtime(state[0]), 'DATETIME_FORMAT')
+        assigned = ', '.join(str(user) for user in state[1]) or _('not assigned')
+        return '{} ({})'.format(dt, assigned)
 
     def get_mail_data():
         return {
