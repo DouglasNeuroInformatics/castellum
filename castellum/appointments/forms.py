@@ -36,6 +36,8 @@ logger = logging.getLogger(__name__)
 
 
 class AppointmentsForm(forms.ModelForm):
+    send_notifications = forms.BooleanField(label=_('Notify conductors of changes'), required=False)
+
     class Meta:
         model = Participation
         fields = []

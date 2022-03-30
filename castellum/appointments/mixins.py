@@ -137,8 +137,8 @@ class BaseAppointmentsUpdateView(
     def form_valid(self, form):
         response = super().form_valid(form)
         base_url = self.request.build_absolute_uri('/')
-        for change in form.appointment_changes:
-            if change_is_urgent(change):
+        if form.cleaned_data['send_notifications']:
+            for change in form.appointment_changes:
                 send_appointment_notifications(
                     self.object, change, base_url, user=self.request.user
                 )
