@@ -41,6 +41,7 @@ from castellum.utils import scheduler
 from castellum.utils.feeds import BaseCalendarFeed
 
 from .forms import AppointmentsForm
+from .helpers import change_is_urgent
 from .helpers import fetch_scheduler_appointments
 from .helpers import send_appointment_notifications
 from .models import Appointment
@@ -63,7 +64,8 @@ class SchedulerFetchParticipationMixin:
             change = Appointment.change(session, self.participation, start)
             if change:
                 count += 1
-                send_appointment_notifications(self.participation, change, base_url)
+                if change_is_urgent(change):
+                    send_appointment_notifications(self.participation, change, base_url)
         return count
 
     def get(self, request, *args, **kwargs):
@@ -136,7 +138,10 @@ class BaseAppointmentsUpdateView(
         response = super().form_valid(form)
         base_url = self.request.build_absolute_uri('/')
         for change in form.appointment_changes:
-            send_appointment_notifications(self.object, change, base_url, user=self.request.user)
+            if change_is_urgent(change):
+                send_appointment_notifications(
+                    self.object, change, base_url, user=self.request.user
+                )
 
         messages.success(self.request, _('Data has been saved.'))
         if self.has_participation_overlap():

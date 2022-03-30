@@ -67,17 +67,20 @@ def get_reminder_body(name, session, dt):
     )
 
 
-def send_appointment_notifications(participation, change, base_url, user=None):
+def change_is_urgent(change):
     start = timezone.now()
     end = add_working_days(start, 2)
 
     old, new = change
 
-    if not (
+    return (
         (old and old[0] >= start and old[0] <= end)
         or (new and new[0] >= start and new[0] <= end)
-    ):
-        return
+    )
+
+
+def send_appointment_notifications(participation, change, base_url, user=None):
+    old, new = change
 
     def format_state(state):
         if not state:
@@ -178,5 +181,6 @@ def fetch_scheduler_appointments(study, base_url, timeout=0):
             change = Appointment.change(session, participation, start)
             if change:
                 count += 1
-                send_appointment_notifications(participation, change, base_url)
+                if change_is_urgent(change):
+                    send_appointment_notifications(participation, change, base_url)
     return count
