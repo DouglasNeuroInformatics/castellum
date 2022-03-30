@@ -16,13 +16,12 @@ def dt(s):
     '2017-01-01 12:00',
     '2017-01-02 12:00',
 ])
-def test_appointment_notifications(user, member, participation, start):
+def test_appointment_notifications(conductor, participation, start):
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
             [(dt(start), None)],
             'http://example.com',
-            user=user,
         )
     assert len(mail.outbox) == 1
 
@@ -33,60 +32,50 @@ def test_appointment_notifications(user, member, participation, start):
     '2017-01-03 12:00',
     '2018-01-01 12:00',
 ])
-def test_appointment_notifications_no_relevant_change(
-    user, member, participation, start
-):
+def test_appointment_notifications_no_relevant_change(conductor, participation, start):
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
             [(dt(start), None)],
             'http://example.com',
-            user=user,
         )
     assert len(mail.outbox) == 0
 
 
-def test_appointment_notifications_no_change(user, member, participation):
-    send_appointment_notifications(
-        participation,
-        [],
-        'http://example.com',
-        user=user,
-    )
-    assert len(mail.outbox) == 0
-
-
-def test_appointment_notifications_no_members(user, participation):
-    with freeze_time('2017-01-01'):
-        send_appointment_notifications(
-            participation,
-            [(dt('2017-01-01 12:00'), dt('2017-01-01 13:00'))],
-            'http://example.com',
-            user=user,
-        )
-    assert len(mail.outbox) == 0
-
-
-def test_appointment_notifications_weekend(user, member, participation):
+def test_appointment_notifications_weekend(conductor, participation):
     with freeze_time('2017-01-06'):
         send_appointment_notifications(
             participation,
             [(dt('2017-01-09 12:00'), dt('2017-01-09 13:00'))],  # friday to monday
             'http://example.com',
-            user=user,
         )
     assert len(mail.outbox) == 1
 
 
-@pytest.mark.parametrize('start', [
-    '2017-01-01 12:00',
-    '2017-01-02 12:00',
-])
-def test_appointment_notifications_cc(user, conductor, participation, start):
+def test_appointment_notifications_no_change(conductor, participation):
+    send_appointment_notifications(
+        participation,
+        [],
+        'http://example.com',
+    )
+    assert len(mail.outbox) == 0
+
+
+def test_appointment_notifications_no_members(participation):
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt(start), None)],
+            [(dt('2017-01-01 12:00'), None)],
+            'http://example.com',
+        )
+    assert len(mail.outbox) == 0
+
+
+def test_appointment_notifications_cc(user, conductor, participation):
+    with freeze_time('2017-01-01'):
+        send_appointment_notifications(
+            participation,
+            [(dt('2017-01-01 12:00'), None)],
             'http://example.com',
             user=user,
         )
@@ -94,15 +83,11 @@ def test_appointment_notifications_cc(user, conductor, participation, start):
     assert mail.outbox[0].cc == [user.email]
 
 
-@pytest.mark.parametrize('start', [
-    '2017-01-01 12:00',
-    '2017-01-02 12:00',
-])
-def test_no_appointment_notifications_if_only_conductor(conductor, participation, start):
+def test_no_appointment_notifications_if_only_conductor(conductor, participation):
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt(start), None)],
+            [(dt('2017-01-01 12:00'), None)],
             'http://example.com',
             user=conductor,
         )
