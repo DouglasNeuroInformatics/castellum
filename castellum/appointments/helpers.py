@@ -67,31 +67,35 @@ def get_reminder_body(name, session, dt):
     )
 
 
-def send_appointment_notifications(participation, changes, base_url, user=None):
+def change_is_urgent(change):
     start = timezone.now()
     end = add_working_days(start, 2)
-    relevant_changes = [
-        (old, new) for (old, new) in changes if (
-            (old and old >= start and old <= end) or
-            (new and new >= start and new <= end)
-        )
-    ]
 
-    if not relevant_changes:
-        return
+    old, new = change
 
-    def format_datetime(dt):
-        if not dt:
+    return (
+        (old and old.start >= start and old.start <= end)
+        or (new and new.start >= start and new.start <= end)
+    )
+
+
+def send_appointment_notifications(participation, change, base_url, user=None):
+    old, new = change
+
+    def format_state(state):
+        if not state:
             return _('not scheduled')
-        return formats.date_format(timezone.localtime(dt), 'DATETIME_FORMAT')
+        dt = formats.date_format(timezone.localtime(state.start), 'DATETIME_FORMAT')
+        assigned = ', '.join(str(user) for user in state.assigned_conductors) or _('not assigned')
+        return '{} ({})'.format(dt, assigned)
 
     def get_mail_data():
         return {
             'study': participation.study,
-            'changes': '\n'.join('{} -> {}'.format(
-                format_datetime(old),
-                format_datetime(new),
-            ) for (old, new) in relevant_changes),
+            'change': '{} -> {}'.format(
+                format_state(old),
+                format_state(new),
+            ),
             'participation_url': urljoin(base_url, reverse(
                 'execution:participation-detail',
                 args=[participation.study.pk, participation.pk]
@@ -102,7 +106,16 @@ def send_appointment_notifications(participation, changes, base_url, user=None):
             )),
         }
 
-    recipients = [u.email for u in participation.study.conductors if u != user]
+    if not old and new and new.assigned_conductors:  # create
+        conductors = new.assigned_conductors
+    elif not new and old and old.assigned_conductors:  # delete
+        conductors = old.assigned_conductors
+    elif new and old and new.assigned_conductors and old.assigned_conductors:  # change
+        conductors = old.assigned_conductors | new.assigned_conductors
+    else:
+        conductors = participation.study.conductors
+
+    recipients = [u.email for u in conductors if u != user]
     if recipients:
         with MailContext('internal') as ctx:
             return ctx.send_mail(
@@ -168,5 +181,6 @@ def fetch_scheduler_appointments(study, base_url, timeout=0):
             change = Appointment.change(session, participation, start)
             if change:
                 count += 1
-                send_appointment_notifications(participation, [change], base_url)
+                if change_is_urgent(change):
+                    send_appointment_notifications(participation, change, base_url)
     return count
