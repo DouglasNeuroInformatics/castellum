@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-04 14:42+0200\n"
+"POT-Creation-Date: 2022-04-04 17:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,18 +20,22 @@ msgstr ""
 msgid "{}min"
 msgstr "{}min"
 
-#: castellum/appointments/helpers.py:85
+#: castellum/appointments/helpers.py:87
 msgid "not scheduled"
 msgstr "nicht geplant"
 
-#: castellum/appointments/mixins.py:75
+#: castellum/appointments/helpers.py:89
+msgid "not assigned"
+msgstr "nicht zugewiesen"
+
+#: castellum/appointments/mixins.py:76
 msgid "Some appointments have been updated from the external schedule"
 msgstr "Einige Termine wurden aus dem externen Terminplan aktualisiert"
 
-#: castellum/appointments/mixins.py:145 castellum/execution/views.py:324
+#: castellum/appointments/mixins.py:146 castellum/execution/views.py:324
 #: castellum/execution/views.py:489 castellum/execution/views.py:630
 #: castellum/execution/views.py:648 castellum/recruitment/views.py:448
-#: castellum/recruitment/views.py:515 castellum/recruitment/views.py:561
+#: castellum/recruitment/views.py:516 castellum/recruitment/views.py:562
 #: castellum/studies/views/recruitment.py:94
 #: castellum/studies/views/recruitment.py:128
 #: castellum/studies/views/recruitment.py:147
@@ -42,47 +46,47 @@ msgstr "Einige Termine wurden aus dem externen Terminplan aktualisiert"
 msgid "Data has been saved."
 msgstr "Eingabe wurde gespeichert"
 
-#: castellum/appointments/mixins.py:147
+#: castellum/appointments/mixins.py:148
 msgid "Some appointments overlap"
 msgstr "Einige Termine haben Überschneidungen"
 
-#: castellum/appointments/mixins.py:150
+#: castellum/appointments/mixins.py:151
 #, python-brace-format
 msgid "Some appointments for {resource} overlap"
 msgstr "Einige Termine für {resource} haben Überschneidungen"
 
-#: castellum/appointments/models.py:47
+#: castellum/appointments/models.py:50
 msgid "Session"
 msgstr "Sitzung"
 
-#: castellum/appointments/models.py:48
+#: castellum/appointments/models.py:51
 #: castellum/studies/templates/studies/study_base.html:57
 #: castellum/studies/templates/studies/study_base.html:71
 #: castellum/templates/index.html:4
 msgid "Start"
 msgstr "Start"
 
-#: castellum/appointments/models.py:49
+#: castellum/appointments/models.py:52
 msgid "Reminded"
 msgstr "Erinnert"
 
-#: castellum/appointments/models.py:53
+#: castellum/appointments/models.py:56
 msgid "Participation"
 msgstr "Teilnahme"
 
-#: castellum/appointments/models.py:57
+#: castellum/appointments/models.py:60
 msgid "Assigned conductors"
 msgstr "Zugewiesene Durchführer*innen"
 
-#: castellum/appointments/models.py:65
+#: castellum/appointments/models.py:68
 msgid "Appointment"
 msgstr "Termin"
 
-#: castellum/appointments/models.py:69
+#: castellum/appointments/models.py:72
 msgid "Can view current appointments"
 msgstr "Darf aktuelle Termine anschauen"
 
-#: castellum/appointments/models.py:78
+#: castellum/appointments/models.py:81
 msgid "Session and participation do not belong to the same study"
 msgstr "Sitzung und Teilnahme gehören nicht zur selben Studie"
 
@@ -1774,11 +1778,12 @@ msgstr "Auf Antwort wartend"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:40
 msgid ""
-"All subjects who do not match the current filter criteria or who are blocked "
-"in other studies."
+"All subjects who do not match the current filter criteria, do not have "
+"recruitment consent, or who are blocked in other studies."
 msgstr ""
-"Alle Proband*innen, die nicht auf die aktuellen Filterkriterien passen oder "
-"die durch andere Studien blockiert sind."
+"Alle Proband*innen, die nicht auf die aktuellen Filterkriterien passen, für "
+"die keine Rekrutierungseinwilligung vorliegt oder die durch andere Studien "
+"blockiert sind."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:44
 msgid "Unsuitable"
