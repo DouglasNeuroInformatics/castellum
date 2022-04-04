@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-04 14:34+0200\n"
+"POT-Creation-Date: 2022-04-04 14:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,10 +71,8 @@ msgid "Participation"
 msgstr "Teilnahme"
 
 #: castellum/appointments/models.py:57
-#, fuzzy
-#| msgid "Assigned conductor"
 msgid "Assigned conductors"
-msgstr "Zugewiesene Durchführer*in"
+msgstr "Zugewiesene Durchführer*innen"
 
 #: castellum/appointments/models.py:65
 msgid "Appointment"
@@ -3362,6 +3360,9 @@ msgid ""
 "previously tracked study participations. There is no easy way to undo these "
 "actions."
 msgstr ""
+"Diese Funktion ist gedacht um die Migration von anderen Anwendungen, welche "
+"zuvor die Studienteilnahme verwaltet haben, zu erleichtern. Es gibt keinen "
+"einfachen Weg, diese Änderungen rückgängig zu machen."
 
 #: castellum/subjects/templates/subjects/participation_add.html:34
 msgid "Set to participating"
@@ -3903,21 +3904,19 @@ msgstr "Je Nutzer*in"
 
 #: castellum/templates/feeds.html:13
 msgid "recruitment follow-ups for all of my studies"
-msgstr ""
+msgstr "Rekrutierungs-Wiedervorlagen für alle meine Studien"
 
 #: castellum/templates/feeds.html:14
 msgid "appointments for all of my studies"
-msgstr ""
+msgstr "Termine für alle meine Studien"
 
 #: castellum/templates/feeds.html:17
 msgid "Per Study"
 msgstr "Je Studie"
 
 #: castellum/templates/feeds.html:27
-#, fuzzy
-#| msgid "Recruitment for"
 msgid "recruitment follow-ups"
-msgstr "Rekrutierung für"
+msgstr "Rekrutierungs-Wiedervorlagen"
 
 #: castellum/templates/feeds.html:30 castellum/templates/feeds.html:33
 #: castellum/templates/feeds.html:48 castellum/templates/feeds.html:50
@@ -4104,12 +4103,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "all follow-ups"
-#~ msgstr "alle Wiedervorlagen"
-
-#~ msgid "all appointments"
-#~ msgstr "alle Termine"
-
-#~ msgid "follow-ups"
-#~ msgstr "Wiedervorlagen"
