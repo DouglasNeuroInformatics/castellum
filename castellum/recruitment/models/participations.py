@@ -148,6 +148,9 @@ class Participation(models.Model):
         ),
         'recently_active': _('The subject has recently been in contact with our institute.'),
         'recently_contacted': _('The subject was recently contacted in another recruitment.'),
+        'pseudonyms_deleted': _(
+            'It is no longer possible to know which dataset belongs to this subject'
+        ),
         'status': {
             NOT_CONTACTED: _('The subject has not yet been contacted.'),
             NOT_REACHED: _('The last contact attempt has failed.'),
