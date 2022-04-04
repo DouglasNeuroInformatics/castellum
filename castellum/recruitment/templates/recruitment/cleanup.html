@@ -37,7 +37,7 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    {% translate 'All subjects who do not match the current filter criteria or who are blocked in other studies.' %}
+                    {% translate 'All subjects who do not match the current filter criteria, do not have recruitment consent, or who are blocked in other studies.' %}
                 </div>
                 <div class="card-footer">
                     {% with querysets.mismatch.count as count %}

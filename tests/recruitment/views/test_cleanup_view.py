@@ -4,6 +4,7 @@ from model_bakery import baker
 
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
+from castellum.subjects.models import Consent
 
 
 @pytest.mark.smoketest
@@ -71,6 +72,8 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 1,
         },
     )
+    baker.make(Consent, subject=participation1.subject, status=Consent.CONFIRMED)
+
     participation2 = baker.make(
         Participation,
         study=study_in_execution_status,
@@ -79,12 +82,16 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 2,
         },
     )
+    baker.make(Consent, subject=participation2.subject, status=Consent.CONFIRMED)
+
     participation3 = baker.make(
         Participation,
         study=study_in_execution_status,
         status=Participation.NOT_CONTACTED,
         subject__attributes={},
     )
+    baker.make(Consent, subject=participation3.subject, status=Consent.CONFIRMED)
+
     participation4 = baker.make(
         Participation,
         study=study_in_execution_status,
@@ -93,12 +100,24 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 2,
         },
     )
+    baker.make(Consent, subject=participation4.subject, status=Consent.CONFIRMED)
+
     participation5 = baker.make(
         Participation,
         study=study_in_execution_status,
         status=Participation.FOLLOWUP_APPOINTED,
         subject__attributes={
             attribute_description.json_key: 2,
+        },
+    )
+    baker.make(Consent, subject=participation5.subject, status=Consent.CONFIRMED)
+
+    participation6 = baker.make(
+        Participation,
+        study=study_in_execution_status,
+        status=Participation.NOT_CONTACTED,
+        subject__attributes={
+            attribute_description.json_key: 1,
         },
     )
 
@@ -123,3 +142,5 @@ def test_cleanup_view_mismatch(
     assert participation4.status == Participation.INVITED
     participation5.refresh_from_db()
     assert participation5.status == Participation.FOLLOWUP_APPOINTED
+    participation6.refresh_from_db()
+    assert participation6.status == Participation.UNSUITABLE
