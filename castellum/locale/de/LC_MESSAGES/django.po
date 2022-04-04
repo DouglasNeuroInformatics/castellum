@@ -25,10 +25,8 @@ msgid "not scheduled"
 msgstr "nicht geplant"
 
 #: castellum/appointments/helpers.py:89
-#, fuzzy
-#| msgid "assigned to"
 msgid "not assigned"
-msgstr "zugewiesen an"
+msgstr "nicht zugewiesen"
 
 #: castellum/appointments/mixins.py:76
 msgid "Some appointments have been updated from the external schedule"
@@ -1779,16 +1777,13 @@ msgid "Awaiting response"
 msgstr "Auf Antwort wartend"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:40
-#, fuzzy
-#| msgid ""
-#| "All subjects who do not match the current filter criteria or who are "
-#| "blocked in other studies."
 msgid ""
 "All subjects who do not match the current filter criteria, do not have "
 "recruitment consent, or who are blocked in other studies."
 msgstr ""
-"Alle Proband*innen, die nicht auf die aktuellen Filterkriterien passen oder "
-"die durch andere Studien blockiert sind."
+"Alle Proband*innen, die nicht auf die aktuellen Filterkriterien passen, für "
+"die keine Rekrutierungseinwilligung vorliegt, oder die durch andere Studien "
+"blockiert sind."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:44
 msgid "Unsuitable"
