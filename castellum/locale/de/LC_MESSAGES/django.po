@@ -1782,7 +1782,7 @@ msgid ""
 "recruitment consent, or who are blocked in other studies."
 msgstr ""
 "Alle Proband*innen, die nicht auf die aktuellen Filterkriterien passen, für "
-"die keine Rekrutierungseinwilligung vorliegt, oder die durch andere Studien "
+"die keine Rekrutierungseinwilligung vorliegt oder die durch andere Studien "
 "blockiert sind."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:44
