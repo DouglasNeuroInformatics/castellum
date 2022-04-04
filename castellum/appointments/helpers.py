@@ -74,8 +74,8 @@ def change_is_urgent(change):
     old, new = change
 
     return (
-        (old and old[0] >= start and old[0] <= end)
-        or (new and new[0] >= start and new[0] <= end)
+        (old and old.start >= start and old.start <= end)
+        or (new and new.start >= start and new.start <= end)
     )
 
 
@@ -85,8 +85,8 @@ def send_appointment_notifications(participation, change, base_url, user=None):
     def format_state(state):
         if not state:
             return _('not scheduled')
-        dt = formats.date_format(timezone.localtime(state[0]), 'DATETIME_FORMAT')
-        assigned = ', '.join(str(user) for user in state[1]) or _('not assigned')
+        dt = formats.date_format(timezone.localtime(state.start), 'DATETIME_FORMAT')
+        assigned = ', '.join(str(user) for user in state.assigned_conductors) or _('not assigned')
         return '{} ({})'.format(dt, assigned)
 
     def get_mail_data():
@@ -106,12 +106,12 @@ def send_appointment_notifications(participation, change, base_url, user=None):
             )),
         }
 
-    if not old and new and new[1]:  # create
-        conductors = new[1]
-    elif not new and old and old[1]:  # delete
-        conductors = old[1]
-    elif new and old and new[1] and old[1]:  # change
-        conductors = old[1] | new[1]
+    if not old and new and new.assigned_conductors:  # create
+        conductors = new.assigned_conductors
+    elif not new and old and old.assigned_conductors:  # delete
+        conductors = old.assigned_conductors
+    elif new and old and new.assigned_conductors and old.assigned_conductors:  # change
+        conductors = old.assigned_conductors | new.assigned_conductors
     else:
         conductors = participation.study.conductors
 

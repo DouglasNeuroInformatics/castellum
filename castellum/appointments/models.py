@@ -19,6 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+from collections import namedtuple
 
 from django.db import models
 from django.forms import ValidationError
@@ -33,6 +34,8 @@ from castellum.utils.expressions import MultiDurationExpr
 from castellum.utils.fields import DateTimeField
 
 MINUTE = datetime.timedelta(seconds=60)
+
+AppointmentState = namedtuple('AppointmentState', ['start', 'assigned_conductors'])
 
 
 class AppointmentQuerySet(models.QuerySet):
@@ -92,7 +95,10 @@ class Appointment(models.Model):
         appointment = participation.appointment_set.filter(session=session).first()
 
         if appointment:
-            old = (appointment.start, set(c.user for c in appointment.assigned_conductors.all()))
+            old = AppointmentState(
+                appointment.start,
+                set(c.user for c in appointment.assigned_conductors.all()),
+            )
             if not start:
                 appointment.delete()
                 return (old, None)
@@ -114,6 +120,9 @@ class Appointment(models.Model):
         else:
             return None
 
-        new = (start, set(c.user for c in appointment.assigned_conductors.all()))
+        new = AppointmentState(
+            start,
+            set(c.user for c in appointment.assigned_conductors.all()),
+        )
         if old != new:
             return (old, new)
