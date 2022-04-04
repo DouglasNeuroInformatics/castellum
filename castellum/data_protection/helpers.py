@@ -24,6 +24,7 @@ from django.db import models
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
+from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.expressions import exists
 
@@ -92,6 +93,24 @@ def get_residual_recruitment_data():
     )
 
 
+def get_participations_without_legal_basis():
+    return (
+        Participation.objects
+        .filter(
+            study__status=Study.FINISHED,
+            study__domains=None,
+        )
+        .exclude(news_interest=Participation.NOT_INTERESTED)
+    )
+
+
+def get_should_delete_participations():
+    return Subject.objects.filter(
+        ~filter_queries.has_consent(include_waiting=True),
+        uuid__in=get_participations_without_legal_basis().values('subject_uuid'),
+    )
+
+
 def get_subjects():
     return (
         Subject.objects
@@ -115,6 +134,9 @@ def get_subjects():
             residual_recruitment_data=exists(
                 get_residual_recruitment_data(), pk=models.OuterRef('pk')
             ),
+            should_delete_participations=exists(
+                get_should_delete_participations(), pk=models.OuterRef('pk')
+            ),
         )
         .exclude(
             export_requested__isnull=True,
@@ -122,6 +144,7 @@ def get_subjects():
             no_legal_basis=False,
             unreachable=False,
             residual_recruitment_data=False,
+            should_delete_participations=False,
         )
         .order_by(models.F('due').asc(nulls_last=True))
     )
