@@ -4,6 +4,7 @@
 {% block title %}{% translate "Add study participation" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <p class="alert alert-warning">{% translate 'This feature is intended to support migrating from other tools that previously tracked study participations. There is no easy way to undo these actions.' %}</p>
     <form class="mb-3" method="get" aria-label="{{ form.q.label }}">
         <div class="input-group">
             <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}" autofocus>
