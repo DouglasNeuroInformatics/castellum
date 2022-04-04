@@ -51,6 +51,9 @@
                             {% if subject.no_legal_basis %}
                                 <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.no_legal_basis }}">{% translate 'No legal basis' %}</span>
                             {% endif %}
+                            {% if subject.should_delete_participations %}
+                                <span class="badge bg-danger" title="{{ subject.TOOLTIPS.should_delete_participations }}">{% translate 'Some participations should be deleted' %}</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>

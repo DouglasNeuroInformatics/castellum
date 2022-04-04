@@ -55,6 +55,10 @@ class Subject(TimeStampedModel):
         ),
         'unreachable': _('There is no way to contact the subject.'),
         'no_legal_basis': _('There is no legal reason to keep the data of the subject.'),
+        'should_delete_participations': _(
+            'There is no legal reason to keep this subject\'s participations in studies '
+            'for which all pseudonyms have already been deleted.'
+        ),
     }
 
     uuid = models.UUIDField(_('UUID'), default=uuid.uuid4, primary_key=True)

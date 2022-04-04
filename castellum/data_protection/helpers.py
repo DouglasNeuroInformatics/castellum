@@ -24,6 +24,7 @@ from django.db import models
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
+from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.expressions import exists
 
@@ -78,6 +79,14 @@ def get_unreachable():
     return Subject.objects.filter(filter_queries.uuid_filter(contacts))
 
 
+def get_should_delete_participations():
+    return Subject.objects.filter(
+        ~filter_queries.has_consent(),
+        participation__study__status=Study.FINISHED,
+        participation__study__domains=None,
+    )
+
+
 def get_subjects():
     return (
         Subject.objects
@@ -98,12 +107,16 @@ def get_subjects():
             ),
             no_legal_basis=exists(get_no_legal_basis(), pk=models.OuterRef('pk')),
             unreachable=exists(get_unreachable(), pk=models.OuterRef('pk')),
+            should_delete_participations=exists(
+                get_should_delete_participations(), pk=models.OuterRef('pk')
+            ),
         )
         .exclude(
             export_requested__isnull=True,
             to_be_deleted__isnull=True,
             no_legal_basis=False,
             unreachable=False,
+            should_delete_participations=False,
         )
         .order_by(models.F('due').asc(nulls_last=True))
     )
