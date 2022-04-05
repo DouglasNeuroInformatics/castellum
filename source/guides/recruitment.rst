@@ -107,7 +107,9 @@ you to set up appointments for the participants:
        Study execution provides the same feature to make appointments with
        participating subjects. Thus, this can also be done by study conductors.
 
-3. The **Calendar** button in the **Appointments** tab opens a new window and
+3. You can also select which conductors will handle this appointment.
+
+4. The **Calendar** button in the **Appointments** tab opens a new window and
    allows you to have a look at all already appointed sessions of the study.
 
 .. warning::
