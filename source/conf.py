@@ -18,11 +18,11 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'Castellum'
-copyright = '2018-2021, Max Planck Institute for Human Development'
+copyright = '2018-2022, Max Planck Institute for Human Development'
 author = 'Max Planck Institute for Human Development'
 
 # The full version, including alpha/beta/rc tags
-version = '0.72'
+version = '0.74'
 
 
 # -- General configuration ---------------------------------------------------

@@ -107,7 +107,9 @@ you to set up appointments for the participants:
        Study execution provides the same feature to make appointments with
        participating subjects. Thus, this can also be done by study conductors.
 
-3. The **Calendar** button in the **Appointments** tab opens a new window and
+3. You can also select which conductors will handle this appointment.
+
+4. The **Calendar** button in the **Appointments** tab opens a new window and
    allows you to have a look at all already appointed sessions of the study.
 
 .. warning::
@@ -131,9 +133,10 @@ Therefore, Castellum provides a cleanup feature:
 2. Decide if you want to cleanup the *complete* open list (**All**) or
    only those potential participants whose status has been **Awaiting
    response** for 10 days or more. The third option allows you to exclude
-   subjects who do not match the recruitment filters (**Unsuitable**). This
-   last option is relevant if the filters have changed since recruitment began.
-   A click on either of these buttons will start the cleanup process.
+   subjects who would not be added to the list with the current settings
+   (**Unsuitable**). This last option can be relevant e.g. if the filters have
+   changed since recruitment began. A click on either of these buttons will
+   start the cleanup process.
 3. After cleaning up, the affected potential participants will be moved to the
    **Excluded** list with the additional badge **Excluded by cleanup**. This
    allows you to reconsider contacting some of them later.
