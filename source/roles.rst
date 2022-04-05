@@ -143,6 +143,7 @@ Relevant guides:
 
 -   :ref:`subject-search`
 -   :ref:`subject-get-pseudonym`
+-   :ref:`recruitment-appointments`
 -   :ref:`make-appointments-with-external-scheduler`
 
 
