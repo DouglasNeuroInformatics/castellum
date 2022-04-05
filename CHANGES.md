@@ -1,3 +1,57 @@
+# 0.74.0 (unreleased)
+
+## bug fixes
+
+-   Fixed missing entries in reliability maintenance dashboard
+-   Fixed autocompletion for the source field on subjects
+-   Do not list blocked and deceased subjects in maintenance dashboards
+-   Fixed wrong date in notification mail when an appointment is removed
+-   Fixed order of sessions in appointment form
+
+## breaking changes
+
+-   It is no longer possible to assign conductors to participations.
+    This feature has been replaced by appointment assignments (see
+    below). Existing assignments are migrated automatically.
+-   The default values for `CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY`
+    and `CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_BODY` have been expanded
+    with "(link only available for conductors)". If you have customized
+    these settings you might want to adapt them.
+-   `CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY` has been changed
+    to to be used with a single `change` instead of `changes`.
+
+## new features
+
+-   It is now possible to delete a study domain and all related
+    pseudonyms. Once a pseudonym is deleted, it is no longer possible to
+    find the corresponding contact information. Note, however, that
+    additional steps might be necessary for full anonymization of
+    scientific data (e.g. image data).
+-   It is now possible to assign conductors to individual appointments
+    instead of participations. Email notifications are only sent to the
+    assigned conductors.
+-   Assignments are no longer cleared when the status of a study
+    changes.
+-   `CASTELLUM_CUSTOM_PRIVACY_LEVELS` can be used to distinguish
+    different reasons for assigning a privacy level to a subject.
+-   The execution list can now be sorted by tags and number of
+    appointments
+-   Execution tags are now included in calendar feeds
+-   "Onetime invitations" have been renamed to "anonymous invitations".
+    Participations in anonymous invitations are now treated as "awaiting
+    response", so they are deleted automatically when a study ends.
+-   Recruitment consent and blocked are no longer considered legal bases
+    for deceased subjects
+-   In recruitment cleanup, the "Unsuitable" option now also includes
+    subjects without recruitment consent.
+-   It is now possible to add multiple members to a study at the same
+    time.
+-   Subscribing to calendar feeds has been simplified by using
+    webcal links which can be handled by calendar software directly.
+-   The "add to study" feature now warns that it is mainly meant for
+    migration purposes.
+
+
 # 0.73.2 (2022-03-21)
 
 -   Fixed link to participations in subject overview
