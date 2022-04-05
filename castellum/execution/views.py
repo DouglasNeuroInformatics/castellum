@@ -532,10 +532,18 @@ class CalendarView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin
     tab = 'calendar'
 
     def render_appointment(self, appointment):
-        title = appointment.session.name
+        if self.request.user.has_privacy_level(appointment.participation.subject.privacy_level):
+            name = appointment.participation.subject.contact.full_name
+            for tag in appointment.participation.execution_tags.all():
+                name += ' #{}'.format(tag)
+        else:
+            name = _('(access denied)')
+        title = '{} - {}'.format(name, appointment.session.name)
+
         assignees = ', '.join(str(c.user) for c in appointment.assigned_conductors.all())
         if assignees:
             title = '{} ({})'.format(title, assignees)
+
         return {
             'title': title,
             'start': appointment.start,
