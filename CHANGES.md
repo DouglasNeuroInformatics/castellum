@@ -43,7 +43,7 @@
 -   Recruitment consent and blocked are no longer considered legal bases
     for deceased subjects
 -   In recruitment cleanup, the "Unsuitable" option now also includes
-    subjects without recruitment consent.
+    subjects who no longer have recruitment consent.
 -   It is now possible to add multiple members to a study at the same
     time.
 -   Subscribing to calendar feeds has been simplified by using
