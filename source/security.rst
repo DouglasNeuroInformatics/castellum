@@ -90,7 +90,9 @@ We chose to split the data into three different categories:
 Storing contact data in a separate database provides a clear structure for
 developers that should help avoiding critical data leaks. Even if an attacker
 is able to dump a whole table or even a whole database, this structure still
-limits the impact.
+limits the impact. An attacker without access to castellum would need physical
+access to both databases in order to get the same level of access as with
+castellum.
 
 However, it is important to understand that the barrier between recruitment and
 contact data is not that high. Since castellum has full access to both, an
