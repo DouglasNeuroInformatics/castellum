@@ -17,6 +17,7 @@ EXCLUDED = [
     'geofilters.Geolocation.',
     'mfa.MFAKey.',
     'pseudonyms.Pseudonym.',
+    'broadcast_messages.',
     'recruitment.AttributeCategory.',
     'recruitment.AttributeCategoryTranslation.',
     'recruitment.AttributeChoice.',

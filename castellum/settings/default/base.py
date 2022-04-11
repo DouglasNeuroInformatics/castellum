@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'castellum.execution',
     'castellum.data_protection',
     'castellum.appointments',
+    'castellum.broadcast_messages',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'castellum.utils.context_processors.get_settings',
+                'castellum.broadcast_messages.context_processors.get_broadcast_messages',
             ],
         },
     },
