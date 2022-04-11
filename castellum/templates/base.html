@@ -24,6 +24,11 @@
             {% translate 'Running in Demo mode.' %}
         </div>
     {% endif %}
+    {% for message in broadcast_messages %}
+        <div class="{{ message.bootstrap_class }} p-2 text-center">
+            {{ message.content }}
+        </div>
+    {% endfor %}
     {% if not view.nochrome %}
         <header class="bg-dark">
             <div class="container visually-hidden-focusable">

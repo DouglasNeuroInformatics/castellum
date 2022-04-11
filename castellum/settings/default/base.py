@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'castellum.utils.context_processors.get_settings',
+                'castellum.broadcast_messages.context_processors.get_broadcast_messages',
             ],
         },
     },
