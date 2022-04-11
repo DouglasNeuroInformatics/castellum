@@ -82,11 +82,15 @@ class Subject(TimeStampedModel):
         blank=True,
         null=True,
         help_text=format_lazy(
-            '{} {} {}',
+            '{} {} {} {}',
             _('The subject wants all data about them to be deleted or fully anonymized.'),
             _(
                 'This includes all data in Castellum and possibly all data collected in studies '
                 '(if no other legal bases apply, for example retention periods).'
+            ),
+            _(
+                'Furthermore, the subject has explicitly rejected the option to only withdraw '
+                'recruitment consent instead.'
             ),
             _(
                 'When a subject requests GDPR deletion please use this option to set the '
