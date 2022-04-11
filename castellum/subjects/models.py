@@ -154,10 +154,9 @@ class Subject(TimeStampedModel):
 
     @cached_property
     def has_consent(self):
-        return Consent.objects.filter(
-            subject=self,
-            status=Consent.CONFIRMED,
-            document__is_valid=True,
+        from castellum.recruitment import filter_queries
+        return Subject.objects.filter(
+            filter_queries.has_consent(), pk=self.pk,
         ).exists()
 
     @cached_property
@@ -183,7 +182,7 @@ class Subject(TimeStampedModel):
     @property
     def has_legal_basis(self):
         return (
-            (not self.deceased and self.has_consent_or_waiting)
+            self.has_consent_or_waiting
             or self.has_study_consent
             or self.contact.is_legal_representative
             or (not self.deceased and self.blocked)

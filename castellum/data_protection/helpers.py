@@ -45,9 +45,7 @@ def get_no_legal_basis():
         .alias(pr_count=models.Count(
             'participation', filter=~models.Q(participation__status=Participation.UNSUITABLE)
         ))
-        .exclude(pk__in=Subject.objects.filter(
-            filter_queries.has_consent(include_waiting=True), deceased=False
-        ))
+        .exclude(pk__in=Subject.objects.filter(filter_queries.has_consent(include_waiting=True)))
         .exclude(blocked=True, deceased=False)
         .filter(pr_count=0)
     )
