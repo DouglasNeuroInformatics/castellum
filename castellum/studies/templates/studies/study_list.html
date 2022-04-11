@@ -12,7 +12,7 @@
                 <div class="input-group mb-4">
                     <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
                     <div class="input-group-append">
-                        <button class="btn btn-primary" >{% translate 'Go' %}</button>
+                        <button class="btn btn-primary">{% translate 'Go' %}</button>
                     </div>
                 </div>
                 <hr>
@@ -71,7 +71,7 @@
                     {% endif %}
                     <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
                         {% csrf_token %}
-                        <button class="btn btn-secondary mb-1" >{% translate 'Try filters' %}</button>
+                        <button class="btn btn-secondary mb-1">{% translate 'Try filters' %}</button>
                     </form>
                 </div>
             {% endif %}

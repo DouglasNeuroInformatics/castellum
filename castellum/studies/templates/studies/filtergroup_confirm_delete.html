@@ -9,7 +9,7 @@
         <p>{% translate "Are you sure you want to delete this filter group and all of its filters?" %}</p>
         <div class="d-print-none mb-3">
             <a href="{% url 'studies:filtergroup-index' object.study.pk %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
-            <button class="btn btn-danger mb-1" >{% translate 'Confirm' %}</button>
+            <button class="btn btn-danger mb-1">{% translate 'Confirm' %}</button>
         </div>
     </form>
 {% endblock %}
