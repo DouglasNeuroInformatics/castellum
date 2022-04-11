@@ -34,6 +34,7 @@ class Message(models.Model):
     level = models.CharField(
         _('Message level'), max_length=16, choices=MESSAGE_LEVELS
     )
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.content

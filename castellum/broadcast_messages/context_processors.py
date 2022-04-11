@@ -23,5 +23,5 @@ from .models import Message
 
 def get_broadcast_messages(request):
     return {
-        'broadcast_messages': Message.objects.all(),
+        'broadcast_messages': Message.objects.filter(is_active=True),
     }
