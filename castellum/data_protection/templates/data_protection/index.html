@@ -46,13 +46,13 @@
                         {% endif %}
                         {% if can_delete_subject %}
                             {% if subject.to_be_deleted %}
-                                <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.to_be_deleted }}">{% translate 'To be deleted' %}</span>
+                                <span class="badge bg-danger" title="{{ subject.TOOLTIPS.to_be_deleted }}">{% translate 'To be deleted' %}</span>
                             {% endif %}
                             {% if subject.unreachable %}
-                                <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.unreachable }}">{% translate 'Unreachable' %}</span>
+                                <span class="badge bg-danger" title="{{ subject.TOOLTIPS.unreachable }}">{% translate 'Unreachable' %}</span>
                             {% endif %}
                             {% if subject.no_legal_basis %}
-                                <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.no_legal_basis }}">{% translate 'No legal basis' %}</span>
+                                <span class="badge bg-danger" title="{{ subject.TOOLTIPS.no_legal_basis }}">{% translate 'No legal basis' %}</span>
                             {% endif %}
                         {% endif %}
                     </div>
