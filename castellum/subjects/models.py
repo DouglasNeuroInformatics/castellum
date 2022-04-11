@@ -188,7 +188,17 @@ class Subject(TimeStampedModel):
     @cached_property
     def has_study_consent(self):
         from castellum.recruitment.models import Participation
-        return self.participation_set.filter(status=Participation.INVITED).exists()
+        from castellum.studies.models import Study
+        return (
+            self.participation_set
+            .exclude(status=Participation.UNSUITABLE)
+            .exclude(
+                study__status=Study.FINISHED,
+                study__domains=None,
+                news_interest=Participation.NOT_INTERESTED,
+            )
+            .exists()
+        )
 
     @property
     def has_legal_basis(self):

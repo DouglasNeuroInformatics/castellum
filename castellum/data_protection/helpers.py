@@ -24,6 +24,7 @@ from django.db import models
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
+from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.expressions import exists
 
@@ -38,16 +39,27 @@ def get_export_requested():
 
 
 def get_no_legal_basis():
+    # If pseudonym domains have been deleted the only legal reasons to
+    # keep a participation are recruitment (which is a spearate legal
+    # basis) and news_interest.
+    participations = (
+        Participation.objects
+        .exclude(status=Participation.UNSUITABLE)
+        .exclude(
+            study__status=Study.FINISHED,
+            study__domains=None,
+            news_interest=Participation.NOT_INTERESTED,
+        )
+    )
+
     # this query has the biggest potential to shrink down
     # the number of matches, so it is done first
     subjects = (
         Subject.objects
-        .alias(pr_count=models.Count(
-            'participation', filter=~models.Q(participation__status=Participation.UNSUITABLE)
-        ))
+        .alias(has_study_consent=exists(participations, subject=models.OuterRef('pk')))
         .exclude(pk__in=Subject.objects.filter(filter_queries.has_consent(include_waiting=True)))
         .exclude(blocked=True, deceased=False)
-        .filter(pr_count=0)
+        .exclude(has_study_consent=True)
     )
     subject_uuids = subjects.values_list('uuid', flat=True)
 
