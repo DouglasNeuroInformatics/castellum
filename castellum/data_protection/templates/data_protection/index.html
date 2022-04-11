@@ -13,53 +13,77 @@
     <ul class="table-list">
         {% has_perm 'subjects.delete_subject' user as can_delete_subject %}
         {% for subject in object_list %}
-            <li class="table-list-item flex-nowrap">
-                <div class="row align-items-center flex-grow-1">
-                    <div class="col-md">
-                        <span class="h5">{{ subject.contact }}</span>
+            <li>
+                <div class="table-list-item flex-nowrap">
+                    <div class="row align-items-center flex-grow-1">
+                        <div class="col-md">
+                            <span class="h5">{{ subject.contact }}</span>
+                        </div>
+                        <div class="col-md">
+                            {% if not subject.due %}
+                                {# pass #}
+                            {% elif subject.due|force_date > today %}
+                                <div>
+                                    {% translate 'Due in' %}:
+                                    <time title="{{ subject.due|longdate }}">{{ subject.due|timeuntil }}</time>
+                                </div>
+                            {% elif select.due|force_date == today %}
+                                <div class="text-danger font-weight-bold">
+                                    {% translate 'Due today' %}
+                                </div>
+                            {% else %}
+                                <div class="text-danger font-weight-bold">
+                                    {% translate 'Overdue for' %}:
+                                    <time title="{{ subject.due|longdate }}">{{ subject.due|timesince }}</time>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md">
+                            {% if subject.export_requested %}
+                                <span class="badge bg-info text-dark" title="{{ subject.TOOLTIPS.export_requested }}">{% translate 'Export requested' %}</span>
+                            {% endif %}
+                            {% if subject.residual_recruitment_data %}
+                                <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.residual_recruitment_data }}">{% translate 'Residual recruitment data' %}</span>
+                            {% endif %}
+                            {% if can_delete_subject %}
+                                {% if subject.to_be_deleted %}
+                                    <span class="badge bg-danger" title="{{ subject.TOOLTIPS.to_be_deleted }}">{% translate 'To be deleted' %}</span>
+                                {% endif %}
+                                {% if subject.unreachable %}
+                                    <span class="badge bg-danger" title="{{ subject.TOOLTIPS.unreachable }}">{% translate 'Unreachable' %}</span>
+                                {% endif %}
+                                {% if subject.no_legal_basis %}
+                                    <span class="badge bg-danger" title="{{ subject.TOOLTIPS.no_legal_basis }}">{% translate 'No legal basis' %}</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="col-md">
-                        {% if not subject.due %}
-                            {# pass #}
-                        {% elif subject.due|force_date > today %}
-                            <div>
-                                {% translate 'Due in' %}:
-                                <time title="{{ subject.due|longdate }}">{{ subject.due|timeuntil }}</time>
-                            </div>
-                        {% elif select.due|force_date == today %}
-                            <div class="text-danger font-weight-bold">
-                                {% translate 'Due today' %}
-                            </div>
-                        {% else %}
-                            <div class="text-danger font-weight-bold">
-                                {% translate 'Overdue for' %}:
-                                <time title="{{ subject.due|longdate }}">{{ subject.due|timesince }}</time>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="col-md">
-                        {% if subject.export_requested %}
-                            <span class="badge bg-info text-dark" title="{{ subject.TOOLTIPS.export_requested }}">{% translate 'Export requested' %}</span>
-                        {% endif %}
-                        {% if subject.residual_recruitment_data %}
-                            <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.residual_recruitment_data }}">{% translate 'Residual recruitment data' %}</span>
-                        {% endif %}
-                        {% if can_delete_subject %}
-                            {% if subject.to_be_deleted %}
-                                <span class="badge bg-danger" title="{{ subject.TOOLTIPS.to_be_deleted }}">{% translate 'To be deleted' %}</span>
-                            {% endif %}
-                            {% if subject.unreachable %}
-                                <span class="badge bg-danger" title="{{ subject.TOOLTIPS.unreachable }}">{% translate 'Unreachable' %}</span>
-                            {% endif %}
-                            {% if subject.no_legal_basis %}
-                                <span class="badge bg-danger" title="{{ subject.TOOLTIPS.no_legal_basis }}">{% translate 'No legal basis' %}</span>
-                            {% endif %}
-                        {% endif %}
+                    <div class="table-list-item-actions flex-grow-0">
+                        <a class="btn btn-outline-primary" href="{% url 'subjects:detail' subject.uuid %}">{% translate 'Details' %}</a>
                     </div>
                 </div>
-                <div class="table-list-item-actions flex-grow-0">
-                    <a class="btn btn-outline-primary" href="{% url 'subjects:detail' subject.uuid %}">{% translate 'Details' %}</a>
-                </div>
+                {% if subject.should_delete_participations %}
+                    <ul class="table-list">
+                        {% for participation in subject.participations_without_pseudonyms %}
+                            {% has_perm 'studies.view_study' user participation.study as can_view_study %}
+                            <li class="table-list-item">
+                                <div class="my-1 me-2">
+                                    <div class="h4 d-inline">{{ participation.study }}</div>
+                                    <span>{{ participation.study.contact_person }}</span>
+                                    <span class="badge bg-warning text-dark" title="{{ participation.TOOLTIPS.pseudonyms_deleted }}">{% translate 'No legal basis' %}</span>
+                                </div>
+                                <div class="table-list-item-actions">
+                                    {% if can_view_study %}
+                                        <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' participation.study.pk %}">{% translate 'Study details' %}</a>
+                                    {% endif %}
+                                    <a class="btn btn-danger my-1" href="{% url 'subjects:participation-delete' subject.uuid participation.pk %}">
+                                        {% translate 'Delete' %}
+                                    </a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </li>
         {% empty %}
             <li class="alert alert-success">{% translate 'Nothing to do' %}</li>

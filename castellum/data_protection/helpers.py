@@ -114,6 +114,11 @@ def get_should_delete_participations():
 def get_subjects():
     return (
         Subject.objects
+        .prefetch_related(models.Prefetch(
+            'participation_set',
+            queryset=get_participations_without_legal_basis(),
+            to_attr='participations_without_legal_basis',
+        ))
         .annotate(
             # depending on database backend, this is either a date or a datetime
             due=models.ExpressionWrapper(
