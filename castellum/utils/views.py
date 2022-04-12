@@ -74,4 +74,11 @@ class BaseProtectedMediaView(LoginRequiredMixin, View):
 
 
 class ProtectedMediaView(BaseProtectedMediaView):
-    pass
+    prefix = ''
+
+    def __init__(self, prefix=''):
+        self.prefix = prefix
+        super().__init__()
+
+    def get_path(self):
+        return '{}/{}'.format(self.prefix, self.kwargs['path'])

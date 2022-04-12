@@ -89,7 +89,7 @@ urlpatterns = [
 if settings.PROTECTED_MEDIA_SERVER:
     urlpatterns += [
         path('media/studies/<int:pk>/<path:path>', StudyProtectedMediaView.as_view()),
-        path('media/<path:path>', ProtectedMediaView.as_view()),
+        path('media/consent/<path:path>', ProtectedMediaView.as_view(prefix='consent')),
     ]
 
 if 'model_stats' in settings.INSTALLED_APPS:
