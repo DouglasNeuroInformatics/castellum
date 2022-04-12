@@ -41,15 +41,18 @@
                         {% if subject.export_requested %}
                             <span class="badge bg-info text-dark" title="{{ subject.TOOLTIPS.export_requested }}">{% translate 'Export requested' %}</span>
                         {% endif %}
+                        {% if subject.unnecessary_recruitment_data %}
+                            <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.unnecessary_recruitment_data }}">{% translate 'Unnecessary recruitment data' %}</span>
+                        {% endif %}
                         {% if can_delete_subject %}
                             {% if subject.to_be_deleted %}
-                                <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.to_be_deleted }}">{% translate 'To be deleted' %}</span>
+                                <span class="badge bg-danger" title="{{ subject.TOOLTIPS.to_be_deleted }}">{% translate 'To be deleted' %}</span>
                             {% endif %}
                             {% if subject.unreachable %}
-                                <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.unreachable }}">{% translate 'Unreachable' %}</span>
+                                <span class="badge bg-danger" title="{{ subject.TOOLTIPS.unreachable }}">{% translate 'Unreachable' %}</span>
                             {% endif %}
                             {% if subject.no_legal_basis %}
-                                <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.no_legal_basis }}">{% translate 'No legal basis' %}</span>
+                                <span class="badge bg-danger" title="{{ subject.TOOLTIPS.no_legal_basis }}">{% translate 'No legal basis' %}</span>
                             {% endif %}
                         {% endif %}
                     </div>

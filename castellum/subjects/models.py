@@ -50,6 +50,10 @@ class Subject(TimeStampedModel):
         'export_requested': _(
             'The subject wants to receive an export of all data we have stored about them.'
         ),
+        'unnecessary_recruitment_data': _(
+            'The subject does not have recruitment consent, so '
+            'any data that is only relevant for recruitment should be deleted.'
+        ),
         'to_be_deleted': _(
             'The subject wants all data about them to be deleted or fully anonymized.'
         ),
@@ -190,7 +194,8 @@ class Subject(TimeStampedModel):
         )
 
     @cached_property
-    def has_residual_recruitment_data(self):
+    def has_unnecessary_recruitment_data(self):
+        # Needs to match ``data_protection.helpers.get_unnecessary_recruitment_data()``
         completed, _total = self.get_completeness()
         return not self.has_consent_or_waiting and (
             completed > (1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0)
