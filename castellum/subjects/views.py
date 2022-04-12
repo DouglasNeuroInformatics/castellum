@@ -138,8 +138,6 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         context['count_recruitable'] = Subject.objects.filter(
             filter_queries.has_consent(),
             filter_queries.to_be_deleted(),
-            deceased=False,
-            blocked=False,
         ).exclude(
             pk__in=Participation._base_manager.filter(
                 filter_queries._reverse_exclusive_studies()

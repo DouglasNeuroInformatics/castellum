@@ -119,7 +119,7 @@ def has_consent(include_waiting=False, exclude_deprecated=False):
     if exclude_deprecated:
         q_document &= models.Q(consent__document__is_deprecated=False)
 
-    return q_status & q_document
+    return q_status & q_document & models.Q(deceased=False, blocked=False)
 
 
 def to_be_deleted():
