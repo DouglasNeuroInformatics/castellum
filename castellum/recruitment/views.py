@@ -55,6 +55,7 @@ from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
+from castellum.utils.views import BaseProtectedMediaView
 
 from . import filter_queries
 from .forms import ContactForm
@@ -631,3 +632,13 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
                 resource, self.filters['start'], self.filters['end']
             )
         return events
+
+
+class RecruitmentProtectedMediaView(
+    ParticipationMixin, PermissionRequiredMixin, BaseProtectedMediaView
+):
+    permission_required = ['subjects.view_subject', 'recruitment.recruit']
+    study_status = [Study.EXECUTION]
+
+    def get_path(self):
+        return 'subjects/{}'.format(self.kwargs['path'])

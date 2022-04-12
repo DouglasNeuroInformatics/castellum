@@ -63,6 +63,7 @@ from castellum.recruitment.models import Participation
 from castellum.studies.forms import StudyFilterForm
 from castellum.studies.models import Study
 from castellum.utils.expressions import exists
+from castellum.utils.views import BaseProtectedMediaView
 
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
@@ -862,3 +863,13 @@ class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, 
             self.patch_zipfile(zin, zresponse)
 
         return response
+
+
+class SubjectProtectedMediaView(SubjectMixin, PermissionRequiredMixin, BaseProtectedMediaView):
+    permission_required = ['subjects.view_subject']
+
+    def get_object(self):
+        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
+
+    def get_path(self):
+        return 'subjects/{}'.format(self.kwargs['path'])

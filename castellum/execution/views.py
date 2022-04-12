@@ -67,6 +67,7 @@ from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
+from castellum.utils.views import BaseProtectedMediaView
 
 from .forms import NewsMailForm
 
@@ -696,3 +697,14 @@ class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContact
                 return legal_representative
 
         raise Http404
+
+
+class ExecutionProtectedMediaView(
+    ParticipationMixin, PermissionRequiredMixin, BaseProtectedMediaView
+):
+    permission_required = ['subjects.view_subject', 'recruitment.conduct_study']
+    study_status = [Study.EXECUTION]
+    participation_status = [Participation.INVITED]
+
+    def get_path(self):
+        return 'subjects/{}'.format(self.kwargs['path'])
