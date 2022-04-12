@@ -59,6 +59,7 @@ from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import ReliabilityEntry
 from castellum.recruitment.templatetags.recruitment import study_legal_representative_hash
+from castellum.recruitment.views import RecruitmentProtectedMediaView
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
@@ -677,3 +678,7 @@ class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContact
                 return legal_representative
 
         raise Http404
+
+
+class ExecutionProtectedMediaView(RecruitmentProtectedMediaView):
+    participation_status = [Participation.INVITED]

@@ -35,9 +35,12 @@ from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
 from castellum.castellum_auth.views import set_language
+from castellum.execution.views import ExecutionProtectedMediaView
+from castellum.recruitment.views import RecruitmentProtectedMediaView
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.studies.views.studies import StudyProtectedMediaView
+from castellum.subjects.views import SubjectProtectedMediaView
 from castellum.utils.views import ProtectedMediaView
 
 
@@ -89,6 +92,15 @@ urlpatterns = [
 if settings.PROTECTED_MEDIA_SERVER:
     urlpatterns += [
         path('media/studies/<int:pk>/<path:path>', StudyProtectedMediaView.as_view()),
+        path(
+            'media/recruitment/<int:study_pk>/<int:pk>/<path:path>',
+            RecruitmentProtectedMediaView.as_view(),
+        ),
+        path(
+            'media/execution/<int:study_pk>/<int:pk>/<path:path>',
+            ExecutionProtectedMediaView.as_view(),
+        ),
+        path('media/subjects/<uuid:uuid>/<path:path>', SubjectProtectedMediaView.as_view()),
         path('media/consent/<path:path>', ProtectedMediaView.as_view(prefix='consent')),
     ]
 
