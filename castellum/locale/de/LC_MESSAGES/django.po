@@ -1698,7 +1698,7 @@ msgstr "Rekrutierungsmerkmale bearbeiten"
 
 #: castellum/recruitment/templates/recruitment/attributes_form.html:10
 #: castellum/subjects/templates/subjects/subject_base.html:41
-msgid "Residual recruitment data"
+msgid "Unnecessary recruitment data"
 msgstr "Verbliebene Rekrutierungsdaten"
 
 #: castellum/recruitment/templates/recruitment/attributes_form.html:11

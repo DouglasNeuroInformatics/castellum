@@ -41,8 +41,8 @@
                         {% if subject.export_requested %}
                             <span class="badge bg-info text-dark" title="{{ subject.TOOLTIPS.export_requested }}">{% translate 'Export requested' %}</span>
                         {% endif %}
-                        {% if subject.residual_recruitment_data %}
-                            <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.residual_recruitment_data }}">{% translate 'Residual recruitment data' %}</span>
+                        {% if subject.unnecessary_recruitment_data %}
+                            <span class="badge bg-warning text-dark" title="{{ subject.TOOLTIPS.unnecessary_recruitment_data }}">{% translate 'Unnecessary recruitment data' %}</span>
                         {% endif %}
                         {% if can_delete_subject %}
                             {% if subject.to_be_deleted %}

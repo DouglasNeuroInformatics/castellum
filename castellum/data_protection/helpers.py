@@ -78,7 +78,7 @@ def get_unreachable():
     return Subject.objects.filter(filter_queries.uuid_filter(contacts))
 
 
-def get_residual_recruitment_data():
+def get_unnecessary_recruitment_data():
     completeness, _total = filter_queries.completeness_expr()
     return (
         Subject.objects
@@ -112,8 +112,8 @@ def get_subjects():
             ),
             no_legal_basis=exists(get_no_legal_basis(), pk=models.OuterRef('pk')),
             unreachable=exists(get_unreachable(), pk=models.OuterRef('pk')),
-            residual_recruitment_data=exists(
-                get_residual_recruitment_data(), pk=models.OuterRef('pk')
+            unnecessary_recruitment_data=exists(
+                get_unnecessary_recruitment_data(), pk=models.OuterRef('pk')
             ),
         )
         .exclude(
@@ -121,7 +121,7 @@ def get_subjects():
             to_be_deleted__isnull=True,
             no_legal_basis=False,
             unreachable=False,
-            residual_recruitment_data=False,
+            unnecessary_recruitment_data=False,
         )
         .order_by(models.F('due').asc(nulls_last=True))
     )
