@@ -50,8 +50,13 @@ class StrongholdPublicMixin:
         return public(super().as_view(*args, **kwargs))
 
 
-class ProtectedMediaView(LoginRequiredMixin, View):
-    def get(self, request, path):
+class BaseProtectedMediaView(LoginRequiredMixin, View):
+    def get_path(self):
+        return self.kwargs['path']
+
+    def get(self, request, **kwargs):
+        path = self.get_path()
+
         if settings.PROTECTED_MEDIA_SERVER == 'django':
             return serve(request, path, document_root=settings.MEDIA_ROOT)
         elif settings.PROTECTED_MEDIA_SERVER == 'nginx':
@@ -66,3 +71,7 @@ class ProtectedMediaView(LoginRequiredMixin, View):
                 response['Content-Encoding'] = encoding
             response['X-Sendfile'] = settings.MEDIA_ROOT / path
             return response
+
+
+class ProtectedMediaView(BaseProtectedMediaView):
+    pass
