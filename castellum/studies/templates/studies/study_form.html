@@ -30,7 +30,6 @@
         <div data-js="d-select2">
             {% bootstrap_field form.exportable_attributes required_css_class='castellum-required' %}
         </div>
-        {% bootstrap_field form.consent required_css_class='castellum-required' %}
         {% if CASTELLUM_STUDY_STATUS_NOTIFICATION_TO %}
             {% bootstrap_field form.announce_status_changes required_css_class='castellum-required' %}
         {% else %}

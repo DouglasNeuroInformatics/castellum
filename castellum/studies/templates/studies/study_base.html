@@ -128,6 +128,9 @@
                         <a class="nav-link {% if view.tab == 'members' %}active{% endif %}" href="{% url 'studies:members' study.pk %}">{% translate 'Member management' %}</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% if view.tab == 'consent' %}active{% endif %}" href="{% url 'studies:consent' study.pk %}">{% translate 'Consent' %}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {% if view.tab == 'domains' %}active{% endif %}" href="{% url 'studies:domains' study.pk %}">{% translate 'Pseudonym domains' %}</a>
                     </li>
                     <li class="nav-item">
