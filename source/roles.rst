@@ -44,6 +44,7 @@ Relevant guides:
 -   :ref:`study-recruitment-settings`
 -   :ref:`study-domains`
 -   :ref:`study-finish`
+-   :ref:`study-delete-domains`
 -   :ref:`study-delete`
 -   :ref:`set-up-external-scheduler`
 -   :ref:`study-filter-trial`
