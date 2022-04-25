@@ -286,9 +286,10 @@ please proceed as follows:
     still is data about them in studies.**, proceed as follows:
 
     -   Contact the responsible person for each study and ask them to delete
-        all collected data of the subject concerned. Identify the subject using
-        the study pseudonym that is displayed.
-    -   Once the responsible contact person has confirmed the deletion of all
+        all collected data of the subject that is not covered by retention
+        policies. Identify the subject using the study pseudonym that is
+        displayed.
+    -   Once the responsible contact person has confirmed the deletion of the
         data, delete the participation record using the **Delete** button.
 
 3.  If you see a message saying **This subject may still have data in general
