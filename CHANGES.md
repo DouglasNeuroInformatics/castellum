@@ -2,16 +2,23 @@
 
 ## new features
 
--   Broadcast messages allow to communicate important information to all users, e.g. scheduled maintenance
--   The data protection dashboard now shows a new category ("unnecessary recruitment data") for subjects who have
-    recruitment data, but no recruitment consent.
--   When editing an appointment users can now select whether other users should be informed or not
--   The third cleanup option ("mismatch") now also excludes subjects without recruitment consent
--   The new command `cleanup_dashboards` allows to delete all subjects listed in the data protection dashboard.
--   When deleting all pseudonym domains and a subject is also not interested in study news, a participation is no
-    longer counted as legal basis to keep the subject's data
--   More precise wording in the subject deletion process to reflect that legally binding retention periods may
-    prevent the deletion of scientific data even if this goes against the subject's wishes
+-   Broadcast messages allow to communicate important information to all
+    users, e.g. scheduled maintenance.
+-   The data protection dashboard now shows a new category ("unnecessary
+    recruitment data") for subjects who have recruitment data, but no
+    recruitment consent.
+-   When editing an appointment, users can now select whether other
+    users should be informed via mail or not.
+-   The third cleanup option ("mismatch") now also excludes subjects
+    without recruitment consent.
+-   The new command `cleanup_dashboards` allows to delete all subjects
+    listed in the data protection dashboard.
+-   When deleting all pseudonym domains and a subject is also not
+    interested in study news, a participation is no longer counted as
+    legal basis to keep the subject's data
+-   More precise wording in the subject deletion process to reflect that
+    legally binding retention periods may prevent the deletion of
+    scientific data even if this goes against the subject's wishes.
 
 
 # 0.74.0 (2022-04-05)
