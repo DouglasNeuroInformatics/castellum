@@ -23,5 +23,5 @@ help: venv
 venv:
 	@if [ ! -d "$(VIRTUAL_ENV)" ]; \
 	then python3 -m venv "$(VIRTUAL_ENV)"; \
-	$(VIRTUAL-ENV)/bin/pip3 install sphinx sphinx-rtd-theme; \
+	$(VIRTUAL_ENV)/bin/pip3 install sphinx sphinx-rtd-theme; \
 	fi
