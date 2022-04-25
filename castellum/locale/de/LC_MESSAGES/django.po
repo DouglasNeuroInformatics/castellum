@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-25 15:24+0200\n"
+"POT-Creation-Date: 2022-04-25 15:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: castellum/appointments/forms.py:39
 msgid "Notify conductors of changes"
-msgstr ""
+msgstr "Durchführer*innen über Änderungen benachrichtigen"
 
 #: castellum/appointments/forms.py:88
 msgid "{}min"
@@ -232,10 +232,8 @@ msgid "Content"
 msgstr "Inhalt"
 
 #: castellum/broadcast_messages/models.py:35
-#, fuzzy
-#| msgid "Message"
 msgid "Message level"
-msgstr "Nachricht"
+msgstr "Nachrichtenebene"
 
 #: castellum/broadcast_messages/models.py:37
 msgid "Is active"
@@ -246,10 +244,8 @@ msgid "Message"
 msgstr "Nachricht"
 
 #: castellum/broadcast_messages/models.py:51
-#, fuzzy
-#| msgid "Message"
 msgid "Messages"
-msgstr "Nachricht"
+msgstr "Nachrichten"
 
 #: castellum/castellum_auth/admin.py:45
 msgid "expired"
@@ -647,7 +643,7 @@ msgstr "Auskunft beantragt"
 #: castellum/recruitment/templates/recruitment/attributes_form.html:10
 #: castellum/subjects/templates/subjects/subject_base.html:41
 msgid "Unnecessary recruitment data"
-msgstr "Verbliebene Rekrutierungsdaten"
+msgstr "Unnötige Rekrutierungsdaten"
 
 #: castellum/data_protection/templates/data_protection/index.html:49
 #: castellum/subjects/forms.py:71 castellum/subjects/models.py:85
@@ -935,10 +931,8 @@ msgid "Domain name"
 msgstr "Domänen-Name"
 
 #: castellum/execution/templates/execution/participation_pseudonyms.html:30
-#, fuzzy
-#| msgid "Domains"
 msgid "No domains"
-msgstr "Domänen"
+msgstr "Keine Domänen"
 
 #: castellum/execution/templates/execution/participation_update_base.html:9
 #: castellum/recruitment/templates/recruitment/participation_update_base.html:9
@@ -1965,18 +1959,17 @@ msgid ""
 "This means that it would no longer be possible to find data from this study "
 "in future GDPR requests by this subject."
 msgstr ""
+"Dies bedeutet, dass es nicht länger möglich wäre, Daten aus dieser Studie in "
+"zukünftigen DSGVO-Anfragen dieser Proband*in zu finden."
 
 #: castellum/recruitment/templates/recruitment/participation_confirm_delete.html:15
-#, fuzzy
-#| msgid ""
-#| "I have made sure that all external data related to this study "
-#| "participation has been destroyed"
 msgid ""
 "I have made sure that all external data related to this study participation "
 "is either covered by retention periods or has been destroyed."
 msgstr ""
 "Ich habe sichergestellt, dass alle zu dieser Studienteilnahme gehörenden "
-"externen Daten gelöscht wurden."
+"externen Daten entweder von Aufbewahrungsfristen betroffen sind oder gelöscht "
+"wurden."
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:10
 #: castellum/recruitment/views.py:208
@@ -3090,7 +3083,7 @@ msgid ""
 "relevant for recruitment should be deleted."
 msgstr ""
 "Die Proband*in hat keine Rekrutierungseinwilligung. Deshalb sollten alle "
-"Daten die nur für die Rekrutierung relevant sind gelöscht werden."
+"Daten, die nur für die Rekrutierung relevant sind, gelöscht werden."
 
 #: castellum/subjects/models.py:58 castellum/subjects/models.py:90
 msgid ""
@@ -3126,21 +3119,21 @@ msgstr ""
 "zugreifen zu können."
 
 #: castellum/subjects/models.py:92
-#, fuzzy
-#| msgid ""
-#| "This includes all data in Castellum and all data collected in studies."
 msgid ""
 "This includes all data in Castellum and possibly all data collected in "
 "studies (if no other legal bases apply, for example retention periods)."
 msgstr ""
-"Dies beinhaltet alle Daten in Castellum sowie alle Daten, die in Studien "
-"erhoben wurden."
+"Dies beinhaltet alle Daten in Castellum und möglicherweise alle Daten, die "
+"in Studien erhoben wurden (sofern keine anderen Rechtsgrundlagen zutreffen "
+"wie z.B. Aufbewahrungsfristen)."
 
 #: castellum/subjects/models.py:96
 msgid ""
 "Furthermore, the subject has explicitly rejected the option to only withdraw "
 "recruitment consent instead."
 msgstr ""
+"Des Weiteren hat die Proband*in die Möglichkeit explizit abgelehnt, "
+"stattdessen nur die Rekrutierungseinwilligung zurückzuziehen."
 
 #: castellum/subjects/models.py:100
 msgid ""
@@ -3518,16 +3511,12 @@ msgstr ""
 "<strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:82
-#, fuzzy
-#| msgid ""
-#| "I have made sure that all external data related to this subject has been "
-#| "destroyed"
 msgid ""
 "I have made sure that all external data related to this subject is either "
 "covered by retention periods or has been destroyed."
 msgstr ""
 "Ich habe sichergestellt, dass alle zu dieser Proband*in gehörenden externen "
-"Daten gelöscht wurden."
+"Daten entweder von Aufbewahrungsfristen betroffen sind oder gelöscht wurden."
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:28
 msgid "Waiting for confirmation by the subject."
@@ -4168,12 +4157,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid ""
-#~ "This should only be done once all relevant external data related to this "
-#~ "study has been deleted as it would no longer be possible to identify this "
-#~ "subject reliably."
-#~ msgstr ""
-#~ "Dies sollte erst geschehen, sobald alle relevanten externen Daten zu "
-#~ "dieser Studie gelöscht wurden, da es nicht länger möglich sein wird diese "
-#~ "Proband*in zuverlässig zu identifizieren."
