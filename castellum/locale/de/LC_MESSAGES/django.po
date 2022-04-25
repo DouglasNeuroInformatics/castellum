@@ -237,6 +237,10 @@ msgstr "Inhalt"
 msgid "Message level"
 msgstr "Nachricht"
 
+#: castellum/broadcast_messages/models.py:37
+msgid "Is active"
+msgstr "Ist aktiv"
+
 #: castellum/broadcast_messages/models.py:50 castellum/contacts/models.py:316
 msgid "Message"
 msgstr "Nachricht"
