@@ -20,6 +20,7 @@ Relevant guides:
 -   :ref:`subject-add-to-study`
 -   :ref:`study-create`
 -   :ref:`study-domains`
+-   :ref:`study-delete-domains`
 -   :ref:`study-delete`
 -   :ref:`data-protection-dashboard`
 -   :ref:`subject-export`

@@ -76,3 +76,6 @@ the dates for appointments for study sessions themselves.
 
 2.  In the scheduler, select an appointment and click **Save**. This step can
     also be done by the subject themself (if you've sent them the link).
+
+If the change affects the next two working days, the relevant conductors will
+automatically be notified of the change.

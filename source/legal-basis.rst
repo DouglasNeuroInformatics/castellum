@@ -13,8 +13,9 @@ consent, the legal basis is deduced from available information.
 
 -   **Study consent**: This applies if the subject either participates in a
     study or is currently in the process of being recruited for one. This is
-    valid until the study has been deleted or the subject drops out of the
-    study.
+    valid until all pseudonym domains for the study have been deleted or (for
+    subjects who are interested in news about the study) until the study is
+    deleted.
 
 -   **Legal representative**: As long as a subject is the legal representative
     for another subject it is assumed that the legal basis for the other

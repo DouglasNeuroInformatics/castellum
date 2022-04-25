@@ -259,20 +259,37 @@ Finish a study
     and then resume a study, it is possible that subjects that were already
     found to be unsuitable are suggested again as potential subjects.
 
+.. _study-delete-domains:
+
+Delete pseudonym domains
+========================
+
+The date when a study domain should be deleted (effectively anonymizing the
+research data) is usually defined in the ethics application and the study
+consent form.
+
+Once you delete a pseudonym domain from Castellum it is no longer possible to
+answer export or delete requests for this particular domain. Make sure that all
+relevant external data is either covered by retention periods or has been
+deleted before you delete a domain from Castellum. Then proceed as follows:
+
+1.  :ref:`Find the study <study-search>` at the **Studies** page, click
+    **Details**
+
+2.  Go to the **Pseudonym Domains** tab.
+
+3.  Find the relevant domain and click **Delete**.
+
+4.  Follow the instructions to confirm the deletion.
 
 .. _study-delete:
 
 Delete a study
 ==============
 
-When a study should be deleted depends on the rules of your specific
+When a whole study should be deleted depends on the rules of your specific
 organization. We assume that it makes sense to delete all study data after few
-years, effectively anonymizing the research data.
-
-Once you delete a study from Castellum it is no longer possible to answer to
-export or delete requests for this particular study. Make sure that all
-relevant external data has been deleted before you delete a study from
-Castellum. Then proceed as follows:
+years.
 
 1.  :ref:`Find the study <study-search>` at the **Studies** page, click
     **Details**

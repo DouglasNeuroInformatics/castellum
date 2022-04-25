@@ -112,6 +112,9 @@ you to set up appointments for the participants:
 4. The **Calendar** button in the **Appointments** tab opens a new window and
    allows you to have a look at all already appointed sessions of the study.
 
+5. You can select whether conductors should receive a notification mail about
+   this change or not.
+
 .. warning::
 
     There are cases in which for example two subjects will be tested at the
