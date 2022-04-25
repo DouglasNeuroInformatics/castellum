@@ -180,6 +180,16 @@ match.
     Recruitment attributes may be **Mother Tongue**, **Highest Educational Degree**,
     **Age**, **Handedness** and so on.
 
+.. _subject-unnecessary-recruitment-data:
+
+Clear unnecessary recruimtent data
+``````````````````````````````````
+
+If the subject does not have recruitment consent there is no legal basis for
+storing any recruitment data. In that case there will be a warning about the
+unnecessary recruitment data. You can either clear all data manually or use the
+**Delete all** button that is included in the warning.
+
 .. _subject-data-protection-tab:
 
 Data Protection Tab
