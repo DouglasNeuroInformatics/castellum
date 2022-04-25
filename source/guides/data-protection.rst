@@ -17,6 +17,9 @@ follow-up steps for each category.
 -   A subject is tagged **To be deleted**, **No legal basis**, or
     **Unreachable** if they should be deleted for different reasons. See
     :ref:`subject-delete` for the necessary steps.
+-   A subject is tagged **Unnecessary recruitment data** if they have
+    recruitment data, but no recruitment consent. See
+    :ref:`subject-unnecessary-recruitment-data` for the necessary steps.
 
 In all those categories it usually makes sense to contact the subjects before
 taking any action. For example, subjects often want only a part of their data
