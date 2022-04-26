@@ -1,5 +1,10 @@
 # 0.75.0 (unreleased)
 
+## bug fixes
+
+-   Fixed showing the consent document in consent forms outside of
+    subject management.
+
 ## new features
 
 -   Broadcast messages allow to communicate important information to all

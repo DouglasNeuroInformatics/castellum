@@ -69,7 +69,6 @@ from .mixins import BaseAdditionalInfoUpdateView
 from .mixins import BaseDataProtectionUpdateView
 from .mixins import SubjectMixin
 from .models import Consent
-from .models import ConsentDocument
 from .models import ExportAnswer
 from .models import Subject
 from .models import SubjectCreationRequest
@@ -362,15 +361,6 @@ class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView)
     tab = 'data-protection'
     slug_field = 'uuid'
     slug_url_kwarg = 'uuid'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        try:
-            document = self.object.consent.document
-        except Consent.DoesNotExist:
-            document = ConsentDocument.get_latest()
-        context['consent_document'] = document
-        return context
 
 
 class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):
