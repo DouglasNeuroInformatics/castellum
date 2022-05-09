@@ -479,6 +479,10 @@ class StudyConsentView(PermissionRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('studies:consent', args=[self.object.pk])
 
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
+
 
 class StudyImportView(PermissionRequiredMixin, FormView):
     permission_required = 'studies.change_study'
