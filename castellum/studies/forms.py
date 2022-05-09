@@ -56,7 +56,6 @@ class StudyForm(forms.ModelForm):
             'email',
             'description',
             'announce_status_changes',
-            'consent',
             'min_subject_count',
             'exportable_attributes',
             'is_anonymous_invitation',
