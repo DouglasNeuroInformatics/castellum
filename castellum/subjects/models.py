@@ -78,7 +78,7 @@ class Subject(TimeStampedModel):
     privacy_level = models.FloatField(
         _('Privacy level'),
         help_text=_('Users need at least this level to access this subject'),
-        default=0,
+        default=0.0,
     )
 
     to_be_deleted = models.DateField(
