@@ -13,7 +13,8 @@ through castellum.
 A subject can have many different pseudonyms in different domains. Castellum
 automatically creates a new domain for each study. There can be more than one
 domain per study as well as *general domains* that are not connected to studies
-at all.
+at all. You can think of domains as "coding lists" that are handled by
+Castellum in the background.
 
 Pseudonyms are only unique (and therefore useful) in the context of a domain.
 Whenever you use a pseudonym, make sure that it is clear which domain it
