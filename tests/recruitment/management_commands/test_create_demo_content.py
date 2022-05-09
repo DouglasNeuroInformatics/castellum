@@ -16,5 +16,5 @@ def test_generate_studies():
 
 @pytest.mark.django_db
 def test_generate_subjects():
-    generate_subjects(3, sys.stdout)
-    assert Subject.objects.count() == 3
+    generate_subjects(6, sys.stdout)
+    assert Subject.objects.count() == 6

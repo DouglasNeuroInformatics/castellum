@@ -33,6 +33,7 @@ from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import Street
 from castellum.contacts.models import phonetic
+from castellum.geofilters.models import Geolocation
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import AttributeChoice
 from castellum.studies.models import Study
@@ -149,15 +150,23 @@ def fake_address(contact):
     )
 
 
-def fake_contact(subject):
-    if fake.random.random() < 0.5:
+def fake_contact(subject, *args, **kwargs):
+    female = fake.random.random() < 0.5
+    if female:
         gender = 'f'
-        first_name = fake.first_name_female()
-        last_name = fake.last_name_female()
     else:
         gender = 'm'
-        first_name = fake.first_name_male()
-        last_name = fake.last_name_male()
+
+    if kwargs.get('name'):
+        first_name = kwargs["name"][0]
+        last_name = kwargs["name"][1]
+    else:
+        if female:
+            first_name = fake.first_name_female()
+            last_name = fake.last_name_female()
+        else:
+            first_name = fake.first_name_male()
+            last_name = fake.last_name_male()
 
     if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
         key = 'd{}'.format(settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
@@ -230,25 +239,53 @@ def generate_studies(count, stdout):
             study.executiontag_set.create(name=name, color=color)
 
 
+def default_subjects():
+    subject_data = [
+        ('Muhammad', 'Nguyen', 'Waltharistr.', '7b', 14109, 52.42129, 13.185541728589476),
+        ('Maria', 'Wang', 'Wisentweg', '13', 13503, 52.6116128, 13.2444994),
+        ('Svetlana', 'Khan', 'Feurigstrasse', '46', 10827, 52.4821989, 13.3533266),
+        ('Ram', 'Kim', 'Xantenerstrasse', '19', 10707, 52.4991085, 13.3098712),
+        ('Wei', 'da Silva', 'Friedrich-Engels-Str.', '191', 13158, 52.5965129, 13.376984),
+        ('Ahmed', 'Liu', 'Mariendorfer Damm', '359B', 12107, 52.4218474, 13.3984604),
+    ]
+    geolocations = []
+    for dataset in subject_data:
+        subject = fake_subject()
+        subject.save()
+        contact = fake_contact(subject, name=(dataset[0], dataset[1]))
+        contact.save()
+        contact.address = Address(
+            street=dataset[2],
+            house_number=dataset[3],
+            zip_code=dataset[4],
+        )
+        contact.address.save()
+        geolocations.append(Geolocation(
+            contact=contact,
+            point=Point(dataset[5], dataset[6])
+        ))
+    Geolocation.objects.bulk_create(geolocations)
+
+
 def generate_subjects(count, stdout):
     # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
     # the id on the instances, so we have to get them from the database after bulk_create. This
     # assumes that the database was empty before.
 
     stdout.write('Generating subjects')
-    Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
+    Subject.objects.bulk_create([fake_subject() for i in range(count-6)], batch_size=200)
     subjects = Subject.objects.all()[:count]
 
     stdout.write('Generating contacts')
-    contacts = [fake_contact(subjects[i]) for i in range(count)]
-    contacts[-1].first_name = 'Muhammad'
-    contacts[-1].first_name_phonetic = phonetic('Muhammad')
-    contacts[-1].last_name = 'Nguyen'
-    contacts[-1].last_name_phonetic = phonetic('Nguyen')
-    contacts[-1].email = 'muhammad@example.com'
+    contacts = [fake_contact(subjects[i]) for i in range(count-6)]
 
     Contact.objects.bulk_create(contacts)
     contacts = Contact.objects.all()[:count]
+    Contact.objects.filter(
+        first_name='Muhammad', last_name='Nguyen'
+    ).update(
+        email='muhammad@example.com'
+    )
 
     stdout.write('Generating addresses')
     Address.objects.bulk_create(fake_address(contact) for contact in contacts)
@@ -257,6 +294,8 @@ def generate_subjects(count, stdout):
         stdout.write('Generating geolocations')
         generate_geolocations(contacts)
 
+    default_subjects()
+    subjects = Subject.objects.all()[:count]
     stdout.write('Generating consents')
     document = ConsentDocument.get_latest()
     consents = [Consent(subject=s, document=document, status=Consent.CONFIRMED) for s in subjects]
