@@ -26,6 +26,7 @@ from ..views.api import APIStudyDetailView
 from ..views.api import APIStudyListView
 from ..views.recruitment import AnonymousInvitationMailRecruitmentView
 from ..views.studies import FilterTrialCreateView
+from ..views.studies import StudyConsentView
 from ..views.studies import StudyCreateView
 from ..views.studies import StudyDeleteView
 from ..views.studies import StudyDetailView
@@ -53,6 +54,7 @@ urlpatterns = [
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
     path('<int:pk>/domains/', StudyDomainsView.as_view(), name='domains'),
     path('<int:pk>/domains/general/', StudyDomainsGeneralView.as_view(), name='domains-general'),
+    path('<int:pk>/consent/', StudyConsentView.as_view(), name='consent'),
     path(
         '<int:study_pk>/domains/<uuid:key>/',
         StudyDomainDeleteView.as_view(),

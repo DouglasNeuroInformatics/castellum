@@ -469,6 +469,21 @@ class StudyDomainDeleteView(StudyDomainsMixin, DeleteView):
         return reverse('studies:domains', args=[self.study.pk])
 
 
+class StudyConsentView(PermissionRequiredMixin, UpdateView):
+    model = Study
+    permission_required = 'studies.change_study'
+    template_name = 'studies/study_consent.html'
+    subtab = 'consent'
+    fields = ['consent']
+
+    def get_success_url(self):
+        return reverse('studies:consent', args=[self.object.pk])
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
+
+
 class StudyImportView(PermissionRequiredMixin, FormView):
     permission_required = 'studies.change_study'
     template_name = 'studies/study_import.html'
