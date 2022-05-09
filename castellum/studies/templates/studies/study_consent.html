@@ -1,7 +1,7 @@
 {% extends "studies/study_base.html" %}
 {% load static i18n django_bootstrap5 utils %}
 
-{% block title %}{% translate "Consent document" %}&middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Consent" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <form method="post" enctype="multipart/form-data" {% if not object %}action="{% url 'studies:create' %}{% if duplicate %}?duplicate_pk={{ duplicate.pk }}{% endif %}"{% endif %}>
