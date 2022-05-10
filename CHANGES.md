@@ -1,3 +1,8 @@
+# 0.75.1 (2022-05-10)
+
+-   Fixed default value for subject's privacy level
+
+
 # 0.75.0 (2022-04-26)
 
 ## bug fixes
