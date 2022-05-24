@@ -97,6 +97,9 @@ class DataProtectionForm(forms.ModelForm):
         self.fields['recruitment_consent'].initial = get_initial_consent_status(self.instance)
         self.fields['does_not_want_to_be_recruited'].initial = self.instance.does_not_want_to_be_recruited
 
+        if self.instance.does_not_want_to_be_recruited:
+            self.fields['recruitment_consent'].disabled = True
+
     def clean(self):
         cleaned_data = super().clean()
 
