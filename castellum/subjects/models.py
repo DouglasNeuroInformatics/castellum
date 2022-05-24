@@ -273,7 +273,7 @@ class ConsentDocument(models.Model):
         get_latest_by = 'created_at'
 
     def __str__(self):
-        return _('Version {}').format(self.pk)
+        return _('Version {pk}, {date}').format(pk=self.pk, date=self.created_at.date())
 
     @classmethod
     def get_latest(cls):
