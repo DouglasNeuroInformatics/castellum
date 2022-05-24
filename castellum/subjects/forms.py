@@ -34,11 +34,9 @@ from .models import Subject
 
 
 def get_initial_consent_status(subject):
-    if subject.does_not_want_to_be_recruited:
-        Consent.objects.get(subject=subject).delete()
-        return 'no_recruitment'
-    elif Consent.objects.filter(subject=subject, document__is_valid=True).exists():
-        return 'has_consent'
+    document = ConsentDocument.objects.filter(consent__subject=subject, is_valid=True)
+    if document.exists():
+        return (document.first().pk, str(document.first()))
     else:
         return 'waiting_for_consent'
 
@@ -65,15 +63,18 @@ class DataProtectionForm(forms.ModelForm):
         required=False,
     )
 
-    consent = forms.ChoiceField(choices=[
-        ('waiting_for_consent', _('Waiting for consent')),
-        ('no_recruitment', _('Does not want to be recruited')),
-        ('has_consent', _('Has consent')),
-        ], widget=forms.RadioSelect,
+    recruitment_consent = forms.ChoiceField(choices=[
+            ('waiting_for_consent', _('Waiting for consent')),
+        ] + [(document.pk, str(document)) for document in ConsentDocument.objects.filter(is_valid=True)],
         help_text=_(
-            'Select whether subjects have recruitment consent, still need to give consent or '
-            'have decided against being recruited.'
+            'Select whether subjects have recruitment consent or still need to give consent.'
         )
+    )
+
+    does_not_want_to_be_recruited = forms.BooleanField(
+        label=_("Does not want to be recruited"),
+        required=False,
+        help_text=Subject._meta.get_field('does_not_want_to_be_recruited').help_text,
     )
 
     to_be_deleted = forms.BooleanField(
@@ -93,7 +94,8 @@ class DataProtectionForm(forms.ModelForm):
 
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
-        self.fields['consent'].initial = get_initial_consent_status(self.instance)
+        self.fields['recruitment_consent'].initial = get_initial_consent_status(self.instance)
+        self.fields['does_not_want_to_be_recruited'].initial = self.instance.does_not_want_to_be_recruited
 
     def clean(self):
         cleaned_data = super().clean()
@@ -115,24 +117,22 @@ class DataProtectionForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save_consent(self, subject):
-        new_status = self.cleaned_data.get('consent')
-        if new_status == 'has_consent' and get_initial_consent_status == 'has_consent':
-            return
-
-            try:
-                subject.consent.status = new_status
-                subject.consent.underage_when_given = subject.contact.is_underage
+    def save_recruitment_consent(self, subject):
+        document = self.cleaned_data.get('recruitment_consent')
+        if document == 'waiting_for_consent':
+            if subject.has_consent:
+                subject.consent.status = Consent.WAITING
                 subject.consent.save()
-            except Consent.DoesNotExist:
-                Consent.objects.create(
-                    subject=subject,
-                    status=new_status,
-                    underage_when_given=subject.contact.is_underage,
-                    document=ConsentDocument.get_latest(),
-                )
         else:
-            Consent.objects.filter(subject=subject).delete()
+            if subject.has_consent_or_waiting:
+                subject.consent.delete()
+            document = ConsentDocument.objects.get(pk=document)
+            Consent.objects.create(
+                subject=subject,
+                status=Consent.CONFIRMED,
+                underage_when_given=subject.contact.is_underage,
+                document=document,
+            )
 
     def save(self, *args, **kwargs):
         if not self.cleaned_data.get('to_be_deleted'):
@@ -145,8 +145,11 @@ class DataProtectionForm(forms.ModelForm):
         elif not self.instance.export_requested:
             self.instance.export_requested = datetime.date.today()
 
+        self.instance.does_not_want_to_be_recruited = self.cleaned_data.get(
+            'does_not_want_to_be_recruited'
+        )
         subject = super().save(*args, **kwargs)
-        self.save_consent(subject)
+        self.save_recruitment_consent(subject)
 
         return subject
 
