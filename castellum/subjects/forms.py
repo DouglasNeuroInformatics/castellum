@@ -40,7 +40,7 @@ def get_initial_consent_status(subject):
     elif Consent.objects.filter(subject=subject, document__is_valid=True).exists():
         return 'has_consent'
     else:
-        return 'no_consent'
+        return 'waiting_for_consent'
 
 
 class DataProtectionForm(forms.ModelForm):
@@ -66,7 +66,7 @@ class DataProtectionForm(forms.ModelForm):
     )
 
     consent = forms.ChoiceField(choices=[
-        ('no_consent', _('No consent')),
+        ('waiting_for_consent', _('Waiting for consent')),
         ('no_recruitment', _('Does not want to be recruited')),
         ('has_consent', _('Has consent')),
         ], widget=forms.RadioSelect,
