@@ -129,6 +129,11 @@ class Subject(TimeStampedModel):
         'process.'
     ))
 
+    does_not_want_to_be_recruited = models.BooleanField(
+        _('Subject does not want to be recruited'),
+        default=False,
+    )
+
     source = models.CharField(_('Data source'), max_length=128, blank=True)
 
     additional_suitability_document = models.ManyToManyField(
