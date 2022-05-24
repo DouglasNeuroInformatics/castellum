@@ -34,16 +34,13 @@ from .models import Subject
 
 
 def get_initial_consent_status(subject):
-    try:
-        consent = Consent.objects.get(subject=subject, document__is_valid=True)
-    except Consent.DoesNotExist:
-        return ''
-
-    acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
-    if consent.status == Consent.WAITING and consent.updated_at <= acceptable_datetime:
-        return ''
-
-    return consent.status
+    if subject.does_not_want_to_be_recruited:
+        Consent.objects.get(subject=subject).delete()
+        return 'no_recruitment'
+    elif Consent.objects.filter(subject=subject, document__is_valid=True).exists():
+        return 'has_consent'
+    else:
+        return 'no_consent'
 
 
 class DataProtectionForm(forms.ModelForm):
@@ -67,6 +64,18 @@ class DataProtectionForm(forms.ModelForm):
         ),
         required=False,
     )
+
+    consent = forms.ChoiceField(choices=[
+        ('no_consent', _('No consent')),
+        ('no_recruitment', _('Does not want to be recruited')),
+        ('has_consent', _('Has consent')),
+        ], widget=forms.RadioSelect,
+        help_text=_(
+            'Select whether subjects have recruitment consent, still need to give consent or '
+            'have decided against being recruited.'
+        )
+    )
+
     to_be_deleted = forms.BooleanField(
         label=_("To be deleted"),
         required=False,
@@ -84,7 +93,7 @@ class DataProtectionForm(forms.ModelForm):
 
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
-        self.fields['consent_status'].initial = get_initial_consent_status(self.instance)
+        self.fields['consent'].initial = get_initial_consent_status(self.instance)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -107,15 +116,11 @@ class DataProtectionForm(forms.ModelForm):
         return cleaned_data
 
     def save_consent(self, subject):
-        new_status = self.cleaned_data.get('consent_status')
-        if new_status:
-            initial_status = get_initial_consent_status(subject)
-            if initial_status == new_status:
-                return
+        new_status = self.cleaned_data.get('consent')
+        if new_status == 'has_consent' and get_initial_consent_status == 'has_consent':
+            return
 
             try:
-                if initial_status != Consent.WAITING:
-                    subject.consent.document = ConsentDocument.get_latest()
                 subject.consent.status = new_status
                 subject.consent.underage_when_given = subject.contact.is_underage
                 subject.consent.save()
