@@ -1,0 +1,18 @@
+[Unit]
+Description=gunicorn daemon for serving castellum
+Requires=gunicorn-castellum.socket
+After=network.target
+
+[Service]
+# CHANGEME: Group setting below must match nginx default group, see /etc/nginx/nginx.conf
+Group=nginx
+Environment="DJANGO_SETTINGS_MODULE=castellum.settings.customizations"
+WorkingDirectory=/opt/castellum
+ExecStart=gunicorn \
+          --access-logfile - \
+          --workers 4 \
+          --bind unix:/run/gunicorn.sock \
+          castellum.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
