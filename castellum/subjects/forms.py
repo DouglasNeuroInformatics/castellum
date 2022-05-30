@@ -23,7 +23,6 @@ import datetime
 from django import forms
 from django.conf import settings
 from django.forms import ValidationError
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from castellum.utils.forms import DatalistWidget
@@ -65,7 +64,7 @@ class DataProtectionForm(forms.ModelForm):
 
     recruitment_consent = forms.ChoiceField(choices=[
             ('waiting_for_consent', _('Waiting for consent')),
-        ] + [(document.pk, str(document)) for document in ConsentDocument.objects.filter(is_valid=True)],
+        ] + [(document.pk, document) for document in ConsentDocument.objects.filter(is_valid=True)],
         help_text=_(
             'Select whether subjects have recruitment consent or still need to give consent.'
         )
@@ -95,7 +94,7 @@ class DataProtectionForm(forms.ModelForm):
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
         self.fields['recruitment_consent'].initial = get_initial_consent_status(self.instance)
-        self.fields['does_not_want_to_be_recruited'].initial = self.instance.does_not_want_to_be_recruited
+        self.fields['does_not_want_to_be_recruited'].initial = self.instance.does_not_want_to_be_recruited  # noqa
 
         if self.instance.does_not_want_to_be_recruited:
             self.fields['recruitment_consent'].disabled = True
