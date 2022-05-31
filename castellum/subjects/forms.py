@@ -65,15 +65,11 @@ class DataProtectionForm(forms.ModelForm):
     recruitment_consent = forms.ChoiceField(choices=[
             ('waiting_for_consent', _('Waiting for consent')),
         ] + [(document.pk, document) for document in ConsentDocument.objects.filter(is_valid=True)],
-        help_text=_(
-            'Select whether subjects have recruitment consent or still need to give consent.'
-        )
     )
 
-    does_not_want_to_be_recruited = forms.BooleanField(
-        label=_("Does not want to be recruited"),
+    recruitment_consent_declined = forms.BooleanField(
+        label=_("Recruitment consent declined"),
         required=False,
-        help_text=Subject._meta.get_field('does_not_want_to_be_recruited').help_text,
     )
 
     to_be_deleted = forms.BooleanField(
@@ -94,9 +90,9 @@ class DataProtectionForm(forms.ModelForm):
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
         self.fields['recruitment_consent'].initial = get_initial_consent_status(self.instance)
-        self.fields['does_not_want_to_be_recruited'].initial = self.instance.does_not_want_to_be_recruited  # noqa
+        self.fields['recruitment_consent_declined'].initial = self.instance.recruitment_consent_declined  # noqa
 
-        if self.instance.does_not_want_to_be_recruited:
+        if self.instance.recruitment_consent_declined:
             self.fields['recruitment_consent'].disabled = True
 
     def clean(self):
@@ -121,8 +117,8 @@ class DataProtectionForm(forms.ModelForm):
 
     def save_recruitment_consent(self, subject):
         document = self.cleaned_data.get('recruitment_consent')
-        does_not_want_to_be_recruited = self.cleaned_data.get('does_not_want_to_be_recruited')  # noqa
-        if does_not_want_to_be_recruited and subject.has_consent:
+        recruitment_consent_declined = self.cleaned_data.get('recruitment_consent_declined')  # noqa
+        if recruitment_consent_declined and subject.has_consent:
             subject.consent.delete()
         else:
             if document == 'waiting_for_consent':
@@ -151,8 +147,8 @@ class DataProtectionForm(forms.ModelForm):
         elif not self.instance.export_requested:
             self.instance.export_requested = datetime.date.today()
 
-        self.instance.does_not_want_to_be_recruited = self.cleaned_data.get(
-            'does_not_want_to_be_recruited'
+        self.instance.recruitment_consent_declined = self.cleaned_data.get(
+            'recruitment_consent_declined'
         )
         subject = super().save(*args, **kwargs)
         self.save_recruitment_consent(subject)

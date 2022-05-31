@@ -129,8 +129,8 @@ class Subject(TimeStampedModel):
         'process.'
     ))
 
-    does_not_want_to_be_recruited = models.BooleanField(
-        _('Subject does not want to be recruited'),
+    recruitment_consent_declined = models.BooleanField(
+        _('recruitment consent declined'),
         default=False,
         help_text=_(
             'This subject declined to give recruitment consent.'
