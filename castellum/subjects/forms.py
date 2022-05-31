@@ -121,20 +121,24 @@ class DataProtectionForm(forms.ModelForm):
 
     def save_recruitment_consent(self, subject):
         document = self.cleaned_data.get('recruitment_consent')
-        if document == 'waiting_for_consent':
-            if subject.has_consent:
-                subject.consent.status = Consent.WAITING
-                subject.consent.save()
+        does_not_want_to_be_recruited = self.cleaned_data.get('does_not_want_to_be_recruited')  # noqa
+        if does_not_want_to_be_recruited and subject.has_consent:
+            subject.consent.delete()
         else:
-            if subject.has_consent_or_waiting:
-                subject.consent.delete()
-            document = ConsentDocument.objects.get(pk=document)
-            Consent.objects.create(
-                subject=subject,
-                status=Consent.CONFIRMED,
-                underage_when_given=subject.contact.is_underage,
-                document=document,
-            )
+            if document == 'waiting_for_consent':
+                if subject.has_consent:
+                    subject.consent.status = Consent.WAITING
+                    subject.consent.save()
+            else:
+                if subject.has_consent_or_waiting:
+                    subject.consent.delete()
+                document = ConsentDocument.objects.get(pk=document)
+                Consent.objects.create(
+                    subject=subject,
+                    status=Consent.CONFIRMED,
+                    underage_when_given=subject.contact.is_underage,
+                    document=document,
+                )
 
     def save(self, *args, **kwargs):
         if not self.cleaned_data.get('to_be_deleted'):

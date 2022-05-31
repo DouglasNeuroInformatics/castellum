@@ -161,11 +161,6 @@ class Subject(TimeStampedModel):
         self.contact.delete()
         return super().delete()
 
-    def save(self, *args, **kwargs):
-        if self.does_not_want_to_be_recruited:
-            self.consent.delete()
-        return super().save(*args, **kwargs)
-
     @cached_property
     def contact(self):
         from castellum.contacts.models import Contact
