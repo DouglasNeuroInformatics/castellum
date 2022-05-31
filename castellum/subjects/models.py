@@ -132,6 +132,9 @@ class Subject(TimeStampedModel):
     does_not_want_to_be_recruited = models.BooleanField(
         _('Subject does not want to be recruited'),
         default=False,
+        help_text=_(
+            'This subject declined to give recruitment consent.'
+        ),
     )
 
     source = models.CharField(_('Data source'), max_length=128, blank=True)
