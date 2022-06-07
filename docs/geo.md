@@ -84,11 +84,11 @@ Further reading:
 ### GeoJSON format
 
 Provide a valid [GeoJSON](https://tools.ietf.org/html/rfc7946) file with
-exactly one feature of type "Polygon" or "MultiPolygon". Castellum will
-then filter all subjects that live inside this (multi)polygon, so it
-should enclose all areas where the conditions for recruitment are met.
-Note that the Coordinate Reference System (CRS) must be WGS84
-(EPSG:4326).
+a either a single feature or a feature collection of type "Polygon" or
+"MultiPolygon". Castellum will then filter all subjects that live inside
+this (multi)polygon, so it should enclose all areas where the conditions
+for recruitment are met. Note that the Coordinate Reference System (CRS)
+must be WGS84 (EPSG:4326).
 
 This is an example of a valid GeoJSON file:
 
@@ -120,11 +120,9 @@ This is an example of a valid GeoJSON file:
 ### How to convert a shapefile to GeoJSON
 
 Most Geographic Information Systems (GIS) such as QGIS or ArcGIS support
-the conversion to GeoJSON out of the box. Before exporting the GeoJSON
-file merge all polygons and multipolygons in the layer into one feature,
-as the geofilter will fail if there is more than one feature in the
-file. Desktop GIS applications should automatically reproject the
-shapefile to WGS84 during the export to GeoJSON format.
+the conversion to GeoJSON out of the box. Desktop GIS applications
+should automatically reproject the shapefile to WGS84 during the export
+to GeoJSON format.
 
 ### How to optimize GeoJSON for performance
 
