@@ -61,7 +61,8 @@ Further reading:
 
 ### Configure Castellum
 
--   Add `'castellum.geofilters'` to `INSTALLED_APPS`
+-   Add `'django.contrib.gis'` and `'castellum.geofilters'` to
+    `INSTALLED_APPS`
 -   Configure `NOMINATIM`. You only have to set `domain` to point geopy
     to the domain of your local Nominatim instance. The port only needs
     to be set if it's a non-standard one. The [geopy documentation]
