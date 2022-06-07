@@ -135,14 +135,14 @@ class Study(models.Model):
     geo_filter = RestrictedFileField(
         _('Geo filter file'),
         help_text=_(
-            'A GeoJSON file that contains only a single (multi)polygon. '
-            'Only subjects who live inside this polygon will be considered for this study.'
+            'A GeoJSON file that contains (multi)polygons. '
+            'Only subjects who live inside the polygons will be considered for this study.'
         ),
         blank=True,
         upload_to='studies/geofilters/',
         content_types=['application/json', 'text/plain'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
-        validators=[JsonFileValidator(GEOJSON_SCHEMA, '#/$defs/Feature')],
+        validators=[JsonFileValidator(GEOJSON_SCHEMA, '#/$defs/geofilter')],
     )
     is_exclusive = models.BooleanField(
         _('Exclusive subjects'),
