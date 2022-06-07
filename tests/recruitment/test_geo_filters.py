@@ -26,6 +26,24 @@ POLYGON = StringIO("""{
     }
 }""")
 
+FEATURE_COLLECTION = StringIO("""{
+    "type": "FeatureCollection",
+    "features": [{
+        "properties": null,
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+                [12, 51],
+                [14, 51],
+                [14, 53],
+                [12, 53],
+                [12, 51]
+            ]]
+        }
+    }]
+}""")
+
 INSIDE = Point(13, 52)
 OUTSIDE = Point(3, 20)
 
@@ -39,15 +57,16 @@ def make_contact(point):
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize('filter', [POLYGON, FEATURE_COLLECTION])
 @pytest.mark.parametrize('point,expected', [
     (INSIDE, True),
     (OUTSIDE, False),
     (None, False),
 ])
-def test_geofilter(point, expected):
+def test_geofilter(filter, point, expected):
     make_contact(point)
 
-    study = baker.prepare(Study, geo_filter=POLYGON)
+    study = baker.prepare(Study, geo_filter=filter)
     q = filter_queries.geofilter(study)
 
     if expected:
@@ -57,6 +76,7 @@ def test_geofilter(point, expected):
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize('filter', [POLYGON, FEATURE_COLLECTION])
 @pytest.mark.parametrize('point1,point2,expected', [
     (INSIDE, INSIDE, 3),
     (INSIDE, OUTSIDE, 1),
@@ -65,7 +85,7 @@ def test_geofilter(point, expected):
     (OUTSIDE, None, 0),
     (None, None, 0),
 ])
-def test_geofilter_with_legal_representative(point1, point2, expected):
+def test_geofilter_with_legal_representative(filter, point1, point2, expected):
     contact = baker.make(Contact)
 
     contact.legal_representatives.set([
@@ -73,7 +93,7 @@ def test_geofilter_with_legal_representative(point1, point2, expected):
         make_contact(point2),
     ])
 
-    study = baker.prepare(Study, geo_filter=POLYGON)
+    study = baker.prepare(Study, geo_filter=filter)
     q = filter_queries.geofilter(study)
 
     assert Subject.objects.filter(q).count() == expected
