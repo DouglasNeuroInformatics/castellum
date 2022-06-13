@@ -233,7 +233,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             self.object.excluded_studies.set(self.duplicate.excluded_studies.all())
             self.object.mail_subject = self.duplicate.mail_subject
             self.object.mail_body = self.duplicate.mail_body
-            self.object.consent = self.duplicate.consent
             self.object.save()
 
             self.object.general_domains.set(self.duplicate.general_domains.all())
