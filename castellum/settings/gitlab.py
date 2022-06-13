@@ -26,4 +26,5 @@ CASTELLUM_COVERLETTER_TEMPLATE = BASE_DIR / 'subjects' / 'fixtures' / 'demo_cove
 CASTELLUM_API_ENABLED = True
 
 # Setup geofilters
+INSTALLED_APPS.append('django.contrib.gis')
 INSTALLED_APPS.append('castellum.geofilters')
