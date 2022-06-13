@@ -46,6 +46,16 @@ APP_DIR = Path(__file__).resolve().parent
 GEOJSON_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'geojson.json'))
 
 
+def geofilter_upload_to(instance, filename):
+    assert instance.pk
+    return 'studies/{}/geofilters/{}'.format(instance.pk, filename)
+
+
+def consent_upload_to(instance, filename):
+    assert instance.pk
+    return 'studies/{}/consents/{}'.format(instance.pk, filename)
+
+
 class StudyType(TranslatableModel):
     # see also schemas/study.json
     EXPORT_KEYS = 'Online', 'Behavioral lab', 'MRI', 'Simulation', 'EEG'
@@ -139,7 +149,7 @@ class Study(models.Model):
             'Only subjects who live inside this polygon will be considered for this study.'
         ),
         blank=True,
-        upload_to='studies/geofilters/',
+        upload_to=geofilter_upload_to,
         content_types=['application/json', 'text/plain'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
         validators=[JsonFileValidator(GEOJSON_SCHEMA, '#/$defs/Feature')],
@@ -192,7 +202,7 @@ class Study(models.Model):
             '(and printed) later by recruiters or conductors.'
         ),
         blank=True,
-        upload_to='studies/consent/',
+        upload_to=consent_upload_to,
         content_types=['application/pdf'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
