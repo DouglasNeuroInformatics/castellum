@@ -286,7 +286,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             initial['description'] = self.duplicate.description
             initial['tags'] = list(self.duplicate.tags)
             initial['announce_status_changes'] = self.duplicate.announce_status_changes
-            initial['consent'] = self.duplicate.consent
             initial['min_subject_count'] = self.duplicate.min_subject_count
             initial['exportable_attributes'] = list(self.duplicate.exportable_attributes.all())
             initial['is_anonymous_invitation'] = self.duplicate.is_anonymous_invitation
