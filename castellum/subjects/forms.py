@@ -62,11 +62,6 @@ class DataProtectionForm(forms.ModelForm):
         required=False,
     )
 
-    recruitment_consent = forms.ChoiceField(choices=[
-            ('waiting_for_consent', _('Waiting for consent')),
-        ] + [(document.pk, document) for document in ConsentDocument.objects.filter(is_valid=True)],
-    )
-
     recruitment_consent_declined = forms.BooleanField(
         label=_("Recruitment consent declined"),
         required=False,
@@ -86,6 +81,11 @@ class DataProtectionForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super().__init__(*args, **kwargs)
+
+        self.fields['recruitment_consent'] = forms.ChoiceField(choices=[
+            ('waiting_for_consent', _('Waiting for consent')),
+        ] + [(document.pk, document) for document in ConsentDocument.objects.filter(is_valid=True)],
+        )
 
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
