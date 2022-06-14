@@ -72,6 +72,9 @@ EXCLUDED = [
     # Skipped because it would impact the privacy of users
     'recruitment.Participation.assigned_recruiter',
     'appointments.Appointment.assigned_conductors',
+
+    # Skipped since this is a temporary field
+    'subjects.Subject.do_not_delete_until'
 ]
 
 

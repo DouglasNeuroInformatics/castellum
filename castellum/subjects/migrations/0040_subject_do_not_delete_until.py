@@ -1,0 +1,35 @@
+from django.conf import settings
+from django.db import migrations
+from django.db import models
+from django.utils import timezone
+
+import castellum.utils.fields
+from castellum.recruitment import filter_queries
+
+
+def set_values(apps, schema_editor):
+    Subject = apps.get_model('subjects', 'Subject')
+    subjects = Subject.objects.filter(
+        created_at__gte=timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
+    ).filter(
+        filter_queries.has_consent()
+    )
+    for subject in subjects:
+        subject.do_not_delete_until = subject.created_at + settings.CASTELLUM_CONSENT_REVIEW_PERIOD
+        subject.save()
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('subjects', '0039_remove_consentdocument_is_valid'),
+    ]
+
+    operations = [
+        migrations.AddField(
+            model_name='subject',
+            name='do_not_delete_until',
+            field=castellum.utils.fields.DateTimeField(blank=True, null=True, verbose_name='do not delete until'),
+        ),
+        migrations.RunPython(set_values)
+    ]

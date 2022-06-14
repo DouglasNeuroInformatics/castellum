@@ -145,6 +145,9 @@ class Subject(TimeStampedModel):
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
+    # temporary field meant to be removed once there are no subjects left that have it set
+    do_not_delete_until = DateTimeField(_("do not delete until"), blank=True, null=True)
+
     objects = SubjectQuerySet.as_manager()
 
     class Meta:
