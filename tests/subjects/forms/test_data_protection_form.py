@@ -101,21 +101,3 @@ def test_consent_renew_waiting(user, subject):
 
     assert subject.consent.status == Consent.WAITING
     assert subject.consent.document == new_document
-
-
-def test_consent_confirm_from_invalid(user, subject):
-    initial_document = baker.make(ConsentDocument, is_valid=False)
-    baker.make(
-        Consent, subject=subject, status=Consent.CONFIRMED, document=initial_document
-    )
-
-    new_document = baker.make(ConsentDocument)
-    form = DataProtectionForm(user=user, instance=subject, data={
-        'privacy_level': 0,
-        'consent_status': Consent.CONFIRMED,
-    })
-    assert form.is_valid()
-    form.save()
-
-    assert subject.consent.status == Consent.CONFIRMED
-    assert subject.consent.document == new_document
