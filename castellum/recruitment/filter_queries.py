@@ -160,20 +160,26 @@ def uuid_filter(qs, key='subject_uuid'):
 def geofilter(study):
     from castellum.geofilters.models import Geolocation
 
-    feature = json.load(study.geo_filter)
+    data = json.load(study.geo_filter)
     study.geo_filter.seek(0)
-    polygon = GEOSGeometry(json.dumps(feature['geometry']))
+    if data['type'] == 'FeatureCollection':
+        features = data['features']
+    else:
+        features = [data]
 
-    outside = Geolocation.objects.exclude(point__within=polygon)
-    wards = (
-        Contact.objects
-        .exclude(legal_representatives__geolocation=None)
-        .exclude(legal_representatives__geolocation__in=outside)
-    )
-    contacts = Contact.objects.filter(
-        models.Q(geolocation__point__within=polygon) | models.Q(id__in=wards.values('id'))
-    )
-    return uuid_filter(contacts)
+    q = models.Q()
+    for feature in features:
+        polygon = GEOSGeometry(json.dumps(feature['geometry']))
+
+        outside = Geolocation.objects.exclude(point__within=polygon)
+        wards = (
+            Contact.objects
+            .exclude(legal_representatives__geolocation=None)
+            .exclude(legal_representatives__geolocation__in=outside)
+        )
+        q |= models.Q(geolocation__point__within=polygon) | models.Q(id__in=wards.values('id'))
+
+    return uuid_filter(Contact.objects.filter(q))
 
 
 def completeness_expr():
