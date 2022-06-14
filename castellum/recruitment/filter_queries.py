@@ -115,7 +115,7 @@ def has_consent(include_waiting=False, exclude_deprecated=False):
         acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
         q_status |= models.Q(consent__updated_at__gte=acceptable_datetime)
 
-    q_document = models.Q(consent__document__is_valid=True)
+    q_document = models.Q()
     if exclude_deprecated:
         q_document &= models.Q(consent__document__is_deprecated=False)
 

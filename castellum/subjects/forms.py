@@ -35,7 +35,7 @@ from .models import Subject
 
 def get_initial_consent_status(subject):
     try:
-        consent = Consent.objects.get(subject=subject, document__is_valid=True)
+        consent = Consent.objects.get(subject=subject)
     except Consent.DoesNotExist:
         return ''
 

@@ -254,7 +254,6 @@ class SubjectNote(models.Model):
 
 class ConsentDocument(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    is_valid = models.BooleanField(_('Is valid'), default=True)
     is_deprecated = models.BooleanField(_('Is deprecated'), default=False)
     file = RestrictedFileField(
         _('File'),
@@ -273,7 +272,7 @@ class ConsentDocument(models.Model):
     @classmethod
     def get_latest(cls):
         try:
-            return cls.objects.filter(is_valid=True).latest()
+            return cls.objects.all().latest()
         except cls.DoesNotExist:
             return cls.objects.create()
 

@@ -28,7 +28,7 @@ class SubjectAdmin(admin.ModelAdmin):
 
 
 class ConsentDocumentAdmin(admin.ModelAdmin):
-    list_display = ['created_at', 'is_valid']
+    list_display = ['created_at']
 
 
 admin.site.register(models.Subject, SubjectAdmin)
