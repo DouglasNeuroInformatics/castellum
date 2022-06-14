@@ -13,8 +13,4 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(delete_invalid_consentdocuments),
-        migrations.RemoveField(
-            model_name='consentdocument',
-            name='is_valid',
-        ),
     ]

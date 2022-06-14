@@ -26,7 +26,7 @@ def test_delete_invalid_consentdocuments(migrator):
         baker.make(ConsentDocument, is_valid=True)
 
     new_state = migrator.apply_tested_migration(
-        ('subjects', '0038_remove_consentdocument_is_valid')
+        ('subjects', '0039_remove_consentdocument_is_valid')
     )
     ConsentDocument = new_state.apps.get_model('subjects', 'ConsentDocument')
 
