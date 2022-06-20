@@ -11,9 +11,9 @@
                 <span class="d-inline-block my-1 me-2">{{ study.contact_person }}</span>
                 {% if study.p %}
                     <div class="d-inline-block my-1 me-2">
-                        <span class="badge bg-secondary" title="{{ study.p.0.get_status_tooltip }}">{{ study.p.0|display:'status' }}</span>
+                        <span class="badge text-bg-secondary" title="{{ study.p.0.get_status_tooltip }}">{{ study.p.0|display:'status' }}</span>
                         {% if study.p.0.dropped_out %}
-                            <span class="badge bg-secondary" title="{{ study.p.0.TOOLTIPS.dropped_out }}">{{ study.p.0|verbose_name:'dropped_out' }}</span>
+                            <span class="badge text-bg-secondary" title="{{ study.p.0.TOOLTIPS.dropped_out }}">{{ study.p.0|verbose_name:'dropped_out' }}</span>
                         {% endif %}
                     </div>
                 {% endif %}

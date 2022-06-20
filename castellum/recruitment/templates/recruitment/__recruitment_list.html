@@ -11,29 +11,29 @@
                             <span class="d-inline-block my-1 me-2" title="{{ desc.label }}">{{ bucket }}</span>
                         {% endfor %}
                         {% if participation.excluded_by_cleanup %}
-                            <span class="badge bg-secondary my-1" title="{{ participation.TOOLTIPS.excluded_by_cleanup }}">{{ participation|verbose_name:'excluded_by_cleanup' }}</span>
+                            <span class="badge text-bg-secondary my-1" title="{{ participation.TOOLTIPS.excluded_by_cleanup }}">{{ participation|verbose_name:'excluded_by_cleanup' }}</span>
                         {% elif participation.status_open and participation.status != participation.NOT_CONTACTED %}
-                            <span class="badge bg-secondary my-1" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
+                            <span class="badge text-bg-secondary my-1" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
                         {% endif %}
                         {% if participation.status == participation.INVITED and session_count > 0 %}
-                            <span class="badge bg-secondary my-1" title="{% blocktranslate with count=participation.appointment_count total=session_count %}{{ count }} out of {{ total }} appointments have already been scheduled{% endblocktranslate %}">
+                            <span class="badge text-bg-secondary my-1" title="{% blocktranslate with count=participation.appointment_count total=session_count %}{{ count }} out of {{ total }} appointments have already been scheduled{% endblocktranslate %}">
                                 {% icon 'calendar' label=_('Appointments') %}
                                 {{ participation.appointment_count }}/{{ session_count }}
                             </span>
                         {% endif %}
                         {% if participation.dropped_out %}
-                            <span class="badge bg-secondary my-1" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
+                            <span class="badge text-bg-secondary my-1" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
                         {% endif %}
                         {% if recently_contacted %}
-                            <span class="badge bg-dark my-1" title="{{ participation.TOOLTIPS.recently_contacted }}">{% translate 'contacted elsewhere' %}</span>
+                            <span class="badge text-bg-dark my-1" title="{{ participation.TOOLTIPS.recently_contacted }}">{% translate 'contacted elsewhere' %}</span>
                         {% elif participation.status_open and participation.recent_participation_count > 0 %}
-                            <span class="badge bg-secondary my-1" title="{{ participation.TOOLTIPS.recently_active }}">{% translate 'recently active' %}</span>
+                            <span class="badge text-bg-secondary my-1" title="{{ participation.TOOLTIPS.recently_active }}">{% translate 'recently active' %}</span>
                         {% endif %}
                         {% if participation.subject.blocked %}
-                            <span class="badge bg-dark my-1" title="{{ participation.subject.TOOLTIPS.blocked }}">{{ participation.subject|verbose_name:'blocked' }}</span>
+                            <span class="badge text-bg-dark my-1" title="{{ participation.subject.TOOLTIPS.blocked }}">{{ participation.subject|verbose_name:'blocked' }}</span>
                         {% endif %}
                         {% if participation.subject.deceased %}
-                            <span class="badge bg-dark my-1" title="{{ participation.subject.TOOLTIPS.deceased }}">{{ participation.subject|verbose_name:'deceased' }}</span>
+                            <span class="badge text-bg-dark my-1" title="{{ participation.subject.TOOLTIPS.deceased }}">{{ participation.subject|verbose_name:'deceased' }}</span>
                         {% endif %}
                     </div>
 
@@ -64,7 +64,7 @@
                                     {% endif %}
                                 {% endif %}
                                 {% if participation.followup_urgent %}
-                                    <span class="list-icon bg-success text-light">
+                                    <span class="list-icon text-bg-success">
                                         {% icon 'bell' style='regular' label=_('follow-up urgent') %}
                                     </span>
                                 {% endif %}

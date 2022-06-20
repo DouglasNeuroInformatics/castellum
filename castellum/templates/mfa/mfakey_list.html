@@ -9,7 +9,7 @@
         </div>
     {% endif %}
 
-    <div class="card mb-3 {% if not object_list %}bg-warning{% endif %}">
+    <div class="card mb-3 {% if not object_list %}text-bg-warning{% endif %}">
         <div class="card-body">
             <h5 class="card-title">
                 {% if object_list %}
@@ -26,7 +26,7 @@
                     <li class="table-list-item">
                         <div>
                             <span>{{ key.name }}</span>
-                            <span class="badge bg-secondary">{{ key.method }}</span>
+                            <span class="badge text-bg-secondary">{{ key.method }}</span>
                         </div>
                         <div class="table-list-item-actions">
                             <a href="{% url 'mfa:delete' key.id %}" class="btn btn-outline-danger btn-sm">{% translate 'Remove' %}</a>
