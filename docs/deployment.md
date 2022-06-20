@@ -61,7 +61,7 @@ security](https://docs.djangoproject.com/en/2.2/topics/security/).
 
 ## Backups
 
-Of course it important to backup the database. Since everything is
+Of course it is important to backup the database. Since everything is
 stored in a regular PostgreSQL, you should be able to employ your
 existing backup solution.
 
