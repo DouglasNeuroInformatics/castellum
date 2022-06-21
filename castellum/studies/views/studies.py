@@ -255,7 +255,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
                 s.resources.set(session.resources.all())
 
             for tag in self.duplicate.executiontag_set.all():
-                self.object.executiontag_set.create(name=tag.name)
+                self.object.executiontag_set.create(name=tag.name, color=tag.color)
         else:
             Domain.objects.create(
                 bits=settings.CASTELLUM_STUDY_DOMAIN_BITS,
