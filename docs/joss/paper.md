@@ -45,6 +45,8 @@ During the execution of a study it is technically ensured that only users with t
 
 Additionally, `Castellum` allows to delete the pseudonym space of a study independent of the study status. After the deletion of a pseudonym space it will be impossible for any user to connect pseudonymized scientific data to the contact data in `Castellum`. This process corresponds to the usually paper based procedure in human science of destroying the coding list at a certain point after data collection.
 
+Moreover, `Castellum` keeps track of the legal bases to keep information about a subject. When all legal bases have expired, the subject is listed in a data protection dashboard. This allows data protection officers (or staff) to handle or rather delete subject data accordingly.
+
 ## Roles and Rights Management
 Users can be imported via LDAP groups. Users are assigned to different roles in `Castellum`. There are five global roles: Data protection coordinator, Principal subject manager, Receptionist, Study approver, Study coordinator. Two of these roles (Data protection coordinator, Principal subject manager) allow comprehensive access to subject data. These roles should only be assigned to a very small group of people.
 Within a study recruitment, recruiters are granted access to the contact data of persons who match the set filter criteria of the study. Conductors get access to the contact data and pseudonyms of persons who are marked as participating in the study. While users with the role of Principal subject manager are shown all matching records in the results list of subject search, the study-specific subject managers only receive search results for participating subjects of their affiliated studies.
