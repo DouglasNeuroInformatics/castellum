@@ -63,7 +63,7 @@ The application should be hosted locally at a research facility and it is recomm
 
 Access to the server should be restricted to a small group of administrators of the corresponding institute. It is recommended that users should undergo recurring training on GDPR compliant usage of `Castellum` and its suggested interaction with participants.
 
-It remains to mention that regular database backups of `Castellum` have implications for data protection: deletion of participant data on _client side_ may end up in storing personal data in backups far beyond the date of the actual deletion. Therefore, it is recommended to keep backups only for a short amount of time (e.g. 14 days) and inform participants about the date when all their data, including backups, will be deleted.
+It remains to mention that regular database backups of `Castellum` have implications for data protection: After a participant has been deleted in `Castellum`, their personal data will still be stored in a backup. Therefore, it is recommended to keep backups only for a short amount of time (e.g. 14 days) and inform participants about the date when all their data, including backups, will be deleted.
 
 # Acknowledgements
 
