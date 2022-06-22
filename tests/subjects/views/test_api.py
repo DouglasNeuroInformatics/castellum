@@ -18,7 +18,7 @@ def test_api_attributes_view(client, user, subject, attribute_description):
 
     assert response.status_code == 200
     data = response.json()
-    assert data == {attribute_description.label: None}
+    assert data == {attribute_description.label: None, 'privacy_level': 0}
 
 
 def test_api_attributes_view_no_user_access(client, user, subject, attribute_description):

@@ -21,7 +21,7 @@ def test_apiattributesview(
 
     assert response.status_code == 200
     data = response.json()
-    assert data == {'Handedness': None}
+    assert data == {'Handedness': None, 'privacy_level': 0}
 
 
 def test_participation_status(client, conductor, study_in_execution_status, subject):
