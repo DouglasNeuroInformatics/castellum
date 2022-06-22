@@ -71,11 +71,6 @@ def _list(qs):
     return list(qs)
 
 
-@register.filter(name='ceil')
-def _ceil(x):
-    return math.ceil(x)
-
-
 @register.filter
 def force_date(date):
     if isinstance(date, datetime.datetime):
