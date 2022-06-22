@@ -50,7 +50,6 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['unprivileged_users'] = list(self.get_unprivileged_members())
         context['membership_forms'] = [
             MemberForm(instance=membership) for membership in self.study.studymembership_set.all()
         ]
@@ -79,14 +78,6 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
         form.instance.study = self.object
         form.save()
         return redirect('studies:members', self.object.pk)
-
-    def get_unprivileged_members(self):
-        max_privacy_level = self.object.get_filter_max_privacy_level()
-
-        for user in self.object.members.all():
-            if user.has_perm('studies.change_study', obj=self.object):
-                if user.get_privacy_level() < max_privacy_level:
-                    yield user.get_full_name()
 
 
 class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView):

@@ -6,15 +6,6 @@
 {% block title %}{% translate "Member management" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    {% if unprivileged_users %}
-        <div class="container">
-            <p class="alert alert-warning">
-                {% translate 'Some members of this study with access to filters are blocked from managing filters due to an insufficient privacy level. Blocked users are: ' %}
-                {{ unprivileged_users|join:', ' }}
-            </p>
-        </div>
-    {% endif %}
-
     <table class="table w-auto mx-auto">
         <thead>
             <tr>

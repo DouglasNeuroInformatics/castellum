@@ -8,13 +8,6 @@
         {% include 'studies/__filtergroup_common.html' %}
     {% endif %}
 
-    {% if inaccessible %}
-        <p class="alert alert-warning">
-            {% translate 'At least one member of this study with access to filters does not have a sufficient privacy level to view the following recruitment attributes:' %}
-            {{ inaccessible|join:', ' }}
-        </p>
-    {% endif %}
-
     {% for pk, form in templates.items %}
         <template id="template-{{ pk }}">
             {{ form.description.as_hidden }}
