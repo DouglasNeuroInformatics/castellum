@@ -154,19 +154,6 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
             data=self.get_form_kwargs().get('data'),
         )
 
-    def get_inaccessible_attributedescriptions(self):
-        min_privacy_level = 2
-        for member in self.study.members.all():
-            if member.has_perm('studies.change_study', obj=self.study):
-                privacy_level = member.get_privacy_level()
-                if privacy_level < min_privacy_level:
-                    min_privacy_level = privacy_level
-
-        return AttributeDescription.objects.filter(
-            subjectfilter__group__study=self.study,
-            privacy_level_read__gt=min_privacy_level,
-        ).distinct()
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -180,8 +167,6 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
         context['expected_subject_count'] = (
             still_needed * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
-
-        context['inaccessible'] = list(self.get_inaccessible_attributedescriptions())
 
         context['add_form'] = SubjectFilterAddForm(user=self.request.user)
         context['templates'] = {}
