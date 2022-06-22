@@ -56,11 +56,6 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin):
     def get_permission_required(self):
         permission_required = set(['studies.change_study'])
         permission_required.update(super().get_permission_required())
-
-        max_privacy_level = self.study.get_filter_max_privacy_level()
-        if max_privacy_level:
-            permission_required.add('castellum_auth.privacy_level_{}'.format(max_privacy_level))
-
         return permission_required
 
 

@@ -36,18 +36,6 @@ def test_update_other_study(client, member, subject_filter_group):
     assert response.status_code == 404
 
 
-def test_update_403_privacy_level(client, member, subject_filter):
-    subject_filter.description.privacy_level_read = 2
-    subject_filter.description.privacy_level_write = 2
-    subject_filter.description.save()
-
-    client.force_login(member)
-    group = subject_filter.group
-    url = '/studies/{}/recruitmentsettings/filters/{}/'.format(group.study.pk, group.pk)
-    response = client.get(url)
-    assert response.status_code == 403
-
-
 def test_delete_200(client, member, subject_filter_group):
     client.force_login(member)
     study = subject_filter_group.study

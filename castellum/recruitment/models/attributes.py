@@ -23,7 +23,6 @@ from collections import OrderedDict
 from typing import List
 
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -90,14 +89,6 @@ class AttributeCategory(TranslatableModel):
 
 
 class AttributeDescriptionQuerySet(TranslatableQuerySet):
-    def allowed_read(self, user):
-        privacy_level = user.get_privacy_level()
-        return self.filter(privacy_level_read__lte=privacy_level)
-
-    def allowed_write(self, user):
-        privacy_level = user.get_privacy_level()
-        return self.filter(privacy_level_write__lte=privacy_level)
-
     def by_category(self, qs=None):
         qs = qs or self.all()
         qs = qs.select_related('category').order_by('category__order', 'order')
@@ -128,7 +119,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     ]
     STATISTICS_TYPES = ['ChoiceField', 'OrderedChoiceField', 'BooleanField', 'AgeField']
 
-    import_fields = ['field_type', 'privacy_level_read', 'privacy_level_write', 'order', 'url']
+    import_fields = ['field_type', 'order', 'url']
     import_translated_fields = ['label', '_filter_label', 'help_text']
 
     translations = TranslatedFields(
@@ -140,12 +131,6 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
     url = models.URLField(
         verbose_name=_('URL'), help_text=_('URL to a formal definition in an ontology'), blank=True
-    )
-    privacy_level_read = models.PositiveSmallIntegerField(
-        default=0, validators=[MaxValueValidator(2)]
-    )
-    privacy_level_write = models.PositiveSmallIntegerField(
-        default=0, validators=[MaxValueValidator(2)]
     )
     order = models.IntegerField(default=0)
     category = models.ForeignKey(
@@ -166,11 +151,6 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         return self.label
 
     def clean(self):
-        if self.privacy_level_read > self.privacy_level_write:
-            raise ValidationError(
-                _('Privacy level for reading may not be higher than for writing.'), code='invalid'
-            )
-
         if self.statistics_rank and self.field_type not in self.STATISTICS_TYPES:
             raise ValidationError(_(
                 'Statistics rank can only be set for the following field types: %(field_types)s',
