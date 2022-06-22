@@ -56,11 +56,6 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin):
     def get_permission_required(self):
         permission_required = set(['studies.change_study'])
         permission_required.update(super().get_permission_required())
-
-        max_privacy_level = self.study.get_filter_max_privacy_level()
-        if max_privacy_level:
-            permission_required.add('castellum_auth.privacy_level_{}'.format(max_privacy_level))
-
         return permission_required
 
 
@@ -168,7 +163,7 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
             still_needed * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
 
-        context['add_form'] = SubjectFilterAddForm(user=self.request.user)
+        context['add_form'] = SubjectFilterAddForm()
         context['templates'] = {}
         for description in AttributeDescription.objects.all():
             context['templates'][description.pk] = SubjectFilterForm(

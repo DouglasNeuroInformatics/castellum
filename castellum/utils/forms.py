@@ -130,20 +130,6 @@ class DisabledChoiceField(forms.TypedChoiceField):
         return super().validate(value)
 
 
-class DisabledModelChoiceField(forms.ModelChoiceField):
-    widget = DisabledSelect
-
-    def validate(self, value):
-        # value is the instance, so we have to check value.pk
-        if value.pk in self.widget.disabled_choices:
-            raise forms.ValidationError(
-                self.error_messages['invalid_choice'],
-                code='invalid_choice',
-                params={'value': value},
-            )
-        return super().validate(value)
-
-
 class IntegerChoiceField(forms.TypedChoiceField):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('coerce', int)

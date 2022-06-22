@@ -57,11 +57,6 @@ class Domain(models.Model):
     def __str__(self):
         return self.name or self.key
 
-    def get_exportable_attributes_max_privacy_level(self):
-        key = 'privacy_level_read'
-        result = self.exportable_attributes.aggregate(models.Max(key))
-        return result[key + '__max'] or 0
-
 
 class Pseudonym(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)

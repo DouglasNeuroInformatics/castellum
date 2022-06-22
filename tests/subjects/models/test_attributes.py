@@ -65,8 +65,6 @@ def test_attribute_description_by_category_with_qs(attribute_descriptions):
 def test_attribute_description_export():
     description = AttributeDescription.objects.create(
         field_type='ChoiceField',
-        privacy_level_read=1,
-        privacy_level_write=2,
         order=15,
     )
     with switch_language(description, 'en'):
@@ -95,8 +93,6 @@ def test_attribute_description_export():
 
     assert description.export() == {
         'field_type': 'ChoiceField',
-        'privacy_level_read': 1,
-        'privacy_level_write': 2,
         'order': 15,
         'label': {
             'de': 'de-label',

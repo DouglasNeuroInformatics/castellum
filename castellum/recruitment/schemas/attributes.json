@@ -34,12 +34,6 @@
                         "AgeField"
                     ]
                 },
-                "privacy_level_read": {
-                    "type": "integer"
-                },
-                "privacy_level_write": {
-                    "type": "integer"
-                },
                 "order": {
                     "type": "integer"
                 },

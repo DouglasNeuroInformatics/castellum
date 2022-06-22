@@ -12,8 +12,6 @@ JSON_SCHEMA = """{
     "properties": {
         "Date of birth": {
             "format": "date",
-            "privacy_level_read": 0,
-            "privacy_level_write": 0,
             "type": "string"
         },
         "Handedness": {
@@ -22,8 +20,6 @@ JSON_SCHEMA = """{
                 "Left",
                 "Ambidextrous"
             ],
-            "privacy_level_read": 0,
-            "privacy_level_write": 0,
             "type": "string"
         },
         "Highest degree": {
@@ -36,8 +32,6 @@ JSON_SCHEMA = """{
                 "Bachelor",
                 "Master"
             ],
-            "privacy_level_read": 0,
-            "privacy_level_write": 0,
             "type": "string"
         },
         "Instruments": {
@@ -49,13 +43,9 @@ JSON_SCHEMA = """{
                 ],
                 "type": "string"
             },
-            "privacy_level_read": 0,
-            "privacy_level_write": 0,
             "type": "array"
         },
         "Language": {
-            "privacy_level_read": 0,
-            "privacy_level_write": 0,
             "type": "string"
         },
         "id": {
@@ -90,8 +80,6 @@ JSON_DATA = """[
 
 BIDS_SCHEMA = """{
     "date_of_birth": {
-        "PrivacyLevelRead": 0,
-        "PrivacyLevelWrite": 0,
         "TermURL": "http://purl.bioontology.org/ontology/SNOMEDCT/397669002"
     },
     "handedness": {
@@ -100,8 +88,6 @@ BIDS_SCHEMA = """{
             "2": "Left",
             "3": "Ambidextrous"
         },
-        "PrivacyLevelRead": 0,
-        "PrivacyLevelWrite": 0,
         "TermURL": "http://purl.bioontology.org/ontology/SNOMEDCT/57427004"
     },
     "highest_degree": {
@@ -113,23 +99,16 @@ BIDS_SCHEMA = """{
             "8": "Abitur",
             "9": "Bachelor",
             "10": "Master"
-        },
-        "PrivacyLevelRead": 0,
-        "PrivacyLevelWrite": 0
+        }
     },
     "instruments": {
         "Levels": {
             "11": "Piano",
             "12": "Guitar",
             "13": "Drums"
-        },
-        "PrivacyLevelRead": 0,
-        "PrivacyLevelWrite": 0
+        }
     },
-    "language": {
-        "PrivacyLevelRead": 0,
-        "PrivacyLevelWrite": 0
-    },
+    "language": {},
     "privacy_level": {
         "Levels": {
             "0": "regular",

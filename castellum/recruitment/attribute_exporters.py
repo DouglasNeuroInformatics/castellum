@@ -80,9 +80,6 @@ class JSONExporter:
                     'enum': enum,
                 }
 
-            data['privacy_level_read'] = description.privacy_level_read
-            data['privacy_level_write'] = description.privacy_level_write
-
             schema['properties'][key] = data
 
         return self._json_dumps(schema)
@@ -149,9 +146,6 @@ class BIDSExporter:
                 ('Description', description.help_text),
                 ('TermURL', description.url),
             ] if v}
-
-            schema[key]['PrivacyLevelRead'] = description.privacy_level_read
-            schema[key]['PrivacyLevelWrite'] = description.privacy_level_write
 
         schema['privacy_level'] = {
             'Levels': {
