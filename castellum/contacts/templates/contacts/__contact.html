@@ -1,4 +1,4 @@
-{% load i18n auth utils subjects reliability %}
+{% load i18n auth utils subjects %}
 
 <dl class="row">
     <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
@@ -8,12 +8,7 @@
     </dd>
 
     <dt class="col-sm-6">{% translate "Reliability" %}</dt>
-    <dd class="col-sm-6">
-        <span class="text-{{ subject|reliability_level }}" aria-hidden="true">&#9679;</span>
-        {% with summary=subject|reliability_summary %}
-            {% if summary %}({{ summary }}){% endif %}
-        {% endwith %}
-    </dd>
+    <dd class="col-sm-6">{{ subject|display:'reliability' }}</dd>
 
     {# also show not_available_until if it should have been set on legal representatives #}
     {% if not subject.is_available and subject.contact.has_legal_representative %}
