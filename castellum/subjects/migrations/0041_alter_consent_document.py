@@ -4,6 +4,22 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def migrate_data(apps, schema_editor):
+    WAITING = 'waiting'
+    CONFIRMED = 'confirmed'
+
+    Subject = apps.get_model('subjects', 'Subject')
+    Consent = apps.get_model('subjects', 'Consent')
+
+    for subject in Subject.objects.filter(consent=None):
+        Consent.objects.create(subject=subject, document=None, status=CONFIRMED)
+
+    for subject in Subject.objects.filter(consent__status=WAITING):
+        subject.consent_waiting_since = subject.consent.updated_at
+        subject.save()
+        subject.consent.delete()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -21,4 +37,5 @@ class Migration(migrations.Migration):
             name='consent_waiting_since',
             field=models.DateTimeField(blank=True, null=True),
         ),
+        migrations.RunPython(migrate_data),
     ]
