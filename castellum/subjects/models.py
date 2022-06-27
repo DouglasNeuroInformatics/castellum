@@ -291,9 +291,6 @@ class ConsentDocument(models.Model):
 
 
 class Consent(models.Model):
-    WAITING = 'waiting'
-    CONFIRMED = 'confirmed'
-
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     underage_when_given = models.BooleanField(_('Underage when given'), null=True)
@@ -304,10 +301,6 @@ class Consent(models.Model):
         blank=True,
         null=True,
     )
-    status = models.CharField(_('Status'), max_length=64, choices=[
-        (WAITING, _('Waiting for confirmation')),
-        (CONFIRMED, _('Confirmed')),
-    ])
 
     class Meta:
         get_latest_by = 'document__created_at'

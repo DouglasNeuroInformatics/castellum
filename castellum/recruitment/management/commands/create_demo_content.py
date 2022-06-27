@@ -259,7 +259,7 @@ def generate_subjects(count, stdout):
 
     stdout.write('Generating consents')
     document = ConsentDocument.get_latest()
-    consents = [Consent(subject=s, document=document, status=Consent.CONFIRMED) for s in subjects]
+    consents = [Consent(subject=s, document=document) for s in subjects]
     Consent.objects.bulk_create(consents)
 
 

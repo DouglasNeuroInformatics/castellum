@@ -38,4 +38,8 @@ class Migration(migrations.Migration):
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.RunPython(migrate_data),
+        migrations.RemoveField(
+            model_name='consent',
+            name='status',
+        ),
     ]
