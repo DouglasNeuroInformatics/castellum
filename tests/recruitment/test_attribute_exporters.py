@@ -147,7 +147,6 @@ sub-test\t0\t1\tde\t1970-01-01\tn/a\t11,12\r
 def test_json_schema(attribute_descriptions, db):
     exporter = attribute_exporters.JSONExporter()
     descriptions = AttributeDescription.objects.all()
-    print(exporter.get_schema(descriptions))
     assert exporter.get_schema(descriptions) == JSON_SCHEMA
 
 

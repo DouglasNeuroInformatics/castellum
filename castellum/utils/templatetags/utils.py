@@ -19,7 +19,6 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
-import math
 import os
 from urllib.parse import parse_qs
 from urllib.parse import urlencode
