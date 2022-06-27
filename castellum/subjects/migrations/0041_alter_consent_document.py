@@ -16,4 +16,9 @@ class Migration(migrations.Migration):
             name='document',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='subjects.consentdocument', verbose_name='Document'),
         ),
+        migrations.AddField(
+            model_name='subject',
+            name='consent_waiting_since',
+            field=models.DateTimeField(blank=True, null=True),
+        ),
     ]

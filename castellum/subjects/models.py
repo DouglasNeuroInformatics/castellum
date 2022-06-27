@@ -145,6 +145,9 @@ class Subject(TimeStampedModel):
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
+    # temporary field (see 0041_alter_consent_document)
+    consent_waiting_since = models.DateTimeField(blank=True, null=True)
+
     objects = SubjectQuerySet.as_manager()
 
     class Meta:
