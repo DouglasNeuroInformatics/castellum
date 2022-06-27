@@ -295,7 +295,11 @@ class Consent(models.Model):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     underage_when_given = models.BooleanField(_('Underage when given'), null=True)
     document = models.ForeignKey(
-        ConsentDocument, verbose_name=_('Document'), on_delete=models.CASCADE
+        ConsentDocument,
+        verbose_name=_('Document'),
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
     status = models.CharField(_('Status'), max_length=64, choices=[
         (WAITING, _('Waiting for confirmation')),
