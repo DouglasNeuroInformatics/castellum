@@ -7,7 +7,7 @@ from castellum.subjects.models import ConsentDocument
 
 
 def test_consent_no_change(user, subject):
-    initial = baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    initial = baker.make(Consent, subject=subject, _fill_optional=['document'])
 
     baker.make(ConsentDocument)
     form = DataProtectionForm(user=user, instance=subject, data={
@@ -60,7 +60,7 @@ def test_consent_confirm_from_waiting(user, subject):
 
 
 def test_consent_withdraw(user, subject):
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=subject, _fill_optional=['document'])
 
     form = DataProtectionForm(user=user, instance=subject, data={
         'privacy_level': 0,
@@ -72,7 +72,8 @@ def test_consent_withdraw(user, subject):
 
 
 def test_consent_update(user, subject):
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    old_document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=subject, document=old_document)
 
     new_document = baker.make(ConsentDocument)
     form = DataProtectionForm(user=user, instance=subject, data={

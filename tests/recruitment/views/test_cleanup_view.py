@@ -72,7 +72,7 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 1,
         },
     )
-    baker.make(Consent, subject=participation1.subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=participation1.subject, _fill_optional=['document'])
 
     participation2 = baker.make(
         Participation,
@@ -82,7 +82,7 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 2,
         },
     )
-    baker.make(Consent, subject=participation2.subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=participation2.subject, _fill_optional=['document'])
 
     participation3 = baker.make(
         Participation,
@@ -90,7 +90,7 @@ def test_cleanup_view_mismatch(
         status=Participation.NOT_CONTACTED,
         subject__attributes={},
     )
-    baker.make(Consent, subject=participation3.subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=participation3.subject, _fill_optional=['document'])
 
     participation4 = baker.make(
         Participation,
@@ -100,7 +100,7 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 2,
         },
     )
-    baker.make(Consent, subject=participation4.subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=participation4.subject, _fill_optional=['document'])
 
     participation5 = baker.make(
         Participation,
@@ -110,7 +110,7 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 2,
         },
     )
-    baker.make(Consent, subject=participation5.subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=participation5.subject, _fill_optional=['document'])
 
     participation6 = baker.make(
         Participation,

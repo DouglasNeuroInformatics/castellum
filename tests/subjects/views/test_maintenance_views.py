@@ -30,7 +30,7 @@ def test_maintenance_attributes_200(request, client, user_fixture):
 
 @pytest.mark.django_db
 def test_maintenance_attributes_list(request, client, user, subject):
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=subject, _fill_optional=['document'])
     client.force_login(user)
     url = '/subjects/maintenance/attributes/'
     response = client.get(url)
@@ -41,7 +41,7 @@ def test_maintenance_attributes_list(request, client, user, subject):
 @pytest.mark.django_db
 def test_maintenance_attributes_no_underage_subjects(request, client, user):
     contact = baker.make(Contact, date_of_birth=date(2020, 1, 1))
-    baker.make(Consent, subject=contact.subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=contact.subject, _fill_optional=['document'])
     contact.subject.attributes = {}
     contact.subject.save()
 
@@ -146,7 +146,7 @@ def test_maintenance_consent_from_before_full_age(client, user):
 
     with freeze_time('2014-01-01'):
         baker.make(
-            Consent, status=Consent.CONFIRMED, subject=contact.subject, underage_when_given=True
+            Consent, _fill_optional=['document'], subject=contact.subject, underage_when_given=True
         )
 
     with freeze_time('2018-01-01'):
@@ -258,7 +258,7 @@ def test_maintenance_estranged_subjects_contains_never_contacted(client, user, s
     url = '/subjects/maintenance/estranged-subjects/'
     with freeze_time("2000-01-01 12:00"):
         subject = baker.make(Subject)
-        baker.make(Consent, status=Consent.CONFIRMED, subject=subject)
+        baker.make(Consent, _fill_optional=['document'], subject=subject)
 
     with freeze_time(timezone.now()):
         response = client.get(url)
@@ -270,7 +270,7 @@ def test_maintenance_estranged_subjects_doesnt_contain_blocked(client, user, sub
     url = '/subjects/maintenance/estranged-subjects/'
     with freeze_time("2000-01-01 12:00"):
         subject = baker.make(Subject, blocked=True)
-        baker.make(Consent, status=Consent.CONFIRMED, subject=subject)
+        baker.make(Consent, _fill_optional=['document'], subject=subject)
 
     with freeze_time(timezone.now()):
         response = client.get(url)
@@ -282,7 +282,7 @@ def test_maintenance_estranged_subjects_doesnt_contain_deceased(client, user, su
     url = '/subjects/maintenance/estranged-subjects/'
     with freeze_time("2000-01-01 12:00"):
         subject = baker.make(Subject, deceased=True)
-        baker.make(Consent, status=Consent.CONFIRMED, subject=subject)
+        baker.make(Consent, _fill_optional=['document'], subject=subject)
 
     with freeze_time(timezone.now()):
         response = client.get(url)
