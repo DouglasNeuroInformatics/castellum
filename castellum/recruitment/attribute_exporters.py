@@ -55,6 +55,10 @@ class JSONExporter:
                 'id': {
                     'type': 'string',
                 },
+                'privacy_level': {
+                    'type': 'integer',
+                    'enum': [0, 1, 2],
+                },
             },
         }
 
@@ -75,6 +79,9 @@ class JSONExporter:
                     'type': 'string',
                     'enum': enum,
                 }
+
+            data['privacy_level_read'] = description.privacy_level_read
+            data['privacy_level_write'] = description.privacy_level_write
 
             schema['properties'][key] = data
 
@@ -104,6 +111,8 @@ class JSONExporter:
                     attrs[key] = choice.label
             else:
                 attrs[key] = value
+
+        attrs['privacy_level'] = subject.get_effective_privacy_level()
 
         return attrs
 
@@ -141,13 +150,24 @@ class BIDSExporter:
                 ('TermURL', description.url),
             ] if v}
 
+            schema[key]['PrivacyLevelRead'] = description.privacy_level_read
+            schema[key]['PrivacyLevelWrite'] = description.privacy_level_write
+
+        schema['privacy_level'] = {
+            'Levels': {
+                0: 'regular',
+                1: 'increased',
+                2: 'high',
+            },
+        }
+
         return self._json_dumps(schema)
 
     def get_schema_filename(self):
         return 'participants.json'
 
     def get_data(self, descriptions, subjects):
-        fieldnames = ['participant_id']
+        fieldnames = ['participant_id', 'privacy_level']
         for desc in descriptions:
             key = desc.label.lower().replace(' ', '_')
             fieldnames.append(key)
@@ -157,7 +177,10 @@ class BIDSExporter:
         writer.writeheader()
 
         for _id, subject in subjects:
-            row = {'participant_id': 'sub-{}'.format(_id)}
+            row = {
+                'participant_id': 'sub-{}'.format(_id),
+                'privacy_level': subject.get_effective_privacy_level(),
+            }
             for desc in descriptions:
                 key = desc.label.lower().replace(' ', '_')
                 value = subject.attributes.get(desc.json_key)

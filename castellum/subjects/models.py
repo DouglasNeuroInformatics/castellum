@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import math
 import uuid
 
 from django.conf import settings
@@ -245,6 +246,9 @@ class Subject(TimeStampedModel):
         completed = len([k for k, v in self.attributes.items() if v not in [None, '']])
         total = AttributeDescription.objects.count()
         return completed, total
+
+    def get_effective_privacy_level(self):
+        return math.ceil(self.privacy_level)
 
 
 class SubjectNote(models.Model):

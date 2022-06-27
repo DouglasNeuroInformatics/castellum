@@ -12,6 +12,8 @@ JSON_SCHEMA = """{
     "properties": {
         "Date of birth": {
             "format": "date",
+            "privacy_level_read": 0,
+            "privacy_level_write": 0,
             "type": "string"
         },
         "Handedness": {
@@ -20,6 +22,8 @@ JSON_SCHEMA = """{
                 "Left",
                 "Ambidextrous"
             ],
+            "privacy_level_read": 0,
+            "privacy_level_write": 0,
             "type": "string"
         },
         "Highest degree": {
@@ -32,6 +36,8 @@ JSON_SCHEMA = """{
                 "Bachelor",
                 "Master"
             ],
+            "privacy_level_read": 0,
+            "privacy_level_write": 0,
             "type": "string"
         },
         "Instruments": {
@@ -43,13 +49,25 @@ JSON_SCHEMA = """{
                 ],
                 "type": "string"
             },
+            "privacy_level_read": 0,
+            "privacy_level_write": 0,
             "type": "array"
         },
         "Language": {
+            "privacy_level_read": 0,
+            "privacy_level_write": 0,
             "type": "string"
         },
         "id": {
             "type": "string"
+        },
+        "privacy_level": {
+            "enum": [
+                0,
+                1,
+                2
+            ],
+            "type": "integer"
         }
     },
     "type": "object"
@@ -65,12 +83,15 @@ JSON_DATA = """[
             "Guitar"
         ],
         "Language": "de",
-        "id": "test"
+        "id": "test",
+        "privacy_level": 0
     }
 ]"""
 
 BIDS_SCHEMA = """{
     "date_of_birth": {
+        "PrivacyLevelRead": 0,
+        "PrivacyLevelWrite": 0,
         "TermURL": "http://purl.bioontology.org/ontology/SNOMEDCT/397669002"
     },
     "handedness": {
@@ -79,6 +100,8 @@ BIDS_SCHEMA = """{
             "2": "Left",
             "3": "Ambidextrous"
         },
+        "PrivacyLevelRead": 0,
+        "PrivacyLevelWrite": 0,
         "TermURL": "http://purl.bioontology.org/ontology/SNOMEDCT/57427004"
     },
     "highest_degree": {
@@ -90,20 +113,34 @@ BIDS_SCHEMA = """{
             "8": "Abitur",
             "9": "Bachelor",
             "10": "Master"
-        }
+        },
+        "PrivacyLevelRead": 0,
+        "PrivacyLevelWrite": 0
     },
     "instruments": {
         "Levels": {
             "11": "Piano",
             "12": "Guitar",
             "13": "Drums"
-        }
+        },
+        "PrivacyLevelRead": 0,
+        "PrivacyLevelWrite": 0
     },
-    "language": {}
+    "language": {
+        "PrivacyLevelRead": 0,
+        "PrivacyLevelWrite": 0
+    },
+    "privacy_level": {
+        "Levels": {
+            "0": "regular",
+            "1": "increased",
+            "2": "high"
+        }
+    }
 }"""
 
-BIDS_DATA = """participant_id\thandedness\tlanguage\tdate_of_birth\thighest_degree\tinstruments\r
-sub-test\t1\tde\t1970-01-01\tn/a\t11,12\r
+BIDS_DATA = """participant_id\tprivacy_level\thandedness\tlanguage\tdate_of_birth\thighest_degree\tinstruments\r
+sub-test\t0\t1\tde\t1970-01-01\tn/a\t11,12\r
 """
 
 
