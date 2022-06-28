@@ -23,7 +23,7 @@
     modification.
 -   Added admin UI for geolocations.
 -   There is now a "pseudonyms deleted" badge in subject deletion that
-    help data protection coordinators to understand what is left to be
+    helps data protection coordinators to understand what is left to be
     done.
 -   Privacy levels (both for subjects and attributes) are now included
     in attribute export and the corresponding API endpoints.
