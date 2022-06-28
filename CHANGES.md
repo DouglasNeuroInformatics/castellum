@@ -7,13 +7,11 @@
 
 ## bug fixes
 
--   Many uploaded files were saved to the same location. So if two files
-    had the same name, the second would overwrite the first.
 -   When duplicating a study, the colors for execution tags are now
     copied correctly.
 -   When duplicating a study, the study consent is no longer duplicated.
-    This was broken, but it was also never really useful because the
-    study consent is always specific to that study.
+    This was also never really useful because the study consent is
+    always specific to that study.
 
 ## new features
 
