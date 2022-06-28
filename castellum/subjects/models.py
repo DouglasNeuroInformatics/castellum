@@ -61,6 +61,9 @@ class Subject(TimeStampedModel):
         'no_legal_basis': _('There is no legal reason to keep the data of the subject.'),
     }
 
+    CONSENT_DECLINED = ('declined', _('declined'))
+    NO_CONSENT = ('no_consent', _('no consent'))
+
     uuid = models.UUIDField(_('UUID'), default=uuid.uuid4, primary_key=True)
 
     attributes = models.JSONField(_('Recruitment attributes'), encoder=DjangoJSONEncoder)
@@ -272,28 +275,14 @@ class ConsentDocument(models.Model):
     def __str__(self):
         return _('Version {}').format(self.pk)
 
-    @classmethod
-    def get_latest(cls):
-        try:
-            return cls.objects.all().latest()
-        except cls.DoesNotExist:
-            return cls.objects.create()
-
 
 class Consent(models.Model):
-    WAITING = 'waiting'
-    CONFIRMED = 'confirmed'
-
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     underage_when_given = models.BooleanField(_('Underage when given'), null=True)
     document = models.ForeignKey(
         ConsentDocument, verbose_name=_('Document'), on_delete=models.CASCADE
     )
-    status = models.CharField(_('Status'), max_length=64, choices=[
-        (WAITING, _('Waiting for confirmation')),
-        (CONFIRMED, _('Confirmed')),
-    ])
 
     class Meta:
         get_latest_by = 'document__created_at'

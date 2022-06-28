@@ -76,7 +76,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
         try:
             document = self.subject.consent.document
         except Consent.DoesNotExist:
-            document = ConsentDocument.get_latest()
+            document = ''
         context['consent_document'] = document
         return context
 

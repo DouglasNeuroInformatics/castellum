@@ -50,6 +50,8 @@
             <input type="hidden" name="{{ form.consent_status.name }}" id="{{ form.consent_status.id_for_label }}_hidden" value="{{ form.consent_status.value|default:'' }}" autocomplete="off">
         </div>
 
+        {% bootstrap_field form.consent_status %}
+
         {% bootstrap_field form.export_requested %}
         {% bootstrap_field form.to_be_deleted %}
 

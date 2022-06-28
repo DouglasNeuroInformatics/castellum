@@ -109,11 +109,10 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
 
 def has_consent(include_waiting=False, exclude_deprecated=False):
     """Exclude subjects who do not want to be contacted for recruitment."""
-
-    q_status = models.Q(consent__status=Consent.CONFIRMED)
+    q_status = models.Q(consent__isnull=False, consent__document__isnull=False)
     if include_waiting:
         acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
-        q_status |= models.Q(consent__updated_at__gte=acceptable_datetime)
+        q_status |= models.Q(created_at__gte=acceptable_datetime, consent__isnull=True)
 
     q_document = models.Q()
     if exclude_deprecated:
