@@ -4,11 +4,13 @@
 {% block title %}{% translate "Progress" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <svg class="progress w-100" viewbox="0 0 {{ total|scale:total }} 10" preserveAspectRatio="none">
-        <rect class="text-danger" fill="currentColor" width="{{ invited|scale:total }}" height="10" />
-        <rect class="text-success" fill="currentColor" width="{{ participating|scale:total }}" height="10" />
-        <line stroke="currentColor" x1="{{ study.min_subject_count|scale:total }}" x2="{{ study.min_subject_count|scale:total }}" y1="0" y2="10" />
-    </svg>
+    {% with width=400 %}
+        <svg class="progress w-100" viewbox="0 0 {{ width }} 10" preserveAspectRatio="none">
+            <rect class="text-danger" fill="currentColor" width="{% widthratio invited total width %}" height="10" />
+            <rect class="text-success" fill="currentColor" width="{% widthratio participating total width %}" height="10" />
+            <line stroke="currentColor" x1="{% widthratio study.min_subject_count total width %}" x2="{% widthratio study.min_subject_count total width %}" y1="0" y2="10" />
+        </svg>
+    {% endwith %}
     <dl class="dl-inline">
         <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'participating' %}</dt>
         <dd>{{ participating }}/{{ study.min_subject_count }}</dd>
@@ -19,11 +21,13 @@
 
     {% for session in sessions %}
         <h2>{{ session.name }}</h2>
-        <svg class="progress w-100" viewbox="0 0 {{ total|scale:total }} 10" preserveAspectRatio="none">
-            <rect class="text-warning" fill="currentColor" width="{{ session.scheduled|scale:total }}" height="10" />
-            <rect class="text-success" fill="currentColor" width="{{ session.took_place|scale:total }}" height="10" />
-            <line stroke="currentColor" x1="{{ study.min_subject_count|scale:total }}" x2="{{ study.min_subject_count|scale:total }}" y1="0" y2="10" />
-        </svg>
+        {% with width=400 %}
+            <svg class="progress w-100" viewbox="0 0 {{ width }} 10" preserveAspectRatio="none">
+                <rect class="text-warning" fill="currentColor" width="{% widthratio session.scheduled total width %}" height="10" />
+                <rect class="text-success" fill="currentColor" width="{% widthratio session.took_place total width %}" height="10" />
+                <line stroke="currentColor" x1="{% widthratio study.min_subject_count total width %}" x2="{% widthratio study.min_subject_count total width %}" y1="0" y2="10" />
+            </svg>
+        {% endwith %}
         <dl class="dl-inline">
             <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'took place' %}</dt>
             <dd>{{ session.took_place }}/{{ study.min_subject_count }}</dd>

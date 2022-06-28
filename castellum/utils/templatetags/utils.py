@@ -142,14 +142,4 @@ def icon(name, style='solid', *, label=''):
     return {'name': name, 'section': 'fa' + style[0], 'label': label}
 
 
-@register.filter
-def scale(a, b, c=400):
-    if b != 0:
-        return a / b * c
-    elif a == 0:
-        return 0
-    else:
-        return c
-
-
 register.simple_tag(get_parler_languages)
