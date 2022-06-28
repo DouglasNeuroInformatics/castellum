@@ -5,6 +5,7 @@ from model_bakery import baker
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Consent
+from castellum.subjects.models import ConsentDocument
 
 
 @pytest.mark.smoketest
@@ -72,7 +73,8 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 1,
         },
     )
-    baker.make(Consent, subject=participation1.subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=participation1.subject, document=document)
 
     participation2 = baker.make(
         Participation,
@@ -82,7 +84,8 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 2,
         },
     )
-    baker.make(Consent, subject=participation2.subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=participation2.subject, document=document)
 
     participation3 = baker.make(
         Participation,
@@ -90,7 +93,8 @@ def test_cleanup_view_mismatch(
         status=Participation.NOT_CONTACTED,
         subject__attributes={},
     )
-    baker.make(Consent, subject=participation3.subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=participation3.subject, document=document)
 
     participation4 = baker.make(
         Participation,
@@ -100,7 +104,8 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 2,
         },
     )
-    baker.make(Consent, subject=participation4.subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=participation4.subject, document=document)
 
     participation5 = baker.make(
         Participation,
@@ -110,7 +115,8 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 2,
         },
     )
-    baker.make(Consent, subject=participation5.subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=participation5.subject, document=document)
 
     participation6 = baker.make(
         Participation,

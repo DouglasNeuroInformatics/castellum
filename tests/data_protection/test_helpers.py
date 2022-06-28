@@ -1,3 +1,5 @@
+import pytest
+from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
@@ -6,12 +8,12 @@ from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
+from castellum.subjects.models import ConsentDocument
 
 
 def test_get_no_legal_basis(subject):
     actual = helpers.get_no_legal_basis()
-
-    assert subject in actual
+    assert subject not in actual
 
 
 def test_get_no_legal_basis_legal_representatives(subject):
@@ -23,13 +25,23 @@ def test_get_no_legal_basis_legal_representatives(subject):
     assert subject not in actual
 
 
-def test_get_no_legal_basis_study_consent_none(subject):
+@pytest.mark.django_db
+def test_get_no_legal_basis_study_consent_none():
+    assert helpers.get_no_legal_basis().count() == 0
+    with freeze_time('1970-01-01'):
+        # automatically creates subject as well
+        baker.make(Contact)
+
     assert helpers.get_no_legal_basis().count() == 1
 
 
-def test_get_no_legal_basis_study_consent_ignored(subject):
+@pytest.mark.django_db
+def test_get_no_legal_basis_study_consent_ignored():
+    with freeze_time('1970-01-01'):
+        contact = baker.make(Contact)
+        subject_no_legal_basis = contact.subject
     study = baker.make(Study, status=Study.FINISHED)
-    baker.make(Participation, subject=subject, study=study)
+    baker.make(Participation, subject=subject_no_legal_basis, study=study)
     assert helpers.get_no_legal_basis().count() == 1
 
 
@@ -53,7 +65,9 @@ def test_get_no_legal_basis_study_consent_news_interest(subject):
 
 
 def test_get_no_legal_basis_consent(subject):
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=subject, document=document)
+    assert subject.has_consent
 
     actual = helpers.get_no_legal_basis()
 
@@ -64,7 +78,8 @@ def test_get_no_legal_basis_consent_deceased(subject):
     subject.deceased = True
     subject.save()
 
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=subject, document=document)
 
     actual = helpers.get_no_legal_basis()
 

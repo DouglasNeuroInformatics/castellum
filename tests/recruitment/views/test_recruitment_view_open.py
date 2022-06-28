@@ -11,6 +11,7 @@ from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
+from castellum.subjects.models import ConsentDocument
 
 
 def create_subject():
@@ -18,7 +19,8 @@ def create_subject():
     subject = contact.subject
     subject.attributes = {'d1': 1}
     subject.save()
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=subject, document=document)
     return subject
 
 

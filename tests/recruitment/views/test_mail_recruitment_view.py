@@ -11,6 +11,7 @@ from castellum.recruitment.views import MailRecruitmentRemindView
 from castellum.recruitment.views import MailRecruitmentView
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
+from castellum.subjects.models import ConsentDocument
 
 
 def test_mail_add_to_study(client, user):
@@ -23,8 +24,9 @@ def test_mail_add_to_study(client, user):
     )
     contact1 = baker.make(Contact, email="example1@example.com")
     contact2 = baker.make(Contact, email="example2@example.com")
-    baker.make(Consent, subject=contact1.subject, status=Consent.CONFIRMED)
-    baker.make(Consent, subject=contact2.subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=contact1.subject, document=document)
+    baker.make(Consent, subject=contact2.subject, document=document)
 
     study.members.add(user)
     view = MailRecruitmentView()
@@ -48,7 +50,8 @@ def test_legal_representative_mail_add_to_study(client, user):
     )
     contact1 = baker.make(Contact, email="example1@example.com")
     contact2 = baker.make(Contact, legal_representatives=[contact1])
-    baker.make(Consent, subject=contact2.subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=contact2.subject, document=document)
 
     study.members.add(user)
     view = MailRecruitmentView()
