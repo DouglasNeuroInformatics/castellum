@@ -62,7 +62,6 @@ class Subject(TimeStampedModel):
         'no_legal_basis': _('There is no legal reason to keep the data of the subject.'),
     }
 
-    CONSENT_DECLINED = ('declined', _('declined'))
     NO_CONSENT = ('no_consent', _('no consent'))
 
     uuid = models.UUIDField(_('UUID'), default=uuid.uuid4, primary_key=True)

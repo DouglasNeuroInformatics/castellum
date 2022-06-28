@@ -37,7 +37,7 @@ def get_initial_consent_status(subject):
         if ConsentDocument.objects.filter(consent__subject=subject).exists():
             return ConsentDocument.objects.filter(consent__subject=subject).first()
         else:
-            return Subject.CONSENT_DECLINED
+            return ''
     else:
         return Subject.NO_CONSENT
 
@@ -48,10 +48,10 @@ def get_consent_choices(subject):
 
     consent_documents = [(document.pk, document) for document in ConsentDocument.objects.all()]
     if subject.has_consent:
-        choices = [Subject.CONSENT_DECLINED] + consent_documents
+        choices = [('', _('consent declined'))] + consent_documents
         return choices
     else:
-        choices = [Subject.CONSENT_DECLINED] + [Subject.NO_CONSENT] + consent_documents
+        choices = [('', _('consent declined'))] + [Subject.NO_CONSENT] + consent_documents
         return choices
 
 
@@ -116,16 +116,15 @@ class DataProtectionForm(forms.ModelForm):
     def save_consent(self, subject):
         new_status = self.cleaned_data.get('consent_status')
         initial_status = get_initial_consent_status(subject)
-        if initial_status == new_status or new_status == '':
+        if initial_status == new_status:
             return
-        elif new_status == Subject.CONSENT_DECLINED:
-            subject.consent.delete()
+        elif new_status == '':
+            Consent.objects.filter(subject=subject).delete()
             Consent.objects.create(
                 subject=subject,
             )
         else:
-            if Consent.objects.filter(subject=subject).exists():
-                subject.consent.delete()
+            Consent.objects.filter(subject=subject).delete()
             document = ConsentDocument.objects.filter(pk=new_status).first()
             Consent.objects.create(
                 subject=subject,
