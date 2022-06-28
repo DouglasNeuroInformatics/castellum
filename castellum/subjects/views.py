@@ -68,7 +68,6 @@ from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
 from .mixins import BaseDataProtectionUpdateView
 from .mixins import SubjectMixin
-from .models import Consent
 from .models import ExportAnswer
 from .models import Subject
 from .models import SubjectCreationRequest
@@ -712,7 +711,7 @@ class MaintenanceConsentView(BaseMaintenanceView):
             .exclude(pk__in=Subject.objects.filter(
                 filter_queries.has_consent(exclude_deprecated=True)
             ))
-            .filter(consent__status=Consent.CONFIRMED)
+            .filter(consent__isnull=False, consent__document__isnull=False)
         )
 
     def get_queryset(self):
@@ -740,9 +739,10 @@ class MaintenanceWaitingView(BaseMaintenanceView):
     tab = 'waiting'
 
     def get_queryset(self):
+        acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
         return (
             super().get_queryset()
-            .filter(consent__status=Consent.WAITING)
+            .filter(consent__isnull=True, created_at__gte=acceptable_datetime)
             .order_by('pk')
         )
 

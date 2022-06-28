@@ -23,7 +23,6 @@ import datetime
 from django import forms
 from django.conf import settings
 from django.forms import ValidationError
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from castellum.utils.forms import DatalistWidget
@@ -34,16 +33,26 @@ from .models import Subject
 
 
 def get_initial_consent_status(subject):
-    try:
-        consent = Consent.objects.get(subject=subject)
-    except Consent.DoesNotExist:
-        return ''
+    if subject.has_consent:
+        if ConsentDocument.objects.filter(consent__subject=subject).exists():
+            return ConsentDocument.objects.filter(consent__subject=subject).first()
+        else:
+            return Subject.CONSENT_DECLINED
+    else:
+        return Subject.NO_CONSENT
 
-    acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
-    if consent.status == Consent.WAITING and consent.updated_at <= acceptable_datetime:
-        return ''
 
-    return consent.status
+def get_consent_choices(subject):
+    if not ConsentDocument.objects.exists():
+        ConsentDocument.objects.create()
+
+    consent_documents = [(document.pk, document) for document in ConsentDocument.objects.all()]
+    if subject.has_consent:
+        choices = [Subject.CONSENT_DECLINED] + consent_documents
+        return choices
+    else:
+        choices = [Subject.CONSENT_DECLINED] + [Subject.NO_CONSENT] + consent_documents
+        return choices
 
 
 class DataProtectionForm(forms.ModelForm):
@@ -58,15 +67,11 @@ class DataProtectionForm(forms.ModelForm):
             ] + settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS)),
         }
 
-    consent_status = Consent._meta.get_field('status').formfield(
-        label=_('Recruitment consent'),
-        help_text=_(
-            'Without recruitment consent, this subject will not be taken into account for future '
-            'recruitment. Withdrawing recruitment consent has no effect on study consent. '
-            'Therefore no data related to existing studies is deleted.'
-        ),
-        required=False,
+    consent_status = forms.ChoiceField(
+        label=_("Consent"),
+        required=False
     )
+
     to_be_deleted = forms.BooleanField(
         label=_("To be deleted"),
         required=False,
@@ -85,6 +90,8 @@ class DataProtectionForm(forms.ModelForm):
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
         self.fields['consent_status'].initial = get_initial_consent_status(self.instance)
+
+        self.fields['consent_status'].choices = get_consent_choices(self.instance)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -108,26 +115,23 @@ class DataProtectionForm(forms.ModelForm):
 
     def save_consent(self, subject):
         new_status = self.cleaned_data.get('consent_status')
-        if new_status:
-            initial_status = get_initial_consent_status(subject)
-            if initial_status == new_status:
-                return
-
-            try:
-                if initial_status != Consent.WAITING:
-                    subject.consent.document = ConsentDocument.get_latest()
-                subject.consent.status = new_status
-                subject.consent.underage_when_given = subject.contact.is_underage
-                subject.consent.save()
-            except Consent.DoesNotExist:
-                Consent.objects.create(
-                    subject=subject,
-                    status=new_status,
-                    underage_when_given=subject.contact.is_underage,
-                    document=ConsentDocument.get_latest(),
-                )
+        initial_status = get_initial_consent_status(subject)
+        if initial_status == new_status or new_status == '':
+            return
+        elif new_status == Subject.CONSENT_DECLINED:
+            subject.consent.delete()
+            Consent.objects.create(
+                subject=subject,
+            )
         else:
-            Consent.objects.filter(subject=subject).delete()
+            if Consent.objects.filter(subject=subject).exists():
+                subject.consent.delete()
+            document = ConsentDocument.objects.filter(pk=new_status).first()
+            Consent.objects.create(
+                subject=subject,
+                underage_when_given=subject.contact.is_underage,
+                document=document
+            )
 
     def save(self, *args, **kwargs):
         if not self.cleaned_data.get('to_be_deleted'):

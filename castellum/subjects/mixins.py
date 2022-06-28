@@ -28,7 +28,6 @@ from castellum.utils.mail import MailContext
 from .forms import AdditionalInfoForm
 from .forms import DataProtectionForm
 from .models import Consent
-from .models import ConsentDocument
 from .models import Subject
 
 
@@ -76,7 +75,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
         try:
             document = self.subject.consent.document
         except Consent.DoesNotExist:
-            document = ConsentDocument.get_latest()
+            document = ''
         context['consent_document'] = document
         return context
 
