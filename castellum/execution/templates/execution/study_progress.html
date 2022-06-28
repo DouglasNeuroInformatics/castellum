@@ -1,26 +1,28 @@
 {% extends "execution/study_base.html" %}
-{% load i18n auth %}
+{% load i18n auth utils %}
 
 {% block title %}{% translate "Progress" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <svg class="progress w-100" viewbox="0 0 {{ total }} 10" preserveAspectRatio="none">
-        <rect class="text-warning" fill="currentColor" width="{{ invited }}" height="10" />
-        <rect class="text-success" fill="currentColor" width="{{ participating }}" height="10" />
+    <svg class="progress w-100" viewbox="0 0 {{ total|scale:total }} 10" preserveAspectRatio="none">
+        <rect class="text-danger" fill="currentColor" width="{{ invited|scale:total }}" height="10" />
+        <rect class="text-success" fill="currentColor" width="{{ participating|scale:total }}" height="10" />
+        <line stroke="currentColor" x1="{{ study.min_subject_count|scale:total }}" x2="{{ study.min_subject_count|scale:total }}" y1="0" y2="10" />
     </svg>
     <dl class="dl-inline">
         <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'participating' %}</dt>
         <dd>{{ participating }}/{{ study.min_subject_count }}</dd>
 
-        <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {% translate 'dropped out' %}</dt>
+        <dt><span class="text-danger" aria-hidden="true">&#9679;</span> {% translate 'dropped out' %}</dt>
         <dd>{{ dropped_out }}</dd>
     </dl>
 
     {% for session in sessions %}
         <h2>{{ session.name }}</h2>
-        <svg class="progress w-100" viewbox="0 0 {{ total }} 10" preserveAspectRatio="none">
-            <rect class="text-warning" fill="currentColor" width="{{ session.scheduled }}" height="10" />
-            <rect class="text-success" fill="currentColor" width="{{ session.took_place }}" height="10" />
+        <svg class="progress w-100" viewbox="0 0 {{ total|scale:total }} 10" preserveAspectRatio="none">
+            <rect class="text-warning" fill="currentColor" width="{{ session.scheduled|scale:total }}" height="10" />
+            <rect class="text-success" fill="currentColor" width="{{ session.took_place|scale:total }}" height="10" />
+            <line stroke="currentColor" x1="{{ study.min_subject_count|scale:total }}" x2="{{ study.min_subject_count|scale:total }}" y1="0" y2="10" />
         </svg>
         <dl class="dl-inline">
             <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'took place' %}</dt>
