@@ -473,7 +473,7 @@ class StudyConsentView(PermissionRequiredMixin, UpdateView):
     model = Study
     permission_required = 'studies.change_study'
     template_name = 'studies/study_consent.html'
-    subtab = 'consent'
+    tab = 'consent'
     fields = ['consent']
 
     def get_success_url(self):
