@@ -1506,6 +1506,8 @@ msgstr ""
 #: castellum/recruitment/models/participations.py:152
 msgid "It is no longer possible to know which dataset belongs to this subject"
 msgstr ""
+"Es ist nicht mehr möglich festzustellen, welcher Datensatz zu dieser "
+"Proband*in gehört"
 
 #: castellum/recruitment/models/participations.py:155
 msgid "The subject has not yet been contacted."
@@ -2259,17 +2261,12 @@ msgid "Geo filter file"
 msgstr "Geofilter Datei"
 
 #: castellum/studies/models.py:148
-#, fuzzy
-#| msgid ""
-#| "A GeoJSON file that contains only a single (multi)polygon. Only subjects "
-#| "who live inside this polygon will be considered for this study."
 msgid ""
 "A GeoJSON file that contains (multi)polygons. Only subjects who live inside "
 "the polygons will be considered for this study."
 msgstr ""
-"Eine GeoJSON Datei die nur ein einzelnen (Multi)Polygon enthält. Nur "
-"Proband*innen die innerhalb dieses Polygons leben werden für diese Studie "
-"berücksichtigt."
+"Eine GeoJSON Datei die (Multi)Polygone enthält. Nur Proband*innen die "
+"innerhalb der Polygone leben werden für diese Studie berücksichtigt."
 
 #: castellum/studies/models.py:158
 msgid "Exclusive subjects"
@@ -3502,10 +3499,8 @@ msgid "Please delete all of these study participations:"
 msgstr "Bitte löschen Sie die folgenden Studienteilnahmen:"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:49
-#, fuzzy
-#| msgid "Pseudonyms"
 msgid "Pseudonyms deleted"
-msgstr "Pseudonyme"
+msgstr "Pseudonyme gelöscht"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:55
 #: castellum/subjects/templates/subjects/subject_export.html:50
@@ -4172,6 +4167,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Is valid"
-#~ msgstr "Ist gültig"
