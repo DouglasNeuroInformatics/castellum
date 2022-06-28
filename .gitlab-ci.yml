@@ -39,6 +39,19 @@ test-js:
     - changes:
         - castellum/**/*.js
 
+test-docs:
+  stage: test
+  image: alpine
+  script:
+    - apk --no-cache add python3 py3-pip
+    - pip3 install sphinx sphinx-rtd-theme
+    - sphinx-build -W -b html docs/source docs/build/html/en
+    - sphinx-build -b html docs/source docs/build/html/en
+    - sphinx-build -b html -D language=de docs/source docs/build/html/de
+  rules:
+    - changes:
+        - docs/**/*
+
 build:
   stage: build
   image: docker
@@ -63,3 +76,16 @@ build:
         docker push $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME
         docker push $CONTAINER_IMAGE:stable
       fi
+
+publish-docs:
+  stage: build
+  dependencies:
+    - test-docs
+  script:
+    - mv docs/build/html/ public/
+    - mv docs/source/_static/redirect/index.html public/index.html
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  artifacts:
+    paths:
+      - public
