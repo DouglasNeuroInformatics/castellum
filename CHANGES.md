@@ -1,4 +1,4 @@
-# 0.78.0 (unreleased)
+# 0.78.0 (2022-06-28)
 
 ## breaking changes
 
