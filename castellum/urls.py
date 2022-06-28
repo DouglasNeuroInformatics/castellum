@@ -18,11 +18,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import mimetypes
-
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
 from django.http import HttpResponse
@@ -31,7 +28,6 @@ from django.urls import path
 from django.views.generic import RedirectView
 from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
-from django.views.static import serve
 
 from mfa.decorators import public as mfa_public
 from mfa.views import LoginView
@@ -41,6 +37,8 @@ from castellum.castellum_auth.forms import AuthenticationForm
 from castellum.castellum_auth.views import set_language
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
+from castellum.studies.views.studies import StudyProtectedMediaView
+from castellum.utils.views import ProtectedMediaView
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -55,24 +53,6 @@ class FeedsView(LoginRequiredMixin, TemplateView):
         context['resources'] = Resource.objects.all()
         context['studies'] = self.request.user.study_set.filter(status=Study.EXECUTION)
         return context
-
-
-@login_required
-def protected_media(request, path):
-    if settings.PROTECTED_MEDIA_SERVER == 'django':
-        return serve(request, path, document_root=settings.MEDIA_ROOT)
-    elif settings.PROTECTED_MEDIA_SERVER == 'nginx':
-        response = HttpResponse()
-        response['X-Accel-Redirect'] = settings.PROTECTED_MEDIA_URL + path
-        return response
-    else:
-        mimetype, encoding = mimetypes.guess_type(settings.MEDIA_ROOT / path)
-        response = HttpResponse()
-        response['Content-Type'] = mimetype
-        if encoding:
-            response['Content-Encoding'] = encoding
-        response['X-Sendfile'] = settings.MEDIA_ROOT / path
-        return response
 
 
 def dummy(request):
@@ -108,7 +88,8 @@ urlpatterns = [
 
 if settings.PROTECTED_MEDIA_SERVER:
     urlpatterns += [
-        path('media/<path:path>', protected_media),
+        path('media/studies/<int:pk>/<path:path>', StudyProtectedMediaView.as_view()),
+        path('media/consent/<path:path>', ProtectedMediaView.as_view(prefix='consent')),
     ]
 
 if 'model_stats' in settings.INSTALLED_APPS:

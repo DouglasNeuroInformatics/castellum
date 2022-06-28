@@ -18,8 +18,15 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import mimetypes
+
+from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.utils.decorators import classonlymethod
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.generic import View
+from django.views.static import serve
 
 from stronghold.decorators import public
 
@@ -41,3 +48,37 @@ class StrongholdPublicMixin:
     @classonlymethod
     def as_view(cls, *args, **kwargs):
         return public(super().as_view(*args, **kwargs))
+
+
+class BaseProtectedMediaView(LoginRequiredMixin, View):
+    def get_path(self):
+        return self.kwargs['path']
+
+    def get(self, request, **kwargs):
+        path = self.get_path()
+
+        if settings.PROTECTED_MEDIA_SERVER == 'django':
+            return serve(request, path, document_root=settings.MEDIA_ROOT)
+        elif settings.PROTECTED_MEDIA_SERVER == 'nginx':
+            response = HttpResponse()
+            response['X-Accel-Redirect'] = settings.PROTECTED_MEDIA_URL + path
+            return response
+        else:
+            mimetype, encoding = mimetypes.guess_type(settings.MEDIA_ROOT / path)
+            response = HttpResponse()
+            response['Content-Type'] = mimetype
+            if encoding:
+                response['Content-Encoding'] = encoding
+            response['X-Sendfile'] = settings.MEDIA_ROOT / path
+            return response
+
+
+class ProtectedMediaView(BaseProtectedMediaView):
+    prefix = ''
+
+    def __init__(self, prefix=''):
+        self.prefix = prefix
+        super().__init__()
+
+    def get_path(self):
+        return '{}/{}'.format(self.prefix, self.kwargs['path'])

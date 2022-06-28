@@ -54,6 +54,7 @@ from castellum.subjects.models import Subject
 from castellum.utils import Exclusion
 from castellum.utils import uuid_str
 from castellum.utils.mail import MailContext
+from castellum.utils.views import BaseProtectedMediaView
 from castellum.utils.views import get_next_url
 
 from ..forms import ImportForm
@@ -549,3 +550,10 @@ class StudyDiffView(StudyMixin, PermissionRequiredMixin, DetailView):
         except serializers.base.DeserializationError:
             context['snapshot'] = []
         return context
+
+
+class StudyProtectedMediaView(StudyMixin, PermissionRequiredMixin, BaseProtectedMediaView):
+    permission_required = []
+
+    def get_path(self):
+        return 'studies/{}/{}'.format(self.study.pk, self.kwargs['path'])
