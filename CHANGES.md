@@ -1,3 +1,43 @@
+# 0.78.0 (unreleased)
+
+## breaking changes
+
+-   It is no longer possible to mark consent documents as invalid. They
+    should be removed instead.
+
+## bug fixes
+
+-   Many uploaded files were saved to the same location. So if two files
+    had the same name, the second would overwrite the first.
+-   When duplicating a study, the colors for execution tags are now
+    copied correctly.
+-   When duplicating a study, the study consent is no longer duplicated.
+    This was broken, but it was also never really useful because the
+    study consent is always specific to that study.
+
+## new features
+
+-   Uploaded files now have permission checks. For example, only members
+    of a study can access the uploaded files for that study.
+-   The study consent upload has been moved to a separate tab.
+-   It is now possible to use feature collections in geofilters. This
+    allows to use files e.g. from geojson.io without further
+    modification.
+-   Added admin UI for geolocations.
+-   There is now a "pseudonyms deleted" badge in subject deletion that
+    help data protection coordinators to understand what is left to be
+    done.
+-   Privacy levels (both for subjects and attributes) are now included
+    in attribute export and the corresponding API endpoints.
+-   Added a marker for the minimum subject count to study progress bars.
+
+
+# 0.77.0 (release skipped)
+
+
+# 0.76.0 (release skipped)
+
+
 # 0.75.1 (2022-05-10)
 
 -   Fixed default value for subject's privacy level
