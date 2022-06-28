@@ -67,7 +67,7 @@ def test_data_protection_post_invalid_to_be_deleted_consent(client, user, subjec
     response = client.post(url, {
         'privacy_level': 1,
         'to_be_deleted': 'on',
-        'consent_status': 'confirmed',
+        'consent_status': 1,
     })
     msg = b'Subjects can either be marked for deletion or have recruitment consent, not both.'
     assert response.status_code == 200

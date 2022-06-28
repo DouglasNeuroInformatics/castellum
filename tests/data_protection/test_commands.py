@@ -2,11 +2,12 @@ from django.utils import timezone
 
 import pytest
 from model_bakery import baker
-
+from freezegun import freeze_time
 from castellum.contacts.models import Contact
 from castellum.data_protection.management.commands.cleanup_dashboards import delete_no_legal_basis
 from castellum.data_protection.management.commands.cleanup_dashboards import delete_to_be_deleted
 from castellum.data_protection.management.commands.cleanup_dashboards import delete_unreachable
+from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 
 
@@ -34,9 +35,11 @@ def test_cleanup_dashboards_unreachable(subject):
 
 @pytest.mark.django_db
 def test_cleanup_dashboards_no_legal_basis(subject, participation):
-    contact_no_legal_basis = baker.make(Contact)
-    subject_no_legal_basis = contact_no_legal_basis.subject
-    delete_no_legal_basis()
+    with freeze_time('1970-01-01'):
+        contact_no_legal_basis = baker.make(Contact)
+        subject_no_legal_basis = contact_no_legal_basis.subject
+    with freeze_time('2020-01-01'):
+        delete_no_legal_basis()
 
     assert not Subject.objects.filter(uuid=subject_no_legal_basis.uuid).exists()
     assert Subject.objects.filter(uuid=subject.uuid).exists()

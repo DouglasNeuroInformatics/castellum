@@ -4,100 +4,73 @@ from model_bakery import baker
 from castellum.subjects.forms import DataProtectionForm
 from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentDocument
+from castellum.subjects.models import Subject
 
 
 def test_consent_no_change(user, subject):
-    initial = baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    initial = baker.make(Consent, subject=subject, document=document)
 
-    baker.make(ConsentDocument)
     form = DataProtectionForm(user=user, instance=subject, data={
         'privacy_level': 0,
-        'consent_status': Consent.CONFIRMED,
+        'consent_status': document.pk,
     })
     assert form.is_valid()
     form.save()
 
-    assert subject.consent.status == Consent.CONFIRMED
     assert subject.consent.document == initial.document
 
 
 def test_consent_create_document(user, subject):
+    assert not ConsentDocument.objects.exists()
     form = DataProtectionForm(user=user, instance=subject, data={
         'privacy_level': 0,
-        'consent_status': Consent.CONFIRMED,
+        'consent_status': 1,
     })
     assert form.is_valid()
-
-    assert not ConsentDocument.objects.exists()
     form.save()
     assert ConsentDocument.objects.exists()
 
 
-def test_consent_confirm_direct(user, subject):
-    form = DataProtectionForm(user=user, instance=subject, data={
-        'privacy_level': 0,
-        'consent_status': Consent.CONFIRMED,
-    })
-    assert form.is_valid()
-    form.save()
-
-    assert subject.consent.status == Consent.CONFIRMED
-
-
 def test_consent_confirm_from_waiting(user, subject):
-    initial = baker.make(Consent, subject=subject, status=Consent.WAITING)
-    baker.make(ConsentDocument)
-
+    document = baker.make(ConsentDocument)
     form = DataProtectionForm(user=user, instance=subject, data={
         'privacy_level': 0,
-        'consent_status': Consent.CONFIRMED,
+        'consent_status': document.pk,
     })
     assert form.is_valid()
     form.save()
 
-    assert subject.consent.status == Consent.CONFIRMED
-    assert subject.consent.document == initial.document
+    assert ConsentDocument.objects.filter(consent__subject=subject).exists()
+    assert subject.consent.document == document
 
 
 def test_consent_withdraw(user, subject):
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    document = baker.make(ConsentDocument)
+    baker.make(Consent, subject=subject, document=document)
 
     form = DataProtectionForm(user=user, instance=subject, data={
         'privacy_level': 0,
+        'consent_status': Subject.CONSENT_DECLINED
     })
     assert form.is_valid()
     form.save()
 
-    assert not Consent.objects.exists()
-
-
-def test_consent_update(user, subject):
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
-
-    new_document = baker.make(ConsentDocument)
-    form = DataProtectionForm(user=user, instance=subject, data={
-        'privacy_level': 0,
-        'consent_status': Consent.WAITING,
-    })
-    assert form.is_valid()
-    form.save()
-
-    assert subject.consent.status == Consent.WAITING
-    assert subject.consent.document == new_document
+    assert not subject.has_consent
+    assert not subject.consent.document
 
 
 def test_consent_renew_waiting(user, subject):
     with freeze_time('1990-01-01 12:00:00'):
-        baker.make(Consent, subject=subject, status=Consent.WAITING)
+        baker.make(Consent, subject=subject)
 
     with freeze_time('2000-01-01 12:00:00'):
-        new_document = baker.make(ConsentDocument)
+        document = baker.make(ConsentDocument)
         form = DataProtectionForm(user=user, instance=subject, data={
             'privacy_level': 0,
-            'consent_status': Consent.WAITING,
+            'consent_status': document.pk,
         })
         assert form.is_valid()
         form.save()
 
-    assert subject.consent.status == Consent.WAITING
-    assert subject.consent.document == new_document
+    assert subject.consent.document == document
