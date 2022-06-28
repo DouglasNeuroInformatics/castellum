@@ -285,7 +285,11 @@ class Consent(models.Model):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     underage_when_given = models.BooleanField(_('Underage when given'), null=True)
     document = models.ForeignKey(
-        ConsentDocument, verbose_name=_('Document'), on_delete=models.CASCADE
+        ConsentDocument,
+        verbose_name=_('Document'),
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
 
     class Meta:
