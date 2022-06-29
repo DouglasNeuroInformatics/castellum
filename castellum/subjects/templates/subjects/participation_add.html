@@ -8,9 +8,7 @@
     <form class="mb-3" method="get" aria-label="{{ form.q.label }}">
         <div class="input-group">
             <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}" autofocus>
-            <div class="input-group-append">
-                <button class="btn btn-outline-primary">{% translate 'Go' %}</button>
-            </div>
+            <button class="btn btn-outline-primary">{% translate 'Go' %}</button>
         </div>
     </form>
 
