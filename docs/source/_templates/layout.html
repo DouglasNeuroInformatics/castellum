@@ -1,0 +1,10 @@
+{% extends "!layout.html" %}
+{% block menu %}
+    <p class="caption">
+        <span class="caption-text">
+            <button onclick="switchLanguage('{{ language }}', 'en')" {{ 'disabled' if language is eq 'en' }}>en</button>
+            <button onclick="switchLanguage('{{ language }}', 'de')" {{ 'disabled' if language is eq 'de' }}>de</button>
+        </span>
+    </p>
+    {{ super() }}
+{% endblock %}

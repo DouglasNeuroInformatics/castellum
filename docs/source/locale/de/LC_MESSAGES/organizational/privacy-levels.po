@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019, Goettel et al.
+# This file is distributed under the same license as the castellum-docs
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: castellum-docs \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-22 14:47+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: ../../source/organizational/privacy-levels.rst:2
+msgid "Privacy Levels"
+msgstr "Vertraulichkeitsstufen"
+
+#: ../../source/organizational/privacy-levels.rst:3
+msgid ""
+"Privacy levels are in accordance with data security levels of the Max "
+"Planck Society."
+msgstr "Vertraulichkeitsstufen sind im Einklang mit den Schutzstufen der "
+"Max-Planck Gesellschaft"
+
+#: ../../source/organizational/privacy-levels.rst:6
+msgid "Users"
+msgstr "Nutzer\*innen"
+
+#: ../../source/organizational/privacy-levels.rst:7
+msgid ""
+"Privacy levels are assigned to Castellum users for read and for write "
+"permissions."
+msgstr ""
+"Vertraulikeitsstufen werden den Nutzer\*innen für Lese- und Schreibrecht "
+"zugeteilt."
+
+#: ../../source/organizational/privacy-levels.rst:10
+msgid "Subjects"
+msgstr "Proband\*innen"
+
+#: ../../source/organizational/privacy-levels.rst:11
+msgid ""
+"Each subject is assigned to a privacy level that is checked against "
+"users' privacy levels."
+msgstr ""
+"Proband\*innen sind einer Vertraulichkeitsstufe zugeordnet, die "
+"mit der Vertraulickeitsstufe der Nutzer\*in verglichen wird."
+
+#: ../../source/organizational/privacy-levels.rst:14
+msgid "Attributes"
+msgstr "Eigenschaften"
+
+#: ../../source/organizational/privacy-levels.rst:15
+msgid ""
+"Attributes are also assigned to privacy levels. They are overruled by "
+"subject privacy level."
+msgstr ""
+"Eigenschaften haben ebenfalls eine Vertraulichkeitsstufe. "
+"Diese werden von der Vertraulichkeitssufe der Proband\*innen übertrumpft."

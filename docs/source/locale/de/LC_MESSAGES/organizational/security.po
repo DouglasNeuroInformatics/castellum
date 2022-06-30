@@ -1,0 +1,144 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019, Goettel et al.
+# This file is distributed under the same license as the castellum-docs
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: castellum-docs \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-03 15:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: ../../source/organizational/security.rst:2
+msgid "Security model"
+msgstr ""
+
+#: ../../source/organizational/security.rst:4
+msgid ""
+"The main purpose of castellum is to handle data of test subjects. It is "
+"important to be able to read and write this data in various ways. We are "
+"also legally required to provide some specific forms of access, e.g. "
+"exporting or deleting all data on a single subject."
+msgstr ""
+
+#: ../../source/organizational/security.rst:9
+msgid ""
+"On the other hand, we are also required to handle this data very "
+"carefully. Among other things, we are required to split the data so that "
+"users can only ever access the parts of the data they really need."
+msgstr ""
+
+#: ../../source/organizational/security.rst:13
+msgid ""
+"The security measures outlined in this section are meant to only allow "
+"access where allowed and required."
+msgstr ""
+
+#: ../../source/organizational/security.rst:17
+msgid "Permissions"
+msgstr ""
+
+#: ../../source/organizational/security.rst:19
+msgid ""
+"Most actions in castellum are protected by one or more permission. For "
+"easier handling, permissions are usually not assigned directly. Instead, "
+"they are collected into meaningful groups (aka roles). Castellum comes "
+"with some pre-defined sample groups, but you can adapt them to your "
+"needs."
+msgstr ""
+
+#: ../../source/organizational/security.rst:26
+msgid "Study membership"
+msgstr ""
+
+#: ../../source/organizational/security.rst:28
+msgid ""
+"If a user is a member of a study, they automatically gain the special "
+"``access_study`` permission in the context of that study. You can also "
+"assign additional groups to study members that only apply in the context "
+"of the study."
+msgstr ""
+
+#: ../../source/organizational/security.rst:34
+msgid "Privacy levels"
+msgstr ""
+
+#: ../../source/organizational/security.rst:36
+msgid ""
+"Every subject has a privacy level. A user is only allowed to access that "
+"subject if they have a sufficient privacy level themselves. For "
+"recruitment attributes, you can define separate privacy levels for read "
+"and write access. A user's privacy level is controlled via the special "
+"permissions ``privacy_level_1`` and ``privacy_level_2``. The three levels"
+" (0-2) accord to the data security levels of the Max Planck Society."
+msgstr ""
+
+#: ../../source/organizational/security.rst:44
+msgid "Data separation"
+msgstr ""
+
+#: ../../source/organizational/security.rst:47
+msgid "Implementation"
+msgstr ""
+
+#: ../../source/organizational/security.rst:49
+msgid "We chose to split the data into three different categories:"
+msgstr ""
+
+#: ../../source/organizational/security.rst:51
+msgid ""
+"Scientific data is handled outside of castellum. Castellum only provides "
+"the pseudonyms that are used to map this data to subjects."
+msgstr ""
+
+#: ../../source/organizational/security.rst:53
+msgid "Data relevant for recruitment is handled in castellum."
+msgstr ""
+
+#: ../../source/organizational/security.rst:54
+msgid ""
+"Contact data is also handled in castellum, but in a separate database to "
+"provide an additional barrier."
+msgstr ""
+
+#: ../../source/organizational/security.rst:58
+msgid "Security Considerations"
+msgstr ""
+
+#: ../../source/organizational/security.rst:60
+msgid ""
+"The described architecture provides a clear structure for developers that"
+" should help avoiding critical data leaks. Even if an attacker is able to"
+" dump a whole table or even a whole database, this structure still limits"
+" the impact."
+msgstr ""
+
+#: ../../source/organizational/security.rst:65
+msgid ""
+"However, it is important to understand that the barrier between "
+"recruitment and contact data is not that high. Since castellum has full "
+"access to both, an attacker can also gain full access. Spreading the "
+"system across several databases on different servers or even in different"
+" organizations does not help much if there is still a single point of "
+"entry."
+msgstr ""
+
+#: ../../source/organizational/security.rst:73
+msgid "Monitoring"
+msgstr ""
+
+#: ../../source/organizational/security.rst:75
+msgid ""
+"In order to allow detecting suspicious behavior, critical actions such as"
+" search, deletion, or login attempts are logged to a separate log file."
+msgstr ""
+
