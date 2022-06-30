@@ -2,6 +2,11 @@ stages:
   - test
   - build
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
 test:
   stage: test
   image: buildpack-deps
@@ -30,9 +35,9 @@ test-js:
   image: node
   script:
     - npx eslint castellum
-  only:
-    changes:
-      - castellum/**/*.js
+  rules:
+    - changes:
+        - castellum/**/*.js
 
 build:
   stage: build
