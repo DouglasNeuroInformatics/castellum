@@ -11,9 +11,7 @@
             <form method="get" class="bg-light p-3 mb-2" aria-label="{% translate 'Filter' %}">
                 <div class="input-group mb-4">
                     <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary">{% translate 'Go' %}</button>
-                    </div>
+                    <button class="btn btn-primary">{% translate 'Go' %}</button>
                 </div>
                 <hr>
                 <fieldset>

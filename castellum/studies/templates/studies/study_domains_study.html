@@ -22,11 +22,9 @@
                         <label class="input-group">
                             <span class="visually-hidden">{{ domain|verbose_name:'key' }}</span>
                             <input id="domain_key_{{ domain.key }}" class="form-control text-truncate" value="{{ domain.key }}" readonly>
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-outline-secondary" tabindex="-1" data-clipboard="#domain_key_{{ domain.key }}" data-animation="success" title="{% translate 'Copy key' %}">
-                                    {% icon 'copy' label=_('Copy key') %}
-                                </button>
-                            </div>
+                            <button type="button" class="btn btn-outline-secondary" tabindex="-1" data-clipboard="#domain_key_{{ domain.key }}" data-animation="success" title="{% translate 'Copy key' %}">
+                                {% icon 'copy' label=_('Copy key') %}
+                            </button>
                         </label>
                     </div>
                     <div class="col flex-grow-0">
