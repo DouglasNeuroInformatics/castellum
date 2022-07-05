@@ -20,7 +20,6 @@
 
 # flake8: noqa
 
-from .attributes import AttributeCategory
 from .attributes import AttributeChoice
 from .attributes import AttributeDescription
 from .participations import ExecutionTag

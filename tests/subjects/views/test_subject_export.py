@@ -32,8 +32,6 @@ EXCLUDED = [
     'broadcast_messages.',
     'pseudonyms.Domain.',
     'pseudonyms.Pseudonym.',
-    'recruitment.AttributeCategory.',
-    'recruitment.AttributeCategoryTranslation.',
     'recruitment.AttributeChoice.',
     'recruitment.AttributeChoiceTranslation.',
     'recruitment.AttributeDescription.',

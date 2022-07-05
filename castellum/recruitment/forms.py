@@ -34,7 +34,6 @@ from .models import AttributeDescription
 from .models import Participation
 from .models import SubjectFilter
 from .models.attributes import ANSWER_DECLINED
-from .models.attributes import UNCATEGORIZED
 
 APP_DIR = Path(__file__).resolve().parent
 IMPORT_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'attributes.json'))
@@ -44,20 +43,10 @@ def get_description_choices(user):
     choices = [(None, '---')]
     disabled_choices = []
 
-    categories = AttributeDescription.objects.by_category()
-
-    for description in categories.pop(UNCATEGORIZED):
+    for description in AttributeDescription.objects.order_by('order'):
         choices.append((description.pk, description.filter_label))
         if not user.has_privacy_level(description.privacy_level_read):
             disabled_choices.append(description.pk)
-
-    for category, descriptions in categories.items():
-        sub = []
-        for description in descriptions:
-            sub.append((description.pk, description.filter_label))
-            if not user.has_privacy_level(description.privacy_level_read):
-                disabled_choices.append(description.pk)
-        choices.append((category.label, sub))
 
     return choices, disabled_choices
 

@@ -19,7 +19,6 @@
 # <http://www.gnu.org/licenses/>.
 
 import functools
-from collections import OrderedDict
 from typing import List
 
 from django.core.exceptions import ValidationError
@@ -34,8 +33,6 @@ from parler.utils.context import switch_language
 
 from .. import attribute_fields
 from ..attribute_fields import ANSWER_DECLINED  # noqa
-
-UNCATEGORIZED = "UNCATEGORIZED"
 
 
 @functools.lru_cache(maxsize=2)
@@ -75,20 +72,6 @@ class ImportMixin:
         return obj
 
 
-class AttributeCategory(TranslatableModel):
-    order = models.IntegerField(default=0)
-
-    translations = TranslatedFields(label=models.CharField(max_length=64))
-
-    class Meta:
-        ordering = ['order']
-        verbose_name = _('Attribute category')
-        verbose_name_plural = _('Attribute categories')
-
-    def __str__(self):
-        return self.label
-
-
 class AttributeDescriptionQuerySet(TranslatableQuerySet):
     def allowed_read(self, user):
         privacy_level = user.get_privacy_level()
@@ -97,18 +80,6 @@ class AttributeDescriptionQuerySet(TranslatableQuerySet):
     def allowed_write(self, user):
         privacy_level = user.get_privacy_level()
         return self.filter(privacy_level_write__lte=privacy_level)
-
-    def by_category(self, qs=None):
-        qs = qs or self.all()
-        qs = qs.select_related('category').order_by('category__order', 'order')
-
-        categories = OrderedDict()
-        categories[UNCATEGORIZED] = []
-        for description in qs:
-            category = description.category or UNCATEGORIZED
-            categories.setdefault(category, [])
-            categories[category].append(description)
-        return categories
 
 
 class AttributeDescription(ImportMixin, TranslatableModel):
@@ -148,9 +119,6 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         default=0, validators=[MaxValueValidator(2)]
     )
     order = models.IntegerField(default=0)
-    category = models.ForeignKey(
-        AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True
-    )
     statistics_rank = models.CharField(
         max_length=16, choices=STATISTICS_RANK_CHOICES, null=True, blank=True, unique=True
     )

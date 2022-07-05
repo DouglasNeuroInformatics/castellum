@@ -48,7 +48,6 @@ from .models import AttributeDescription
 from .models import MailBatch
 from .models import Participation
 from .models.attributes import ANSWER_DECLINED
-from .models.attributes import UNCATEGORIZED
 
 logger = logging.getLogger(__name__)
 monitoring_logger = logging.getLogger('monitoring.recruitment')
@@ -149,12 +148,7 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
                 except KeyError:
                     pass
 
-        categories = AttributeDescription.objects.by_category()
-        context['uncategorized'] = get_bound_fields(categories.pop(UNCATEGORIZED))
-        context['categories'] = {
-            category: get_bound_fields(descriptions)
-            for category, descriptions in categories.items()
-        }
+        context['attribute_fields'] = get_bound_fields(AttributeDescription.objects.all())
 
         return context
 

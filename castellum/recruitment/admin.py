@@ -31,7 +31,6 @@ from parler.admin import TranslatableTabularInline
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
 from .forms import DescriptionImportForm
-from .models import AttributeCategory
 from .models import AttributeChoice
 from .models import AttributeDescription
 from .models import ExecutionTag
@@ -97,7 +96,6 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
         ] + super().get_urls()
 
 
-admin.site.register(AttributeCategory, TranslatableAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
 admin.site.register(ReliabilityEntry)
 admin.site.register(MailBatch)

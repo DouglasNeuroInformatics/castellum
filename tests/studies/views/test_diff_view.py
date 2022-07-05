@@ -19,8 +19,6 @@ EXCLUDED = [
     'mfa.MFAKey.',
     'pseudonyms.Pseudonym.',
     'broadcast_messages.',
-    'recruitment.AttributeCategory.',
-    'recruitment.AttributeCategoryTranslation.',
     'recruitment.AttributeChoice.',
     'recruitment.AttributeChoiceTranslation.',
     'recruitment.AttributeDescription.',
