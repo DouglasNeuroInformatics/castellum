@@ -1,5 +1,5 @@
 {% extends "subjects/maintenance_base.html" %}
-{% load i18n django_bootstrap5 auth reliability %}
+{% load i18n django_bootstrap5 auth utils %}
 
 {% block title %}{% translate "Reliability" %} &middot; {{ block.super }}{% endblock %}
 
@@ -12,12 +12,7 @@
             <li class="table-list-item">
                 <svg class="identicon my-1 me-2" data-jdenticon-value="{{ subject.uuid }}" aria-hidden="true"></svg>
                 <div>
-                    <div>
-                        <span class="text-{{ subject|reliability_level }}" aria-hidden="true">&#9679;</span>
-                        {% with summary=subject|reliability_summary %}
-                            {% if summary %}({{ summary }}){% endif %}
-                        {% endwith %}
-                    </div>
+                    <div>{{ subject|display:'reliability' }}</div>
                     <div>{% translate 'Last contacted on' %}: {{ subject.updated_at|date }}</div>
                 </div>
                 <div class="table-list-item-actions">

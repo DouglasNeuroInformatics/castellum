@@ -225,13 +225,18 @@ class Subject(TimeStampedModel):
         now = timezone.localtime()
         return not self.not_available_until or self.not_available_until <= now
 
-    def annotate_reliability(self):
-        if hasattr(self, 'reliability_issues'):
-            return
+    def get_reliability_display(self):
+        if not hasattr(self, 'reliability_issues'):
+            annotated = Subject.objects.annotate_reliability().get(pk=self.pk)
+            self.reliability_total = annotated.reliability_total
+            self.reliability_issues = annotated.reliability_issues
 
-        annotated = Subject.objects.annotate_reliability().get(pk=self.pk)
-        self.reliability_total = annotated.reliability_total
-        self.reliability_issues = annotated.reliability_issues
+        if self.reliability_total == 0:
+            return _('no data so far')
+        else:
+            return _('{issues} issues in {total} studies').format(
+                issues=self.reliability_issues, total=self.reliability_total
+            )
 
     def get_data(self):
         from castellum.recruitment.models import AttributeDescription
