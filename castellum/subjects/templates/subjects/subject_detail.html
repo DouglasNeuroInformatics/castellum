@@ -70,7 +70,9 @@
     <dl class="row">
         <dt class="col-sm-6">
             {% translate 'Recruitment consent' %}
-            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR' %}</small>
+            <small class="d-block text-muted">
+                {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent)' %}
+            </small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.deceased %}
@@ -85,7 +87,9 @@
 
         <dt class="col-sm-6">
             {% translate 'Study consent' %}
-            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG' %}</small>
+            <small class="d-block text-muted">
+                {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 27 BDSG (exceptions for scientific reasons)' %}
+            </small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.has_legal_basis %}
@@ -98,7 +102,9 @@
 
         <dt class="col-sm-6">
             {% translate 'Legal representative' %}
-            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB' %}</small>
+            <small class="d-block text-muted">
+                {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 1626, 1902 BGB (responsibilities of legal representatives)' %}
+            </small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.has_legal_basis %}
@@ -111,7 +117,9 @@
 
         <dt class="col-sm-6">
             {{ subject|verbose_name:'blocked' }}
-            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. f GDPR' %}</small>
+            <small class="d-block text-muted">
+                {% translate 'Art. 6 (1) lit. f GDPR (legitimate interests)' %}
+            </small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.deceased %}
