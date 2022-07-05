@@ -15,7 +15,6 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import ContactCreationRequest
-from castellum.recruitment.management.commands import create_attribute_descriptions
 from castellum.recruitment.management.commands import create_demo_content
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import Participation
@@ -25,31 +24,6 @@ from castellum.studies.models import Study
 from castellum.studies.models import StudyGroup
 from castellum.studies.models import StudyMembership
 from castellum.subjects.models import SubjectCreationRequest
-
-ADDITIONAL_ATTRIBUTE_DESCRIPTIONS = [{
-    'field_type': 'MultipleChoiceField',
-    'order': 4,
-    'label': {
-        'de': 'Instrumente',
-        'en': 'Instruments',
-    },
-    'choices': [{
-        'label': {
-            'de': 'Klavier',
-            'en': 'Piano',
-        }
-    }, {
-        'label': {
-            'de': 'Gitarre',
-            'en': 'Guitar',
-        }
-    }, {
-        'label': {
-            'de': 'Schlagzeug',
-            'en': 'Drums',
-        }
-    }],
-}]
 
 baker.generators.add(
     'castellum.utils.fields.DateField', baker.generators.default_mapping[DateField]
@@ -108,10 +82,8 @@ def create_member(group_name, studies):
 @pytest.fixture(scope='session', autouse=True)
 def attribute_descriptions(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
-        if not AttributeDescription.objects.exists():
-            create_attribute_descriptions.generate_attribute_descriptions()
-            for data in ADDITIONAL_ATTRIBUTE_DESCRIPTIONS:
-                AttributeDescription._import(data)
+        call_command('loaddata', 'attribute_descriptions')
+        call_command('loaddata', 'attribute_descriptions_extra')
 
 
 @pytest.fixture(scope='session', autouse=True)

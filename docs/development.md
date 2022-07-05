@@ -36,7 +36,7 @@ You can login with user "admin" and password "password".
     `castellum.studies.backends.StudyPermissionBackend` for details.
 
 -   The available recruitment attributes can be changed at runtime. The
-    ones created with `django-admin create_attribute_descriptions`
+    ones created with `django-admin loaddata attribute_descriptions`
     merely serve as examples. See `dynamic_attributes.md` for details.
 
 -   The available groups can be changed at runtime. The ones created

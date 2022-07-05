@@ -41,7 +41,7 @@ This GUI also allows to export and import attribute descriptions as
 JSON. This allows organizations to easily exchange attribute
 descriptions.
 
-The management command `create_attribute_descriptions` will create a
+The management command `loaddata attribute_descriptions` will create a
 small set of example attribute descriptions. If you don't want to create
 your schema from scratch you can use them as a starting point.
 

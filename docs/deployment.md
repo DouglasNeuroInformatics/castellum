@@ -117,8 +117,7 @@ before you can start using it:
 4.  Load recommended data. This is not strictly necessary, but it
     usually makes sense to start from these defaults:
 
-        django-admin loaddata groups study_types study_groups resources
-        django-admin create_attribute_descriptions
+        django-admin loaddata groups study_types study_groups resources attribute_descriptions
 
     **Warning**: If you run this command a second time, the database
     will be reset and all edits will be lost.
