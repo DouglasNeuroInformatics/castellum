@@ -1,6 +1,6 @@
 FROM node
 COPY package.json .
-RUN npm install --production
+RUN npm install --omit=dev
 
 FROM alpine:3.14.6
 
