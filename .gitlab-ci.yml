@@ -7,11 +7,13 @@ workflow:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
+variables:
+  CONTAINER_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum
+
 test:
   stage: test
-  image: buildpack-deps
+  image: $CONTAINER_IMAGE
   variables:
-    DEBIAN_FRONTEND: noninteractive
     DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
     POSTGRES_PASSWORD: "CHANGEME"
   services:
@@ -20,7 +22,7 @@ test:
     - name: postgis/postgis:latest
       alias: db_contacts
   before_script:
-    - apt-get update -q && apt-get install -y -qq python3-pip hunspell hunspell-de-de gdal-bin python3-psycopg2
+    - apk add py3-lxml py3-regex hunspell hunspell-de-de
     - pip3 install -e .[test]
   script:
     - isort -c castellum tests
@@ -42,8 +44,6 @@ test-js:
 build:
   stage: build
   image: docker
-  variables:
-    CONTAINER_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum
   services:
     - docker:dind
   before_script:
