@@ -276,18 +276,8 @@ class ConsentDocument(models.Model):
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
-    class Meta:
-        get_latest_by = 'created_at'
-
     def __str__(self):
         return self.name or _('Version {}').format(self.pk)
-
-    @classmethod
-    def get_latest(cls):
-        try:
-            return cls.objects.all().latest()
-        except cls.DoesNotExist:
-            return cls.objects.create()
 
 
 class Consent(models.Model):
@@ -303,7 +293,6 @@ class Consent(models.Model):
     )
 
     class Meta:
-        get_latest_by = 'document__created_at'
         verbose_name = _('Consent')
 
     def save(self, *args, **kwargs):
