@@ -262,6 +262,7 @@ class SubjectNote(models.Model):
 
 
 class ConsentDocument(models.Model):
+    name = models.CharField(_('Name'), max_length=254, blank=True)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     is_deprecated = models.BooleanField(_('Is deprecated'), default=False)
     file = RestrictedFileField(
@@ -276,7 +277,7 @@ class ConsentDocument(models.Model):
         get_latest_by = 'created_at'
 
     def __str__(self):
-        return _('Version {}').format(self.pk)
+        return self.name or _('Version {}').format(self.pk)
 
     @classmethod
     def get_latest(cls):
