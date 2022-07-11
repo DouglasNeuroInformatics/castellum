@@ -20,7 +20,7 @@ def test_migrate_data(migrator):
     subject3 = baker.make(Subject, consent__status='confirmed')
 
     new_state = migrator.apply_tested_migration(
-        ('subjects', '0041_alter_consent_document')
+        ('subjects', '0042_alter_consent')
     )
     Subject = new_state.apps.get_model('subjects', 'Subject')
     Consent = new_state.apps.get_model('subjects', 'Consent')
