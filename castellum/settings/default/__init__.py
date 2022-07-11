@@ -107,9 +107,6 @@ CASTELLUM_DEFAULT_EXECUTION_TAGS = [
 # make sure to setup a cron-job for ``notify_to_be_deleted``
 CASTELLUM_GDPR_NOTIFICATION_TO = []
 
-# Email addresses for announcing new public studies
-CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = []
-
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.

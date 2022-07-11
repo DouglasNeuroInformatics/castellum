@@ -55,17 +55,10 @@ class StudyForm(forms.ModelForm):
             'phone',
             'email',
             'description',
-            'announce_status_changes',
             'min_subject_count',
             'exportable_attributes',
             'is_anonymous_invitation',
         ]
-        help_texts = {
-            'announce_status_changes': format_lazy(
-                _('Mails will be sent to: {}'),
-                ', '.join(settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO),
-            ),
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
