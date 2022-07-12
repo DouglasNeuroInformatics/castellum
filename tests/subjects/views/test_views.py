@@ -3,6 +3,7 @@ from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.models import Domain
+from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentDocument
 
 
@@ -64,11 +65,12 @@ def test_data_protection_post_invalid_privacy_level(client, user, subject):
 def test_data_protection_post_invalid_to_be_deleted_consent(client, user, subject):
     client.force_login(user)
 
+    baker.make(Consent, _fill_optional=['document'], subject=subject)
+
     url = '/subjects/{}/data-protection/'.format(subject.uuid)
     response = client.post(url, {
         'privacy_level': 1,
         'to_be_deleted': 'on',
-        'consent_status': 'confirmed',
     })
     msg = b'Subjects can either be marked for deletion or have recruitment consent, not both.'
     assert response.status_code == 200

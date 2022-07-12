@@ -73,15 +73,6 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        try:
-            document = ConsentDocument.objects.get(consent__subject=self.subject)
-        except ConsentDocument.DoesNotExist:
-            document = ConsentDocument.get_latest()
-        context['consent_document'] = document
-        return context
-
     def form_valid(self, form):
         if settings.CASTELLUM_GDPR_NOTIFICATION_TO:
             old = Subject.objects.get(pk=self.object.pk)
