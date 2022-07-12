@@ -35,6 +35,10 @@
                             {% else %}
                                 {{ object.consent.document }}
                             {% endif %}
+                            {% if object.consent.file %}
+                                &middot;
+                                <a href="{{ object.consent.file.url }}">{% translate 'Download signed document' %}</a>
+                            {% endif %}
                         </small>
                     {% endif %}
                 </div>

@@ -291,6 +291,13 @@ class Consent(models.Model):
         blank=True,
         null=True,
     )
+    file = RestrictedFileField(
+        _('Signed file'),
+        blank=True,
+        upload_to='subjects/consents/',
+        content_types=['application/pdf'],
+        max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
+    )
 
     class Meta:
         verbose_name = _('Consent')
