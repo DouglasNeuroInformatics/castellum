@@ -19,7 +19,9 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.views.generic import CreateView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -27,6 +29,7 @@ from castellum.utils.mail import MailContext
 
 from .forms import AdditionalInfoForm
 from .forms import DataProtectionForm
+from .models import Consent
 from .models import ConsentDocument
 from .models import Subject
 
@@ -120,6 +123,28 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                 if old.to_be_deleted:
                     self.object.to_be_deleted_notified = False
 
+        return super().form_valid(form)
+
+
+class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
+    model = Consent
+    fields = ['document']
+    permission_required = 'subjects.change_subject'
+    template_name = 'subjects/subject_consent_form.html'
+
+    def get_object(self):
+        # weird because model = Consent, but this is only used in
+        # SubjectMixin, not in CreateView
+        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
+
+    def get_form(self):
+        if not ConsentDocument.objects.exists():
+            ConsentDocument.objects.create()
+        return super().get_form()
+
+    def form_valid(self, form):
+        Consent.objects.filter(subject=self.subject).delete()
+        form.instance.subject = self.subject
         return super().form_valid(form)
 
 

@@ -32,6 +32,7 @@ from .feeds import ResourceFeed
 from .views import AdditionalInfoUpdateView
 from .views import AttributesUpdateView
 from .views import CalendarView
+from .views import ConsentChangeView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
 from .views import ExclusionCriteriaView
@@ -112,6 +113,11 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/update-data-protection/',
         DataProtectionUpdateView.as_view(),
         name='data-protection-update',
+    ),
+    path(
+        '<int:study_pk>/<int:pk>/update-data-protection/consent/',
+        ConsentChangeView.as_view(),
+        name='consent-change',
     ),
     path(
         '<int:study_pk>/<int:pk>/update-additional-info/',

@@ -1,0 +1,44 @@
+{% extends view.base_template|default:"subjects/base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "Change recruitment consent" %} &middot; {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% include 'utils/form_errors.html' with form=form %}
+        {% csrf_token %}
+
+        <h2>{% translate "Enter new recruitment consent" %}</h2>
+        <p>{% translate "Please select which consent document the subject has agreed to:" %}</p>
+
+        <fieldset class="mb-3">
+            {% for value, label in form.document.field.choices %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ form.document.name }}" id="{{ form.document.id_for_label }}_{{ value }}" value="{{ value }}" required>
+                    <label class="form-check-label" for="{{ form.document.id_for_label }}_{{ value }}">
+                        {% if value.instance.file %}
+                            <a href="{{ value.instance.file.url }}">{{ label }}</a>
+                        {% elif value %}
+                            {{ label }}
+                        {% else %}
+                            {% translate "Consent withdrawn" %}
+                        {% endif %}
+                        {% if value.instance %}
+                            ({{ value.instance.created_at|date }})
+                            {% if value.instance.is_deprecated %}
+                                <span class="badge bg-warning text-dark">{% translate "deprecated" %}</span>
+                            {% endif %}
+                        {% endif %}
+                    </label>
+                </div>
+            {% endfor %}
+        </fieldset>
+
+        <div class="d-print-none mb-3">
+            <a href="{{ view.get_success_url }}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
+            <button class="btn btn-primary">{% translate 'Save' %}</button>
+        </div>
+    </form>
+{% endblock %}

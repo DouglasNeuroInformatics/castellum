@@ -66,6 +66,7 @@ from castellum.utils.expressions import exists
 
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
+from .mixins import BaseConsentChangeView
 from .mixins import BaseDataProtectionUpdateView
 from .mixins import SubjectMixin
 from .models import ExportAnswer
@@ -360,6 +361,14 @@ class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView)
     tab = 'data-protection'
     slug_field = 'uuid'
     slug_url_kwarg = 'uuid'
+
+
+class ConsentChangeView(SubjectMixin, BaseConsentChangeView):
+    base_template = 'subjects/subject_base.html'
+    tab = 'data-protection'
+
+    def get_success_url(self):
+        return reverse('subjects:data-protection', args=[self.subject.uuid])
 
 
 class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):

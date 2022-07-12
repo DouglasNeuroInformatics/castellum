@@ -3,6 +3,7 @@ from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.models import Domain
+from castellum.subjects.models import ConsentDocument
 
 
 @pytest.mark.smoketest
@@ -72,6 +73,43 @@ def test_data_protection_post_invalid_to_be_deleted_consent(client, user, subjec
     msg = b'Subjects can either be marked for deletion or have recruitment consent, not both.'
     assert response.status_code == 200
     assert msg in response.content
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+])
+def test_consent_200(request, client, user_fixture, subject):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/{}/data-protection/consent/'.format(subject.uuid)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+def test_consent_post(request, client, user, subject):
+    client.force_login(user)
+
+    document = baker.make(ConsentDocument)
+
+    url = '/subjects/{}/data-protection/consent/'.format(subject.uuid)
+    response = client.post(url, {
+        'document': document.pk,
+    })
+    assert response.status_code == 302
+    assert subject.consent.document == document
+
+
+def test_consent_create_document(request, client, user, subject):
+    client.force_login(user)
+
+    assert not ConsentDocument.objects.exists()
+    url = '/subjects/{}/data-protection/consent/'.format(subject.uuid)
+    client.get(url)
+    assert ConsentDocument.objects.exists()
 
 
 @pytest.mark.parametrize('user_fixture', [
