@@ -145,6 +145,9 @@ class Subject(TimeStampedModel):
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
+    # temporary field (see 0041_alter_consent_document)
+    consent_waiting_since = models.DateTimeField(blank=True, null=True)
+
     objects = SubjectQuerySet.as_manager()
 
     class Meta:
@@ -273,37 +276,23 @@ class ConsentDocument(models.Model):
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
-    class Meta:
-        get_latest_by = 'created_at'
-
     def __str__(self):
         return self.name or _('Version {}').format(self.pk)
 
-    @classmethod
-    def get_latest(cls):
-        try:
-            return cls.objects.all().latest()
-        except cls.DoesNotExist:
-            return cls.objects.create()
-
 
 class Consent(models.Model):
-    WAITING = 'waiting'
-    CONFIRMED = 'confirmed'
-
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     underage_when_given = models.BooleanField(_('Underage when given'), null=True)
     document = models.ForeignKey(
-        ConsentDocument, verbose_name=_('Document'), on_delete=models.CASCADE
+        ConsentDocument,
+        verbose_name=_('Document'),
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
-    status = models.CharField(_('Status'), max_length=64, choices=[
-        (WAITING, _('Waiting for confirmation')),
-        (CONFIRMED, _('Confirmed')),
-    ])
 
     class Meta:
-        get_latest_by = 'document__created_at'
         verbose_name = _('Consent')
 
     def save(self, *args, **kwargs):

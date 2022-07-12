@@ -18,7 +18,7 @@ def create_subject():
     subject = contact.subject
     subject.attributes = {'d1': 1}
     subject.save()
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=subject, _fill_optional=['document'])
     return subject
 
 

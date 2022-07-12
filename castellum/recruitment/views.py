@@ -30,6 +30,7 @@ from django.http import Http404
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
@@ -49,6 +50,7 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
+from castellum.subjects.mixins import BaseConsentChangeView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
@@ -542,6 +544,23 @@ class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateV
 
     def get_object(self):
         return self.participation.subject
+
+
+class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
+    study_status = [Study.EXECUTION]
+    base_template = 'recruitment/participation_update_base.html'
+    tab = 'update-data'
+    subtab = 'data-protection'
+
+    def get_permission_required(self):
+        permission_required = {'recruitment.recruit'}
+        permission_required.update(super().get_permission_required())
+        return permission_required
+
+    def get_success_url(self):
+        return reverse(
+            'recruitment:data-protection-update', args=[self.study.pk, self.participation.pk]
+        )
 
 
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):

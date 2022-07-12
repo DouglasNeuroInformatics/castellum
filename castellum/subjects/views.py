@@ -66,9 +66,9 @@ from castellum.utils.expressions import exists
 
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
+from .mixins import BaseConsentChangeView
 from .mixins import BaseDataProtectionUpdateView
 from .mixins import SubjectMixin
-from .models import Consent
 from .models import ExportAnswer
 from .models import Subject
 from .models import SubjectCreationRequest
@@ -361,6 +361,14 @@ class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView)
     tab = 'data-protection'
     slug_field = 'uuid'
     slug_url_kwarg = 'uuid'
+
+
+class ConsentChangeView(SubjectMixin, BaseConsentChangeView):
+    base_template = 'subjects/subject_base.html'
+    tab = 'data-protection'
+
+    def get_success_url(self):
+        return reverse('subjects:data-protection', args=[self.subject.uuid])
 
 
 class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):
@@ -709,10 +717,10 @@ class MaintenanceConsentView(BaseMaintenanceView):
     def get_by_deprecated_document(self):
         return (
             super().get_queryset()
+            .filter(filter_queries.has_consent())
             .exclude(pk__in=Subject.objects.filter(
                 filter_queries.has_consent(exclude_deprecated=True)
             ))
-            .filter(consent__status=Consent.CONFIRMED)
         )
 
     def get_queryset(self):
@@ -742,7 +750,7 @@ class MaintenanceWaitingView(BaseMaintenanceView):
     def get_queryset(self):
         return (
             super().get_queryset()
-            .filter(consent__status=Consent.WAITING)
+            .filter(consent__isnull=True)
             .order_by('pk')
         )
 

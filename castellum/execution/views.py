@@ -62,6 +62,7 @@ from castellum.recruitment.templatetags.recruitment import study_legal_represent
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
+from castellum.subjects.mixins import BaseConsentChangeView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
@@ -515,6 +516,24 @@ class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateVie
 
     def get_object(self):
         return self.participation.subject
+
+
+class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
+    study_status = [Study.EXECUTION]
+    participation_status = [Participation.INVITED]
+    base_template = 'execution/participation_update_base.html'
+    tab = 'update-data'
+    subtab = 'data-protection'
+
+    def get_permission_required(self):
+        permission_required = {'recruitment.conduct_study'}
+        permission_required.update(super().get_permission_required())
+        return permission_required
+
+    def get_success_url(self):
+        return reverse(
+            'execution:data-protection-update', args=[self.study.pk, self.participation.pk]
+        )
 
 
 class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateView):

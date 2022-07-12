@@ -24,6 +24,7 @@ from django.urls import path
 from .api import APIAttributesView
 from .views import AdditionalInfoUpdateView
 from .views import AttributesUpdateView
+from .views import ConsentChangeView
 from .views import ContactUpdateView
 from .views import CoverletterView
 from .views import DataProtectionUpdateView
@@ -108,6 +109,11 @@ urlpatterns = [
         '<uuid:uuid>/data-protection/',
         DataProtectionUpdateView.as_view(),
         name='data-protection',
+    ),
+    path(
+        '<uuid:uuid>/data-protection/consent/',
+        ConsentChangeView.as_view(),
+        name='consent',
     ),
     path(
         '<uuid:uuid>/additional-info/',

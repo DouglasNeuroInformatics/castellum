@@ -23,8 +23,8 @@ def test_mail_add_to_study(client, user):
     )
     contact1 = baker.make(Contact, email="example1@example.com")
     contact2 = baker.make(Contact, email="example2@example.com")
-    baker.make(Consent, subject=contact1.subject, status=Consent.CONFIRMED)
-    baker.make(Consent, subject=contact2.subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=contact1.subject, _fill_optional=['document'])
+    baker.make(Consent, subject=contact2.subject, _fill_optional=['document'])
 
     study.members.add(user)
     view = MailRecruitmentView()
@@ -48,7 +48,7 @@ def test_legal_representative_mail_add_to_study(client, user):
     )
     contact1 = baker.make(Contact, email="example1@example.com")
     contact2 = baker.make(Contact, legal_representatives=[contact1])
-    baker.make(Consent, subject=contact2.subject, status=Consent.CONFIRMED)
+    baker.make(Consent, subject=contact2.subject, _fill_optional=['document'])
 
     study.members.add(user)
     view = MailRecruitmentView()

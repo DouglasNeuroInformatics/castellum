@@ -7,6 +7,7 @@ from castellum.contacts.models import Contact
 from castellum.data_protection.management.commands.cleanup_dashboards import delete_no_legal_basis
 from castellum.data_protection.management.commands.cleanup_dashboards import delete_to_be_deleted
 from castellum.data_protection.management.commands.cleanup_dashboards import delete_unreachable
+from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 
 
@@ -36,6 +37,7 @@ def test_cleanup_dashboards_unreachable(subject):
 def test_cleanup_dashboards_no_legal_basis(subject, participation):
     contact_no_legal_basis = baker.make(Contact)
     subject_no_legal_basis = contact_no_legal_basis.subject
+    baker.make(Consent, subject=subject_no_legal_basis)
     delete_no_legal_basis()
 
     assert not Subject.objects.filter(uuid=subject_no_legal_basis.uuid).exists()
