@@ -363,6 +363,9 @@ class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView)
     slug_field = 'uuid'
     slug_url_kwarg = 'uuid'
 
+    def get_subject_media_url(self, path):
+        return reverse('subject-media', args=[self.subject.uuid, path])
+
 
 class ConsentChangeView(SubjectMixin, BaseConsentChangeView):
     base_template = 'subjects/subject_base.html'

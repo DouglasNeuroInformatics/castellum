@@ -546,6 +546,9 @@ class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateV
     def get_object(self):
         return self.participation.subject
 
+    def get_subject_media_url(self, path):
+        return reverse('recruitment-media', args=[self.study.pk, self.participation.pk, path])
+
 
 class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
     study_status = [Study.EXECUTION]
