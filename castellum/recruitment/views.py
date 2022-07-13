@@ -287,19 +287,12 @@ class RecruitmentViewOpen(RecruitmentView):
             return self.get(request, *args, **kwargs)
 
         # Silently trim down to respect hard limit.
-        # In many cases, the soft limit warning will already be shown in that case.
         batch_size = min(
             settings.CASTELLUM_RECRUITMENT_BATCH_SIZE,
             hard_limit - not_contacted_count,
         )
         participations = self.create_participations(batch_size, is_urgent)
         Participation.objects.bulk_create(participations)
-
-        if not_contacted_count + len(participations) > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:
-            messages.error(request, _(
-                'Such workflow is not intended due to privacy reasons. '
-                'Please contact provided subjects before adding new ones.'
-            ))
 
         if not participations:
             messages.error(
