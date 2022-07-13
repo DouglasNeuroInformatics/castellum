@@ -59,6 +59,16 @@
                     ]
                 },
                 "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "Polygon",
+                                "MultiPolygon"
+                            ]
+                        }
+                    },
                     "oneOf": [
                         {"$ref": "#/$defs/Polygon"},
                         {"$ref": "#/$defs/MultiPolygon"}
@@ -83,6 +93,16 @@
             }
         },
         "geofilter": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Feature",
+                        "FeatureCollection"
+                    ]
+                }
+            },
             "oneOf": [
                 {"$ref": "#/$defs/Feature"},
                 {"$ref": "#/$defs/FeatureCollection"}
