@@ -129,25 +129,6 @@ class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class StudyExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, UpdateView):
-    model = Study
-    pk_url_kwarg = 'study_pk'
-    template_name = 'studies/study_exclusioncriteria.html'
-    fields = ['exclusion_criteria']
-    permission_required = 'studies.change_study'
-    is_anonymous_invitation = False
-    is_filter_trial = False
-    tab = 'recruitmentsettings'
-    subtab = 'exclusioncriteria'
-
-    def get_success_url(self):
-        return self.request.path
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
-
 class StudyRecruitmentTestMailView(StudyMixin, PermissionRequiredMixin, View):
     model = Study
     pk_url_kwarg = 'study_pk'

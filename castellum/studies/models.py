@@ -108,10 +108,6 @@ class Study(models.Model):
     )
     sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
-    exclusion_criteria = models.TextField(
-        _('Additional subject characteristics that should be verified during recruitment'),
-        blank=True,
-    )
     recruitment_text = models.TextField(
         _('Recruitment text'),
         help_text=_(
@@ -299,8 +295,8 @@ class Study(models.Model):
     @cached_property
     def has_exclusion_criteria(self):
         return (
-            settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA
-            or self.exclusion_criteria
+            settings.CASTELLUM_GENERAL_RECRUITMENT_TEXT
+            or self.recruitment_text
             or self.study_type.exclude(exclusion_criteria='').exists()
         )
 

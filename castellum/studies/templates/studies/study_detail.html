@@ -72,11 +72,6 @@
 
         <dt class="col-sm-6">{% translate 'Recruitment filters set' %}</dt>
         <dd class="col-sm-6">{% if study.has_filters %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
-
-        {% if not object.is_anonymous_invitation %}
-            <dt class="col-sm-6">{% translate 'Exclusion criteria provided' %}</dt>
-            <dd class="col-sm-6">{% if object.exclusion_criteria %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
-        {% endif %}
     </dl>
 
     {% has_perm 'studies.change_study' user study as can_change_study %}

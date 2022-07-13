@@ -23,7 +23,6 @@ from django.urls import path
 
 from ..views.recruitment import FilterTrialConvertView
 from ..views.recruitment import StudyExcludedStudiesView
-from ..views.recruitment import StudyExclusionCriteriaView
 from ..views.recruitment import StudyMailSettingsView
 from ..views.recruitment import StudyRecruitmentSettingsUpdateView
 from ..views.recruitment import StudyRecruitmentTestMailView
@@ -31,7 +30,6 @@ from . import subjectfilters as subjectfilters_urls
 
 urlpatterns = [
     path('', StudyRecruitmentSettingsUpdateView.as_view(), name='recruitmentsettings'),
-    path('exclusioncriteria/', StudyExclusionCriteriaView.as_view(), name='exclusioncriteria'),
     path('mail/', StudyMailSettingsView.as_view(), name='mailsettings'),
     path('mail/test/', StudyRecruitmentTestMailView.as_view(), name='testmail-recruitment'),
     path('excluded-studies/', StudyExcludedStudiesView.as_view(), name='excluded-studies'),

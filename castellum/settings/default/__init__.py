@@ -135,7 +135,6 @@ CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = None
 CASTELLUM_FULL_AGE = 16
 
 # Texts that apply to all studies
-CASTELLUM_GENERAL_EXCLUSION_CRITERIA = ''
 CASTELLUM_GENERAL_RECRUITMENT_TEXT = ''
 
 # Default exporter used for attributes.
