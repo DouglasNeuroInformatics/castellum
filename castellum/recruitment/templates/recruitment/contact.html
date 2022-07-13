@@ -56,6 +56,25 @@
                             {{ study.recruitment_text|urlize|linebreaks }}
                         {% endif %}
 
+                        {% if study.has_exclusion_criteria %}
+                            <h2>{% translate 'Inclusion/exclusion criteria' %}</h2>
+                            <h3>{% translate 'Study-specific criteria' %}</h3>
+                            {% if study.exclusion_criteria %}
+                                {{ study.exclusion_criteria|urlize|linebreaks }}
+                            {% endif %}
+                            {% if CASTELLUM_GENERAL_EXCLUSION_CRITERIA %}
+                                <h3>{% translate 'General criteria' %}</h3>
+                                {{ CASTELLUM_GENERAL_EXCLUSION_CRITERIA|urlize|linebreaks }}
+                            {% endif %}
+                            {% for study_type in study.study_type.all %}
+                                {% if study_type.exclusion_criteria %}
+                                    <h3>{{ study_type.label }}</h3>
+                                    {{ study_type.exclusion_criteria|urlize|linebreaks }}
+                                {% endif %}
+                            {% endfor %}
+                            {% bootstrap_field form.exclusion_criteria_checked %}
+                        {% endif %}
+
                         <dl class="row">
                             <dt class="col-sm-6">{% translate 'Type of study' %}</dt>
                             <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
@@ -89,38 +108,6 @@
                     </div>
                 </div>
             </div>
-
-            {% if study.has_exclusion_criteria %}
-                <div class="accordion-item">
-                    <div class="accordion-header" id="criteria-heading">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#criteria-pane" aria-expanded="true" aria-controls="criteria-pane">
-                            {% if not object.exclusion_criteria_checked %}
-                                {% icon 'exclamation-triangle' label=_('Not checked') %}
-                            {% endif %}
-                            {% translate 'Criteria' %}
-                        </button>
-                    </div>
-                    <div id="criteria-pane" class="accordion-collapse collapse" aria-labelledby="criteria-heading" data-bs-parent="#accordion">
-                        <div class="accordion-body">
-                            {% if study.exclusion_criteria %}
-                                {{ study.exclusion_criteria|urlize|linebreaks }}
-                            {% endif %}
-                            {% if CASTELLUM_GENERAL_EXCLUSION_CRITERIA %}
-                                <h2>{% translate 'General criteria' %}</h2>
-                                {{ CASTELLUM_GENERAL_EXCLUSION_CRITERIA|urlize|linebreaks }}
-                            {% endif %}
-                            {% for study_type in study.study_type.all %}
-                                {% if study_type.exclusion_criteria %}
-                                    <h2>{{ study_type.label }}</h2>
-                                    {{ study_type.exclusion_criteria|urlize|linebreaks }}
-                                {% endif %}
-                            {% endfor %}
-
-                            {% bootstrap_field form.exclusion_criteria_checked %}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
         </div>
 
         {% include 'utils/form_errors.html' with form=form %}
