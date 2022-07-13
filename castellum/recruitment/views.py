@@ -171,6 +171,9 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             Participation.AWAITING_RESPONSE,
         ]).count()
 
+        context['potential_count'] = context['invited_count'] + context['open_count']
+        context['total_count'] = max(self.study.min_subject_count, context['potential_count'])
+
         context['session_count'] = self.study.studysession_set.count()
 
         return context
