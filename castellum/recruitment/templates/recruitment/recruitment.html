@@ -4,13 +4,9 @@
 {% block title %}{% translate "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-
-    {% if statistics %}
-        <details class="mb-4">
-            <summary class="mb-2">{% translate 'Statistics' %}</summary>
-            {{ statistics|safe }}
-        </details>
-    {% endif %}
+    <details class="mb-4">
+        <summary class="mb-2">{% translate 'Statistics' %}</summary>
+    </details>
 
     <div class="d-flex justify-content-between">
         <ul class="nav nav-pills">
