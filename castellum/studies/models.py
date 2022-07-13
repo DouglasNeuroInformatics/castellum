@@ -267,11 +267,6 @@ class Study(models.Model):
                 code='invalid',
             )
 
-    def get_filter_max_privacy_level(self):
-        key = 'subjectfilter__description__privacy_level_read'
-        result = self.subjectfiltergroup_set.aggregate(models.Max(key))
-        return result[key + '__max'] or 0
-
     def get_invited_max_privacy_level(self):
         from castellum.recruitment.models import Participation
 
@@ -281,11 +276,6 @@ class Study(models.Model):
             .filter(status=Participation.INVITED)
             .aggregate(models.Max(key))
         )
-        return result[key + '__max'] or 0
-
-    def get_exportable_attributes_max_privacy_level(self):
-        key = 'privacy_level_read'
-        result = self.exportable_attributes.aggregate(models.Max(key))
         return result[key + '__max'] or 0
 
     @property

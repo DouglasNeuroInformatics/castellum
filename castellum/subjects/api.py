@@ -53,10 +53,7 @@ class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
         except Subject.DoesNotExist:
             raise Http404
 
-        if not self.request.user.has_privacy_level(max(
-            subject.privacy_level,
-            domain.get_exportable_attributes_max_privacy_level(),
-        )):
+        if not self.request.user.has_privacy_level(subject.privacy_level):
             raise PermissionDenied
 
         exporter = JSONExporter()

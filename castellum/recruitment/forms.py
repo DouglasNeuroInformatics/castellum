@@ -18,17 +18,12 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import json
-from pathlib import Path
-
 from django import forms
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 from castellum.subjects.models import Subject
-from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DisabledChoiceField
-from castellum.utils.forms import DisabledModelChoiceField
 
 from .models import AttributeDescription
 from .models import Participation
@@ -36,43 +31,33 @@ from .models import SubjectFilter
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
 
-APP_DIR = Path(__file__).resolve().parent
-IMPORT_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'attributes.json'))
 
-
-def get_description_choices(user):
+def get_description_choices():
     choices = [(None, '---')]
-    disabled_choices = []
 
     categories = AttributeDescription.objects.by_category()
 
     for description in categories.pop(UNCATEGORIZED):
         choices.append((description.pk, description.filter_label))
-        if not user.has_privacy_level(description.privacy_level_read):
-            disabled_choices.append(description.pk)
 
     for category, descriptions in categories.items():
         sub = []
         for description in descriptions:
             sub.append((description.pk, description.filter_label))
-            if not user.has_privacy_level(description.privacy_level_read):
-                disabled_choices.append(description.pk)
         choices.append((category.label, sub))
 
-    return choices, disabled_choices
+    return choices
 
 
 class SubjectFilterAddForm(forms.Form):
-    description = DisabledModelChoiceField(
+    description = forms.ModelChoiceField(
         AttributeDescription.objects.none(), label=_('Attribute'), required=False
     )
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        choices, disabled_choices = get_description_choices(user)
-        self.fields["description"].choices = choices
-        self.fields["description"].widget.disabled_choices = disabled_choices
+        self.fields["description"].choices = get_description_choices()
 
 
 class SubjectFilterForm(forms.ModelForm):
@@ -166,13 +151,12 @@ class AttributesForm(forms.ModelForm):
         return super().save(*args, **kwargs)
 
     @classmethod
-    def factory(cls, user):
-        allowed_descriptions = (
+    def factory(cls):
+        descriptions = (
             AttributeDescription.objects
-            .allowed_write(user)
             .exclude(id=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
         )
-        form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
+        form_fields = {desc.json_key: desc.field.formfield() for desc in descriptions}
         return type('AttributesForm', (cls,), form_fields)
 
 
@@ -214,8 +198,3 @@ class SendMailForm(forms.Form):
     batch_size = forms.IntegerField(
         min_value=1, label=_('How many subjects do you want to contact?')
     )
-
-
-class DescriptionImportForm(BaseImportForm):
-    schema = IMPORT_SCHEMA
-    schema_ref = '#/$defs/AttributeDescriptionExport'

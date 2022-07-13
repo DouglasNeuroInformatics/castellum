@@ -173,10 +173,7 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         return response
 
     def get(self, request, **kwargs):
-        if not request.user.has_privacy_level(max(
-            self.study.get_invited_max_privacy_level(),
-            self.study.get_exportable_attributes_max_privacy_level(),
-        )):
+        if not request.user.has_privacy_level(self.study.get_invited_max_privacy_level()):
             raise PermissionDenied
         if 'domain' in self.request.GET:
             domain = get_object_or_404(self.study.domains.all(), key=self.request.GET['domain'])

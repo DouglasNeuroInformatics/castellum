@@ -1,0 +1,112 @@
+[
+{
+    "model": "recruitment.attributedescriptiontranslation",
+    "pk": 9,
+    "fields": {
+        "language_code": "de",
+        "label": "Instrumente",
+        "_filter_label": "",
+        "help_text": "",
+        "master": 5
+    }
+},
+{
+    "model": "recruitment.attributedescriptiontranslation",
+    "pk": 9,
+    "fields": {
+        "language_code": "en",
+        "label": "Instruments",
+        "_filter_label": "",
+        "help_text": "",
+        "master": 5
+    }
+},
+{
+    "model": "recruitment.attributedescription",
+    "pk": 5,
+    "fields": {
+        "field_type": "MultipleChoiceField",
+        "url": "",
+        "order": 4,
+        "statistics_rank": null
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 21,
+    "fields": {
+        "language_code": "de",
+        "label": "Klavier",
+        "master": 11
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 22,
+    "fields": {
+        "language_code": "en",
+        "label": "Piano",
+        "master": 11
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 23,
+    "fields": {
+        "language_code": "de",
+        "label": "Gitarre",
+        "master": 12
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 24,
+    "fields": {
+        "language_code": "en",
+        "label": "Guitar",
+        "master": 12
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 25,
+    "fields": {
+        "language_code": "de",
+        "label": "Schlagzeug",
+        "master": 13
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 26,
+    "fields": {
+        "language_code": "en",
+        "label": "Drums",
+        "master": 13
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 11,
+    "fields": {
+        "description": 5,
+        "order": 0
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 12,
+    "fields": {
+        "description": 5,
+        "order": 10
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 13,
+    "fields": {
+        "description": 5,
+        "order": 20
+    }
+}
+]

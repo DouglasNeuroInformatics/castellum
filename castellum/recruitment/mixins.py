@@ -127,7 +127,7 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'recruitment/attributes_form.html'
 
     def get_form_class(self):
-        return AttributesForm.factory(self.request.user)
+        return AttributesForm.factory()
 
     def form_valid(self, form):
         result = super().form_valid(form)

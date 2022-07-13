@@ -136,10 +136,7 @@ class APIAttributesView(BaseAPIView):
         get_object_or_404(
             Participation, subject=subject, study=self.study, status=Participation.INVITED
         )
-        if not self.request.user.has_privacy_level(max(
-            subject.privacy_level,
-            self.study.get_exportable_attributes_max_privacy_level(),
-        )):
+        if not self.request.user.has_privacy_level(subject.privacy_level):
             raise PermissionDenied
 
         exporter = JSONExporter()
