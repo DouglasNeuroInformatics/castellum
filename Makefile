@@ -54,6 +54,7 @@ install: venv
 .PHONY: venv
 venv:
 	if [ ! -d "$(VIRTUAL_ENV)" ]; then python3 -m venv "$(VIRTUAL_ENV)"; fi
+	$(VIRTUAL_ENV)/bin/python -m pip install wheel
 
 .PHONY: install_githooks
 install_githooks:
