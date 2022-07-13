@@ -3138,7 +3138,7 @@ msgstr "Dokument"
 
 #: castellum/subjects/models.py:295
 msgid "Signed file"
-msgstr ""
+msgstr "Unterschriebene Datei"
 
 #: castellum/subjects/models.py:314
 msgid "Created by"
@@ -3426,88 +3426,55 @@ msgstr ""
 "Daten entweder von Aufbewahrungsfristen betroffen sind oder gelöscht wurden."
 
 #: castellum/subjects/templates/subjects/subject_consent_form.html:5
-#, fuzzy
-#| msgid "Recruitment consent"
 msgid "Change recruitment consent"
-msgstr "Einwilligung zur Rekrutierung"
+msgstr "Rekrutierungseinwilligung ändern"
 
 #: castellum/subjects/templates/subjects/subject_consent_form.html:13
-#, fuzzy
-#| msgid "Recruitment consent"
 msgid "Enter new recruitment consent"
-msgstr "Einwilligung zur Rekrutierung"
+msgstr "Neue Rekrutierungseinwilligung eingeben"
 
 #: castellum/subjects/templates/subjects/subject_consent_form.html:14
 msgid "Please select which consent document the subject has agreed to:"
-msgstr ""
+msgstr "Bitte wählen Sie aus welchem Dokument die Proband*in zugestimmt hat:"
 
 #: castellum/subjects/templates/subjects/subject_consent_form.html:26
-#, fuzzy
-#| msgid "Consent document"
 msgid "Consent withdrawn"
-msgstr "Einwilligungserklärung"
+msgstr "Einwilligung widerrufen"
 
 #: castellum/subjects/templates/subjects/subject_consent_form.html:31
-#, fuzzy
-#| msgid "Is deprecated"
 msgid "deprecated"
-msgstr "Ist überholt"
+msgstr "überholt"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:23
-#, fuzzy
-#| msgid "The subject has not yet been contacted."
 msgid "This subject has no recruitment consent yet"
-msgstr "Die Proband*innen wurde noch nicht kontaktiert."
+msgstr "Diese Proband*innen hat noch keine Rekrutierungseinwilligung"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:24
-#, fuzzy
-#| msgid "Subject is deceased"
 msgid "Subject created on"
-msgstr "Proband*in ist verstorben"
+msgstr "Proband*in erstellt am"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:26
-#, fuzzy
-#| msgid "The following subjects have been contacted for recruitment consent:"
 msgid "This subject has declined recruitment consent"
-msgstr ""
-"Die folgenden Proband*innen wurden für eine Rekrutierungseinwilligung "
-"kontaktiert:"
+msgstr "Diese Proband*in hat die Rekrutierungseinwilligung abgelehnt"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:27
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:31
 msgid "on"
-msgstr ""
+msgstr "am"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:29
-#, fuzzy
-#| msgid "The following subjects have been contacted for recruitment consent:"
 msgid "This subject has given recruitment consent"
-msgstr ""
-"Die folgenden Proband*innen wurden für eine Rekrutierungseinwilligung "
-"kontaktiert:"
+msgstr "Diese Proband*in hat eine Rekrutierungseinwilligung gegeben"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:40
-#, fuzzy
-#| msgid "Consent document"
 msgid "Download signed document"
-msgstr "Einwilligungserklärung"
+msgstr "Unterschriebenes Dokument herunterladen"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:45
-#, fuzzy
-#| msgid "Danger"
 msgid "Change"
-msgstr "Gefahr"
+msgstr "Ändern"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:49
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            The current consent refers to an outdated "
-#| "document and will soon expire, thus rendering the recruitment consent "
-#| "invalid.\n"
-#| "                            Please remove the current consent and contact "
-#| "the subject to confirm the latest document.\n"
-#| "                        "
 msgid ""
 "\n"
 "                        The current consent refers to an outdated document "
@@ -3520,19 +3487,11 @@ msgstr ""
 "                            Die gegenwärtige Einwilligung bezieht sich auf "
 "ein veraltetes Dokument und wird demnächst ablaufen und die "
 "Rekrutierungseinwilligung somit ungültig machen.\n"
-"                            Bitte entfernen Sie die gegenwärtige "
-"Einwilligung und kontaktieren Sie die Proband*in um die Einwilligung in die "
-"aktuellste Erklärung einzuholen.\n"
+"                            Bitte kontaktieren Sie die Proband*in um die "
+"Einwilligung in die aktuellste Erklärung einzuholen.\n"
 "                        "
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:57
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            The subject has recently come of age.\n"
-#| "                            Please remove the current consent and contact "
-#| "the subject for a new one.\n"
-#| "                        "
 msgid ""
 "\n"
 "                        The subject has recently come of age.\n"
@@ -3541,16 +3500,11 @@ msgid ""
 msgstr ""
 "\n"
 "                            Die Proband*in ist kürzlich volljährig geworden. "
-"Bitte entfernen Sie die gegenwärtige Einwilligung und kontaktieren Sie die "
-"Proband*in um eine neue zu erhalten.\n"
+"Bitte kontaktieren Sie die Proband*in um eine neue Einwilligung zu "
+"erhalten.\n"
 "                        "
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:64
-#, fuzzy
-#| msgid ""
-#| "Without recruitment consent, this subject will not be taken into account "
-#| "for future recruitment. Withdrawing recruitment consent has no effect on "
-#| "study consent. Therefore no data related to existing studies is deleted."
 msgid ""
 "\n"
 "                    Without recruitment consent, this subject will not be "
@@ -3561,6 +3515,7 @@ msgid ""
 "deleted.\n"
 "                "
 msgstr ""
+"\n"
 "Ohne Einwilligung zur Rekrutierung wird diese Proband*in nicht für "
 "zukünftige Rekrutierungen berücksichtigt. Der Widerruf der "
 "Rekrutierungseinwilligung hat keine Auswirkungen auf die "
