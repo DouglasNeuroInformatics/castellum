@@ -62,10 +62,6 @@
                             {% if study.exclusion_criteria %}
                                 {{ study.exclusion_criteria|urlize|linebreaks }}
                             {% endif %}
-                            {% if CASTELLUM_GENERAL_EXCLUSION_CRITERIA %}
-                                <h3>{% translate 'General criteria' %}</h3>
-                                {{ CASTELLUM_GENERAL_EXCLUSION_CRITERIA|urlize|linebreaks }}
-                            {% endif %}
                             {% for study_type in study.study_type.all %}
                                 {% if study_type.exclusion_criteria %}
                                     <h3>{{ study_type.label }}</h3>
