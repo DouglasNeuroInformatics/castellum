@@ -78,30 +78,6 @@ Study calendar: {calendar_url}
 """
 CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN = None
 
-CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT = '[{study}] Study status changed'
-CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY = """Study details of {name}:
-
-Status: {status}
-Previous status: {previous_status}
-
-Contact person: {contact_person}
-Email: {email}
-Phone: {phone},
-Session types: {session_types}
-Scheduled runtime: {sessions_start} - {sessions_end}
-Excluded studies: {excluded_studies}
-Filters:
-{filters}
-
-Recruitment text:
-{recruitment_text}
-
-Inclusion/Exclusion criteria:
-{exclusion_criteria}
-
-"""
-CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY_EN = None
-
 CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_SUBJECT = '[{study}] Export requested'
 CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_BODY = (
     'Dear {name},\n\n'
