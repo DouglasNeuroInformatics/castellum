@@ -118,7 +118,6 @@ class SubjectFilterFormSet(forms.BaseModelFormSet):
 
 
 class AttributesForm(forms.ModelForm):
-
     class Meta:
         model = Subject
         fields = ['study_type_disinterest', 'anonymous_invitation_disinterest']
