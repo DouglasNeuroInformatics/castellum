@@ -20,7 +20,6 @@
 
 import functools
 from collections import OrderedDict
-from typing import List
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -29,7 +28,6 @@ from django.utils.translation import gettext_lazy as _
 from parler.managers import TranslatableQuerySet
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
-from parler.utils.context import switch_language
 
 from .. import attribute_fields
 from ..attribute_fields import ANSWER_DECLINED  # noqa
@@ -43,35 +41,6 @@ def get_description_by_statistics_rank(rank):
         return AttributeDescription.objects.get(statistics_rank=rank)
     except AttributeDescription.DoesNotExist:
         return None
-
-
-class ImportMixin:
-    import_fields: List[str]
-    import_translated_fields: List[str]
-
-    def export(self):
-        data = {}
-        for field in self.import_fields:
-            data[field] = getattr(self, field)
-        for field in self.import_translated_fields:
-            data[field] = {}
-        for translation in self.translations.all():
-            for field in self.import_translated_fields:
-                data[field][translation.language_code] = getattr(translation, field)
-        return data
-
-    @classmethod
-    def _import(cls, data, **kwargs):
-        obj = cls(**kwargs)
-        for key in data:
-            if key in cls.import_translated_fields:
-                for lang, value in data[key].items():
-                    with switch_language(obj, lang):
-                        setattr(obj, key, value)
-            elif key in cls.import_fields:
-                setattr(obj, key, data[key])
-        obj.save()
-        return obj
 
 
 class AttributeCategory(TranslatableModel):
@@ -102,7 +71,7 @@ class AttributeDescriptionQuerySet(TranslatableQuerySet):
         return categories
 
 
-class AttributeDescription(ImportMixin, TranslatableModel):
+class AttributeDescription(TranslatableModel):
     FIELD_TYPE_CHOICES = [
         ('CharField', _('CharField')),
         ('ChoiceField', _('ChoiceField')),
@@ -118,9 +87,6 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         ('secondary', _('secondary')),
     ]
     STATISTICS_TYPES = ['ChoiceField', 'OrderedChoiceField', 'BooleanField', 'AgeField']
-
-    import_fields = ['field_type', 'order', 'url']
-    import_translated_fields = ['label', '_filter_label', 'help_text']
 
     translations = TranslatedFields(
         label=models.CharField(max_length=64),
@@ -179,23 +145,8 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         }
         return MAPPING[self.field_type](self)
 
-    def export(self):
-        data = super().export()
-        data['choices'] = [choice.export() for choice in self.attributechoice_set.all()]
-        return data
 
-    @classmethod
-    def _import(cls, data):
-        description = super()._import(data)
-        for index, choice in enumerate(data.get('choices', [])):
-            AttributeChoice._import(choice, description=description, order=index * 10)
-        return description
-
-
-class AttributeChoice(ImportMixin, TranslatableModel):
-    import_fields = []
-    import_translated_fields = ['label']
-
+class AttributeChoice(TranslatableModel):
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
     order = models.IntegerField(default=0)
     translations = TranslatedFields(label=models.CharField(max_length=64))

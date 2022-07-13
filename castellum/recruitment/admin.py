@@ -19,18 +19,10 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib import admin
-from django.contrib import messages
-from django.http import JsonResponse
-from django.urls import path
-from django.utils.translation import gettext_lazy as _
-from django.views.generic import FormView
 
 from parler.admin import TranslatableAdmin
 from parler.admin import TranslatableTabularInline
 
-from castellum.castellum_auth.mixins import PermissionRequiredMixin
-
-from .forms import DescriptionImportForm
 from .models import AttributeCategory
 from .models import AttributeChoice
 from .models import AttributeDescription
@@ -43,32 +35,6 @@ from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
 
-class DescriptionImportView(PermissionRequiredMixin, FormView):
-    template_name = 'admin/recruitment/attributedescription_import.html'
-    permission_required = [
-        'recruitment.view_attributedescription',
-        'recruitment.add_attributedescription',
-    ]
-    schema_ref = '#/definitions/AttributeDescriptionExport'
-    model = AttributeDescription
-    form_class = DescriptionImportForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['opts'] = self.model._meta
-        context['title'] = _('Import')
-        return context
-
-    def form_valid(self, form):
-        json = form.cleaned_data['json']
-        for data in json['descriptions']:
-            AttributeDescription._import(data)
-        messages.success(self.request, _(
-            'Successfully imported {} attribute descriptions.'.format(len(json['descriptions']))
-        ))
-        return self.form_invalid(form)
-
-
 class AttributeChoiceInline(TranslatableTabularInline):
     model = AttributeChoice
 
@@ -77,24 +43,6 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
     inlines = [
         AttributeChoiceInline,
     ]
-    actions = ['export_json']
-
-    def export_json(self, request, queryset):
-        response = JsonResponse({
-            'descriptions': [description.export() for description in queryset.all()],
-        })
-        response['Content-Disposition'] = 'attachment; filename="castellum_attributes.json"'
-        return response
-    export_json.short_description = _('Export as JSON')
-
-    def get_urls(self):
-        return [
-            path(
-                'import/',
-                admin.site.admin_view(DescriptionImportView.as_view()),
-                name='recruitment_attributedescription_import',
-            ),
-        ] + super().get_urls()
 
 
 admin.site.register(AttributeCategory, TranslatableAdmin)

@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['order'],
             },
-            bases=(castellum.recruitment.models.attributes.ImportMixin, parler.models.TranslatableModelMixin, models.Model),
+            bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeChoiceTranslation',
@@ -87,7 +87,7 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['order'],
             },
-            bases=(castellum.recruitment.models.attributes.ImportMixin, parler.models.TranslatableModelMixin, models.Model),
+            bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeDescriptionTranslation',
