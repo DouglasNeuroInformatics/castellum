@@ -22,6 +22,16 @@
                     </blockquote>
                 </details>
             {% endif %}
+            {% for study_type in study.study_type.all %}
+                {% if study_type.exclusion_criteria %}
+                    <details class="mb-3">
+                        <summary class="mb-2">{% translate 'Criteria for:' %} {{ study_type.label }}</summary>
+                        <blockquote class="blockquote">
+                            {{ study_type.exclusion_criteria|urlize|linebreaks }}
+                        </blockquote>
+                    </details>
+                {% endif %}
+            {% endfor %}
         {% endif %}
 
         {% bootstrap_field form.advanced_filtering %}

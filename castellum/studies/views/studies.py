@@ -183,7 +183,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
 
         if self.duplicate:
             # copy all fields that are not part of the create form
-            self.object.exclusion_criteria = self.duplicate.exclusion_criteria
             self.object.recruitment_text = self.duplicate.recruitment_text
             self.object.advanced_filtering = self.duplicate.advanced_filtering
             self.object.is_exclusive = self.duplicate.is_exclusive

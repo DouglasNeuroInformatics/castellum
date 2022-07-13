@@ -2,9 +2,6 @@
 {% load i18n utils %}
 
 {% block content %}
-    {% if study.exclusion_criteria %}
-        {{ study.exclusion_criteria|urlize|linebreaks }}
-    {% endif %}
     {% for study_type in study.study_type.all %}
         {% if study_type.exclusion_criteria %}
             <h2>{{ study_type.label }}</h2>

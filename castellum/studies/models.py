@@ -108,10 +108,6 @@ class Study(models.Model):
     )
     sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
-    exclusion_criteria = models.TextField(
-        _('Additional subject characteristics that should be verified during recruitment'),
-        blank=True,
-    )
     recruitment_text = models.TextField(
         _('Recruitment text'),
         help_text=_(
@@ -298,10 +294,7 @@ class Study(models.Model):
 
     @cached_property
     def has_exclusion_criteria(self):
-        return (
-            self.exclusion_criteria
-            or self.study_type.exclude(exclusion_criteria='').exists()
-        )
+        return self.study_type.exclude(exclusion_criteria='').exists()
 
     @cached_property
     def invited_count(self):
