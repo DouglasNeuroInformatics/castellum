@@ -294,7 +294,11 @@ class Study(models.Model):
 
     @cached_property
     def has_exclusion_criteria(self):
-        return self.study_type.exclude(exclusion_criteria='').exists()
+        return (
+            settings.CASTELLUM_GENERAL_RECRUITMENT_TEXT
+            or self.recruitment_text
+            or self.study_type.exclude(exclusion_criteria='').exists()
+        )
 
     @cached_property
     def invited_count(self):

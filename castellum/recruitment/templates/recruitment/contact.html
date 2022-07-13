@@ -49,21 +49,28 @@
                 </div>
                 <div id="study-pane" class="accordion-collapse collapse" aria-labelledby="study-heading" data-bs-parent="#accordion">
                     <div class="accordion-body">
-                        {% if CASTELLUM_GENERAL_RECRUITMENT_TEXT %}
-                            {{ CASTELLUM_GENERAL_RECRUITMENT_TEXT|urlize|linebreaks }}
-                        {% endif %}
                         {% if study.recruitment_text %}
                             {{ study.recruitment_text|urlize|linebreaks }}
                         {% endif %}
-
+                        {% if CASTELLUM_GENERAL_RECRUITMENT_TEXT %}
+                            <details class="mb-3">
+                                <summary class="mb-2">{% translate 'General recruitment text' %}</summary>
+                                <blockquote class="blockquote">
+                                    {{ CASTELLUM_GENERAL_RECRUITMENT_TEXT|urlize|linebreaks }}
+                                </blockquote>
+                            </details>
+                        {% endif %}
+                        {% for study_type in study.study_type.all %}
+                            {% if study_type.exclusion_criteria %}
+                                <details class="mb-3">
+                                    <summary class="mb-2">{% translate 'Criteria for:' %} {{ study_type.label }}</summary>
+                                    <blockquote class="blockquote">
+                                        {{ study_type.exclusion_criteria|urlize|linebreaks }}
+                                    </blockquote>
+                                </details>
+                            {% endif %}
+                        {% endfor %}
                         {% if study.has_exclusion_criteria %}
-                            <h2>{% translate 'Inclusion/exclusion criteria' %}</h2>
-                            {% for study_type in study.study_type.all %}
-                                {% if study_type.exclusion_criteria %}
-                                    <h3>{{ study_type.label }}</h3>
-                                    {{ study_type.exclusion_criteria|urlize|linebreaks }}
-                                {% endif %}
-                            {% endfor %}
                             {% bootstrap_field form.exclusion_criteria_checked %}
                         {% endif %}
 

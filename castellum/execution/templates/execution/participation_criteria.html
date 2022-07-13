@@ -2,10 +2,25 @@
 {% load i18n utils %}
 
 {% block content %}
+    {% if study.recruitment_text %}
+        {{ study.recruitment_text|urlize|linebreaks }}
+    {% endif %}
+    {% if CASTELLUM_GENERAL_RECRUITMENT_TEXT %}
+        <details class="mb-3">
+            <summary class="mb-2">{% translate 'General recruitment text' %}</summary>
+            <blockquote class="blockquote">
+                {{ CASTELLUM_GENERAL_RECRUITMENT_TEXT|urlize|linebreaks }}
+            </blockquote>
+        </details>
+    {% endif %}
     {% for study_type in study.study_type.all %}
         {% if study_type.exclusion_criteria %}
-            <h2>{{ study_type.label }}</h2>
-            {{ study_type.exclusion_criteria|urlize|linebreaks }}
+            <details class="mb-3">
+                <summary class="mb-2">{% translate 'Criteria for:' %} {{ study_type.label }}</summary>
+                <blockquote class="blockquote">
+                    {{ study_type.exclusion_criteria|urlize|linebreaks }}
+                </blockquote>
+            </details>
         {% endif %}
     {% endfor %}
 {% endblock %}

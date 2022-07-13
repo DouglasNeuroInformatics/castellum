@@ -65,7 +65,7 @@
 
 .blockquote {
     font-size: inherit;
-    border-left: 0.25rem solid #007bff;
+    border-left: 0.25rem solid rgba(0,0,0,.125);
     padding-left: 0.75rem;
 }
 
