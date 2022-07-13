@@ -119,7 +119,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
 
 class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
     model = Consent
-    fields = ['document']
+    fields = ['document', 'file']
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_consent_form.html'
 

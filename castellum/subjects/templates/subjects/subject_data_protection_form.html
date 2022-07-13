@@ -1,5 +1,5 @@
 {% extends view.base_template|default:"subjects/base.html" %}
-{% load static i18n django_bootstrap5 utils %}
+{% load static i18n django_bootstrap5 utils subjects %}
 
 {% block title %}
     {% translate "Edit subject" %} &middot; {{ block.super }}
@@ -34,6 +34,10 @@
                                 <a href="{{ object.consent.document.file.url }}">{{ object.consent.document }}</a>
                             {% else %}
                                 {{ object.consent.document }}
+                            {% endif %}
+                            {% if object.consent.file %}
+                                &middot;
+                                <a href="{% subject_media_url object.consent.file.url %}">{% translate 'Download signed document' %}</a>
                             {% endif %}
                         </small>
                     {% endif %}

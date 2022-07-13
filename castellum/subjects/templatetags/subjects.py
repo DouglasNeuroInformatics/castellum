@@ -75,6 +75,33 @@ def export_mail_uri(context, participation):
     )
 
 
+@register.simple_tag(takes_context=True)
+def subject_media_url(context, url):
+    """Convert internal to public media URL.
+
+    Uploaded files for subjects have 4 different URLs:
+
+    -   The internal URL, e.g. /media/subjects/some/path.pdf
+    -   3 public URLs, e.g.:
+        -   /media/subjects/<uuid>/some/path.pdf
+        -   /media/execution/<study_id>/<id>/some/path.pdf
+        -   /media/recruitment/<study_id>/<id>/some/path.pdf
+
+    This template tag converts the internal URL to an external one.
+    It relies on ``view.get_subject_media_url(path)`` to pick one of the
+    three options.
+
+    The public URLs point to subclasses of
+    ``castellum.utils.views.ProtectedMediaView`` that do all relevant
+    security checks and then convert the URL back an internal URL to
+    deliver the actual media file.
+    """
+    url_prefix = '/{}/subjects/'.format(settings.MEDIA_URL.strip('/'))
+    if not url.startswith(url_prefix):
+        raise TypeError(url)
+    return context['view'].get_subject_media_url(url[len(url_prefix):])
+
+
 @register.filter
 def privacy_level(subject):
     if subject.privacy_level > 1:

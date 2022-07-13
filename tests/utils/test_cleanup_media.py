@@ -10,4 +10,5 @@ def test_iter_file_fields():
         'studies.Study.geo_filter',
         'studies.Study.consent',
         'subjects.ConsentDocument.file',
+        'subjects.Consent.file',
     ]
