@@ -74,7 +74,6 @@ class ContactForm(forms.ModelForm):
             'email',
             'phone_number',
             'phone_number_alternative',
-            'preferred_contact_method',
         ]
 
     def __init__(self, *args, **kwargs):
@@ -134,21 +133,16 @@ class ContactForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        date_of_birth = cleaned_data.get('date_of_birth')
-        phone_number = cleaned_data.get('phone_number', '')
-        email = cleaned_data.get('email', '')
-        preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
-
         # clear unselected pane
         if cleaned_data.get('pane') == 'legal_representatives':
             cleaned_data['phone_number'] = ''
             cleaned_data['phone_number_alternative'] = ''
             cleaned_data['email'] = ''
-            cleaned_data['preferred_contact_method'] = ''
 
         has_address = any(self.data.get(name) for name in self.address.fields)
 
         # validate legal_representative required for underage subjects
+        date_of_birth = cleaned_data.get('date_of_birth')
         if date_of_birth:
             age = datetime.date.today() - date_of_birth
             if (
@@ -162,17 +156,6 @@ class ContactForm(forms.ModelForm):
 
         if has_address:
             self.validate_address()
-
-        # validate preferred_contact_method is set
-        if not has_address and preferred_contact_method == 'postal':
-            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
-            self.add_error(None, _("Please provide a complete address."))
-        if not phone_number and preferred_contact_method == 'phone':
-            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
-            self.add_error(None, _("Please provide a phone number."))
-        if not email and preferred_contact_method == 'email':
-            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
-            self.add_error(None, _("Please provide an email."))
 
         return cleaned_data
 
