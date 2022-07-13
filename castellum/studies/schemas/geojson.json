@@ -21,7 +21,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["Polygon"]
+                    "const": "Polygon"
                 },
                 "coordinates": {
                     "$ref": "#/$defs/PolygonCoordinates"
@@ -34,7 +34,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["MultiPolygon"]
+                    "const": "MultiPolygon"
                 },
                 "coordinates": {
                     "type": "array",
@@ -50,7 +50,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["Feature"]
+                    "const": "Feature"
                 },
                 "properties": {
                     "oneOf": [
@@ -72,7 +72,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["FeatureCollection"]
+                    "const": "FeatureCollection"
                 },
                 "features": {
                     "type": "array",
