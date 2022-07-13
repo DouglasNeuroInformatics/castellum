@@ -74,10 +74,8 @@ CASTELLUM_APPOINTMENT_REMINDER_PERIOD = datetime.timedelta(days=3)
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 
 # Recruiters are not supposed to add excessive numbers of subjects to
-# the recruitment list. After reaching the soft limit, a warning is
-# shown. After reaching the hard limit, no more subjects can be added.
+# After reaching the hard limit, no more subjects can be added.
 # max_number_of_subjects = study.min_subject_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
-CASTELLUM_RECRUITMENT_SOFT_LIMIT = 40
 CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR = 2
 CASTELLUM_RECRUITMENT_MAIL_WEEKLY_LIMIT = math.inf
 

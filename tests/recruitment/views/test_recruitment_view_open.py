@@ -70,36 +70,6 @@ def test_not_contacted_count_is_gte_to_hard_limit(
     assert response.status_code == 200
 
 
-@pytest.mark.parametrize("subject_count", [
-    settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT,
-    settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT + 1,
-    settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT - settings.CASTELLUM_RECRUITMENT_BATCH_SIZE + 1,
-])
-def test_not_contacted_count_is_gte_to_soft_limit(
-    client, member, study_in_execution_status, subject_count
-):
-    study_in_execution_status.min_subject_count = 2 * settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT
-    study_in_execution_status.save()
-
-    for i in range(subject_count):
-        create_participation(study_in_execution_status)
-    for i in range(settings.CASTELLUM_RECRUITMENT_BATCH_SIZE):
-        create_subject()
-
-    client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_status.pk)
-    response = client.post(url)
-
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == (
-        "Such workflow is not intended due to privacy reasons. "
-        "Please contact provided subjects before adding new ones."
-    )
-
-    assert response.status_code == 200
-
-
 def test_no_matching_subjects(
     client, member, study_in_execution_status, attribute_description
 ):
