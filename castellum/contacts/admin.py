@@ -49,7 +49,6 @@ class ContactAdmin(admin.ModelAdmin):
             "fields": (
                 "email",
                 ("phone_number", "phone_number_alternative"),
-                "preferred_contact_method",
                 "legal_representatives",
             )
         }),

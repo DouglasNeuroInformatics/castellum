@@ -37,9 +37,6 @@
 <h3 class="h5">{% translate "Operational hints" %}</h3>
 
 <dl class="row">
-    <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
-    <dd class="col-sm-6">{{ contact|display:'preferred_contact_method' }}</dd>
-
     <dt class="col-sm-6">{% translate "Currently available" %}</dt>
     <dd class="col-sm-6">
         {% if contact.subject.is_available %}

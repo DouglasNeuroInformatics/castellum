@@ -175,10 +175,6 @@ class Contact(BaseContact):
         _('Phone number alternative'), max_length=32, blank=True
     )
 
-    preferred_contact_method = models.CharField(
-        _('Preferred contact method'), max_length=16, blank=True, choices=CONTACT_METHODS
-    )
-
     legal_representatives = models.ManyToManyField(
         'contacts.Contact',
         verbose_name=_('Legal representatives'),
