@@ -191,7 +191,7 @@ class Study(models.Model):
     )
 
     consent = RestrictedFileField(
-        _('Consent'),
+        _('Study consent'),
         help_text=_(
             'A blueprint of the study consent. This file can be obtained '
             '(and printed) later by recruiters or conductors.'

@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='study',
             name='consent',
-            field=castellum.utils.fields.RestrictedFileField(blank=True, help_text='A blueprint of the study consent. This file can be obtained (and printed) later by recruiters or conductors.', upload_to=castellum.studies.models.consent_upload_to, verbose_name='Consent'),
+            field=castellum.utils.fields.RestrictedFileField(blank=True, help_text='A blueprint of the study consent. This file can be obtained (and printed) later by recruiters or conductors.', upload_to=castellum.studies.models.consent_upload_to, verbose_name='Study consent'),
         ),
         migrations.AlterField(
             model_name='study',
