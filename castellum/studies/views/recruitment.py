@@ -176,7 +176,6 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
 
 class AnonymousInvitationMailRecruitmentView(BaseMailRecruitmentView):
     permission_required = 'studies.change_study'
-    is_anonymous_invitation = True
     base_template = 'studies/study_base.html'
     tab = 'mail'
 

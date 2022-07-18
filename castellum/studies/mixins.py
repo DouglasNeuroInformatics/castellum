@@ -32,9 +32,7 @@ class StudyMixin:
     -   set ``self.study``
     -   check ``access_study`` permission (basically allow access only
         to study members)
-    -   check that status is in ``study_status`` and matches
-        ``is_anonymous_invitation``, otherwise return 404
-    -   check that is_anonymous_invitation has desired value
+    -   check that status is in ``study_status``, otherwise return 404
     -   check that is_filter_trial has desired value
     -   use study as permission object
 
@@ -42,15 +40,12 @@ class StudyMixin:
     """
 
     study_status: List[int] = []
-    is_anonymous_invitation: Optional[bool] = None
     is_filter_trial: Optional[bool] = None
 
     def get_study(self):
         qs = Study.objects.all()
         if self.study_status:
             qs = qs.filter(status__in=self.study_status)
-        if self.is_anonymous_invitation is not None:
-            qs = qs.filter(is_anonymous_invitation=self.is_anonymous_invitation)
         if self.is_filter_trial is not None:
             qs = qs.filter(is_filter_trial=self.is_filter_trial)
         key = 'study_pk' if 'study_pk' in self.kwargs else 'pk'

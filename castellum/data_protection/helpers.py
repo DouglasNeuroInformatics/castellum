@@ -97,7 +97,6 @@ def get_unnecessary_recruitment_data():
         .filter(
             models.Q(completeness__gt=1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0)
             | ~models.Q(study_type_disinterest=None)
-            | models.Q(anonymous_invitation_disinterest=True)
         )
     )
 

@@ -412,7 +412,6 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
             )
             attributes[desc.json_key] = self.subject.attributes[desc.json_key]
 
-        self.subject.anonymous_invitation_disinterest = False
         self.subject.attributes = attributes
         self.subject.save()
 
