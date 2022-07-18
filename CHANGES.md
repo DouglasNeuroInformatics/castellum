@@ -1,3 +1,53 @@
+# 0.79.0 (unreleased)
+
+This release removes many rarely used features and brings a major
+overhaul of the recruitment consent feature.
+
+## breaking changes
+
+-   The official contact email for this project has changed to
+    <castellum@mpib-berlin.mpg.de>.
+-   Exclusion criteria have been merged into recruitment texts. A
+    study's exclusion criteria will automatically be appended to the
+    recruitment text on migration. The contents of
+    `CASTELLUM_GENERAL_EXCLUSION_CRITERIA` should similarily be appended
+    to `CASTELLUM_GENERAL_RECRUITMENT_TEXT`.
+-   `CASTELLUM_RECRUITMENT_SOFT_LIMIT` is no longer used.
+-   The option to announce study status changes has been removed.
+    Consequently, the settings `CASTELLUM_STUDY_STATUS_NOTIFICATION_TO`,
+    `CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT`,
+    `CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY`, and
+    `CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY_EN` are no longer used.
+-   The option to set a preferred contact method for subjects has been
+    removed.
+-   The option to import and export attribute descriptions has been
+    removed.
+-   The option to set privacy levels for attributes has been removed.
+-   The script `create_attribute_descriptions` has been replaced by
+    `loaddata attribute_descriptions`.
+-   It is no longer possible to mark recruitment consent as "waiting for
+    confirmation". Previously, castellum treated such a consent as a
+    legal basis for a grace period (see
+    `CASTELLUM_CONSENT_REVIEW_PERIOD`). Castellum now still uses
+    `CASTELLUM_CONSENT_REVIEW_PERIOD` when a subject is newly created.
+    It also provides a temporary mechanism to honor grace periods that
+    were in effect during migration. You need to define organizational
+    processes for the case when you are waiting for an updated consent
+    while an old one is still in effect.
+
+## new features
+
+-   Recruitment consents have been redesigned from the ground up
+    -   It is now possible to upload signed consent documents.
+    -   It is now possible to explicitly select the consent document for
+        a recruitment consent.
+    -   It is now possible to manually select a name for a consent
+        document (other than "Version X").
+    -   It is no longer necessary to confirm the consent in a second
+        step.
+-   A subject's reliability is displayed less prominently
+
+
 # 0.78.0 (2022-06-28)
 
 ## breaking changes
