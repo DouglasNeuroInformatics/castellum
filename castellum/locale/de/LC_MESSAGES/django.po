@@ -3435,7 +3435,7 @@ msgstr "Neue Rekrutierungseinwilligung eingeben"
 
 #: castellum/subjects/templates/subjects/subject_consent_form.html:14
 msgid "Please select which consent document the subject has agreed to:"
-msgstr "Bitte wählen Sie aus welchem Dokument die Proband*in zugestimmt hat:"
+msgstr "Bitte wählen Sie aus, welchem Dokument die Proband*in zugestimmt hat:"
 
 #: castellum/subjects/templates/subjects/subject_consent_form.html:26
 msgid "Consent withdrawn"
