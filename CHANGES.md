@@ -1,4 +1,4 @@
-# 0.79.0 (unreleased)
+# 0.79.0 (2022-07-19)
 
 This release removes many rarely used features and brings a major
 overhaul of the recruitment consent feature.
