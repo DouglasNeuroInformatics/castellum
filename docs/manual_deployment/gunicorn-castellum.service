@@ -10,10 +10,9 @@ Environment="DJANGO_SETTINGS_MODULE=castellum.settings.customizations"
 WorkingDirectory=/opt/castellum
 ExecStart=/opt/conda/envs/castellum/bin/gunicorn \
           --access-logfile - \
-          -k uvicorn.workers.UvicornWorker \
           --workers 4 \
           --bind unix:/run/gunicorn.sock \
-          castellum.asgi:application
+          castellum.wsgi:application
 
 [Install]
 WantedBy=multi-user.target

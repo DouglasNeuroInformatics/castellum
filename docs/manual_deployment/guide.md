@@ -42,10 +42,8 @@ be run as `root`.
 ## Structure
 
 The layout of the deployment delineated here relies on gunicorn to serve Castellum.
-The gunicorn application server is paired with the asynchronous server gateway
-interface (ASGI) implementation uvicorn. An nginx reverse proxy in front of gunicorn
-routes (and secures) incoming and outgoing client traffic to the application
-server via a Unix socket.
+An nginx reverse proxy in front of gunicorn routes (and secures) incoming and
+outgoing client traffic to the application server via a Unix socket.
 
 ```mermaid
 graph LR
@@ -95,9 +93,6 @@ dnf install openldap-devel postgresql-contrib nginx
 # Debian/Ubuntu
 apt install libldap-dev postgresql-contrib nginx
 ```
-
-Download and install [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
-into `/opt/conda`.
 
 ### On Both Hosts
 
@@ -239,63 +234,63 @@ Restart the `postgresql` service. Log in at `castellum-sv` and test the connecti
 A Python installation is only required for running the actual Castellum application,
 thus, these steps are only necessary on `castellum-sv`.
 
-First, set up a dedicated conda environment for Castellum (to avoid conflicts with the
-system Python) and install all required dependencies (the prefix "`$(castellum):`"
-below denotes the activated conda environment):
+First, install required dependencies using the system's package manager:
+
+* gdal
+* krb5
+* nodejs
+
+Next, get necessary Python packages:
 
 ```bash
-source /opt/conda/etc/profile.d/conda.sh
-conda create -n castellum python=3.8
-conda activate castellum
-$(castellum): conda install gdal krb5 python-dateutil requests psycopg2 jsonschema nodejs
-$(castellum): pip install uvicorn gunicorn castellum-pseudonyms
+pip3 install python-dateutil requests psycopg2 jsonschema gunicorn castellum-pseudonyms
 ```
 
 Clone the Castellum source code from the official repository, check out
 a (recent) release and install Castellum's Javascript dependencies:
 
 ```bash
-$(castellum): cd /opt/
-$(castellum): git clone https://git.mpib-berlin.mpg.de/castellum/castellum.git
-$(castellum): cd castellum/
-$(castellum): git checkout x.y.z # use git tag -l to see a full list of available releases
-$(castellum): npm install
+cd /opt/
+git clone https://git.mpib-berlin.mpg.de/castellum/castellum.git
+cd castellum/
+git checkout x.y.z # use git tag -l to see a full list of available releases
+npm install
 ```
 
 Now install Castellum in "editable" mode from its local path and copy the provided
 configuration file `customizations.py` to its Django settings directory:
 
 ```bash
-$(castellum): cp customizations.py /opt/castellum/castellum/settings/
-$(castellum): pip install -e .
+cp customizations.py /opt/castellum/castellum/settings/
+pip install -e .
 ```
 
 Next, generate a secret for Django and save it in `/etc/castellum/secret_key.txt`.
 Then, check the Django configuration:
 
 ```bash
-$(castellum): export DJANGO_SETTINGS_MODULE="castellum.settings.customizations"
-$(castellum): cd /opt/castellum/
-$(castellum): django-admin check --deploy
+export DJANGO_SETTINGS_MODULE="castellum.settings.customizations"
+cd /opt/castellum/
+django-admin check --deploy
 ```
 
 If Django does not complain, run all initial database migrations, load recommended
-data and create an admin user (for more details please see [deployment](../deployment.md)):
+data and create an admin user (for more details please see [README](../README.md)):
 
 ```bash
-$(castellum): django-admin migrateall
-$(castellum): django-admin loaddata groups study_types study_groups resources
-$(castellum): django-admin create_attribute_descriptions
-$(castellum): django-admin createsuperuser --username admin
-$(castellum): django-admin activate_user admin
-$(castellum): django-admin collectstatic
+django-admin migrateall
+django-admin loaddata groups study_types study_groups resources
+django-admin create_attribute_descriptions
+django-admin createsuperuser --username admin
+django-admin activate_user admin
+django-admin collectstatic
 ```
 
 Once the initial setup has successfully completed, test Castellum using Django's
 built-in development server:
 
 ```bash
-$(castellum): django-admin runserver --verbosity 3 192.168.10.1:8000
+django-admin runserver --verbosity 3 192.168.10.1:8000
 ```
 
 Connecting to http://192.168.10.1:8000 in a browser should show Castellum's login
@@ -304,10 +299,10 @@ works correctly (watch the terminal output for any errors or warnings). If Caste
 runs smoothly, press `CTRL+C` to stop the server and repeat the test with gunicorn.
 
 ```bash
-$(castellum): gunicorn --bind 192.168.10.1:8000 castellum.asgi -w 4 -k uvicorn.workers.UvicornWorker
+gunicorn --bind 192.168.10.1:8000 castellum.wsgi -w 4
 ```
 
-The above command starts four uvicorn workers for the gunicorn server.
+The above command starts four gunicorn worker processes to serve Castellum.
 
 > **Note** The number of workers to use depends on the hardware specifications of
 your machine. The official recommendation is `(2 * #cores) - 1`, see
@@ -400,8 +395,8 @@ Congratulations, your Castellum instance is now ready to use.
 
 ## Wrap Up
 
-As discussed in the main [deployment guide](../deployment.md) Castellum comes with
+As discussed in the main [deployment README](../README.md) Castellum comes with
 several management commands to perform regular housekeeping tasks. An exemplary
 crontab for running these tasks is provided in the [Docker-based deployment example](../example_deployment/crontab).
-Please also consult the [section](../deployment.md#backups) discussing backup strategies for Castellum's
+Please also consult the [section](../README.md#backups) discussing backup strategies for Castellum's
 databases in the main guide.
