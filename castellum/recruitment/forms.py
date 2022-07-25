@@ -120,7 +120,7 @@ class SubjectFilterFormSet(forms.BaseModelFormSet):
 class AttributesForm(forms.ModelForm):
     class Meta:
         model = Subject
-        fields = ['study_type_disinterest', 'anonymous_invitation_disinterest']
+        fields = ['study_type_disinterest']
         widgets = {
             'study_type_disinterest': forms.CheckboxSelectMultiple(),
         }
@@ -138,10 +138,8 @@ class AttributesForm(forms.ModelForm):
             if key + '_answer_declined' in self.data:
                 cleaned_data[key] = ANSWER_DECLINED
         study_type_disinterest = cleaned_data.pop('study_type_disinterest')
-        anonymous_invitation_disinterest = cleaned_data.pop('anonymous_invitation_disinterest')
         return {
             'study_type_disinterest': study_type_disinterest,
-            'anonymous_invitation_disinterest': anonymous_invitation_disinterest,
             'attributes': cleaned_data,
         }
 

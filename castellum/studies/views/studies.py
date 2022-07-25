@@ -117,8 +117,6 @@ class StudyIndexView(LoginRequiredMixin, ListView):
             qs = qs.filter(status=self.form.cleaned_data['status'])
         if self.form.cleaned_data.get('type'):
             qs = qs.filter(studysession__type=self.form.cleaned_data['type'])
-        if self.form.cleaned_data.get('is_anonymous_invitation'):
-            qs = qs.filter(is_anonymous_invitation=True)
         if self.form.cleaned_data.get('start'):
             qs = qs.filter(sessions_end__gte=self.form.cleaned_data['start'].date())
         if self.form.cleaned_data.get('end'):
@@ -176,10 +174,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         response = super().form_valid(form)
 
         StudyMembership.objects.get_or_create(user=self.request.user, study=self.object)
-
-        if self.object.is_anonymous_invitation:
-            self.object.complete_matches_only = True
-            self.object.save()
 
         if self.duplicate:
             # copy all fields that are not part of the create form
@@ -244,7 +238,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             initial['tags'] = list(self.duplicate.tags)
             initial['min_subject_count'] = self.duplicate.min_subject_count
             initial['exportable_attributes'] = list(self.duplicate.exportable_attributes.all())
-            initial['is_anonymous_invitation'] = self.duplicate.is_anonymous_invitation
         return initial
 
     def get_context_data(self, **kwargs):
@@ -326,7 +319,6 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
 
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.view_study'
-    is_anonymous_invitation = False
     is_filter_trial = False
 
     def post(self, request, study_pk):
@@ -368,7 +360,6 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
 
 class StudyDomainsMixin(StudyMixin, PermissionRequiredMixin):
     permission_required = 'studies.change_study'
-    is_anonymous_invitation = False
     is_filter_trial = False
     tab = 'domains'
 

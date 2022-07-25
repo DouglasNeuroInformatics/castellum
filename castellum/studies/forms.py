@@ -57,14 +57,10 @@ class StudyForm(forms.ModelForm):
             'description',
             'min_subject_count',
             'exportable_attributes',
-            'is_anonymous_invitation',
         ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        if self.instance.pk:
-            del self.fields['is_anonymous_invitation']
 
         if self.instance.pk:
             self.fields['tags'].initial = list(self.instance.tags)
@@ -104,15 +100,8 @@ class StudyFilterForm(forms.Form):
     type = forms.ModelChoiceField(
         label=_('Type'), queryset=StudyType.objects, empty_label=None
     )
-    is_anonymous_invitation = forms.BooleanField(label=_('Anonymous invitation'))
     start = forms.DateTimeField()
     end = forms.DateTimeField()
-
-    def clean(self):
-        cleaned_data = super().clean()
-        if self.data.get('type') == 'anonymous_invitation':
-            cleaned_data['is_anonymous_invitation'] = True
-        return cleaned_data
 
 
 class SessionForm(forms.ModelForm):
