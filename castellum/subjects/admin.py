@@ -20,10 +20,12 @@
 
 from django.contrib import admin
 
+from castellum.utils.admin import NoCreateModelAdmin
+
 from . import models
 
 
-class SubjectAdmin(admin.ModelAdmin):
+class SubjectAdmin(NoCreateModelAdmin):
     search_fields = ['uuid']
 
 
@@ -32,7 +34,7 @@ class ConsentDocumentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Subject, SubjectAdmin)
-admin.site.register(models.SubjectCreationRequest)
+admin.site.register(models.SubjectCreationRequest, NoCreateModelAdmin)
 admin.site.register(models.SubjectNote)
 admin.site.register(models.Consent)
 admin.site.register(models.ConsentDocument, ConsentDocumentAdmin)

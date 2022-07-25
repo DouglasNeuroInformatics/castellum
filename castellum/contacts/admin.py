@@ -20,6 +20,8 @@
 
 from django.contrib import admin
 
+from castellum.utils.admin import NoCreateModelAdmin
+
 from .models import Address
 from .models import Contact
 from .models import ContactCreationRequest
@@ -59,5 +61,5 @@ class ContactAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Contact, ContactAdmin)
-admin.site.register(ContactCreationRequest)
+admin.site.register(ContactCreationRequest, NoCreateModelAdmin)
 admin.site.register(Street)
