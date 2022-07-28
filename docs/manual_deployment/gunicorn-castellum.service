@@ -1,6 +1,6 @@
 [Unit]
 Description=gunicorn daemon for serving castellum
-Requires=gunicorn.socket
+Requires=gunicorn-castellum.socket
 After=network.target
 
 [Service]
@@ -8,7 +8,7 @@ After=network.target
 Group=nginx
 Environment="DJANGO_SETTINGS_MODULE=castellum.settings.customizations"
 WorkingDirectory=/opt/castellum
-ExecStart=/opt/conda/envs/castellum/bin/gunicorn \
+ExecStart=gunicorn \
           --access-logfile - \
           --workers 4 \
           --bind unix:/run/gunicorn.sock \
