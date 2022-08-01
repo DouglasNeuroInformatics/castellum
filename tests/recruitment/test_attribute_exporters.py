@@ -118,9 +118,11 @@ BIDS_SCHEMA = """{
     }
 }"""
 
-BIDS_DATA = """participant_id\tprivacy_level\thandedness\tlanguage\tdate_of_birth\thighest_degree\tinstruments\r
-sub-test\t0\t1\tde\t1970-01-01\tn/a\t11,12\r
-"""
+BIDS_DATA = (
+    'participant_id\tprivacy_level\thandedness\tlanguage'
+    '\tdate_of_birth\thighest_degree\tinstruments\r\n'
+    'sub-test\t0\t1\tde\t1970-01-01\tn/a\t11,12\r\n'
+)
 
 
 def test_json_schema(attribute_descriptions, db):
