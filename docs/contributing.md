@@ -43,8 +43,7 @@ changes, please contact us so we can give you access to our gitlab
 server.
 
 Please make sure to run all tests before submitting the changes. You
-should also include tests for new features. The test coverage should
-never drop below 80%.
+should also include tests for new features.
 
 All code will be reviewed by a member of the core team before it is
 merged into the main branch. The reviewers will probably leave some
