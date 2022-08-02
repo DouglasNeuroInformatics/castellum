@@ -26,7 +26,6 @@
                             {% translate "Consent withdrawn" %}
                         {% endif %}
                         {% if value.instance %}
-                            ({{ value.instance.created_at|date }})
                             {% if value.instance.is_deprecated %}
                                 <span class="badge bg-warning text-dark">{% translate "deprecated" %}</span>
                             {% endif %}
