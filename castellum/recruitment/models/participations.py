@@ -115,6 +115,11 @@ class ParticipationQuerySet(models.QuerySet):
     def with_appointment_count(self):
         return self.annotate(appointment_count=models.Count('appointment', distinct=True))
 
+    def with_assigned_to_me(self, user):
+        return self.annotate(
+            assigned_to_me=models.Count('id', filter=models.Q(assigned_recruiter__user=user)),
+        )
+
 
 class Participation(models.Model):
     NOT_CONTACTED = 0

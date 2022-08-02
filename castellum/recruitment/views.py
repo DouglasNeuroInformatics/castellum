@@ -101,6 +101,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ]
         elif self.sort == 'recently-active':
             order_by = ['-recent_participation_count', '-updated_at']
+        elif self.sort == 'assigned-to-me':
+            order_by = ['-assigned_to_me', '-updated_at']
         else:
             order_by = [
                 '-followup_urgent', 'status', 'followup_date', 'followup_time', '-updated_at'
@@ -110,6 +112,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             Participation.objects
             .with_sort_properties()
             .with_appointment_count()
+            .with_assigned_to_me(self.request.user)
             .prefetch_related('subject')
             .filter(status__in=self.shown_status, study=self.study)
             .order_by(*order_by)
@@ -210,6 +213,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ('last_contact_attempt', _('Last contact attempt')),
             ('statistics', _('Statistics')),
             ('recently-active', _('Recently active')),
+            ('assigned-to-me', _('Assigned to me')),
         ]
         sort_options = dict(context['sort_options'])
         context['sort_label'] = sort_options.get(self.sort, _('Relevance'))

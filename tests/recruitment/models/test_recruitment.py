@@ -146,6 +146,13 @@ def test_attempts_single_revision():
 
 
 @pytest.mark.django_db
+def test_assigned_to_me(user):
+    participation = baker.make(Participation, assigned_recruiter__user=user)
+    participation = Participation.objects.with_assigned_to_me(user).get(pk=participation.pk)
+    assert participation.assigned_to_me == 1
+
+
+@pytest.mark.django_db
 def test_participation_create_delete_pseudonym():
     start_count = Pseudonym.objects.count()
     study = baker.make(Study)
