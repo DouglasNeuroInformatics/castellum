@@ -56,5 +56,3 @@ the need arises.
 
 For durther information on the castellum code and its structure see
 `docs/development.md`.
-
-TODO: Do we need a CLA?
