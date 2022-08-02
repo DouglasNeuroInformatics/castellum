@@ -300,7 +300,12 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         if self.object.participation_set.exists():
             return self.get(request, *args, **kwargs)
         response = super().delete(request, *args, **kwargs)
-        monitoring_logger.info('Subject deleted by {}'.format(self.request.user.pk))
+        if self.object.to_be_deleted:
+            monitoring_logger.info('Subject deleted by {} as requested on {}'.format(
+                self.request.user.pk, self.object.to_be_deleted
+            ))
+        else:
+            monitoring_logger.info('Subject deleted by {}'.format(self.request.user.pk))
         messages.success(self.request, _('Subject has been deleted.'))
         return response
 
