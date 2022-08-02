@@ -122,33 +122,29 @@ while the `contacts` database is located on `castellum-db`.
 
 ### On Host `castellum-sv`
 
-Create a directory to collect all Castellum-related credentials, choose passwords
-for both `default` as well as `contacts` databases and write them to dedicated files:
+Start by choosing passwords for both `default` as well as `contacts` databases
+and store them in environment variables:
 
 ```bash
-mkdir /etc/castellum
-"${EDITOR:-emacs}" /etc/castellum/db_default.pw
-"${EDITOR:-emacs}" /etc/castellum/db_contacts.pw
+export DB_DEFAULT_PW="MySuperS3cretPW!"
+export DB_CONTACTS_PW="MyReallyS3cretPW!"
 ```
 
-Ensure the credentials are readable by the `postgres` user
-
-```bash
-chown postgres:postgres /etc/castellum/db_*
-```
+These variables can then either be stored in a password manager or written to
+a file (e.g., `echo "DB_DEFAULT_PW=$DB_DEFAULT_PW" > /etc/castellum/db_default.pw`)
 
 Now create Castellum's `default` database:
 
 ```bash
-DB_DEFAULT_PW=$(cat /etc/castellum/db_default.pw)
 psql -c "CREATE DATABASE castellum_default;"
 psql -c "CREATE USER castellum_default_user WITH ENCRYPTED PASSWORD '$DB_DEFAULT_PW';"
 psql -c "GRANT ALL PRIVILEGES ON DATABASE castellum_default TO castellum_default_user;"
 ```
 
-> **Note** The database name and user specifications have to coincide with
+**Note** The database name and user specifications have to coincide with
 `DATABASES['default']['NAME']` and `DATABASES['default']['USER']` given in
 `customizations.py`!
+{: .note}
 
 Modify PostgreSQL's access policy configuration file `pg_hba.conf` to ensure local connections
 are allowed to access the `default` database:
@@ -171,30 +167,23 @@ Restart the `postgresql` service and test the connection:
 ```bash
 systemctl restart postgresql
 psql --dbname=castellum_default --username=castellum_default_user --password
-# when prompted, enter the password found in /etc/castellum/db_default.pw
+# when prompted, enter the password stored in $DB_DEFAULT_PW
 ```
 
 ### On Host `castellum-db`
 
-First, fetch credentials from `castellum-sv`:
+Create Castellum's `contacts` database:
 
 ```bash
-mkdir /etc/castellum
-scp castellum-sv:/etc/castellum/db_contacts.pw /etc/castellum
-```
-
-Now create Castellum's `contacts` database:
-
-```bash
-DB_CONTACTS_PW=$(cat /etc/castellum/db_contacts.pw)
 psql -c "CREATE DATABASE castellum_contacts;"
 psql -c "CREATE USER castellum_contacts_user WITH ENCRYPTED PASSWORD '$DB_CONTACTS_PW';"
 psql -c "GRANT ALL PRIVILEGES ON DATABASE castellum_contacts TO castellum_contacts_user;"
 ```
 
-> **Note** Analogously, the database name and user specifications have to coincide with
+**Note** Analogously, the database name and user specifications have to coincide with
 `DATABASES['contacts']['NAME']` and `DATABASES['contacts']['USER']` given in
 `customizations.py`!
+{: .note}
 
 Modify PostgreSQL's access policy configuration file `pg_hba.conf` to permit remote
 connections only from the `castellum-sv` host:
@@ -226,7 +215,7 @@ Restart the `postgresql` service. Log in at `castellum-sv` and test the connecti
 
 ```bash
 [root@castellum-sv:~]$ psql --host=castellum-db --dbname=castellum_contacts --username=castellum_contacts_user --password
-# when prompted, enter the password found in /etc/castellum/db_contacts.pw
+# when prompted, enter the password store in $DB_CONTACTS_PW
 ```
 
 ## Python Environment Setup
@@ -239,12 +228,10 @@ First, install required dependencies using the system's package manager:
 * gdal
 * krb5
 * nodejs
-
-Next, get necessary Python packages:
-
-```bash
-pip3 install python-dateutil requests psycopg2 jsonschema gunicorn castellum-pseudonyms
-```
+* python3
+* python3-pip
+* python3-psycopg2
+* python3-gunicorn
 
 Clone the Castellum source code from the official repository, check out
 a (recent) release and install Castellum's Javascript dependencies:
@@ -255,6 +242,7 @@ git clone https://git.mpib-berlin.mpg.de/castellum/castellum.git
 cd castellum/
 git checkout x.y.z # use git tag -l to see a full list of available releases
 npm install
+pip3 install -e .
 ```
 
 Now install Castellum in "editable" mode from its local path and copy the provided
@@ -265,8 +253,8 @@ cp customizations.py /opt/castellum/castellum/settings/
 pip install -e .
 ```
 
-Next, generate a secret for Django and save it in `/etc/castellum/secret_key.txt`.
-Then, check the Django configuration:
+Next, generate a secret for Django and save it in an environment variable, e.g.,
+`DJANGO_SECRET`. Then, check the Django configuration:
 
 ```bash
 export DJANGO_SETTINGS_MODULE="castellum.settings.customizations"
@@ -279,8 +267,7 @@ data and create an admin user (for more details please see [README](../README.md
 
 ```bash
 django-admin migrateall
-django-admin loaddata groups study_types study_groups resources
-django-admin create_attribute_descriptions
+django-admin loaddata groups study_types study_groups resources attribute_descriptions
 django-admin createsuperuser --username admin
 django-admin activate_user admin
 django-admin collectstatic
@@ -304,9 +291,10 @@ gunicorn --bind 192.168.10.1:8000 castellum.wsgi -w 4
 
 The above command starts four gunicorn worker processes to serve Castellum.
 
-> **Note** The number of workers to use depends on the hardware specifications of
+**Note** The number of workers to use depends on the hardware specifications of
 your machine. The official recommendation is `(2 * #cores) - 1`, see
 [here](https://docs.gunicorn.org/en/stable/design.html#how-many-workers) for more details.
+{: .note}
 
 Check again in a browser if Castellum is accessible (and watch the terminal for
 gunicorn errors/warnings). If this final test is successful, press `CTRL+C` to stop
@@ -319,11 +307,12 @@ thus, the setup detailed below is only necessary on `castellum-sv`.
 
 ### gunicorn
 
-> **Note** The gunicorn process has to be run by the same group as nginx.
+**Note** The gunicorn process has to be run by the same group as nginx.
 The default group membership for nginx differs across distributions: in Red Hat/Fedora/CentOS
 the group is usually called `nginx`, in Debian/Ubuntu it is `www-data`. Please
 check nginx's default group membership setting on your system (found in `/etc/nginx/nginx.conf`)
 and modify `Group` in `gunicorn-castellum.service` accordingly.
+{: .note}
 
 First, install the provided service unit that creates a Unix socket to handle the communication
 between gunicorn and ngnix:
@@ -372,8 +361,7 @@ First modify the provided configuration file `castellum.conf`:
 * `ssl_certificate` and `ssl_certificate_key`: replace `/etc/castellum/castellum.mydomain.org.pem` and `.key`,
   respectively, with your actual key pair
 
-If `DEBUG` is set to `True` in `customizations.py`, change it to `False` to run
-Castellum in production mode. Next copy the provided nginx configuration file and test it:
+Next copy the provided nginx configuration file and test it:
 
 ```bash
 mkdir -p /etc/nginx/sites-available/

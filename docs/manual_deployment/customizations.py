@@ -8,19 +8,10 @@ from django_auth_ldap.config import LDAPSearch, NestedActiveDirectoryGroupType
 
 from .default import *
 
-# Set to `False` for production use
-DEBUG = True
+# Define hosts than can connect
+ALLOWED_HOSTS = ['.mydomain.org','192.168.10.*'] # CHANGEME
 
-# Be very permissive in "Demo" mode but not in production
-if DEBUG:
-    ALLOWED_HOSTS = ['*']
-    CSRF_COOKIE_SECURE = False
-    SESSION_COOKIE_SECURE = False
-    SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-else:
-    ALLOWED_HOSTS = ['.mydomain.org','192.168.10.*'] # CHANGEME
-
-# People who get code error notifications in production (when `DEBUG=False`)
+# People who get code error notifications in production
 # CHANGEME
 ADMINS = [('admin1', 'admin1@mydomain.org'),
           ('admin2', 'admin2@mydomain.org')]
@@ -93,16 +84,11 @@ LOGGING = {
     },
 }
 
-# Read relevant credentials
-castellum_config_dir = '/etc/castellum'
-with open(os.path.join(castellum_config_dir, 'secret_key.txt')) as f:
-    SECRET_KEY = f.read().strip()
-with open(os.path.join(castellum_config_dir, 'db_default.pw')) as f:
-    db_default_pw = f.read().strip()
-with open(os.path.join(castellum_config_dir, 'db_contacts.pw')) as f:
-    db_contacts_pw = f.read().strip()
-with open(os.path.join(castellum_config_dir, 'ldap.txt')) as f:
-    bind_pw = f.read().strip()
+# Get relevant credentials from env vars
+SECRET_KEY = os.environ["DJANGO_SECRET"]
+db_default_pw = os.environ["DB_DEFAULT_PW"]
+db_contacts_pw = os.environ["DB_CONTACTS_PW"]
+bind_pw = os.environ["LDAP_BIND_PW"]
 
 # Database setup. NOTE: The values of `NAME` and `USER` given here have to match
 # the actual database name and user set in postgres! See docs/manual_deployment/guide.md
