@@ -187,6 +187,23 @@ def test_delete_post(client, user, contact):
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
     'data_protection_coordinator',
 ])
+def test_participation_delete_post(request, client, user_fixture, participation):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/{}/participations/{}/delete/'.format(
+        participation.subject.uuid, participation.pk
+    )
+    response = client.post(url)
+    assert response.status_code == 302
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    'data_protection_coordinator',
+])
 def test_pseudonyms_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
