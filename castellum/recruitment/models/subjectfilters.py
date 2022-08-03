@@ -74,6 +74,30 @@ class SubjectFilterGroup(models.Model):
             ).values('subject')
         )
 
+    def invited_count(self):
+        from .. import filter_queries
+
+        return self.study.participation_set.filter(
+            status=Participation.INVITED,
+            subject__in=Subject.objects.filter(filter_queries.subjectfilters(self)),
+        ).count()
+
+    def open_count(self):
+        from .. import filter_queries
+
+        return self.study.participation_set.filter(
+            status__in=[
+                Participation.NOT_CONTACTED,
+                Participation.NOT_REACHED,
+                Participation.FOLLOWUP_APPOINTED,
+                Participation.AWAITING_RESPONSE,
+            ],
+            subject__in=Subject.objects.filter(filter_queries.subjectfilters(self)),
+        ).count()
+
+    def potential_count(self):
+        return self.invited_count() + self.open_count()
+
     def __str__(self):
         if self.name:
             return self.name
