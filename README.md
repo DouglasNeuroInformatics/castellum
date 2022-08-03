@@ -17,6 +17,20 @@ Society. Its main goals are:
     from an existing pool using study specific filters.
 -   **Appointments**: You can manage appointments for test sessions.
 
+## Quickstart
+
+First install some system packages. The exact command depends on your
+operating system. This is an example for Ubuntu:
+
+    sudo apt install python3-pip python3-venv npm make gettext sqlite3 libmagic1 gdal-bin libsqlite3-mod-spatialite
+
+After that, running `make` inside the project folder will install all
+dependencies and start a test server. You can then log in with username
+"admin" and password "password".
+
+For more detailled instructions, see the [developer
+documentation](https://git.mpib-berlin.mpg.de/castellum/castellum/-/tree/main/docs).
+
 ## Links
 
 -   Product home page: https://castellum.mpib.berlin
@@ -24,7 +38,5 @@ Society. Its main goals are:
 -   Source code: https://git.mpib-berlin.mpg.de/castellum/castellum/
 -   Releases: https://git.mpib-berlin.mpg.de/castellum/castellum/-/releases
     ([feed](https://git.mpib-berlin.mpg.de/castellum/castellum/-/tags?format=atom))
--   Docker: `registry.git.mpib-berlin.mpg.de/castellum/castellum`
 -   End-user documentation: https://castellum.mpib.berlin/documentation/en/
--   Developer documentation: https://git.mpib-berlin.mpg.de/castellum/castellum/-/tree/main/docs
 -   Code of conduct: https://www.mpg.de/11961177/code-of-conduct-en.pdf
