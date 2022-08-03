@@ -20,14 +20,12 @@
 
 import datetime
 import logging
-import zipfile
 
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import models
-from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -43,7 +41,6 @@ from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import View
-from django.views.generic.detail import SingleObjectMixin
 
 from dateutil.relativedelta import relativedelta
 
@@ -52,7 +49,6 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
-from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym_if_exists
 from castellum.pseudonyms.models import Domain
@@ -224,8 +220,6 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
             context['dropout_rate'] = '—'
         else:
             context['dropout_rate'] = '{:.0%}'.format(dropout_count / dropout_total)
-
-        context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
 
         return context
 
@@ -812,54 +806,6 @@ class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
         self.object = self.get_object()
         self.object.mark_as_deleted()
         return redirect(self.get_success_url())
-
-
-class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
-    model = Subject
-    permission_required = 'subjects.view_subject'
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
-
-    def get_data(self):
-        contact = self.object.contact
-        try:
-            return (contact.full_name, *contact.address.lines())
-        except Address.DoesNotExist:
-            return (contact.full_name, '', '')
-
-    def patch_document(self, content):
-        name, address1, address2 = self.get_data()
-
-        return (
-            content.replace(b'{name}', name.encode('utf8'))
-            .replace(b'{address1}', address1.encode('utf8'))
-            .replace(b'{address2}', address2.encode('utf8'))
-        )
-
-    def patch_zipfile(self, zin, zout):
-        for name in zin.namelist():
-            with zin.open(name, 'r') as fh:
-                content = fh.read()
-            if name == 'word/document.xml':
-                content = self.patch_document(content)
-            with zout.open(name, 'w') as fh:
-                fh.write(content)
-
-    def get(self, request, *args, **kwargs):
-        if not settings.CASTELLUM_COVERLETTER_TEMPLATE:
-            raise Http404
-
-        self.object = self.get_object()
-
-        response = HttpResponse(
-            content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        )
-
-        zresponse = zipfile.ZipFile(response, 'w')
-        with zipfile.ZipFile(settings.CASTELLUM_COVERLETTER_TEMPLATE, 'r') as zin:
-            self.patch_zipfile(zin, zresponse)
-
-        return response
 
 
 class SubjectProtectedMediaView(SubjectMixin, PermissionRequiredMixin, BaseProtectedMediaView):

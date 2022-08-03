@@ -124,10 +124,4 @@
             {% endif %}
         </dd>
     </dl>
-
-    {% if coverletter_exists %}
-        <div class="d-print-none mb-3">
-            <a href="{% url 'subjects:coverletter' object.uuid %}" class="btn btn-secondary">{% translate 'Download cover letter' %}</a>
-        </div>
-    {% endif %}
 {% endblock %}
