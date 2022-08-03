@@ -254,11 +254,6 @@ class Subject(TimeStampedModel):
         return math.ceil(self.privacy_level)
 
 
-class SubjectNote(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    content = models.CharField(_('Content'), max_length=128, blank=True)
-
-
 class ConsentDocument(models.Model):
     name = models.CharField(_('Name'), max_length=254, blank=True)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
