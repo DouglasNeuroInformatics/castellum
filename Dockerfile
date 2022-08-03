@@ -2,7 +2,7 @@ FROM node
 COPY package.json .
 RUN npm install --omit=dev
 
-FROM alpine:3.14.6
+FROM alpine:3.14.7
 
 ENV PYTHONUNBUFFERED 1
 ENV BUILDPKGS gettext py3-pip py3-wheel
