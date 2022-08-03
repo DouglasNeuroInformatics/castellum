@@ -1,3 +1,31 @@
+# 0.80.0 (unreleased)
+
+## breaking changes
+
+-   Subject notes have been removed. They have been deprecated since
+    0.53.0.
+-   The option to create a study as an "anonymous invitation" has been
+    removed. Existing anonymous invitation will be deleted.
+-   The reception tile on the start page as well as the "Receptionist"
+    user group have been removed.
+
+## bug fixes
+
+-   It is no longer possible to create subjects, subject creation
+    requests, or contact creation requests via the admin UI because that
+    could lead to inconsistent data.
+-   The technical creation date of a consent document is no longer
+    displayed because it does not necessarily correspond to the date
+    when the real-world document was introduced.
+
+## new features
+
+-   Bootstrap has been updated to 5.2, so the UI got a slight refresh.
+-   The recruitment list can now be filtered by "assigned to me".
+-   When a subject that requested deletion is deleted, the date of the
+    request is now included in the monitoring log.
+
+
 # 0.79.0 (2022-07-19)
 
 This release removes many rarely used features and brings a major
