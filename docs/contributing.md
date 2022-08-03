@@ -21,7 +21,7 @@ to fix a bug it often makes sense to send a mail first to avoid
 duplicate work.
 
 You can find our contact information on the [project home
-page](https://www.mpib-berlin.mpg.de/en/research/lifespan-psychology/castellum).
+page](https://www.mpib-berlin.mpg.de/research-data/castellum).
 
 # Reporting bugs
 
