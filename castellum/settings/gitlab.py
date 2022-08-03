@@ -22,7 +22,6 @@ DATABASES = {
     },
 }
 
-CASTELLUM_COVERLETTER_TEMPLATE = BASE_DIR / 'subjects' / 'fixtures' / 'demo_coverletter.docx'
 CASTELLUM_API_ENABLED = True
 
 # Setup geofilters

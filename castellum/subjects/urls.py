@@ -26,7 +26,6 @@ from .views import AdditionalInfoUpdateView
 from .views import AttributesUpdateView
 from .views import ConsentChangeView
 from .views import ContactUpdateView
-from .views import CoverletterView
 from .views import DataProtectionUpdateView
 from .views import DeleteRecruitmentDataView
 from .views import LegalRepresentativeSearchView
@@ -117,11 +116,6 @@ urlpatterns = [
         '<uuid:uuid>/additional-info/',
         AdditionalInfoUpdateView.as_view(),
         name='additional-info',
-    ),
-    path(
-        '<uuid:uuid>/coverletter.docx',
-        CoverletterView.as_view(),
-        name='coverletter',
     ),
     path('<uuid:uuid>/participations/', ParticipationListView.as_view(), name='participation-list'),
     path(

@@ -124,11 +124,6 @@ CASTELLUM_PSEUDONYM_CLEAN = castellum_pseudonyms.clean
 CASTELLUM_STUDY_DOMAIN_BITS = 20
 CASTELLUM_SESSION_DOMAIN_BITS = 20
 
-# Path to a cover letter template
-# Must be in .docx format
-# The placeholders "{name}", "{address1}", and "{address2}" will be replaced.
-CASTELLUM_COVERLETTER_TEMPLATE = ''
-
 # If this is set, this attribute will automatically be filled from Contact.date_of_birth
 CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = None
 

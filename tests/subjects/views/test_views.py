@@ -227,18 +227,3 @@ def test_pseudonym_200(request, client, user_fixture, subject):
     url = '/subjects/{}/pseudonyms/{}/'.format(subject.uuid, domain.key)
     response = client.get(url)
     assert response.status_code == 200
-
-
-@pytest.mark.smoketest
-@pytest.mark.parametrize('user_fixture', [
-    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
-    'subject_manager',
-    'data_protection_coordinator',
-])
-def test_coverletter_200(request, client, user_fixture, subject):
-    user = request.getfixturevalue(user_fixture)
-    client.force_login(user)
-    url = '/subjects/{}/coverletter.docx'.format(subject.uuid)
-    response = client.get(url)
-    assert response.status_code == 200
