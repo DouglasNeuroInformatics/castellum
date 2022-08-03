@@ -68,9 +68,6 @@ class Appointment(models.Model):
         verbose_name = _('Appointment')
         ordering = ['start']
         unique_together = ['session', 'participation']
-        permissions = [
-            ('view_current_appointments', _('Can view current appointments')),
-        ]
 
     def __str__(self):
         return formats.date_format(timezone.localtime(self.start), 'DATETIME_FORMAT')
