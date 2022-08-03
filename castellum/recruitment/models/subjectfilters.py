@@ -20,6 +20,7 @@
 
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
@@ -42,7 +43,9 @@ class SubjectFilterGroupManager(models.Manager):
 
 
 class SubjectFilterGroup(models.Model):
+    name = models.CharField(_('Name'), max_length=254, blank=True)
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), default=0)
 
     objects = SubjectFilterGroupManager()
 
