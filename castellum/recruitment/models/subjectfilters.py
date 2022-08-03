@@ -20,6 +20,7 @@
 
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
@@ -30,6 +31,14 @@ from ..models import Participation
 
 
 class SubjectFilterGroupManager(models.Manager):
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.annotate(index=models.Window(
+            expression=models.functions.RowNumber(),
+            order_by=[models.F('id')],
+            partition_by=models.F('study'),
+        ))
+
     def clone(self, original_group):
         cloned_group = SubjectFilterGroup.objects.create(study=original_group.study)
         SubjectFilter.objects.bulk_create(self.clone_filters(original_group, cloned_group))
@@ -64,6 +73,12 @@ class SubjectFilterGroup(models.Model):
                 status__in=[Participation.INVITED, Participation.UNSUITABLE]
             ).values('subject')
         )
+
+    def __str__(self):
+        if self.name:
+            return self.name
+        else:
+            return '{} {}'.format(gettext('Group'), self.index)
 
 
 class SubjectFilter(models.Model):
