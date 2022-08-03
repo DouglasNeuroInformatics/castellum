@@ -13,13 +13,13 @@
         <div>
             <h1>{{ study }}</h1>
             {% for tag in study.tags.all %}
-                <span class="badge bg-info text-dark">{{ tag }}</span>
+                <span class="badge text-bg-info">{{ tag }}</span>
             {% endfor %}
             {% if study.is_started %}
-                <span class="badge bg-secondary" title="{% translate 'Recruitment and execution for this study have started.' %}">{% translate 'Started' %}</span>
+                <span class="badge text-bg-secondary" title="{% translate 'Recruitment and execution for this study have started.' %}">{% translate 'Started' %}</span>
             {% endif %}
             {% if study.status == study.FINISHED %}
-                <span class="badge bg-secondary" title="{% translate 'Recruitment and execution for this study have ended.' %}">{% translate 'Finished' %}</span>
+                <span class="badge text-bg-secondary" title="{% translate 'Recruitment and execution for this study have ended.' %}">{% translate 'Finished' %}</span>
             {% endif %}
 
             <p class="text-muted mt-2">

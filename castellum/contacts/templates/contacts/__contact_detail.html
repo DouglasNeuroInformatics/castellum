@@ -11,10 +11,10 @@
                 {% icon 'users' label=_('This person represents other subjects who may also be suitable for this study.') %}
             {% endif %}
             {% if contact.subject.blocked %}
-                <span class="badge bg-dark my-1" title="{{ contact.subject.TOOLTIPS.blocked }}">{{ contact.subject|verbose_name:'blocked' }}</span>
+                <span class="badge text-bg-dark my-1" title="{{ contact.subject.TOOLTIPS.blocked }}">{{ contact.subject|verbose_name:'blocked' }}</span>
             {% endif %}
             {% if contact.subject.deceased %}
-                <span class="badge bg-dark my-1" title="{{ contact.subject.TOOLTIPS.deceased }}">{{ contact.subject|verbose_name:'deceased' }}</span>
+                <span class="badge text-bg-dark my-1" title="{{ contact.subject.TOOLTIPS.deceased }}">{{ contact.subject|verbose_name:'deceased' }}</span>
             {% endif %}
         </dd>
     {% endif %}
@@ -41,10 +41,10 @@
     <dd class="col-sm-6">
         {% if contact.subject.is_available %}
             {% translate "Yes" %}
-            <span class="list-icon bg-success text-light">{% icon 'phone' %}</span>
+            <span class="list-icon text-bg-success">{% icon 'phone' %}</span>
         {% else %}
             {% translate "No" %}
-            <span class="list-icon bg-warning text-dark">{% icon 'phone' %}</span>
+            <span class="list-icon text-bg-warning">{% icon 'phone' %}</span>
             {% blocktranslate with next_available=contact.subject.not_available_until %}
                 (not until {{ next_available }})
             {% endblocktranslate %}

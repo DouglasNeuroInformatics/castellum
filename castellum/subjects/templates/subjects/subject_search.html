@@ -81,7 +81,7 @@
                                                     {% endif %}
                                                 </div>
                                                 {% if subject.blocked %}
-                                                    <span class="badge bg-dark my-1 me-2" title="{{ subject.TOOLTIPS.blocked }}">{{ subject|verbose_name:'blocked' }}</span>
+                                                    <span class="badge text-bg-dark my-1 me-2" title="{{ subject.TOOLTIPS.blocked }}">{{ subject|verbose_name:'blocked' }}</span>
                                                 {% endif %}
                                             {% endif %}
                                         {% else %}
@@ -106,9 +106,9 @@
                                                 <div>
                                                     <span class="h5 d-inline-block my-1 me-2">{{ participation.study }}</span>
                                                     <span class="d-inline-block my-1 me-2">{{ participation.study.contact_person }}</span>
-                                                    <span class="badge bg-secondary my-1" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
+                                                    <span class="badge text-bg-secondary my-1" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
                                                     {% if participation.dropped_out %}
-                                                        <span class="badge bg-secondary my-1" title="{{ participation.STATUS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
+                                                        <span class="badge text-bg-secondary my-1" title="{{ participation.STATUS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
                                                     {% endif %}
                                                 </div>
                                                 <div class="table-list-item-actions">
@@ -192,7 +192,7 @@
         </div>
     {% endif %}
 
-    <aside class="border bg-light p-3 mb-3 mt-5" aria-labelledby="stats">
+    <aside class="border text-bg-light p-3 mb-3 mt-5" aria-labelledby="stats">
         {% has_perm 'subjects.change_subject' user as can_change_subject %}
         {% if can_change_subject %}
             <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-primary float-end">{% translate 'Maintenance' %}</a>

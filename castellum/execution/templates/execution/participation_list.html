@@ -11,8 +11,8 @@
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdownButton">
                     {% for key, label in sort_options %}
                         <button class="dropdown-item" name="sort" value="{{ key }}">
-                            {% if label.bootstrap_class %}
-                                <span class="badge {{ label.bootstrap_class }}">{{ label }}</span>
+                            {% if label.color %}
+                                <span class="badge text-bg-{{ label.color }}">{{ label }}</span>
                             {% else %}
                                 {{ label }}
                             {% endif %}
@@ -32,7 +32,7 @@
                         <div>
                             {{ participation.subject.contact.full_name }}
                             {% if session_count > 0 %}
-                                <span class="badge bg-secondary my-1" title="{% blocktranslate with count=participation.appointment_count total=session_count %}{{ count }} out of {{ total }} appointments have already been scheduled{% endblocktranslate %}">
+                                <span class="badge text-bg-secondary my-1" title="{% blocktranslate with count=participation.appointment_count total=session_count %}{{ count }} out of {{ total }} appointments have already been scheduled{% endblocktranslate %}">
                                     {% icon 'calendar' label=_('Appointments') %}
                                     {{ participation.appointment_count }}/{{ session_count }}
                                     {% if participation.appointment_today %}
@@ -41,16 +41,16 @@
                                 </span>
                             {% endif %}
                             {% for tag in participation.execution_tags.all %}
-                                <span class="badge {{ tag.bootstrap_class }} my-1">{{ tag }}</span>
+                                <span class="badge text-bg-{{ tag.level }} my-1">{{ tag }}</span>
                             {% endfor %}
                             {% if participation.dropped_out %}
-                                <span class="badge bg-secondary my-1" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
+                                <span class="badge text-bg-secondary my-1" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
                             {% endif %}
                             {% if participation.subject.blocked %}
-                                <span class="badge bg-dark my-1" title="{{ participation.subject.TOOLTIPS.blocked }}">{{ participation.subject|verbose_name:'blocked' }}</span>
+                                <span class="badge text-bg-dark my-1" title="{{ participation.subject.TOOLTIPS.blocked }}">{{ participation.subject|verbose_name:'blocked' }}</span>
                             {% endif %}
                             {% if participation.subject.deceased %}
-                                <span class="badge bg-dark my-1" title="{{ participation.subject.TOOLTIPS.deceased }}">{{ participation.subject|verbose_name:'deceased' }}</span>
+                                <span class="badge text-bg-dark my-1" title="{{ participation.subject.TOOLTIPS.deceased }}">{{ participation.subject|verbose_name:'deceased' }}</span>
                             {% endif %}
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                     <div class="text-muted">
                         <div class="d-inline-block my-1 me-2">
                             {% translate 'access denied' %}
-                            <span class="list-icon bg-danger text-light">{% icon 'ban' %}</span>
+                            <span class="list-icon text-bg-danger">{% icon 'ban' %}</span>
                         </div>
                     </div>
                 {% endif %}

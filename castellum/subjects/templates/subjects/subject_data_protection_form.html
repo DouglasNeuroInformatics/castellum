@@ -45,7 +45,7 @@
                 <a href="consent/" class="btn btn-outline-primary">{% translate "Change" %}</a>
             </div>
             {% if object.consent.document.is_deprecated %}
-                <div class="form-text bg-warning text-dark p-2 mb-2">
+                <div class="form-text text-bg-warning p-2 mb-2">
                     {% blocktranslate %}
                         The current consent refers to an outdated document and will soon expire, thus rendering the recruitment consent invalid.
                         Please contact the subject to confirm the latest document.
@@ -53,7 +53,7 @@
                 </div>
             {% endif %}
             {% if object.has_consent_from_before_full_age %}
-                <div class="form-text bg-warning text-dark p-2 mb-2">
+                <div class="form-text text-bg-warning p-2 mb-2">
                     {% blocktranslate %}
                         The subject has recently come of age.
                         Please contact the subject for a new consent.

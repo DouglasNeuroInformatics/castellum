@@ -10,12 +10,12 @@
             {{ subject.contact.full_name }}
         </h1>
         {% if participation.excluded_by_cleanup %}
-            <span class="badge bg-secondary" title="{{ participation.TOOLTIPS.excluded_by_cleanup }}">{{ participation|verbose_name:'excluded_by_cleanup' }}</span>
+            <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.excluded_by_cleanup }}">{{ participation|verbose_name:'excluded_by_cleanup' }}</span>
         {% else %}
-            <span class="badge bg-secondary" title="{{ participation.TOOLTIPS.get_status_tooltip }}">{{ participation|display:'status' }}</span>
+            <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.get_status_tooltip }}">{{ participation|display:'status' }}</span>
         {% endif %}
         {% if participation.dropped_out %}
-            <span class="badge bg-secondary" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
+            <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
         {% endif %}
     </div>
 

@@ -123,7 +123,7 @@
             return null;
         }
         var $badge = $('<span class="w-100 badge">&nbsp</span>');
-        $badge.addClass('bg-' + state.element.value);
+        $badge.addClass('text-bg-' + state.element.value);
         $badge.attr('aria-label', state.text);
         return $badge;
     };

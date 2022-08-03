@@ -39,13 +39,6 @@ class Message(models.Model):
     def __str__(self):
         return self.content
 
-    @property
-    def bootstrap_class(self):
-        cls = 'bg-{}'.format(self.level)
-        if self.level not in ['info', 'warning']:
-            cls += ' text-light'
-        return cls
-
     class Meta:
         verbose_name = _('Message')
         verbose_name_plural = _('Messages')
