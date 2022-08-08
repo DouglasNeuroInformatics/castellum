@@ -54,5 +54,5 @@ In our experience, conceptual debates work much better verbally compared
 to long email threads. Be prepared to have a video/audio chat with us if
 the need arises.
 
-For durther information on the castellum code and its structure see
+For further information on the castellum code and its structure see
 `docs/development.md`.
