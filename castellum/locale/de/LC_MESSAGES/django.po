@@ -185,10 +185,8 @@ msgstr "Keine Ressourcen"
 #: castellum/execution/views.py:560
 #: castellum/subjects/templates/subjects/subject_detail.html:22
 #: castellum/subjects/templates/subjects/subject_detail.html:36
-#, fuzzy
-#| msgid "Insufficient privacy level"
 msgid "(insufficient privacy level)"
-msgstr "Vertraulichkeitsstufe nicht ausreichend"
+msgstr "(Vertraulichkeitsstufe nicht ausreichend)"
 
 #: castellum/broadcast_messages/models.py:27
 #: castellum/recruitment/models/participations.py:65
@@ -505,8 +503,6 @@ msgstr "Gesetzliche Vertreter*in"
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:95
 #: castellum/subjects/templates/subjects/legal_representative_search.html:82
 #: castellum/subjects/templates/subjects/subject_search.html:89
-#, fuzzy
-#| msgid "Insufficient privacy level"
 msgid "insufficient privacy level"
 msgstr "Vertraulichkeitsstufe nicht ausreichend"
 
@@ -1969,10 +1965,8 @@ msgid "Recently active"
 msgstr "Kürzlich aktiv"
 
 #: castellum/recruitment/views.py:216
-#, fuzzy
-#| msgid "assigned to"
 msgid "Assigned to me"
-msgstr "zugewiesen an"
+msgstr "Mir zugewiesen"
 
 #: castellum/recruitment/views.py:278
 msgid ""
@@ -4050,54 +4044,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Can view current appointments"
-#~ msgstr "Darf aktuelle Termine anschauen"
-
-#~ msgid "Reception"
-#~ msgstr "Empfang"
-
-#~ msgid "Today's appointments"
-#~ msgstr "Die heutigen Termine"
-
-#~ msgid "No appointments today"
-#~ msgstr "Heute keine Termine"
-
-#~ msgid "(access denied)"
-#~ msgstr "(Zugriff verweigert)"
-
-#~ msgid "access denied"
-#~ msgstr "Zugriff verweigert"
-
-#~ msgid "Anonymous invitation"
-#~ msgstr "Anonyme Einladung"
-
-#~ msgid "Is an anonymous invitation"
-#~ msgstr "Ist eine anonyme Einladung"
-
-#~ msgid ""
-#~ "Use this if you want to skip the usual recruitment workflow and just send "
-#~ "an email to subjects, e.g. to invite them to an anonymous online survey."
-#~ msgstr ""
-#~ "Diese Option erlaubt es, den üblichen Rekrutierungsprozess auszulassen "
-#~ "und nur eine E-Mail an die Proband*innen zu verschicken, z.B. um sie zu "
-#~ "einer anonymen Umfrage einzuladen."
-
-#~ msgid "Contacted subjects"
-#~ msgstr "Kontaktierte Proband*innen"
-
-#~ msgid "Does not want to participate in anonymous invitations"
-#~ msgstr "Möchte nicht an anonymen Einladungen teilnehmen"
-
-#~ msgid "Notes"
-#~ msgstr "Notizen"
-
-#~ msgid ""
-#~ "The following subjects have notes. Notes will be removed soon. The "
-#~ "information should be moved to other appropriate fields:"
-#~ msgstr ""
-#~ "Die folgenden Proband*innen haben Notizen. Notizen werden bald entfernt. "
-#~ "Die Informationen sollten in die entsprechenden Feldern übertragen werden."
-
-#~ msgid "Additional notes"
-#~ msgstr "Zusätzliche Notizen"
