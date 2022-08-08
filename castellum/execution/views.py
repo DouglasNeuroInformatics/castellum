@@ -557,7 +557,7 @@ class CalendarView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin
             for tag in appointment.participation.execution_tags.all():
                 name += ' #{}'.format(tag)
         else:
-            name = _('(access denied)')
+            name = _('(insufficient privacy level)')
         title = '{} - {}'.format(name, appointment.session.name)
 
         assignees = ', '.join(str(c.user) for c in appointment.assigned_conductors.all())

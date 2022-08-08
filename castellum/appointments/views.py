@@ -55,7 +55,7 @@ class ResourceDetailView(LoginRequiredMixin, BaseCalendarView):
         if self.request.user.has_privacy_level(appointment.participation.subject.privacy_level):
             name = appointment.participation.subject.contact.full_name
         else:
-            name = _('(access denied)')
+            name = _('(insufficient privacy level)')
         return {
             'title': '{} ({} - {})'.format(
                 name,

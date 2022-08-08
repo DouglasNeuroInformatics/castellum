@@ -19,7 +19,7 @@
                     {% if can_access %}
                         <a href="{% url 'subjects:detail' c.subject.uuid %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
-                        <span class="text-muted">{% translate '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
+                        <span class="text-muted">{% translate '(insufficient privacy level)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
                 {% endfor %}
             </dd>
@@ -33,7 +33,7 @@
                     {% if can_access %}
                         <a href="{% url 'subjects:detail' c.subject.uuid %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
-                        <span class="text-muted">{% translate '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
+                        <span class="text-muted">{% translate '(insufficient privacy level)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
                 {% endfor %}
             </dd>
