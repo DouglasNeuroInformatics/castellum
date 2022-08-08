@@ -97,7 +97,9 @@
                     </div>
                 </div>
                 <div class="table-list-item-actions">
-                    <a href="#" class="btn btn-outline-primary my-1 disabled" tabindex="-1" aria-disabled="true">{% translate 'Contact' context 'verb' %}</a>
+                    {% if participation.status != participation.UNSUITABLE %}
+                        <a class="btn btn-outline-danger my-1" href="{% url 'recruitment:exclude' study.pk participation.pk %}">{% translate 'Exclude' %}</a>
+                    {% endif %}
                 </div>
             {% endif %}
         </li>
