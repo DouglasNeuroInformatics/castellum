@@ -37,7 +37,7 @@ class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
             for tag in item.participation.execution_tags.all():
                 name += ' #{}'.format(tag)
         else:
-            name = _('(access denied)')
+            name = _('(insufficient privacy level)')
         title = '{} - {}'.format(name, item.session.name)
 
         assignees = ', '.join(str(c.user) for c in item.assigned_conductors.all())
