@@ -326,8 +326,6 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
             context['appointments'] = Appointment.objects.filter(participation__subject=self.object)
 
-            context['notes'] = self.object.subjectnote_set.all()
-
             context['attributes'] = []
             for description in AttributeDescription.objects.all():
                 value = self.object.attributes.get(description.json_key)
@@ -814,14 +812,6 @@ class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
         self.object = self.get_object()
         self.object.mark_as_deleted()
         return redirect(self.get_success_url())
-
-
-class MaintenanceNotesView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_notes.html'
-    tab = 'notes'
-
-    def get_queryset(self):
-        return super().get_queryset().exclude(subjectnote=None)
 
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):

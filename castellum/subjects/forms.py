@@ -140,17 +140,3 @@ class AdditionalInfoForm(forms.ModelForm):
                 Subject.objects.order_by('source').values_list('source', flat=True).distinct
             )),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['rm_subject_notes'] = forms.ModelMultipleChoiceField(
-            widget=forms.CheckboxSelectMultiple,
-            queryset=self.instance.subjectnote_set.all(),
-            required=False,
-        )
-
-    def save(self, *args, **kwargs):
-        subject = super().save(*args, **kwargs)
-        for note in self.cleaned_data['rm_subject_notes']:
-            note.delete()
-        return subject

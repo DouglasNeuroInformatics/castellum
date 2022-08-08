@@ -53,14 +53,12 @@ EXCLUDED = [
     'subjects.Consent.subject',
     'subjects.ExportAnswer.id',
     'subjects.Subject.id',
-    'subjects.SubjectNote.id',
     'subjects.Subject.to_be_deleted_notified',
     'subjects.Subject.pseudonym',
     'subjects.Subject.uuid',
     'subjects.SubjectCreationRequest.',
 
     # already covered by other fields (e.g. backrefs)
-    'subjects.SubjectNote.',
     'subjects.Subject.consent',
     'subjects.ExportAnswer.',
     'contacts.Address.',

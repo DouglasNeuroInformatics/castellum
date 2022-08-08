@@ -142,9 +142,6 @@
             <dt class="col-sm-6" data-fieldname="subjects.Subject.updated_at">{% translate 'Procedural data last updated at' %}</dt>
             <dd class="col-sm-6">{{ subject|display:'updated_at' }}</dd>
 
-            <dt class="col-sm-6" data-fieldname="subjects.Subject.subjectnote">{% translate 'Additional notes' %}</dt>
-            <dd class="col-sm-6">{{ notes|join:', '|default:'—' }}</dd>
-
             <dt class="col-sm-6" data-fieldname="subjects.Subject.additional_suitability_document">{{ subject|verbose_name:'additional_suitability_document' }}</dt>
             <dd class="col-sm-6">{{ subject|display:'additional_suitability_document' }}</dd>
 
