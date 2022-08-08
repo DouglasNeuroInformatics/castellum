@@ -5,8 +5,6 @@ RUN npm install --omit=dev
 FROM alpine:3.14.7
 
 ENV PYTHONUNBUFFERED 1
-ENV BUILDPKGS gettext py3-pip py3-wheel
-ENV RUNTIMEPKGS uwsgi uwsgi-python uwsgi-router_static python3 py3-psycopg2 py3-pyldap py3-cryptography libmagic proj gdal
 
 RUN adduser -D -g '' uwsgi
 
@@ -18,7 +16,7 @@ RUN mkdir -p /media
 RUN chown uwsgi /media
 VOLUME /media
 
-RUN apk update && echo $BUILDPKGS $RUNTIMEPKGS && apk add $BUILDPKGS $RUNTIMEPKGS
+RUN apk update && apk add uwsgi uwsgi-python uwsgi-router_static python3 py3-pip py3-wheel py3-psycopg2 py3-pyldap py3-cryptography libmagic gdal gettext
 
 WORKDIR code/
 
