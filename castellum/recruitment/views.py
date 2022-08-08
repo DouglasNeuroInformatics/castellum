@@ -365,13 +365,12 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, DetailView)
 
     def send_reminder_mails(self, batch):
         with MailContext('recruitment') as ctx:
-            pks = []
             for participation in batch.participation_set.select_related('subject'):
                 contact = participation.subject.contact
                 success = self.send_reminder_mail(contact, ctx)
                 if success:
-                    pks.append(participation.pk)
-            Participation.objects.filter(pk__in=pks).update(updated_at=timezone.now())
+                    # set updated_at
+                    participation.save()
 
     def post(self, request, *args, **kwargs):
         batch = self.get_object()
