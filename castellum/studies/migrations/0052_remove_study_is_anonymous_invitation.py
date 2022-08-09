@@ -11,11 +11,10 @@ def delete_anonymous_invitations(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('studies', '0050_remove_study_exclusion_criteria'),
+        ('studies', '0051_remove_study_is_anonymous_invitation_data'),
     ]
 
     operations = [
-        migrations.RunPython(delete_anonymous_invitations),
         migrations.RemoveField(
             model_name='study',
             name='is_anonymous_invitation',
