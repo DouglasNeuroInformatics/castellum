@@ -5,7 +5,9 @@
 -   Subject notes have been removed. They have been deprecated since
     0.53.0.
 -   The option to create a study as an "anonymous invitation" has been
-    removed. Existing anonymous invitation will be deleted.
+    removed. Existing anonymous invitation will be deleted. If you want
+    to keep them, you can remove the `is_anonymous_invitation` flag via
+    the admin UI before doing the update.
 -   The reception tile on the start page as well as the "Receptionist"
     user group have been removed.
 
