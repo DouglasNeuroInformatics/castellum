@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+    <p>{% translate 'Find subjects based on their pseudonyms from general domains.' %}</p>
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
