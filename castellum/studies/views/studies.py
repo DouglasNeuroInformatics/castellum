@@ -23,7 +23,6 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core import serializers
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.forms import modelform_factory
@@ -49,9 +48,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
-from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
-from castellum.utils import Exclusion
 from castellum.utils import uuid_str
 from castellum.utils.views import BaseProtectedMediaView
 from castellum.utils.views import get_next_url
@@ -65,21 +62,6 @@ from ..models import StudyMembership
 from .recruitment import get_related_studies
 
 monitoring_logger = logging.getLogger('monitoring.studies')
-
-
-def take_snapshot(study):
-    study.snapshot = serializers.serialize('json', [
-        study,
-        *study.studymembership_set.all(),
-        *study.domains.all(),
-        *study.general_domains.all(),
-        *study.studytag_set.all(),
-        *study.studysession_set.all(),
-        *study.subjectfiltergroup_set.all(),
-        *study.executiontag_set.all(),
-        *SubjectFilter.objects.filter(group__study=study),
-    ], fields=Exclusion(['snapshot', 'status', 'previous_status']))
-    study.save()
 
 
 class StudyIndexView(LoginRequiredMixin, ListView):
@@ -340,7 +322,6 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             monitoring_logger.info(
                 'Study {} started by {}'.format(self.study.name, self.request.user.pk)
             )
-            take_snapshot(self.study)
 
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 

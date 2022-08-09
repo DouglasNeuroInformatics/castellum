@@ -118,7 +118,6 @@ class Study(models.Model):
         ),
         blank=True,
     )
-    snapshot = models.TextField(_('Snapshot'), blank=True, editable=False)
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domains = GenericRelation(Domain)
