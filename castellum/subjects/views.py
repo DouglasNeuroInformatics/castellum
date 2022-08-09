@@ -54,7 +54,9 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_pseudonym_if_exists
+from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
@@ -200,6 +202,25 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
             form=form,
             privacy_level_form=privacy_level_form,
         ))
+
+
+class SubjectResolveView(PermissionRequiredMixin, FormView):
+    template_name = 'subjects/subject_resolve.html'
+    permission_required = 'subjects.view_subject'
+    form_class = PseudonymForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['domains'] = self.request.user.general_domains.all()
+        return kwargs
+
+    def form_valid(self, form):
+        try:
+            subject = get_subject(form.cleaned_data['domain'], form.cleaned_data['pseudonym'])
+            return redirect('subjects:detail', subject.uuid)
+        except Subject.DoesNotExist:
+            messages.warning(self.request, _('No match found'))
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
