@@ -1,7 +1,0 @@
-{% load utils diff %}
-
-{% for value, class in items %}
-    <{{ class|diff_tag }} class="{{ class }}">{{ value|display }}</{{ class|diff_tag }}>{% if not forloop.last %},{% endif %}
-{% empty %}
-    &mdash;
-{% endfor %}
