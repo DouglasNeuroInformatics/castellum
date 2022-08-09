@@ -138,7 +138,7 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = DomainForm(context=self.study)
+        context['form'] = DomainForm(domains=self.study.domains.all())
         return context
 
     def export(self, domain):
@@ -341,7 +341,7 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['context'] = self.study
+        kwargs['domains'] = self.study.domains.all()
         return kwargs
 
     def form_valid(self, form):
