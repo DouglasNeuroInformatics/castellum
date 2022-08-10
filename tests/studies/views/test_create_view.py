@@ -13,13 +13,13 @@ MANAGEMENT_FORM = {
 }
 
 STUDY_FORM = {
-        'name': 'Test study',
-        'contact_person': 'Mustermann',
-        'principal_investigator': 'Mustermann',
-        'min_subject_count': 0,
-        'phone': "030123456789",
-        'email': "test@example.com",
-        **MANAGEMENT_FORM,
+    'name': 'Test study',
+    'contact_person': 'Mustermann',
+    'principal_investigator': 'Mustermann',
+    'min_subject_count': 0,
+    'phone': "030123456789",
+    'email': "test@example.com",
+    **MANAGEMENT_FORM,
 }
 
 
