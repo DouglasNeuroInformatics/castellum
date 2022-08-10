@@ -4,7 +4,6 @@ The following commands will install everything and start a local testserver (on 
 
     sudo apt install python3-pip python3-venv npm make gettext gdal-bin libsqlite3-mod-spatialite
     cd castellum
-    make install_githooks
     make  # start castellum
 
 You can login with user "admin" and password "password".
