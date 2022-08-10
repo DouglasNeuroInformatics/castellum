@@ -115,7 +115,7 @@ def test_clone_with_empty_filter_group(study):
 
     assert subject_filter_group.id != clone.id
     assert study == clone.study
-    assert 0 == clone.subjectfilter_set.count()
+    assert clone.subjectfilter_set.count() == 0
 
 
 @pytest.mark.django_db
@@ -138,4 +138,4 @@ def test_clone_with_multiple_filters(attribute_description, study):
 
     assert subject_filter_group.id != clone.id
     assert study == clone.study
-    assert 2 == clone.subjectfilter_set.count()
+    assert clone.subjectfilter_set.count() == 2
