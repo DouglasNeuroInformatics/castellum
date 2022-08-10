@@ -8,6 +8,10 @@ The following commands will install everything and start a local testserver (on 
 
 You can login with user "admin" and password "password".
 
+**Note**: Python needs to be compiled with
+`SQLITE_ENABLE_LOAD_EXTENSION`. This is usually the case for system
+packages, but e.g. with pyenv you will have to enable it yourself.
+
 # Things to be aware of when working on the castellum code
 
 -   We assume a general familiarity with django, especially its
