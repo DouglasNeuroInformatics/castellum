@@ -159,14 +159,14 @@ before you can start using it.
 ### Containerized Deployment
 
 An example deployment configuration using Docker, uWSGI, PostgreSQL, and
-LDAP is located in [example_deployment](docs/example_deployment/). You can try this
+LDAP is located in [deployment_1](docs/deployment_1/). You can try this
 configuration yourself by executing the `start.sh` script in that
 folder. Pass `--demo` to automatically create demo content.
 
 ### Manual Deployment
 
 A setup guide for a manual deployment of Castellum is provided in the
-[manual_deployment/guide.md](manual_deployment/guide.md)
+[deployment_2/guide.md](deployment_2/guide.md)
 
 ## Updates
 

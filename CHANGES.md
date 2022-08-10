@@ -847,7 +847,7 @@ You need to update to at least 0.67.0 before updating to this version.
 
 -   The default logging configuration has been removed, so now the
     [defaults set by django](https://docs.djangoproject.com/en/3.1/topics/logging/#django-s-default-logging-configuration)
-    are used. See `docs/example_deployment/settings.py` for an example
+    are used. See `docs/deployment_1/settings.py` for an example
     that replicates the old behavior.
 
 ## new features
