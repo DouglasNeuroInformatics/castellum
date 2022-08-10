@@ -278,10 +278,10 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     slug_url_kwarg = 'uuid'
 
     def is_last_legal_representative(self):
-        for ward in self.object.contact.legal_representative_of.all():
-            if ward.legal_representatives.count() <= 1:
-                return True
-        return False
+        return any(
+            ward.legal_representatives.count() == 1
+            for ward in self.object.contact.legal_representative_of.all()
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -472,8 +472,8 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
         pks = []
         for study in studies:
             if (
-                self.request.user.has_perms(perms, obj=study) and
-                Subject.objects.filter(filter_queries.study(study), pk=self.subject.pk).exists()
+                self.request.user.has_perms(perms, obj=study)
+                and Subject.objects.filter(filter_queries.study(study), pk=self.subject.pk).exists()
             ):
                 pks.append(study.pk)
         return studies.filter(pk__in=pks)

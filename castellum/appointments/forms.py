@@ -73,16 +73,19 @@ class AppointmentsForm(forms.ModelForm):
             )
 
     def get_invitation_url(self, session):
-        if settings.SCHEDULER_URL and session.schedule_id:
-            if self.instance.status == Participation.INVITED:
-                pseudonym = get_pseudonym(self.instance.subject, session.domain)
-                try:
-                    return scheduler.create_invitation_url(session.schedule_id, pseudonym)
-                except requests.RequestException as e:
-                    logger.error(
-                        'Creating invitation for session {} failed: {}'.format(session.pk, e)
-                    )
-                    return 'error'
+        if (
+            settings.SCHEDULER_URL
+            and session.schedule_id
+            and self.instance.status == Participation.INVITED
+        ):
+            pseudonym = get_pseudonym(self.instance.subject, session.domain)
+            try:
+                return scheduler.create_invitation_url(session.schedule_id, pseudonym)
+            except requests.RequestException as e:
+                logger.error(
+                    'Creating invitation for session {} failed: {}'.format(session.pk, e)
+                )
+                return 'error'
 
     def format_session_name(self, session):
         duration = _('{}min').format(session.duration)

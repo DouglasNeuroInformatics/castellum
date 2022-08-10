@@ -76,4 +76,4 @@ class Exclusion:
         self.values = values
 
     def __contains__(self, value):
-        return not (value in self.values)
+        return value not in self.values
