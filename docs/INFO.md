@@ -1,11 +1,24 @@
 # Deployment and Development
 
-Some general remarks here...
+Welcome to the deployment and development documentation of Castellum! If
+you are a system administrator looking to install Castellum on your
+local infrastructure, please refer to the [Deployment
+Documentation](deployment/INFO.md). If you are a developer looking for
+ways to contribute to the Castellum project, please take a look at our
+[Contributing Guidelines](../contributing.md) and the [Development
+Documentation](development.md).
 
 ## Deployment
 
-Brief overview, for more go to [deployment](deployment/setup.md).
+Castellum supports a variety of deployment configurations, two exemplary
+deployments are illustrated in [Example 1](deployment/example_1/INFO.md)
+and [Example 2](deployment/example_2/INFO.md), respectively. For general
+notes on setting up Castellum, please consult the [Deployment
+Documentation](deployment/INFO.md).
 
 ## Development
 
-Brief overview, for more go to [development](development/development.md).
+Castellum is a Python application based on the [Django Web
+Framework](https://www.djangoproject.com/). To get started working on
+Castellum, please refer to the [Development
+Documentation](development.md).

@@ -22,8 +22,7 @@ MANAGERS = [('manager1', 'manager1@mydomain.org'),
             ('manager2', 'manager2@mydomain.org')]
 
 # Logging setup. If `DEBUG` is `True`, log-levels are set to `DEBUG` and
-# the monitoring file `/var/log/castellum_monitoring.log` keeps track of
-# user activity. See docs/example_2/guide.md for more details.
+# console output keeps track of django internals
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -53,8 +52,7 @@ LOGGING = {
             'formatter': 'verbose',
         },
         'monitoring-file': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
+            'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': '/var/log/castellum_monitoring.log',
             'formatter': 'verbose',
