@@ -1,5 +1,5 @@
 #
-# Exemplary Castellum settings file. See also castellum/docs/deployment_1/settings.py
+# Exemplary Castellum settings file. See also castellum/docs/example_1/settings.py
 #
 # Lines that need to be modified based on your setup are marked CHANGEME
 import os
@@ -23,7 +23,7 @@ MANAGERS = [('manager1', 'manager1@mydomain.org'),
 
 # Logging setup. If `DEBUG` is `True`, log-levels are set to `DEBUG` and
 # the monitoring file `/var/log/castellum_monitoring.log` keeps track of
-# user activity. See docs/deployment_2/guide.md for more details.
+# user activity. See docs/example_2/guide.md for more details.
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -91,7 +91,7 @@ db_contacts_pw = os.environ["DB_CONTACTS_PW"]
 bind_pw = os.environ["LDAP_BIND_PW"]
 
 # Database setup. NOTE: The values of `NAME` and `USER` given here have to match
-# the actual database name and user set in postgres! See docs/deployment_2/guide.md
+# the actual database name and user set in postgres! See docs/example_2/guide.md
 # for more details.
 DATABASES = {
     'default': {

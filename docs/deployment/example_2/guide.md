@@ -14,7 +14,7 @@ are provided alongside this document:
 ## Before You Start
 
 This guide is mainly intended for manual installations of Castellum. If you prefer
-a containerized setup, please refer to [example deployment](../deployment_1/).
+a containerized setup, please refer to [example deployment](../example_1/).
 We assume you have root access to two (virtual) machines running a recent Linux
 distribution that have internet access and are connected to the same (private)
 network:
@@ -385,6 +385,6 @@ Congratulations, your Castellum instance is now ready to use.
 
 As discussed in the main [deployment README](../README.md) Castellum comes with
 several management commands to perform regular housekeeping tasks. An exemplary
-crontab for running these tasks is provided in the [Docker-based deployment example](../deployment_1/crontab).
+crontab for running these tasks is provided in the [Docker-based deployment example](../example_1/crontab).
 Please also consult the [section](../README.md#backups) discussing backup strategies for Castellum's
 databases in the main guide.
