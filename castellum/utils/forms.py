@@ -48,6 +48,7 @@ class DateInput(forms.DateInput):
     def __init__(self, attrs=None):
         defaults = {
             'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
+            'min': '1900-01-01',
             'max': '9999-12-31',
             'autocomplete': 'off',
             'type': 'date',
