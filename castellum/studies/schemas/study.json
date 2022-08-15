@@ -10,6 +10,10 @@
                     "format": "email",
                     "maxLength": 128
                 },
+                "username": {
+                    "type": "string",
+                    "maxLength": 150
+                },
                 "name": {
                     "type": "string",
                     "maxLength": 128
@@ -89,6 +93,12 @@
                             "EEG",
                             "3rd party"
                         ]
+                    }
+                },
+                "members": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Person"
                     }
                 }
             },

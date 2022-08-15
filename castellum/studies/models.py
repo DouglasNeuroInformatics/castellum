@@ -354,6 +354,11 @@ class Study(models.Model):
             'number_participants_expected': self.min_subject_count,
             'keywords': list(self.tags),
             'type': [t for t in self.study_type.values_list('export_key', flat=True) if t],
+            'members': [{
+                'username': user.username,
+                'name': user.get_full_name()[:128],
+                'email': user.email,
+            } for user in self.members.all()],
         }
 
 
