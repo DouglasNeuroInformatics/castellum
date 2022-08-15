@@ -114,7 +114,6 @@ def has_consent(include_waiting=False, exclude_deprecated=False):
     if include_waiting:
         acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
         q |= models.Q(consent__isnull=True, created_at__gte=acceptable_datetime)
-        q |= models.Q(consent__isnull=True, consent_waiting_since__gte=acceptable_datetime)
 
     return q & models.Q(deceased=False, blocked=False)
 
