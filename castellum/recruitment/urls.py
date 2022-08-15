@@ -32,6 +32,7 @@ from .views import ConsentChangeView
 from .views import ContactUpdateView
 from .views import ContactView
 from .views import DataProtectionUpdateView
+from .views import ExcludeView
 from .views import LegalRepresentativeContactUpdateView
 from .views import MailRecruitmentCleanupView
 from .views import MailRecruitmentRemindView
@@ -68,6 +69,7 @@ urlpatterns = [
     path('<int:pk>/calendar/feed/', AppointmentFeed.as_view(), name='calendar-feed'),
     path('<int:study_pk>/followups/', FollowUpFeedForStudy.as_view(), name='followups-feed'),
     path('<int:study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
+    path('<int:study_pk>/<int:pk>/exclude/', ExcludeView.as_view(), name='exclude'),
     path(
         '<int:study_pk>/<int:pk>/appointments/',
         AppointmentsUpdateView.as_view(),

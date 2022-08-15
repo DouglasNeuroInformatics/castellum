@@ -452,6 +452,20 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         return response
 
 
+class ExcludeView(StudyMixin, PermissionRequiredMixin, TemplateView):
+    """Limited ContactView for users with insufficient privacy_level."""
+
+    template_name = 'recruitment/confirm_exclude.html'
+    permission_required = 'recruitment.recruit'
+    study_status = [Study.EXECUTION]
+
+    def post(self, request, **kwargs):
+        obj = get_object_or_404(Participation, study=self.study, pk=kwargs['pk'])
+        obj.status = Participation.UNSUITABLE
+        obj.save()
+        return redirect('recruitment:recruitment-open', self.study.pk)
+
+
 class AppointmentsUpdateView(BaseAppointmentsUpdateView):
     permission_required = ['recruitment.recruit', 'appointments.change_appointment']
     study_status = [Study.EXECUTION]

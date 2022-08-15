@@ -1,0 +1,18 @@
+{% extends "recruitment/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% translate "Exclude subject" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            {% blocktranslate %}Are you sure you want to exclude this subject from {{ study }}?{% endblocktranslate %}
+            {% translate 'Alternatively you could ask another recruiter with a higher privacy level to contact this subject.' %}
+        </p>
+        <div class="d-print-none mb-3">
+            <a href="{% url 'recruitment:recruitment-open' study.pk %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
+            <button class="btn btn-danger mb-1">{% translate 'Confirm' %}</button>
+        </div>
+    </form>
+{% endblock %}
