@@ -16,6 +16,12 @@ describes how this feature can be activated and used.
     castellum by default. However, some additional steps are needed.
 
 
+## Install gdal
+
+[gdal](https://gdal.org) is a translator library that is necessary for the geofilters app and
+needs to be installed as a system package.
+
+
 ## Set up Nominatim
 
 Nominatim is a free geocoder from the OpenStreetMap ecosystem. A public
