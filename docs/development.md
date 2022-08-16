@@ -2,7 +2,7 @@
 
 The following commands will install everything and start a local testserver (on ubuntu):
 
-    sudo apt install python3-pip python3-venv npm make gettext gdal-bin libsqlite3-mod-spatialite
+    sudo apt install python3-pip python3-venv npm make gettext
     cd castellum
     make  # start castellum
 
