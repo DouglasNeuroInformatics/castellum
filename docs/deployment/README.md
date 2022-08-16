@@ -169,14 +169,14 @@ steps before you can start using it.
 #### Example 1
 
 An example deployment configuration using Docker, uWSGI, PostgreSQL, and
-LDAP is located in [Example 1](example_1/INFO.md). You can try this
+LDAP is located in [Example 1](example_1/README.md). You can try this
 configuration yourself by executing the `start.sh` script in that
 folder. Pass `--demo` to automatically create demo content.
 
 #### Example 2
 
 A setup guide for a manual deployment of Castellum is provided in
-[Example 2](example_2/INFO.md)
+[Example 2](example_2/README.md)
 
 ## Updates
 

@@ -3,7 +3,7 @@
 Welcome to the deployment and development documentation of Castellum! If
 you are a system administrator looking to install Castellum on your
 local infrastructure, please refer to the [Deployment
-Documentation](deployment/INFO.md). If you are a developer looking for
+Documentation](deployment/README.md). If you are a developer looking for
 ways to contribute to the Castellum project, please take a look at our
 [Contributing Guidelines](../contributing.md) and the [Development
 Documentation](development.md).
@@ -11,10 +11,10 @@ Documentation](development.md).
 ## Deployment
 
 Castellum supports a variety of deployment configurations, two exemplary
-deployments are illustrated in [Example 1](deployment/example_1/INFO.md)
-and [Example 2](deployment/example_2/INFO.md), respectively. For general
+deployments are illustrated in [Example 1](deployment/example_1/README.md)
+and [Example 2](deployment/example_2/README.md), respectively. For general
 notes on setting up Castellum, please consult the [Deployment
-Documentation](deployment/INFO.md).
+Documentation](deployment/README.md).
 
 ## Development
 
