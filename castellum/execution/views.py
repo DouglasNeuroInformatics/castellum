@@ -352,6 +352,9 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
                 subject=subject,
                 status=Participation.INVITED,
             ).get()
+            monitoring_logger.info('Pseudonym resolved: domain {} by {}'.format(
+                form.cleaned_data['domain'], self.request.user.pk
+            ))
             return redirect('execution:participation-detail', self.study.pk, participation.pk)
         except ObjectDoesNotExist:
             messages.warning(self.request, _('No match found'))

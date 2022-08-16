@@ -217,6 +217,9 @@ class SubjectResolveView(PermissionRequiredMixin, FormView):
     def form_valid(self, form):
         try:
             subject = get_subject(form.cleaned_data['domain'], form.cleaned_data['pseudonym'])
+            monitoring_logger.info('Pseudonym resolved: domain {} by {}'.format(
+                form.cleaned_data['domain'], self.request.user.pk
+            ))
             return redirect('subjects:detail', subject.uuid)
         except Subject.DoesNotExist:
             messages.warning(self.request, _('No match found'))
