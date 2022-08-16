@@ -12,7 +12,8 @@ docker-compose run --rm web django-admin migrateall
 docker-compose run --rm scheduler django-admin migrate
 
 # Load recommended data
-docker-compose run --rm web django-admin loaddata groups study_types study_groups resources attribute_descriptions
+docker-compose run --rm web django-admin loaddata groups study_types study_groups resources
+docker-compose run --rm web django-admin create_attribute_descriptions
 
 # Load optional demo data (WARNING: do not use in production!)
 if [ "$1" = '--demo' ]; then

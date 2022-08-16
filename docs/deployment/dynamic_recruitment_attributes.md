@@ -37,7 +37,11 @@ field type            attribute value   filter value comparison
 You can create attribute descriptions in the django admin UI at
 `/admin/recruitment/attributedescription/add/`.
 
-The management command `loaddata attribute_descriptions` will create a
+This GUI also allows to export and import attribute descriptions as
+JSON. This allows organizations to easily exchange attribute
+descriptions.
+
+The management command `create_attribute_descriptions` will create a
 small set of example attribute descriptions. If you don't want to create
 your schema from scratch you can use them as a starting point.
 

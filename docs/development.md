@@ -4,13 +4,10 @@ The following commands will install everything and start a local testserver (on 
 
     sudo apt install python3-pip python3-venv npm make gettext gdal-bin libsqlite3-mod-spatialite
     cd castellum
+    make install_githooks
     make  # start castellum
 
 You can login with user "admin" and password "password".
-
-**Note**: Python needs to be compiled with
-`SQLITE_ENABLE_LOAD_EXTENSION`. This is usually the case for system
-packages, but e.g. with pyenv you will have to enable it yourself.
 
 # Things to be aware of when working on the castellum code
 
@@ -39,7 +36,7 @@ packages, but e.g. with pyenv you will have to enable it yourself.
     `castellum.studies.backends.StudyPermissionBackend` for details.
 
 -   The available recruitment attributes can be changed at runtime. The
-    ones created with `django-admin loaddata attribute_descriptions`
+    ones created with `django-admin create_attribute_descriptions`
     merely serve as examples. See `dynamic_attributes.md` for details.
 
 -   The available groups can be changed at runtime. The ones created
