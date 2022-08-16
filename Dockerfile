@@ -16,7 +16,7 @@ RUN mkdir -p /media
 RUN chown uwsgi /media
 VOLUME /media
 
-RUN apk update && apk add uwsgi uwsgi-python uwsgi-router_static python3 py3-pip py3-wheel py3-psycopg2 py3-pyldap py3-cryptography libmagic gdal gettext
+RUN apk update && apk add uwsgi uwsgi-python uwsgi-router_static python3 py3-pip py3-wheel py3-psycopg2 py3-pyldap py3-cryptography libmagic gettext
 
 WORKDIR code/
 

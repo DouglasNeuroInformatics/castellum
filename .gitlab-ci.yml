@@ -21,7 +21,7 @@ test:
     - name: postgis/postgis:latest
       alias: db_contacts
   before_script:
-    - apt-get update -q && apt-get install -y -qq python3-pip hunspell hunspell-de-de gdal-bin python3-psycopg2
+    - apt-get update -q && apt-get install -y -qq python3-pip hunspell hunspell-de-de python3-psycopg2
     - pip3 install -e .[test]
   script:
     - isort -c castellum tests

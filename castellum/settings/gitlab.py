@@ -25,5 +25,5 @@ DATABASES = {
 CASTELLUM_API_ENABLED = True
 
 # Setup geofilters
-INSTALLED_APPS.append('django.contrib.gis')
-INSTALLED_APPS.append('castellum.geofilters')
+# INSTALLED_APPS.append('django.contrib.gis')
+# INSTALLED_APPS.append('castellum.geofilters')
