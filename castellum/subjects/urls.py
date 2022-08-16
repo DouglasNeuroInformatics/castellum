@@ -47,11 +47,13 @@ from .views import SubjectDetailView
 from .views import SubjectExportView
 from .views import SubjectPseudonymsView
 from .views import SubjectPseudonymView
+from .views import SubjectResolveView
 from .views import SubjectSearchView
 
 app_name = 'subjects'
 urlpatterns = [
     path('', SubjectSearchView.as_view(), name='index'),
+    path('resolve/', SubjectResolveView.as_view(), name='resolve'),
     path(
         'representatives/',
         LegalRepresentativeSearchView.as_view(),
