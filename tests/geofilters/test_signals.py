@@ -9,12 +9,14 @@ from model_bakery import baker
 
 from castellum.contacts.models import Address
 from castellum.geofilters.models import Geolocation
+from tests.markers import skip_if_geofilters_not_installed
 
 NOMINATIM = {'domain': 'localhost'}
 
 Location = namedtuple('Location', ['longitude', 'latitude'])
 
 
+@skip_if_geofilters_not_installed()
 @patch.object(Nominatim, 'geocode')
 def test_geocode_on_create(geocode, settings, db):
     settings.NOMINATIM = NOMINATIM
@@ -24,6 +26,7 @@ def test_geocode_on_create(geocode, settings, db):
     assert Geolocation.objects.get().point.tuple == (0, 0)
 
 
+@skip_if_geofilters_not_installed()
 @patch.object(Nominatim, 'geocode')
 def test_geocode_on_update(geocode, settings, address):
     settings.NOMINATIM = NOMINATIM
@@ -34,6 +37,7 @@ def test_geocode_on_update(geocode, settings, address):
     assert Geolocation.objects.get().point.tuple == (1, 1)
 
 
+@skip_if_geofilters_not_installed()
 def test_cleanup_on_delete(address):
     baker.make(Geolocation, contact=address.contact, point=Point(0, 0))
     assert Geolocation.objects.exists()
@@ -42,6 +46,7 @@ def test_cleanup_on_delete(address):
     assert not Geolocation.objects.exists()
 
 
+@skip_if_geofilters_not_installed()
 @patch.object(Nominatim, 'geocode')
 def test_cleanup_on_empty(geocode, settings, address):
     settings.NOMINATIM = NOMINATIM
@@ -54,6 +59,7 @@ def test_cleanup_on_empty(geocode, settings, address):
     assert not Geolocation.objects.exists()
 
 
+@skip_if_geofilters_not_installed()
 @patch.object(Nominatim, 'geocode')
 def test_cleanup_on_exception(geocode, settings, address):
     settings.NOMINATIM = NOMINATIM

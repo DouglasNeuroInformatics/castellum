@@ -10,6 +10,7 @@ from castellum.geofilters.models import Geolocation
 from castellum.recruitment import filter_queries
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
+from tests.markers import skip_if_geofilters_not_installed
 
 POLYGON = StringIO("""{
     "properties": null,
@@ -56,6 +57,7 @@ def make_contact(point):
         return location.contact
 
 
+@skip_if_geofilters_not_installed()
 @pytest.mark.django_db
 @pytest.mark.parametrize('filter', [POLYGON, FEATURE_COLLECTION])
 @pytest.mark.parametrize('point,expected', [
@@ -75,6 +77,7 @@ def test_geofilter(filter, point, expected):
         assert not Subject.objects.filter(q).exists()
 
 
+@skip_if_geofilters_not_installed()
 @pytest.mark.django_db
 @pytest.mark.parametrize('filter', [POLYGON, FEATURE_COLLECTION])
 @pytest.mark.parametrize('point1,point2,expected', [
