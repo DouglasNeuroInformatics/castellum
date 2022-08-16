@@ -29,6 +29,9 @@ class Geolocation(models.Model):
     point = models.PointField()
     contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
 
+    class Meta:
+        app_label = 'geofilters'
+
 
 @checks.register()
 def nominatim_check(app_configs, **kwargs):
