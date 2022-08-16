@@ -101,13 +101,13 @@ MIDDLEWARE.append('axes.middleware.AxesMiddleware')
 AXES_META_PRECEDENCE_ORDER = ['HTTP_X_REAL_IP']
 
 # Setup geofilters
-INSTALLED_APPS.append('django.contrib.gis')
-INSTALLED_APPS.append('castellum.geofilters')
-NOMINATIM = {
-    # see https://geopy.readthedocs.io/en/stable/#geopy.geocoders.Nominatim
-    'domain': 'nominatim:8080',
-    'scheme': 'http',
-}
+# INSTALLED_APPS.append('django.contrib.gis')
+# INSTALLED_APPS.append('castellum.geofilters')
+# NOMINATIM = {
+#     # see https://geopy.readthedocs.io/en/stable/#geopy.geocoders.Nominatim
+#     'domain': 'nominatim:8080',
+#     'scheme': 'http',
+# }
 
 SCHEDULER_URL = os.getenv('CASTELLUM_SCHEDULER_URL', 'http://scheduler:8000')
 SCHEDULER_TOKEN = 'CHANGEME'
