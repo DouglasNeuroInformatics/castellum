@@ -1,12 +1,13 @@
 ## Development setup
 
-The following commands will install everything and start a local testserver (on ubuntu):
+First install some system packages. The exact command depends on your
+operating system. This is an example for Ubuntu:
 
-    sudo apt install python3-pip python3-venv npm make gettext gdal-bin libsqlite3-mod-spatialite
-    cd castellum
-    make  # start castellum
+    sudo apt install python3-pip python3-venv npm make gettext sqlite3 libmagic1 gdal-bin libsqlite3-mod-spatialite
 
-You can login with user "admin" and password "password".
+After that, running `make` inside the project folder will install all
+dependencies and start a test server. You can then log in with username
+"admin" and password "password".
 
 **Note**: Python needs to be compiled with
 `SQLITE_ENABLE_LOAD_EXTENSION`. This is usually the case for system
