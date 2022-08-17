@@ -29,7 +29,7 @@ initialized with data from OSM. The import is very demanding and can take
 hours, depending on the data. This is an example for loading the address
 data for Berlin (~20mins):
 
-    cd docs/example_deployment/
+    cd docs/deployment/example/
     wget 'https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf' -O nominatim/berlin.osm.pbf
     docker-compose run --rm nominatim sh /app/init.sh /data/berlin.osm.pbf postgresdata 4
     rm nominatim/berlin.osm.pbf
