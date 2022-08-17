@@ -2,7 +2,7 @@ FROM node
 COPY package.json .
 RUN npm install --omit=dev
 
-FROM alpine:3.14.7
+FROM alpine:3.16.2
 
 ENV PYTHONUNBUFFERED 1
 
