@@ -75,3 +75,22 @@ docker:push:
       fi
   rules:
     - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_TAG)
+
+dependabot:
+  image:
+    name: dependabot/dependabot-core
+  variables:
+    GIT_STRATEGY: none
+    PROJECT_PATH: $CI_PROJECT_PATH
+    GITLAB_HOSTNAME: $CI_SERVER_HOST
+    GITLAB_ACCESS_TOKEN: $dependabot_token
+  script:
+    - git clone https://github.com/dependabot/dependabot-script.git
+    - cd dependabot-script
+    - bundle config set --local path "vendor"
+    - bundle install --jobs 4 --retry 3
+    - PACKAGE_MANAGER=pip bundle exec ruby ./generic-update-script.rb
+    - PACKAGE_MANAGER=npm_and_yarn bundle exec ruby ./generic-update-script.rb
+    - PACKAGE_MANAGER=docker bundle exec ruby ./generic-update-script.rb
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
