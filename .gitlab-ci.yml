@@ -89,6 +89,7 @@ dependabot:
     - cd dependabot-script
     - bundle config set --local path "vendor"
     - bundle install --jobs 4 --retry 3
+    - sed -i 's/# Get update details for the dependency \#/puts "Dep \#{dep.name} \#{dep.version}"/' generic-update-script.rb
 
     - export DEPENDABOT_NATIVE_HELPERS_PATH="$PWD/native-helpers"
     - export PATH="$PATH:$DEPENDABOT_NATIVE_HELPERS_PATH/python/bin"
