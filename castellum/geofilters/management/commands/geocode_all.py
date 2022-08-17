@@ -18,8 +18,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
+from django.core.management.base import CommandError
 
 from castellum.contacts.models import Address
 from castellum.geofilters.geocode import geocode_address
@@ -44,6 +46,8 @@ class Command(BaseCommand):
     help = 'Fetch missing geolocations.'
 
     def handle(self, *args, **options):
+        if not hasattr(settings, 'NOMINATIM'):
+            raise CommandError('NOMINATIM not configured')
         count = fetch_missing_geolocations()
         if options['verbosity'] > 0:
             self.stdout.write('Created {} geolocations'.format(count))
