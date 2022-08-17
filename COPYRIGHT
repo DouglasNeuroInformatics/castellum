@@ -2,7 +2,7 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Source: https://git.mpib-berlin.mpg.de/castellum/castellum/
 
 Files: *
-Copyright: 2018-2021 MPIB <https://www.mpib-berlin.mpg.de/>,
+Copyright: 2018-2022 MPIB <https://www.mpib-berlin.mpg.de/>,
     2018-2019 MPI-CBS <https://www.cbs.mpg.de/>,
     2018-2019 MPIP <http://www.psych.mpg.de/>
 License: AGPL-3+
