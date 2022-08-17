@@ -2,12 +2,6 @@ stages:
   - test
   - push
 
-workflow:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_TAG
-
 test:
   stage: test
   image: buildpack-deps
@@ -30,6 +24,8 @@ test:
     - django-admin makemigrations --dry-run --check --noinput
     - pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || ($CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_TAG))
 
 test-js:
   stage: test
@@ -37,7 +33,8 @@ test-js:
   script:
     - npx eslint castellum
   rules:
-    - changes:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || ($CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_TAG))
+      changes:
         - castellum/**/*.js
 
 docker:build:
@@ -56,6 +53,8 @@ docker:build:
     paths:
     - image.tar
     when: on_success
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || ($CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_TAG))
 
 docker:push:
   stage: push
@@ -75,5 +74,4 @@ docker:push:
         crane push image.tar "$CI_REGISTRY_IMAGE:stable"
       fi
   rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_TAG)
