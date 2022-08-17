@@ -33,7 +33,7 @@ class Geolocation(models.Model):
 @checks.register()
 def nominatim_check(app_configs, **kwargs):
     errors = []
-    if not hasattr(settings, 'NOMINATIM') and settings.PRODUCTION:
+    if not hasattr(settings, 'NOMINATIM') and not settings.DEBUG:
         errors.append(
             checks.Info(
                 'NOMINATIM not configured; geocoding is disabled',
