@@ -1,8 +1,0 @@
-include README.md
-include LICENSE
-recursive-include castellum/static *
-recursive-include castellum/*/static *
-recursive-include castellum/templates *.html
-recursive-include castellum/*/templates *.html
-recursive-include castellum/*/management *.py
-graft castellum/locale
