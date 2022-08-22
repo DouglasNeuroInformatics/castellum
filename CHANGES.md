@@ -1,3 +1,10 @@
+# 0.80.1 (2022-08-22)
+
+## bug fixes
+
+-   Fix background color of execution tags (was white on white)
+
+
 # 0.80.0 (2022-08-09)
 
 ## breaking changes
