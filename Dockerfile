@@ -33,4 +33,4 @@ COPY castellum/ castellum
 RUN django-admin collectstatic --no-input --settings=castellum.settings.bare && \
     django-admin compilemessages -l de
 
-CMD ["uwsgi", "uwsgi.ini", "--cheaper", "2", "--threads", "4"]
+CMD ["uwsgi", "uwsgi.ini", "--processes", "10", "--cheaper", "1"]
