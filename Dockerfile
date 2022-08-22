@@ -33,4 +33,4 @@ COPY castellum/ castellum
 RUN django-admin collectstatic --no-input --settings=castellum.settings.bare && \
     django-admin compilemessages -l de
 
-CMD ["uwsgi", "uwsgi.ini", "--die-on-term"]
+CMD ["uwsgi", "uwsgi.ini"]
