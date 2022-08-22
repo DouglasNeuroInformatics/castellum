@@ -1,8 +1,14 @@
 # Deployment
 
-Castellum is a django project. You should refer to the [django
+## Familiarize yourself with Django
+
+Castellum is first and foremost a Django project. The [Django
 documentation](https://docs.djangoproject.com/en/stable/howto/deployment/)
-for most questions concerning deployment.
+has extensive guidance on how to deploy Django, including several
+detailled examples.
+
+This document assumes that you have familiarized yourself with Django
+deployment and only explains the pieces that are specific to Castellum.
 
 ## Before you start
 
