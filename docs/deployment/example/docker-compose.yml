@@ -62,12 +62,10 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: castellum.settings.deployment
       CASTELLUM_SCHEDULER_URL:
-    command: "uwsgi uwsgi.ini --die-on-term"
     ports:
       - "8000:8000"
     volumes:
       - ./settings.py:/code/castellum/settings/deployment.py:ro
-      - ./uwsgi.ini:/code/uwsgi.ini:ro
     depends_on:
       - db_default
       - db_contacts

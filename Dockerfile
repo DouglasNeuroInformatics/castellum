@@ -21,7 +21,7 @@ RUN apk update && apk add uwsgi uwsgi-python uwsgi-router_static python3 py3-pip
 WORKDIR code/
 
 RUN mkdir castellum
-COPY setup.cfg setup.py LICENSE ./
+COPY setup.cfg setup.py uwsgi.ini LICENSE ./
 COPY castellum/__init__.py castellum/
 COPY --from=0 node_modules/ node_modules
 
@@ -32,3 +32,5 @@ COPY castellum/ castellum
 
 RUN django-admin collectstatic --no-input --settings=castellum.settings.bare && \
     django-admin compilemessages -l de
+
+CMD ["uwsgi", "uwsgi.ini", "--die-on-term"]
