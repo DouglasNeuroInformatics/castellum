@@ -34,7 +34,7 @@ on different root servers).
 
 > FIXME: Any recommended hardware specs?
 
-For simplicity, this guide uses the domain name `castellum.mydomain.org`
+For simplicity, this guide uses the domain name `castellum.example.com`
 and implicitly presumes a corresponding valid pem/key pair for SSL
 certification is available. Following the recommendation of the main
 deployment documentation, we further presume that Castellum is going to
@@ -375,10 +375,10 @@ systemctl restart gunicorn-castellum
 
 First modify the provided configuration file `castellum.conf`:
 
--   `server_name`: replace `castellum.mydomain.org` with your actual
+-   `server_name`: replace `castellum.example.com` with your actual
     domain name in **both** `server` blocks
 -   `ssl_certificate` and `ssl_certificate_key`: replace
-    `/etc/castellum/castellum.mydomain.org.pem` and `.key`,
+    `/etc/castellum/castellum.example.com.pem` and `.key`,
     respectively, with your actual key pair
 
 Next copy the provided nginx configuration file and test it:

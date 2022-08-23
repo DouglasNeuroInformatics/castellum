@@ -12,7 +12,7 @@ from .default import *
 SECRET_KEY = os.getenv('DJANGO_SECRET')
 
 # Define hosts than can connect
-ALLOWED_HOSTS = ['.mydomain.org', '192.168.10.*']  # CHANGEME
+ALLOWED_HOSTS = ['.example.com', '192.168.10.*']  # CHANGEME
 
 # Database setup. NOTE: The values of `NAME` and `USER` given here have to match
 # the actual database name and user set in postgres! See docs/example_2/guide.md
@@ -38,17 +38,17 @@ DATABASES = {
 PROTECTED_MEDIA_SERVER = 'nginx'
 
 # Email settings
-DEFAULT_FROM_EMAIL = 'Subject Recruitment at MyDomain <sr@mydomain.org>'  # CHANGEME
+DEFAULT_FROM_EMAIL = 'Subject Recruitment at Example <sr@example.com>'  # CHANGEME
 SERVER_EMAIL = 'root@castellum-sv'  # CHANGEME
-EMAIL_HOST = 'smtp.mydomain.org'  # CHANGEME
+EMAIL_HOST = 'smtp.example.com'  # CHANGEME
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # People who get code error notifications in production
 # CHANGEME
 ADMINS = [
-    ('admin1', 'admin1@mydomain.org'),
-    ('admin2', 'admin2@mydomain.org'),
+    ('admin1', 'admin1@example.com'),
+    ('admin2', 'admin2@example.com'),
 ]
 
 LOGGING = {
@@ -109,4 +109,4 @@ AUTH_LDAP_FIND_GROUP_PERMS = True
 AUTH_LDAP_CACHE_GROUPS = True
 AUTH_LDAP_GROUP_CACHE_TIMEOUT = 300  # in seconds
 
-CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@mydomain.org']  # CHANGEME
+CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']  # CHANGEME
