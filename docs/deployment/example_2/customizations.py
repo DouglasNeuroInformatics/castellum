@@ -3,23 +3,28 @@
 #
 # Lines that need to be modified based on your setup are marked CHANGEME
 import os
+
 import ldap
 from django_auth_ldap.config import LDAPSearch, NestedActiveDirectoryGroupType
 
 from .default import *
 
 # Define hosts than can connect
-ALLOWED_HOSTS = ['.mydomain.org','192.168.10.*'] # CHANGEME
+ALLOWED_HOSTS = ['.mydomain.org', '192.168.10.*']  # CHANGEME
 
 # People who get code error notifications in production
 # CHANGEME
-ADMINS = [('admin1', 'admin1@mydomain.org'),
-          ('admin2', 'admin2@mydomain.org')]
+ADMINS = [
+    ('admin1', 'admin1@mydomain.org'),
+    ('admin2', 'admin2@mydomain.org'),
+]
 
 # People who get notified of broken links
 # CHANGEME
-MANAGERS = [('manager1', 'manager1@mydomain.org'),
-            ('manager2', 'manager2@mydomain.org')]
+MANAGERS = [
+    ('manager1', 'manager1@mydomain.org'),
+    ('manager2', 'manager2@mydomain.org'),
+]
 
 # Logging setup. If `DEBUG` is `True`, log-levels are set to `DEBUG` and
 # console output keeps track of django internals
@@ -104,7 +109,7 @@ DATABASES = {
         'NAME': 'castellum_contacts',
         'USER': 'castellum_contacts_user',
         'PASSWORD': db_contacts_pw,
-        'HOST': 'castellum-db', # CHANGEME
+        'HOST': 'castellum-db',  # CHANGEME
     },
 }
 
@@ -129,18 +134,18 @@ AUTH_LDAP_GROUP_SEARCH = LDAPSearch(group_lookup, ldap.SCOPE_SUBTREE, "(objectCa
 AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
 AUTH_LDAP_FIND_GROUP_PERMS = True
 AUTH_LDAP_CACHE_GROUPS = True
-AUTH_LDAP_GROUP_CACHE_TIMEOUT = 300 # in seconds
+AUTH_LDAP_GROUP_CACHE_TIMEOUT = 300  # in seconds
 
 # Use nginx to serve uploaded files
 PROTECTED_MEDIA_SERVER = 'nginx'
 
 # Email settings
-DEFAULT_FROM_EMAIL = 'Subject Recruitment at MyDomain <sr@mydomain.org>' # CHANGEME
-SERVER_EMAIL = 'root@castellum-sv' # CHANGEME
-EMAIL_HOST = 'smtp.mydomain.org' # CHANGEME
+DEFAULT_FROM_EMAIL = 'Subject Recruitment at MyDomain <sr@mydomain.org>'  # CHANGEME
+SERVER_EMAIL = 'root@castellum-sv'  # CHANGEME
+EMAIL_HOST = 'smtp.mydomain.org'  # CHANGEME
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@mydomain.org'] # CHANGEME
+CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@mydomain.org']  # CHANGEME
 CASTELLUM_API_ENABLED = False
 
 # If you want to allow external services to automatically add subjects

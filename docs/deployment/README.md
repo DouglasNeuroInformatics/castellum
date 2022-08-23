@@ -29,7 +29,6 @@ You can login with user "admin" and password "password".
 
 **Note** This test-server is solely intended for demonstration and
 development purposes. Do **not** use this setup for production!
-{:.note}
 
 ## Before You Actually Start
 
@@ -61,9 +60,8 @@ the application itself.
 
 These are some additional security measures we strongly recommend:
 
-- Use HTTPS transport encryption
-- [Restrict access by IP
-  address](https://nginx.org/en/docs/http/ngx_http_access_module.html)
+-   Use HTTPS transport encryption
+-   [Restrict access by IP address](https://nginx.org/en/docs/http/ngx_http_access_module.html)
 
 Also see the [django documentation on
 security](https://docs.djangoproject.com/en/2.2/topics/security/).
@@ -86,18 +84,19 @@ backups, will be deleted.
 There are some regular tasks that should be executed independently from
 user requests. We provide the following management commands for that:
 
-- `clearsessions`: Delete expired sessions.
-- `cleanup_media`: Delete unused uploaded files.
-- `cleanup_availability`: Remove obsolete "not available until" entries.
-- `cleanup_underage_consents`: Remove recruitment consents for underage
-    subjects 2 years after they have come of age.
-- `cleanup_filter_trials`: Delete filter trials as they are meant to be
-    used only once.
-- `notify_to_be_deleted`: Automatically notify about content that should
-    be deleted.
-- `notify_sessions_end`: Remind study members to finish a study when
+-   `clearsessions`: Delete expired sessions.
+-   `cleanup_media`: Delete unused uploaded files.
+-   `cleanup_availability`: Remove obsolete "not available until"
+    entries.
+-   `cleanup_underage_consents`: Remove recruitment consents for
+    underage subjects 2 years after they have come of age.
+-   `cleanup_filter_trials`: Delete filter trials as they are meant to
+    be used only once.
+-   `notify_to_be_deleted`: Automatically notify about content that
+    should be deleted.
+-   `notify_sessions_end`: Remind study members to finish a study when
     sessions end.
-- `send_appointment_reminders`: Send email reminders to subjects with
+-   `send_appointment_reminders`: Send email reminders to subjects with
     upcoming appointments. If the subjects have no email address, a note
     is sent to the respective study coordinators instead.
 
@@ -109,21 +108,18 @@ brings its own complexity. We recommend to use Docker if you already
 have experience with it. In both scenarios, however, some things need to
 be considered before deploying:
 
-- **Prerequisites** You will need
-
-    - Linux server with root access
-    - Domain name and TLS certificate
-    - SMTP details
-    - LDAP details (optional)
-
-- **Database Setup** Castellum splits information into two databases for
+-   **Prerequisites** You will need
+    -   Linux server with root access
+    -   Domain name and TLS certificate
+    -   SMTP details
+    -   LDAP details (optional)
+-   **Database Setup** Castellum splits information into two databases for
     enhanced security. This mechanism is most effective if those two
     databases are *physically* separated.
-- **Optional Features** Decide which optional features you want to use.
+-   **Optional Features** Decide which optional features you want to use.
     They are described in the following separate documents:
-
-    - [geo filters](geo.md)
-    - [street autocompletion](street_autocompletion.md)
+    -   [geo filters](geo.md)
+    -   [street autocompletion](street_autocompletion.md)
 
 Once you come to a decision on the above mentioned points, please refer
 to the corresponding sub-sections for details about the respective
@@ -134,38 +130,38 @@ deployment strategy.
 After installing Castellum on your server there are some additional
 steps before you can start using it.
 
-1. Adapt the settings. See `castellum/settings/default/` for the full
-   list of available settings.
+1.  Adapt the settings. See `castellum/settings/default/` for the full
+    list of available settings.
 
-   The most important ones are listed in the [django deployment
-   checklist](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/).
-   You should also set `PRODUCTION = True` to disable Castellum's demo
-   features.
+    The most important ones are listed in the [django deployment
+    checklist](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/).
+    You should also set `PRODUCTION = True` to disable Castellum's demo
+    features.
 
-2. Check for some common issues:
+2.  Check for some common issues:
 
-       django-admin check --deploy
+        django-admin check --deploy
 
-3. Run migrations on all databases:
+3.  Run migrations on all databases:
 
-       django-admin migrateall
+        django-admin migrateall
 
-4. Load recommended data. This is not strictly necessary, but it usually
-   makes sense to start from these defaults:
+4.  Load recommended data. This is not strictly necessary, but it
+    usually makes sense to start from these defaults:
 
-       django-admin loaddata groups study_types study_groups resources attribute_descriptions
+        django-admin loaddata groups study_types study_groups resources attribute_descriptions
 
-   **Warning**: If you run this command a second time, the database will
-   be reset and all edits will be lost.
+    **Warning**: If you run this command a second time, the database
+    will be reset and all edits will be lost.
 
-5. Create and activate an initial user. This user can then be used to
-   activate (i.e. set expiration dates for) all further users:
+5.  Create and activate an initial user. This user can then be used to
+    activate (i.e. set expiration dates for) all further users:
 
-       django-admin createsuperuser --username admin
-       django-admin activate_user admin
+        django-admin createsuperuser --username admin
+        django-admin activate_user admin
 
-   See the [end-user documentation](https://castellum.mpib.berlin/documentation/en/roles.html#administrator)
-   for further information.
+    See the [end-user documentation](https://castellum.mpib.berlin/documentation/en/roles.html#administrator)
+    for further information.
 
 ### Deployment Examples
 
