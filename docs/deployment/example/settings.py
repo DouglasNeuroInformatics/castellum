@@ -79,7 +79,7 @@ LOGGING = {
 
 # LDAP
 # See https://django-auth-ldap.readthedocs.io/
-AUTHENTICATION_BACKENDS.append("django_auth_ldap.backend.LDAPBackend")
+AUTHENTICATION_BACKENDS.append('django_auth_ldap.backend.LDAPBackend')
 
 AUTH_LDAP_SERVER_URI = 'ldap://ldap:3389'
 AUTH_LDAP_BIND_DN = 'cn=admin,dc=example,dc=org'
