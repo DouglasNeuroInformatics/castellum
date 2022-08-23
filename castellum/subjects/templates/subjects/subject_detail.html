@@ -4,9 +4,9 @@
 {% block title %}{% translate "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    {% if not subject.contact.is_complete or not subject.has_legal_basis %}
+    {% if not subject.contact.is_complete or not subject.has_legal_basis or subject.consent_action_required %}
         <p class="alert alert-danger" role="alert">
-            <strong>{% translate 'Incomplete data' %}.</strong> {% translate 'Please edit data sets marked with' %} {% icon 'exclamation-triangle' label=_('Missing values') %}
+            <strong>{% translate 'Action required' %}.</strong> {% translate 'Please edit data sets marked with' %} {% icon 'exclamation-triangle' label=_('Action required') %}
         </p>
     {% endif %}
 
