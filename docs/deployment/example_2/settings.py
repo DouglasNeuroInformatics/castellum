@@ -109,4 +109,15 @@ AUTH_LDAP_FIND_GROUP_PERMS = True
 AUTH_LDAP_CACHE_GROUPS = True
 AUTH_LDAP_GROUP_CACHE_TIMEOUT = 300  # in seconds
 
+# See https://github.com/xi/django-mfa3
+MFA_DOMAIN = 'example.com'
+MFA_SITE_TITLE = 'Castellum Demo'
+
+# Limit login attempts
+# See https://django-axes.readthedocs.io/
+INSTALLED_APPS.append('axes')
+AUTHENTICATION_BACKENDS.insert(0, 'axes.backends.AxesBackend')
+MIDDLEWARE.append('axes.middleware.AxesMiddleware')
+AXES_META_PRECEDENCE_ORDER = ['HTTP_X_REAL_IP']
+
 CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']  # CHANGEME
