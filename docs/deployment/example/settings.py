@@ -8,6 +8,8 @@ from .default import *
 # FIXME: These values need to be changed
 SECRET_KEY = 'CHANGEME'
 
+ALLOWED_HOSTS = ['*']
+
 # Only postgres/postgis are officially supported for Castellum.
 DATABASES = {
     'default': {
@@ -25,8 +27,6 @@ DATABASES = {
         'HOST': 'db_contacts',
     }
 }
-
-ALLOWED_HOSTS = ['*']
 
 MEDIA_ROOT = Path('/media')
 PROTECTED_MEDIA_SERVER = 'uwsgi'
