@@ -3,7 +3,7 @@ import os
 import ldap
 from django_auth_ldap.config import LDAPSearch
 
-from castellum.settings.default import *  # isort:skip
+from .default import *
 
 # FIXME: These values need to be changed
 SECRET_KEY = 'CHANGEME'
@@ -28,17 +28,11 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['*']
 
-TIME_ZONE = 'Europe/Berlin'
-
 MEDIA_ROOT = Path('/media')
 PROTECTED_MEDIA_SERVER = 'uwsgi'
 
 # The example deployment does not contain a mail server, so use dummy instead
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# See https://github.com/xi/django-mfa3
-MFA_DOMAIN = 'example.com'
-MFA_SITE_TITLE = 'Castellum Demo'
 
 # See https://docs.djangoproject.com/en/stable/topics/logging/
 ADMINS = [('admin', 'admin@example.com')]
@@ -69,17 +63,18 @@ LOGGING = {
         'monitoring': {
             'handlers': ['monitoring-file'],
             'level': 'INFO',
+            'propagate': False,
         },
-        'castellum': {
-            'handlers': ['console'],
-            'level': 'INFO',
-        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
     },
 }
 
 # LDAP
 # See https://django-auth-ldap.readthedocs.io/
-AUTHENTICATION_BACKENDS.append("django_auth_ldap.backend.LDAPBackend")
+AUTHENTICATION_BACKENDS.append('django_auth_ldap.backend.LDAPBackend')
 
 AUTH_LDAP_SERVER_URI = 'ldap://ldap:3389'
 AUTH_LDAP_BIND_DN = 'cn=admin,dc=example,dc=org'
@@ -88,10 +83,15 @@ AUTH_LDAP_USER_SEARCH = LDAPSearch('dc=example,dc=org', ldap.SCOPE_SUBTREE, '(ui
 AUTH_LDAP_USER_ATTR_MAP = {
     'first_name': 'givenName',
     'last_name': 'sn',
+    'email': 'mail',
 }
 # Alternatively you can manage permissions directly in LDAP
 # See https://django-auth-ldap.readthedocs.io/en/latest/permissions.html#using-groups-directly
 # AUTH_LDAP_FIND_GROUP_PERMS = True
+
+# See https://github.com/xi/django-mfa3
+MFA_DOMAIN = 'example.com'
+MFA_SITE_TITLE = 'Castellum Demo'
 
 # Limit login attempts
 # See https://django-axes.readthedocs.io/
@@ -113,3 +113,4 @@ SCHEDULER_URL = os.getenv('CASTELLUM_SCHEDULER_URL', 'http://scheduler:8000')
 SCHEDULER_TOKEN = 'CHANGEME'
 
 CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = 3
+CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']
