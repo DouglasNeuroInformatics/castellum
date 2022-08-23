@@ -28,8 +28,6 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['*']
 
-TIME_ZONE = 'Europe/Berlin'
-
 MEDIA_ROOT = Path('/media')
 PROTECTED_MEDIA_SERVER = 'uwsgi'
 
