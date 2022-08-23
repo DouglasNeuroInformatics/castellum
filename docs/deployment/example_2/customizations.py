@@ -26,8 +26,6 @@ MANAGERS = [
     ('manager2', 'manager2@mydomain.org'),
 ]
 
-# Logging setup. If `DEBUG` is `True`, log-levels are set to `DEBUG` and
-# console output keeps track of django internals
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -35,24 +33,10 @@ LOGGING = {
         'verbose': {
             'format': '[%(asctime)s] %(levelname)s %(name)s %(message)s'
         },
-        'simple': {
-            'format': '[%(asctime)s] %(levelname)s %(message)s',
-        },
-    },
-    'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
     },
     'handlers': {
         'console': {
             'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-        'console-debug': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
@@ -77,11 +61,11 @@ LOGGING = {
             'propagate': True,
         },
         'django': {
-            'handlers': ['console-debug'],
+            'handlers': ['console'],
             'propagate': True,
         },
         'django_auth_ldap': {
-            'handlers': ['console-debug'],
+            'handlers': ['console'],
             'propagate': True,
         },
     },
