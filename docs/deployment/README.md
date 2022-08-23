@@ -12,7 +12,7 @@ deployment and only explains the pieces that are specific to Castellum.
 
 ## Before you start
 
--   Decide whether you want to install castellum manually or use a
+-   Decide whether you want to install Castellum manually or use a
     docker image. Using the docker image saves you some steps in the
     installation process, but brings its own complexity. We recommend to
     use docker if you already have experience with it.
@@ -101,7 +101,7 @@ user requests. We provide the following management commands for that:
 
 ## Initial setup
 
-After installing castellum on your server there are some more steps
+After installing Castellum on your server there are some more steps
 before you can start using it:
 
 1.  Adapt the settings. See `castellum/settings/default/` for the full
@@ -109,7 +109,7 @@ before you can start using it:
 
     The most important ones are listed in the [django deployment
     checklist](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/).
-    You should also set `PRODUCTION = True` to disable castellum's demo
+    You should also set `PRODUCTION = True` to disable Castellum's demo
     features.
 
 2.  Check for some common issues:
@@ -139,6 +139,6 @@ before you can start using it:
 
 ## Updates
 
-After updating to a new version of castellum it is usually sufficient to
+After updating to a new version of Castellum it is usually sufficient to
 run `django-admin migrateall`. Any additional steps that are
 required will be mentioned in the release notes.

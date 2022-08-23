@@ -1,6 +1,6 @@
 # Autocompletion for street names
 
-To avoid typos, castellum provides auto completion for some fields such
+To avoid typos, Castellum provides auto completion for some fields such
 as country, city, and street. The completion for country and city is
 based on existing values from the database. This would not be a sensible
 approach for street names though. Instead, it is possible to provide a

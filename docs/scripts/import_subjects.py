@@ -1,4 +1,4 @@
-"""Import subjects from a CSV file into castellum.
+"""Import subjects from a CSV file into Castellum.
 
 Customize this script and copy it to ``castellum/subjects/management/commands/``,
 You can then execute it using ``django-admin import_subjects``.

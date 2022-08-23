@@ -46,7 +46,7 @@ your schema from scratch you can use them as a starting point.
 While changing informational data such as label and help text is safe,
 changing behavior (field type and choices) usually requires custom data
 migrations. There is currently no special support for attribute
-migrations in castellum. However, it should be possible to create such a
+migrations in Castellum. However, it should be possible to create such a
 migration using the available django interfaces.
 
 As a general rule, we recommend creating a new `AttributeDescription`
