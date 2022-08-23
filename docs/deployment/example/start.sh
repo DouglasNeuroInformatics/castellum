@@ -21,7 +21,7 @@ if [ "$1" = '--demo' ]; then
 fi
 
 echo ''
-echo 'castellum is running in the background.'
+echo 'Castellum is running in the background.'
 echo 'You can access it at http://127.0.0.1:8000/'
 echo 'run `docker-compose up` to attach to the running process.'
 echo 'run `docker-compose stop` to stop the running process.'

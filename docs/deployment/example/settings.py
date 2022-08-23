@@ -8,7 +8,7 @@ from .default import *
 # FIXME: These values need to be changed
 SECRET_KEY = 'CHANGEME'
 
-# Only postgres/postgis are officially supported for castellum.
+# Only postgres/postgis are officially supported for Castellum.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

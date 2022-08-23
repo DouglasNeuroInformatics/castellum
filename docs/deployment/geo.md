@@ -13,7 +13,7 @@ describes how this feature can be activated and used.
 -   After that we can check wether the subject lives inside of a
     user-defined area.
 -   Most dependencies are already installed and configured with
-    castellum by default. However, some additional steps are needed.
+    Castellum by default. However, some additional steps are needed.
 
 
 ## Set up Nominatim

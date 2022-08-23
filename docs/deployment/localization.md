@@ -73,7 +73,7 @@ available languages, which only leaves english:
     }
 
 Even though italian is not available in the UI, you can provide italian
-texts for all recruitment mails and configure castellum to use the
+texts for all recruitment mails and configure Castellum to use the
 corresponding locale:
 
     CASTELLUM_FALLBACK_LANGUAGE = 'en'

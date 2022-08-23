@@ -17,7 +17,7 @@ The following API endpoints can be enabled with the
 
 ## Authentication
 
-Each user in castellum has an automatically generated token. This token
+Each user in Castellum has an automatically generated token. This token
 must be included in the `Authorization` HTTP header:
 
     Authorization: token 740a8632-4df1-4fd9-b7c5-9aaaa6626de0

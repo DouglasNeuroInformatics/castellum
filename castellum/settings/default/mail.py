@@ -7,7 +7,7 @@ import datetime
 #     'language': 'en',
 #     'subject_prefix': '[Castellum] ',
 #     'recipients_text': '\n\nThis email was sent to: {}',
-#     'signature': '\n\n-- \nAutomatically sent by castellum',
+#     'signature': '\n\n-- \nAutomatically sent by Castellum',
 #     'connection': {
 #         # The full list of options is available at
 #         # https://docs.djangoproject.com/en/stable/topics/email/#django.core.mail.get_connection

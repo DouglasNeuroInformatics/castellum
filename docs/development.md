@@ -13,12 +13,12 @@ dependencies and start a test server. You can then log in with username
 `SQLITE_ENABLE_LOAD_EXTENSION`. This is usually the case for system
 packages, but e.g. with pyenv you will have to enable it yourself.
 
-# Things to be aware of when working on the castellum code
+# Things to be aware of when working on the Castellum code
 
 -   We assume a general familiarity with django, especially its
     [class based view system][1].
 
--   Apps in castellum are not meant to be reusable or independent. They
+-   Apps in Castellum are not meant to be reusable or independent. They
     merely act as a way to structure the code.
 
 -   Dependencies between modules follow some rules. Generally speaking,
