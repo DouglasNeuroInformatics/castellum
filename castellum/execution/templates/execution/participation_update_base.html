@@ -15,7 +15,7 @@
                 </a>
                 <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'attributes' %}active{% endif %}" href="{% url 'execution:attributes-update' study.pk participation.pk %}">{% translate 'Recruitment attributes' %}</a>
                 <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'data-protection' %}active{% endif %}" href="{% url 'execution:data-protection-update' study.pk participation.pk %}">
-                    {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age or subject.has_waiting_consent %}
+                    {% if subject.consent_action_required %}
                         {% icon 'exclamation-triangle' label=_('Missing values') %}
                     {% endif %}
                     {% translate 'Data protection' %}

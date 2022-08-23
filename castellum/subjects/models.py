@@ -191,6 +191,19 @@ class Subject(TimeStampedModel):
         )
 
     @cached_property
+    def consent_action_required(self):
+        try:
+            deprecated = self.consent.document.is_deprecated
+        except AttributeError:
+            deprecated = False
+
+        return (
+            self.has_consent_from_before_full_age
+            or self.has_waiting_consent
+            or deprecated
+        )
+
+    @cached_property
     def has_study_consent(self):
         from castellum.recruitment.models import Participation
         from castellum.studies.models import Study
