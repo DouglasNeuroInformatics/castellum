@@ -84,6 +84,7 @@ AUTH_LDAP_USER_SEARCH = LDAPSearch('dc=example,dc=org', ldap.SCOPE_SUBTREE, '(ui
 AUTH_LDAP_USER_ATTR_MAP = {
     'first_name': 'givenName',
     'last_name': 'sn',
+    'email': 'mail',
 }
 # Alternatively you can manage permissions directly in LDAP
 # See https://django-auth-ldap.readthedocs.io/en/latest/permissions.html#using-groups-directly

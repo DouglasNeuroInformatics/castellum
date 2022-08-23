@@ -11,6 +11,7 @@ gidNumber: 1000
 givenName: Vera
 sn: Adams
 homeDirectory: /home/vera
+mail: vera@example.org
 
 dn: cn=anna,dc=example,dc=org
 objectClass: person
@@ -25,3 +26,4 @@ gidNumber: 50
 givenName: Anna
 sn: Barker
 homeDirectory: /home/anna
+mail: anna@example.org
