@@ -7,7 +7,7 @@ in general, and Django and PostgreSQL specifically, is beneficial. To
 not needlessly clutter the main text, stubs of most configuration files
 are provided alongside this document:
 
--   `customizations.py` Exemplary Django settings file tailored to the
+-   `settings.py` Exemplary Django settings file tailored to the
     specifics detailed in this guide
 -   `gunicorn-castellum.service` Exemplary systemd unit file for
     gunicorn hosting Castellum
@@ -155,7 +155,7 @@ psql -c "GRANT ALL PRIVILEGES ON DATABASE castellum_default TO castellum_default
 
 **Note** The database name and user specifications have to coincide with
 `DATABASES['default']['NAME']` and `DATABASES['default']['USER']` given
-in `customizations.py`!
+in `settings.py`!
 
 Modify PostgreSQL's access policy configuration file `pg_hba.conf` to
 ensure local connections are allowed to access the `default` database:
@@ -193,7 +193,7 @@ psql -c "GRANT ALL PRIVILEGES ON DATABASE castellum_contacts TO castellum_contac
 
 **Note** Analogously, the database name and user specifications have to
 coincide with `DATABASES['contacts']['NAME']` and
-`DATABASES['contacts']['USER']` given in `customizations.py`!
+`DATABASES['contacts']['USER']` given in `settings.py`!
 
 Modify PostgreSQL's access policy configuration file `pg_hba.conf` to
 permit remote connections only from the `castellum-sv` host:
@@ -257,11 +257,11 @@ pip3 install -e .
 ```
 
 Now install Castellum in "editable" mode from its local path and copy
-the provided configuration file `customizations.py` to its Django
+the provided configuration file `settings.py` to its Django
 settings directory:
 
 ```bash
-cp customizations.py /opt/castellum/castellum/settings/
+cp settings.py /opt/castellum/castellum/settings/deployment.py
 pip install -e .
 ```
 
@@ -269,7 +269,7 @@ Next, generate a secret for Django and save it in an environment
 variable, e.g., `DJANGO_SECRET`. Then, check the Django configuration:
 
 ```bash
-export DJANGO_SETTINGS_MODULE="castellum.settings.customizations"
+export DJANGO_SETTINGS_MODULE="castellum.settings.deployment"
 cd /opt/castellum/
 django-admin check --deploy
 ```
