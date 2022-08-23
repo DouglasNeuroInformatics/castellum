@@ -36,10 +36,6 @@ PROTECTED_MEDIA_SERVER = 'uwsgi'
 # The example deployment does not contain a mail server, so use dummy instead
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# See https://github.com/xi/django-mfa3
-MFA_DOMAIN = 'example.com'
-MFA_SITE_TITLE = 'Castellum Demo'
-
 # See https://docs.djangoproject.com/en/stable/topics/logging/
 ADMINS = [('admin', 'admin@example.com')]
 LOGGING = {
@@ -92,6 +88,10 @@ AUTH_LDAP_USER_ATTR_MAP = {
 # Alternatively you can manage permissions directly in LDAP
 # See https://django-auth-ldap.readthedocs.io/en/latest/permissions.html#using-groups-directly
 # AUTH_LDAP_FIND_GROUP_PERMS = True
+
+# See https://github.com/xi/django-mfa3
+MFA_DOMAIN = 'example.com'
+MFA_SITE_TITLE = 'Castellum Demo'
 
 # Limit login attempts
 # See https://django-axes.readthedocs.io/
