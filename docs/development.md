@@ -41,7 +41,8 @@ packages, but e.g. with pyenv you will have to enable it yourself.
 
 -   The available recruitment attributes can be changed at runtime. The
     ones created with `django-admin loaddata attribute_descriptions`
-    merely serve as examples. See `dynamic_attributes.md` for details.
+    merely serve as examples. See
+    `docs/deployment/dynamic_recruitment_attributes.md` for details.
 
 -   The available groups can be changed at runtime. The ones created
     with `django-admin loaddata groups study_groups` merely serve as
