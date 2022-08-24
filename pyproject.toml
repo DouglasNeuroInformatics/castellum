@@ -1,3 +1,10 @@
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[tool.isort]
+known_django = django
+sections = STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER
+force_single_line = True
+skip = migrations
+line_length = 100
