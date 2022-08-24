@@ -168,6 +168,14 @@ class Subject(TimeStampedModel):
         ).exists()
 
     @cached_property
+    def has_waiting_consent(self):
+        from castellum.recruitment import filter_queries
+        return Subject.objects.filter(
+            filter_queries.has_consent(include_waiting=True) & ~filter_queries.has_consent(),
+            pk=self.pk,
+        ).exists()
+
+    @cached_property
     def has_consent_or_waiting(self):
         from castellum.recruitment import filter_queries
         return Subject.objects.filter(
@@ -180,6 +188,19 @@ class Subject(TimeStampedModel):
             self.contact.is_underage is False
             and self.has_consent
             and self.consent.underage_when_given
+        )
+
+    @cached_property
+    def consent_action_required(self):
+        try:
+            deprecated = self.consent.document.is_deprecated
+        except AttributeError:
+            deprecated = False
+
+        return (
+            self.has_consent_from_before_full_age
+            or self.has_waiting_consent
+            or deprecated
         )
 
     @cached_property

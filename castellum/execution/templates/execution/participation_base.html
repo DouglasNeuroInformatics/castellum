@@ -37,6 +37,9 @@
             {% if can_change_subject %}
                 <li class="nav-item">
                     <a href="{% url 'execution:contact-update' study.pk participation.pk %}" class="nav-link {% if view.tab == 'update-data' %}active{% endif %}">
+                        {% if subject.consent_action_required or not subject.contact.is_complete %}
+                            {% icon 'exclamation-triangle' label=_('Action required') %}
+                        {% endif %}
                         {% translate 'Update data' %}
                     </a>
                 </li>
