@@ -8,3 +8,19 @@ sections = STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER
 force_single_line = True
 skip = migrations
 line_length = 100
+
+[tool.pytest.ini_options]
+addopts = [
+    "--ds=castellum.settings.development",
+    "--cov=castellum",
+    "--cov-branch",
+    "--cov-report term-missing:skip-covered",
+    "--cov-report html",
+    "--no-cov-on-fail",
+    "--strict-markers",
+]
+markers = [
+    "unittest: marks tests as fast. They test only one function and don't need access to the database",
+    "smoketest: simple tests that only check for 200 status code"
+]
+testpaths = ["tests"]
