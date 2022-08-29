@@ -720,10 +720,8 @@ msgstr "Termine"
 #: castellum/subjects/templates/subjects/subject_base.html:33
 #: castellum/subjects/templates/subjects/subject_base.html:49
 #: castellum/subjects/templates/subjects/subject_detail.html:9
-#, fuzzy
-#| msgid "required"
 msgid "Action required"
-msgstr "benötigt"
+msgstr "Handlungsbedarf"
 
 #: castellum/execution/templates/execution/participation_base.html:43
 #: castellum/recruitment/templates/recruitment/participation_base.html:46
@@ -1643,10 +1641,8 @@ msgid "Review"
 msgstr "Überprüfen"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:101
-#, fuzzy
-#| msgid "Excluded"
 msgid "Exclude"
-msgstr "Ausgeschlossen"
+msgstr "Ausschließen"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:109
 msgid "No one to contact for recruitment!"
@@ -1764,22 +1760,23 @@ msgid "Unsuitable"
 msgstr "Nicht geeignet"
 
 #: castellum/recruitment/templates/recruitment/confirm_exclude.html:4
-#, fuzzy
-#| msgid "Exclusive subjects"
 msgid "Exclude subject"
-msgstr "Exklusive Proband*innen"
+msgstr "Proband*in ausschließen"
 
 #: castellum/recruitment/templates/recruitment/confirm_exclude.html:10
-#, fuzzy, python-format
-#| msgid "Are you sure you want to delete the key \"%(name)s\"?"
+#, python-format
 msgid "Are you sure you want to exclude this subject from %(study)s?"
-msgstr "Sind Sie sicher, dass Sie den Schlüssel \"%(name)s\" löschen möchten?"
+msgstr ""
+"Sind Sie sicher, dass Sie die Proband*in aus Studie %(study)s ausschließen "
+"möchten?"
 
 #: castellum/recruitment/templates/recruitment/confirm_exclude.html:11
 msgid ""
 "Alternatively you could ask another recruiter with a higher privacy level to "
 "contact this subject."
 msgstr ""
+"Alternativ könnten Sie eine andere Rekrutierer*in mit einer höheren "
+"Vertraulichkeitsstufe bitten die Proband*in zu kontaktieren."
 
 #: castellum/recruitment/templates/recruitment/contact.html:9
 msgid "Subject is unsuitable or blocked in another study."
@@ -3470,12 +3467,6 @@ msgstr ""
 "                        "
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:65
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                        The subject has recently come of age.\n"
-#| "                        Please contact the subject for a new consent.\n"
-#| "                    "
 msgid ""
 "\n"
 "                        The subject has not told us their position on "
@@ -3485,10 +3476,11 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                            Die Proband*in ist kürzlich volljährig geworden. "
-"Bitte kontaktieren Sie die Proband*in um eine neue Einwilligung zu "
-"erhalten.\n"
-"                        "
+"                            Die Proband*in hat uns ihre Position zur "
+"Rekrutierungseinwilligung noch nicht mitgeteilt.\n"
+"                        Bitte klären Sie mit der Proband*in, ob sie für "
+"zukünftige Studien kontaktiert werden möchte oder dies explizit ablehnt.\n"
+"                    "
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:72
 msgid ""
@@ -3685,12 +3677,8 @@ msgid "General pseudonyms"
 msgstr "Allgemeine Pseudonyme"
 
 #: castellum/subjects/templates/subjects/subject_resolve.html:12
-#, fuzzy
-#| msgid "This subject may still have data in general domains."
 msgid "Find subjects based on their pseudonyms from general domains."
-msgstr ""
-"Zu dieser Proband*in sind möglicherweise noch Daten in allgemeinen Domänen "
-"vorhanden."
+msgstr "Proband*innen anhand ihrer Pseudonyme aus allgemeinen Domänen finden."
 
 #: castellum/subjects/templates/subjects/subject_search.html:12
 #, python-format
@@ -3704,10 +3692,8 @@ msgstr ""
 "\"%(discard_url)s\">die Anfrage verwerfen</a>."
 
 #: castellum/subjects/templates/subjects/subject_search.html:23
-#, fuzzy
-#| msgid "By pseudonym"
 msgid "Find by pseudonym"
-msgstr "Nach Pseudonym"
+msgstr "Über Pseudonym finden"
 
 #: castellum/subjects/templates/subjects/subject_search.html:46
 msgid "This list may be restricted based on your permissions."
@@ -4103,12 +4089,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Missing values"
-#~ msgstr "Fehlende Werte"
-
-#~ msgid "Incomplete data"
-#~ msgstr "Unvollständige Daten"
-
-#~ msgid "Download cover letter"
-#~ msgstr "Anschreiben herunterladen"
