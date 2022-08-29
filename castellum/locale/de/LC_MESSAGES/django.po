@@ -3514,10 +3514,9 @@ msgid "Recruitment consent"
 msgstr "Einwilligung zur Rekrutierung"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:74
-#, fuzzy
-#| msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR"
 msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent)"
-msgstr "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO"
+msgstr ""
+"Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO (ausdrückliche Einwilligung)"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:79
 #: castellum/subjects/templates/subjects/subject_detail.html:126
@@ -3532,12 +3531,13 @@ msgstr ""
 "anwendbar"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:91
-#, fuzzy
-#| msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG"
 msgid ""
 "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 27 "
 "BDSG (additional rules for scientific research)"
-msgstr "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO und Art. 27 BDSG"
+msgstr ""
+"Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO (ausdrückliche "
+"Einwilligung) und Art. 27 BDSG (zusätzliche Regelungen für wissenschaftliche "
+"Forschung)"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:99
 #, python-format
@@ -3545,13 +3545,13 @@ msgid "If applicable, <a href=\"%(url)s\">add to a study</a>."
 msgstr "<a href=\"%(url)s\">Zu einer Studie hinzufügen</a>, sofern anwendbar"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:106
-#, fuzzy
-#| msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB"
 msgid ""
 "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 1626, "
 "1902 BGB (responsibilities of legal representatives)"
 msgstr ""
-"Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO und Art. 1626, 1902 BGB"
+"Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO (ausdrückliche "
+"Einwilligung) und Art. 1626, 1902 BGB (Pflichten von rechtlichen "
+"Vertreter*innen)"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:114
 #, python-format
@@ -3563,10 +3563,8 @@ msgstr ""
 "als deren gesetzliche Vertreter*in eintragen"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:121
-#, fuzzy
-#| msgid "Art. 6 (1) lit. f GDPR"
 msgid "Art. 6 (1) lit. f GDPR (legitimate interests)"
-msgstr "Art. 6 Abs. 1 lit. f DSGVO"
+msgstr "Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse)"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:131
 #, python-format
@@ -4072,23 +4070,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Snapshot"
-#~ msgstr "Momentaufnahme"
-
-#~ msgid "Review changes"
-#~ msgstr "Änderungen überprüfen"
-
-#~ msgid ""
-#~ "This page lists all the settings for this study. Any changes that were "
-#~ "made since the study was started are highlighted."
-#~ msgstr ""
-#~ "Diese Seite zeigt alle Einstellungen für diese Studie. Alle "
-#~ "Veränderungen, die geschehen sind seit die Studie gestartet wurde, sind "
-#~ "hervorgehoben."
-
-#~ msgid "Domains"
-#~ msgstr "Domänen"
-
-#~ msgid "Memberships"
-#~ msgstr "Mitgliedschaften"
