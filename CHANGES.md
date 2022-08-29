@@ -1,3 +1,43 @@
+# 0.81.0 (unreleased)
+
+## breaking changes
+
+-   Starting with this release, we will slightly change our release
+    schedule. Feature releases will be less frequent. However, we still
+    expect there to be a release every 3 weeks for dependency updates.
+-   The docker image is now based on alpine linux 3.16
+-   The temporary mechanism to honor recruitment consent grace periods
+    introduced in 0.79.0 has been removed again.
+-   The option `CASTELLUM_COVERLETTER_TEMPLATE` has been removed
+-   The option for study reviewers to display a complete overview of the
+    study has been removed. All actions concerning members and their
+    permissions are instead logged to the monitoring log.
+-   Date inputs now have a minimum value of 1900-01-01. This is to
+    prevent typos.
+
+## bug fixes
+
+-   Fixed dates in the "waiting for consent" maintenance view
+
+## new features
+
+-   It is now possible to find subjects by their pseudonyms from general
+    domains
+-   Users are informed more prominently if a subject's data is
+    incomplete.
+-   Recruiters can now exclude a subject from a study even if they do
+    not have the required privacy level.
+-   The help texts for legal bases now provides a brief summary for each
+    referenced legal article
+-   The command `geocode_all` now returns an error if nominatim is not
+    configured.
+-   The development documentation has been restructured.
+-   The docker image now includes a default uwsgi.ini
+-   Study members are now included in the study export. We expect to do
+    a bigger overhaul of the study export in the near future, so don't
+    expect this to be stable.
+
+
 # 0.80.1 (2022-08-22)
 
 ## bug fixes
