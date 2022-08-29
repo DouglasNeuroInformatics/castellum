@@ -80,29 +80,31 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
     def form_valid(self, form):
         form.instance.study = self.object
 
-        # user has been added to study
-        if 'users' in self.request.POST:
-            text = 'User {} added user {} to study {}'.format(
-                self.request.user.pk, self.request.POST['users'], self.object,
-            )
-            if 'groups' in self.request.POST:
-                text += ' in groups {}'.format(self.request.POST.getlist('groups'))
-            monitoring_logger.info(text)
+        def format_list(a):
+            return [int(pk) for pk in sorted(a)]
 
-        # user was already a member of study but groups have changed
-        elif 'membership' in self.request.POST:
+        if 'membership' in self.request.POST:
             membership = StudyMembership.objects.get(pk=self.request.POST['membership'])
-            old_groups = list(membership.groups.all().values_list('pk', flat=True))
-            new_groups = [int(group) for group in self.request.POST.getlist('groups')]
+            old_groups = set(membership.groups.values_list('pk', flat=True))
+            new_groups = set(int(group) for group in self.request.POST.getlist('groups'))
             if old_groups != new_groups:
                 monitoring_logger.info(
-                    'User {} changed groups of user {} in study {}. Groups: {}'.format(
-                        self.request.user.pk,
+                    'Membership changed: study {} user {} groups {} by {}'.format(
+                        self.study.pk,
                         membership.user.pk,
-                        self.object,
-                        new_groups,
+                        format_list(new_groups),
+                        self.request.user.pk,
                     )
                 )
+        else:
+            monitoring_logger.info(
+                'Membership created: study {} users {} groups {} by {}'.format(
+                    self.study.pk,
+                    format_list(self.request.POST.getlist('users')),
+                    format_list(self.request.POST.getlist('groups')),
+                    self.request.user.pk,
+                )
+            )
 
         form.save()
         return redirect('studies:members', self.object.pk)
@@ -124,8 +126,8 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
             return HttpResponseBadRequest()
 
         monitoring_logger.info(
-            'User {} removed user {} from study {}'.format(
-                self.request.user.pk, membership.user.pk, membership.study,
+            'Membership removed: study {} user {} by {}'.format(
+                membership.study.pk, membership.user.pk, self.request.user.pk,
             )
         )
 
