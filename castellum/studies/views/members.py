@@ -18,6 +18,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import logging
+
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -33,6 +35,8 @@ from ..forms import MultiMemberForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
+
+monitoring_logger = logging.getLogger('monitoring.studies')
 
 
 class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, FormView):
@@ -75,6 +79,33 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
 
     def form_valid(self, form):
         form.instance.study = self.object
+
+        def format_list(a):
+            return [int(pk) for pk in sorted(a)]
+
+        if 'membership' in self.request.POST:
+            membership = StudyMembership.objects.get(pk=self.request.POST['membership'])
+            old_groups = set(membership.groups.values_list('pk', flat=True))
+            new_groups = set(int(group) for group in self.request.POST.getlist('groups'))
+            if old_groups != new_groups:
+                monitoring_logger.info(
+                    'Membership changed: study {} user {} groups {} by {}'.format(
+                        self.study.pk,
+                        membership.user.pk,
+                        format_list(new_groups),
+                        self.request.user.pk,
+                    )
+                )
+        else:
+            monitoring_logger.info(
+                'Membership created: study {} users {} groups {} by {}'.format(
+                    self.study.pk,
+                    format_list(self.request.POST.getlist('users')),
+                    format_list(self.request.POST.getlist('groups')),
+                    self.request.user.pk,
+                )
+            )
+
         form.save()
         return redirect('studies:members', self.object.pk)
 
@@ -93,6 +124,12 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
 
         if membership.user.pk == request.user.pk:
             return HttpResponseBadRequest()
+
+        monitoring_logger.info(
+            'Membership removed: study {} user {} by {}'.format(
+                membership.study.pk, membership.user.pk, self.request.user.pk,
+            )
+        )
 
         membership.delete()
         return redirect('studies:members', membership.study.pk)
