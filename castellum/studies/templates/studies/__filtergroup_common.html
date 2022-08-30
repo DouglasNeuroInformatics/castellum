@@ -15,4 +15,9 @@
             {% endblocktranslate %}
         </p>
     {% endif %}
+    {% if not study.recruiters or not study.conductors %}
+        <p class="alert alert-warning">
+            {% translate 'Unable to determine available privacy levels. Please add recruiters and conductors to this study!' %}
+        </p>
+    {% endif %}
 {% endif %}
