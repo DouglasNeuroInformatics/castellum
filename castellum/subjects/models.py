@@ -168,12 +168,8 @@ class Subject(TimeStampedModel):
         ).exists()
 
     @cached_property
-    def has_waiting_consent(self):
-        from castellum.recruitment import filter_queries
-        return Subject.objects.filter(
-            filter_queries.has_consent(include_waiting=True) & ~filter_queries.has_consent(),
-            pk=self.pk,
-        ).exists()
+    def unknown_consent(self):
+        return not Consent.objects.filter(subject=self).exists()
 
     @cached_property
     def has_consent_or_waiting(self):
@@ -199,7 +195,7 @@ class Subject(TimeStampedModel):
 
         return (
             self.has_consent_from_before_full_age
-            or self.has_waiting_consent
+            or self.unknown_consent
             or deprecated
         )
 
