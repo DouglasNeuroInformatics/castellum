@@ -1,4 +1,4 @@
-## Development setup
+# Running a test server
 
 First install some system packages. The exact command depends on your
 operating system. This is an example for Ubuntu:
