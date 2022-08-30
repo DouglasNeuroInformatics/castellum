@@ -265,6 +265,11 @@ class Study(models.Model):
         )
         return result[key + '__max'] or 0
 
+    @cached_property
+    def members_max_privacy_level(self):
+        members = set(self.recruiters + self.conductors)
+        return max([user.get_privacy_level() for user in members], default=2)
+
     @property
     def study_type(self):
         return StudyType.objects.filter(studysession__study=self).distinct()
