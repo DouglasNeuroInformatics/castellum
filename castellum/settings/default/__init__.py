@@ -12,6 +12,8 @@ ALLOWED_HOSTS = []
 # Set this to True to prevent creating insecure demo content in production
 PRODUCTION = False
 
+CASTELLUM_SITE_TITLE = 'Castellum'
+
 CASTELLUM_LOGOUT_TIMEOUT = datetime.timedelta(seconds=15 * 60)
 SESSION_COOKIE_AGE = 24 * 60 * 60
 

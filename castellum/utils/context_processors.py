@@ -27,6 +27,7 @@ def get_settings(request):
     return {
         'CASTELLUM_VERSION': castellum.__version__,
         'CASTELLUM_RELEASE_DATE': castellum.__release_date__,
+        'CASTELLUM_SITE_TITLE': settings.CASTELLUM_SITE_TITLE,
         'CASTELLUM_LOGOUT_TIMEOUT': settings.CASTELLUM_LOGOUT_TIMEOUT,
         'CASTELLUM_ENABLE_STUDY_EXPORT': settings.CASTELLUM_ENABLE_STUDY_EXPORT,
         'CASTELLUM_GENERAL_RECRUITMENT_TEXT': settings.CASTELLUM_GENERAL_RECRUITMENT_TEXT,

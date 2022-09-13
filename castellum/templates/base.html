@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
 
-    <title>{% block title %}Castellum{% endblock %}</title>
+    <title>{% block title %}{{ CASTELLUM_SITE_TITLE }}{% endblock %}</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
@@ -36,7 +36,7 @@
             </div>
             <div class="container">
                 <div class="navbar navbar-expand-sm navbar-dark">
-                    <a href="/" rel="home" class="navbar-brand">Castellum</a>
+                    <a href="/" rel="home" class="navbar-brand">{{ CASTELLUM_SITE_TITLE }}</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="{% translate 'Toggle navigation' %}">
                         <span class="navbar-toggler-icon"></span>
                     </button>
