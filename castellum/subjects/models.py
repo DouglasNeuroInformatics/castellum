@@ -280,6 +280,9 @@ class ConsentDocument(models.Model):
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
+    class Meta:
+        ordering = ['pk']
+
     def __str__(self):
         return self.name or _('Version {}').format(self.pk)
 
