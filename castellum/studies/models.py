@@ -265,6 +265,10 @@ class Study(models.Model):
         )
         return result[key + '__max'] or 0
 
+    @cached_property
+    def get_member_min_privacy_level(self):
+        return min([member.get_privacy_level() for member in self.members.all()])
+
     @property
     def study_type(self):
         return StudyType.objects.filter(studysession__study=self).distinct()

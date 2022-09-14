@@ -52,6 +52,9 @@
                             {% if participation.subject.deceased %}
                                 <span class="badge text-bg-dark my-1" title="{{ participation.subject.TOOLTIPS.deceased }}">{{ participation.subject|verbose_name:'deceased' }}</span>
                             {% endif %}
+                            {% if participation.inaccessible_for_some_members %}
+                                <span class="badge text-bg-warning my-1" title="{% translate 'Some members of this study can\'t access this subject due to their privacy level' %}">{% translate 'Inacessible for some members' %}</span>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="table-list-item-actions">

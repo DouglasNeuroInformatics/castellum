@@ -226,6 +226,13 @@ class Participation(models.Model):
         return self.TOOLTIPS['status'][self.status]
 
     @cached_property
+    def inaccessible_for_some_members(self):
+        if self.subject.get_effective_privacy_level() > self.study.get_member_min_privacy_level:
+            return True
+        else:
+            return False
+
+    @cached_property
     def appointment_today(self):
         return self.appointment_set.filter(start__date=datetime.date.today()).exists()
 
