@@ -67,7 +67,10 @@ class Subject(TimeStampedModel):
     attributes = models.JSONField(_('Recruitment attributes'), encoder=DjangoJSONEncoder)
     study_type_disinterest = models.ManyToManyField(
         'studies.StudyType',
-        verbose_name=_('Does not want to participate in the following study types'),
+        verbose_name=_(
+            'Does not want to participate or is permanently '
+            'unsuitable for the following study types'
+        ),
         blank=True,
         related_name='+',
     )

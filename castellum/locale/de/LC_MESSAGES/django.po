@@ -2958,9 +2958,13 @@ msgstr "Es gibt keine Rechtsgrundlage um die Daten der Proband*in zu behalten."
 msgid "UUID"
 msgstr "UUID"
 
-#: castellum/subjects/models.py:70
-msgid "Does not want to participate in the following study types"
-msgstr "Möchte nicht an Studien der folgenden Typen teilnehmen"
+#: castellum/subjects/models.py:71
+msgid ""
+"Does not want to participate or is permanently unsuitable for the following "
+"study types"
+msgstr ""
+"Möchte nicht an Studien der folgenden Typen teilnehmen oder ist dafür "
+"dauerhaft nicht geeignet"
 
 #: castellum/subjects/models.py:77
 msgid "Users need at least this level to access this subject"
