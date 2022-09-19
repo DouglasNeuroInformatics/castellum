@@ -32,7 +32,7 @@ from django.utils.translation import gettext_lazy as _
 import jsonschema
 import magic
 from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
-from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
+from phonenumber_field.widgets import RegionalPhoneNumberWidget
 
 
 class ColorInput(forms.TextInput):
@@ -92,7 +92,7 @@ class DateTimeField(forms.SplitDateTimeField):
     widget = DateTimeInput
 
 
-class PhoneNumberWidget(PhoneNumberInternationalFallbackWidget):
+class PhoneNumberWidget(RegionalPhoneNumberWidget):
     def __init__(self, attrs=None):
         defaults = {
             'placeholder': _('e.g. 030 123456'),
