@@ -459,12 +459,9 @@ msgstr "Name"
 #: castellum/contacts/templates/contacts/__contact.html:9
 #: castellum/execution/templates/execution/participation_list.html:39
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:18
-#, fuzzy
-#| msgid "Users need at least this level to access this subject"
 msgid "Not all members of this study can access this subject"
 msgstr ""
-"Nutzer*innen brauchen mindestens diese Stufe, um auf diese Proband*in "
-"zugreifen zu können."
+"Nicht alle Mitglieder der Studie können auf diese Proband*in zugreifen"
 
 #: castellum/contacts/templates/contacts/__contact.html:13
 #: castellum/execution/views.py:303
@@ -4073,6 +4070,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Filetype not supported."
-#~ msgstr "Dateityp nicht unterstützt."
