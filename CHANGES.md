@@ -1,3 +1,27 @@
+# 0.82.0 (unreleased)
+
+## breaking changes
+
+-   The server-side validation of uploaded files was buggy and therefore
+    removed.
+-   It is no longer possible to document that additional suitability
+    documents exist.
+
+## bug fixes
+
+-   The order of consent documents has been fixed
+
+## new features
+
+-   The new setting `CASTELLUM_SITE_TITLE` allows to change the site
+    title
+-   The way privacy levels are displayed has been redesigned. It should
+    now be easier to tell if other users are able to access a subject or
+    not.
+-   Study type disinterest has been rephrased to also cover permanently
+    unsuitable subjects.
+
+
 # 0.81.0 (2022-08-30)
 
 ## breaking changes
