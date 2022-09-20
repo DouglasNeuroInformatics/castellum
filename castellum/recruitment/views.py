@@ -89,6 +89,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self):
         if self.sort == 'followup':
             order_by = ['followup_date', 'followup_time', '-updated_at']
+        elif self.sort == 'privacy-level':
+            order_by = ['subject__privacy_level', '-updated_at']
         elif self.sort == 'last_contact_attempt':
             order_by = ['-status_not_reached', '-updated_at']
         elif self.sort == 'statistics':
@@ -214,6 +216,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ('statistics', _('Statistics')),
             ('recently-active', _('Recently active')),
             ('assigned-to-me', _('Assigned to me')),
+            ('privacy-level', _('Privacy level')),
         ]
         sort_options = dict(context['sort_options'])
         context['sort_label'] = sort_options.get(self.sort, _('Relevance'))

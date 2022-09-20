@@ -96,6 +96,8 @@ class ParticipationListView(
         sort = self.request.GET.get('sort')
         if sort == 'appointment_count':
             qs = qs.order_by('appointment_count')
+        elif sort == 'privacy-level':
+            qs = qs.order_by('subject__privacy_level')
         elif sort and sort.startswith('tag-'):
             try:
                 tag = self.study.executiontag_set.get(pk=sort[4:])
@@ -115,7 +117,7 @@ class ParticipationListView(
         context = super().get_context_data(**kwargs)
         context['session_count'] = self.study.studysession_set.count()
 
-        sort_options = [('name', _('Name'))]
+        sort_options = [('name', _('Name')), ('privacy-level', _('Privacy level'))]
         if context['session_count'] > 0:
             sort_options.append(('appointment_count', _('Appointments')))
         for tag in self.study.executiontag_set.exclude(participation=None):
