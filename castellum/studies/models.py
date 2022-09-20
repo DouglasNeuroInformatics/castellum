@@ -144,7 +144,7 @@ class Study(models.Model):
         ),
         blank=True,
         upload_to=geofilter_upload_to,
-        content_types=['application/json', 'text/plain'],
+        content_types=['application/json'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
         validators=[JsonFileValidator(GEOJSON_SCHEMA, '#/$defs/geofilter')],
     )
