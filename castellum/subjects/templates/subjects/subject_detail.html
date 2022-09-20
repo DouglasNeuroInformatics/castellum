@@ -50,8 +50,8 @@
 
         <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
         <dd class="col-sm-6">
-            {{ subject.get_effective_privacy_level }}
-            <i class="fas fa-user-shield text-{{ subject|privacy_level }}" aria-hidden="true"></i>
+            {% icon 'user-shield' %}
+            {{ subject|display:'privacy_level' }}
         </dd>
 
         <dt class="col-sm-6">{% translate "Reliability" %}</dt>
