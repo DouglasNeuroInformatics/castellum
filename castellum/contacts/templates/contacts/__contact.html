@@ -1,10 +1,13 @@
-{% load i18n auth utils subjects %}
+{% load i18n auth utils %}
 
 <dl class="row">
     <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
     <dd class="col-sm-6">
-        {{ subject.get_effective_privacy_level }}
-        <i class="fas fa-user-shield text-{{ subject|privacy_level }}" aria-hidden="true"></i>
+        {% icon 'user-shield' %}
+        {{ subject|display:'privacy_level' }}
+        {% if study and subject.privacy_level > study.members_min_privacy_level %}
+            {% icon 'warning' label=_('Not all members of this study can access this subject') %}
+        {% endif %}
     </dd>
 
     <dt class="col-sm-6">{% translate "Reliability" %}</dt>

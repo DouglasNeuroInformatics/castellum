@@ -242,6 +242,14 @@ class Subject(TimeStampedModel):
                 issues=self.reliability_issues, total=self.reliability_total
             )
 
+    def get_privacy_level_display(self):
+        options = [
+            (0.0, _('0 (regular)')),
+            (1.0, _('1 (increased)')),
+            (2.0, _('2 (high)')),
+        ] + settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS
+        return dict(options).get(self.privacy_level)
+
     def get_data(self):
         from castellum.recruitment.models import AttributeDescription
 

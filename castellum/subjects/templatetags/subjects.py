@@ -100,13 +100,3 @@ def subject_media_url(context, url):
     if not url.startswith(url_prefix):
         raise TypeError(url)
     return context['view'].get_subject_media_url(url[len(url_prefix):])
-
-
-@register.filter
-def privacy_level(subject):
-    if subject.privacy_level > 1:
-        return 'danger'
-    elif subject.privacy_level > 0:
-        return 'warning'
-    else:
-        return 'body'

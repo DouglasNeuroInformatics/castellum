@@ -10,6 +10,15 @@
                         {% for desc, bucket in buckets %}
                             <span class="d-inline-block my-1 me-2" title="{{ desc.label }}">{{ bucket }}</span>
                         {% endfor %}
+                        {% if participation.subject.privacy_level > 0 %}
+                            <span class="badge {% if participation.subject.privacy_level > study.members_min_privacy_level %}text-bg-warning{% else %}text-bg-secondary{% endif %}">
+                                {% icon 'user-shield' label=_('Privacy level') %}
+                                {{ participation.subject.get_effective_privacy_level }}
+                                {% if participation.subject.privacy_level > study.members_min_privacy_level %}
+                                    {% icon 'warning' label=_('Not all members of this study can access this subject') %}
+                                {% endif %}
+                            </span>
+                        {% endif %}
                         {% if participation.excluded_by_cleanup %}
                             <span class="badge text-bg-secondary my-1" title="{{ participation.TOOLTIPS.excluded_by_cleanup }}">{{ participation|verbose_name:'excluded_by_cleanup' }}</span>
                         {% elif participation.status_open and participation.status != participation.NOT_CONTACTED %}

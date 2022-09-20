@@ -90,6 +90,11 @@ def study_disinterest(study):
     return ~models.Q(study_type_disinterest__in=study.study_type.all())
 
 
+def study_max_privacy_level(study):
+    """Exclude subjects who no study members can access."""
+    return models.Q(privacy_level__lte=study.members_max_privacy_level)
+
+
 def subjectfilters(subjectfiltergroup, include_unknown=None):
     """Exclude subjects according to subjectfilters from a single subjectfiltergroup."""
 
@@ -201,6 +206,7 @@ def study_except_filters(study, include_unknown=None):
     q = models.Q()
     q &= study_exclusion(study)
     q &= study_disinterest(study)
+    q &= study_max_privacy_level(study)
     q &= to_be_deleted()
     q &= models.Q(deceased=False)
     q &= models.Q(blocked=False)

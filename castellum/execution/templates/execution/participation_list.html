@@ -31,6 +31,15 @@
                     <div class="d-inline-block my-1 me-2 {% if participation.dropped_out or participation.subject.blocked or participation.subject.deceased %}text-muted{% endif %}">
                         <div>
                             {{ participation.subject.contact.full_name }}
+                            {% if participation.subject.privacy_level > 0 %}
+                                <span class="badge {% if participation.subject.privacy_level > study.members_min_privacy_level %}text-bg-warning{% else %}text-bg-secondary{% endif %}">
+                                    {% icon 'user-shield' label=_('Privacy level') %}
+                                    {{ participation.subject.get_effective_privacy_level }}
+                                    {% if participation.subject.privacy_level > study.members_min_privacy_level %}
+                                        {% icon 'warning' label=_('Not all members of this study can access this subject') %}
+                                    {% endif %}
+                                </span>
+                            {% endif %}
                             {% if session_count > 0 %}
                                 <span class="badge text-bg-secondary my-1" title="{% blocktranslate with count=participation.appointment_count total=session_count %}{{ count }} out of {{ total }} appointments have already been scheduled{% endblocktranslate %}">
                                     {% icon 'calendar' label=_('Appointments') %}
