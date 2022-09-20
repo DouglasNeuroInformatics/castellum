@@ -3037,20 +3037,6 @@ msgstr ""
 msgid "Data source"
 msgstr "Datenquelle"
 
-#: castellum/subjects/models.py:133
-msgid "Additional suitability document for study type"
-msgstr "Zusätzliches Eignungsdokument für Studientyp"
-
-#: castellum/subjects/models.py:136
-msgid ""
-"Additional suitability documents are records that certify that a subject may "
-"safely undergo all types of exams or tests conducted in the respective type "
-"of study."
-msgstr ""
-"Zusätzliche Eignungsdokumente bestätigen, dass sich die Proband*in gefahrlos "
-"den verschiedenen Untersuchungen und Tests unterziehen kann, die zu dem "
-"jeweiligen Studientyp gehören."
-
 #: castellum/subjects/models.py:142
 msgid "not available until"
 msgstr "nicht erreichbar bis"

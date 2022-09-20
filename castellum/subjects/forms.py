@@ -132,10 +132,8 @@ class AdditionalInfoForm(forms.ModelForm):
             'blocked',
             'not_available_until',
             'source',
-            'additional_suitability_document',
         ]
         widgets = {
-            'additional_suitability_document': forms.CheckboxSelectMultiple(),
             'source': DatalistWidget(datalist=(
                 Subject.objects.order_by('source').values_list('source', flat=True).distinct
             )),
