@@ -270,6 +270,11 @@ class Study(models.Model):
         members = set(self.recruiters + self.conductors)
         return max([user.get_privacy_level() for user in members], default=2)
 
+    @cached_property
+    def members_min_privacy_level(self):
+        members = set(self.recruiters + self.conductors)
+        return min([user.get_privacy_level() for user in members], default=2)
+
     @property
     def study_type(self):
         return StudyType.objects.filter(studysession__study=self).distinct()

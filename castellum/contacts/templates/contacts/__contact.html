@@ -5,6 +5,9 @@
     <dd class="col-sm-6">
         {% icon 'user-shield' %}
         {{ subject|display:'privacy_level' }}
+        {% if study and subject.privacy_level > study.members_min_privacy_level %}
+            {% icon 'warning' label=_('Not all members of this study can access this subject') %}
+        {% endif %}
     </dd>
 
     <dt class="col-sm-6">{% translate "Reliability" %}</dt>
