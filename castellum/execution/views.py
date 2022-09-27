@@ -456,7 +456,10 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
         with MailContext('recruitment') as ctx:
             for participation in interested:
-                success = self.send_mail(ctx, participation, **form.cleaned_data)
+                try:
+                    success = self.send_mail(ctx, participation, **form.cleaned_data)
+                except Exception:
+                    success = False
                 if success:
                     succeeded.append(participation)
                 else:

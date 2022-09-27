@@ -77,7 +77,10 @@ def send_appointment_reminders(base_url):
             not_reachable = []
 
             for appointment in due_appointments:
-                success = send_mail_to_subject(ctx, study, appointment)
+                try:
+                    success = send_mail_to_subject(ctx, study, appointment)
+                except Exception:
+                    success = False
                 if success:
                     reached_count += 1
                 else:
