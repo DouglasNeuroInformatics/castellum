@@ -55,6 +55,7 @@ def subjects_reset(subjects):
     return (
         Subject.objects
         .filter(to_be_deleted_notified=True)
+        .exclude(pk__in=subjects)
         .update(to_be_deleted_notified=False)
     )
 
