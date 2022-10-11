@@ -1,3 +1,12 @@
+# 0.82.1 (2022-10-11)
+
+## bug fixes
+
+-   Add missing translations
+-   Handle exceptions when trying to send mails
+-   Do not notify about all to be deleted subjects every time
+
+
 # 0.82.0 (2022-09-20)
 
 ## breaking changes
