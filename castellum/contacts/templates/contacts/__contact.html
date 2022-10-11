@@ -12,19 +12,9 @@
 
     <dt class="col-sm-6">{% translate "Reliability" %}</dt>
     <dd class="col-sm-6">{{ subject|display:'reliability' }}</dd>
-
-    {# also show not_available_until if it should have been set on legal representatives #}
-    {% if not subject.is_available and subject.contact.has_legal_representative %}
-        <dt class="col-sm-6">{% translate "Currently available" %}</dt>
-        <dd class="col-sm-6">
-            {% translate "No" %}
-            <span class="list-icon text-bg-warning">{% icon 'phone' %}</span>
-            {% blocktranslate with next_available=subject.not_available_until %}
-                (not until {{ next_available }})
-            {% endblocktranslate %}
-        </dd>
-    {% endif %}
 </dl>
+
+{% include 'contacts/__contact_detail.html' with contact=subject.contact %}
 
 {% for legal_representative in subject.contact.legal_representatives.all %}
     <hr>
@@ -37,6 +27,4 @@
             <dd class="col-sm-6 text-muted">{% translate 'insufficient privacy level' %}</dd>
         </dl>
     {% endif %}
-{% empty %}
-    {% include 'contacts/__contact_detail.html' with contact=subject.contact %}
 {% endfor %}
