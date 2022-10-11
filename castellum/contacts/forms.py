@@ -58,11 +58,6 @@ class AddressForm(forms.ModelForm):
 
 
 class ContactForm(forms.ModelForm):
-    pane = forms.ChoiceField(required=False, choices=[
-        ('self', _('Full of age')),
-        ('legal_representatives', _('Has legal representative')),
-    ], widget=forms.RadioSelect)
-
     class Meta:
         model = Contact
         fields = [
@@ -82,12 +77,7 @@ class ContactForm(forms.ModelForm):
 
         self.address = self.get_address_form(**kwargs)
 
-        if self.instance.has_legal_representative:
-            self.fields['pane'].initial = 'legal_representatives'
-        elif any([self.instance.get_address(), self.instance.phone_number, self.instance.email]):
-            self.fields['pane'].initial = 'self'
-
-        self.legal_representatives = self.get_legal_representatives_rm_choices(user)
+        self.legal_representatives = list(self.get_legal_representatives_rm_choices(user))
         if user.has_perm('subjects.change_subject'):
             self.fields['legal_representatives_remove'] = forms.ModelMultipleChoiceField(
                 Subject.objects, to_field_name='uuid', required=False
@@ -133,22 +123,19 @@ class ContactForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        # clear unselected pane
-        if cleaned_data.get('pane') == 'legal_representatives':
-            cleaned_data['phone_number'] = ''
-            cleaned_data['phone_number_alternative'] = ''
-            cleaned_data['email'] = ''
-
         has_address = any(self.data.get(name) for name in self.address.fields)
 
         # validate legal_representative required for underage subjects
         date_of_birth = cleaned_data.get('date_of_birth')
         if date_of_birth:
+            legal_representative_count = (
+                len(self.legal_representatives)
+                + self.legal_representatives_blocked
+                + len(cleaned_data.get('legal_representatives_add', []))
+                - len(cleaned_data.get('legal_representatives_remove', []))
+            )
             age = datetime.date.today() - date_of_birth
-            if (
-                cleaned_data.get('pane') != 'legal_representatives'
-                and age.days // 365 < settings.CASTELLUM_FULL_AGE
-            ):
+            if legal_representative_count <= 0 and age.days // 365 < settings.CASTELLUM_FULL_AGE:
                 msg = _(
                     'Subjects under the age of {} need a legal representative.'
                 ).format(settings.CASTELLUM_FULL_AGE)
@@ -163,7 +150,7 @@ class ContactForm(forms.ModelForm):
         contact = super().save(*args, **kwargs)
 
         has_address = any(self.data.get(name) for name in self.address.fields)
-        if has_address and self.cleaned_data.get('pane') != 'legal_representatives':
+        if has_address:
             self.address.instance.contact = contact
             self.address.save()
         elif contact.get_address():
@@ -171,16 +158,12 @@ class ContactForm(forms.ModelForm):
             # refresh from db
             contact = Contact.objects.get(pk=contact.pk)
 
-        if self.cleaned_data.get('pane') == 'legal_representatives':
-            contact.legal_representatives.remove(*[
-                s.contact for s in self.cleaned_data.get('legal_representatives_remove', [])
-            ])
-
-            contact.legal_representatives.add(*[
-                s.contact for s in self.cleaned_data.get('legal_representatives_add', [])
-            ])
-        else:
-            contact.legal_representatives.set([])
+        contact.legal_representatives.remove(*[
+            s.contact for s in self.cleaned_data.get('legal_representatives_remove', [])
+        ])
+        contact.legal_representatives.add(*[
+            s.contact for s in self.cleaned_data.get('legal_representatives_add', [])
+        ])
 
         return contact
 

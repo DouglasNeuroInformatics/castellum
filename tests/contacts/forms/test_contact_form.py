@@ -169,7 +169,7 @@ def test_contact_form_with_legal_representatives_add_privacy_level(user, full_da
 
 
 @pytest.mark.django_db
-def test_contact_form_with_legal_representatives_removes_address(user, full_data):
+def test_contact_form_with_legal_representatives_and_address(user, full_data):
     form = ContactForm(user=user, data=full_data)
     contact = form.save()
     assert contact.get_address()
@@ -182,7 +182,7 @@ def test_contact_form_with_legal_representatives_removes_address(user, full_data
 
     form = ContactForm(user=user, instance=contact, data=data)
     contact = form.save()
-    assert not contact.get_address()
+    assert contact.get_address()
 
 
 @pytest.mark.django_db

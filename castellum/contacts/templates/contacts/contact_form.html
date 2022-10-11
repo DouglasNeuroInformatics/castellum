@@ -22,19 +22,15 @@
 
         {% include 'contacts/__contact_form_top.html' with form=form %}
 
-        {% bootstrap_field form.pane show_label=False %}
+        {% include 'contacts/__contact_form_self.html' with form=form %}
 
-        <div id="contact-self" class="mb-3" {% if form.pane.value != 'self' %}hidden{% endif %}>
-            {% include 'contacts/__contact_form_self.html' with form=form %}
-        </div>
+        {% if form.legal_representatives_blocked > 0 %}
+            <p class="text-muted" data-js="legal-representatives-blocked">
+                {% blocktranslate with count=form.legal_representatives_blocked %}{{ count }} legal representatives not listed because of insufficient privacy level.{% endblocktranslate %}
+            </p>
+        {% endif %}
 
-        <div id="contact-legal_representatives" class="mb-3" aria-live="polite" {% if form.pane.value != 'legal_representatives' %}hidden{% endif %}>
-            {% if form.legal_representatives_blocked > 0 %}
-                <p class="text-muted" data-js="legal-representatives-blocked">
-                    {% blocktranslate with count=form.legal_representatives_blocked %}{{ count }} legal representatives not listed because of insufficient privacy level.{% endblocktranslate %}
-                </p>
-            {% endif %}
-
+        <div class="mb-3">
             {% has_perm 'subjects.change_subject' user as can_change_subject %}
             {% if can_change_subject %}
                 <template id="legal-representative-template">
@@ -48,8 +44,6 @@
                 {% for subject in form.cleaned_data.legal_representatives_add %}
                     {% include 'contacts/__legal_representative_item.html' with name=form.legal_representatives_add.name uuid=subject.uuid label=subject label=subject.contact.full_name removed=False %}
                 {% endfor %}
-
-                <button type="button" class="btn btn-primary" data-js="legal-representative-add">{% translate 'Add legal representative' %}</button>
             {% else %}
                 {% has_perm 'subjects.view_subject' user as can_view_subject %}
                 {% for subject_pk, contact in form.legal_representatives %}
@@ -75,6 +69,7 @@
 
         <div class="d-print-none mb-3">
             <button class="btn btn-primary">{% translate 'Save' %}</button>
+            <button type="button" class="btn btn-outline-primary" data-js="legal-representative-add">{% translate 'Add legal representative' %}</button>
         </div>
     </form>
 {% endblock %}

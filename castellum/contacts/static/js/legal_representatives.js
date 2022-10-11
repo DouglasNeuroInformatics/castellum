@@ -1,27 +1,13 @@
 (function() {
-    $$.on(document, 'change', '[name="pane"]', function() {
-        ['self', 'legal_representatives'].forEach(function(id) {
-            var pane = document.getElementById('contact-' + id);
-            var radio = document.querySelector('[name="pane"][value="' + id + '"]');
-            pane.hidden = !radio.checked;
-        });
-    });
-
     $$.on(document, 'submit', '[data-js="contact-completeness"]', function(event) {
-        var complete = false;
-        if (document.querySelector('[name="pane"][value="legal_representatives"]').checked) {
-            complete = (
-                document.querySelector('[name="legal_representatives_remove"]:disabled') ||
-                document.querySelector('[name="legal_representatives_add"]:not(:disabled)') ||
-                document.querySelector('[data-js="legal-representatives-blocked"]')
-            );
-        } else {
-            complete = (
-                document.querySelector('[name="email"]').value ||
-                document.querySelector('[name="phone_number"]').value ||
-                document.querySelector('[name="street"]').value
-            );
-        }
+        var complete = (
+            document.querySelector('[name="email"]').value ||
+            document.querySelector('[name="phone_number"]').value ||
+            document.querySelector('[name="street"]').value ||
+            document.querySelector('[name="legal_representatives_remove"]:disabled') ||
+            document.querySelector('[name="legal_representatives_add"]:not(:disabled)') ||
+            document.querySelector('[data-js="legal-representatives-blocked"]')
+        );
         if (!complete) {
             if (!confirm(django.gettext('There is no way to contact this subject. Are you sure you want to save?'))) {
                 event.preventDefault();
@@ -55,13 +41,12 @@
 
     var addLegalRepresentative = function(name, uuid) {
         var template = document.getElementById('legal-representative-template');
-        var button = document.querySelector('[data-js="legal-representative-add"]');
 
         var wrapper = document.createElement('div');
         wrapper.innerHTML = template.innerHTML.replace(/{uuid}/g, uuid);
         wrapper.querySelector('label').textContent = name;
 
-        button.before(wrapper.children[0]);
+        template.parentElement.append(wrapper.children[0]);
         jdenticon();
     };
 
