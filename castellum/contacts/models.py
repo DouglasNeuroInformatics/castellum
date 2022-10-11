@@ -233,25 +233,20 @@ class Contact(BaseContact):
     def has_legal_representative(self):
         return self.id and self.legal_representatives.exists()
 
-    @cached_property
-    def own_or_legal_representative_emails(self):
+    def get_email_recipients(self):
         if self.email:
-            return [self.email]
-        else:
-            return [
-                c.email
-                for c in self.legal_representatives.exclude(email='')
-                if not c.subject.blocked
-            ]
+            yield self
+        for c in self.legal_representatives.exclude(email=''):
+            if not c.subject.blocked:
+                yield c
+
+    @cached_property
+    def own_and_legal_representative_emails(self):
+        return [c.email for c in self.get_email_recipients()]
 
     @cached_property
     def email_recipients_string(self):
-        if len(self.own_or_legal_representative_emails) > 1:
-            return ', '.join(
-                c.full_name
-                for c in self.legal_representatives.exclude(email='')
-                if not c.subject.blocked
-            )
+        return ', '.join(c.full_name for c in self.get_email_recipients())
 
     def save(self, *args, **kwargs):
         if not self.subject_uuid:

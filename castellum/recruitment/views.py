@@ -361,7 +361,7 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, DetailView)
                 mail_subject=self.study.mail_subject
             ),
             self.study.mail_body.replace('{name}', contact.full_name),
-            contact.own_or_legal_representative_emails,
+            contact.own_and_legal_representative_emails,
             reply_to=[self.study.email],
             recipients_string=contact.email_recipients_string,
         )

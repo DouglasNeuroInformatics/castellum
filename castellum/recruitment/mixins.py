@@ -197,7 +197,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     success = ctx.send_separate_mails(
                         self.study.mail_subject,
                         self.personalize_mail_body(self.study.mail_body, pick.contact),
-                        pick.contact.own_or_legal_representative_emails,
+                        pick.contact.own_and_legal_representative_emails,
                         reply_to=[self.study.email],
                         recipients_string=pick.contact.email_recipients_string,
                     )
