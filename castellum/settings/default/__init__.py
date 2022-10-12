@@ -14,6 +14,15 @@ PRODUCTION = False
 
 CASTELLUM_SITE_TITLE = 'Castellum'
 
+# Optional logo
+#
+# The logo will be displayed next to the title as a 40x40 square.
+# The logo most be available from the same origin.
+# All other origins are blocked for security reasons.
+#
+# Example: '/static/my_logo.svg'
+CASTELLUM_SITE_LOGO = None
+
 CASTELLUM_LOGOUT_TIMEOUT = datetime.timedelta(seconds=15 * 60)
 SESSION_COOKIE_AGE = 24 * 60 * 60
 
