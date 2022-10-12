@@ -36,6 +36,11 @@
             </div>
             <div class="container">
                 <div class="navbar navbar-expand-sm navbar-dark">
+                    {% if CASTELLUM_SITE_LOGO %}
+                        <a href="/" class="d-inline-block me-2" tabindex="-1" aria-hidden="true">
+                            <img src="{{ CASTELLUM_SITE_LOGO }}" alt="" width="40" height="40">
+                        </a>
+                    {% endif %}
                     <a href="/" rel="home" class="navbar-brand">{{ CASTELLUM_SITE_TITLE }}</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="{% translate 'Toggle navigation' %}">
                         <span class="navbar-toggler-icon"></span>
