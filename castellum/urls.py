@@ -75,7 +75,7 @@ urlpatterns = [
     ), name='login'),
     path('logout/', mfa_public(LogoutView.as_view()), name='logout'),
     path('favicon.ico', mfa_public(public(RedirectView.as_view(url='/static/images/favicon.ico')))),
-    path('theme.css', mfa_public(public(ThemeView.as_view()))),
+    path('theme.css', mfa_public(public(ThemeView.as_view())), name='bootstrap-theme'),
     path('ping/', dummy, name='ping'),
     path('feeds/', FeedsView.as_view(), name='feeds'),
 

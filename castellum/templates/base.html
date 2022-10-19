@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="{% static '@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     {% if BOOTSTRAP_THEME_COLORS %}
-        <link rel="stylesheet" type="text/css" href="/theme.css">
+        <link rel="stylesheet" type="text/css" href="{% url 'bootstrap-theme' %}">
     {% endif %}
     {% block extra_styles %}{% endblock %}
 </head>
