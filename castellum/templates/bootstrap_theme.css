@@ -1,47 +1,47 @@
 :root {
-    --bs-primary: {{ CASTELLUM_THEME_COLORS.0 }};
-    --bs-link-color: {{ CASTELLUM_THEME_COLORS.0 }};
-    --bs-link-hover-color: {{ CASTELLUM_THEME_COLORS.2 }};
+    --bs-primary: {{ BOOTSTRAP_THEME_COLORS.0 }};
+    --bs-link-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
+    --bs-link-hover-color: {{ BOOTSTRAP_THEME_COLORS.2 }};
 }
 
 .text-bg-primary {
-    background-color: {{ CASTELLUM_THEME_COLORS.0 }} !important;
+    background-color: {{ BOOTSTRAP_THEME_COLORS.0 }} !important;
 }
 
 .btn-primary {
-    --bs-btn-bg: {{ CASTELLUM_THEME_COLORS.0 }};
-    --bs-btn-border-color: {{ CASTELLUM_THEME_COLORS.0 }};
+    --bs-btn-bg: {{ BOOTSTRAP_THEME_COLORS.0 }};
+    --bs-btn-border-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
 
-    --bs-btn-hover-bg: {{ CASTELLUM_THEME_COLORS.1 }};
-    --bs-btn-hover-border-color: {{ CASTELLUM_THEME_COLORS.2 }};
+    --bs-btn-hover-bg: {{ BOOTSTRAP_THEME_COLORS.1 }};
+    --bs-btn-hover-border-color: {{ BOOTSTRAP_THEME_COLORS.2 }};
 
-    --bs-btn-active-bg: {{ CASTELLUM_THEME_COLORS.2 }};
-    --bs-btn-active-border-color: {{ CASTELLUM_THEME_COLORS.2 }};
+    --bs-btn-active-bg: {{ BOOTSTRAP_THEME_COLORS.2 }};
+    --bs-btn-active-border-color: {{ BOOTSTRAP_THEME_COLORS.2 }};
 
-    --bs-btn-disabled-bg: {{ CASTELLUM_THEME_COLORS.0 }};
-    --bs-btn-disabled-border-color: {{ CASTELLUM_THEME_COLORS.0 }};
+    --bs-btn-disabled-bg: {{ BOOTSTRAP_THEME_COLORS.0 }};
+    --bs-btn-disabled-border-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
 }
 
 .btn-outline-primary {
-  --bs-btn-color: {{ CASTELLUM_THEME_COLORS.0 }};
-  --bs-btn-border-color: {{ CASTELLUM_THEME_COLORS.0 }};
+  --bs-btn-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
+  --bs-btn-border-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
 
-  --bs-btn-hover-bg: {{ CASTELLUM_THEME_COLORS.0 }};
-  --bs-btn-hover-border-color: {{ CASTELLUM_THEME_COLORS.0 }};
+  --bs-btn-hover-bg: {{ BOOTSTRAP_THEME_COLORS.0 }};
+  --bs-btn-hover-border-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
 
-  --bs-btn-active-bg: {{ CASTELLUM_THEME_COLORS.0 }};
-  --bs-btn-active-border-color: {{ CASTELLUM_THEME_COLORS.0 }};
+  --bs-btn-active-bg: {{ BOOTSTRAP_THEME_COLORS.0 }};
+  --bs-btn-active-border-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
 
-  --bs-btn-disabled-color: {{ CASTELLUM_THEME_COLORS.0 }};
-  --bs-btn-disabled-border-color: {{ CASTELLUM_THEME_COLORS.0 }};
+  --bs-btn-disabled-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
+  --bs-btn-disabled-border-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
 }
 
 .form-check-input:checked {
-    background-color: {{ CASTELLUM_THEME_COLORS.0 }};
-    border-color: {{ CASTELLUM_THEME_COLORS.0 }};
+    background-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
+    border-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
 }
 
 .select2-container--bootstrap4 .select2-results__option--highlighted,
 .select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected="true"] {
-    background-color: {{ CASTELLUM_THEME_COLORS.0 }};
+    background-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
 }

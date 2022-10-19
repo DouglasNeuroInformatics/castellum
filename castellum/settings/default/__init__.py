@@ -25,7 +25,7 @@ CASTELLUM_SITE_LOGO = None
 
 # You can overwrite the primary color and its two darker shades.
 # Default: ['#0d6efd', '#0b5ed7', '#0a58ca']
-CASTELLUM_THEME_COLORS = None
+BOOTSTRAP_THEME_COLORS = None
 
 CASTELLUM_LOGOUT_TIMEOUT = datetime.timedelta(seconds=15 * 60)
 SESSION_COOKIE_AGE = 24 * 60 * 60
