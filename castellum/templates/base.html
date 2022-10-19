@@ -15,10 +15,8 @@
     <link rel="stylesheet" type="text/css" href="{% static '@fortawesome/fontawesome-free/css/all.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'select2/dist/css/select2.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css' %}">
+    {% if BOOTSTRAP_THEME_COLORS %}<link rel="stylesheet" type="text/css" href="{% url 'bootstrap-theme' %}">{% endif %}
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    {% if BOOTSTRAP_THEME_COLORS %}
-        <link rel="stylesheet" type="text/css" href="{% url 'bootstrap-theme' %}">
-    {% endif %}
     {% block extra_styles %}{% endblock %}
 </head>
 <body {% if user.is_authenticated %}data-logout-timeout="{{ CASTELLUM_LOGOUT_TIMEOUT.total_seconds }}"{% endif %}>
