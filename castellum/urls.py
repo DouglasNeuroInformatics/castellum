@@ -58,6 +58,11 @@ class FeedsView(LoginRequiredMixin, TemplateView):
         return context
 
 
+class ThemeView(TemplateView):
+    template_name = 'bootstrap_theme.css'
+    content_type = 'text/css'
+
+
 def dummy(request):
     return HttpResponse('', status=204)
 
@@ -70,6 +75,7 @@ urlpatterns = [
     ), name='login'),
     path('logout/', mfa_public(LogoutView.as_view()), name='logout'),
     path('favicon.ico', mfa_public(public(RedirectView.as_view(url='/static/images/favicon.ico')))),
+    path('theme.css', mfa_public(public(ThemeView.as_view()))),
     path('ping/', dummy, name='ping'),
     path('feeds/', FeedsView.as_view(), name='feeds'),
 
