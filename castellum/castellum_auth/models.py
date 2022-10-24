@@ -40,6 +40,7 @@ class User(AbstractUser):
     )
     expiration_date = DateTimeField(_('Expiration date'), blank=True, null=True)
     token = models.CharField(max_length=64, unique=True, default=generate_token)
+    description = models.TextField(_('Description'), blank=True)
 
     class Meta:
         ordering = ['username']
