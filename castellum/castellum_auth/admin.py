@@ -58,7 +58,7 @@ expiration_date_repr.short_description = _('expiration date')
 class UserAdmin(BaseUserAdmin):
     add_form = UserCreationAdminForm
     form = UserChangeAdminForm
-    list_display = list(BaseUserAdmin.list_display) + [expiration_date_repr]
+    list_display = ['username', 'first_name', 'last_name', 'last_login', expiration_date_repr]
     actions = ['list_permissions']
     fieldsets = [
         (None, {
