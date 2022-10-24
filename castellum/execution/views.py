@@ -716,3 +716,18 @@ class ExecutionProtectedMediaView(
 
     def get_path(self):
         return 'subjects/{}'.format(self.kwargs['path'])
+
+
+class StudyConsentProtectedMediaView(
+    ParticipationMixin, PermissionRequiredMixin, BaseProtectedMediaView
+):
+    permission_required = ['subjects.view_subject', 'recruitment.conduct_study']
+    study_status = [Study.EXECUTION]
+    participation_status = [Participation.INVITED]
+
+    def get_path(self):
+        return 'studyconsents/{}/{}/{}'.format(
+            self.study.pk,
+            self.participation.pk,
+            self.kwargs['filename'],
+        )
