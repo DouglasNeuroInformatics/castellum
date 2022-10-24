@@ -11,4 +11,5 @@ def test_iter_file_fields():
         'studies.Study.consent',
         'subjects.ConsentDocument.file',
         'subjects.Consent.file',
+        'recruitment.Participation.consent',
     ]

@@ -33,6 +33,14 @@ from castellum.studies.models import StudyMembership
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
+from castellum.utils.fields import RestrictedFileField
+
+
+def consent_upload_to(instance, filename):
+    assert instance.pk
+    return 'studyconsents/{}/{}/{}'.format(
+        instance.study.pk, instance.pk, filename
+    )
 
 
 class BaseMailBatch(models.Model):
@@ -195,6 +203,14 @@ class Participation(models.Model):
         blank=True,
         null=True,
         related_name='+',
+    )
+
+    consent = RestrictedFileField(
+        _('Study consent'),
+        blank=True,
+        upload_to=consent_upload_to,
+        content_types=['application/pdf'],
+        max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
     objects = ParticipationQuerySet.as_manager()
