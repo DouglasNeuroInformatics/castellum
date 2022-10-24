@@ -8,13 +8,13 @@ ENV PYTHONUNBUFFERED 1
 
 RUN adduser -D -g '' uwsgi
 
-RUN mkdir -p /log
-RUN chown uwsgi /log
-VOLUME /log
+RUN mkdir -p /code/log
+RUN chown uwsgi /code/log
+VOLUME /code/log
 
-RUN mkdir -p /media
-RUN chown uwsgi /media
-VOLUME /media
+RUN mkdir -p /code/media
+RUN chown uwsgi /code/media
+VOLUME /code/media
 
 EXPOSE 8000/tcp
 
