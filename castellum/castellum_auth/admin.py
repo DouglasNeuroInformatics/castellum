@@ -65,7 +65,7 @@ class UserAdmin(BaseUserAdmin):
             'fields': ['username', 'token', 'password']
         }),
         (_('personal info'), {
-            'fields': ['first_name', 'last_name', 'email', 'language']
+            'fields': ['first_name', 'last_name', 'email', 'language', 'description']
         }),
         (_('permissions'), {
             'fields': [
