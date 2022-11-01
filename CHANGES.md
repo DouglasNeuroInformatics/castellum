@@ -3,7 +3,7 @@
 ## breaking changes
 
 -   In the docker image, the `/log/` and `/media/` volumes have been
-    moved to `/code/log/` and /code/media/` respectively. This is to
+    moved to `/code/log/` and `/code/media/` respectively. This is to
     avoid conflicts as `/media/` is used as a mountpoint for removable
     media in many linux distributions.
 
