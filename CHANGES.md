@@ -1,3 +1,23 @@
+# 0.83.0 (unreleased)
+
+## breaking changes
+
+-   In the docker image, the `/log/` and `/media/` volumes have been
+    moved to `/code/log/` and /code/media/` respectively. This is to
+    avoid conflicts as `/media/` is used as a mountpoint for removable
+    media in many linux distributions.
+
+## new features
+
+-   The new setting `CASTELLUM_SITE_LOGO` can be used to add a logo to
+    the header.
+-   The new setting `BOOTSTRAP_THEME_COLORS` can be used to change the
+    primary color.
+-   The Admin UI to manage users has been improved. Among other things,
+    it is now possible to add a description to each user, e.g. to
+    reference their organisational unit.
+
+
 # 0.82.1 (2022-10-11)
 
 ## bug fixes
