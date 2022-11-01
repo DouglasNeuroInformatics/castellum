@@ -1,4 +1,4 @@
-# 0.83.0 (unreleased)
+# 0.83.0 (2022-11-01)
 
 ## breaking changes
 
