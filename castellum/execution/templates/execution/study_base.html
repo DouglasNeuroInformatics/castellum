@@ -12,9 +12,6 @@
             {% if has_subject_privacy_level %}
                 <a href="{% url 'execution:export' study.pk %}" class="btn btn-outline-primary mb-1">{% trans 'Export recruitment attributes' %}</a>
             {% endif %}
-            {% if study.consent %}
-                <a href="{{ study.consent.url }}" class="btn btn-outline-primary mb-1">{% translate 'Consent document' %}</a>
-            {% endif %}
         </div>
     </div>
 
