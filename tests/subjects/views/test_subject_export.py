@@ -70,6 +70,9 @@ EXCLUDED = [
     # Skipped because it would impact the privacy of users
     'recruitment.Participation.assigned_recruiter',
     'appointments.Appointment.assigned_conductors',
+
+    # Skipped because it should be included in study data
+    'recruitment.Participation.consent',
 ]
 
 

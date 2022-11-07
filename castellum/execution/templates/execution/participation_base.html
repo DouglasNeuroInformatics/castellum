@@ -23,6 +23,9 @@
                 <a href="{% url 'execution:participation-detail' study.pk participation.pk %}" class="nav-link {% if view.tab == 'overview' %}active{% endif %}">{% translate 'Overview' %}</a>
             </li>
             <li class="nav-item">
+                <a href="{% url 'execution:participation-consent' study.pk participation.pk %}" class="nav-link {% if view.tab == 'consent' %}active{% endif %}">{% translate 'Study consent' %}</a>
+            </li>
+            <li class="nav-item">
                 <a href="{% url 'execution:participation-update' study.pk participation.pk %}" class="nav-link {% if view.tab == 'update' %}active{% endif %}">{% translate 'Hints' %}</a>
             </li>
 
