@@ -326,6 +326,23 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
         return super().form_valid(form)
 
 
+class ParticipationConsentView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_consent.html'
+    tab = 'consent'
+
+
+class ParticipationConsentUpdateView(ParticipationDetailMixin, UpdateView):
+    template_name = 'execution/participation_consent_change.html'
+    fields = ['consent']
+    tab = 'consent'
+
+    def get_success_url(self):
+        return reverse(
+            'execution:participation-consent',
+            args=[self.study.pk, self.participation.pk],
+        )
+
+
 class ParticipationAppointmentsUpdateView(BaseAppointmentsUpdateView):
     permission_required = ['recruitment.conduct_study', 'appointments.change_appointment']
     study_status = [Study.EXECUTION]
