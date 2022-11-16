@@ -24,6 +24,7 @@ from django.urls import path
 from .api import APIAttributesView
 from .views import AdditionalInfoUpdateView
 from .views import AttributesUpdateView
+from .views import BlockedUpdateView
 from .views import ConsentChangeView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
@@ -99,6 +100,7 @@ urlpatterns = [
     path('<uuid:uuid>/export/', SubjectExportView.as_view(), name='export'),
     path('<uuid:uuid>/contact/', ContactUpdateView.as_view(), name='contact'),
     path('<uuid:uuid>/attributes/', AttributesUpdateView.as_view(), name='attributes'),
+    path('<uuid:uuid>/block/', BlockedUpdateView.as_view(), name='block'),
     path(
         '<uuid:uuid>/attributes/delete/',
         DeleteRecruitmentDataView.as_view(),

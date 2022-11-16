@@ -128,6 +128,20 @@ def test_additional_info_200(request, client, user_fixture, subject):
     assert response.status_code == 200
 
 
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+])
+def test_block_info_200(request, client, user_fixture, subject):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/{}/block/'.format(subject.uuid)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
 @pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),

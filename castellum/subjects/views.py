@@ -40,6 +40,7 @@ from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
+from django.views.generic import UpdateView
 from django.views.generic import View
 
 from dateutil.relativedelta import relativedelta
@@ -398,6 +399,16 @@ class ConsentChangeView(SubjectMixin, BaseConsentChangeView):
 
 class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):
     tab = 'additional-info'
+    slug_field = 'uuid'
+    slug_url_kwarg = 'uuid'
+
+
+class BlockedUpdateView(SubjectUpdateMixin, PermissionRequiredMixin, UpdateView):
+    model = Subject
+    fields = ['blocked']
+    permission_required = 'subjects.block_subject'
+    template_name = 'subjects/subject_block_form.html'
+    tab = 'block'
     slug_field = 'uuid'
     slug_url_kwarg = 'uuid'
 
