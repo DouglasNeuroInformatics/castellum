@@ -1,6 +1,8 @@
 {% extends "subjects/subject_base.html" %}
 {% load i18n auth %}
 
+{% block title %}{% translate "Study Participations" %} &middot; {{ block.super }}{% endblock %}
+
 {% block container_class %}container-lg{% endblock %}
 
 {% block content_with_messages %}
