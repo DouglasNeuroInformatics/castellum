@@ -1,7 +1,7 @@
 {% extends view.base_template|default:"recruitment/base.html" %}
 {% load static i18n django_bootstrap5 %}
 
-{% block title %}{% translate "Edit recruitment attributes" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Recruitment attributes" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     {% if subject.has_unnecessary_recruitment_data %}
