@@ -38,6 +38,11 @@
                 "change_subject",
                 "subjects",
                 "subject"
+            ],
+            [
+                "block_subject",
+                "subjects",
+                "subject"
             ]
         ]
     }
