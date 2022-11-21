@@ -749,27 +749,25 @@ msgid "Update data"
 msgstr "Daten aktualisieren"
 
 #: castellum/execution/templates/execution/participation_consent.html:15
-#, fuzzy, python-format
-#| msgid "This subject has given recruitment consent"
+#, python-format
 msgid "This subject has given consent for study \"%(study)s\""
-msgstr "Diese Proband*in hat eine Rekrutierungseinwilligung gegeben"
+msgstr ""
+"Diese Proband*in hat ihre Einwilligung für die Studie \"%(study)s\" gegeben"
 
 #: castellum/execution/templates/execution/participation_consent.html:17
 msgid "Download"
-msgstr ""
+msgstr "Herunterladen"
 
 #: castellum/execution/templates/execution/participation_consent.html:20
 #: castellum/execution/templates/execution/participation_consent.html:30
-#, fuzzy
-#| msgid "Download signed document"
 msgid "Download blueprint"
-msgstr "Unterschriebenes Dokument herunterladen"
+msgstr "Vorlage herunterladen"
 
 #: castellum/execution/templates/execution/participation_consent.html:27
-#, fuzzy, python-format
-#| msgid "This subject has no recruitment consent yet"
+#, python-format
 msgid "This subject has no study consent for \"%(study)s\" yet"
-msgstr "Diese Proband*innen hat noch keine Rekrutierungseinwilligung"
+msgstr ""
+"Diese Proband*innen hat noch keine Einwilligung für die Studie \"%(study)s\""
 
 #: castellum/execution/templates/execution/participation_consent.html:35
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:45
@@ -781,12 +779,13 @@ msgid ""
 "Study consent is legally required to start data collection. You can use this "
 "page to upload the study consent document so you don't lose track."
 msgstr ""
+"Eine Studieneinwilligung ist rechtlich für die Datenerhebung erforderlich. "
+"Auf dieser Seite können Sie das Einwilligungsdokument hochladen, um die "
+"Übersicht zu behalten."
 
 #: castellum/execution/templates/execution/participation_consent_change.html:5
-#, fuzzy
-#| msgid "Study consent"
 msgid "Change study consent"
-msgstr "Studieneinwilligung"
+msgstr "Studieneinwilligung ändern"
 
 #: castellum/execution/templates/execution/participation_consent_change.html:16
 #: castellum/execution/templates/execution/participation_dropout.html:40
