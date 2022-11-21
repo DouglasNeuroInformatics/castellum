@@ -56,7 +56,7 @@ In addition to user management with roles, `Castellum` controls access to datase
 `Castellum` allows that data is distributed across two databases (contact data can be kept separated from all other data). The actual research data is **never** stored in `Castellum`. The linking to this data is regulated by pseudonyms, which can only be resolved via appropriate rights in `Castellum`.
 
 ## Two-factor Authentication
-To protect individuals' personal data from compromise or weak passwords, `Castellum` uses a standalone two-factor authentication (2FA) for Django that was also developed by a `Castellum` team member [@mfa3]. Users must enter an additional code before they can log into `Castellum`. Currently, any generic time-based one-time password (TOTP, [@totp]) application or FIDO2 hardware security token is supported.
+To protect individuals' personal data from compromise or weak passwords, `Castellum` uses a standalone two-factor authentication (2FA) for Django that was also developed by a `Castellum` team member [@mfa3]. Users must enter an additional code before they can log into `Castellum`. Currently, any generic time-based one-time password application [@totp] or FIDO2 hardware security token is supported.
 
 ## Considerations on the Production Environment
 The application should be hosted locally at a research facility and it is recommended to make it only available on the intranet; i.e., direct access via the internet should not be possible to minimize security threats. The access to the web interface should always be encrypted (SSL).
