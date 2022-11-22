@@ -23,7 +23,7 @@ RUN apk update && apk add uwsgi uwsgi-python uwsgi-router_static python3 py3-pip
 WORKDIR code/
 
 RUN mkdir castellum
-COPY setup.cfg setup.py uwsgi.ini LICENSE ./
+COPY setup.cfg setup.py uwsgi.ini LICENSE COPYRIGHT ./
 COPY castellum/__init__.py castellum/
 COPY --from=0 node_modules/ node_modules
 
