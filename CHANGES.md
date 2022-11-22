@@ -1,3 +1,10 @@
+# 0.84.0 (unrelease)
+
+## new features
+
+-   Allow to upload signed study consents
+
+
 # 0.83.0 (2022-11-01)
 
 ## breaking changes
