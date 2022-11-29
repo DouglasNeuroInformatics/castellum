@@ -250,7 +250,7 @@ class Subject(TimeStampedModel):
         ] + settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS
         return dict(options).get(self.privacy_level)
 
-    def get_data(self):
+    def get_attributes(self):
         from castellum.recruitment.models import AttributeDescription
 
         qs = AttributeDescription.objects.all()

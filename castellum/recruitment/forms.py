@@ -128,7 +128,7 @@ class AttributesForm(forms.ModelForm):
     def __init__(self, instance=None, **kwargs):
         if not kwargs.get('initial'):
             kwargs['initial'] = {}
-            for key, value in instance.get_data().items():
+            for key, value in instance.get_attributes().items():
                 kwargs['initial'][key] = None if value == ANSWER_DECLINED else value
         super().__init__(instance=instance, **kwargs)
 
