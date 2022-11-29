@@ -234,14 +234,26 @@ class Contact(BaseContact):
         return self.id and self.legal_representatives.exists()
 
     @cached_property
+    def legal_representatives_transitive(self):
+        # ordered breadth first
+        i = 0
+        seen = [self]
+        while i < len(seen):
+            for c in seen[i].legal_representatives.order_by('pk'):
+                if c not in seen:
+                    seen.append(c)
+            i += 1
+        return seen[1:]
+
+    @cached_property
     def email_recipients(self):
         if self.email:
             return [self]
         else:
             return [
                 c
-                for c in self.legal_representatives.exclude(email='')
-                if not c.subject.blocked
+                for c in self.legal_representatives_transitive
+                if c.email and not c.subject.blocked
             ]
 
     @cached_property
