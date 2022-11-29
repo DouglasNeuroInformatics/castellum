@@ -233,6 +233,14 @@ class Contact(BaseContact):
     def has_legal_representative(self):
         return self.id and self.legal_representatives.exists()
 
+    def get_legal_representatives_tree(self, path=()):
+        path = [*path, self.pk]
+        children = []
+        for c in self.legal_representatives.exclude(pk__in=path).order_by('pk'):
+            subtree = c.get_legal_representatives_tree(path)
+            children.append((c, subtree))
+        return children
+
     @cached_property
     def legal_representatives_transitive(self):
         # ordered breadth first
