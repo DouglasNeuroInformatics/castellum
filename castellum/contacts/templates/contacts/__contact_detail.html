@@ -1,7 +1,5 @@
 {% load i18n utils %}
 
-<h3 class="h5">{% translate 'Contact data' %}</h3>
-
 <dl class="row">
     {% if legal_representative %}
         <dt class="col-sm-6">{% translate 'Legal representative' %}</dt>
@@ -9,6 +7,9 @@
             {{ contact.full_name }}
             {% if contact.legal_representative_of.count > 1 %}
                 {% icon 'users' label=_('This person represents other subjects who may also be suitable for this study.') %}
+            {% endif %}
+            {% if not contact.subject.is_available %}
+                <span class="list-icon text-bg-warning" title="{% blocktranslate with next_available=contact.subject.not_available_until %}not available until {{ next_available }}{% endblocktranslate %}">{% icon 'phone-slash' %}</span>
             {% endif %}
             {% if contact.subject.blocked %}
                 <span class="badge text-bg-dark my-1" title="{{ contact.subject.TOOLTIPS.blocked }}">{{ contact.subject|verbose_name:'blocked' }}</span>
@@ -32,22 +33,4 @@
 
     <dt class="col-sm-6">{% translate 'Address' %}</dt>
     <dd class="col-sm-6">{{ contact.address|default:'—' }}</dd>
-</dl>
-
-<h3 class="h5">{% translate "Operational hints" %}</h3>
-
-<dl class="row">
-    <dt class="col-sm-6">{% translate "Currently available" %}</dt>
-    <dd class="col-sm-6">
-        {% if contact.subject.is_available %}
-            {% translate "Yes" %}
-            <span class="list-icon text-bg-success">{% icon 'phone' %}</span>
-        {% else %}
-            {% translate "No" %}
-            <span class="list-icon text-bg-warning">{% icon 'phone' %}</span>
-            {% blocktranslate with next_available=contact.subject.not_available_until %}
-                (not until {{ next_available }})
-            {% endblocktranslate %}
-        {% endif %}
-    </dd>
 </dl>
