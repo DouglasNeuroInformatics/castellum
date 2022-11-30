@@ -32,7 +32,6 @@ from dateutil.relativedelta import relativedelta
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
-from castellum.recruitment.mixins import BaseMailRecruitmentView
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
@@ -172,16 +171,6 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
-
-
-class AnonymousInvitationMailRecruitmentView(BaseMailRecruitmentView):
-    permission_required = 'studies.change_study'
-    base_template = 'studies/study_base.html'
-    tab = 'mail'
-
-    def form_valid(self, form):
-        self._form_valid(form)
-        return redirect('studies:mail', self.study.pk)
 
 
 class FilterTrialConvertView(StudyMixin, PermissionRequiredMixin, TemplateView):
