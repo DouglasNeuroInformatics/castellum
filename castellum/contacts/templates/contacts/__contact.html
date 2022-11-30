@@ -1,4 +1,4 @@
-{% load i18n auth utils %}
+{% load i18n utils %}
 
 <dl class="row">
     <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
@@ -14,17 +14,4 @@
     <dd class="col-sm-6">{{ subject|display:'reliability' }}</dd>
 </dl>
 
-{% for legal_representative in subject.contact.legal_representatives.all %}
-    <hr>
-    {% has_privacy_level legal_representative.subject.privacy_level user as can_access %}
-    {% if can_access %}
-        {% include 'contacts/__contact_detail.html' with contact=legal_representative legal_representative=True %}
-    {% else %}
-        <dl class="row">
-            <dt class="col-sm-6 text-muted">{% translate 'Legal representative' %}</dt>
-            <dd class="col-sm-6 text-muted">{% translate 'insufficient privacy level' %}</dd>
-        </dl>
-    {% endif %}
-{% empty %}
-    {% include 'contacts/__contact_detail.html' with contact=subject.contact %}
-{% endfor %}
+{% include 'contacts/__contact_detail.html' with contact=subject.contact legal_representatives=subject.contact.get_legal_representatives_tree %}
