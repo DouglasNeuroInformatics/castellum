@@ -233,25 +233,45 @@ class Contact(BaseContact):
     def has_legal_representative(self):
         return self.id and self.legal_representatives.exists()
 
+    def get_legal_representatives_tree(self, path=()):
+        path = [*path, self.pk]
+        children = []
+        for c in self.legal_representatives.exclude(pk__in=path).order_by('pk'):
+            subtree = c.get_legal_representatives_tree(path)
+            children.append((c, subtree))
+        return children
+
     @cached_property
-    def own_or_legal_representative_emails(self):
+    def legal_representatives_transitive(self):
+        # ordered breadth first
+        i = 0
+        seen = [self]
+        while i < len(seen):
+            for c in seen[i].legal_representatives.order_by('pk'):
+                if c not in seen:
+                    seen.append(c)
+            i += 1
+        return seen[1:]
+
+    @cached_property
+    def email_recipients(self):
         if self.email:
-            return [self.email]
+            return [self]
         else:
             return [
-                c.email
-                for c in self.legal_representatives.exclude(email='')
-                if not c.subject.blocked
+                c
+                for c in self.legal_representatives_transitive
+                if c.email and not c.subject.blocked
             ]
 
     @cached_property
+    def own_or_legal_representative_emails(self):
+        return [c.email for c in self.email_recipients]
+
+    @cached_property
     def email_recipients_string(self):
-        if len(self.own_or_legal_representative_emails) > 1:
-            return ', '.join(
-                c.full_name
-                for c in self.legal_representatives.exclude(email='')
-                if not c.subject.blocked
-            )
+        if len(self.email_recipients) > 1:
+            return ', '.join(c.full_name for c in self.email_recipients)
 
     def save(self, *args, **kwargs):
         if not self.subject_uuid:

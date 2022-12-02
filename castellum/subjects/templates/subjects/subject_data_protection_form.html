@@ -60,6 +60,14 @@
                     {% endblocktranslate %}
                 </div>
             {% endif %}
+            {% if object.unknown_consent %}
+                <div class="form-text text-bg-warning p-2 mb-2">
+                    {% blocktranslate %}
+                        The subject has not told us their position on recruitment consent yet.
+                        Please contact and ask them to either explicitly give or decline consent to be recruited for future studies.
+                    {% endblocktranslate %}
+                </div>
+            {% endif %}
             <div class="form-text">
                 {% blocktranslate %}
                     Without recruitment consent, this subject will not be taken into account for future

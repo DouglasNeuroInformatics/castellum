@@ -1,9 +1,9 @@
-## Development setup
+# Running a test server
 
 First install some system packages. The exact command depends on your
 operating system. This is an example for Ubuntu:
 
-    sudo apt install python3-pip python3-venv npm make gettext sqlite3 libmagic1 gdal-bin libsqlite3-mod-spatialite
+    sudo apt install python3-pip python3-venv npm make gettext sqlite3 gdal-bin libsqlite3-mod-spatialite
 
 After that, running `make` inside the project folder will install all
 dependencies and start a test server. You can then log in with username

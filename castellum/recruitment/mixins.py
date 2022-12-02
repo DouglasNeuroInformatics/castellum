@@ -20,18 +20,14 @@
 
 import datetime
 import logging
-import random
 from typing import List
 
 from django.conf import settings
-from django.contrib import messages
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
-from django.views.generic import FormView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -39,13 +35,10 @@ from castellum.studies.mixins import StudyMixin
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils.feeds import BaseCalendarFeed
-from castellum.utils.mail import MailContext
 
 from . import filter_queries
 from .forms import AttributesForm
-from .forms import SendMailForm
 from .models import AttributeDescription
-from .models import MailBatch
 from .models import Participation
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
@@ -177,100 +170,3 @@ class BaseFollowUpFeed(BaseCalendarFeed):
 
     def item_uid(self, item):
         return 'followup-{}@{}'.format(item.pk, self.request.get_host())
-
-
-class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
-    template_name = 'recruitment/mail.html'
-    form_class = SendMailForm
-
-    def personalize_mail_body(self, mail_body, contact):
-        return mail_body.replace('{name}', contact.full_name)
-
-    def create_participations(self, batch_size):
-        subjects = get_recruitable(self.study)
-
-        participations = []
-        with MailContext('recruitment') as ctx:
-            while len(participations) < batch_size and subjects:
-                pick = subjects.pop(random.randrange(0, len(subjects)))
-                try:
-                    success = ctx.send_separate_mails(
-                        self.study.mail_subject,
-                        self.personalize_mail_body(self.study.mail_body, pick.contact),
-                        pick.contact.own_or_legal_representative_emails,
-                        reply_to=[self.study.email],
-                        recipients_string=pick.contact.email_recipients_string,
-                    )
-                except Exception:
-                    logger.exception('failed to send mail')
-                    break
-                if success:
-                    participations.append(Participation(
-                        study=self.study,
-                        subject=pick,
-                        status=Participation.AWAITING_RESPONSE,
-                        attempts=1,
-                    ))
-
-        return participations
-
-    def send_confirmation_mail(self, counter):
-        with MailContext('internal') as ctx:
-            ctx.send_mail(
-                self.study.mail_subject,
-                '{} emails have been sent.\n\n---\n\n{}'.format(counter, self.study.mail_body),
-                [self.study.email],
-            )
-
-    def get_weekly_mails(self):
-        # 6 instead of 7 days so that people can send mails e.g. every monday
-        result = (
-            self.study.mailbatch_set
-            .filter(datetime__gt=timezone.now() - datetime.timedelta(days=6))
-            .aggregate(models.Sum('contacted_size'))
-        )
-        return result['contacted_size__sum'] or 0
-
-    def _form_valid(self, form):
-        batch_size = form.cleaned_data['batch_size']
-        allowed_size = min(
-            batch_size,
-            settings.CASTELLUM_RECRUITMENT_MAIL_WEEKLY_LIMIT - self.get_weekly_mails(),
-        )
-
-        if allowed_size <= 0:
-            messages.error(self.request, _(
-                'You have reached the weekly limit for mail recruitment.'
-            ))
-            return
-
-        participations = self.create_participations(allowed_size)
-
-        if not participations:
-            messages.error(
-                self.request,
-                _(
-                    'No potential participants with email addresses could be found for '
-                    'this study.'
-                ),
-            )
-        elif len(participations) < batch_size:
-            messages.warning(
-                self.request,
-                _(
-                    'Only {added} out of {batchsize} potential participants with email '
-                    'addresses could be found for this study. These have been contacted.'
-                ).format(added=len(participations), batchsize=batch_size),
-            )
-        else:
-            messages.success(self.request, _('Emails sent successfully!'))
-
-        if participations:
-            batch = MailBatch.objects.create(
-                study=self.study,
-                contacted_size=len(participations),
-            )
-            for p in participations:
-                p.batch = batch
-            Participation.objects.bulk_create(participations)
-            self.send_confirmation_mail(len(participations))

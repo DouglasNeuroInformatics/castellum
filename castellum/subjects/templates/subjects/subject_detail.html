@@ -4,9 +4,9 @@
 {% block title %}{% translate "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    {% if not subject.contact.is_complete or not subject.has_legal_basis %}
+    {% if not subject.contact.is_complete or not subject.has_legal_basis or subject.consent_action_required %}
         <p class="alert alert-danger" role="alert">
-            <strong>{% translate 'Incomplete data' %}.</strong> {% translate 'Please edit data sets marked with' %} {% icon 'exclamation-triangle' label=_('Missing values') %}
+            <strong>{% translate 'Action required' %}.</strong> {% translate 'Please edit data sets marked with' %} {% icon 'exclamation-triangle' label=_('Action required') %}
         </p>
     {% endif %}
 
@@ -50,8 +50,8 @@
 
         <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
         <dd class="col-sm-6">
-            {{ subject.get_effective_privacy_level }}
-            <i class="fas fa-user-shield text-{{ subject|privacy_level }}" aria-hidden="true"></i>
+            {% icon 'user-shield' %}
+            {{ subject|display:'privacy_level' }}
         </dd>
 
         <dt class="col-sm-6">{% translate "Reliability" %}</dt>
@@ -70,7 +70,9 @@
     <dl class="row">
         <dt class="col-sm-6">
             {% translate 'Recruitment consent' %}
-            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR' %}</small>
+            <small class="d-block text-muted">
+                {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent)' %}
+            </small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.deceased %}
@@ -85,7 +87,9 @@
 
         <dt class="col-sm-6">
             {% translate 'Study consent' %}
-            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG' %}</small>
+            <small class="d-block text-muted">
+                {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 27 BDSG (additional rules for scientific research)' %}
+            </small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.has_legal_basis %}
@@ -98,7 +102,9 @@
 
         <dt class="col-sm-6">
             {% translate 'Legal representative' %}
-            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB' %}</small>
+            <small class="d-block text-muted">
+                {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 1626, 1902 BGB (responsibilities of legal representatives)' %}
+            </small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.has_legal_basis %}
@@ -111,7 +117,9 @@
 
         <dt class="col-sm-6">
             {{ subject|verbose_name:'blocked' }}
-            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. f GDPR' %}</small>
+            <small class="d-block text-muted">
+                {% translate 'Art. 6 (1) lit. f GDPR (legitimate interests)' %}
+            </small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.deceased %}

@@ -1,39 +1,17 @@
-{% load i18n auth utils subjects %}
+{% load i18n utils %}
 
 <dl class="row">
     <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
     <dd class="col-sm-6">
-        {{ subject.get_effective_privacy_level }}
-        <i class="fas fa-user-shield text-{{ subject|privacy_level }}" aria-hidden="true"></i>
+        {% icon 'user-shield' %}
+        {{ subject|display:'privacy_level' }}
+        {% if study and subject.privacy_level > study.members_min_privacy_level %}
+            {% icon 'warning' label=_('Not all members of this study can access this subject') %}
+        {% endif %}
     </dd>
 
     <dt class="col-sm-6">{% translate "Reliability" %}</dt>
     <dd class="col-sm-6">{{ subject|display:'reliability' }}</dd>
-
-    {# also show not_available_until if it should have been set on legal representatives #}
-    {% if not subject.is_available and subject.contact.has_legal_representative %}
-        <dt class="col-sm-6">{% translate "Currently available" %}</dt>
-        <dd class="col-sm-6">
-            {% translate "No" %}
-            <span class="list-icon text-bg-warning">{% icon 'phone' %}</span>
-            {% blocktranslate with next_available=subject.not_available_until %}
-                (not until {{ next_available }})
-            {% endblocktranslate %}
-        </dd>
-    {% endif %}
 </dl>
 
-{% for legal_representative in subject.contact.legal_representatives.all %}
-    <hr>
-    {% has_privacy_level legal_representative.subject.privacy_level user as can_access %}
-    {% if can_access %}
-        {% include 'contacts/__contact_detail.html' with contact=legal_representative legal_representative=True %}
-    {% else %}
-        <dl class="row">
-            <dt class="col-sm-6 text-muted">{% translate 'Legal representative' %}</dt>
-            <dd class="col-sm-6 text-muted">{% translate 'insufficient privacy level' %}</dd>
-        </dl>
-    {% endif %}
-{% empty %}
-    {% include 'contacts/__contact_detail.html' with contact=subject.contact %}
-{% endfor %}
+{% include 'contacts/__contact_detail.html' with contact=subject.contact legal_representatives=subject.contact.get_legal_representatives_tree %}

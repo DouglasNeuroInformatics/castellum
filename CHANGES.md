@@ -1,3 +1,103 @@
+# 0.84.0 (2022-11-22)
+
+## new features
+
+-   Allow to upload signed study consents
+
+
+# 0.83.0 (2022-11-01)
+
+## breaking changes
+
+-   In the docker image, the `/log/` and `/media/` volumes have been
+    moved to `/code/log/` and `/code/media/` respectively. This is to
+    avoid conflicts as `/media/` is used as a mountpoint for removable
+    media in many linux distributions.
+
+## new features
+
+-   The new setting `CASTELLUM_SITE_LOGO` can be used to add a logo to
+    the header.
+-   The new setting `BOOTSTRAP_THEME_COLORS` can be used to change the
+    primary color.
+-   The Admin UI to manage users has been improved. Among other things,
+    it is now possible to add a description to each user, e.g. to
+    reference their organisational unit.
+
+
+# 0.82.1 (2022-10-11)
+
+## bug fixes
+
+-   Add missing translations
+-   Handle exceptions when trying to send mails
+-   Do not notify about all to be deleted subjects every time
+
+
+# 0.82.0 (2022-09-20)
+
+## breaking changes
+
+-   The server-side validation of uploaded files was buggy and therefore
+    removed.
+-   It is no longer possible to document that additional suitability
+    documents exist.
+
+## bug fixes
+
+-   The order of consent documents has been fixed
+
+## new features
+
+-   The new setting `CASTELLUM_SITE_TITLE` allows to change the site
+    title
+-   The way privacy levels are displayed has been redesigned. It should
+    now be easier to tell if other users are able to access a subject or
+    not.
+-   Study type disinterest has been rephrased to also cover permanently
+    unsuitable subjects.
+
+
+# 0.81.0 (2022-08-30)
+
+## breaking changes
+
+-   Starting with this release, we will slightly change our release
+    schedule. Feature releases will be less frequent. However, we still
+    expect there to be a release every 3 weeks for dependency updates.
+-   The docker image is now based on alpine linux 3.16
+-   The temporary mechanism to honor recruitment consent grace periods
+    introduced in 0.79.0 has been removed again.
+-   The option `CASTELLUM_COVERLETTER_TEMPLATE` has been removed
+-   The option for study reviewers to display a complete overview of the
+    study has been removed. All actions concerning members and their
+    permissions are instead logged to the monitoring log.
+-   Date inputs now have a minimum value of 1900-01-01. This is to
+    prevent typos.
+
+## bug fixes
+
+-   Fixed dates in the "waiting for consent" maintenance view
+
+## new features
+
+-   It is now possible to find subjects by their pseudonyms from general
+    domains
+-   Users are informed more prominently if a subject's data is
+    incomplete.
+-   Recruiters can now exclude a subject from a study even if they do
+    not have the required privacy level.
+-   The help texts for legal bases now provides a brief summary for each
+    referenced legal article
+-   The command `geocode_all` now returns an error if nominatim is not
+    configured.
+-   The development documentation has been restructured.
+-   The docker image now includes a default uwsgi.ini
+-   Study members are now included in the study export. We expect to do
+    a bigger overhaul of the study export in the near future, so don't
+    expect this to be stable.
+
+
 # 0.80.1 (2022-08-22)
 
 ## bug fixes

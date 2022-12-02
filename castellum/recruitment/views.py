@@ -34,6 +34,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
@@ -59,8 +60,8 @@ from castellum.utils.views import BaseProtectedMediaView
 
 from . import filter_queries
 from .forms import ContactForm
+from .forms import SendMailForm
 from .mixins import BaseAttributesUpdateView
-from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
 from .models import MailBatch
@@ -70,6 +71,7 @@ from .templatetags.recruitment import study_legal_representative_hash
 
 FULLCALENDAR_DEFAULT_COLOR = '#3788d8'
 
+logger = logging.getLogger(__name__)
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
@@ -89,6 +91,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self):
         if self.sort == 'followup':
             order_by = ['followup_date', 'followup_time', '-updated_at']
+        elif self.sort == 'privacy-level':
+            order_by = ['subject__privacy_level', '-updated_at']
         elif self.sort == 'last_contact_attempt':
             order_by = ['-status_not_reached', '-updated_at']
         elif self.sort == 'statistics':
@@ -214,6 +218,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ('statistics', _('Statistics')),
             ('recently-active', _('Recently active')),
             ('assigned-to-me', _('Assigned to me')),
+            ('privacy-level', _('Privacy level')),
         ]
         sort_options = dict(context['sort_options'])
         context['sort_label'] = sort_options.get(self.sort, _('Relevance'))
@@ -315,10 +320,12 @@ class RecruitmentViewOpen(RecruitmentView):
         return self.get(request, *args, **kwargs)
 
 
-class MailRecruitmentView(BaseMailRecruitmentView):
+class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
+    template_name = 'recruitment/mail.html'
     tab = 'mail'
+    form_class = SendMailForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -331,8 +338,98 @@ class MailRecruitmentView(BaseMailRecruitmentView):
         )
         return context
 
+    def personalize_mail_body(self, mail_body, contact):
+        return mail_body.replace('{name}', contact.full_name)
+
+    def create_participations(self, batch_size):
+        subjects = get_recruitable(self.study)
+
+        participations = []
+        with MailContext('recruitment') as ctx:
+            while len(participations) < batch_size and subjects:
+                pick = subjects.pop(random.randrange(0, len(subjects)))
+                try:
+                    success = ctx.send_separate_mails(
+                        self.study.mail_subject,
+                        self.personalize_mail_body(self.study.mail_body, pick.contact),
+                        pick.contact.own_or_legal_representative_emails,
+                        reply_to=[self.study.email],
+                        recipients_string=pick.contact.email_recipients_string,
+                    )
+                except Exception:
+                    logger.exception('failed to send mail')
+                    break
+                if success:
+                    participations.append(Participation(
+                        study=self.study,
+                        subject=pick,
+                        status=Participation.AWAITING_RESPONSE,
+                        attempts=1,
+                    ))
+
+        return participations
+
+    def send_confirmation_mail(self, counter):
+        with MailContext('internal') as ctx:
+            ctx.send_mail(
+                self.study.mail_subject,
+                '{} emails have been sent.\n\n---\n\n{}'.format(counter, self.study.mail_body),
+                [self.study.email],
+            )
+
+    def get_weekly_mails(self):
+        # 6 instead of 7 days so that people can send mails e.g. every monday
+        result = (
+            self.study.mailbatch_set
+            .filter(datetime__gt=timezone.now() - datetime.timedelta(days=6))
+            .aggregate(models.Sum('contacted_size'))
+        )
+        return result['contacted_size__sum'] or 0
+
     def form_valid(self, form):
-        self._form_valid(form)
+        batch_size = form.cleaned_data['batch_size']
+        allowed_size = min(
+            batch_size,
+            settings.CASTELLUM_RECRUITMENT_MAIL_WEEKLY_LIMIT - self.get_weekly_mails(),
+        )
+
+        if allowed_size <= 0:
+            messages.error(self.request, _(
+                'You have reached the weekly limit for mail recruitment.'
+            ))
+            return
+
+        participations = self.create_participations(allowed_size)
+
+        if not participations:
+            messages.error(
+                self.request,
+                _(
+                    'No potential participants with email addresses could be found for '
+                    'this study.'
+                ),
+            )
+        elif len(participations) < batch_size:
+            messages.warning(
+                self.request,
+                _(
+                    'Only {added} out of {batchsize} potential participants with email '
+                    'addresses could be found for this study. These have been contacted.'
+                ).format(added=len(participations), batchsize=batch_size),
+            )
+        else:
+            messages.success(self.request, _('Emails sent successfully!'))
+
+        if participations:
+            batch = MailBatch.objects.create(
+                study=self.study,
+                contacted_size=len(participations),
+            )
+            for p in participations:
+                p.batch = batch
+            Participation.objects.bulk_create(participations)
+            self.send_confirmation_mail(len(participations))
+
         return redirect('recruitment:mail', self.study.pk)
 
 
@@ -377,7 +474,7 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, DetailView)
         self.send_reminder_mails(batch)
         batch.reminded = timezone.now()
         batch.save()
-        # should conform with BaseMailRecruitmentView
+        # should conform with MailRecruitmentView
         messages.success(self.request, _('Emails sent successfully!'))
         return redirect('recruitment:mail', self.study.pk)
 

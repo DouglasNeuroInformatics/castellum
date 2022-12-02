@@ -12,6 +12,21 @@ ALLOWED_HOSTS = []
 # Set this to True to prevent creating insecure demo content in production
 PRODUCTION = False
 
+CASTELLUM_SITE_TITLE = 'Castellum'
+
+# Optional logo
+#
+# The logo will be displayed next to the title as a 40x40 square.
+# The logo most be available from the same origin.
+# All other origins are blocked for security reasons.
+#
+# Example: '/static/my_logo.svg'
+CASTELLUM_SITE_LOGO = None
+
+# You can overwrite the primary color and its two darker shades.
+# Default: ['#0d6efd', '#0b5ed7', '#0a58ca']
+BOOTSTRAP_THEME_COLORS = None
+
 CASTELLUM_LOGOUT_TIMEOUT = datetime.timedelta(seconds=15 * 60)
 SESSION_COOKIE_AGE = 24 * 60 * 60
 

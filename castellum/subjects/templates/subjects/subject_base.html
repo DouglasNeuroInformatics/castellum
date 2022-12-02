@@ -30,7 +30,7 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:contact' subject.uuid %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">
                         {% if not subject.contact.is_complete %}
-                            {% icon 'exclamation-triangle' label=_('Missing values') %}
+                            {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
                         {% translate 'Contact' %}
                     </a>
@@ -45,8 +45,8 @@
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'subjects:data-protection' subject.uuid %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
-                        {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
-                            {% icon 'exclamation-triangle' label=_('Missing values') %}
+                        {% if subject.consent_action_required %}
+                            {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
                         {% translate 'Data protection' %}
                     </a>

@@ -67,7 +67,10 @@ class Subject(TimeStampedModel):
     attributes = models.JSONField(_('Recruitment attributes'), encoder=DjangoJSONEncoder)
     study_type_disinterest = models.ManyToManyField(
         'studies.StudyType',
-        verbose_name=_('Does not want to participate in the following study types'),
+        verbose_name=_(
+            'Does not want to participate or is permanently '
+            'unsuitable for the following study types'
+        ),
         blank=True,
         related_name='+',
     )
@@ -128,17 +131,6 @@ class Subject(TimeStampedModel):
 
     source = models.CharField(_('Data source'), max_length=128, blank=True)
 
-    additional_suitability_document = models.ManyToManyField(
-        'studies.StudyType',
-        verbose_name=_('Additional suitability document for study type'),
-        related_name='+',
-        help_text=_(
-            'Additional suitability documents are records that certify that a subject may safely '
-            'undergo all types of exams or tests conducted in the respective type of study.'
-        ),
-        blank=True,
-    )
-
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
     objects = SubjectQuerySet.as_manager()
@@ -168,6 +160,10 @@ class Subject(TimeStampedModel):
         ).exists()
 
     @cached_property
+    def unknown_consent(self):
+        return not Consent.objects.filter(subject=self).exists()
+
+    @cached_property
     def has_consent_or_waiting(self):
         from castellum.recruitment import filter_queries
         return Subject.objects.filter(
@@ -180,6 +176,19 @@ class Subject(TimeStampedModel):
             self.contact.is_underage is False
             and self.has_consent
             and self.consent.underage_when_given
+        )
+
+    @cached_property
+    def consent_action_required(self):
+        try:
+            deprecated = self.consent.document.is_deprecated
+        except AttributeError:
+            deprecated = False
+
+        return (
+            self.has_consent_from_before_full_age
+            or self.unknown_consent
+            or deprecated
         )
 
     @cached_property
@@ -233,7 +242,15 @@ class Subject(TimeStampedModel):
                 issues=self.reliability_issues, total=self.reliability_total
             )
 
-    def get_data(self):
+    def get_privacy_level_display(self):
+        options = [
+            (0.0, _('0 (regular)')),
+            (1.0, _('1 (increased)')),
+            (2.0, _('2 (high)')),
+        ] + settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS
+        return dict(options).get(self.privacy_level)
+
+    def get_attributes(self):
         from castellum.recruitment.models import AttributeDescription
 
         qs = AttributeDescription.objects.all()
@@ -262,6 +279,9 @@ class ConsentDocument(models.Model):
         content_types=['application/pdf'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
+
+    class Meta:
+        ordering = ['pk']
 
     def __str__(self):
         return self.name or _('Version {}').format(self.pk)

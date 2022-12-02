@@ -1,53 +1,57 @@
-{% load i18n utils %}
+{% load i18n auth utils %}
 
-<h3 class="h5">{% translate 'Contact data' %}</h3>
-
-<dl class="row">
-    {% if legal_representative %}
-        <dt class="col-sm-6">{% translate 'Legal representative' %}</dt>
-        <dd class="col-sm-6">
-            {{ contact.full_name }}
-            {% if contact.legal_representative_of.count > 1 %}
-                {% icon 'users' label=_('This person represents other subjects who may also be suitable for this study.') %}
-            {% endif %}
-            {% if contact.subject.blocked %}
-                <span class="badge text-bg-dark my-1" title="{{ contact.subject.TOOLTIPS.blocked }}">{{ contact.subject|verbose_name:'blocked' }}</span>
-            {% endif %}
-            {% if contact.subject.deceased %}
-                <span class="badge text-bg-dark my-1" title="{{ contact.subject.TOOLTIPS.deceased }}">{{ contact.subject|verbose_name:'deceased' }}</span>
-            {% endif %}
-        </dd>
-    {% endif %}
-
-    <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
-    <dd class="col-sm-6">
-        <a {% if contact.email %}href="mailto:{{ contact.email }}"{% endif %}>{{ contact|display:'email' }}</a>
-    </dd>
-
-    <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
-    <dd class="col-sm-6"><a {% if contact.phone_number %}href="tel:{{ contact.phone_number }}"{% endif %}>{{ contact|display:'phone_number' }}</a></dd>
-
-    <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
-    <dd class="col-sm-6"><a {% if contact.phone_number_alternative %}href="tel:{{ contact.phone_number_alternative }}"{% endif %}>{{ contact|display:'phone_number_alternative' }}</a></dd>
-
-    <dt class="col-sm-6">{% translate 'Address' %}</dt>
-    <dd class="col-sm-6">{{ contact.address|default:'—' }}</dd>
-</dl>
-
-<h3 class="h5">{% translate "Operational hints" %}</h3>
-
-<dl class="row">
-    <dt class="col-sm-6">{% translate "Currently available" %}</dt>
-    <dd class="col-sm-6">
-        {% if contact.subject.is_available %}
-            {% translate "Yes" %}
-            <span class="list-icon text-bg-success">{% icon 'phone' %}</span>
-        {% else %}
-            {% translate "No" %}
-            <span class="list-icon text-bg-warning">{% icon 'phone' %}</span>
-            {% blocktranslate with next_available=contact.subject.not_available_until %}
-                (not until {{ next_available }})
-            {% endblocktranslate %}
+{% if is_legal_representative or not legal_representatives %}
+    <dl class="row">
+        {% if is_legal_representative %}
+            <dt class="col-sm-6">{% translate 'Legal representative' %}</dt>
+            <dd class="col-sm-6">
+                {{ contact.full_name }}
+                {% if contact.legal_representative_of.count > 1 %}
+                    {% icon 'users' label=_('This person represents other subjects who may also be suitable for this study.') %}
+                {% endif %}
+                {% if not contact.subject.is_available %}
+                    <span class="list-icon text-bg-warning" title="{% blocktranslate with next_available=contact.subject.not_available_until %}not available until {{ next_available }}{% endblocktranslate %}">{% icon 'phone-slash' %}</span>
+                {% endif %}
+                {% if contact.subject.blocked %}
+                    <span class="badge text-bg-dark my-1" title="{{ contact.subject.TOOLTIPS.blocked }}">{{ contact.subject|verbose_name:'blocked' }}</span>
+                {% endif %}
+                {% if contact.subject.deceased %}
+                    <span class="badge text-bg-dark my-1" title="{{ contact.subject.TOOLTIPS.deceased }}">{{ contact.subject|verbose_name:'deceased' }}</span>
+                {% endif %}
+            </dd>
         {% endif %}
-    </dd>
-</dl>
+
+        {% if not legal_representatives %}
+            <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
+            <dd class="col-sm-6">
+                <a {% if contact.email %}href="mailto:{{ contact.email }}"{% endif %}>{{ contact|display:'email' }}</a>
+            </dd>
+
+            <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
+            <dd class="col-sm-6"><a {% if contact.phone_number %}href="tel:{{ contact.phone_number }}"{% endif %}>{{ contact|display:'phone_number' }}</a></dd>
+
+            <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
+            <dd class="col-sm-6"><a {% if contact.phone_number_alternative %}href="tel:{{ contact.phone_number_alternative }}"{% endif %}>{{ contact|display:'phone_number_alternative' }}</a></dd>
+
+            <dt class="col-sm-6">{% translate 'Address' %}</dt>
+            <dd class="col-sm-6">{{ contact.address|default:'—' }}</dd>
+        {% endif %}
+    </dl>
+{% endif %}
+
+{% if legal_representatives %}
+    <div {% if is_legal_representative %}class="ms-5"{% endif %}>
+        {% for legal_representative, subtree in legal_representatives %}
+            <hr>
+            {% has_privacy_level legal_representative.subject.privacy_level user as can_access %}
+            {% if can_access %}
+                {% include 'contacts/__contact_detail.html' with contact=legal_representative legal_representatives=subtree is_legal_representative=True %}
+            {% else %}
+                <dl class="row">
+                    <dt class="col-sm-6 text-muted">{% translate 'Legal representative' %}</dt>
+                    <dd class="col-sm-6 text-muted">{% translate 'insufficient privacy level' %}</dd>
+                </dl>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}

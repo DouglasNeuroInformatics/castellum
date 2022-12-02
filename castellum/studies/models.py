@@ -118,7 +118,6 @@ class Study(models.Model):
         ),
         blank=True,
     )
-    snapshot = models.TextField(_('Snapshot'), blank=True, editable=False)
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domains = GenericRelation(Domain)
@@ -145,7 +144,7 @@ class Study(models.Model):
         ),
         blank=True,
         upload_to=geofilter_upload_to,
-        content_types=['application/json', 'text/plain'],
+        content_types=['application/json'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
         validators=[JsonFileValidator(GEOJSON_SCHEMA, '#/$defs/geofilter')],
     )
@@ -265,6 +264,16 @@ class Study(models.Model):
             .aggregate(models.Max(key))
         )
         return result[key + '__max'] or 0
+
+    @cached_property
+    def members_max_privacy_level(self):
+        members = set(self.recruiters + self.conductors)
+        return max([user.get_privacy_level() for user in members], default=2)
+
+    @cached_property
+    def members_min_privacy_level(self):
+        members = set(self.recruiters + self.conductors)
+        return min([user.get_privacy_level() for user in members], default=2)
 
     @property
     def study_type(self):

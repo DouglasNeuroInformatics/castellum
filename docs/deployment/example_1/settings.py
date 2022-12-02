@@ -28,7 +28,7 @@ DATABASES = {
     }
 }
 
-MEDIA_ROOT = Path('/media')
+MEDIA_ROOT = Path('/code/media')
 PROTECTED_MEDIA_SERVER = 'uwsgi'
 
 # The example deployment does not contain a mail server, so use dummy instead
@@ -51,7 +51,7 @@ LOGGING = {
         },
         'monitoring-file': {
             'class': 'logging.FileHandler',
-            'filename': '/log/monitoring.log',
+            'filename': '/code/log/monitoring.log',
             'formatter': 'verbose',
         },
     },
@@ -79,8 +79,14 @@ AUTHENTICATION_BACKENDS.append('django_auth_ldap.backend.LDAPBackend')
 AUTH_LDAP_SERVER_URI = 'ldap://ldap:3389'
 AUTH_LDAP_BIND_DN = 'cn=admin,dc=example,dc=org'
 AUTH_LDAP_BIND_PASSWORD = 'admin'
-AUTH_LDAP_USER_SEARCH = LDAPSearch('dc=example,dc=org', ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
+AUTH_LDAP_USER_QUERY_FIELD = 'username'
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    'dc=example,dc=org',
+    ldap.SCOPE_SUBTREE,
+    '(|(uid=%(user)s)(mail=%(user)s))',
+)
 AUTH_LDAP_USER_ATTR_MAP = {
+    'username': 'uid',
     'first_name': 'givenName',
     'last_name': 'sn',
     'email': 'mail',

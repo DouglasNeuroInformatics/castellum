@@ -76,7 +76,7 @@ services:
     restart: unless-stopped
     environment:
       DJANGO_SETTINGS_MODULE: castellum.settings.deployment
-    command: crond -f -L /log/cron.log
+    command: crond -f -L /code/log/cron.log
     volumes:
       - ./settings.py:/code/castellum/settings/deployment.py:ro
       - ./crontab:/etc/crontabs/root:ro

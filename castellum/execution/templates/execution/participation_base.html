@@ -15,12 +15,18 @@
         {% if participation.dropped_out %}
             <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
         {% endif %}
+        {% if not subject.is_available %}
+            <span class="list-icon text-bg-warning" title="{% blocktranslate with next_available=subject.not_available_until %}not available until {{ next_available }}{% endblocktranslate %}">{% icon 'phone-slash' %}</span>
+        {% endif %}
     </div>
 
     <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
                 <a href="{% url 'execution:participation-detail' study.pk participation.pk %}" class="nav-link {% if view.tab == 'overview' %}active{% endif %}">{% translate 'Overview' %}</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'execution:participation-consent' study.pk participation.pk %}" class="nav-link {% if view.tab == 'consent' %}active{% endif %}">{% translate 'Study consent' %}</a>
             </li>
             <li class="nav-item">
                 <a href="{% url 'execution:participation-update' study.pk participation.pk %}" class="nav-link {% if view.tab == 'update' %}active{% endif %}">{% translate 'Hints' %}</a>
@@ -37,6 +43,9 @@
             {% if can_change_subject %}
                 <li class="nav-item">
                     <a href="{% url 'execution:contact-update' study.pk participation.pk %}" class="nav-link {% if view.tab == 'update-data' %}active{% endif %}">
+                        {% if subject.consent_action_required or not subject.contact.is_complete %}
+                            {% icon 'exclamation-triangle' label=_('Action required') %}
+                        {% endif %}
                         {% translate 'Update data' %}
                     </a>
                 </li>

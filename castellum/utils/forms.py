@@ -30,9 +30,8 @@ from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
 import jsonschema
-import magic
 from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
-from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
+from phonenumber_field.widgets import RegionalPhoneNumberWidget
 
 
 class ColorInput(forms.TextInput):
@@ -92,7 +91,7 @@ class DateTimeField(forms.SplitDateTimeField):
     widget = DateTimeInput
 
 
-class PhoneNumberWidget(PhoneNumberInternationalFallbackWidget):
+class PhoneNumberWidget(RegionalPhoneNumberWidget):
     def __init__(self, attrs=None):
         defaults = {
             'placeholder': _('e.g. 030 123456'),
@@ -171,12 +170,6 @@ class RestrictedFileField(forms.FileField):
         if self.max_upload_size and f.size > self.max_upload_size:
             raise forms.ValidationError(_('File is too big.'), code='size')
 
-        content_type = magic.detect_from_content(f.read(1024)).mime_type
-        if content_type not in self.content_types:
-            raise forms.ValidationError(_('Filetype not supported.'), code='content_type')
-
-        f.seek(0)
-
         return f
 
     def widget_attrs(self, widget):
@@ -224,7 +217,7 @@ class BaseImportForm(forms.Form):
 
     # magic seems to detect 'text/plain' for json files
     file = RestrictedFileField(
-        label=_('File'), content_types=['application/json', 'text/plain'], required=True
+        label=_('File'), content_types=['application/json'], required=True
     )
 
     def clean(self):

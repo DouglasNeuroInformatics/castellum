@@ -60,7 +60,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subject',
             name='study_type_disinterest',
-            field=models.ManyToManyField(blank=True, related_name='_subjects_subject_study_type_disinterest_+', to='studies.StudyType', verbose_name='Does not want to participate in the following study types'),
+            field=models.ManyToManyField(blank=True, related_name='_subjects_subject_study_type_disinterest_+', to='studies.StudyType', verbose_name='Does not want to participate or is permanently unsuitable for the following study types')
         ),
         migrations.RunPython(factory_m2m(
             'subjects', 'StudyTypeDisinterest', 'study_type_disinterest'

@@ -96,6 +96,8 @@ class ParticipationListView(
         sort = self.request.GET.get('sort')
         if sort == 'appointment_count':
             qs = qs.order_by('appointment_count')
+        elif sort == 'privacy-level':
+            qs = qs.order_by('subject__privacy_level')
         elif sort and sort.startswith('tag-'):
             try:
                 tag = self.study.executiontag_set.get(pk=sort[4:])
@@ -115,7 +117,7 @@ class ParticipationListView(
         context = super().get_context_data(**kwargs)
         context['session_count'] = self.study.studysession_set.count()
 
-        sort_options = [('name', _('Name'))]
+        sort_options = [('name', _('Name')), ('privacy-level', _('Privacy level'))]
         if context['session_count'] > 0:
             sort_options.append(('appointment_count', _('Appointments')))
         for tag in self.study.executiontag_set.exclude(participation=None):
@@ -324,6 +326,23 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
         return super().form_valid(form)
 
 
+class ParticipationConsentView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_consent.html'
+    tab = 'consent'
+
+
+class ParticipationConsentUpdateView(ParticipationDetailMixin, UpdateView):
+    template_name = 'execution/participation_consent_change.html'
+    fields = ['consent']
+    tab = 'consent'
+
+    def get_success_url(self):
+        return reverse(
+            'execution:participation-consent',
+            args=[self.study.pk, self.participation.pk],
+        )
+
+
 class ParticipationAppointmentsUpdateView(BaseAppointmentsUpdateView):
     permission_required = ['recruitment.conduct_study', 'appointments.change_appointment']
     study_status = [Study.EXECUTION]
@@ -454,7 +473,10 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
         with MailContext('recruitment') as ctx:
             for participation in interested:
-                success = self.send_mail(ctx, participation, **form.cleaned_data)
+                try:
+                    success = self.send_mail(ctx, participation, **form.cleaned_data)
+                except Exception:
+                    success = False
                 if success:
                     succeeded.append(participation)
                 else:
@@ -711,3 +733,18 @@ class ExecutionProtectedMediaView(
 
     def get_path(self):
         return 'subjects/{}'.format(self.kwargs['path'])
+
+
+class StudyConsentProtectedMediaView(
+    ParticipationMixin, PermissionRequiredMixin, BaseProtectedMediaView
+):
+    permission_required = ['subjects.view_subject', 'recruitment.conduct_study']
+    study_status = [Study.EXECUTION]
+    participation_status = [Participation.INVITED]
+
+    def get_path(self):
+        return 'studyconsents/{}/{}/{}'.format(
+            self.study.pk,
+            self.participation.pk,
+            self.kwargs['filename'],
+        )
