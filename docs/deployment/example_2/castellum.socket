@@ -2,7 +2,7 @@
 Description=gunicorn socket for castellum
 
 [Socket]
-ListenStream=/run/gunicorn.sock
+ListenStream=/run/castellum.sock
 
 [Install]
 WantedBy=sockets.target

@@ -62,6 +62,10 @@ These are some additional security measures we strongly recommend:
 
 -   Use HTTPS transport encryption
 -   [Restrict access by IP address](https://nginx.org/en/docs/http/ngx_http_access_module.html)
+-   Enable [django-axes](https://django-axes.readthedocs.io/) to block
+    brute-force attacks on API views
+-   Enforce the use of a second factor for user authentication via
+    [django-mfa3](https://github.com/xi/django-mfa3)
 
 Also see the [django documentation on
 security](https://docs.djangoproject.com/en/2.2/topics/security/).
