@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='studysession',
             name='reminders_enabled',
-            field=models.BooleanField(default=True, verbose_name='Send reminder emails'),
+            field=models.BooleanField(default=True, verbose_name='Enable reminder emails'),
         ),
     ]
