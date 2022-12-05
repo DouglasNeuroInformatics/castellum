@@ -107,10 +107,18 @@ class StudyFilterForm(forms.Form):
 class SessionForm(forms.ModelForm):
     class Meta:
         model = StudySession
-        fields = ['name', 'duration', 'resources', 'type', 'reminder_text', 'schedule_id']
+        fields = [
+            'name',
+            'duration',
+            'resources',
+            'type',
+            'reminders_enabled',
+            'reminder_text',
+            'schedule_id',
+        ]
         help_texts = {
             'reminder_text': format_lazy(
-                _('All subjects will be reminded {} days before each appointment.'),
+                _('If enabled, all subjects will be reminded {} days before the appointment.'),
                 settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days,
             )
         }

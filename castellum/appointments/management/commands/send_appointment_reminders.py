@@ -73,6 +73,7 @@ def send_appointment_reminders(base_url):
                 start__lte=now + settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD,
                 reminded=False,
                 session__study=study,
+                session__reminders_enabled=True,
             ).select_related('participation__subject')
             not_reachable = []
 

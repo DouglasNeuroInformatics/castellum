@@ -183,6 +183,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
                     name=session.name,
                     duration=session.duration,
                     reminder_text=session.reminder_text,
+                    reminders_enabled=session.reminders_enabled,
                 )
                 s.type.set(session.type.all())
                 s.resources.set(session.resources.all())

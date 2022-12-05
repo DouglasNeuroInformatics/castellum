@@ -25,9 +25,6 @@
                 <time id="sessions-end" datetime="{{ study.sessions_end|date:'c' }}">{{ study|display:'sessions_end' }}</time>
             </dd>
         </dl>
-        <p>
-            {% blocktranslate with reminder_period=reminder_period %}The subject will be reminded {{ reminder_period }} days before each appointment.{% endblocktranslate %}
-        </p>
 
         {% for entry in form.appointments %}
             <fieldset class="mb-3">
@@ -48,6 +45,9 @@
                 </div>
                 {% if entry.reminder_text %}
                     <div class="form-text">{{ entry.reminder_text }}</div>
+                {% endif %}
+                {% if entry.reminders_enabled %}
+                    <div class="form-text">{% blocktranslate with reminder_period=reminder_period %}The subject will be reminded {{ reminder_period }} days before the appointment.{% endblocktranslate %}</div>
                 {% endif %}
             </fieldset>
         {% endfor %}
