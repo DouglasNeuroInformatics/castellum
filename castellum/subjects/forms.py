@@ -129,7 +129,6 @@ class AdditionalInfoForm(forms.ModelForm):
         model = Subject
         fields = [
             'deceased',
-            'blocked',
             'not_available_until',
             'source',
         ]
