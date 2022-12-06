@@ -9,7 +9,7 @@ from .mail import *
 
 ALLOWED_HOSTS = []
 
-# Set this to True to prevent creating insecure demo content in production
+# Set this to True to prevent the creation of insecure demo content
 PRODUCTION = False
 
 CASTELLUM_SITE_TITLE = 'Castellum'
