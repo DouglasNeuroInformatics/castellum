@@ -31,13 +31,6 @@ deployment and only explains the pieces that are specific to Castellum.
     -   SMTP details
     -   LDAP details (optional)
 
-## Example
-
-An example deployment configuration using docker, uWSGI, PostgreSQL, and
-LDAP is located in `docs/deployment/example/`. You can try this
-configuration yourself by executing the `start.sh` script in that
-folder. Pass `--demo` to automatically create demo content.
-
 ## Authentication
 
 We recommend that you integrate Castellum with your existing
@@ -52,15 +45,22 @@ command.
 
 ## Security
 
-Since Castellum processes special categories of data according to GDRP,
-additional security measures are required. While we try to do as much as
-possible, not all of these measures can be implemented in the
-application itself.
+Some of the data processed by Castellum represent special categories
+of personal data according to Article 9 of the European Union's General
+Data Protection Regulation (GDPR). Therefore, special requirements
+pertaining to user authentication, security, backups and maintenance
+have to be taken into consideration when setting up a production
+instance of Castellum.
+
+Castellum has been carefully designed to implement technical and
+organisational measures to protect the personal data it processes.
+However, not all of these measures can be implemented in the application
+itself.
 
 These are some additional security measures we strongly recommend:
 
 -   Use HTTPS only
--   [Restrict access by IP address](https://nginx.org/en/docs/http/ngx_http_access_module.html)
+-   Expose Castelum only to an internal network, not the internet.
 -   Enable [django-axes](https://django-axes.readthedocs.io/) to block
     brute-force attacks on API views
 -   Enforce the use of a second factor for user authentication via
@@ -71,13 +71,13 @@ security](https://docs.djangoproject.com/en/2.2/topics/security/).
 
 ## Backups
 
-Of course it is important to backup the database. Since everything is
-stored in a regular PostgreSQL, you should be able to employ your
-existing backup solution.
+As with any other database application, having a database backup
+strategy in place is important. We recommend using PostgreSQL, which
+permits employing existing backup solutions.
 
-However, you should coordinate with the data protection officer to
-discuss the implications for data protection, e.g. [deletion of subject
-data](https://castellum.mpib.berlin/documentation/en/guides/subject-management.html#delete-a-subject).
+However, you should coordinate with your local data protection officer
+to discuss the implications for data protection, e.g. [deletion of
+subject data](https://castellum.mpib.berlin/documentation/en/guides/subject-management.html#delete-a-subject).
 We recommend to keep backups only for a short amount of time (e.g. 14
 days) and inform subjects about the date when all their data, including
 backups, will be deleted.
@@ -93,8 +93,8 @@ user requests. We provide the following management commands for that:
     entries.
 -   `cleanup_underage_consents`: Remove recruitment consents for
     underage subjects 2 years after they have come of age.
--   `cleanup_filter_trials`: Delete filter trials as they are meant to be
-    used only once.
+-   `cleanup_filter_trials`: Delete filter trials as they are meant to
+    be used only once.
 -   `notify_to_be_deleted`: Automatically notify about content that
     should be deleted.
 -   `notify_sessions_end`: Remind study members to finish a study when
@@ -144,5 +144,5 @@ before you can start using it:
 ## Updates
 
 After updating to a new version of Castellum it is usually sufficient to
-run `django-admin migrateall`. Any additional steps that are
-required will be mentioned in the release notes.
+run `django-admin migrateall`. Any additional steps that are required
+will be mentioned in the release notes.

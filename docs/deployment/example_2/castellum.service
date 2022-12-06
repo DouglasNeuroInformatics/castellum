@@ -1,0 +1,23 @@
+[Unit]
+Description=gunicorn daemon for serving castellum
+BindsTo=castellum.socket
+After=castellum.socket
+After=network.target
+
+[Service]
+# CHANGEME: Group setting below must match nginx default group, see /etc/nginx/nginx.conf
+Group=nginx
+EnvironmentFile=/etc/castellum/secret.pw
+EnvironmentFile=/etc/castellum/db_default.pw
+EnvironmentFile=/etc/castellum/db_contacts.pw
+EnvironmentFile=/etc/castellum/ldap.pw
+Environment="DJANGO_SETTINGS_MODULE=castellum.settings.customizations"
+WorkingDirectory=/opt/castellum
+ExecStart=gunicorn \
+          --access-logfile - \
+          --workers 4 \
+          --bind unix:/run/castellum.sock \
+          castellum.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
