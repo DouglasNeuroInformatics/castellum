@@ -41,6 +41,7 @@ from .views import ParticipationAddView
 from .views import ParticipationDeleteView
 from .views import ParticipationListView
 from .views import ParticipationRecruitView
+from .views import ReportDetailView
 from .views import ReportView
 from .views import SubjectCreationRequestDeleteView
 from .views import SubjectDeleteView
@@ -137,6 +138,7 @@ urlpatterns = [
         name='participation-delete',
     ),
     path('<uuid:pk>/report/', ReportView.as_view(), name='report'),
+    path('reports/<int:pk>/', ReportDetailView.as_view(), name='report-detail'),
 ]
 
 if settings.CASTELLUM_API_ENABLED:

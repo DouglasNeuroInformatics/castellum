@@ -437,6 +437,22 @@ class ReportView(SubjectMixin, BaseReportView):
         return reverse('subjects:detail', args=[self.subject.pk])
 
 
+class ReportDetailView(PermissionRequiredMixin, DetailView):
+    model = Report
+    permission_required = ['subjects.view_blockrequest']
+
+    def post(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if request.POST.get('submit') == 'block':
+            obj.subject.blocked = True
+            obj.subject.save()
+            messages.success(request, _('Subject has been blocked.'))
+        else:
+            messages.success(request, _('Report has been discarded.'))
+        obj.delete()
+        return redirect('index')
+
+
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = Participation
     template_name = 'subjects/participation_list.html'
