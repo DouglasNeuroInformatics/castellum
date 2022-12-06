@@ -19,8 +19,11 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 
@@ -31,6 +34,7 @@ from .forms import AdditionalInfoForm
 from .forms import DataProtectionForm
 from .models import Consent
 from .models import ConsentDocument
+from .models import Report
 from .models import Subject
 
 
@@ -144,3 +148,17 @@ class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = AdditionalInfoForm
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_additional_info_form.html'
+
+
+class BaseReportView(PermissionRequiredMixin, CreateView):
+    model = Report
+    fields = ['support_requested']
+    template_name = 'subjects/subject_report.html'
+
+    def form_valid(self, form):
+        form.instance.subject = self.subject
+        form.instance.user = self.request.user
+        obj = form.save()
+
+        messages.success(self.request, _('Your report has been received.'))
+        return redirect(self.get_success_url())

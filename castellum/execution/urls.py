@@ -50,6 +50,7 @@ from .views import ParticipationPseudonymsView
 from .views import ParticipationPseudonymView
 from .views import ParticipationUpdateView
 from .views import ProgressView
+from .views import ReportView
 from .views import ResolveView
 from .views import TagView
 
@@ -141,6 +142,7 @@ urlpatterns = [
         LegalRepresentativeContactUpdateView.as_view(),
         name='legal-representative-contact-update',
     ),
+    path('<int:study_pk>/<int:pk>/report/', ReportView.as_view(), name='report'),
 ]
 
 if settings.CASTELLUM_API_ENABLED:

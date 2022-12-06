@@ -67,8 +67,10 @@ from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
 from .mixins import BaseConsentChangeView
 from .mixins import BaseDataProtectionUpdateView
+from .mixins import BaseReportView
 from .mixins import SubjectMixin
 from .models import ExportAnswer
+from .models import Report
 from .models import Subject
 from .models import SubjectCreationRequest
 
@@ -423,6 +425,16 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
         self.subject.study_type_disinterest.all().delete()
 
         return redirect('subjects:attributes', pk=self.subject.pk)
+
+
+class ReportView(SubjectMixin, BaseReportView):
+    permission_required = ['subjects.view_subject']
+
+    def get_subject(self):
+        return get_object_or_404(Subject, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse('subjects:detail', args=[self.subject.pk])
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):

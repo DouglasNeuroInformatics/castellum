@@ -64,6 +64,7 @@ from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseConsentChangeView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.subjects.mixins import BaseReportView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
@@ -722,6 +723,18 @@ class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContact
                 return legal_representative
 
         raise Http404
+
+
+class ReportView(ParticipationMixin, BaseReportView):
+    study_status = [Study.EXECUTION]
+    participation_status = [Participation.INVITED]
+    permission_required = 'recruitment.conduct_study'
+    base_template = 'execution/participation_base.html'
+
+    def get_success_url(self):
+        return reverse(
+            'execution:participation-detail', args=[self.study.pk, self.participation.pk]
+        )
 
 
 class ExecutionProtectedMediaView(

@@ -41,6 +41,7 @@ from .views import RecruitmentCleanupView
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
+from .views import ReportView
 
 app_name = 'recruitment'
 urlpatterns = [
@@ -70,6 +71,7 @@ urlpatterns = [
     path('<int:study_pk>/followups/', FollowUpFeedForStudy.as_view(), name='followups-feed'),
     path('<int:study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
     path('<int:study_pk>/<int:pk>/exclude/', ExcludeView.as_view(), name='exclude'),
+    path('<int:study_pk>/<int:pk>/report/', ReportView.as_view(), name='report'),
     path(
         '<int:study_pk>/<int:pk>/appointments/',
         AppointmentsUpdateView.as_view(),
