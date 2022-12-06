@@ -120,6 +120,13 @@ CASTELLUM_DEFAULT_EXECUTION_TAGS = [
 # make sure to setup a cron-job for ``notify_to_be_deleted``
 CASTELLUM_GDPR_NOTIFICATION_TO = []
 
+# Emails that should receive a notification when a subject is reported
+# for inappropriate behavior.
+#
+# The recipients need the ``subjects.view_report`` permission to actuay
+# access the report.
+CASTELLUM_REPORT_NOTIFICATION_TO = []
+
 # Text that is shown to users who file a report.
 #
 # You can include details about the review process or links for specific

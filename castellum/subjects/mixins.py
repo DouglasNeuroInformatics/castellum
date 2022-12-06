@@ -160,5 +160,19 @@ class BaseReportView(PermissionRequiredMixin, CreateView):
         form.instance.user = self.request.user
         obj = form.save()
 
+        path = reverse('subjects:report-detail', args=[obj.pk])
+        url = self.request.build_absolute_uri(path)
+
+        with MailContext('internal') as ctx:
+            ctx.send_mail(
+                settings.CASTELLUM_REPORT_NOTIFICATION_SUBJECT,
+                (
+                    lambda: {'url': url},
+                    settings.CASTELLUM_REPORT_NOTIFICATION_BODY,
+                    settings.CASTELLUM_REPORT_NOTIFICATION_BODY_EN,
+                ),
+                settings.CASTELLUM_REPORT_NOTIFICATION_TO,
+            )
+
         messages.success(self.request, _('Your report has been received.'))
         return redirect(self.get_success_url())

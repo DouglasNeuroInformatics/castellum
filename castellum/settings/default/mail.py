@@ -111,3 +111,10 @@ CASTELLUM_SESSIONS_END_MAIL_BODY = (
     'subjects rights.'
 )
 CASTELLUM_SESSIONS_END_MAIL_BODY_EN = None
+
+CASTELLUM_REPORT_NOTIFICATION_SUBJECT = 'Subject reported'
+CASTELLUM_REPORT_NOTIFICATION_BODY = (
+    'A user reported a subject for inappropriate behavior. '
+    'Please review the report here:\n\n{url}'
+)
+CASTELLUM_REPORT_NOTIFICATION_BODY_EN = None
