@@ -16,7 +16,7 @@ def migrate_data(apps, schema_editor):
 
     for subject in Subject.objects.filter(consent__status=WAITING):
         # needs to be update() in order not to set Subject.updated_at to now
-        Subject.objects.filter(uuid=subject.uuid).update(
+        Subject.objects.filter(pk=subject.pk).update(
             consent_waiting_since=subject.consent.updated_at
         )
         subject.consent.delete()

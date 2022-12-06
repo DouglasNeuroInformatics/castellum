@@ -43,7 +43,7 @@
                                 {% has_privacy_level subject.privacy_level user as can_access %}
                                 <li class="table-list-item">
                                     {% if can_access %}
-                                        <svg class="identicon my-1 me-2" data-jdenticon-value="{{ subject.uuid }}" aria-hidden="true"></svg>
+                                        <svg class="identicon my-1 me-2" data-jdenticon-value="{{ subject.pk }}" aria-hidden="true"></svg>
                                     {% endif %}
                                     <div>
                                         {% if can_access %}

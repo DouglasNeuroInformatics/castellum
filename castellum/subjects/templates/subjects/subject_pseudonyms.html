@@ -18,7 +18,7 @@
                     <td>{{ domain|display:'key' }}</dt>
                     <td>{{ domain|display:'name' }}</dt>
                     <td>
-                        <a href="{% url 'subjects:pseudonym' subject.uuid domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
+                        <a href="{% url 'subjects:pseudonym' subject.pk domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
                             {% translate 'get pseudonym' %}
                         </a>
                     </td>

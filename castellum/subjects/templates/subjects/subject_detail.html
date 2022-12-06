@@ -17,7 +17,7 @@
                 {% for c in subject.contact.legal_representatives.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
-                        <a href="{% url 'subjects:detail' c.subject.uuid %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                        <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
                         <span class="text-muted">{% translate '(insufficient privacy level)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
@@ -31,7 +31,7 @@
                 {% for c in subject.contact.legal_representative_of.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
-                        <a href="{% url 'subjects:detail' c.subject.uuid %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                        <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
                         <span class="text-muted">{% translate '(insufficient privacy level)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
@@ -80,7 +80,7 @@
             {% elif subject.has_legal_basis %}
                 {{ subject|display:'has_consent_or_waiting' }}
             {% else %}
-                {% url 'subjects:data-protection' subject.uuid as url %}
+                {% url 'subjects:data-protection' subject.pk as url %}
                 {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktranslate %}
             {% endif %}
         </dd>
@@ -95,7 +95,7 @@
             {% if subject.has_legal_basis %}
                 {{ subject|display:'has_study_consent' }}
             {% else %}
-                {% url 'subjects:participation-list' subject.uuid as url %}
+                {% url 'subjects:participation-list' subject.pk as url %}
                 {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktranslate %}
             {% endif %}
         </dd>
@@ -127,7 +127,7 @@
             {% elif subject.has_legal_basis %}
                 {{ subject|display:'blocked' }}
             {% else %}
-                {% url 'subjects:additional-info' subject.uuid as url %}
+                {% url 'subjects:additional-info' subject.pk as url %}
                 {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">block this subject</a>.{% endblocktranslate %}
             {% endif %}
         </dd>

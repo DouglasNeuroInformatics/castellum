@@ -10,7 +10,7 @@
                 <strong>{% translate 'Unnecessary recruitment data' %}.</strong>
                 {{ subject.TOOLTIPS.unnecessary_recruitment_data }}
             </p>
-            <a href="{% url 'subjects:delete-recruitment-data' subject.uuid %}" class="btn btn-warning">{% translate 'Delete all' %}</a>
+            <a href="{% url 'subjects:delete-recruitment-data' subject.pk %}" class="btn btn-warning">{% translate 'Delete all' %}</a>
         </div>
     {% endif %}
 

@@ -79,7 +79,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
 
             with MailContext('internal') as ctx:
                 if self.object.export_requested and not old.export_requested:
-                    rel = reverse('subjects:detail', args=[self.object.uuid])
+                    rel = reverse('subjects:detail', args=[self.object.pk])
                     url = self.request.build_absolute_uri(rel)
 
                     self.object.to_be_deleted_notified = ctx.send_mail(
@@ -93,7 +93,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                     )
 
                 if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
-                    rel = reverse('subjects:detail', args=[self.object.uuid])
+                    rel = reverse('subjects:detail', args=[self.object.pk])
                     url = self.request.build_absolute_uri(rel)
 
                     self.object.to_be_deleted_notified = ctx.send_mail(
@@ -126,7 +126,7 @@ class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
     def get_object(self):
         # weird because model = Consent, but this is only used in
         # SubjectMixin, not in CreateView
-        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
+        return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
     def get_form(self):
         if not ConsentDocument.objects.exists():

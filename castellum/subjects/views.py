@@ -189,7 +189,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 monitoring_logger.info('SubjectData update: {} by {}'.format(
                     subject.pk, self.request.user.pk
                 ))
-                return redirect('subjects:detail', uuid=subject.uuid)
+                return redirect('subjects:detail', pk=subject.pk)
             else:
                 messages.error(request, _(
                     'Both first and last name must be provided in order to create a subject!'
@@ -216,7 +216,7 @@ class SubjectResolveView(PermissionRequiredMixin, FormView):
             monitoring_logger.info('Pseudonym resolved: domain {} by {}'.format(
                 form.cleaned_data['domain'], self.request.user.pk
             ))
-            return redirect('subjects:detail', subject.uuid)
+            return redirect('subjects:detail', subject.pk)
         except Subject.DoesNotExist:
             messages.warning(self.request, _('No match found'))
             return self.render_to_response(self.get_context_data(form=form))
@@ -227,8 +227,6 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     permission_required = 'subjects.view_subject'
     template_name = 'subjects/subject_detail.html'
     tab = 'detail'
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -252,8 +250,6 @@ class SubjectPseudonymsView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_pseudonyms.html'
     tab = 'detail'
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
 
     def has_permission(self):
         return (
@@ -269,7 +265,7 @@ class SubjectPseudonymsView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
 class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
     def get_object(self):
-        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
+        return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
     def has_permission(self):
         return (
@@ -292,8 +288,6 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     model = Subject
     permission_required = 'subjects.delete_subject'
     tab = 'delete'
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
 
     def is_last_legal_representative(self):
         return any(
@@ -333,8 +327,6 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     template_name = 'subjects/subject_export.html'
     permission_required = 'subjects.export_subject'
     tab = 'export'
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -365,7 +357,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         else:
             self.object.export_requested = datetime.date.today()
         self.object.save()
-        return redirect('subjects:export', self.object.uuid)
+        return redirect('subjects:export', self.object.pk)
 
 
 class SubjectUpdateMixin(SubjectMixin):
@@ -381,11 +373,9 @@ class SubjectUpdateMixin(SubjectMixin):
 
 class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView):
     tab = 'data-protection'
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
 
     def get_subject_media_url(self, path):
-        return reverse('subject-media', args=[self.subject.uuid, path])
+        return reverse('subject-media', args=[self.subject.pk, path])
 
 
 class ConsentChangeView(SubjectMixin, BaseConsentChangeView):
@@ -393,13 +383,11 @@ class ConsentChangeView(SubjectMixin, BaseConsentChangeView):
     tab = 'data-protection'
 
     def get_success_url(self):
-        return reverse('subjects:data-protection', args=[self.subject.uuid])
+        return reverse('subjects:data-protection', args=[self.subject.pk])
 
 
 class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):
     tab = 'additional-info'
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
 
 
 class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
@@ -407,14 +395,12 @@ class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
     context = 'subject_management'
 
     def get_object(self):
-        subject = get_object_or_404(Subject, uuid=self.kwargs['uuid'])
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
         return subject.contact
 
 
 class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
     tab = 'attributes'
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
 
 
 class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailView):
@@ -422,8 +408,6 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/confirm_delete_recruitment_data.html'
     tab = 'attributes'
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
 
     def post(self, request, *args, **kwargs):
         attributes = {}
@@ -438,7 +422,7 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
 
         self.subject.study_type_disinterest.all().delete()
 
-        return redirect('subjects:attributes', uuid=self.subject.uuid)
+        return redirect('subjects:attributes', pk=self.subject.pk)
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
@@ -449,7 +433,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     subtab = 'list'
 
     def get_subject(self):
-        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
+        return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
     def get_queryset(self):
         return (
@@ -467,7 +451,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
     subtab = 'recruit'
 
     def get_subject(self):
-        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
+        return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
     def get_queryset(self):
         perms = ['recruitment.recruit', 'studies.access_study']
@@ -517,7 +501,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     subtab = 'add'
 
     def get_subject(self):
-        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
+        return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
     def get(self, request, *args, **kwargs):
         self.form = StudyFilterForm(self.request.GET)
@@ -572,7 +556,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
         )
 
     def get_success_url(self):
-        return reverse('subjects:delete', args=[self.subject.uuid])
+        return reverse('subjects:delete', args=[self.subject.pk])
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -621,7 +605,7 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
             ))
             return TemplateResponse(self.request, 'subjects/legal_representative_success.html', {
                 'name': contact.full_name,
-                'uuid': contact.subject.uuid,
+                'uuid': contact.subject.pk,
             })
         return self.render_to_response(self.get_context_data(
             form=form,
@@ -701,7 +685,7 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
         to_be_deleted = list(
             Subject.objects
             .filter(to_be_deleted__isnull=False)
-            .values_list('uuid', flat=True)
+            .values_list('pk', flat=True)
             .order_by()
         )
 
@@ -836,7 +820,7 @@ class SubjectProtectedMediaView(SubjectMixin, PermissionRequiredMixin, BaseProte
     permission_required = ['subjects.view_subject']
 
     def get_object(self):
-        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
+        return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
     def get_path(self):
         return 'subjects/{}'.format(self.kwargs['path'])

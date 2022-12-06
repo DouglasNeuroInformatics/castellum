@@ -10,14 +10,14 @@
         {% for subject in object_list %}
             {% has_privacy_level subject.privacy_level user as can_access %}
             <li class="table-list-item">
-                <svg class="identicon my-1 me-2" data-jdenticon-value="{{ subject.uuid }}" aria-hidden="true"></svg>
+                <svg class="identicon my-1 me-2" data-jdenticon-value="{{ subject.pk }}" aria-hidden="true"></svg>
                 <div>
                     <div>{{ subject|display:'reliability' }}</div>
                     <div>{% translate 'Last contacted on' %}: {{ subject.updated_at|date }}</div>
                 </div>
                 <div class="table-list-item-actions">
                     {% if can_access %}
-                        <a class="btn btn-outline-primary my-1" href="{% url 'subjects:detail' subject.uuid %}" target="_blank">{% translate 'Details' %}</a>
+                        <a class="btn btn-outline-primary my-1" href="{% url 'subjects:detail' subject.pk %}" target="_blank">{% translate 'Details' %}</a>
                     {% else %}
                         <button class="btn btn-outline-primary my-1" disabled>{% translate 'Details' %}</button>
                     {% endif %}

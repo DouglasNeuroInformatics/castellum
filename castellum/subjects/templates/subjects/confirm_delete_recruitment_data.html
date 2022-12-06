@@ -8,7 +8,7 @@
         {% csrf_token %}
         <p>{% translate "Are you sure you want to <strong>permanently delete</strong> all recruitment attributes and study type disinterests for this subject?" %}</p>
         <div class="d-print-none mb-3">
-            <a href="{% url 'subjects:attributes' subject.uuid %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
+            <a href="{% url 'subjects:attributes' subject.pk %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
             <button class="btn btn-danger">{% translate 'Confirm' %}</button>
         </div>
     </form>
