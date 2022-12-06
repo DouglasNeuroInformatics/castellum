@@ -30,7 +30,7 @@ def test_post(client, user, subject):
         'pseudonym': pseudonym,
     })
     assert response.status_code == 302
-    assert response.url == '/subjects/{}/'.format(subject.uuid)
+    assert response.url == '/subjects/{}/'.format(subject.pk)
 
 
 def test_only_managers(client, user, subject):

@@ -9,7 +9,7 @@ from .mail import *
 
 ALLOWED_HOSTS = []
 
-# Set this to True to prevent creating insecure demo content in production
+# Set this to True to prevent the creation of insecure demo content
 PRODUCTION = False
 
 CASTELLUM_SITE_TITLE = 'Castellum'
@@ -72,7 +72,7 @@ PROTECTED_MEDIA_URL = '/protected/'
 MFA_SITE_TITLE = 'Castellum'
 MFA_DOMAIN = None
 
-
+# display export button in study detail view
 CASTELLUM_ENABLE_STUDY_EXPORT = True
 
 # timespan a subject should be allowed to remain in the database without
@@ -199,5 +199,6 @@ CASTELLUM_CUSTOM_PRIVACY_LEVELS = [
     # (0.5, '1 (slightly increased)'),
 ]
 
+# See https://git.mpib-berlin.mpg.de/castellum/castellum_scheduler
 SCHEDULER_URL = ''
 SCHEDULER_TOKEN = ''

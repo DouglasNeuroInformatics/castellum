@@ -1,17 +1,19 @@
 {% extends "subjects/subject_base.html" %}
 {% load i18n auth %}
 
+{% block title %}{% translate "Study Participations" %} &middot; {{ block.super }}{% endblock %}
+
 {% block container_class %}container-lg{% endblock %}
 
 {% block content_with_messages %}
     <div class="row">
         <div class="col-md-3">
             <nav class="list-group mb-3" aria-label="{% translate 'Subtabs' %}">
-                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'list' %}active{% endif %}" href="{% url 'subjects:participation-list' subject.uuid %}">{% translate 'Participating' %}</a>
-                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'recruit' %}active{% endif %}" href="{% url 'subjects:participation-recruit' subject.uuid %}">{% translate 'Matching studies' %}</a>
+                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'list' %}active{% endif %}" href="{% url 'subjects:participation-list' subject.pk %}">{% translate 'Participating' %}</a>
+                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'recruit' %}active{% endif %}" href="{% url 'subjects:participation-recruit' subject.pk %}">{% translate 'Matching studies' %}</a>
                 {% has_perm 'subjects.change_subject' user as can_change_subject %}
                 {% if can_change_subject %}
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'add' %}active{% endif %}" href="{% url 'subjects:participation-add' subject.uuid %}">{% translate 'Add to study' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'add' %}active{% endif %}" href="{% url 'subjects:participation-add' subject.pk %}">{% translate 'Add to study' %}</a>
                 {% endif %}
             </nav>
         </div>

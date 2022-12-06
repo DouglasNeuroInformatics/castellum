@@ -142,7 +142,7 @@ def test_contact_form_delete_existing_address_if_empty(user, contact, contact_da
 def test_contact_form_with_legal_representatives_add(user, full_data, contact):
     full_data.update({
         'pane': 'legal_representatives',
-        'legal_representatives_add': [contact.subject.uuid],
+        'legal_representatives_add': [contact.subject.pk],
     })
 
     form = ContactForm(user=user, data=full_data)
@@ -156,7 +156,7 @@ def test_contact_form_with_legal_representatives_add(user, full_data, contact):
 def test_contact_form_with_legal_representatives_add_privacy_level(user, full_data, contact):
     full_data.update({
         'pane': 'legal_representatives',
-        'legal_representatives_add': [contact.subject.uuid],
+        'legal_representatives_add': [contact.subject.pk],
     })
 
     contact.subject.privacy_level = 2
@@ -177,7 +177,7 @@ def test_contact_form_with_legal_representatives_removes_address(user, full_data
     data = {
         **full_data,
         'pane': 'legal_representatives',
-        'legal_representatives_add': [contact.subject.uuid],
+        'legal_representatives_add': [contact.subject.pk],
     }
 
     form = ContactForm(user=user, instance=contact, data=data)
@@ -189,7 +189,7 @@ def test_contact_form_with_legal_representatives_removes_address(user, full_data
 def test_contact_form_with_legal_representatives_remove(user, full_data, contact):
     full_data.update({
         'pane': 'legal_representatives',
-        'legal_representatives_remove': [contact.subject.uuid],
+        'legal_representatives_remove': [contact.subject.pk],
     })
 
     contact.legal_representatives.add(contact)

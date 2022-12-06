@@ -17,8 +17,8 @@ def test_cleanup_dashboards_to_be_deleted(subject):
 
     delete_to_be_deleted()
 
-    assert not Subject.objects.filter(uuid=subject_to_be_deleted.uuid).exists()
-    assert Subject.objects.filter(uuid=subject.uuid).exists()
+    assert not Subject.objects.filter(pk=subject_to_be_deleted.pk).exists()
+    assert Subject.objects.filter(pk=subject.pk).exists()
 
 
 @pytest.mark.django_db
@@ -29,8 +29,8 @@ def test_cleanup_dashboards_unreachable(subject):
 
     delete_unreachable()
 
-    assert not Subject.objects.filter(uuid=subject.uuid).exists()
-    assert Subject.objects.filter(uuid=other_subject.uuid).exists()
+    assert not Subject.objects.filter(pk=subject.pk).exists()
+    assert Subject.objects.filter(pk=other_subject.pk).exists()
 
 
 @pytest.mark.django_db
@@ -40,5 +40,5 @@ def test_cleanup_dashboards_no_legal_basis(subject, participation):
     baker.make(Consent, subject=subject_no_legal_basis)
     delete_no_legal_basis()
 
-    assert not Subject.objects.filter(uuid=subject_no_legal_basis.uuid).exists()
-    assert Subject.objects.filter(uuid=subject.uuid).exists()
+    assert not Subject.objects.filter(pk=subject_no_legal_basis.pk).exists()
+    assert Subject.objects.filter(pk=subject.pk).exists()

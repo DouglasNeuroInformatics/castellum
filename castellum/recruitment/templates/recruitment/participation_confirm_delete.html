@@ -15,7 +15,7 @@
             <span class="form-check-label">{% translate "I have made sure that all external data related to this study participation is either covered by retention periods or has been destroyed." %}</span>
         </label>
         <div class="d-print-none mb-3">
-            <a href="{% url 'subjects:delete' subject.uuid %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
+            <a href="{% url 'subjects:delete' subject.pk %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
             <button class="btn btn-danger mb-1" disabled>{% translate 'Confirm' %}</button>
         </div>
     </form>

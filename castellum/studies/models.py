@@ -415,6 +415,7 @@ class StudySession(models.Model):
     type = models.ManyToManyField(StudyType, verbose_name=_('Type'), blank=True)
     resources = models.ManyToManyField(Resource, verbose_name=_('Resources'), blank=True)
     domains = GenericRelation(Domain)
+    reminders_enabled = models.BooleanField(_('Enable reminder emails'), default=True)
     reminder_text = models.TextField(_('Additional text for reminder emails'), blank=True)
     schedule_id = models.CharField(
         _('External schedule ID'), max_length=64, blank=True, null=True, unique=True

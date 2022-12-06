@@ -115,6 +115,7 @@ class AppointmentsForm(forms.ModelForm):
             key = 'appointment-{}'.format(session.pk)
             yield {
                 'legend': self.format_session_name(session),
+                'reminders_enabled': session.reminders_enabled,
                 'reminder_text': session.reminder_text,
                 'field': self[key],
                 'assigned_conductors': self['conductors-' + key],

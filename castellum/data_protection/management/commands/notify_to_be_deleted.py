@@ -34,7 +34,7 @@ def subjects_notify(subjects, base_url):
     count = 0
     with MailContext('internal') as ctx:
         for subject in subjects.filter(to_be_deleted_notified=False):
-            url = urljoin(base_url, reverse('subjects:detail', args=[subject.uuid]))
+            url = urljoin(base_url, reverse('subjects:detail', args=[subject.pk]))
             sent = ctx.send_mail(
                 settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
                 (
