@@ -26,7 +26,9 @@ deployment and only explains the pieces that are specific to Castellum.
     -   street autocompletion
 -   Come up with a migration strategy for legacy systems.
 -   You will also need
-    -   Linux server with root access
+    -   Linux server with root access. (Castellum doesn't have high
+        hardware requirements. 1GB memory and 2 CPUs should be more than
+        enough.)
     -   Domain name and TLS certificate
     -   SMTP details
     -   LDAP details (optional)
