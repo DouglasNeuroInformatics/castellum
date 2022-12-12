@@ -1,3 +1,15 @@
+# 0.85.0 (unreleased)
+
+## new features
+
+-   The repository now contains a detailed guide for manual deployment
+    (thanks to Stefan Fürtinger)
+-   It is now possible to disable the appointment reminders for
+    individual sessions.
+-   Legal representatives of legal representatives are now handled
+    correctly.
+
+
 # 0.84.0 (2022-11-22)
 
 ## new features
