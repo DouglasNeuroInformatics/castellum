@@ -108,14 +108,11 @@ msgid "Copy link"
 msgstr "Link Kopieren"
 
 #: castellum/appointments/templates/appointments/appointments_form.html:50
-#, fuzzy, python-format
-#| msgid ""
-#| "The subject will be reminded %(reminder_period)s days before each "
-#| "appointment."
+#, python-format
 msgid ""
 "The subject will be reminded %(reminder_period)s days before the appointment."
 msgstr ""
-"Die Proband*in wird %(reminder_period)s Tage vor jedem Termin an diesen "
+"Die Proband*in wird %(reminder_period)s Tage vor dem Termin an diesen "
 "erinnert."
 
 #: castellum/appointments/templates/appointments/appointments_form.html:56
@@ -496,10 +493,9 @@ msgstr ""
 #: castellum/contacts/templates/contacts/__contact_detail.html:13
 #: castellum/execution/templates/execution/participation_base.html:19
 #: castellum/recruitment/templates/recruitment/participation_base.html:21
-#, fuzzy, python-format
-#| msgid "not available until"
+#, python-format
 msgid "not available until %(next_available)s"
-msgstr "nicht erreichbar bis"
+msgstr "nicht erreichbar bis %(next_available)s"
 
 #: castellum/contacts/templates/contacts/__contact_detail.html:52
 #: castellum/execution/templates/execution/participation_list.html:72
@@ -2098,11 +2094,11 @@ msgid "Type"
 msgstr "Typ"
 
 #: castellum/studies/forms.py:121
-#, fuzzy
-#| msgid "All subjects will be reminded {} days before each appointment."
 msgid ""
 "If enabled, all subjects will be reminded {} days before the appointment."
-msgstr "Alle Proband*innen werden {} Tage vor jedem Termin an diesen erinnert."
+msgstr ""
+"Fall aktiviert werden alle Proband*innen {} Tage vor jedem Termin an diesen "
+"erinnert."
 
 #: castellum/studies/forms.py:138
 msgid ""
@@ -2370,10 +2366,8 @@ msgid "Duration of a session in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
 #: castellum/studies/models.py:418
-#, fuzzy
-#| msgid "Additional text for reminder emails"
 msgid "Enable reminder emails"
-msgstr "Zusätzlicher Text für Erinnerungs-E-Mails"
+msgstr "Erinnerungs-E-Mails aktivieren"
 
 #: castellum/studies/models.py:419
 msgid "Additional text for reminder emails"
