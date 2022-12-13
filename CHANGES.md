@@ -1,4 +1,4 @@
-# 0.85.0 (unreleased)
+# 0.85.0 (2022-12-13)
 
 ## new features
 
