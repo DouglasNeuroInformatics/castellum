@@ -1,3 +1,10 @@
+# 0.85.1 (2023-01-09)
+
+## bug fixes
+
+-   fix error when accessing uploaded files for subjects
+
+
 # 0.85.0 (2022-12-13)
 
 ## new features
