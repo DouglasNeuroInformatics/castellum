@@ -820,7 +820,7 @@ class SubjectProtectedMediaView(SubjectMixin, PermissionRequiredMixin, BaseProte
     permission_required = ['subjects.view_subject']
 
     def get_object(self):
-        return get_object_or_404(Subject, pk=self.kwargs['pk'])
+        return get_object_or_404(Subject, pk=self.kwargs['uuid'])
 
     def get_path(self):
         return 'subjects/{}'.format(self.kwargs['path'])
