@@ -5,6 +5,7 @@ RUN npm install --omit=dev
 FROM alpine:3.16.2
 
 ENV PYTHONUNBUFFERED 1
+ENV DJANGO_SETTINGS_MODULE=django_settings
 
 RUN adduser -D -g '' uwsgi
 
