@@ -34,6 +34,6 @@ RUN pip3 install -e . && \
 COPY castellum/ castellum
 
 RUN django-admin collectstatic --no-input --settings=castellum.settings.bare && \
-    django-admin compilemessages -l de
+    django-admin compilemessages -l de --settings=castellum.settings.bare
 
 CMD ["uwsgi", "uwsgi.ini", "--processes", "10", "--cheaper", "1"]
