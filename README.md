@@ -39,3 +39,4 @@ documentation](https://git.mpib-berlin.mpg.de/castellum/castellum/-/tree/main/do
     ([feed](https://git.mpib-berlin.mpg.de/castellum/castellum/-/tags?format=atom))
 -   End-user documentation: https://castellum.mpib.berlin/documentation/en/
 -   Code of conduct: https://www.mpg.de/11961177/code-of-conduct-en.pdf
+
