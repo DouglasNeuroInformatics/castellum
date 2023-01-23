@@ -2,7 +2,7 @@ FROM node
 COPY package.json .
 RUN npm install --omit=dev
 
-FROM alpine:3.16.2
+FROM alpine:3.16.3
 
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE=django_settings
