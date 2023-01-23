@@ -13,8 +13,8 @@
         <dt class="col-sm-6">{{ object|verbose_name:'user' }}</dt>
         <dd class="col-sm-6"><a {% if object.email %}href="mailto:{{ object.email }}"{% endif %}>{{ object.user.get_full_name }}</a></dd>
 
-        <dt class="col-sm-6">{{ object|verbose_name:'support_requested' }}</dt>
-        <dd class="col-sm-6">{{ object|display:'support_requested' }}</dd>
+        <dt class="col-sm-6">{{ object|verbose_name:'additional_wishes' }}</dt>
+        <dd class="col-sm-6">{{ object|display:'additional_wishes' }}</dd>
     </dl>
     <form method="post">
         {% csrf_token %}

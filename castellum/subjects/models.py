@@ -332,9 +332,7 @@ class ExportAnswer(models.Model):
 class Report(models.Model):
     subject = models.ForeignKey(Subject, verbose_name=_('Subject'), on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE)
-    support_requested = models.BooleanField(
-        _('I would like to talk to someone about this incident')
-    )
+    additional_wishes = models.TextField(_('Additional wishes (optional)'), blank=True)
 
 
 class SubjectCreationRequest(TimeStampedModel):

@@ -10,7 +10,7 @@
 
         {{ CASTELLUM_REPORT_TEXT|urlize|linebreaks }}
 
-        {% bootstrap_field form.support_requested %}
+        {% bootstrap_field form.additional_wishes %}
 
         <div class="d-print-none mb-3">
             <a href="{{ view.get_success_url }}" class="btn btn-outline-primary my-1" data-js="cancel">{% translate 'Cancel' %}</a>

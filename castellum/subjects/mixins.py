@@ -152,7 +152,7 @@ class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
 
 class BaseReportView(PermissionRequiredMixin, CreateView):
     model = Report
-    fields = ['support_requested']
+    fields = ['additional_wishes']
     template_name = 'subjects/subject_report.html'
 
     def form_valid(self, form):
