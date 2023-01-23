@@ -114,3 +114,4 @@ MIDDLEWARE.append('axes.middleware.AxesMiddleware')
 AXES_META_PRECEDENCE_ORDER = ['HTTP_X_REAL_IP']
 
 CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']
+CASTELLUM_REPORT_NOTIFICATION_TO = ['report@example.com']
