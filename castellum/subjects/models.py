@@ -29,6 +29,7 @@ from django.utils.functional import cached_property
 from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
+from castellum.castellum_auth.models import User
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
@@ -326,6 +327,12 @@ class ExportAnswer(models.Model):
 
     def __str__(self):
         return str(self.created_at)
+
+
+class Report(models.Model):
+    subject = models.ForeignKey(Subject, verbose_name=_('Subject'), on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE)
+    additional_wishes = models.TextField(_('Additional wishes (optional)'), blank=True)
 
 
 class SubjectCreationRequest(TimeStampedModel):

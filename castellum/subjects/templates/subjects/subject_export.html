@@ -124,6 +124,9 @@
             <dt class="col-sm-6" data-fieldname="subjects.Subject.deceased">{{ subject|verbose_name:'deceased' }}</dt>
             <dd class="col-sm-6">{{ subject|display:'deceased' }}</dd>
 
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.report">{% translate 'Subject has been reported for inappropriate behavior' %}</dt>
+            <dd class="col-sm-6">{{ subject.report_set.exists|display }}</dd>
+
             <dt class="col-sm-6" data-fieldname="subjects.Subject.blocked">{{ subject|verbose_name:'blocked' }}</dt>
             <dd class="col-sm-6">{{ subject|display:'blocked' }}</dd>
 

@@ -120,6 +120,21 @@ CASTELLUM_DEFAULT_EXECUTION_TAGS = [
 # make sure to setup a cron-job for ``notify_to_be_deleted``
 CASTELLUM_GDPR_NOTIFICATION_TO = []
 
+# Emails that should receive a notification when a subject is reported
+# for inappropriate behavior.
+#
+# The recipients need the ``subjects.view_report`` permission to actuay
+# access the report.
+CASTELLUM_REPORT_NOTIFICATION_TO = []
+
+# Text that is shown to users who file a report.
+#
+# You can include details about the review process or links for specific
+# support offerings.
+CASTELLUM_REPORT_TEXT = (
+    'If you experience inappropriate behavior from a subject, please file a report so we can make sure that this subject will never be invited again.'
+)
+
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.
