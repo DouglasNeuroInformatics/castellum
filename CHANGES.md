@@ -1,3 +1,21 @@
+# 0.86.0 (2023-01-25)
+
+## new features
+
+-   The feature to block subjects for inappropriate behavior has been
+    overhauled. All users who are in contact with subjects can now
+    report a subject for inappropriate behavior. But only users with the
+    new permission `subjects.view_report` can actually block the
+    subject. Reporting subjects is only available if
+    `CASTELLUM_REPORT_NOTIFICATION_TO` has been set.
+-   The docker image will now use a settings file located in
+    `/code/django_settings.py` by default.
+
+## bug fixes
+
+-   Fix crash when deleting recruitment data if subject does not have
+    CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
+
 # 0.85.1 (2023-01-09)
 
 ## bug fixes
