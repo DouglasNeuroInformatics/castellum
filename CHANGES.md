@@ -14,7 +14,7 @@
 ## bug fixes
 
 -   Fix crash when deleting recruitment data if subject does not have
-    CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
+    `CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID`
 
 # 0.85.1 (2023-01-09)
 
