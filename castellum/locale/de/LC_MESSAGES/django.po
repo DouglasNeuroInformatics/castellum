@@ -672,10 +672,8 @@ msgstr "Durchführung für"
 #: castellum/execution/templates/execution/participation_base.html:22
 #: castellum/recruitment/templates/recruitment/participation_base.html:24
 #: castellum/subjects/templates/subjects/subject_base.html:16
-#, fuzzy
-#| msgid "Export"
 msgid "report"
-msgstr "Exportieren"
+msgstr "melden"
 
 #: castellum/execution/templates/execution/participation_base.html:26
 #: castellum/execution/templates/execution/study_base.html:18
@@ -2966,10 +2964,8 @@ msgstr ""
 "Rekrutierungseinwilligung haben, nicht beides."
 
 #: castellum/subjects/mixins.py:177
-#, fuzzy
-#| msgid "Subject has been deleted."
 msgid "Your report has been received."
-msgstr "Die Proband*in wurde gelöscht"
+msgstr "Ihre Meldung wurde aufgenommen."
 
 #: castellum/subjects/models.py:50
 msgid "The subject has been blocked due to inappropriate behaviour."
@@ -3146,16 +3142,12 @@ msgid "Export answers"
 msgstr "Antworten auf Auskunftsgesuche"
 
 #: castellum/subjects/models.py:334
-#, fuzzy
-#| msgid "Users"
 msgid "User"
-msgstr "Nutzer*innen"
+msgstr "Nutzer*in"
 
 #: castellum/subjects/models.py:335
-#, fuzzy
-#| msgid "Additional information"
 msgid "Additional wishes (optional)"
-msgstr "Zusätzliche Informationen"
+msgstr "Zusätzliche Wünsche (optional)"
 
 #: castellum/subjects/models.py:340
 msgid "Delete URL"
@@ -3339,10 +3331,8 @@ msgstr ""
 
 #: castellum/subjects/templates/subjects/report_detail.html:4
 #: castellum/subjects/templates/subjects/report_detail.html:7
-#, fuzzy
-#| msgid "Delete subject"
 msgid "Reported subject"
-msgstr "Proband*in löschen"
+msgstr "Gemeldete Proband*in"
 
 #: castellum/subjects/templates/subjects/report_detail.html:8
 msgid ""
@@ -3352,18 +3342,20 @@ msgid ""
 "information will be stored even against their will. Or you can discard this "
 "reports without blocking the subject."
 msgstr ""
+"Eine Benutzer*in hat eine Proband*in wegen unangemessenen Verhaltens "
+"gemeldet. Sie haben nun zwei Möglichkeiten: Sie können die Proband*in "
+"sperren. In diesem Fall wird sie nicht mehr zu Studien eingeladen. "
+"Um diese Sperre durchzusetzen, werden die Kontaktinformationen auch gegen "
+"den Willen der Proband*in gespeichert. Oder Sie können diese Meldungen "
+"verwerfen, ohne die Proband*in zu sperren."
 
 #: castellum/subjects/templates/subjects/report_detail.html:21
-#, fuzzy
-#| msgid "E-mail subject"
 msgid "Block subject"
-msgstr "E-Mail Betreff"
+msgstr "Proband*in sperren"
 
 #: castellum/subjects/templates/subjects/report_detail.html:22
-#, fuzzy
-#| msgid "Discard Changes"
 msgid "Discard report"
-msgstr "Änderungen verwerfen"
+msgstr "Meldung verwerfen"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:4
 msgid "Delete subject"
@@ -3517,7 +3509,7 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                            Die Proband*in hat uns ihre Position zur "
+"                        Die Proband*in hat uns ihre Position zur "
 "Rekrutierungseinwilligung noch nicht mitgeteilt.\n"
 "                        Bitte klären Sie mit der Proband*in, ob sie für "
 "zukünftige Studien kontaktiert werden möchte oder dies explizit ablehnt.\n"
@@ -3688,10 +3680,8 @@ msgid "Procedural data"
 msgstr "Vorgangsbezogene Daten"
 
 #: castellum/subjects/templates/subjects/subject_export.html:127
-#, fuzzy
-#| msgid "The subject has been blocked due to inappropriate behaviour."
 msgid "Subject has been reported for inappropriate behavior"
-msgstr "Die Proband*in wurde aufgrund unangemessenen Verhaltens gesperrt."
+msgstr "Die Proband*in wurde wegen unangemessenen Verhaltens gemeldet."
 
 #: castellum/subjects/templates/subjects/subject_export.html:133
 msgid "Deletion requested on"
@@ -3730,16 +3720,12 @@ msgid "General pseudonyms"
 msgstr "Allgemeine Pseudonyme"
 
 #: castellum/subjects/templates/subjects/subject_report.html:4
-#, fuzzy
-#| msgid "Export"
 msgid "Report"
-msgstr "Exportieren"
+msgstr "Meldung"
 
 #: castellum/subjects/templates/subjects/subject_report.html:17
-#, fuzzy
-#| msgid "Send reminder"
 msgid "Send report"
-msgstr "Erinnerung schicken"
+msgstr "Meldung abschicken"
 
 #: castellum/subjects/templates/subjects/subject_resolve.html:12
 msgid "Find subjects based on their pseudonyms from general domains."
@@ -3815,16 +3801,12 @@ msgid "Subject has been deleted."
 msgstr "Die Proband*in wurde gelöscht"
 
 #: castellum/subjects/views.py:449
-#, fuzzy
-#| msgid "Subject has been deleted."
 msgid "Subject has been blocked."
-msgstr "Die Proband*in wurde gelöscht"
+msgstr "Die Proband*in wurde gesperrt."
 
 #: castellum/subjects/views.py:451
-#, fuzzy
-#| msgid "Data has been saved."
 msgid "Report has been discarded."
-msgstr "Eingabe wurde gespeichert"
+msgstr "Die Meldung wurde verworfen."
 
 #: castellum/templates/403.html:4 castellum/templates/403.html:12
 msgid "Forbidden"
