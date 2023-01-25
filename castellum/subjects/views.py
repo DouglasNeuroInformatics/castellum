@@ -439,7 +439,7 @@ class ReportView(SubjectMixin, BaseReportView):
 
 class ReportDetailView(PermissionRequiredMixin, DetailView):
     model = Report
-    permission_required = ['subjects.view_blockrequest']
+    permission_required = ['subjects.view_report']
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
