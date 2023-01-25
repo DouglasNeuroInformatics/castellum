@@ -3,7 +3,7 @@ import os
 import ldap
 from django_auth_ldap.config import LDAPSearch
 
-from .default import *
+from castellum.settings.default import *
 
 SECRET_KEY = os.getenv('DJANGO_SECRET')
 

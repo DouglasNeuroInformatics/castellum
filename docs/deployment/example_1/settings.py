@@ -3,7 +3,7 @@ import os
 import ldap
 from django_auth_ldap.config import LDAPSearch
 
-from .default import *
+from castellum.settings.default import *
 
 # FIXME: These values need to be changed
 SECRET_KEY = 'CHANGEME'
