@@ -417,7 +417,8 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
             desc = AttributeDescription.objects.get(
                 pk=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
             )
-            attributes[desc.json_key] = self.subject.attributes[desc.json_key]
+            if desc.json_key in self.subject.attributes:
+                attributes[desc.json_key] = self.subject.attributes[desc.json_key]
 
         self.subject.attributes = attributes
         self.subject.save()
