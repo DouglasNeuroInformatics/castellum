@@ -123,8 +123,8 @@ CASTELLUM_GDPR_NOTIFICATION_TO = []
 # Emails that should receive a notification when a subject is reported
 # for inappropriate behavior.
 #
-# The recipients need the ``subjects.view_report`` permission to actuay
-# access the report.
+# The recipients need the ``subjects.view_report`` permission to
+# actually access the report.
 CASTELLUM_REPORT_NOTIFICATION_TO = []
 
 # Text that is shown to users who file a report.
