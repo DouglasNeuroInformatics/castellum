@@ -1,0 +1,16 @@
+Bengfort et al., (2022). Castellum: A participant management tool for
+scientific studies. Journal of Open Source Software, 7(79), 4600,
+https://doi.org/10.21105/joss.04600
+
+@article{Bengfort2022,
+    title={Castellum: A participant management tool for scientific studies},
+    author={Tobias Bengfort and Taib Hayat and Timo Göttel},
+    journal={Journal of Open Source Software},
+    volume={7},
+    number={79},
+    pages={4600},
+    year={2022},
+    publisher={The Open Journal},
+    doi={10.21105/joss.04600},
+    url={https://doi.org/10.21105/joss.04600}
+}
