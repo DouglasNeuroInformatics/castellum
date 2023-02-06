@@ -90,8 +90,10 @@ class Study(models.Model):
     contact_person = models.CharField(_('Responsible contact person'), max_length=254)
     email = models.EmailField(_('E-mail-address'), max_length=128)
     phone = PhoneNumberField(_('Phone number'), max_length=32)
-    principal_investigator = models.CharField(_('Principal Investigator'), max_length=254)
 
+    principal_investigator = models.CharField(
+        _('Principal Investigator'), max_length=254, blank=True
+    )
     affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
     affiliated_research_assistants = models.CharField(
         _('Affiliated Research Assistants'), max_length=254, blank=True
@@ -339,13 +341,12 @@ class Study(models.Model):
             Study.FINISHED: 'finished',
         }
 
-        return {
+        data = {
             'name': self.name,
             'contact_person': {
                 'name': self.contact_person,
                 'email': self.email,
             },
-            'principal_investigator': {'name': self.principal_investigator},
             'description': self.description,
             'status': STATUS_MAP[self.status],
             'sessions_start': self.sessions_start,
@@ -359,6 +360,11 @@ class Study(models.Model):
                 'email': user.email,
             } for user in self.members.all()],
         }
+
+        if self.principal_investigator:
+            data['principal_investigator'] = {'name': self.principal_investigator}
+
+        return data
 
 
 class StudyGroup(models.Model):

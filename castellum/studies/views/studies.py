@@ -251,7 +251,6 @@ class FilterTrialCreateView(PermissionRequiredMixin, View):
         study = Study.objects.create(
             name=uuid_str(),
             contact_person='study_trial',
-            principal_investigator='study_trial',
             phone='03000000000',
             email='study_trial@example.com',
             is_filter_trial=True,
