@@ -3608,7 +3608,7 @@ msgid ""
 "1902 BGB (responsibilities of legal representatives)"
 msgstr ""
 "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO (ausdrückliche "
-"Einwilligung) und Art. 1626, 1902 BGB (Pflichten von rechtlichen "
+"Einwilligung) und Art. 1626, 1902 BGB (Pflichten von gesetzlichen "
 "Vertreter*innen)"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:114
