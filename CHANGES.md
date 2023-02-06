@@ -1,3 +1,11 @@
+# 0.86.1 (2023-02-06)
+
+-   Fix downloading uploaded files with non-ASCII characters in the
+    filename when using `X-Sendfile`.
+-   No longer pass through the `X-Sendfile` header with the default
+    uwsgi configuration.
+
+
 # 0.86.0 (2023-01-25)
 
 ## new features
