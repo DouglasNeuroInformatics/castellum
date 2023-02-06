@@ -19,6 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import mimetypes
+from urllib.parse import unquote
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -64,12 +65,13 @@ class BaseProtectedMediaView(LoginRequiredMixin, View):
             response['X-Accel-Redirect'] = settings.PROTECTED_MEDIA_URL + path
             return response
         else:
-            mimetype, encoding = mimetypes.guess_type(settings.MEDIA_ROOT / path)
+            file_path = settings.MEDIA_ROOT / unquote(path)
+            mimetype, encoding = mimetypes.guess_type(file_path)
             response = HttpResponse()
             response['Content-Type'] = mimetype
             if encoding:
                 response['Content-Encoding'] = encoding
-            response['X-Sendfile'] = settings.MEDIA_ROOT / path
+            response['X-Sendfile'] = file_path
             return response
 
 
