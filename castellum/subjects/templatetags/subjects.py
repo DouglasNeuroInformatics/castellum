@@ -19,6 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from urllib.parse import quote
+from urllib.parse import unquote
 
 from django import template
 from django.conf import settings
@@ -99,4 +100,5 @@ def subject_media_url(context, url):
     url_prefix = '/{}/subjects/'.format(settings.MEDIA_URL.strip('/'))
     if not url.startswith(url_prefix):
         raise TypeError(url)
-    return context['view'].get_subject_media_url(url[len(url_prefix):])
+    path = unquote(url.removeprefix(url_prefix))
+    return context['view'].get_subject_media_url(path)
