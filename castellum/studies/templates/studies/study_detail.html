@@ -65,13 +65,6 @@
         <dd class="col-sm-6">{% if study.has_filters %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
     </dl>
 
-    {% has_perm 'studies.change_study' user study as can_change_study %}
-    {% if study.has_missing_values and can_access_study and can_change_study %}
-        <p class="alert alert-warning" role="alert">
-            {% translate 'Please double check missing entries before start of recruitment' %}
-        </p>
-    {% endif %}
-
     <h3 class="h5">{% translate "Description" %}</h3>
     {{ study.description|default:'—'|urlize|linebreaks }}
 {% endblock %}

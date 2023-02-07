@@ -330,18 +330,6 @@ class Study(models.Model):
                 conductors.append(user)
         return conductors
 
-    def has_missing_values(self):
-        return not all([
-            self.principal_investigator,
-            self.study_type.exists(),
-            self.sessions_start,
-            self.sessions_end,
-            self.consent,
-            self.recruiters,
-            self.recruitment_text,
-            self.has_filters,
-        ])
-
     def export(self):
         STATUS_MAP = {
             Study.EDIT: 'not_started',
