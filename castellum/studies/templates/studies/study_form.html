@@ -16,16 +16,28 @@
         {% csrf_token %}
 
         {% bootstrap_field form.name required_css_class='castellum-required' %}
-        {% bootstrap_field form.principal_investigator required_css_class='castellum-required' %}
+        {% if form.principal_investigator %}
+            {% bootstrap_field form.principal_investigator required_css_class='castellum-required' %}
+        {% endif %}
         {% bootstrap_field form.contact_person required_css_class='castellum-required' %}
         {% bootstrap_field form.phone required_css_class='castellum-required' %}
         {% bootstrap_field form.email required_css_class='castellum-required' %}
+        {% if form.url %}
+            {% bootstrap_field form.url required_css_class='castellum-required' %}
+        {% endif %}
         {% bootstrap_field form.min_subject_count required_css_class='castellum-required' %}
 
-        {% bootstrap_field form.description required_css_class='castellum-required' %}
+        {% if form.description %}
+            {% bootstrap_field form.description required_css_class='castellum-required' %}
+        {% endif %}
+
         {% bootstrap_field form.tags required_css_class='castellum-required' %}
-        {% bootstrap_field form.affiliated_scientists required_css_class='castellum-required' %}
-        {% bootstrap_field form.affiliated_research_assistants required_css_class='castellum-required' %}
+        {% if form.affiliated_scientists %}
+            {% bootstrap_field form.affiliated_scientists required_css_class='castellum-required' %}
+        {% endif %}
+        {% if form.affiliated_research_assistants %}
+            {% bootstrap_field form.affiliated_research_assistants required_css_class='castellum-required' %}
+        {% endif %}
 
         <div data-js="d-select2">
             {% bootstrap_field form.exportable_attributes required_css_class='castellum-required' %}

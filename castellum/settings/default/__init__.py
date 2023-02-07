@@ -75,6 +75,15 @@ MFA_DOMAIN = None
 # display export button in study detail view
 CASTELLUM_ENABLE_STUDY_EXPORT = True
 
+# Add additional metadata fields to studies
+CASTELLUM_ENABLE_STUDY_METADATA = [
+    'principal_investigator',
+    'affiliated_scientists',
+    'affiliated_research_assistants',
+    'description',
+    'url',
+]
+
 # timespan a subject should be allowed to remain in the database without
 # consent given
 CASTELLUM_CONSENT_REVIEW_PERIOD = relativedelta(weeks=2)

@@ -88,12 +88,19 @@ class Study(models.Model):
 
     name = models.CharField(_('Name'), max_length=254, unique=True)
     contact_person = models.CharField(_('Responsible contact person'), max_length=254)
-    principal_investigator = models.CharField(_('Principal Investigator'), max_length=254)
+    email = models.EmailField(_('E-mail-address'), max_length=128)
+    phone = PhoneNumberField(_('Phone number'), max_length=32)
+
+    principal_investigator = models.CharField(
+        _('Principal Investigator'), max_length=254, blank=True
+    )
     affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
     affiliated_research_assistants = models.CharField(
         _('Affiliated Research Assistants'), max_length=254, blank=True
     )
     description = models.TextField(_('Description'), blank=True)
+    url = models.URLField(_('URL'), blank=True)
+
     previous_status = models.SmallIntegerField(_('Previous status'), choices=STATUS, default=EDIT)
     status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)
     min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), default=0)
@@ -213,8 +220,6 @@ class Study(models.Model):
         ),
         blank=True,
     )
-    email = models.EmailField(_('E-mail-address'), max_length=128)
-    phone = PhoneNumberField(_('Phone number'), max_length=32)
 
     class Meta:
         ordering = ['name']
@@ -330,18 +335,6 @@ class Study(models.Model):
                 conductors.append(user)
         return conductors
 
-    def has_missing_values(self):
-        return not all([
-            self.principal_investigator,
-            self.study_type.exists(),
-            self.sessions_start,
-            self.sessions_end,
-            self.consent,
-            self.recruiters,
-            self.recruitment_text,
-            self.has_filters,
-        ])
-
     def export(self):
         STATUS_MAP = {
             Study.EDIT: 'not_started',
@@ -349,13 +342,12 @@ class Study(models.Model):
             Study.FINISHED: 'finished',
         }
 
-        return {
+        data = {
             'name': self.name,
             'contact_person': {
                 'name': self.contact_person,
                 'email': self.email,
             },
-            'principal_investigator': {'name': self.principal_investigator},
             'description': self.description,
             'status': STATUS_MAP[self.status],
             'sessions_start': self.sessions_start,
@@ -369,6 +361,11 @@ class Study(models.Model):
                 'email': user.email,
             } for user in self.members.all()],
         }
+
+        if self.principal_investigator:
+            data['principal_investigator'] = {'name': self.principal_investigator}
+
+        return data
 
 
 class StudyGroup(models.Model):

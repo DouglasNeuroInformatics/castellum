@@ -15,7 +15,6 @@ MANAGEMENT_FORM = {
 STUDY_FORM = {
     'name': 'Test study',
     'contact_person': 'Mustermann',
-    'principal_investigator': 'Mustermann',
     'min_subject_count': 0,
     'phone': "030123456789",
     'email': "test@example.com",
@@ -113,7 +112,6 @@ def test_missing_value(client, user):
     client.force_login(user)
     response = client.post('/studies/create/', {
         'name': 'Test study',
-        'principal_investigator': 'Mustermann',
         'min_subject_count': 0,
         **MANAGEMENT_FORM,
     })

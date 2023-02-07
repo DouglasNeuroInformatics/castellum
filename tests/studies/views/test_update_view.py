@@ -3,7 +3,6 @@ import pytest
 FORM_DEFAULTS = {
     'name': 'name',
     'contact_person': 'contact_person',
-    'principal_investigator': 'principal_investigator',
     'phone': '09868 94060',
     'email': 'test@example.com',
     'min_subject_count': 0,

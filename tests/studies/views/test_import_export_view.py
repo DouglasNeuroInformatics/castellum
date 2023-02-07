@@ -7,7 +7,6 @@ def test_import_export(client, member, study):
     # castellum allows longer names than the export format
     study.name = 'test'
     study.contact_person = 'test'
-    study.principal_investigator = 'test'
     study.save()
     study.studytag_set.create(name='foo')
 

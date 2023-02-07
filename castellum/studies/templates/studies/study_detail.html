@@ -5,8 +5,10 @@
     <h3 class="h5">{% translate "General" %}</h3>
 
     <dl class="row">
-        <dt class="col-sm-6">{{ object|verbose_name:'principal_investigator' }}</dt>
-        <dd class="col-sm-6">{{ object|display:'principal_investigator' }}</dd>
+        {% if 'principal_investigator' in CASTELLUM_ENABLE_STUDY_METADATA %}
+            <dt class="col-sm-6">{{ object|verbose_name:'principal_investigator' }}</dt>
+            <dd class="col-sm-6">{{ object|display:'principal_investigator' }}</dd>
+        {% endif %}
 
         <dt class="col-sm-6">{% translate 'Members' %}</dt>
         <dd class="col-sm-6">
@@ -65,13 +67,8 @@
         <dd class="col-sm-6">{% if study.has_filters %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
     </dl>
 
-    {% has_perm 'studies.change_study' user study as can_change_study %}
-    {% if study.has_missing_values and can_access_study and can_change_study %}
-        <p class="alert alert-warning" role="alert">
-            {% translate 'Please double check missing entries before start of recruitment' %}
-        </p>
+    {% if 'description' in CASTELLUM_ENABLE_STUDY_METADATA %}
+        <h3 class="h5">{% translate "Description" %}</h3>
+        {{ study.description|default:'—'|urlize|linebreaks }}
     {% endif %}
-
-    <h3 class="h5">{% translate "Description" %}</h3>
-    {{ study.description|default:'—'|urlize|linebreaks }}
 {% endblock %}
