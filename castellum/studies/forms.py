@@ -49,15 +49,11 @@ class StudyForm(forms.ModelForm):
         fields = [
             'name',
             'contact_person',
-            'principal_investigator',
-            'affiliated_scientists',
-            'affiliated_research_assistants',
             'phone',
             'email',
-            'description',
-            'url',
             'min_subject_count',
             'exportable_attributes',
+            *settings.CASTELLUM_ENABLE_STUDY_METADATA,
         ]
 
     def __init__(self, *args, **kwargs):
