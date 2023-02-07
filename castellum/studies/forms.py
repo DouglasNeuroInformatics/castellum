@@ -55,6 +55,7 @@ class StudyForm(forms.ModelForm):
             'phone',
             'email',
             'description',
+            'url',
             'min_subject_count',
             'exportable_attributes',
         ]

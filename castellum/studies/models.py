@@ -99,6 +99,7 @@ class Study(models.Model):
         _('Affiliated Research Assistants'), max_length=254, blank=True
     )
     description = models.TextField(_('Description'), blank=True)
+    url = models.URLField(_('URL'), blank=True)
 
     previous_status = models.SmallIntegerField(_('Previous status'), choices=STATUS, default=EDIT)
     status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)

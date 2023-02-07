@@ -32,6 +32,12 @@
                     {% icon 'phone' label=study|verbose_name:'phone' %}
                     <a href="tel:{{ study.phone }}" class="text-reset">{{ study|display:'phone' }}</a>
                 </span>
+                {% if study.url %}
+                    <span class="d-block mx-2">
+                        {% icon 'globe' label=study|verbose_name:'url' %}
+                        <a href="{{ study.url }}" target="_blank" class="text-reset">{{ study|display:'url' }}</a>
+                    </span>
+                {% endif %}
             </p>
         </div>
         <div class="d-print-none">
