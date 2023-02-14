@@ -1,3 +1,18 @@
+# 0.87.0 (2023-02-16)
+
+## breaking changes
+
+-   Entering a Principal investigator for a study is now optional.
+
+## new features
+
+-   Allow to hide study metadata fields via the
+    `CASTELLUM_ENABLE_STUDY_METADATA` setting
+-   Allow to enter a URL for studies
+-   The help text for study names has been rephrased to highlight which
+    kind of name is expected.
+
+
 # 0.86.1 (2023-02-06)
 
 -   Fix downloading uploaded files with non-ASCII characters in the
