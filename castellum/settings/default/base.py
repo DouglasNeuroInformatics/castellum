@@ -178,9 +178,11 @@ NPM_FILE_PATTERNS = {
         'dist/select2-bootstrap4.min.css',
     ],
     'fullcalendar-scheduler': [
-        'main.js',
-        'main.css',
-        'locales/de.js',
+        'index.global.min.js',
+    ],
+    '@fullcalendar': [
+        'core/locales/de.global.min.js',
+        'bootstrap/index.global.min.js',
     ],
     'cbor-js': [
         'cbor.js',
