@@ -36,6 +36,8 @@ CMD ["uwsgi", "uwsgi.ini", "--processes", "10", "--cheaper", "1"]
 FROM base AS static
 RUN apk add npm
 RUN npm install --omit=dev
+COPY .misc/extract_fullcalendar_css.sh extract_fullcalendar_css.sh
+RUN ./extract_fullcalendar_css.sh
 RUN django-admin collectstatic --no-input --settings=castellum.settings.bare
 
 

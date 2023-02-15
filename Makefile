@@ -50,6 +50,7 @@ test:
 install: venv
 	$(VIRTUAL_ENV)/bin/python -m pip install -e .[test,dev]
 	npm install
+	.misc/extract_fullcalendar_css.sh
 
 .PHONY: venv
 venv:

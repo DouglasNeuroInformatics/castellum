@@ -8,3 +8,5 @@ htmlcov/
 *.mo
 *.pyc
 *.sqlite3
+
+castellum/static/fullcalendar.css
