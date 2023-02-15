@@ -1,8 +1,4 @@
-FROM node
-COPY package.json .
-RUN npm install --omit=dev
-
-FROM alpine:3.16.4
+FROM alpine:3.16.4 AS base
 
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE=django_settings
@@ -24,16 +20,24 @@ RUN apk update && apk add uwsgi uwsgi-python uwsgi-router_static python3 py3-pip
 WORKDIR code/
 
 RUN mkdir castellum
-COPY setup.cfg setup.py uwsgi.ini LICENSE COPYRIGHT ./
+COPY setup.cfg setup.py package.json uwsgi.ini LICENSE COPYRIGHT ./
 COPY castellum/__init__.py castellum/
-COPY --from=0 node_modules/ node_modules
 
 RUN pip3 install -e . && \
     pip3 install django-auth-ldap django-axes django-model-stats
 
 COPY castellum/ castellum
 
-RUN django-admin collectstatic --no-input --settings=castellum.settings.bare && \
-    django-admin compilemessages -l de --settings=castellum.settings.bare
+RUN django-admin compilemessages -l de --settings=castellum.settings.bare
 
 CMD ["uwsgi", "uwsgi.ini", "--processes", "10", "--cheaper", "1"]
+
+
+FROM base AS static
+RUN apk add npm
+RUN npm install --omit=dev
+RUN django-admin collectstatic --no-input --settings=castellum.settings.bare
+
+
+FROM base AS final
+COPY --from=static /code/castellum/collected_static castellum/collected_static
