@@ -147,5 +147,7 @@
 {% endblock %}
 
 {% block extra_styles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'fullcalendar-scheduler/main.css' %}">
+    <meta name="csp-nonce" content="{{ FULLCALENDAR_NONCE }}">
 {% endblock %}
+
+{% block csp %}{{ block.super }}; style-src 'self' 'nonce-{{ FULLCALENDAR_NONCE }}'{% endblock %}
