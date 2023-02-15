@@ -32,7 +32,5 @@
 {% endblock %}
 
 {% block extra_styles %}
-    <meta name="csp-nonce" content="{{ FULLCALENDAR_NONCE }}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fullcalendar-scheduler/main.css' %}">
 {% endblock %}
-
-{% block csp %}{{ block.super }}; style-src 'self' 'nonce-{{ FULLCALENDAR_NONCE }}'{% endblock %}

@@ -18,10 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import string
-
 from django.conf import settings
-from django.utils.crypto import get_random_string
 
 import castellum
 
@@ -45,6 +42,4 @@ def get_settings(request):
         # Error templates do not get a context. Invert this value to
         # avoid demo warnings in that case.
         'DEMO': not settings.PRODUCTION,
-
-        'FULLCALENDAR_NONCE': get_random_string(32, string.ascii_letters + string.digits),
     }
