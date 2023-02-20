@@ -42,4 +42,4 @@ RUN django-admin collectstatic --no-input --settings=castellum.settings.bare
 
 
 FROM base AS final
-COPY --from=static /code/castellum/collected_static castellum/collected_static
+COPY --from=static /code/static/ static

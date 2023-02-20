@@ -1,7 +1,7 @@
 .venv/
 node_modules/
 castellum.egg-info/
-collected_static/
+/static/
 media/
 htmlcov/
 .coverage
