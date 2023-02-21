@@ -86,9 +86,7 @@ class Study(models.Model):
         (FINISHED, _('Finished')),
     ]
 
-    name = models.CharField(_('Name'), max_length=254, unique=True, help_text=(
-        'The public name of the study as it is communicated to subjects'
-    ))
+    name = models.CharField(_('Name'), max_length=254, unique=True)
     contact_person = models.CharField(_('Contact person'), max_length=254)
     email = models.EmailField(_('E-mail-address'), max_length=128)
     phone = PhoneNumberField(_('Phone number'), max_length=32)
