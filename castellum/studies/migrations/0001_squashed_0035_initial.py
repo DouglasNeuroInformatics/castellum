@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
             name='Study',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=254, unique=True, verbose_name='Name', help_text='The public name of the study as it is communicated to subjects')),
+                ('name', models.CharField(max_length=254, unique=True, verbose_name='Name')),
                 ('contact_person', models.CharField(max_length=254, verbose_name='Responsible contact person')),
                 ('principal_investigator', models.CharField(max_length=254, verbose_name='Principal Investigator')),
                 ('affiliated_scientists', models.CharField(blank=True, max_length=254, verbose_name='Affiliated Scientists')),
