@@ -210,7 +210,7 @@ class Subject(TimeStampedModel):
     @property
     def has_legal_basis(self):
         return (
-            self.has_consent_or_waiting
+            self.has_consent
             or self.has_study_consent
             or self.contact.is_legal_representative
             or (not self.deceased and self.blocked)
