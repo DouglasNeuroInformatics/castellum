@@ -2,11 +2,6 @@
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
-[tool.isort]
-force_single_line = True
-skip = migrations
-line_length = 100
-
 [tool.pytest.ini_options]
 addopts = [
     "--ds=castellum.settings.development",
@@ -22,3 +17,26 @@ markers = [
     "smoketest: simple tests that only check for 200 status code"
 ]
 testpaths = ["tests"]
+
+[tool.ruff]
+select = ["C9", "Q", "E", "F", "I", "ISC", "N", "T20", "UP", "W", "RUF"]
+target-version = "py37"
+line-length = 100
+exclude = [
+    ".venv",
+    ".git",
+    ".tox",
+    "migrations",
+    "settings",
+    "docs",
+    "node_modules",
+]
+
+[tool.ruff.mccabe]
+max-complexity = 8
+
+[tool.ruff.isort]
+force-single-line = true
+
+[tool.ruff.flake8-quotes]
+inline-quotes = "single"

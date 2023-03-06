@@ -24,8 +24,7 @@ test:
     - apt-get update -q && apt-get install -y -qq python3-pip hunspell hunspell-de-de gdal-bin python3-psycopg2
     - pip3 install -e .[test]
   script:
-    - isort -c castellum tests
-    - flake8
+    - ruff check castellum tests
     - pospell -l de_DE -p .misc/spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
     - django-admin makemigrations --dry-run --check --noinput
     - pytest --ds=$DJANGO_SETTINGS_MODULE
