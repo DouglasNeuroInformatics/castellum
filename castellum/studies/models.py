@@ -335,7 +335,7 @@ class Study(models.Model):
         return conductors
 
     def export(self):
-        STATUS_MAP = {
+        status_map = {
             Study.EDIT: 'not_started',
             Study.EXECUTION: 'started',
             Study.FINISHED: 'finished',
@@ -348,7 +348,7 @@ class Study(models.Model):
                 'email': self.email,
             },
             'description': self.description,
-            'status': STATUS_MAP[self.status],
+            'status': status_map[self.status],
             'sessions_start': self.sessions_start,
             'sessions_end': self.sessions_end,
             'number_participants_expected': self.min_subject_count,

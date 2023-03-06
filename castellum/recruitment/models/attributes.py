@@ -132,7 +132,7 @@ class AttributeDescription(TranslatableModel):
 
     @property
     def field(self):
-        MAPPING = {
+        mapping = {
             'CharField': attribute_fields.TextAttributeField,
             'ChoiceField': attribute_fields.ChoiceAttributeField,
             'MultipleChoiceField': attribute_fields.MultipleChoiceAttributeField,
@@ -142,7 +142,7 @@ class AttributeDescription(TranslatableModel):
             'DateField': attribute_fields.DateAttributeField,
             'AgeField': attribute_fields.AgeAttributeField,
         }
-        return MAPPING[self.field_type](self)
+        return mapping[self.field_type](self)
 
 
 class AttributeChoice(TranslatableModel):
