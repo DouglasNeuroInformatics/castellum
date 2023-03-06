@@ -31,7 +31,7 @@ from parler.models import TranslatedFields
 from .. import attribute_fields
 from ..attribute_fields import ANSWER_DECLINED  # noqa
 
-UNCATEGORIZED = "UNCATEGORIZED"
+UNCATEGORIZED = 'UNCATEGORIZED'
 
 
 @functools.lru_cache(maxsize=2)

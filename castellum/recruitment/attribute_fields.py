@@ -38,7 +38,7 @@ from castellum.utils.forms import Select2Mixin
 
 from .fields import AgeField
 
-ANSWER_DECLINED = "ANSWER_DECLINED"
+ANSWER_DECLINED = 'ANSWER_DECLINED'
 
 
 class Select2IntegerMultipleChoiceField(Select2Mixin, IntegerMultipleChoiceField):
@@ -113,8 +113,8 @@ class BaseAttributeField:
 class DateAttributeField(BaseAttributeField):
     form_class = DateField
     available_operators = [
-        ("lt", _("before")),
-        ("gt", _("after")),
+        ('lt', _('before')),
+        ('gt', _('after')),
     ]
 
     def parse_date(self, value):
@@ -132,19 +132,19 @@ class DateAttributeField(BaseAttributeField):
 class NumberAttributeField(BaseAttributeField):
     form_class = forms.IntegerField
     available_operators = [
-        ("lt", _("<")),
-        ("gt", _(">")),
-        ("exact", _("==")),
-        ("!exact", _("!=")),
-        ("lte", _("<=")),
-        ("gte", _(">=")),
+        ('lt', _('<')),
+        ('gt', _('>')),
+        ('exact', _('==')),
+        ('!exact', _('!=')),
+        ('lte', _('<=')),
+        ('gte', _('>=')),
     ]
 
 
 class BooleanAttributeField(BaseAttributeField):
     form_class = forms.NullBooleanField
     available_operators = [
-        ("exact", _("is")),
+        ('exact', _('is')),
     ]
 
     def get_statistics_grouping(self, study):
@@ -165,9 +165,9 @@ class BooleanAttributeField(BaseAttributeField):
 class TextAttributeField(BaseAttributeField):
     form_class = forms.CharField
     available_operators = [
-        ("exact", _("is")),
-        ("!exact", _("is not")),
-        ("icontains", _("contains")),
+        ('exact', _('is')),
+        ('!exact', _('is not')),
+        ('icontains', _('contains')),
     ]
 
 
@@ -207,8 +207,8 @@ class BaseChoiceAttributeField(BaseAttributeField):
 class ChoiceAttributeField(BaseChoiceAttributeField):
     form_class = IntegerChoiceField
     available_operators = [
-        ("exact", _("is")),
-        ("!exact", _("is not")),
+        ('exact', _('is')),
+        ('!exact', _('is not')),
     ]
 
     def get_choices(self):
@@ -220,8 +220,8 @@ class MultipleChoiceAttributeField(BaseChoiceAttributeField):
     filter_form_class = IntegerChoiceField
     available_operators = [
         # see castellum.utils.expressions.ListContainsLookup
-        ("contains", _("contains")),
-        ("!contains", _("does not contain")),
+        ('contains', _('contains')),
+        ('!contains', _('does not contain')),
     ]
 
     def get_display(self, value):
@@ -237,8 +237,8 @@ class MultipleChoiceAttributeField(BaseChoiceAttributeField):
 
 class OrderedChoiceAttributeField(ChoiceAttributeField):
     available_operators = ChoiceAttributeField.available_operators + [
-        ("gte", _("is at least")),
-        ("lte", _("is at most")),
+        ('gte', _('is at least')),
+        ('lte', _('is at most')),
     ]
 
     def _filter_to_q(self, operator, value):
@@ -264,8 +264,8 @@ class AgeAttributeField(DateAttributeField):
 
     filter_form_class = AgeField
     available_operators = [
-        ("lt", _("is at least")),
-        ("gt", _("younger than")),
+        ('lt', _('is at least')),
+        ('gt', _('younger than')),
     ]
 
     def _filter_to_q(self, operator, value):

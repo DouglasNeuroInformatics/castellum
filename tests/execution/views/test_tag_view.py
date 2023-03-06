@@ -12,13 +12,13 @@ def test_create(client, member, study_in_execution_status):
         'color': 'info',
     })
     assert response.status_code == 302
-    assert ExecutionTag.objects.filter(name="test_tag").exists()
+    assert ExecutionTag.objects.filter(name='test_tag').exists()
 
 
 def test_save(client, member, study_in_execution_status):
     client.force_login(member)
     url = '/execution/{}/tags/'.format(study_in_execution_status.pk)
-    tag = baker.make(ExecutionTag, study=study_in_execution_status, name="old")
+    tag = baker.make(ExecutionTag, study=study_in_execution_status, name='old')
     response = client.post(url, {
         'action': 'save',
         '{}-name'.format(tag.id): 'new',

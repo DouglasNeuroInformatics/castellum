@@ -131,8 +131,8 @@ def fake_study():
         min_subject_count=fake.random.randint(0, 50),
         description=description,
         recruitment_text=recruitment_text,
-        sessions_start=fake.past_date(start_date="-30d"),
-        sessions_end=fake.future_date(end_date="+30d"),
+        sessions_start=fake.past_date(start_date='-30d'),
+        sessions_end=fake.future_date(end_date='+30d'),
     )
     return study
 

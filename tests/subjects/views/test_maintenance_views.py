@@ -44,7 +44,7 @@ def test_maintenance_attributes_no_underage_subjects(request, client, user):
     contact.subject.attributes = {}
     contact.subject.save()
 
-    with freeze_time("2020-02-02 12:00"):
+    with freeze_time('2020-02-02 12:00'):
         client.force_login(user)
         url = '/subjects/maintenance/attributes/'
         response = client.get(url)
@@ -264,7 +264,7 @@ def test_maintenance_estranged_subjects_200(request, client, user_fixture):
 def test_maintenance_estranged_subjects_doesnt_contain_no_consent(client, user, subject):
     client.force_login(user)
     url = '/subjects/maintenance/estranged-subjects/'
-    with freeze_time("2000-01-01 12:00"):
+    with freeze_time('2000-01-01 12:00'):
         baker.make(Subject)
 
     with freeze_time(timezone.now()):
@@ -275,7 +275,7 @@ def test_maintenance_estranged_subjects_doesnt_contain_no_consent(client, user, 
 def test_maintenance_estranged_subjects_contains_never_contacted(client, user, subject):
     client.force_login(user)
     url = '/subjects/maintenance/estranged-subjects/'
-    with freeze_time("2000-01-01 12:00"):
+    with freeze_time('2000-01-01 12:00'):
         subject = baker.make(Subject)
         baker.make(Consent, _fill_optional=['document'], subject=subject)
 
@@ -287,7 +287,7 @@ def test_maintenance_estranged_subjects_contains_never_contacted(client, user, s
 def test_maintenance_estranged_subjects_doesnt_contain_blocked(client, user, subject):
     client.force_login(user)
     url = '/subjects/maintenance/estranged-subjects/'
-    with freeze_time("2000-01-01 12:00"):
+    with freeze_time('2000-01-01 12:00'):
         subject = baker.make(Subject, blocked=True)
         baker.make(Consent, _fill_optional=['document'], subject=subject)
 
@@ -299,7 +299,7 @@ def test_maintenance_estranged_subjects_doesnt_contain_blocked(client, user, sub
 def test_maintenance_estranged_subjects_doesnt_contain_deceased(client, user, subject):
     client.force_login(user)
     url = '/subjects/maintenance/estranged-subjects/'
-    with freeze_time("2000-01-01 12:00"):
+    with freeze_time('2000-01-01 12:00'):
         subject = baker.make(Subject, deceased=True)
         baker.make(Consent, _fill_optional=['document'], subject=subject)
 

@@ -126,7 +126,7 @@ class ContactForm(forms.ModelForm):
                 for field, errors in address_form.errors.items():
                     self.address.add_error(field, errors)
 
-            raise ValidationError(_("Provide more details for the address."), code='invalid')
+            raise ValidationError(_('Provide more details for the address.'), code='invalid')
 
     def clean(self):
         cleaned_data = super().clean()

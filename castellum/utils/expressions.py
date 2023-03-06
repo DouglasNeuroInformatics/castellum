@@ -76,8 +76,8 @@ class ListContainsLookup(json.DataContains):
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = (*lhs_params, lhs_json_path, *rhs_params)
         return (
-            "EXISTS(SELECT (1) FROM JSON_EACH({}, %s) "
-            "WHERE JSON_QUOTE(json_each.value) = {} LIMIT 1)"
+            'EXISTS(SELECT (1) FROM JSON_EACH({}, %s) '
+            'WHERE JSON_QUOTE(json_each.value) = {} LIMIT 1)'
         ).format(lhs, rhs), params
 
 

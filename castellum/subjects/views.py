@@ -816,7 +816,7 @@ class MaintenanceEstrangedSubjectsView(BaseMaintenanceView):
         return super().get_queryset().filter(
             filter_queries.has_consent(include_waiting=True),
             updated_at__lte=timezone.now() - settings.CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD,
-        ).order_by("updated_at")
+        ).order_by('updated_at')
 
 
 class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):

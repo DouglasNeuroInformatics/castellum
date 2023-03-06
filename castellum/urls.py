@@ -65,7 +65,7 @@ def dummy(request):
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('login/', LoginView.as_view(
-        template_name="login.html",
+        template_name='login.html',
         authentication_form=AuthenticationForm,
     ), name='login'),
     path('logout/', mfa_public(LogoutView.as_view()), name='logout'),

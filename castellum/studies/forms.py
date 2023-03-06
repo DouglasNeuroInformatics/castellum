@@ -152,7 +152,7 @@ class ExcludedStudiesForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['excluded_studies'].queryset = Study.objects.exclude(pk=self.instance.pk)
-        self.fields["excluded_studies"].widget.attrs['class'] = 'form-control'
+        self.fields['excluded_studies'].widget.attrs['class'] = 'form-control'
 
 
 class MemberForm(forms.ModelForm):

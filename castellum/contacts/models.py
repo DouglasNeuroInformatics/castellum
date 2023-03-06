@@ -128,9 +128,9 @@ class ContactQuerySet(models.QuerySet):
 
 class BaseContact(TimeStampedModel):
     GENDER = [
-        ("f", _("female")),
-        ("m", _("male")),
-        ("*", _("diverse")),
+        ('f', _('female')),
+        ('m', _('male')),
+        ('*', _('diverse')),
     ]
 
     first_name = models.CharField(_('First name'), max_length=64)
@@ -149,7 +149,7 @@ class BaseContact(TimeStampedModel):
 
     @property
     def full_name(self):
-        return " ".join(filter(None, [self.title, self.first_name, self.last_name]))
+        return ' '.join(filter(None, [self.title, self.first_name, self.last_name]))
 
     @property
     def short_name(self):
@@ -159,9 +159,9 @@ class BaseContact(TimeStampedModel):
 
 class Contact(BaseContact):
     CONTACT_METHODS = [
-        ("phone", _("phone")),
-        ("email", _("email")),
-        ("postal", _("postal")),
+        ('phone', _('phone')),
+        ('email', _('email')),
+        ('postal', _('postal')),
     ]
 
     subject_uuid = models.UUIDField(unique=True, editable=False, default=None)

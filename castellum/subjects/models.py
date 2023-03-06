@@ -132,7 +132,7 @@ class Subject(TimeStampedModel):
 
     source = models.CharField(_('Data source'), max_length=128, blank=True)
 
-    not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
+    not_available_until = DateTimeField(_('not available until'), blank=True, null=True)
 
     objects = SubjectQuerySet.as_manager()
 

@@ -96,12 +96,12 @@ def test_participation_detail_view_tags(client, subject, conductor, study_in_exe
         status=Participation.INVITED,
         subject=subject,
     )
-    tag = baker.make(ExecutionTag, name="test_tag", study=study_in_execution_status)
+    tag = baker.make(ExecutionTag, name='test_tag', study=study_in_execution_status)
     participation.execution_tags.add(tag)
     url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
     response = client.get(url)
     assert response.status_code == 200
-    assert b"test_tag" in response.content
+    assert b'test_tag' in response.content
 
 
 @pytest.mark.smoketest

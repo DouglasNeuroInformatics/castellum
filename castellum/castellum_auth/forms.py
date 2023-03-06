@@ -37,8 +37,8 @@ class UserCreationAdminForm(UserCreationForm):
         self.fields['password2'].required = False
 
     def save(self, *args, **kwargs):
-        if not self.cleaned_data["password1"]:
-            self.cleaned_data["password1"] = None
+        if not self.cleaned_data['password1']:
+            self.cleaned_data['password1'] = None
         return super().save(*args, **kwargs)
 
 

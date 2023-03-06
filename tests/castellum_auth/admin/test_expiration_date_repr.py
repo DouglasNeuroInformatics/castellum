@@ -18,18 +18,18 @@ def test_no_expiration_date_is_set():
 @pytest.mark.unittest
 def test_user_account_is_expired():
     user = baker.prepare(User, expiration_date=datetime(2010, 1, 1, tzinfo=pytz.UTC))
-    assert expiration_date_repr(user) == "01/01/2010 (expired)"
+    assert expiration_date_repr(user) == '01/01/2010 (expired)'
 
 
 @pytest.mark.unittest
-@freeze_time("2018-01-01")
+@freeze_time('2018-01-01')
 def test_expiration_date_is_today():
     user = baker.prepare(User, expiration_date=datetime(2018, 1, 1, tzinfo=pytz.UTC))
-    assert expiration_date_repr(user) == "01/01/2018 (0 days left)"
+    assert expiration_date_repr(user) == '01/01/2018 (0 days left)'
 
 
 @pytest.mark.unittest
-@freeze_time("2018-01-01")
+@freeze_time('2018-01-01')
 def test_expiration_date_is_in_the_future():
     user = baker.prepare(User, expiration_date=datetime(2019, 1, 1, tzinfo=pytz.UTC))
-    assert expiration_date_repr(user) == "01/01/2019 (365 days left)"
+    assert expiration_date_repr(user) == '01/01/2019 (365 days left)'

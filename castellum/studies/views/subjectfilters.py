@@ -52,6 +52,7 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin):
     def base_template(self):
         if self.study.is_filter_trial:
             return 'studies/study_filtertrial_base.html'
+        return None
 
     def get_permission_required(self):
         permission_required = set(['studies.change_study'])
@@ -111,7 +112,7 @@ class FilterGroupCreateView(FilterMixin, View):
 class FilterGroupUpdateView(FilterMixin, UpdateView):
     model = SubjectFilterGroup
     fields = []
-    template_name = "studies/filtergroup.html"
+    template_name = 'studies/filtergroup.html'
     permission_required = 'studies.change_study'
 
     def get_object(self):

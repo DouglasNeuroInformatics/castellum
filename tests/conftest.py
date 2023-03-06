@@ -49,7 +49,7 @@ def create_user(group_name):
     future = timezone.now() + datetime.timedelta(days=10000)
     user = baker.make(User, expiration_date=future, email='test@example.com')
 
-    if group_name == "all":
+    if group_name == 'all':
         user.user_permissions.set(Permission.objects.all())
     elif group_name:
         group = Group.objects.get(name=group_name)
@@ -64,14 +64,14 @@ def create_user(group_name):
 
 
 def create_member(group_name, studies):
-    if group_name == "all":
-        user = create_user("all")
+    if group_name == 'all':
+        user = create_user('all')
     else:
         user = create_user(None)
 
     for study in studies:
         membership = StudyMembership.objects.create(user=user, study=study)
-        if group_name and group_name != "all":
+        if group_name and group_name != 'all':
             group = StudyGroup.objects.get(name=group_name)
             membership.groups.add(group)
 
@@ -105,7 +105,7 @@ def study_groups(django_db_setup, django_db_blocker):
 
 @pytest.fixture
 def user(db):
-    return create_user("all")
+    return create_user('all')
 
 
 @pytest.fixture
@@ -130,7 +130,7 @@ def data_protection_coordinator(db):
 
 @pytest.fixture
 def member(study, study_in_execution_status, study_in_edit_status):
-    return create_member("all", [study, study_in_execution_status, study_in_edit_status])
+    return create_member('all', [study, study_in_execution_status, study_in_edit_status])
 
 
 @pytest.fixture
@@ -145,7 +145,7 @@ def conductor(study, study_in_execution_status, study_in_edit_status):
 
 @pytest.fixture
 def admin(db):
-    user = create_user("all")
+    user = create_user('all')
     user.is_staff = True
     user.is_superuser = True
     user.save()

@@ -22,7 +22,7 @@ def test_cleanup_dashboards_to_be_deleted(subject):
 
 @pytest.mark.django_db
 def test_cleanup_dashboards_unreachable(subject):
-    other_contact = baker.make(Contact, email="test@example.com")
+    other_contact = baker.make(Contact, email='test@example.com')
     other_subject = other_contact.subject
     other_subject.save()
 

@@ -16,8 +16,8 @@ STUDY_FORM = {
     'name': 'Test study',
     'contact_person': 'Mustermann',
     'min_subject_count': 0,
-    'phone': "030123456789",
-    'email': "test@example.com",
+    'phone': '030123456789',
+    'email': 'test@example.com',
     **MANAGEMENT_FORM,
 }
 
@@ -62,7 +62,7 @@ def test_create_study_on_post(request, client, user_fixture):
 
 def test_duplicate_study_get(client, user):
     client.force_login(user)
-    original = baker.make(Study, email="test@example.com", members=[user])
+    original = baker.make(Study, email='test@example.com', members=[user])
     response = client.get('/studies/create/?duplicate_pk={}'.format(original.pk))
 
     assert response.status_code == 200

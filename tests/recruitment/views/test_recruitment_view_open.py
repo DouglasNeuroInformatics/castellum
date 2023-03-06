@@ -31,19 +31,19 @@ def test_min_subject_count_is_zero(client, member, study_in_execution_status):
     study_in_execution_status.save()
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_status.pk)
+    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
     assert str(messages[0]) == (
-        "This study does not require participants. "
-        "Please, contact the responsible person who can set it up."
+        'This study does not require participants. '
+        'Please, contact the responsible person who can set it up.'
     )
     assert response.status_code == 200
 
 
-@pytest.mark.parametrize("subject_count", [
+@pytest.mark.parametrize('subject_count', [
     10 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR,
     11 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR,
 ])
@@ -53,18 +53,18 @@ def test_not_contacted_count_is_gte_to_hard_limit(
     study_in_execution_status.min_subject_count = 10
     study_in_execution_status.save()
 
-    for i in range(subject_count):
+    for _i in range(subject_count):
         create_participation(study_in_execution_status)
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_status.pk)
+    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
     assert str(messages[0]) == (
-        "Application privacy does not allow you to add more subjects. "
-        "Please contact provided subjects before adding new ones."
+        'Application privacy does not allow you to add more subjects. '
+        'Please contact provided subjects before adding new ones.'
     )
     assert response.status_code == 200
 
@@ -83,17 +83,17 @@ def test_no_matching_subjects(
         SubjectFilter,
         group=subject_filter_group,
         description=attribute_description,
-        operator="exact",
-        value="foo",
+        operator='exact',
+        value='foo',
     )
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_status.pk)
+    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
-    assert str(messages[0]) == "No potential participants could be found for this study."
+    assert str(messages[0]) == 'No potential participants could be found for this study.'
     assert response.status_code == 200
 
 

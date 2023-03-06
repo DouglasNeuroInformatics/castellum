@@ -242,7 +242,7 @@ class Study(models.Model):
         if self.subjectfiltergroup_set.count() > 1 and not self.advanced_filtering:
             raise ValidationError(
                 _(
-                    'Studies with more than one filtergroup can\'t be transformed back to basic '
+                    "Studies with more than one filtergroup can't be transformed back to basic "
                     'filtering. Delete all but one filtergroup first!'
                 ),
                 code='invalid',
