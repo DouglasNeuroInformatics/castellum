@@ -393,15 +393,13 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             settings.CASTELLUM_RECRUITMENT_MAIL_WEEKLY_LIMIT - self.get_weekly_mails(),
         )
 
+        participations = self.create_participations(allowed_size)
+
         if allowed_size <= 0:
             messages.error(self.request, _(
                 'You have reached the weekly limit for mail recruitment.'
             ))
-            return
-
-        participations = self.create_participations(allowed_size)
-
-        if not participations:
+        elif not participations:
             messages.error(
                 self.request,
                 _(

@@ -115,18 +115,20 @@ def send_appointment_notifications(participation, change, base_url, user=None):
         conductors = participation.study.conductors
 
     recipients = [u.email for u in conductors if u != user]
-    if recipients:
-        with MailContext('internal') as ctx:
-            return ctx.send_mail(
-                settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
-                (
-                    get_mail_data,
-                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY,
-                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN,
-                ),
-                recipients,
-                cc=[u.email for u in [user] if u],
-            )
+    if not recipients:
+        return 0
+
+    with MailContext('internal') as ctx:
+        return ctx.send_mail(
+            settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
+            (
+                get_mail_data,
+                settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY,
+                settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN,
+            ),
+            recipients,
+            cc=[u.email for u in [user] if u],
+        )
 
 
 def get_external_resource_events(resource, start, end):

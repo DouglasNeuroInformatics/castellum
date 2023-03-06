@@ -271,6 +271,7 @@ class Contact(BaseContact):
     def email_recipients_string(self):
         if len(self.email_recipients) > 1:
             return ', '.join(c.full_name for c in self.email_recipients)
+        return ''
 
     def save(self, *args, **kwargs):
         if not self.subject_uuid:
