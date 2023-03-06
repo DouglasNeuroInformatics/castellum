@@ -25,11 +25,9 @@ from urllib.parse import unquote
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.utils.decorators import classonlymethod
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.generic import View
 from django.views.static import serve
-
 from stronghold.decorators import public
 
 
@@ -47,7 +45,7 @@ def get_next_url(request, default='/'):
 class StrongholdPublicMixin:
     # https://github.com/mgrouchy/django-stronghold/pull/88
 
-    @classonlymethod
+    @classmethod
     def as_view(cls, *args, **kwargs):
         return public(super().as_view(*args, **kwargs))
 

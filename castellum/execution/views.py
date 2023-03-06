@@ -122,7 +122,7 @@ class ParticipationListView(
         if context['session_count'] > 0:
             sort_options.append(('appointment_count', _('Appointments')))
         for tag in self.study.executiontag_set.exclude(participation=None):
-            sort_options.append(('tag-{}'.format(tag.pk), tag))
+            sort_options.append((f'tag-{tag.pk}', tag))
 
         sort = self.request.GET.get('sort')
         sort_labels = dict(sort_options)
@@ -410,7 +410,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
     def send_summary(self, succeeded, failed, form):
         postal = list(self.study.participation_set.filter(news_interest=Participation.VIA_POSTAL))
 
-        body = 'You sent news emails to {} subjects.'.format(len(succeeded))
+        body = f'You sent news emails to {len(succeeded)} subjects.'
 
         if failed:
             body += (
@@ -436,7 +436,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
         with MailContext('internal') as ctx:
             return ctx.send_mail(
-                '[{}] news email sent'.format(self.study.name),
+                f'[{self.study.name}] news email sent',
                 body,
                 [user.email for user in self.study.conductors],
             )
@@ -581,14 +581,14 @@ class CalendarView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin
         if self.request.user.has_privacy_level(appointment.participation.subject.privacy_level):
             name = appointment.participation.subject.contact.full_name
             for tag in appointment.participation.execution_tags.all():
-                name += ' #{}'.format(tag)
+                name += f' #{tag}'
         else:
             name = _('(insufficient privacy level)')
-        title = '{} - {}'.format(name, appointment.session.name)
+        title = f'{name} - {appointment.session.name}'
 
         assignees = ', '.join(str(c.user) for c in appointment.assigned_conductors.all())
         if assignees:
-            title = '{} ({})'.format(title, assignees)
+            title = f'{title} ({assignees})'
 
         return {
             'title': title,

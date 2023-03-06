@@ -16,11 +16,11 @@ def test_last_contacted_elsewhere():
     study_1 = baker.make(Study)
     study_2 = baker.make(Study)
 
-    with freeze_time("1970-01-01 12:00"):
+    with freeze_time('1970-01-01 12:00'):
         participation_1 = baker.make(Participation, study=study_1, subject=subject)
         participation_2 = baker.make(Participation, study=study_2, subject=subject)
 
-    with freeze_time("2011-11-11 11:11"):
+    with freeze_time('2011-11-11 11:11'):
         participation_2.status = Participation.NOT_REACHED
         participation_2.save()
 
@@ -34,18 +34,18 @@ def test_last_contacted_elsewhere_several_others():
     study_1 = baker.make(Study)
     study_2 = baker.make(Study)
 
-    with freeze_time("1970-01-01 12:00"):
+    with freeze_time('1970-01-01 12:00'):
         participation_1 = baker.make(Participation, study=study_1, subject=subject)
         participation_2 = baker.make(Participation, study=study_2, subject=subject)
 
-    with freeze_time("2020-12-13 08:00"):
+    with freeze_time('2020-12-13 08:00'):
         participation_1.save()
 
-    with freeze_time("2011-11-11 11:11"):
+    with freeze_time('2011-11-11 11:11'):
         participation_2.status = Participation.NOT_REACHED
         participation_2.save()
 
-    with freeze_time("2021-11-11 11:11"):
+    with freeze_time('2021-11-11 11:11'):
         participation_2.save()
 
     participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
@@ -57,14 +57,14 @@ def test_last_contacted_elsewhere_no_others():
     subject = baker.make(Subject)
     study_1 = baker.make(Study)
 
-    with freeze_time("1970-01-01 12:00"):
+    with freeze_time('1970-01-01 12:00'):
         participation_1 = baker.make(Participation, study=study_1, subject=subject)
 
-    with freeze_time("2011-11-11 11:11"):
+    with freeze_time('2011-11-11 11:11'):
         participation_1.status = Participation.NOT_REACHED
         participation_1.save()
 
-    with freeze_time("2021-11-11 11:11"):
+    with freeze_time('2021-11-11 11:11'):
         participation_1.save()
 
     participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
@@ -78,16 +78,16 @@ def test_last_contacted_elsewhere_several_studies():
     study_2 = baker.make(Study)
     study_3 = baker.make(Study)
 
-    with freeze_time("1970-01-01 12:00"):
+    with freeze_time('1970-01-01 12:00'):
         participation_1 = baker.make(Participation, study=study_1, subject=subject)
         participation_2 = baker.make(Participation, study=study_2, subject=subject)
         participation_3 = baker.make(Participation, study=study_3, subject=subject)
 
-    with freeze_time("2011-11-11 11:11"):
+    with freeze_time('2011-11-11 11:11'):
         participation_2.status = Participation.NOT_REACHED
         participation_2.save()
 
-    with freeze_time("2021-11-11 11:11"):
+    with freeze_time('2021-11-11 11:11'):
         participation_3.status = Participation.NOT_REACHED
         participation_3.save()
 
@@ -101,11 +101,11 @@ def test_last_contacted_elsewhere_not_contacted():
     study_1 = baker.make(Study)
     study_2 = baker.make(Study)
 
-    with freeze_time("1970-01-01 12:00"):
+    with freeze_time('1970-01-01 12:00'):
         participation_1 = baker.make(Participation, study=study_1, subject=subject)
         participation_2 = baker.make(Participation, study=study_2, subject=subject)
 
-    with freeze_time("2011-11-11 11:11"):
+    with freeze_time('2011-11-11 11:11'):
         participation_2.status = Participation.NOT_CONTACTED
         participation_2.save()
 
@@ -115,20 +115,20 @@ def test_last_contacted_elsewhere_not_contacted():
 
 @pytest.mark.django_db
 def test_attempts():
-    with freeze_time("1970-01-01 12:00"):
+    with freeze_time('1970-01-01 12:00'):
         participation = baker.make(
             Participation, status=Participation.NOT_REACHED
         )
 
-    with freeze_time("1970-01-02 12:00"):
+    with freeze_time('1970-01-02 12:00'):
         participation.status = Participation.INVITED
         participation.save()
 
-    with freeze_time("1970-01-03 12:00"):
+    with freeze_time('1970-01-03 12:00'):
         participation.status = Participation.NOT_REACHED
         participation.save()
 
-    with freeze_time("1970-01-04 12:00"):
+    with freeze_time('1970-01-04 12:00'):
         participation.status = Participation.NOT_REACHED
         participation.save()
 

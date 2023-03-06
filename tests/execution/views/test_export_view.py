@@ -10,7 +10,7 @@ def test_single_domain(client, conductor, study_in_execution_status):
     baker.make(Domain, context=study_in_execution_status)
 
     client.force_login(conductor)
-    url = '/execution/{}/export/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/export/'
     response = client.get(url)
 
     assert response.status_code == 200
@@ -19,7 +19,7 @@ def test_single_domain(client, conductor, study_in_execution_status):
 
 def test_no_domain(client, conductor, study_in_execution_status):
     client.force_login(conductor)
-    url = '/execution/{}/export/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/export/'
     response = client.get(url)
 
     assert response.status_code == 200
@@ -32,7 +32,7 @@ def test_multi_domain(client, conductor, study_in_execution_status):
     baker.make(Domain, context=study_in_execution_status)
 
     client.force_login(conductor)
-    url = '/execution/{}/export/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/export/'
     response = client.get(url)
 
     assert response.status_code == 200
@@ -45,7 +45,7 @@ def test_multi_domain_given(client, conductor, study_in_execution_status):
     domain2 = baker.make(Domain, context=study_in_execution_status)
 
     client.force_login(conductor)
-    url = '/execution/{}/export/?domain={}'.format(study_in_execution_status.pk, domain2.key)
+    url = f'/execution/{study_in_execution_status.pk}/export/?domain={domain2.key}'
     response = client.get(url)
 
     assert response.status_code == 200
@@ -73,7 +73,7 @@ def test_multi_domain_given_wrong_study(client, conductor, study_in_execution_st
     domain2 = baker.make(Domain, context=study_in_execution_status)
 
     client.force_login(conductor)
-    url = '/execution/{}/export/?domain={}'.format(study2.pk, domain2.key)
+    url = f'/execution/{study2.pk}/export/?domain={domain2.key}'
     response = client.get(url)
 
     assert response.status_code == 404

@@ -7,13 +7,13 @@ from castellum.pseudonyms.models import Domain
 @pytest.mark.smoketest
 def test_200(client, study, member):
     client.force_login(member)
-    response = client.get('/studies/{}/domains/'.format(study.pk))
+    response = client.get(f'/studies/{study.pk}/domains/')
     assert response.status_code == 200
 
 
 def test_add(client, study, member):
     client.force_login(member)
-    response = client.post('/studies/{}/domains/'.format(study.pk), {
+    response = client.post(f'/studies/{study.pk}/domains/', {
         'action': 'add',
     })
     assert response.status_code == 302
@@ -23,7 +23,7 @@ def test_add(client, study, member):
 def test_name(client, study, member):
     client.force_login(member)
     domain = baker.make(Domain, context=study)
-    response = client.post('/studies/{}/domains/'.format(study.pk), {
+    response = client.post(f'/studies/{study.pk}/domains/', {
         'action': 'name',
         'domain': domain.key,
         'name': 'foo',
@@ -36,6 +36,6 @@ def test_name(client, study, member):
 def test_delete(client, study, member):
     client.force_login(member)
     domain = study.domains.create()
-    response = client.post('/studies/{}/domains/{}/'.format(study.pk, domain.key))
+    response = client.post(f'/studies/{study.pk}/domains/{domain.key}/')
     assert response.status_code == 302
     assert study.domains.count() == 0

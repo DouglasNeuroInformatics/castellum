@@ -20,13 +20,12 @@
 
 import functools
 
+import phonenumbers
 from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 from django.core.management.base import CommandError
 from django.db import IntegrityError
-
-import phonenumbers
 from faker import Faker
 
 from castellum.contacts.models import Address
@@ -68,12 +67,12 @@ def fake_date_of_birth():
         percentage += age_groups[i][1]
 
         if r < percentage:
-            start_date = '-{}y'.format(age_groups[i + 1][0])
-            end_date = '-{}y'.format(age_groups[i][0])
+            start_date = f'-{age_groups[i + 1][0]}y'
+            end_date = f'-{age_groups[i][0]}y'
             return fake.date_between(start_date=start_date, end_date=end_date)
 
-    start_date = '-{}y'.format(100)
-    end_date = '-{}y'.format(age_groups[-1][0])
+    start_date = f'-{100}y'
+    end_date = f'-{age_groups[-1][0]}y'
     return fake.date_between(start_date=start_date, end_date=end_date)
 
 
@@ -132,8 +131,8 @@ def fake_study():
         min_subject_count=fake.random.randint(0, 50),
         description=description,
         recruitment_text=recruitment_text,
-        sessions_start=fake.past_date(start_date="-30d"),
-        sessions_end=fake.future_date(end_date="+30d"),
+        sessions_start=fake.past_date(start_date='-30d'),
+        sessions_end=fake.future_date(end_date='+30d'),
     )
     return study
 
@@ -160,7 +159,7 @@ def fake_contact(subject):
         last_name = fake.last_name_male()
 
     if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
-        key = 'd{}'.format(settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
+        key = f'd{settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID}'
         date_of_birth = subject.attributes.get(key)
     else:
         date_of_birth = fake_date_of_birth()

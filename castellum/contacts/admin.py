@@ -33,25 +33,25 @@ class AddressInline(admin.StackedInline):
 
 
 class ContactAdmin(admin.ModelAdmin):
-    list_display = "first_name", "last_name", "address", "email", "phone_number"
-    list_display_links = "first_name", "last_name"
+    list_display = 'first_name', 'last_name', 'address', 'email', 'phone_number'
+    list_display_links = 'first_name', 'last_name'
     list_per_page = 200
-    search_fields = "first_name", "last_name"
+    search_fields = 'first_name', 'last_name'
     inlines = [AddressInline]
 
     fieldsets = [
         (None, {
-            "fields": (
-                ("first_name", "last_name", "title"),
-                "gender",
-                "date_of_birth",
+            'fields': (
+                ('first_name', 'last_name', 'title'),
+                'gender',
+                'date_of_birth',
             ),
         }),
-        ("Contact Data", {
-            "fields": (
-                "email",
-                ("phone_number", "phone_number_alternative"),
-                "legal_representatives",
+        ('Contact Data', {
+            'fields': (
+                'email',
+                ('phone_number', 'phone_number_alternative'),
+                'legal_representatives',
             )
         }),
     ]

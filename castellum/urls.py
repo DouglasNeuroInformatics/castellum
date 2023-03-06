@@ -28,7 +28,6 @@ from django.urls import path
 from django.views.generic import RedirectView
 from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
-
 from mfa.decorators import public as mfa_public
 from mfa.views import LoginView
 from stronghold.decorators import public
@@ -66,7 +65,7 @@ def dummy(request):
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('login/', LoginView.as_view(
-        template_name="login.html",
+        template_name='login.html',
         authentication_form=AuthenticationForm,
     ), name='login'),
     path('logout/', mfa_public(LogoutView.as_view()), name='logout'),
@@ -123,12 +122,14 @@ if settings.PROTECTED_MEDIA_SERVER:
 if 'model_stats' in settings.INSTALLED_APPS:
     urlpatterns = [
         path('admin/stats/', include('model_stats.urls')),
-    ] + urlpatterns
+        *urlpatterns,
+    ]
 
 try:
     import debug_toolbar
 
-    urlpatterns += [
+    urlpatterns = [
+        *urlpatterns,
         path('__debug__/', include(debug_toolbar.urls)),
     ]
 except ImportError:

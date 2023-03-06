@@ -24,10 +24,10 @@ from django.utils.translation import gettext_lazy as _
 
 class Message(models.Model):
     MESSAGE_LEVELS = [
-        ("success", _("Success")),
-        ("info", _("Info")),
-        ("warning", _("Warning")),
-        ("danger", _("Danger")),
+        ('success', _('Success')),
+        ('info', _('Info')),
+        ('warning', _('Warning')),
+        ('danger', _('Danger')),
     ]
 
     content = models.CharField(_('Content'), max_length=254)

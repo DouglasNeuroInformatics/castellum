@@ -38,7 +38,6 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
-
 from simplecharts import StackedColumnRenderer
 
 from castellum.appointments.helpers import get_external_resource_events
@@ -374,7 +373,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         with MailContext('internal') as ctx:
             ctx.send_mail(
                 self.study.mail_subject,
-                '{} emails have been sent.\n\n---\n\n{}'.format(counter, self.study.mail_body),
+                f'{counter} emails have been sent.\n\n---\n\n{self.study.mail_body}',
                 [self.study.email],
             )
 
@@ -394,15 +393,13 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             settings.CASTELLUM_RECRUITMENT_MAIL_WEEKLY_LIMIT - self.get_weekly_mails(),
         )
 
+        participations = self.create_participations(allowed_size)
+
         if allowed_size <= 0:
             messages.error(self.request, _(
                 'You have reached the weekly limit for mail recruitment.'
             ))
-            return
-
-        participations = self.create_participations(allowed_size)
-
-        if not participations:
+        elif not participations:
             messages.error(
                 self.request,
                 _(
@@ -524,7 +521,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        choices = [(None, '---')] + list(Participation.STATUS_OPTIONS[1:])
+        choices = [(None, '---'), *list(Participation.STATUS_OPTIONS[1:])]
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 

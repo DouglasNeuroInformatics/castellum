@@ -1,8 +1,7 @@
 import datetime
 
-from django.utils.formats import date_format
-
 import pytest
+from django.utils.formats import date_format
 
 from castellum.utils.mail import render_body_with_fallback
 

@@ -21,10 +21,9 @@
 
 import datetime
 
+import requests
 from django.conf import settings
 from django.utils import timezone
-
-import requests
 
 
 def parse_date(s):
@@ -36,7 +35,7 @@ def parse_date(s):
 def request(method, id, token, allowed_status=[]):
     assert settings.SCHEDULER_URL
 
-    url = '{}/api/{}/{}/'.format(settings.SCHEDULER_URL, id, token)
+    url = f'{settings.SCHEDULER_URL}/api/{id}/{token}/'
     r = requests.request(method, url, headers={
         'Authorization': 'token ' + settings.SCHEDULER_TOKEN,
     })
@@ -60,7 +59,7 @@ def get(id, token):
 
 
 def get_bulk(id):
-    url = '{}/api/{}/'.format(settings.SCHEDULER_URL, id)
+    url = f'{settings.SCHEDULER_URL}/api/{id}/'
     r = requests.get(url, headers={
         'Authorization': 'token ' + settings.SCHEDULER_TOKEN,
     })
@@ -73,9 +72,9 @@ def get_bulk(id):
 
 def create_invitation_url(id, token):
     put(id, token)  # make sure token exists
-    return '{}/invitations/{}/{}/'.format(settings.SCHEDULER_URL, id, token)
+    return f'{settings.SCHEDULER_URL}/invitations/{id}/{token}/'
 
 
 def get_schedule_url(id):
     assert settings.SCHEDULER_URL
-    return '{scheduler}/{id}/'.format(scheduler=settings.SCHEDULER_URL, id=id)
+    return f'{settings.SCHEDULER_URL}/{id}/'

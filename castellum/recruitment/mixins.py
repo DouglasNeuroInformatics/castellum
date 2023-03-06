@@ -20,7 +20,6 @@
 
 import datetime
 import logging
-from typing import List
 
 from django.conf import settings
 from django.db import models
@@ -96,7 +95,7 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
     Requires PermissionRequiredMixin.
     """
 
-    participation_status: List[int] = []
+    participation_status = []
 
     @cached_property
     def participation(self):
@@ -138,7 +137,7 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
             for description in descriptions:
                 value = self.object.attributes.get(description.json_key)
                 try:
-                    yield form['d{}'.format(description.pk)], value == ANSWER_DECLINED
+                    yield form[f'd{description.pk}'], value == ANSWER_DECLINED
                 except KeyError:
                     pass
 
@@ -154,7 +153,7 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
 
 class BaseFollowUpFeed(BaseCalendarFeed):
     def item_title(self, item):
-        return '{} - Follow-Up'.format(item.study.name)
+        return f'{item.study.name} - Follow-Up'
 
     def item_start(self, item):
         if item.followup_time:
@@ -169,4 +168,4 @@ class BaseFollowUpFeed(BaseCalendarFeed):
         return reverse('recruitment:contact', args=[item.study.pk, item.pk])
 
     def item_uid(self, item):
-        return 'followup-{}@{}'.format(item.pk, self.request.get_host())
+        return f'followup-{item.pk}@{self.request.get_host()}'

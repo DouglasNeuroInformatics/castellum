@@ -47,7 +47,7 @@ def iter_file_fields(model):
 
 
 def iter_media_files():
-    for root, dirs, files in os.walk(settings.MEDIA_ROOT):
+    for root, _dirs, files in os.walk(settings.MEDIA_ROOT):
         for filename in files:
             yield Path(root) / filename
 
@@ -68,5 +68,5 @@ class Command(BaseCommand):
         for path in iter_media_files():
             if path not in used_files:
                 if options['verbosity'] > 0:
-                    self.stdout.write('Deleting unused media file {}'.format(path))
+                    self.stdout.write(f'Deleting unused media file {path}')
                 path.unlink()

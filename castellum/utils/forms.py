@@ -20,16 +20,13 @@
 
 import codecs
 import json
-from typing import Any
-from typing import Mapping
 
+import jsonschema
 from django import forms
 from django.forms import ValidationError
 from django.forms.widgets import TextInput
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
-
-import jsonschema
 from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
 from phonenumber_field.widgets import RegionalPhoneNumberWidget
 
@@ -187,7 +184,7 @@ class JsonFileValidator:
 
     def format_error(self, error):
         path = '.'.join(str(x) for x in error.path)
-        return '{} {}'.format(path, error.message)
+        return f'{path} {error.message}'
 
     def __eq__(self, other):
         return self.schema == other.schema
@@ -196,10 +193,14 @@ class JsonFileValidator:
         try:
             reader = codecs.getreader('utf-8')
             data = json.load(reader(fh))
-        except json.JSONDecodeError:
-            raise ValidationError(_('Uploaded file does not contain valid JSON.'), code='encoding')
-        except UnicodeDecodeError:
-            raise ValidationError(_('Uploaded file must be UTF-8 encoded.'), code='json')
+        except json.JSONDecodeError as e:
+            raise ValidationError(
+                _('Uploaded file does not contain valid JSON.'), code='encoding'
+            ) from e
+        except UnicodeDecodeError as e:
+            raise ValidationError(
+                _('Uploaded file must be UTF-8 encoded.'), code='json'
+            ) from e
 
         validator = jsonschema.Draft7Validator(self.schema)
         errors = list(validator.iter_errors(data))
@@ -212,9 +213,6 @@ class JsonFileValidator:
 
 
 class BaseImportForm(forms.Form):
-    schema: Mapping[str, Any]
-    schema_ref: str
-
     # magic seems to detect 'text/plain' for json files
     file = RestrictedFileField(
         label=_('File'), content_types=['application/json'], required=True

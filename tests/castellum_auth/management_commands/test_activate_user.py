@@ -1,6 +1,5 @@
-from django.utils import timezone
-
 import pytest
+from django.utils import timezone
 
 from castellum.castellum_auth.management.commands.activate_user import Command
 from castellum.castellum_auth.models import User

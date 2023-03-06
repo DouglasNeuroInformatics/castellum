@@ -24,7 +24,7 @@ from django.core.management.commands.migrate import Command as MigrateCommand
 
 
 class Command(BaseCommand):
-    help = "Update database schema of all databases."
+    help = 'Update database schema of all databases.'
 
     def handle(self, *args, **kwargs):
         migrate = MigrateCommand()
@@ -45,7 +45,7 @@ class Command(BaseCommand):
         for database in settings.DATABASES:
             options['database'] = database
             if options['verbosity'] >= 1:
-                self.stdout.write(self.style.MIGRATE_HEADING("Database:"))
+                self.stdout.write(self.style.MIGRATE_HEADING('Database:'))
                 self.stdout.write('  ' + database)
             migrate.handle(*args, **options)
             if options['verbosity'] >= 1:

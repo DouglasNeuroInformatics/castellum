@@ -20,12 +20,11 @@
 
 import datetime
 
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-
-from dateutil.relativedelta import relativedelta
 
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
@@ -53,7 +52,7 @@ class ContactQuerySet(models.QuerySet):
         lookup = prefix + '_name_phonetic__contains'
         q = models.Q()
         for code in phonetic(part, encode=False):
-            q &= models.Q(**{lookup: ':{}:'.format(code)})
+            q &= models.Q(**{lookup: f':{code}:'})
         return q
 
     def name_is_matched(self, parts, prefix):
@@ -129,9 +128,9 @@ class ContactQuerySet(models.QuerySet):
 
 class BaseContact(TimeStampedModel):
     GENDER = [
-        ("f", _("female")),
-        ("m", _("male")),
-        ("*", _("diverse")),
+        ('f', _('female')),
+        ('m', _('male')),
+        ('*', _('diverse')),
     ]
 
     first_name = models.CharField(_('First name'), max_length=64)
@@ -150,19 +149,19 @@ class BaseContact(TimeStampedModel):
 
     @property
     def full_name(self):
-        return " ".join(filter(None, [self.title, self.first_name, self.last_name]))
+        return ' '.join(filter(None, [self.title, self.first_name, self.last_name]))
 
     @property
     def short_name(self):
         # a bit simplistic, but should be sufficient
-        return '{}. {}'.format(self.first_name[0], self.last_name)
+        return f'{self.first_name[0]}. {self.last_name}'
 
 
 class Contact(BaseContact):
     CONTACT_METHODS = [
-        ("phone", _("phone")),
-        ("email", _("email")),
-        ("postal", _("postal")),
+        ('phone', _('phone')),
+        ('email', _('email')),
+        ('postal', _('postal')),
     ]
 
     subject_uuid = models.UUIDField(unique=True, editable=False, default=None)
@@ -272,6 +271,7 @@ class Contact(BaseContact):
     def email_recipients_string(self):
         if len(self.email_recipients) > 1:
             return ', '.join(c.full_name for c in self.email_recipients)
+        return ''
 
     def save(self, *args, **kwargs):
         if not self.subject_uuid:
@@ -300,7 +300,7 @@ class Address(models.Model):
 
     def lines(self):
         line1 = ' '.join([self.street, self.house_number, self.additional_information]).strip()
-        line2 = '{} {}'.format(self.zip_code, self.city)
+        line2 = f'{self.zip_code} {self.city}'
         return line1, line2
 
     def __str__(self):

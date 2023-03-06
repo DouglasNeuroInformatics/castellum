@@ -20,16 +20,11 @@
 
 import datetime
 import math
-from typing import List
-from typing import Optional
-from typing import Tuple
-from typing import Type
 
+from dateutil.relativedelta import relativedelta
 from django import forms
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-from dateutil.relativedelta import relativedelta
 
 from castellum.utils.expressions import ListContainsLookup  # noqa
 from castellum.utils.forms import DateField
@@ -39,7 +34,7 @@ from castellum.utils.forms import Select2Mixin
 
 from .fields import AgeField
 
-ANSWER_DECLINED = "ANSWER_DECLINED"
+ANSWER_DECLINED = 'ANSWER_DECLINED'
 
 
 class Select2IntegerMultipleChoiceField(Select2Mixin, IntegerMultipleChoiceField):
@@ -47,9 +42,7 @@ class Select2IntegerMultipleChoiceField(Select2Mixin, IntegerMultipleChoiceField
 
 
 class BaseAttributeField:
-    available_operators: List[Tuple[str, str]]
-    form_class: Type[forms.Field]
-    filter_form_class: Optional[Type[forms.Field]] = None
+    filter_form_class = None
 
     def __init__(self, description):
         self.description = description
@@ -69,7 +62,7 @@ class BaseAttributeField:
 
     def _filter_to_q(self, operator, value):
         field_name = 'attributes__' + self.description.json_key
-        key = '{}__{}'.format(field_name, operator)
+        key = f'{field_name}__{operator}'
         return models.Q(**{key: value})
 
     def filter_to_q(self, operator, value, include_unknown=True):
@@ -105,7 +98,7 @@ class BaseAttributeField:
 
     def get_filter_display(self, operator, value):
         operator = dict(self.available_operators)[operator]
-        return '{} {} {}'.format(self.description.filter_label, operator, value)
+        return f'{self.description.filter_label} {operator} {value}'
 
     def get_statistics_grouping(self, study):
         raise NotImplementedError
@@ -114,8 +107,8 @@ class BaseAttributeField:
 class DateAttributeField(BaseAttributeField):
     form_class = DateField
     available_operators = [
-        ("lt", _("before")),
-        ("gt", _("after")),
+        ('lt', _('before')),
+        ('gt', _('after')),
     ]
 
     def parse_date(self, value):
@@ -133,19 +126,19 @@ class DateAttributeField(BaseAttributeField):
 class NumberAttributeField(BaseAttributeField):
     form_class = forms.IntegerField
     available_operators = [
-        ("lt", _("<")),
-        ("gt", _(">")),
-        ("exact", _("==")),
-        ("!exact", _("!=")),
-        ("lte", _("<=")),
-        ("gte", _(">=")),
+        ('lt', _('<')),
+        ('gt', _('>')),
+        ('exact', _('==')),
+        ('!exact', _('!=')),
+        ('lte', _('<=')),
+        ('gte', _('>=')),
     ]
 
 
 class BooleanAttributeField(BaseAttributeField):
     form_class = forms.NullBooleanField
     available_operators = [
-        ("exact", _("is")),
+        ('exact', _('is')),
     ]
 
     def get_statistics_grouping(self, study):
@@ -166,9 +159,9 @@ class BooleanAttributeField(BaseAttributeField):
 class TextAttributeField(BaseAttributeField):
     form_class = forms.CharField
     available_operators = [
-        ("exact", _("is")),
-        ("!exact", _("is not")),
-        ("icontains", _("contains")),
+        ('exact', _('is')),
+        ('!exact', _('is not')),
+        ('icontains', _('contains')),
     ]
 
 
@@ -208,12 +201,12 @@ class BaseChoiceAttributeField(BaseAttributeField):
 class ChoiceAttributeField(BaseChoiceAttributeField):
     form_class = IntegerChoiceField
     available_operators = [
-        ("exact", _("is")),
-        ("!exact", _("is not")),
+        ('exact', _('is')),
+        ('!exact', _('is not')),
     ]
 
     def get_choices(self):
-        return [(None, _('Unknown'))] + super().get_choices()
+        return [(None, _('Unknown')), *super().get_choices()]
 
 
 class MultipleChoiceAttributeField(BaseChoiceAttributeField):
@@ -221,8 +214,8 @@ class MultipleChoiceAttributeField(BaseChoiceAttributeField):
     filter_form_class = IntegerChoiceField
     available_operators = [
         # see castellum.utils.expressions.ListContainsLookup
-        ("contains", _("contains")),
-        ("!contains", _("does not contain")),
+        ('contains', _('contains')),
+        ('!contains', _('does not contain')),
     ]
 
     def get_display(self, value):
@@ -237,9 +230,10 @@ class MultipleChoiceAttributeField(BaseChoiceAttributeField):
 
 
 class OrderedChoiceAttributeField(ChoiceAttributeField):
-    available_operators = ChoiceAttributeField.available_operators + [
-        ("gte", _("is at least")),
-        ("lte", _("is at most")),
+    available_operators = [
+        *ChoiceAttributeField.available_operators,
+        ('gte', _('is at least')),
+        ('lte', _('is at most')),
     ]
 
     def _filter_to_q(self, operator, value):
@@ -265,8 +259,8 @@ class AgeAttributeField(DateAttributeField):
 
     filter_form_class = AgeField
     available_operators = [
-        ("lt", _("is at least")),
-        ("gt", _("younger than")),
+        ('lt', _('is at least')),
+        ('gt', _('younger than')),
     ]
 
     def _filter_to_q(self, operator, value):
@@ -279,7 +273,7 @@ class AgeAttributeField(DateAttributeField):
 
     def get_filter_display(self, operator, value):
         period, scale = value
-        value = '{} {}'.format(period, self.SCALES[scale])
+        value = f'{period} {self.SCALES[scale]}'
         return super().get_filter_display(operator, value)
 
     def _get_min_date(self, study):
@@ -339,8 +333,8 @@ class AgeAttributeField(DateAttributeField):
                 return None
             value = self.parse_date(value)
             today = datetime.date.today()
-            for period, label in buckets:
+            for period, _label in buckets:
                 if period is math.inf or today - relativedelta(**{scale: period + 1}) < value:
                     return period
 
-        return buckets + [(None, _('Other'))], get_bucket
+        return [*buckets, (None, _('Other'))], get_bucket

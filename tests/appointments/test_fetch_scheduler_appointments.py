@@ -1,7 +1,6 @@
 from unittest.mock import patch
 
 from django.utils import timezone
-
 from model_bakery import baker
 
 from castellum.appointments.helpers import fetch_scheduler_appointments

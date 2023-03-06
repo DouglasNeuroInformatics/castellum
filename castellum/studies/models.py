@@ -30,7 +30,6 @@ from django.forms import ValidationError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 
@@ -48,12 +47,12 @@ GEOJSON_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'geojson.json'))
 
 def geofilter_upload_to(instance, filename):
     assert instance.pk
-    return 'studies/{}/geofilters/{}'.format(instance.pk, filename)
+    return f'studies/{instance.pk}/geofilters/{filename}'
 
 
 def consent_upload_to(instance, filename):
     assert instance.pk
-    return 'studies/{}/consents/{}'.format(instance.pk, filename)
+    return f'studies/{instance.pk}/consents/{filename}'
 
 
 class StudyType(TranslatableModel):
@@ -243,7 +242,7 @@ class Study(models.Model):
         if self.subjectfiltergroup_set.count() > 1 and not self.advanced_filtering:
             raise ValidationError(
                 _(
-                    'Studies with more than one filtergroup can\'t be transformed back to basic '
+                    "Studies with more than one filtergroup can't be transformed back to basic "
                     'filtering. Delete all but one filtergroup first!'
                 ),
                 code='invalid',
@@ -336,7 +335,7 @@ class Study(models.Model):
         return conductors
 
     def export(self):
-        STATUS_MAP = {
+        status_map = {
             Study.EDIT: 'not_started',
             Study.EXECUTION: 'started',
             Study.FINISHED: 'finished',
@@ -349,7 +348,7 @@ class Study(models.Model):
                 'email': self.email,
             },
             'description': self.description,
-            'status': STATUS_MAP[self.status],
+            'status': status_map[self.status],
             'sessions_start': self.sessions_start,
             'sessions_end': self.sessions_end,
             'number_participants_expected': self.min_subject_count,
@@ -420,7 +419,7 @@ class StudySession(models.Model):
     schedule_updated_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return '{} - {}'.format(self.study, self.name)
+        return f'{self.study} - {self.name}'
 
     @property
     def domain(self):

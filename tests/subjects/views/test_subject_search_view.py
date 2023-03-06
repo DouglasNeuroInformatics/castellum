@@ -156,8 +156,8 @@ def test_create_from_subjectcreationrequest(client, user):
     contact_request = baker.make(ContactCreationRequest, subject_id=subject_request.pk)
 
     client.force_login(user)
-    response = client.post('/subjects/?from-request={}'.format(subject_request.pk), {
-        'search': '{} {}'.format(contact_request.first_name, contact_request.last_name),
+    response = client.post(f'/subjects/?from-request={subject_request.pk}', {
+        'search': f'{contact_request.first_name} {contact_request.last_name}',
         'privacy_level': 0,
     })
 

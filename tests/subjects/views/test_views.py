@@ -17,7 +17,7 @@ from castellum.subjects.models import ConsentDocument
 def test_detail_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -32,7 +32,7 @@ def test_detail_200(request, client, user_fixture, subject):
 def test_data_protection_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/data-protection/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/data-protection/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -41,7 +41,7 @@ def test_data_protection_post_valid(client, user, subject):
     client.force_login(user)
     assert subject.privacy_level == 0
 
-    url = '/subjects/{}/data-protection/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/data-protection/'
     response = client.post(url, {
         'privacy_level': 1,
     })
@@ -54,7 +54,7 @@ def test_data_protection_post_valid(client, user, subject):
 def test_data_protection_post_invalid_privacy_level(client, user, subject):
     client.force_login(user)
 
-    url = '/subjects/{}/data-protection/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/data-protection/'
     response = client.post(url, {
         'privacy_level': 2,
     })
@@ -67,7 +67,7 @@ def test_data_protection_post_invalid_to_be_deleted_consent(client, user, subjec
 
     baker.make(Consent, _fill_optional=['document'], subject=subject)
 
-    url = '/subjects/{}/data-protection/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/data-protection/'
     response = client.post(url, {
         'privacy_level': 1,
         'to_be_deleted': 'on',
@@ -87,7 +87,7 @@ def test_data_protection_post_invalid_to_be_deleted_consent(client, user, subjec
 def test_consent_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/data-protection/consent/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/data-protection/consent/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -97,7 +97,7 @@ def test_consent_post(request, client, user, subject):
 
     document = baker.make(ConsentDocument)
 
-    url = '/subjects/{}/data-protection/consent/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/data-protection/consent/'
     response = client.post(url, {
         'document': document.pk,
     })
@@ -109,7 +109,7 @@ def test_consent_create_document(request, client, user, subject):
     client.force_login(user)
 
     assert not ConsentDocument.objects.exists()
-    url = '/subjects/{}/data-protection/consent/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/data-protection/consent/'
     client.get(url)
     assert ConsentDocument.objects.exists()
 
@@ -123,7 +123,7 @@ def test_consent_create_document(request, client, user, subject):
 def test_additional_info_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/additional-info/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/additional-info/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -138,7 +138,7 @@ def test_additional_info_200(request, client, user_fixture, subject):
 def test_contact_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/contact/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/contact/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -153,7 +153,7 @@ def test_contact_200(request, client, user_fixture, subject):
 def test_partcipation_list_200(request, client, user_fixture, participation):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/participations/'.format(participation.subject.pk)
+    url = f'/subjects/{participation.subject.pk}/participations/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -168,14 +168,14 @@ def test_partcipation_list_200(request, client, user_fixture, participation):
 def test_delete_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/delete/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/delete/'
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_delete_post(client, user, contact):
     client.force_login(user)
-    url = '/subjects/{}/delete/'.format(contact.subject.pk)
+    url = f'/subjects/{contact.subject.pk}/delete/'
     client.post(url)
     assert not Contact.objects.filter(pk=contact.pk).exists()
 
@@ -208,7 +208,7 @@ def test_pseudonyms_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     baker.make(Domain)
-    url = '/subjects/{}/pseudonyms/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/pseudonyms/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -224,6 +224,6 @@ def test_pseudonym_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     domain = baker.make(Domain)
-    url = '/subjects/{}/pseudonyms/{}/'.format(subject.pk, domain.key)
+    url = f'/subjects/{subject.pk}/pseudonyms/{domain.key}/'
     response = client.get(url)
     assert response.status_code == 200

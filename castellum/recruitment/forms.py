@@ -57,7 +57,7 @@ class SubjectFilterAddForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields["description"].choices = get_description_choices()
+        self.fields['description'].choices = get_description_choices()
 
 
 class SubjectFilterForm(forms.ModelForm):
@@ -74,10 +74,10 @@ class SubjectFilterForm(forms.ModelForm):
 
         self.desc = self._get_selected_description(**kwargs)
 
-        self.fields["value"] = self.desc.field.filter_formfield(
+        self.fields['value'] = self.desc.field.filter_formfield(
             label=_('Filter value'), required=True
         )
-        self.fields["operator"] = forms.ChoiceField(
+        self.fields['operator'] = forms.ChoiceField(
             label=_('Comparison'), choices=self.desc.field.available_operators
         )
 

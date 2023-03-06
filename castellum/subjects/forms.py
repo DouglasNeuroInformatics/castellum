@@ -39,11 +39,12 @@ class DataProtectionForm(forms.ModelForm):
                 (0.0, _('0 (regular)')),
                 (1.0, _('1 (increased)')),
                 (2.0, _('2 (high)')),
-            ] + settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS)),
+                *settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS,
+            ])),
         }
 
     to_be_deleted = forms.BooleanField(
-        label=_("To be deleted"),
+        label=_('To be deleted'),
         required=False,
         help_text=Subject._meta.get_field('to_be_deleted').help_text,
     )
@@ -66,7 +67,7 @@ class DataProtectionForm(forms.ModelForm):
         privacy_level = cleaned_data.get('privacy_level', 0)
         if not self.user.has_privacy_level(privacy_level):
             raise ValidationError(
-                _("Please choose lower privacy level for the subject."), code='invalid'
+                _('Please choose lower privacy level for the subject.'), code='invalid'
             )
 
         if cleaned_data.get('to_be_deleted') and self.instance.has_consent:
@@ -105,7 +106,8 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
                 (0.0, _('0 (regular)')),
                 (1.0, _('1 (increased)')),
                 (2.0, _('2 (high)')),
-            ] + settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS)),
+                *settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS,
+            ])),
         }
 
     def __init__(self, user, *args, **kwargs):
@@ -118,7 +120,7 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
         privacy_level = cleaned_data.get('privacy_level', 0)
         if not self.user.has_privacy_level(privacy_level):
             raise ValidationError(
-                _("Please choose lower privacy level for the subject."),
+                _('Please choose lower privacy level for the subject.'),
                 code='invalid',
             )
         return cleaned_data

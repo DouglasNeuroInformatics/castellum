@@ -27,7 +27,7 @@ def test_feed_for_study_in_edit_status(client, member, study_in_edit_status):
 
 
 def test_feed_for_study_without_token(client, study_in_edit_status):
-    response = client.get('/recruitment/{}/followups/'.format(study_in_edit_status.pk))
+    response = client.get(f'/recruitment/{study_in_edit_status.pk}/followups/')
     assert response.status_code == 403
 
 
@@ -44,7 +44,7 @@ def test_feed_for_user(request, client, user_fixture, participation):
     participation.followup_date = datetime.date.today()
     participation.save()
 
-    response = client.get('/recruitment/followups/?token={}'.format(user.token))
+    response = client.get(f'/recruitment/followups/?token={user.token}')
     assert response.status_code == 200
     assert response.content.count(b'BEGIN:VEVENT') == 1
 

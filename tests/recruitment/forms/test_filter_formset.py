@@ -11,11 +11,11 @@ def instantiate_formset(formset_class, data, instance=None, initial=None):
         for name, value in form_data.items():
             if isinstance(value, list):
                 for j, inner in enumerate(value):
-                    formset_data['{}-{}-{}_{}'.format(prefix, i, name, j)] = inner
+                    formset_data[f'{prefix}-{i}-{name}_{j}'] = inner
             else:
-                formset_data['{}-{}-{}'.format(prefix, i, name)] = value
-    formset_data['{}-TOTAL_FORMS'.format(prefix)] = len(data)
-    formset_data['{}-INITIAL_FORMS'.format(prefix)] = 0
+                formset_data[f'{prefix}-{i}-{name}'] = value
+    formset_data[f'{prefix}-TOTAL_FORMS'] = len(data)
+    formset_data[f'{prefix}-INITIAL_FORMS'] = 0
 
     if instance:
         return formset_class(formset_data, instance=instance, initial=initial)
@@ -24,7 +24,7 @@ def instantiate_formset(formset_class, data, instance=None, initial=None):
 
 
 def test_formset_with_arbitary_data(attribute_description):
-    filterFormSet = modelformset_factory(
+    filterformset = modelformset_factory(
         SubjectFilter,
         fields=['description', 'operator', 'value'],
         formset=SubjectFilterFormSet,
@@ -34,7 +34,7 @@ def test_formset_with_arbitary_data(attribute_description):
         can_delete=True,
     )
 
-    formset = instantiate_formset(filterFormSet, [
+    formset = instantiate_formset(filterformset, [
         {'foo': 'bar1'},
         {'foo': 'bar2'},
     ])
@@ -43,7 +43,7 @@ def test_formset_with_arbitary_data(attribute_description):
 
 
 def test_formset_with_valid_data(attribute_description):
-    filterFormSet = modelformset_factory(
+    filterformset = modelformset_factory(
         SubjectFilter,
         fields=['description', 'operator', 'value'],
         formset=SubjectFilterFormSet,
@@ -53,7 +53,7 @@ def test_formset_with_valid_data(attribute_description):
         can_delete=True,
     )
 
-    formset = instantiate_formset(filterFormSet, [
+    formset = instantiate_formset(filterformset, [
         {
             'description': attribute_description.pk,
             'operator': 'contains',
@@ -72,7 +72,7 @@ def test_formset_with_valid_data(attribute_description):
 
 
 def test_two_identical_filters(attribute_description):
-    filterFormSet = modelformset_factory(
+    filterformset = modelformset_factory(
         SubjectFilter,
         fields=['description', 'operator', 'value'],
         formset=SubjectFilterFormSet,
@@ -82,7 +82,7 @@ def test_two_identical_filters(attribute_description):
         can_delete=True,
     )
 
-    formset = instantiate_formset(filterFormSet, [
+    formset = instantiate_formset(filterformset, [
         {
             'description': attribute_description.pk,
             'operator': 'contains',
@@ -101,7 +101,7 @@ def test_two_identical_filters(attribute_description):
 
 
 def test_two_identical_filters_with_delete(attribute_description):
-    filterFormSet = modelformset_factory(
+    filterformset = modelformset_factory(
         SubjectFilter,
         fields=['description', 'operator', 'value'],
         formset=SubjectFilterFormSet,
@@ -111,7 +111,7 @@ def test_two_identical_filters_with_delete(attribute_description):
         can_delete=True,
     )
 
-    formset = instantiate_formset(filterFormSet, [
+    formset = instantiate_formset(filterformset, [
         {
             'description': attribute_description.pk,
             'operator': 'contains',

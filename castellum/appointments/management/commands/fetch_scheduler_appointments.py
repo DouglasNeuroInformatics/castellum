@@ -40,4 +40,4 @@ class Command(BaseCommand):
             count += fetch_scheduler_appointments(study, options['base_url'])
 
         if options['verbosity'] > 0:
-            self.stdout.write('Updated {} appointments'.format(count))
+            self.stdout.write(f'Updated {count} appointments')

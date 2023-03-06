@@ -24,7 +24,6 @@ from collections import OrderedDict
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 from parler.managers import TranslatableQuerySet
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
@@ -32,7 +31,7 @@ from parler.models import TranslatedFields
 from .. import attribute_fields
 from ..attribute_fields import ANSWER_DECLINED  # noqa
 
-UNCATEGORIZED = "UNCATEGORIZED"
+UNCATEGORIZED = 'UNCATEGORIZED'
 
 
 @functools.lru_cache(maxsize=2)
@@ -113,7 +112,7 @@ class AttributeDescription(TranslatableModel):
 
     def __str__(self):
         if self.category:
-            return '{}:{}'.format(self.category, self.label)
+            return f'{self.category}:{self.label}'
         return self.label
 
     def clean(self):
@@ -125,7 +124,7 @@ class AttributeDescription(TranslatableModel):
     @property
     def json_key(self):
         # can not be a number because then queries like `data__8` would expect an array.
-        return 'd{}'.format(self.pk)
+        return f'd{self.pk}'
 
     @property
     def filter_label(self):
@@ -133,7 +132,7 @@ class AttributeDescription(TranslatableModel):
 
     @property
     def field(self):
-        MAPPING = {
+        mapping = {
             'CharField': attribute_fields.TextAttributeField,
             'ChoiceField': attribute_fields.ChoiceAttributeField,
             'MultipleChoiceField': attribute_fields.MultipleChoiceAttributeField,
@@ -143,7 +142,7 @@ class AttributeDescription(TranslatableModel):
             'DateField': attribute_fields.DateAttributeField,
             'AgeField': attribute_fields.AgeAttributeField,
         }
-        return MAPPING[self.field_type](self)
+        return mapping[self.field_type](self)
 
 
 class AttributeChoice(TranslatableModel):

@@ -20,11 +20,10 @@
 
 import logging
 
+import requests
 from django import forms
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-
-import requests
 
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.models import Participation
@@ -48,7 +47,7 @@ class AppointmentsForm(forms.ModelForm):
         self.sessions = self.instance.study.studysession_set.order_by('pk')
 
         for session in self.sessions:
-            key = 'appointment-{}'.format(session.pk)
+            key = f'appointment-{session.pk}'
             appointment = self.instance.appointment_set.filter(session=session).first()
 
             self.fields[key] = Appointment._meta.get_field('start').formfield(
@@ -83,7 +82,7 @@ class AppointmentsForm(forms.ModelForm):
                 return scheduler.create_invitation_url(session.schedule_id, pseudonym)
             except requests.RequestException as e:
                 logger.error(
-                    'Creating invitation for session {} failed: {}'.format(session.pk, e)
+                    f'Creating invitation for session {session.pk} failed: {e}'
                 )
                 return 'error'
 
@@ -91,18 +90,18 @@ class AppointmentsForm(forms.ModelForm):
         duration = _('{}min').format(session.duration)
         types = ', '.join(str(t) for t in session.type.order_by('pk'))
         if types:
-            return '{} ({}) - {}'.format(session.name, types, duration)
+            return f'{session.name} ({types}) - {duration}'
         else:
-            return '{} - {}'.format(session.name, duration)
+            return f'{session.name} - {duration}'
 
     def save(self, *args, **kwargs):
         participation = super().save(*args, **kwargs)
         self.appointment_changes = []
 
         for session in self.sessions:
-            key = 'appointment-{}'.format(session.pk)
+            key = f'appointment-{session.pk}'
             start = self.cleaned_data.get(key)
-            conductors = self.cleaned_data.get('conductors-{}'.format(key))
+            conductors = self.cleaned_data.get(f'conductors-{key}')
             change = Appointment.change(session, participation, start, conductors)
             if change:
                 self.appointment_changes.append(change)
@@ -112,7 +111,7 @@ class AppointmentsForm(forms.ModelForm):
     @property
     def appointments(self):
         for session in self.sessions:
-            key = 'appointment-{}'.format(session.pk)
+            key = f'appointment-{session.pk}'
             yield {
                 'legend': self.format_session_name(session),
                 'reminders_enabled': session.reminders_enabled,

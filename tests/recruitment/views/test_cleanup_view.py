@@ -10,7 +10,7 @@ from castellum.subjects.models import Consent
 @pytest.mark.smoketest
 def test_cleanup_view_200(client, recruiter, study_in_execution_status):
     client.force_login(recruiter)
-    response = client.get('/recruitment/{}/cleanup/'.format(study_in_execution_status.pk))
+    response = client.get(f'/recruitment/{study_in_execution_status.pk}/cleanup/')
     assert response.status_code == 200
 
 
@@ -24,7 +24,7 @@ def test_cleanup_view_all(client, recruiter, study_in_execution_status):
         Participation, study=study_in_execution_status, status=Participation.INVITED
     )
 
-    url = '/recruitment/{}/cleanup/'.format(study_in_execution_status.pk)
+    url = f'/recruitment/{study_in_execution_status.pk}/cleanup/'
     client.post(url, {'action': 'all'})
 
     participation1.refresh_from_db()
@@ -48,7 +48,7 @@ def test_cleanup_view_awaiting_response(client, recruiter, study_in_execution_st
 
     with freeze_time('1970-01-15'):
         client.force_login(recruiter)
-        url = '/recruitment/{}/cleanup/'.format(study_in_execution_status.pk)
+        url = f'/recruitment/{study_in_execution_status.pk}/cleanup/'
         client.post(url, {'action': 'awaiting_response'})
 
     participation1.refresh_from_db()
@@ -129,7 +129,7 @@ def test_cleanup_view_mismatch(
         value=1,
     )
 
-    url = '/recruitment/{}/cleanup/'.format(study_in_execution_status.pk)
+    url = f'/recruitment/{study_in_execution_status.pk}/cleanup/'
     client.post(url, {'action': 'mismatch'})
 
     participation1.refresh_from_db()

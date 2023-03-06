@@ -19,7 +19,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib import admin
-
 from parler.admin import TranslatableAdmin
 
 from . import models

@@ -29,8 +29,8 @@ class PseudonymField(forms.CharField):
         cleaned = super().clean(value)
         try:
             return settings.CASTELLUM_PSEUDONYM_CLEAN(cleaned)
-        except ValueError:
-            raise ValidationError(_('Invalid pseudonym'), code='invalid')
+        except ValueError as e:
+            raise ValidationError(_('Invalid pseudonym'), code='invalid') from e
 
 
 class DomainForm(forms.Form):

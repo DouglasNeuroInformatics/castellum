@@ -172,7 +172,7 @@ class BIDSExporter:
 
         for _id, subject in subjects:
             row = {
-                'participant_id': 'sub-{}'.format(_id),
+                'participant_id': f'sub-{_id}',
                 'privacy_level': subject.get_effective_privacy_level(),
             }
             for desc in descriptions:

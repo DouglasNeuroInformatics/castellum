@@ -21,7 +21,6 @@
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views.generic import View
-
 from icalendar import Calendar
 from icalendar import Event
 

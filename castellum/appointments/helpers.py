@@ -22,14 +22,13 @@ import logging
 from urllib.parse import quote_plus
 from urllib.parse import urljoin
 
+import requests
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.urls import reverse
 from django.utils import formats
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
-import requests
-from dateutil.relativedelta import relativedelta
 from icalevents import icalparser
 
 from castellum.pseudonyms.helpers import get_pseudonym
@@ -87,7 +86,7 @@ def send_appointment_notifications(participation, change, base_url, user=None):
             return _('not scheduled')
         dt = formats.date_format(timezone.localtime(state.start), 'DATETIME_FORMAT')
         assigned = ', '.join(str(user) for user in state.assigned_conductors) or _('not assigned')
-        return '{} ({})'.format(dt, assigned)
+        return f'{dt} ({assigned})'
 
     def get_mail_data():
         return {
@@ -98,11 +97,11 @@ def send_appointment_notifications(participation, change, base_url, user=None):
             ),
             'participation_url': urljoin(base_url, reverse(
                 'execution:participation-detail',
-                args=[participation.study.pk, participation.pk]
+                args=[participation.study.pk, participation.pk],
             )),
             'calendar_url': urljoin(base_url, reverse(
                 'execution:calendar',
-                args=[participation.study.pk]
+                args=[participation.study.pk],
             )),
         }
 
@@ -116,18 +115,20 @@ def send_appointment_notifications(participation, change, base_url, user=None):
         conductors = participation.study.conductors
 
     recipients = [u.email for u in conductors if u != user]
-    if recipients:
-        with MailContext('internal') as ctx:
-            return ctx.send_mail(
-                settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
-                (
-                    get_mail_data,
-                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY,
-                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN,
-                ),
-                recipients,
-                cc=[u.email for u in [user] if u],
-            )
+    if not recipients:
+        return 0
+
+    with MailContext('internal') as ctx:
+        return ctx.send_mail(
+            settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
+            (
+                get_mail_data,
+                settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY,
+                settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN,
+            ),
+            recipients,
+            cc=[u.email for u in [user] if u],
+        )
 
 
 def get_external_resource_events(resource, start, end):
@@ -152,7 +153,7 @@ def get_external_resource_events(resource, start, end):
             })
         return events
     except Exception as e:
-        logger.error('Fetching events for resource {} failed: {}'.format(resource.pk, e))
+        logger.error(f'Fetching events for resource {resource.pk} failed: {e}')
         return []
 
 
@@ -168,7 +169,7 @@ def fetch_scheduler_appointments(study, base_url, timeout=0):
         try:
             data = scheduler.get_bulk(session.schedule_id)
         except requests.RequestException as e:
-            logger.error('Fetching schedule for session {} failed: {}'.format(session.pk, e))
+            logger.error(f'Fetching schedule for session {session.pk} failed: {e}')
             continue
 
         session.schedule_updated_at = now

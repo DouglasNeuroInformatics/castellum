@@ -1,6 +1,5 @@
-from django.core import mail
-
 import pytest
+from django.core import mail
 from model_bakery import baker
 
 from castellum.recruitment.models import MailBatch

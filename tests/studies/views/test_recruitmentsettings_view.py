@@ -7,7 +7,7 @@ def test_filter_button_no_filters(client, study, study_coordinator):
     StudyMembership.objects.create(study=study, user=study_coordinator)
 
     client.force_login(study_coordinator)
-    response = client.get('/studies/{}/recruitmentsettings/'.format(study.pk))
+    response = client.get(f'/studies/{study.pk}/recruitmentsettings/')
 
     html = fromstring(response.content)
     matches = html.xpath('///*[contains(@class, "list-group-item")][contains(., "Filters")]')
@@ -21,7 +21,7 @@ def test_filter_button_allowed_filters(client, study, subject_filter, study_coor
     subject_filter.group.save()
 
     client.force_login(study_coordinator)
-    response = client.get('/studies/{}/recruitmentsettings/'.format(study.pk))
+    response = client.get(f'/studies/{study.pk}/recruitmentsettings/')
 
     html = fromstring(response.content)
     matches = html.xpath('///*[contains(@class, "list-group-item")][contains(., "Filters")]')
