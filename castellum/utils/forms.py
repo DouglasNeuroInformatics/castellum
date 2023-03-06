@@ -20,8 +20,6 @@
 
 import codecs
 import json
-from typing import Any
-from typing import Mapping
 
 import jsonschema
 from django import forms
@@ -215,9 +213,6 @@ class JsonFileValidator:
 
 
 class BaseImportForm(forms.Form):
-    schema: Mapping[str, Any]
-    schema_ref: str
-
     # magic seems to detect 'text/plain' for json files
     file = RestrictedFileField(
         label=_('File'), content_types=['application/json'], required=True

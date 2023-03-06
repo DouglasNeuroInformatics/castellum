@@ -20,10 +20,6 @@
 
 import datetime
 import math
-from typing import List
-from typing import Optional
-from typing import Tuple
-from typing import Type
 
 from dateutil.relativedelta import relativedelta
 from django import forms
@@ -46,9 +42,7 @@ class Select2IntegerMultipleChoiceField(Select2Mixin, IntegerMultipleChoiceField
 
 
 class BaseAttributeField:
-    available_operators: List[Tuple[str, str]]
-    form_class: Type[forms.Field]
-    filter_form_class: Optional[Type[forms.Field]] = None
+    filter_form_class = None
 
     def __init__(self, description):
         self.description = description

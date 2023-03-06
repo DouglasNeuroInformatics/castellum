@@ -20,7 +20,6 @@
 
 import datetime
 import logging
-from typing import List
 
 from django.conf import settings
 from django.db import models
@@ -96,7 +95,7 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
     Requires PermissionRequiredMixin.
     """
 
-    participation_status: List[int] = []
+    participation_status = []
 
     @cached_property
     def participation(self):
