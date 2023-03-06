@@ -43,15 +43,15 @@ class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
     def get(self, request, **kwargs):
         try:
             pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
-        except ValueError:
-            raise Http404
+        except ValueError as e:
+            raise Http404 from e
 
         domain = get_object_or_404(request.user.general_domains, key=self.kwargs['domain'])
 
         try:
             subject = get_subject(domain.key, pseudonym)
-        except Subject.DoesNotExist:
-            raise Http404
+        except Subject.DoesNotExist as e:
+            raise Http404 from e
 
         if not self.request.user.has_privacy_level(subject.privacy_level):
             raise PermissionDenied

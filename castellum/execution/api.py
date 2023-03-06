@@ -57,15 +57,15 @@ class APIValidateView(BaseAPIView):
     def get(self, request, **kwargs):
         try:
             pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
-        except ValueError:
-            raise Http404
+        except ValueError as e:
+            raise Http404 from e
 
         domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
 
         try:
             subject = get_subject(domain.key, pseudonym)
-        except Subject.DoesNotExist:
-            raise Http404
+        except Subject.DoesNotExist as e:
+            raise Http404 from e
 
         get_object_or_404(
             Participation, subject=subject, study=self.study, status=Participation.INVITED
@@ -91,15 +91,15 @@ class APIResolveView(BaseAPIView):
     def get(self, request, **kwargs):
         try:
             pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
-        except ValueError:
-            raise Http404
+        except ValueError as e:
+            raise Http404 from e
 
         domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
 
         try:
             subject = get_subject(domain.key, pseudonym)
-        except Subject.DoesNotExist:
-            raise Http404
+        except Subject.DoesNotExist as e:
+            raise Http404 from e
         get_object_or_404(
             Participation, subject=subject, study=self.study, status=Participation.INVITED
         )
@@ -124,15 +124,15 @@ class APIAttributesView(BaseAPIView):
     def get(self, request, **kwargs):
         try:
             pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
-        except ValueError:
-            raise Http404
+        except ValueError as e:
+            raise Http404 from e
 
         domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
 
         try:
             subject = get_subject(domain.key, pseudonym)
-        except Subject.DoesNotExist:
-            raise Http404
+        except Subject.DoesNotExist as e:
+            raise Http404 from e
         get_object_or_404(
             Participation, subject=subject, study=self.study, status=Participation.INVITED
         )

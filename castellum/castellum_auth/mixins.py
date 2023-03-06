@@ -66,8 +66,8 @@ class APIAuthMixin(StrongholdPublicMixin):
     def authenticate(self):
         try:
             user = User.objects.get(token=self.get_token(), is_active=True)
-        except User.DoesNotExist:
-            raise PermissionDenied
+        except User.DoesNotExist as e:
+            raise PermissionDenied from e
 
         if not user.expiration_date:
             raise PermissionDenied('Account is not activated.')
