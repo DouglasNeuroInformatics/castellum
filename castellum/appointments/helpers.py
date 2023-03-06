@@ -97,11 +97,11 @@ def send_appointment_notifications(participation, change, base_url, user=None):
             ),
             'participation_url': urljoin(base_url, reverse(
                 'execution:participation-detail',
-                args=[participation.study.pk, participation.pk]
+                args=[participation.study.pk, participation.pk],
             )),
             'calendar_url': urljoin(base_url, reverse(
                 'execution:calendar',
-                args=[participation.study.pk]
+                args=[participation.study.pk],
             )),
         }
 
