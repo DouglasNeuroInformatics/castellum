@@ -1,6 +1,5 @@
-from django.utils import timezone
-
 import pytest
+from django.utils import timezone
 from model_bakery import baker
 
 from castellum.contacts.models import Contact

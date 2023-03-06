@@ -1,8 +1,7 @@
+import pytest
 from django.core import mail
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
-
-import pytest
 from freezegun import freeze_time
 
 from castellum.appointments.helpers import change_is_urgent

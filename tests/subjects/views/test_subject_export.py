@@ -1,9 +1,8 @@
 import datetime
 import re
 
-from django.apps import apps
-
 import pytest
+from django.apps import apps
 from model_bakery import baker
 
 from castellum.appointments.models import Appointment

@@ -38,7 +38,6 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
-
 from simplecharts import StackedColumnRenderer
 
 from castellum.appointments.helpers import get_external_resource_events

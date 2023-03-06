@@ -20,7 +20,6 @@
 
 from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 from django.db import models
-
 from phonenumber_field.modelfields import PhoneNumberField as _PhoneNumberField
 
 from .forms import AdminColorInputWidget

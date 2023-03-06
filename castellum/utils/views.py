@@ -29,7 +29,6 @@ from django.utils.decorators import classonlymethod
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.generic import View
 from django.views.static import serve
-
 from stronghold.decorators import public
 
 

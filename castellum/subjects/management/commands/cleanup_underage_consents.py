@@ -20,10 +20,9 @@
 
 import datetime
 
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.core.management.base import BaseCommand
-
-from dateutil.relativedelta import relativedelta
 
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries

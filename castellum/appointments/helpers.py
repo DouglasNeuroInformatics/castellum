@@ -22,14 +22,13 @@ import logging
 from urllib.parse import quote_plus
 from urllib.parse import urljoin
 
+import requests
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.urls import reverse
 from django.utils import formats
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
-import requests
-from dateutil.relativedelta import relativedelta
 from icalevents import icalparser
 
 from castellum.pseudonyms.helpers import get_pseudonym

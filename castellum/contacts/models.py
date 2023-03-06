@@ -20,12 +20,11 @@
 
 import datetime
 
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-
-from dateutil.relativedelta import relativedelta
 
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField

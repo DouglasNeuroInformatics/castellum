@@ -25,11 +25,10 @@ from typing import Optional
 from typing import Tuple
 from typing import Type
 
+from dateutil.relativedelta import relativedelta
 from django import forms
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-from dateutil.relativedelta import relativedelta
 
 from castellum.utils.expressions import ListContainsLookup  # noqa
 from castellum.utils.forms import DateField

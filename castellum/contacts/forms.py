@@ -25,7 +25,6 @@ from django.conf import settings
 from django.forms import ValidationError
 from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
-
 from phonenumber_field.phonenumber import PhoneNumber
 
 from castellum.subjects.models import Subject

@@ -21,7 +21,6 @@
 import logging
 
 from django.conf import settings
-
 from geopy.exc import GeopyError
 from geopy.geocoders import Nominatim
 

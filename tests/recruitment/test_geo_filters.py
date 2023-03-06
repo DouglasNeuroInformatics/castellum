@@ -1,8 +1,7 @@
 from io import StringIO
 
-from django.contrib.gis.geos import Point
-
 import pytest
+from django.contrib.gis.geos import Point
 from model_bakery import baker
 
 from castellum.contacts.models import Contact

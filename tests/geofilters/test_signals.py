@@ -2,7 +2,6 @@ from collections import namedtuple
 from unittest.mock import patch
 
 from django.contrib.gis.geos import Point
-
 from geopy.exc import GeopyError
 from geopy.geocoders import Nominatim
 from model_bakery import baker

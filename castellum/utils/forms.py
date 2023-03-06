@@ -23,13 +23,12 @@ import json
 from typing import Any
 from typing import Mapping
 
+import jsonschema
 from django import forms
 from django.forms import ValidationError
 from django.forms.widgets import TextInput
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
-
-import jsonschema
 from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
 from phonenumber_field.widgets import RegionalPhoneNumberWidget
 

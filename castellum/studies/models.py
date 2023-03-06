@@ -30,7 +30,6 @@ from django.forms import ValidationError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 

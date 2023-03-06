@@ -21,10 +21,9 @@
 
 import datetime
 
+import requests
 from django.conf import settings
 from django.utils import timezone
-
-import requests
 
 
 def parse_date(s):

@@ -1,8 +1,7 @@
 import datetime
 
-from django.utils import timezone
-
 import pytest
+from django.utils import timezone
 from freezegun import freeze_time
 
 from castellum.castellum_auth.models import User

@@ -1,8 +1,7 @@
 from datetime import date
 
-from django.utils import timezone
-
 import pytest
+from django.utils import timezone
 from freezegun import freeze_time
 from model_bakery import baker
 

@@ -1,5 +1,6 @@
 import datetime
 
+import pytest
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core.management import call_command
@@ -7,8 +8,6 @@ from django.db.models import DateField
 from django.db.models import DateTimeField
 from django.test import TestCase
 from django.utils import timezone
-
-import pytest
 from model_bakery import baker
 
 from castellum.castellum_auth.models import User

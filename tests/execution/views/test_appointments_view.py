@@ -1,10 +1,9 @@
 import datetime
 
+import pytest
 from django.contrib.auth.models import Permission
 from django.contrib.messages import get_messages
 from django.utils import timezone
-
-import pytest
 from model_bakery import baker
 
 from castellum.appointments.models import Appointment

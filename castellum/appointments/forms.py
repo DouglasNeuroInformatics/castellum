@@ -20,11 +20,10 @@
 
 import logging
 
+import requests
 from django import forms
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-
-import requests
 
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.models import Participation

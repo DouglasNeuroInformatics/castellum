@@ -20,11 +20,10 @@
 
 import uuid
 
+import requests
 from django.conf import settings
 from django.core.cache import cache
 from django.utils import timezone
-
-import requests
 
 
 def uuid_str() -> str:

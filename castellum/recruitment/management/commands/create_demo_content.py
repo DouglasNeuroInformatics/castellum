@@ -20,13 +20,12 @@
 
 import functools
 
+import phonenumbers
 from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 from django.core.management.base import CommandError
 from django.db import IntegrityError
-
-import phonenumbers
 from faker import Faker
 
 from castellum.contacts.models import Address

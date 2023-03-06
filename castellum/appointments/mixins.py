@@ -21,6 +21,7 @@
 import datetime
 import logging
 
+import requests
 from django.conf import settings
 from django.contrib import messages
 from django.db import models
@@ -29,8 +30,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
-
-import requests
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_pseudonym

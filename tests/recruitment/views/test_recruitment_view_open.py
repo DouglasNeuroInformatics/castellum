@@ -1,7 +1,6 @@
+import pytest
 from django.conf import settings
 from django.contrib.messages import get_messages
-
-import pytest
 from freezegun import freeze_time
 from model_bakery import baker
 

@@ -1,7 +1,6 @@
 import datetime
 
 from django.core import mail
-
 from freezegun import freeze_time
 
 from castellum.studies.management.commands.notify_sessions_end import Command
