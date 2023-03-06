@@ -21,7 +21,7 @@ def test_participation_list_view(request, client, user_fixture, study_in_executi
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
-    url = '/execution/{}/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -40,7 +40,7 @@ def test_participation_list_view_appointment_count(
     baker.make(Appointment, participation=participation, session=session)
 
     client.force_login(member)
-    url = '/execution/{}/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/'
     response = client.get(url)
     assert b'1/2' in response.content
 
@@ -66,7 +66,7 @@ def test_participation_detail_view_invited(
         subject=subject,
     )
 
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -83,7 +83,7 @@ def test_participation_detail_view_unsuitable(
         subject=subject,
     )
 
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/'
     response = client.get(url)
     assert response.status_code == 404
 
@@ -98,7 +98,7 @@ def test_participation_detail_view_tags(client, subject, conductor, study_in_exe
     )
     tag = baker.make(ExecutionTag, name='test_tag', study=study_in_execution_status)
     participation.execution_tags.add(tag)
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/'
     response = client.get(url)
     assert response.status_code == 200
     assert b'test_tag' in response.content
@@ -116,7 +116,7 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
         subject=subject,
     )
 
-    url = '/execution/{}/resolve/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/resolve/'
 
     response = client.get(url)
     assert b'<input type="hidden" name="domain"' in response.content
@@ -147,7 +147,7 @@ def test_resolve_view_wrong_domain(client, member, study_in_execution_status, su
         subject=subject,
     )
 
-    url = '/execution/{}/resolve/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/resolve/'
 
     response = client.get(url)
     assert b'<select name="domain"' in response.content
@@ -181,7 +181,7 @@ def test_update_contact_view(client, member, study_in_execution_status, subject)
 @pytest.mark.smoketest
 def test_calendar_view(client, member, study_in_execution_status):
     client.force_login(member)
-    response = client.get('/execution/{}/calendar/'.format(study_in_execution_status.pk))
+    response = client.get(f'/execution/{study_in_execution_status.pk}/calendar/')
     assert response.status_code == 200
 
 
@@ -200,7 +200,7 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
         session__study=study_in_execution_status,
     )
 
-    response = client.get('/execution/{}/calendar/?events'.format(study_in_execution_status.pk))
+    response = client.get(f'/execution/{study_in_execution_status.pk}/calendar/?events')
 
     assert response.status_code == 200
 
@@ -222,7 +222,7 @@ def test_participation_update_view(client, member, study_in_execution_status, su
         status=Participation.INVITED,
         subject=subject,
     )
-    url = '/execution/{}/{}/update/'.format(study_in_execution_status.pk, participation.pk)
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/update/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -237,7 +237,7 @@ def test_participation_dropout_view(client, member, study_in_execution_status, s
         status=Participation.INVITED,
         subject=subject,
     )
-    url = '/execution/{}/{}/dropout/'.format(study_in_execution_status.pk, participation.pk)
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/dropout/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -251,7 +251,7 @@ def test_participation_dropout_view_post(client, member, study_in_execution_stat
         status=Participation.INVITED,
         subject=subject,
     )
-    url = '/execution/{}/{}/dropout/'.format(study_in_execution_status.pk, participation.pk)
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/dropout/'
     response = client.post(url, {'dropped_out': '1'})
     participation.refresh_from_db()
     assert response.status_code == 302
@@ -270,7 +270,7 @@ def test_participation_dropout_confirm_view_post(
         status=Participation.INVITED,
         subject=subject,
     )
-    url = '/execution/{}/{}/dropout/confirm/'.format(study_in_execution_status.pk, participation.pk)
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/dropout/confirm/'
     response = client.post(url)
     participation.refresh_from_db()
     assert response.status_code == 302
@@ -281,6 +281,6 @@ def test_participation_dropout_confirm_view_post(
 @pytest.mark.smoketest
 def test_progress_view(client, member, study_in_execution_status):
     client.force_login(member)
-    url = '/execution/{}/progress/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/progress/'
     response = client.get(url)
     assert response.status_code == 200

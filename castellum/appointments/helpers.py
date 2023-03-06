@@ -86,7 +86,7 @@ def send_appointment_notifications(participation, change, base_url, user=None):
             return _('not scheduled')
         dt = formats.date_format(timezone.localtime(state.start), 'DATETIME_FORMAT')
         assigned = ', '.join(str(user) for user in state.assigned_conductors) or _('not assigned')
-        return '{} ({})'.format(dt, assigned)
+        return f'{dt} ({assigned})'
 
     def get_mail_data():
         return {
@@ -153,7 +153,7 @@ def get_external_resource_events(resource, start, end):
             })
         return events
     except Exception as e:
-        logger.error('Fetching events for resource {} failed: {}'.format(resource.pk, e))
+        logger.error(f'Fetching events for resource {resource.pk} failed: {e}')
         return []
 
 
@@ -169,7 +169,7 @@ def fetch_scheduler_appointments(study, base_url, timeout=0):
         try:
             data = scheduler.get_bulk(session.schedule_id)
         except requests.RequestException as e:
-            logger.error('Fetching schedule for session {} failed: {}'.format(session.pk, e))
+            logger.error(f'Fetching schedule for session {session.pk} failed: {e}')
             continue
 
         session.schedule_updated_at = now

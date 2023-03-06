@@ -20,7 +20,7 @@ def test_start(request, client, user_fixture, study):
     study.status = Study.EDIT
     study.save()
 
-    response = client.post('/studies/{}/start/'.format(study.pk))
+    response = client.post(f'/studies/{study.pk}/start/')
     assert response.status_code == 302
 
     study.refresh_from_db()
@@ -42,7 +42,7 @@ def test_stop(request, client, user_fixture, study):
     study.status = Study.EXECUTION
     study.save()
 
-    response = client.post('/studies/{}/start/'.format(study.pk))
+    response = client.post(f'/studies/{study.pk}/start/')
     assert response.status_code == 302
 
     study.refresh_from_db()

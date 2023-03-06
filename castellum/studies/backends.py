@@ -27,11 +27,11 @@ from .models import StudyMembership
 class StudyPermissionBackend(BaseBackend):
     def _permissions_to_strings(self, qs):
         tuples = qs.values_list('content_type__app_label', 'codename')
-        return ('{}.{}'.format(app_label, name) for app_label, name in tuples)
+        return (f'{app_label}.{name}' for app_label, name in tuples)
 
     def _get_group_permissions(self, user, obj=None):
         if user.is_active and isinstance(obj, Study):
-            perm_cache_name = '_study:{}_perm_cache'.format(obj.pk)
+            perm_cache_name = f'_study:{obj.pk}_perm_cache'
             if not hasattr(user, perm_cache_name):
                 perms = set()
                 membership = StudyMembership.objects.filter(user=user, study=obj).first()

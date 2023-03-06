@@ -57,7 +57,7 @@ class SchedulerFetchParticipationMixin:
             try:
                 start = scheduler.get(session.schedule_id, pseudonym)
             except requests.RequestException as e:
-                logger.error('Fetching schedule for session {} failed: {}'.format(session.pk, e))
+                logger.error(f'Fetching schedule for session {session.pk} failed: {e}')
                 continue
 
             change = Appointment.change(session, self.participation, start)
@@ -198,4 +198,4 @@ class BaseAppointmentFeed(BaseCalendarFeed):
         return item.end
 
     def item_uid(self, item):
-        return 'appointment-{}@{}'.format(item.pk, self.request.get_host())
+        return f'appointment-{item.pk}@{self.request.get_host()}'

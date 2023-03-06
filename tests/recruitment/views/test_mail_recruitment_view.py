@@ -76,7 +76,7 @@ def test_200_if_study_in_execution_status_and_mail_settings(client, user):
         mail_body='some body',
     )
     study.members.add(user)
-    url = '/recruitment/{}/mail/'.format(study.pk)
+    url = f'/recruitment/{study.pk}/mail/'
     response = client.get(url)
     assert response.status_code == 200
     assert b'id_batch_size' in response.content
@@ -87,7 +87,7 @@ def test_200_if_study_in_execution_status_no_mail_settings(
     client, member, study_in_execution_status
 ):
     client.force_login(member)
-    url = '/recruitment/{}/mail/'.format(study_in_execution_status.pk)
+    url = f'/recruitment/{study_in_execution_status.pk}/mail/'
     response = client.get(url)
     assert response.status_code == 200
     assert b'Mail recruitment has not been set up!' in response.content
@@ -103,7 +103,7 @@ def test_404_if_study_in_edit_status(client, user):
         mail_body='some body',
     )
     study.members.add(user)
-    url = '/recruitment/{}/mail/'.format(study.pk)
+    url = f'/recruitment/{study.pk}/mail/'
     response = client.get(url)
     assert response.status_code == 404
 

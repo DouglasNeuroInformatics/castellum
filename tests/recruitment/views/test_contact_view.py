@@ -10,21 +10,21 @@ from castellum.studies.models import StudySession
 @pytest.mark.smoketest
 def test_200(client, member, participation):
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/'
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_404_if_study_is_not_provided(client, member, participation):
     client.force_login(member)
-    url = '/recruitment/3/{}/'.format(participation.pk)
+    url = f'/recruitment/3/{participation.pk}/'
     response = client.get(url)
     assert response.status_code == 404
 
 
 def test_404_if_wrong_study_is_provided(client, member, participation, study):
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(study.pk, participation.pk)
+    url = f'/recruitment/{study.pk}/{participation.pk}/'
     response = client.get(url)
     assert response.status_code == 404
 
@@ -34,7 +34,7 @@ def test_404_if_study_in_edit_status(client, member, participation):
     participation.study.save()
 
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/'
     response = client.get(url)
     assert response.status_code == 404
 
@@ -42,7 +42,7 @@ def test_404_if_study_in_edit_status(client, member, participation):
 @pytest.mark.freeze_time('2018-01-01')
 def test_post_updated_at(client, member, participation):
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/'
     client.post(url, {'status': Participation.UNSUITABLE})
     participation = Participation.objects.get()
     assert participation.updated_at.strftime('%Y-%m-%d') == '2018-01-01'
@@ -61,7 +61,7 @@ def test_warning_on_appointment_deletion(client, member, participation):
 
     client.force_login(member)
 
-    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/'
     warning = b'Appointments for this participation have been deleted.'
 
     response = client.post(url, {

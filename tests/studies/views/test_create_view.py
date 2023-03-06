@@ -63,7 +63,7 @@ def test_create_study_on_post(request, client, user_fixture):
 def test_duplicate_study_get(client, user):
     client.force_login(user)
     original = baker.make(Study, email='test@example.com', members=[user])
-    response = client.get('/studies/create/?duplicate_pk={}'.format(original.pk))
+    response = client.get(f'/studies/create/?duplicate_pk={original.pk}')
 
     assert response.status_code == 200
     assert b'value="test@example.com"' in response.content
@@ -78,7 +78,7 @@ def test_duplicate_study_404(client, user):
 def test_duplicate_study_post(client, user):
     client.force_login(user)
     original = baker.make(Study, recruitment_text='foo bar', members=[user])
-    response = client.post('/studies/create/?duplicate_pk={}'.format(original.pk), STUDY_FORM)
+    response = client.post(f'/studies/create/?duplicate_pk={original.pk}', STUDY_FORM)
 
     assert response.status_code == 302
     assert Study.objects.count() == 2
@@ -90,7 +90,7 @@ def test_duplicate_study_has_different_domains(client, user):
     original = baker.make(Study, recruitment_text='foo bar', members=[user])
     original_domain = baker.make(Domain, context=original)
 
-    client.post('/studies/create/?duplicate_pk={}'.format(original.pk), STUDY_FORM)
+    client.post(f'/studies/create/?duplicate_pk={original.pk}', STUDY_FORM)
 
     new = Study.objects.exclude(pk=original.pk).get()
 

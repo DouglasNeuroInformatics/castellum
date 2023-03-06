@@ -10,7 +10,7 @@ def test_import_export(client, member, study):
     study.save()
     study.studytag_set.create(name='foo')
 
-    response = client.get('/studies/{}/export/'.format(study.pk))
+    response = client.get(f'/studies/{study.pk}/export/')
     assert response.status_code == 200
 
     response = client.post('/studies/import/', {'file': BytesIO(response.content)})

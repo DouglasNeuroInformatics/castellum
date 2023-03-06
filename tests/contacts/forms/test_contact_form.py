@@ -204,7 +204,7 @@ def test_contact_form_with_legal_representatives_remove(user, full_data, contact
 def test_contact_form_underage_without_legal_representative(user, full_data):
     msg = 'Subjects under the age of 16 need a legal representative.'
     full_data.update({
-        'date_of_birth': '{}-01-01'.format(datetime.date.today().year),
+        'date_of_birth': f'{datetime.date.today().year}-01-01',
     })
 
     form = ContactForm(user=user, data=full_data)

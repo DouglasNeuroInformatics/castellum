@@ -80,7 +80,7 @@ def iter_fields():
     for app in apps.get_app_configs():
         for model in app.get_models():
             for field in model._meta.get_fields():
-                s = '{}.{}.{}'.format(app.label, model._meta.object_name, field.name)
+                s = f'{app.label}.{model._meta.object_name}.{field.name}'
                 if all(not s.startswith(pattern) for pattern in EXCLUDED):
                     yield s
 
@@ -97,7 +97,7 @@ def test_subject_export_complete(client, user, participation):
     baker.make(ReliabilityEntry, subject=subject)
     subject.save()
 
-    response = client.get('/subjects/{}/export/'.format(subject.pk))
+    response = client.get(f'/subjects/{subject.pk}/export/')
 
     expected = set(iter_fields())
     actual = {s.decode('utf-8') for s in re.findall(b'data-fieldname="([^"]*)"', response.content)}
@@ -115,7 +115,7 @@ def test_subject_export_complete(client, user, participation):
 def test_export_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/export/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/export/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -125,7 +125,7 @@ def test_export_requested(client, user, subject):
     subject.save()
 
     client.force_login(user)
-    url = '/subjects/{}/export/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/export/'
     response = client.get(url)
 
     assert response.status_code == 200
@@ -134,7 +134,7 @@ def test_export_requested(client, user, subject):
 
 def test_export_post(client, user, subject):
     client.force_login(user)
-    url = '/subjects/{}/export/'.format(subject.pk)
+    url = f'/subjects/{subject.pk}/export/'
 
     client.post(url)
     subject.refresh_from_db()

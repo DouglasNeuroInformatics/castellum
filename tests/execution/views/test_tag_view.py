@@ -5,7 +5,7 @@ from castellum.recruitment.models import ExecutionTag
 
 def test_create(client, member, study_in_execution_status):
     client.force_login(member)
-    url = '/execution/{}/tags/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/tags/'
     response = client.post(url, {
         'action': 'create',
         'name': 'test_tag',
@@ -17,12 +17,12 @@ def test_create(client, member, study_in_execution_status):
 
 def test_save(client, member, study_in_execution_status):
     client.force_login(member)
-    url = '/execution/{}/tags/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/tags/'
     tag = baker.make(ExecutionTag, study=study_in_execution_status, name='old')
     response = client.post(url, {
         'action': 'save',
-        '{}-name'.format(tag.id): 'new',
-        '{}-color'.format(tag.id): 'info',
+        f'{tag.id}-name': 'new',
+        f'{tag.id}-color': 'info',
         'id': tag.id,
     })
     tag.refresh_from_db()
@@ -32,7 +32,7 @@ def test_save(client, member, study_in_execution_status):
 
 def test_delete(client, member, study_in_execution_status):
     client.force_login(member)
-    url = '/execution/{}/tags/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/tags/'
     tag = baker.make(ExecutionTag, study=study_in_execution_status)
     response = client.post(url, {
         'action': 'delete',
@@ -44,7 +44,7 @@ def test_delete(client, member, study_in_execution_status):
 
 def test_invalid(client, member, study_in_execution_status):
     client.force_login(member)
-    url = '/execution/{}/tags/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/tags/'
 
     response = client.post(url, {'action': 'save'})
     assert response.status_code == 200

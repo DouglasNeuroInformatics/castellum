@@ -373,7 +373,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         with MailContext('internal') as ctx:
             ctx.send_mail(
                 self.study.mail_subject,
-                '{} emails have been sent.\n\n---\n\n{}'.format(counter, self.study.mail_body),
+                f'{counter} emails have been sent.\n\n---\n\n{self.study.mail_body}',
                 [self.study.email],
             )
 

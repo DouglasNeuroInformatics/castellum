@@ -47,12 +47,12 @@ GEOJSON_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'geojson.json'))
 
 def geofilter_upload_to(instance, filename):
     assert instance.pk
-    return 'studies/{}/geofilters/{}'.format(instance.pk, filename)
+    return f'studies/{instance.pk}/geofilters/{filename}'
 
 
 def consent_upload_to(instance, filename):
     assert instance.pk
-    return 'studies/{}/consents/{}'.format(instance.pk, filename)
+    return f'studies/{instance.pk}/consents/{filename}'
 
 
 class StudyType(TranslatableModel):
@@ -419,7 +419,7 @@ class StudySession(models.Model):
     schedule_updated_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return '{} - {}'.format(self.study, self.name)
+        return f'{self.study} - {self.name}'
 
     @property
     def domain(self):

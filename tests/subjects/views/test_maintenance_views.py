@@ -238,7 +238,7 @@ def test_maintenance_subjectcreationrequest(
 
 def test_maintenance_delete_subjectcreationrequest(client, user, subject_creation_request):
     client.force_login(user)
-    url = '/subjects/subjectcreationrequest/{}/delete/'.format(subject_creation_request.pk)
+    url = f'/subjects/subjectcreationrequest/{subject_creation_request.pk}/delete/'
     response = client.post(url)
     subject_creation_request.refresh_from_db()
     assert response.status_code == 302

@@ -35,14 +35,14 @@ class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
         if self.request.user.has_privacy_level(item.participation.subject.privacy_level):
             name = item.participation.subject.contact.full_name
             for tag in item.participation.execution_tags.all():
-                name += ' #{}'.format(tag)
+                name += f' #{tag}'
         else:
             name = _('(insufficient privacy level)')
-        title = '{} - {}'.format(name, item.session.name)
+        title = f'{name} - {item.session.name}'
 
         assignees = ', '.join(str(c.user) for c in item.assigned_conductors.all())
         if assignees:
-            title = '{} ({})'.format(title, assignees)
+            title = f'{title} ({assignees})'
 
         return title
 

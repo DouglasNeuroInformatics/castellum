@@ -68,7 +68,7 @@ class BaseAttributeField:
 
     def _filter_to_q(self, operator, value):
         field_name = 'attributes__' + self.description.json_key
-        key = '{}__{}'.format(field_name, operator)
+        key = f'{field_name}__{operator}'
         return models.Q(**{key: value})
 
     def filter_to_q(self, operator, value, include_unknown=True):
@@ -104,7 +104,7 @@ class BaseAttributeField:
 
     def get_filter_display(self, operator, value):
         operator = dict(self.available_operators)[operator]
-        return '{} {} {}'.format(self.description.filter_label, operator, value)
+        return f'{self.description.filter_label} {operator} {value}'
 
     def get_statistics_grouping(self, study):
         raise NotImplementedError
@@ -278,7 +278,7 @@ class AgeAttributeField(DateAttributeField):
 
     def get_filter_display(self, operator, value):
         period, scale = value
-        value = '{} {}'.format(period, self.SCALES[scale])
+        value = f'{period} {self.SCALES[scale]}'
         return super().get_filter_display(operator, value)
 
     def _get_min_date(self, study):

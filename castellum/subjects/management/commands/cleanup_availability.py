@@ -32,4 +32,4 @@ class Command(BaseCommand):
         subjects = Subject.objects.filter(not_available_until__lt=now)
         count = subjects.update(not_available_until=None)
         if options['verbosity'] > 0 and count > 0:
-            self.stdout.write('Cleared {} "not available until" entries'.format(count))
+            self.stdout.write(f'Cleared {count} "not available until" entries')

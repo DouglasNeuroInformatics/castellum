@@ -112,7 +112,7 @@ class AttributeDescription(TranslatableModel):
 
     def __str__(self):
         if self.category:
-            return '{}:{}'.format(self.category, self.label)
+            return f'{self.category}:{self.label}'
         return self.label
 
     def clean(self):
@@ -124,7 +124,7 @@ class AttributeDescription(TranslatableModel):
     @property
     def json_key(self):
         # can not be a number because then queries like `data__8` would expect an array.
-        return 'd{}'.format(self.pk)
+        return f'd{self.pk}'
 
     @property
     def filter_label(self):

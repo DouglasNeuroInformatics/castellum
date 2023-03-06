@@ -26,8 +26,8 @@ def test_appointment(client, member, participation):
     )
     response = client.post(url, {
         'status': 2,
-        'appointment-{}_0'.format(session.pk): '2020-01-01',
-        'appointment-{}_1'.format(session.pk): '12:00',
+        f'appointment-{session.pk}_0': '2020-01-01',
+        f'appointment-{session.pk}_1': '12:00',
     })
     assert response.status_code == 302
 
@@ -80,10 +80,10 @@ def test_appointment_overlap(client, member, participation, time):
     )
     response = client.post(url, {
         'status': 2,
-        'appointment-{}_0'.format(session1.pk): '2020-01-01',
-        'appointment-{}_1'.format(session1.pk): '12:00',
-        'appointment-{}_0'.format(session2.pk): '2020-01-01',
-        'appointment-{}_1'.format(session2.pk): time,
+        f'appointment-{session1.pk}_0': '2020-01-01',
+        f'appointment-{session1.pk}_1': '12:00',
+        f'appointment-{session2.pk}_0': '2020-01-01',
+        f'appointment-{session2.pk}_1': time,
     })
     assert response.status_code == 302
     messages = [str(m) for m in get_messages(response.wsgi_request)]
@@ -121,8 +121,8 @@ def test_appointment_resource_overlap(client, member, participation, time):
     )
     response = client.post(url, {
         'status': 2,
-        'appointment-{}_0'.format(session.pk): '2020-01-01',
-        'appointment-{}_1'.format(session.pk): time,
+        f'appointment-{session.pk}_0': '2020-01-01',
+        f'appointment-{session.pk}_1': time,
     })
     assert response.status_code == 302
     messages = [str(m) for m in get_messages(response.wsgi_request)]
@@ -141,13 +141,13 @@ def test_appointment_change_appointment_permission(client, member, participation
     participation.status = participation.INVITED
     participation.save()
 
-    url = '/recruitment/{}/{}/appointments/'.format(participation.study.pk, participation.pk)
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/appointments/'
 
     client.force_login(user)
     response = client.post(url, {
         'status': 2,
-        'appointment-{}_0'.format(session.pk): '2020-01-01',
-        'appointment-{}_1'.format(session.pk): '12:00',
+        f'appointment-{session.pk}_0': '2020-01-01',
+        f'appointment-{session.pk}_1': '12:00',
     })
     assert response.status_code == 403
     assert not participation.appointment_set.exists()
@@ -155,8 +155,8 @@ def test_appointment_change_appointment_permission(client, member, participation
     client.force_login(member)
     response = client.post(url, {
         'status': 2,
-        'appointment-{}_0'.format(session.pk): '2020-01-01',
-        'appointment-{}_1'.format(session.pk): '12:00',
+        f'appointment-{session.pk}_0': '2020-01-01',
+        f'appointment-{session.pk}_1': '12:00',
     })
     assert response.status_code == 302
     assert participation.appointment_set.exists()

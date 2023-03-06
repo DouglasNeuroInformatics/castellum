@@ -233,7 +233,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         completed, total = self.object.get_completeness()
-        context['attribute_completeness'] = '{:.0%}'.format(completed / (total or 1))
+        context['attribute_completeness'] = f'{completed / (total or 1):.0%}'
 
         dropout_count = self.object.participation_set.filter(dropped_out=True).count()
         dropout_total = self.object.participation_set.filter(
@@ -242,7 +242,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         if dropout_total == 0:
             context['dropout_rate'] = '—'
         else:
-            context['dropout_rate'] = '{:.0%}'.format(dropout_count / dropout_total)
+            context['dropout_rate'] = f'{dropout_count / dropout_total:.0%}'
 
         return context
 
@@ -318,7 +318,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
                 self.request.user.pk, self.object.to_be_deleted
             ))
         else:
-            monitoring_logger.info('Subject deleted by {}'.format(self.request.user.pk))
+            monitoring_logger.info(f'Subject deleted by {self.request.user.pk}')
         messages.success(self.request, _('Subject has been deleted.'))
         return response
 

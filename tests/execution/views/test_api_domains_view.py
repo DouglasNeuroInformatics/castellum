@@ -7,7 +7,7 @@ def test_apidomainsview(client, conductor, study_in_execution_status):
     baker.make(Domain, context=study_in_execution_status)
     baker.make(Domain, context=study_in_execution_status)
 
-    url = '/execution/api/studies/{}/domains/'.format(study_in_execution_status.pk)
+    url = f'/execution/api/studies/{study_in_execution_status.pk}/domains/'
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 200
@@ -20,7 +20,7 @@ def test_no_general_domains(client, conductor, study_in_execution_status):
     study_in_execution_status.general_domains.add(domain)
     conductor.general_domains.add(domain)
 
-    url = '/execution/api/studies/{}/domains/'.format(study_in_execution_status.pk)
+    url = f'/execution/api/studies/{study_in_execution_status.pk}/domains/'
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 200
@@ -29,13 +29,13 @@ def test_no_general_domains(client, conductor, study_in_execution_status):
 
 
 def test_permission(client, recruiter, study_in_execution_status):
-    url = '/execution/api/studies/{}/domains/'.format(study_in_execution_status.pk)
+    url = f'/execution/api/studies/{study_in_execution_status.pk}/domains/'
     response = client.get(url, HTTP_AUTHORIZATION='token ' + recruiter.token)
     assert response.status_code == 403
 
 
 def test_only_token_auth(client, conductor, study_in_execution_status):
     client.force_login(conductor)
-    url = '/execution/api/studies/{}/domains/'.format(study_in_execution_status.pk)
+    url = f'/execution/api/studies/{study_in_execution_status.pk}/domains/'
     response = client.get(url)
     assert response.status_code == 403

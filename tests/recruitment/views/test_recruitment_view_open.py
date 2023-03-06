@@ -31,7 +31,7 @@ def test_min_subject_count_is_zero(client, member, study_in_execution_status):
     study_in_execution_status.save()
 
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
+    url = f'/recruitment/{study_in_execution_status.pk}/'
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -57,7 +57,7 @@ def test_not_contacted_count_is_gte_to_hard_limit(
         create_participation(study_in_execution_status)
 
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
+    url = f'/recruitment/{study_in_execution_status.pk}/'
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -88,7 +88,7 @@ def test_no_matching_subjects(
     )
 
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
+    url = f'/recruitment/{study_in_execution_status.pk}/'
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -109,7 +109,7 @@ def test_post_urgent(client, member, study_in_execution_status):
 
     with freeze_time('1970-02-01'):
         client.force_login(member)
-        url = '/recruitment/{}/'.format(study_in_execution_status.pk)
+        url = f'/recruitment/{study_in_execution_status.pk}/'
         response = client.post(url, {'submit': 'urgent'})
 
     assert response.status_code == 200

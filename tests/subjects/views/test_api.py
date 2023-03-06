@@ -13,7 +13,7 @@ def test_api_attributes_view(client, user, subject, attribute_description):
 
     user.general_domains.add(domain)
 
-    url = '/subjects/api/subjects/{}/{}/attributes/'.format(domain.key, pseudonym)
+    url = f'/subjects/api/subjects/{domain.key}/{pseudonym}/attributes/'
     response = client.get(url, HTTP_AUTHORIZATION='token ' + user.token)
 
     assert response.status_code == 200
@@ -26,7 +26,7 @@ def test_api_attributes_view_no_user_access(client, user, subject, attribute_des
     domain.exportable_attributes.add(attribute_description)
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/subjects/api/subjects/{}/{}/attributes/'.format(domain.key, pseudonym)
+    url = f'/subjects/api/subjects/{domain.key}/{pseudonym}/attributes/'
     response = client.get(url, HTTP_AUTHORIZATION='token ' + user.token)
 
     assert response.status_code == 404

@@ -12,7 +12,7 @@ FORM_DEFAULTS = {
 @pytest.mark.smoketest
 def test_200(client, member, study):
     client.force_login(member)
-    response = client.get('/studies/{}/update/'.format(study.pk))
+    response = client.get(f'/studies/{study.pk}/update/')
     assert response.status_code == 200
 
 
@@ -20,7 +20,7 @@ def test_tags(client, member, study):
     client.force_login(member)
 
     for tags in [['foo', 'bar'], ['foo', 'baz'], []]:
-        client.post('/studies/{}/update/'.format(study.pk), {
+        client.post(f'/studies/{study.pk}/update/', {
             'tags': tags, **FORM_DEFAULTS
         })
 
@@ -31,6 +31,6 @@ def test_tags(client, member, study):
 def test_tags_error(client, member, study):
     client.force_login(member)
 
-    response = client.post('/studies/{}/update/'.format(study.pk), {'tags': ['foo']})
+    response = client.post(f'/studies/{study.pk}/update/', {'tags': ['foo']})
     assert response.status_code == 200
     assert b'<option value="foo" selected>foo</option>' in response.content

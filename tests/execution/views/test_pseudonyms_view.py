@@ -16,7 +16,7 @@ def test_200(request, client, study, user_fixture):
     participation = baker.make(Participation, study=study, status=Participation.INVITED)
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    response = client.get('/execution/{}/{}/pseudonyms/'.format(study.pk, participation.pk))
+    response = client.get(f'/execution/{study.pk}/{participation.pk}/pseudonyms/')
     assert response.status_code == 200
 
 

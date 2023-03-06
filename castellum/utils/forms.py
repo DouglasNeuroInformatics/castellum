@@ -186,7 +186,7 @@ class JsonFileValidator:
 
     def format_error(self, error):
         path = '.'.join(str(x) for x in error.path)
-        return '{} {}'.format(path, error.message)
+        return f'{path} {error.message}'
 
     def __eq__(self, other):
         return self.schema == other.schema

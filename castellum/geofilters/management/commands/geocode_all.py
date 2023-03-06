@@ -50,4 +50,4 @@ class Command(BaseCommand):
             raise CommandError('NOMINATIM not configured')
         count = fetch_missing_geolocations()
         if options['verbosity'] > 0:
-            self.stdout.write('Created {} geolocations'.format(count))
+            self.stdout.write(f'Created {count} geolocations')
