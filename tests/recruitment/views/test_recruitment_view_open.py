@@ -75,7 +75,7 @@ def test_no_matching_subjects(
     study_in_execution_status.min_subject_count = 5
     study_in_execution_status.save()
 
-    for i in range(5):
+    for _i in range(5):
         create_subject()
 
     subject_filter_group = baker.make(SubjectFilterGroup, study=study_in_execution_status)

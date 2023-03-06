@@ -338,7 +338,7 @@ class AgeAttributeField(DateAttributeField):
                 return None
             value = self.parse_date(value)
             today = datetime.date.today()
-            for period, label in buckets:
+            for period, _label in buckets:
                 if period is math.inf or today - relativedelta(**{scale: period + 1}) < value:
                     return period
 

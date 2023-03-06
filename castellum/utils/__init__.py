@@ -54,7 +54,7 @@ def contrast_color(color: str) -> str:
 
 
 def add_working_days(dt, days: int):
-    for i in range(days):
+    for _i in range(days):
         if dt.isoweekday() == 5:  # friday
             dt += timezone.timedelta(days=3)
         elif dt.isoweekday() == 6:  # saturday

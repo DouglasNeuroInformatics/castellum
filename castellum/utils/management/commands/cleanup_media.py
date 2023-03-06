@@ -47,7 +47,7 @@ def iter_file_fields(model):
 
 
 def iter_media_files():
-    for root, dirs, files in os.walk(settings.MEDIA_ROOT):
+    for root, _dirs, files in os.walk(settings.MEDIA_ROOT):
         for filename in files:
             yield Path(root) / filename
 
