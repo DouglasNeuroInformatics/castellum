@@ -206,7 +206,7 @@ class ChoiceAttributeField(BaseChoiceAttributeField):
     ]
 
     def get_choices(self):
-        return [(None, _('Unknown'))] + super().get_choices()
+        return [(None, _('Unknown')), *super().get_choices()]
 
 
 class MultipleChoiceAttributeField(BaseChoiceAttributeField):
@@ -230,7 +230,8 @@ class MultipleChoiceAttributeField(BaseChoiceAttributeField):
 
 
 class OrderedChoiceAttributeField(ChoiceAttributeField):
-    available_operators = ChoiceAttributeField.available_operators + [
+    available_operators = [
+        *ChoiceAttributeField.available_operators,
         ('gte', _('is at least')),
         ('lte', _('is at most')),
     ]
@@ -336,4 +337,4 @@ class AgeAttributeField(DateAttributeField):
                 if period is math.inf or today - relativedelta(**{scale: period + 1}) < value:
                     return period
 
-        return buckets + [(None, _('Other'))], get_bucket
+        return [*buckets, (None, _('Other'))], get_bucket

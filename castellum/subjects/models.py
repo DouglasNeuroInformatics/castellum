@@ -248,7 +248,8 @@ class Subject(TimeStampedModel):
             (0.0, _('0 (regular)')),
             (1.0, _('1 (increased)')),
             (2.0, _('2 (high)')),
-        ] + settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS
+            *settings.CASTELLUM_CUSTOM_PRIVACY_LEVELS,
+        ]
         return dict(options).get(self.privacy_level)
 
     def get_attributes(self):

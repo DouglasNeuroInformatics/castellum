@@ -122,12 +122,14 @@ if settings.PROTECTED_MEDIA_SERVER:
 if 'model_stats' in settings.INSTALLED_APPS:
     urlpatterns = [
         path('admin/stats/', include('model_stats.urls')),
-    ] + urlpatterns
+        *urlpatterns,
+    ]
 
 try:
     import debug_toolbar
 
-    urlpatterns += [
+    urlpatterns = [
+        *urlpatterns,
         path('__debug__/', include(debug_toolbar.urls)),
     ]
 except ImportError:
