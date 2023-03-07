@@ -2153,10 +2153,8 @@ msgid "Finished"
 msgstr "Beendet"
 
 #: castellum/studies/models.py:89
-#, fuzzy
-#| msgid "Contact attempts"
 msgid "Contact person"
-msgstr "Kontaktversuche"
+msgstr "Kontaktperson"
 
 #: castellum/studies/models.py:90
 msgid "E-mail-address"
@@ -2794,6 +2792,7 @@ msgstr "Neue Studie anlegen"
 #: castellum/studies/templates/studies/study_form.html:20
 msgid "Public information that is meant to be shared with participants."
 msgstr ""
+"Öffentliche Informationen die mit den Proband*innen geteilt werden sollen."
 
 #: castellum/studies/templates/studies/study_import.html:4
 #: castellum/studies/templates/studies/study_import.html:15
@@ -4034,6 +4033,8 @@ msgid ""
 "The recovery code will be removed after it has been used. Make sure to "
 "create a new one after login!"
 msgstr ""
+"Der Wiederherstellungscode wird gelöscht nachdem er benutzt wurde. Denken "
+"Sie daran nach der Anmeldung einen neuen anzulegen!"
 
 #: castellum/templates/mfa/create_FIDO2.html:4
 #: castellum/templates/mfa/create_FIDO2.html:8
