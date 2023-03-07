@@ -1,3 +1,22 @@
+# 0.88.0 (2023-03-07)
+
+## breaking changes
+
+-   the default `STATIC_ROOT` has been changed from
+    `castellum/collected_static/` to `static/`
+
+## UI changes
+
+-   The study form has been restructured to explicitly show which fields
+    are meant to be shared with subjects.
+-   After a subject has been created, there is a grace period in which
+    we assume that they have been contacted for recruitment consent.
+    During this grace period the recruitment consent acts as a legal
+    basis, even though it doesn't exist yet. The subject detail UI no
+    longer lists recruitment consent as an available legal basis in that
+    case.
+
+
 # 0.87.0 (2023-02-16)
 
 ## breaking changes
