@@ -19,7 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import mimetypes
-import sys
+import os
 from urllib.parse import unquote
 
 from django.conf import settings
@@ -70,7 +70,7 @@ class BaseProtectedMediaView(LoginRequiredMixin, View):
             response['Content-Type'] = mimetype
             if encoding:
                 response['Content-Encoding'] = encoding
-            response['X-Sendfile'] = str(file_path).encode(sys.getdefaultencoding())
+            response['X-Sendfile'] = os.fsencode(file_path)
             return response
 
 
