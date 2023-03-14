@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 def migrate_data(apps, schema_editor):
-    Domain = apps.get_model('pseudonyms', 'Domain')
     User = apps.get_model('castellum_auth', 'User')
 
     for user in User.objects.exclude(general_domains=None):
