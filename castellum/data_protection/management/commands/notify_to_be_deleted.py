@@ -80,12 +80,12 @@ class Command(BaseCommand):
         if options['verbosity'] > 0:
             self.stdout.write(
                 'notify to be deleted: '
-                'notifications about {} subjects have been sent'.format(count)
+                f'notifications about {count} subjects have been sent'
             )
 
         count = subjects_reset(subjects)
         if options['verbosity'] > 0:
             self.stdout.write(
                 'notify to be deleted: '
-                'reset {} subjects that previously were marked as notified'.format(count)
+                f'reset {count} subjects that previously were marked as notified'
             )

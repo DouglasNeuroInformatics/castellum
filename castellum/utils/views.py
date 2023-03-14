@@ -82,4 +82,4 @@ class ProtectedMediaView(BaseProtectedMediaView):
         super().__init__()
 
     def get_path(self):
-        return '{}/{}'.format(self.prefix, self.kwargs['path'])
+        return f'{self.prefix}/{self.kwargs["path"]}'

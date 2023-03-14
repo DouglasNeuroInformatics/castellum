@@ -38,9 +38,7 @@ from castellum.utils.fields import RestrictedFileField
 
 def consent_upload_to(instance, filename):
     assert instance.pk
-    return 'studyconsents/{}/{}/{}'.format(
-        instance.study.pk, instance.pk, filename
-    )
+    return f'studyconsents/{instance.study.pk}/{instance.pk}/{filename}'
 
 
 class BaseMailBatch(models.Model):

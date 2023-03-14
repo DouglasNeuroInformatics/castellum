@@ -758,4 +758,4 @@ class RecruitmentProtectedMediaView(
     study_status = [Study.EXECUTION]
 
     def get_path(self):
-        return 'subjects/{}'.format(self.kwargs['path'])
+        return f'subjects/{self.kwargs["path"]}'

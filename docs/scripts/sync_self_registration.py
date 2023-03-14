@@ -104,12 +104,12 @@ class Command(BaseCommand):
         items = get_remote_data(options['url'], options['token'])
 
         success, errors = do_import(items, options['source'])
-        self.log('Created {} subject creation requests'.format(len(success)), errors, options)
+        self.log(f'Created {len(success)} subject creation requests', errors, options)
 
         success_count = do_cleanup_local(items)
-        self.log('Cleaned up {} local subject creation requests'.format(success_count), [], options)
+        self.log(f'Cleaned up {success_count} local subject creation requests', [], options)
 
         if options['delete']:
             success, errors = do_cleanup_remote(options['token'])
-            msg = 'Cleaned up {} subject creation requests from remote service'
-            self.log(msg.format(len(success)), errors, options)
+            msg = f'Cleaned up {len(success)} subject creation requests from remote service'
+            self.log(msg, errors, options)
