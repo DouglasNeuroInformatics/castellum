@@ -85,7 +85,10 @@ def test_get_when_study_has_minimal_subject_count_set_to_zero(
     response = client.get(url)
     assert response.status_code == 200
 
-    expected = b'Weak recruitment process. Please, define the number of subjects for this study.'
+    expected = (
+        b'Weak recruitment process. Please, define the number of subjects '
+        b'for this study.'
+    )
     assert expected in response.content
 
 

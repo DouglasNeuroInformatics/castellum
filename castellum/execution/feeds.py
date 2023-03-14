@@ -32,7 +32,9 @@ from castellum.studies.models import Study
 
 class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
     def item_title(self, item):
-        if self.request.user.has_privacy_level(item.participation.subject.privacy_level):
+        if self.request.user.has_privacy_level(
+            item.participation.subject.privacy_level
+        ):
             name = item.participation.subject.contact.full_name
             for tag in item.participation.execution_tags.all():
                 name += f' #{tag}'
@@ -82,7 +84,9 @@ class AppointmentFeedForUser(ParamAuthMixin, BaseExecutionAppointmentFeed):
 
 class ResourceFeed(ParamAuthMixin, BaseExecutionAppointmentFeed):
     def items(self):
-        resource = get_object_or_404(Resource, pk=self.kwargs['pk'], managers=self.request.user)
+        resource = get_object_or_404(
+            Resource, pk=self.kwargs['pk'], managers=self.request.user
+        )
         return (
             super().items()
             .filter(session__resources=resource)

@@ -42,12 +42,16 @@ class AppointmentQuerySet(models.QuerySet):
     def annotate_end(self):
         return self.alias(
             # corresponds to the Appointment.end property
-            end=MultiDurationExpr(models.F('start'), MINUTE, models.F('session__duration')),
+            end=MultiDurationExpr(
+                models.F('start'), MINUTE, models.F('session__duration')
+            ),
         )
 
 
 class Appointment(models.Model):
-    session = models.ForeignKey(StudySession, verbose_name=_('Session'), on_delete=models.CASCADE)
+    session = models.ForeignKey(
+        StudySession, verbose_name=_('Session'), on_delete=models.CASCADE
+    )
     start = DateTimeField(_('Start'))
     reminded = models.BooleanField(_('Reminded'), default=False)
     participation = models.ForeignKey(
@@ -75,7 +79,8 @@ class Appointment(models.Model):
     def clean(self):
         if self.session.study != self.participation.study:
             raise ValidationError(
-                _('Session and participation do not belong to the same study'), code='study'
+                _('Session and participation do not belong to the same study'),
+                code='study',
             )
 
     def save(self, *args, **kwargs):

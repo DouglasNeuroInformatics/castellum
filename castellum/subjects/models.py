@@ -40,7 +40,8 @@ class SubjectQuerySet(models.QuerySet):
         return self.annotate(
             reliability_total=models.Count('reliabilityentry'),
             reliability_issues=models.Count(
-                'reliabilityentry', filter=models.Q(reliabilityentry__was_reliable=False)
+                'reliabilityentry',
+                filter=models.Q(reliabilityentry__was_reliable=False),
             ),
         )
 
@@ -50,7 +51,8 @@ class Subject(TimeStampedModel):
         'blocked': _('The subject has been blocked due to inappropriate behaviour.'),
         'deceased': _('The subject has passed away.'),
         'export_requested': _(
-            'The subject wants to receive an export of all data we have stored about them.'
+            'The subject wants to receive an export of all data we have '
+            'stored about them.'
         ),
         'unnecessary_recruitment_data': _(
             'The subject does not have recruitment consent, so '
@@ -60,12 +62,16 @@ class Subject(TimeStampedModel):
             'The subject wants all data about them to be deleted or fully anonymized.'
         ),
         'unreachable': _('There is no way to contact the subject.'),
-        'no_legal_basis': _('There is no legal reason to keep the data of the subject.'),
+        'no_legal_basis': _(
+            'There is no legal reason to keep the data of the subject.'
+        ),
     }
 
     uuid = models.UUIDField(_('UUID'), default=uuid.uuid4, primary_key=True)
 
-    attributes = models.JSONField(_('Recruitment attributes'), encoder=DjangoJSONEncoder)
+    attributes = models.JSONField(
+        _('Recruitment attributes'), encoder=DjangoJSONEncoder
+    )
     study_type_disinterest = models.ManyToManyField(
         'studies.StudyType',
         verbose_name=_(
@@ -88,20 +94,24 @@ class Subject(TimeStampedModel):
         null=True,
         help_text=format_lazy(
             '{} {} {} {}',
-            _('The subject wants all data about them to be deleted or fully anonymized.'),
             _(
-                'This includes all data in Castellum and possibly all data collected in studies '
-                '(if no other legal bases apply, for example retention periods).'
+                'The subject wants all data about them to be deleted or fully '
+                'anonymized.'
             ),
             _(
-                'Furthermore, the subject has explicitly rejected the option to only withdraw '
-                'recruitment consent instead.'
+                'This includes all data in Castellum and possibly all data collected '
+                'in studies (if no other legal bases apply, for example retention '
+                'periods).'
             ),
             _(
-                'When a subject requests GDPR deletion please use this option to set the '
-                'processing of their request in motion.'
+                'Furthermore, the subject has explicitly rejected the option to only '
+                'withdraw recruitment consent instead.'
             ),
-        )
+            _(
+                'When a subject requests GDPR deletion please use this option to set '
+                'the processing of their request in motion.'
+            ),
+        ),
     )
     to_be_deleted_notified = models.BooleanField(default=False)
 
@@ -111,7 +121,10 @@ class Subject(TimeStampedModel):
         null=True,
         help_text=format_lazy(
             '{} {} {}',
-            _('The subject wants to receive an export of all data we have stored about them.'),
+            _(
+                'The subject wants to receive an export of all data we have stored '
+                'about them.'
+            ),
             _('This includes all data in Castellum and all data collected in studies.'),
             _(
                 'When a subject requests GDPR export please use this option to set the '
@@ -124,10 +137,10 @@ class Subject(TimeStampedModel):
 
     blocked = models.BooleanField(_('Subject is blocked'), default=False, help_text=_(
         'The person has been blocked due to inappropriate behaviour. '
-        'They will neither be considered for recruitment, nor contacted as a legal representative. '
-        'Blocking this person does not automatically block any represented subjects nor '
-        'co-representatives. They may thus still receive information about the recruitment '
-        'process.'
+        'They will neither be considered for recruitment, nor contacted as a legal '
+        'representative. Blocking this person does not automatically block any '
+        'represented subjects nor co-representatives. They may thus still receive '
+        'information about the recruitment process.'
     ))
 
     source = models.CharField(_('Data source'), max_length=128, blank=True)
@@ -220,8 +233,9 @@ class Subject(TimeStampedModel):
     def has_unnecessary_recruitment_data(self):
         # Needs to match ``data_protection.helpers.get_unnecessary_recruitment_data()``
         completed, _total = self.get_completeness()
+        min_completenes = 1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0
         return not self.has_consent_or_waiting and (
-            completed > (1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0)
+            completed > min_completenes
             or self.study_type_disinterest.exists()
         )
 
@@ -331,7 +345,9 @@ class ExportAnswer(models.Model):
 
 
 class Report(models.Model):
-    subject = models.ForeignKey(Subject, verbose_name=_('Subject'), on_delete=models.CASCADE)
+    subject = models.ForeignKey(
+        Subject, verbose_name=_('Subject'), on_delete=models.CASCADE
+    )
     user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE)
     additional_wishes = models.TextField(_('Additional wishes (optional)'), blank=True)
 

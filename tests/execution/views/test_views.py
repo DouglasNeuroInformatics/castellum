@@ -17,7 +17,9 @@ from castellum.studies.models import StudySession
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_participation_list_view(request, client, user_fixture, study_in_execution_status):
+def test_participation_list_view(
+    request, client, user_fixture, study_in_execution_status
+):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
@@ -88,7 +90,9 @@ def test_participation_detail_view_unsuitable(
     assert response.status_code == 404
 
 
-def test_participation_detail_view_tags(client, subject, conductor, study_in_execution_status):
+def test_participation_detail_view_tags(
+    client, subject, conductor, study_in_execution_status
+):
     client.force_login(conductor)
     participation = baker.make(
         Participation,
@@ -242,7 +246,9 @@ def test_participation_dropout_view(client, member, study_in_execution_status, s
     assert response.status_code == 200
 
 
-def test_participation_dropout_view_post(client, member, study_in_execution_status, subject):
+def test_participation_dropout_view_post(
+    client, member, study_in_execution_status, subject
+):
     client.force_login(member)
 
     participation = baker.make(
@@ -270,7 +276,9 @@ def test_participation_dropout_confirm_view_post(
         status=Participation.INVITED,
         subject=subject,
     )
-    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/dropout/confirm/'
+    url = (
+        f'/execution/{study_in_execution_status.pk}/{participation.pk}/dropout/confirm/'
+    )
     response = client.post(url)
     participation.refresh_from_db()
     assert response.status_code == 302

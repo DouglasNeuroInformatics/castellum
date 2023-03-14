@@ -78,7 +78,9 @@ def test_no_matching_subjects(
     for _i in range(5):
         create_subject()
 
-    subject_filter_group = baker.make(SubjectFilterGroup, study=study_in_execution_status)
+    subject_filter_group = baker.make(
+        SubjectFilterGroup, study=study_in_execution_status
+    )
     baker.make(
         SubjectFilter,
         group=subject_filter_group,
@@ -93,7 +95,9 @@ def test_no_matching_subjects(
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
-    assert str(messages[0]) == 'No potential participants could be found for this study.'
+    assert str(messages[0]) == (
+        'No potential participants could be found for this study.'
+    )
     assert response.status_code == 200
 
 
@@ -105,7 +109,12 @@ def test_post_urgent(client, member, study_in_execution_status):
     subject2 = create_subject()
     other_study = baker.make(Study)
     with freeze_time('1970-01-01'):
-        baker.make(Participation, status=Participation.INVITED, study=other_study, subject=subject1)
+        baker.make(
+            Participation,
+            status=Participation.INVITED,
+            study=other_study,
+            subject=subject1,
+        )
 
     with freeze_time('1970-02-01'):
         client.force_login(member)
@@ -113,5 +122,6 @@ def test_post_urgent(client, member, study_in_execution_status):
         response = client.post(url, {'submit': 'urgent'})
 
     assert response.status_code == 200
-    assert study_in_execution_status.participation_set.filter(subject=subject1).exists()
-    assert not study_in_execution_status.participation_set.filter(subject=subject2).exists()
+    participations = study_in_execution_status.participation_set
+    assert participations.filter(subject=subject1).exists()
+    assert not participations.filter(subject=subject2).exists()

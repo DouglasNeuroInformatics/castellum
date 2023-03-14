@@ -3,7 +3,8 @@ from unittest.mock import patch
 
 from geopy.geocoders import Nominatim
 
-from castellum.geofilters.management.commands.geocode_all import fetch_missing_geolocations
+from castellum.geofilters.management.commands.geocode_all import \
+    fetch_missing_geolocations
 
 NOMINATIM = {'domain': 'localhost'}
 

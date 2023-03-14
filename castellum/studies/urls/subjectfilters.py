@@ -30,6 +30,12 @@ urlpatterns = [
     path('', FilterGroupListView.as_view(), name='filtergroup-index'),
     path('create/', FilterGroupCreateView.as_view(), name='filtergroup-create'),
     path('<int:pk>/', FilterGroupUpdateView.as_view(), name='filtergroup-update'),
-    path('<int:pk>/delete/', FilterGroupDeleteView.as_view(), name='filtergroup-delete'),
-    path('<int:pk>/duplicate/', FilterGroupDuplicateView.as_view(), name='filtergroup-duplicate'),
+    path(
+        '<int:pk>/delete/', FilterGroupDeleteView.as_view(), name='filtergroup-delete'
+    ),
+    path(
+        '<int:pk>/duplicate/',
+        FilterGroupDuplicateView.as_view(),
+        name='filtergroup-duplicate',
+    ),
 ]

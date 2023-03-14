@@ -34,7 +34,11 @@ class StudyPermissionBackend(BaseBackend):
             perm_cache_name = f'_study:{obj.pk}_perm_cache'
             if not hasattr(user, perm_cache_name):
                 perms = set()
-                membership = StudyMembership.objects.filter(user=user, study=obj).first()
+                membership = (
+                    StudyMembership.objects
+                    .filter(user=user, study=obj)
+                    .first()
+                )
                 if membership:
                     perms.add('studies.access_study')
                     for group in membership.groups.all():

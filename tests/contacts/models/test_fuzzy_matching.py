@@ -80,14 +80,18 @@ def test_double_names(first, last, query):
 @pytest.mark.django_db
 def test_only_phone():
     search = '030123456789'
-    baker.make(Contact, first_name='Eve', last_name='Meier', phone_number='030123456789')
+    baker.make(
+        Contact, first_name='Eve', last_name='Meier', phone_number='030123456789'
+    )
     assert Contact.objects.fuzzy_filter(search).exists()
 
 
 @pytest.mark.django_db
 def test_only_phone_different_formatting():
     search = '+4930-123456789'
-    baker.make(Contact, first_name='Eve', last_name='Meier', phone_number='030123456789')
+    baker.make(
+        Contact, first_name='Eve', last_name='Meier', phone_number='030123456789'
+    )
     assert Contact.objects.fuzzy_filter(search).exists()
 
 

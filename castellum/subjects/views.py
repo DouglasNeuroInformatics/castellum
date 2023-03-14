@@ -85,7 +85,9 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
     def subjectcreationrequest(self):
         if 'from-request' in self.request.GET:
             pk = self.request.GET['from-request']
-            return get_object_or_404(SubjectCreationRequest, data_is_deleted=False, pk=pk)
+            return get_object_or_404(
+                SubjectCreationRequest, data_is_deleted=False, pk=pk
+            )
 
     def get_matches(self, search):
         user = self.request.user
@@ -94,8 +96,12 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         for subject in Subject.objects.filter(filter_queries.uuid_filter(contacts)):
             has_privacy_level = user.has_privacy_level(subject.privacy_level)
             participations = []
-            for participation in subject.participation_set.filter(study__status=Study.EXECUTION):
-                can_access_study = user.has_perm('studies.access_study', obj=participation.study)
+            for participation in subject.participation_set.filter(
+                study__status=Study.EXECUTION
+            ):
+                can_access_study = user.has_perm(
+                    'studies.access_study', obj=participation.study
+                )
                 invited = participation.status == Participation.INVITED
                 can_recruit = (
                     has_privacy_level
@@ -106,9 +112,13 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                     has_privacy_level
                     and can_access_study
                     and invited
-                    and user.has_perm('recruitment.conduct_study', obj=participation.study)
+                    and user.has_perm(
+                        'recruitment.conduct_study', obj=participation.study
+                    )
                 )
-                can_search = invited and user.has_perm('recruitment.search_participations')
+                can_search = invited and user.has_perm(
+                    'recruitment.search_participations'
+                )
                 if can_recruit or can_conduct or can_search:
                     participations.append((participation, can_recruit, can_conduct))
             if participations or can_view_subject:
@@ -150,7 +160,9 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
             context['matches'] = list(self.get_matches(form.cleaned_data['search']))
 
             if 'privacy_level_form' not in context:
-                context['privacy_level_form'] = SubjectPrivacyLevelForm(user=self.request.user)
+                context['privacy_level_form'] = SubjectPrivacyLevelForm(
+                    user=self.request.user
+                )
         return context
 
     def form_valid(self, form):
@@ -168,7 +180,9 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
             raise PermissionDenied
 
         form = SearchForm(data=request.POST)
-        privacy_level_form = SubjectPrivacyLevelForm(user=self.request.user, data=request.POST)
+        privacy_level_form = SubjectPrivacyLevelForm(
+            user=self.request.user, data=request.POST
+        )
 
         if form.is_valid() and privacy_level_form.is_valid():
             if form.cleaned_data.get('last_name'):
@@ -193,7 +207,8 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 return redirect('subjects:detail', pk=subject.pk)
             else:
                 messages.error(request, _(
-                    'Both first and last name must be provided in order to create a subject!'
+                    'Both first and last name must be provided in order to '
+                    'create a subject!'
                 ))
         return self.render_to_response(self.get_context_data(
             form=form,
@@ -213,7 +228,9 @@ class SubjectResolveView(PermissionRequiredMixin, FormView):
 
     def form_valid(self, form):
         try:
-            subject = get_subject(form.cleaned_data['domain'], form.cleaned_data['pseudonym'])
+            subject = get_subject(
+                form.cleaned_data['domain'], form.cleaned_data['pseudonym']
+            )
             monitoring_logger.info('Pseudonym resolved: domain {} by {}'.format(
                 form.cleaned_data['domain'], self.request.user.pk
             ))
@@ -334,8 +351,12 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         if self.object.export_requested:
             context['has_participations'] = self.object.participation_set.exists()
-            context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
-            context['appointments'] = Appointment.objects.filter(participation__subject=self.object)
+            context['general_domains_exist'] = (
+                Domain.objects.filter(object_id=None).exists()
+            )
+            context['appointments'] = (
+                Appointment.objects.filter(participation__subject=self.object)
+            )
 
             context['attributes'] = []
             for description in AttributeDescription.objects.all():
@@ -354,7 +375,9 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         self.object = self.get_object()
         if self.object.export_requested:
             self.object.export_requested = None
-            ExportAnswer.objects.create(subject=self.object, created_by=request.user.username)
+            ExportAnswer.objects.create(
+                subject=self.object, created_by=request.user.username
+            )
         else:
             self.object.export_requested = datetime.date.today()
         self.object.save()
@@ -490,7 +513,8 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
                 participation__subject=self.subject,
                 participation__status=Participation.INVITED,
             ))
-            # study.p is the list that contains the particiaption (if it exists) or nothing.
+            # study.p is the list that contains the particiaption (if it exists)
+            # or nothing.
             # I did not find a better way to do this.
             .prefetch_related(models.Prefetch(
                 'participation_set',
@@ -503,19 +527,25 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
         for study in studies:
             if (
                 self.request.user.has_perms(perms, obj=study)
-                and Subject.objects.filter(filter_queries.study(study), pk=self.subject.pk).exists()
+                and Subject.objects.filter(
+                    filter_queries.study(study), pk=self.subject.pk
+                ).exists()
             ):
                 pks.append(study.pk)
         return studies.filter(pk__in=pks)
 
     def post(self, request, *args, **kwargs):
-        study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
+        study = get_object_or_404(
+            Study, pk=request.POST['study'], status=Study.EXECUTION
+        )
 
         perms = ['recruitment.recruit', 'studies.access_study']
         if not request.user.has_perms(perms, obj=study):
             raise PermissionDenied
 
-        participation, __ = Participation.objects.get_or_create(subject=self.subject, study=study)
+        participation, __ = Participation.objects.get_or_create(
+            subject=self.subject, study=study
+        )
 
         url = reverse('recruitment:contact', args=[study.pk, participation.pk])
         return redirect(url)
@@ -539,7 +569,8 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self):
         q = self.form.cleaned_data.get('q', '')
         if q:
-            # study.p is the list that contains the particiaption (if it exists) or nothing.
+            # study.p is the list that contains the particiaption (if it exists)
+            # or nothing.
             # I did not find a better way to do this.
             qs = Study.objects.prefetch_related(models.Prefetch(
                 'participation_set',
@@ -548,7 +579,8 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
             ))
             for part in q.split():
                 qs = qs.filter(
-                    models.Q(name__icontains=part) | models.Q(contact_person__icontains=part)
+                    models.Q(name__icontains=part)
+                    | models.Q(contact_person__icontains=part)
                 )
             qs = qs.filter(is_filter_trial=False)
             return qs
@@ -609,7 +641,9 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
         context = super().get_context_data(**kwargs)
         form = kwargs.get('form')
         if form and form.is_valid() and 'contact_form' not in context:
-            context['contact_form'] = ContactForm(user=self.request.user, initial=form.cleaned_data)
+            context['contact_form'] = ContactForm(
+                user=self.request.user, initial=form.cleaned_data
+            )
         return context
 
     def post(self, request, *args, **kwargs):
@@ -620,21 +654,33 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
             raise PermissionDenied
 
         form = SearchForm(data=request.POST)
-        privacy_level_form = SubjectPrivacyLevelForm(user=self.request.user, data=request.POST)
+        privacy_level_form = SubjectPrivacyLevelForm(
+            user=self.request.user, data=request.POST
+        )
         contact_form = ContactForm(user=self.request.user, data=request.POST)
 
-        if form.is_valid() and privacy_level_form.is_valid() and contact_form.is_valid():
+        if (
+            form.is_valid()
+            and privacy_level_form.is_valid()
+            and contact_form.is_valid()
+        ):
             contact = contact_form.save()
-            contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
+            contact.subject.privacy_level = (
+                privacy_level_form.cleaned_data['privacy_level']
+            )
             contact.subject.save()
 
             monitoring_logger.info('SubjectData update: {} by {}'.format(
                 contact.subject.pk, self.request.user.pk
             ))
-            return TemplateResponse(self.request, 'subjects/legal_representative_success.html', {
-                'name': contact.full_name,
-                'uuid': contact.subject.pk,
-            })
+            return TemplateResponse(
+                self.request,
+                'subjects/legal_representative_success.html',
+                {
+                    'name': contact.full_name,
+                    'uuid': contact.subject.pk,
+                },
+            )
         return self.render_to_response(self.get_context_data(
             form=form,
             privacy_level_form=privacy_level_form,
@@ -701,7 +747,9 @@ class MaintenanceContactView(BaseMaintenanceView):
                     date_of_birth=None,
                 )
             )
-        return super().get_queryset().filter(filter_queries.uuid_filter(contacts)).order_by('pk')
+        return super().get_queryset().filter(
+            filter_queries.uuid_filter(contacts)
+        ).order_by('pk')
 
 
 class MaintenanceDuplicatesView(BaseMaintenanceView):
@@ -799,7 +847,11 @@ class MaintenanceReliabilityView(BaseMaintenanceView):
         return (
             super().get_queryset()
             .annotate_reliability()
-            .annotate(ratio=100 * models.F('reliability_issues') / models.F('reliability_total'))
+            .annotate(
+                ratio=100
+                * models.F('reliability_issues')
+                / models.F('reliability_total')
+            )
             .filter(
                 reliability_issues__gt=1,
                 ratio__gte=50,
@@ -815,7 +867,9 @@ class MaintenanceEstrangedSubjectsView(BaseMaintenanceView):
     def get_queryset(self):
         return super().get_queryset().filter(
             filter_queries.has_consent(include_waiting=True),
-            updated_at__lte=timezone.now() - settings.CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD,
+            updated_at__lte=(
+                timezone.now() - settings.CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD
+            ),
         ).order_by('updated_at')
 
 
@@ -827,7 +881,11 @@ class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
     tab = 'subjectcreationrequest'
 
     def get_queryset(self):
-        return SubjectCreationRequest.objects.filter(data_is_deleted=False).order_by('created_at')
+        return (
+            SubjectCreationRequest.objects
+            .filter(data_is_deleted=False)
+            .order_by('created_at')
+        )
 
 
 class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
@@ -844,7 +902,9 @@ class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
         return redirect(self.get_success_url())
 
 
-class SubjectProtectedMediaView(SubjectMixin, PermissionRequiredMixin, BaseProtectedMediaView):
+class SubjectProtectedMediaView(
+    SubjectMixin, PermissionRequiredMixin, BaseProtectedMediaView
+):
     permission_required = ['subjects.view_subject']
 
     def get_object(self):

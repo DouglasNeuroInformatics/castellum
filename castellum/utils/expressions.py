@@ -71,7 +71,9 @@ class ListContainsLookup(json.DataContains):
     lookup_name = 'contains'
 
     def as_sqlite(self, compiler, connection):
-        lhs, lhs_params, lhs_key_transforms = self.lhs.preprocess_lhs(compiler, connection)
+        lhs, lhs_params, lhs_key_transforms = self.lhs.preprocess_lhs(
+            compiler, connection
+        )
         lhs_json_path = json.compile_json_path(lhs_key_transforms)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = (*lhs_params, lhs_json_path, *rhs_params)

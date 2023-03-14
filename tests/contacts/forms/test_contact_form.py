@@ -104,7 +104,9 @@ def test_contact_form_contact_is_saved_correctly(user, full_data, address):
 
 
 @pytest.mark.django_db
-def test_contact_form_update_city_country_for_existing_instance_address(user, contact, full_data):
+def test_contact_form_update_city_country_for_existing_instance_address(
+    user, contact, full_data
+):
     city = 'foo'
     country = 'bar'
 
@@ -153,7 +155,9 @@ def test_contact_form_with_legal_representatives_add(user, full_data, contact):
 
 
 @pytest.mark.django_db
-def test_contact_form_with_legal_representatives_add_privacy_level(user, full_data, contact):
+def test_contact_form_with_legal_representatives_add_privacy_level(
+    user, full_data, contact
+):
     full_data.update({
         'pane': 'legal_representatives',
         'legal_representatives_add': [contact.subject.pk],

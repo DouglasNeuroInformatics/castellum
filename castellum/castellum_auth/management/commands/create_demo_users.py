@@ -56,13 +56,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if settings.PRODUCTION:
-            raise CommandError('Creating demo users in production environment is insecure.')
+            raise CommandError(
+                'Creating demo users in production environment is insecure.'
+            )
 
         expiration_date = timezone.now() + datetime.timedelta(days=1000)
 
         if not User.objects.filter(username='admin').exists():
             User.objects.create_superuser(
-                'admin', 'admin@example.com', User.DEMO_PASSWORD, expiration_date=expiration_date
+                'admin',
+                'admin@example.com',
+                User.DEMO_PASSWORD,
+                expiration_date=expiration_date,
             )
 
         last_name = 'Test'
@@ -77,6 +82,8 @@ class Command(BaseCommand):
             user, created = User.objects.get_or_create(username=name, defaults=defaults)
             if created:
                 user.set_password(User.DEMO_PASSWORD)
-                user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
+                user.user_permissions.add(
+                    Permission.objects.get(codename='privacy_level_1')
+                )
                 user.groups.set(Group.objects.filter(name__in=groups))
                 user.save()

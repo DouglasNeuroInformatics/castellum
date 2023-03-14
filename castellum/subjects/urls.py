@@ -66,14 +66,26 @@ urlpatterns = [
         MaintenanceAttributesView.as_view(),
         name='maintenance-attributes',
     ),
-    path('maintenance/contact/', MaintenanceContactView.as_view(), name='maintenance-contact'),
-    path('maintenance/consent/', MaintenanceConsentView.as_view(), name='maintenance-consent'),
+    path(
+        'maintenance/contact/',
+        MaintenanceContactView.as_view(),
+        name='maintenance-contact',
+    ),
+    path(
+        'maintenance/consent/',
+        MaintenanceConsentView.as_view(),
+        name='maintenance-consent',
+    ),
     path(
         'maintenance/duplicates/',
         MaintenanceDuplicatesView.as_view(),
         name='maintenance-duplicates',
     ),
-    path('maintenance/waiting/', MaintenanceWaitingView.as_view(), name='maintenance-waiting'),
+    path(
+        'maintenance/waiting/',
+        MaintenanceWaitingView.as_view(),
+        name='maintenance-waiting',
+    ),
     path(
         'maintenance/reliability/',
         MaintenanceReliabilityView.as_view(),
@@ -96,7 +108,11 @@ urlpatterns = [
     ),
     path('<uuid:pk>/', SubjectDetailView.as_view(), name='detail'),
     path('<uuid:pk>/pseudonyms/', SubjectPseudonymsView.as_view(), name='pseudonyms'),
-    path('<uuid:pk>/pseudonyms/<domain>/', SubjectPseudonymView.as_view(), name='pseudonym'),
+    path(
+        '<uuid:pk>/pseudonyms/<domain>/',
+        SubjectPseudonymView.as_view(),
+        name='pseudonym',
+    ),
     path('<uuid:pk>/delete/', SubjectDeleteView.as_view(), name='delete'),
     path('<uuid:pk>/export/', SubjectExportView.as_view(), name='export'),
     path('<uuid:pk>/contact/', ContactUpdateView.as_view(), name='contact'),
@@ -121,7 +137,11 @@ urlpatterns = [
         AdditionalInfoUpdateView.as_view(),
         name='additional-info',
     ),
-    path('<uuid:pk>/participations/', ParticipationListView.as_view(), name='participation-list'),
+    path(
+        '<uuid:pk>/participations/',
+        ParticipationListView.as_view(),
+        name='participation-list',
+    ),
     path(
         '<uuid:pk>/participations/recruit/',
         ParticipationRecruitView.as_view(),
@@ -143,5 +163,8 @@ urlpatterns = [
 
 if settings.CASTELLUM_API_ENABLED:
     urlpatterns += [
-        path('api/subjects/<uuid:domain>/<pseudonym>/attributes/', APIAttributesView.as_view()),
+        path(
+            'api/subjects/<uuid:domain>/<pseudonym>/attributes/',
+            APIAttributesView.as_view(),
+        ),
     ]

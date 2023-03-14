@@ -171,6 +171,7 @@ def geofilter(study):
     q = models.Q()
     for feature in features:
         polygon = GEOSGeometry(json.dumps(feature['geometry']))
+        q |= models.Q(geolocation__point__within=polygon)
 
         outside = Geolocation.objects.exclude(point__within=polygon)
         wards = (
@@ -178,7 +179,7 @@ def geofilter(study):
             .exclude(legal_representatives__geolocation=None)
             .exclude(legal_representatives__geolocation__in=outside)
         )
-        q |= models.Q(geolocation__point__within=polygon) | models.Q(id__in=wards.values('id'))
+        q |= models.Q(id__in=wards.values('id'))
 
     return uuid_filter(Contact.objects.filter(q))
 

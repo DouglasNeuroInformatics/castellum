@@ -7,7 +7,9 @@ from tests.markers import skip_old_migration
 @pytest.mark.django_db(databases=['default', 'contacts'])
 @skip_old_migration('0.70.1')
 def test_set_updated_at(migrator):
-    old_state = migrator.apply_initial_migration(('subjects', '0032_subject_uuid_foreign_key'))
+    old_state = migrator.apply_initial_migration(
+        ('subjects', '0032_subject_uuid_foreign_key')
+    )
     Subject = old_state.apps.get_model('subjects', 'Subject')
     Study = old_state.apps.get_model('studies', 'Study')
     Participation = old_state.apps.get_model('recruitment', 'Participation')
@@ -18,7 +20,9 @@ def test_set_updated_at(migrator):
         subject = baker.make(Subject)
         study = baker.make(Study)
     with freeze_time("2000-01-01 12:00"):
-        participation = baker.make(Participation, subject=subject, study=study, status=INVITED)
+        participation = baker.make(
+            Participation, subject=subject, study=study, status=INVITED
+        )
 
     new_state = migrator.apply_tested_migration(('subjects', '0033_subject_updated_at'))
     Subject = new_state.apps.get_model('subjects', 'Subject')

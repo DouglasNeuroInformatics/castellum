@@ -22,8 +22,15 @@ def test_send_appointment_reminders(contact, study_in_execution_status):
     session = baker.make(StudySession, study=study_in_execution_status)
 
     with freeze_time('1970-01-01 12:00'):
-        baker.make(Appointment, session=session, participation=participation, start=timezone.now())
-        reached_count, not_reached_count = send_appointment_reminders('https://example.com')
+        baker.make(
+            Appointment,
+            session=session,
+            participation=participation,
+            start=timezone.now(),
+        )
+        reached_count, not_reached_count = (
+            send_appointment_reminders('https://example.com')
+        )
 
     assert reached_count == 1
     assert len(mail.outbox) == 1

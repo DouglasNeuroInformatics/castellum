@@ -54,7 +54,12 @@ def test_get_no_legal_basis_study_consent_study_status(subject):
 def test_get_no_legal_basis_study_consent_news_interest(subject):
     baker.make(Consent, subject=subject)
     study = baker.make(Study, status=Study.FINISHED)
-    baker.make(Participation, subject=subject, study=study, news_interest=Participation.VIA_EMAIL)
+    baker.make(
+        Participation,
+        subject=subject,
+        study=study,
+        news_interest=Participation.VIA_EMAIL,
+    )
     assert helpers.get_no_legal_basis().count() == 0
 
 

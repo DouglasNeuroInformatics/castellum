@@ -36,7 +36,9 @@ def attempt(fn, attempts=10):
 
 
 def get_subject(domain_key, pseudonym):
-    return Subject.objects.get(pseudonym__domain__key=domain_key, pseudonym__pseudonym=pseudonym)
+    return Subject.objects.get(
+        pseudonym__domain__key=domain_key, pseudonym__pseudonym=pseudonym
+    )
 
 
 def get_pseudonym(subject, target_domain_key):

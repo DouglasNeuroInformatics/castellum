@@ -84,7 +84,9 @@ class FilterGroupListView(FilterMixin, ListView):
         )
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
 
-        participating = self.study.participation_set.filter(status=Participation.INVITED).count()
+        participating = self.study.participation_set.filter(
+            status=Participation.INVITED
+        ).count()
         still_needed = self.study.min_subject_count - participating
         context['expected_subject_count'] = (
             still_needed * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
@@ -116,7 +118,9 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
     permission_required = 'studies.change_study'
 
     def get_object(self):
-        return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
+        return get_object_or_404(
+            SubjectFilterGroup, study=self.study, pk=self.kwargs['pk']
+        )
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -128,7 +132,9 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
             return self.form_invalid(form, formset)
 
     def form_invalid(self, form, formset):
-        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+        return self.render_to_response(
+            self.get_context_data(form=form, formset=formset)
+        )
 
     def form_valid(self, form, formset):
         messages.success(self.request, _('Filter update successfull!'))
@@ -158,7 +164,9 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
         context['total_count'] = Subject.objects.count()
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
 
-        participating = self.study.participation_set.filter(status=Participation.INVITED).count()
+        participating = self.study.participation_set.filter(
+            status=Participation.INVITED
+        ).count()
         still_needed = self.study.min_subject_count - participating
         context['expected_subject_count'] = (
             still_needed * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
@@ -183,7 +191,9 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
     permission_required = 'studies.change_study'
 
     def get_object(self):
-        return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
+        return get_object_or_404(
+            SubjectFilterGroup, study=self.study, pk=self.kwargs['pk']
+        )
 
     def get_success_url(self):
         return reverse('studies:filtergroup-index', args=[self.study.pk])

@@ -8,7 +8,9 @@ from castellum.recruitment.models import Participation
 def test_apivalidateview(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
-    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.INVITED
+    )
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym}/'
@@ -21,7 +23,9 @@ def test_apivalidateview(client, conductor, study_in_execution_status, subject):
 def test_normalize_pseudonym(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
-    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.INVITED
+    )
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym.lower()}/'
@@ -34,7 +38,9 @@ def test_normalize_pseudonym(client, conductor, study_in_execution_status, subje
 def test_unrelated_domain(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain)
-    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.INVITED
+    )
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym}/'
@@ -49,7 +55,9 @@ def test_ignore_privacylevel(client, conductor, study_in_execution_status, subje
 
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
-    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.INVITED
+    )
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym}/'

@@ -30,7 +30,9 @@ def patch_django_bootstrap5():
             return 'is-invalid'
         return ''
 
-    FieldRenderer.get_server_side_validation_classes = get_server_side_validation_classes
+    FieldRenderer.get_server_side_validation_classes = (
+        get_server_side_validation_classes
+    )
 
 
 class UtilsConfig(AppConfig):

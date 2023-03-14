@@ -81,7 +81,9 @@ class SubjectFilterForm(forms.ModelForm):
             label=_('Comparison'), choices=self.desc.field.available_operators
         )
 
-    def _get_selected_description(self, instance=None, data=None, prefix=None, **kwargs):
+    def _get_selected_description(
+        self, instance=None, data=None, prefix=None, **kwargs
+    ):
         if instance:
             return instance.description
 
@@ -186,8 +188,8 @@ class ContactForm(forms.ModelForm):
             self.fields['status'].widget.disabled_choices = [Participation.INVITED]
 
         recruiter_pks = [recruiter.pk for recruiter in self.instance.study.recruiters]
-        self.fields['assigned_recruiter'].queryset = self.instance.study.studymembership_set.filter(
-            user_id__in=recruiter_pks
+        self.fields['assigned_recruiter'].queryset = (
+            self.instance.study.studymembership_set.filter(user_id__in=recruiter_pks)
         )
 
 

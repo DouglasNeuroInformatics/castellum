@@ -102,7 +102,9 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
         qs = Participation.objects.all()
         if self.participation_status:
             qs = qs.filter(status__in=self.participation_status)
-        return get_object_or_404(qs, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk'])
+        return get_object_or_404(
+            qs, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
+        )
 
     def get_subject(self):
         return self.participation.subject

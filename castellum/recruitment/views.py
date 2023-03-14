@@ -84,7 +84,9 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     tab = 'recruitment'
 
     def dispatch(self, request, *args, **kwargs):
-        self.sort = self.request.GET.get('sort', self.request.session.get('recruitment_sort'))
+        self.sort = self.request.GET.get(
+            'sort', self.request.session.get('recruitment_sort')
+        )
         self.request.session['recruitment_sort'] = self.sort
         return super().dispatch(request, *args, **kwargs)
 
@@ -109,7 +111,11 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             order_by = ['-assigned_to_me', '-updated_at']
         else:
             order_by = [
-                '-followup_urgent', 'status', 'followup_date', 'followup_time', '-updated_at'
+                '-followup_urgent',
+                'status',
+                'followup_date',
+                'followup_time',
+                '-updated_at',
             ]
 
         return (
@@ -200,15 +206,22 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 value2 = subject.attributes.get(desc2.json_key)
                 buckets.append((desc2, buckets2[get_bucket2(value2)]))
 
-            can_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
+            can_access = self.request.user.has_privacy_level(
+                participation.subject.privacy_level
+            )
 
             recently_contacted = (
                 participation.status_open
                 and participation.last_contacted_elsewhere
-                and participation.last_contacted_elsewhere.date() > last_agreeable_contact_time
+                and (
+                    participation.last_contacted_elsewhere.date()
+                    > last_agreeable_contact_time
+                )
             )
 
-            participations.append((participation, buckets, can_access, recently_contacted))
+            participations.append(
+                (participation, buckets, can_access, recently_contacted)
+            )
         context['participations'] = participations
 
         context['sort_options'] = [
@@ -228,7 +241,9 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         queryset = Participation.objects.filter(study=self.study)
         context['all_count'] = queryset.count()
         context['invited_count'] = queryset.filter(status=Participation.INVITED).count()
-        context['unsuitable_count'] = queryset.filter(status=Participation.UNSUITABLE).count()
+        context['unsuitable_count'] = (
+            queryset.filter(status=Participation.UNSUITABLE).count()
+        )
         context['open_count'] = queryset.filter(status__in=[
             Participation.NOT_CONTACTED,
             Participation.NOT_REACHED,
@@ -285,8 +300,13 @@ class RecruitmentViewOpen(RecruitmentView):
             ))
             return self.get(request, *args, **kwargs)
 
-        not_contacted_count = self.get_queryset().filter(status=Participation.NOT_CONTACTED).count()
-        hard_limit = self.study.min_subject_count * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
+        not_contacted_count = (
+            self.get_queryset().filter(status=Participation.NOT_CONTACTED).count()
+        )
+        hard_limit = (
+            self.study.min_subject_count
+            * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
+        )
 
         if not_contacted_count >= hard_limit:
             messages.error(request, _(
@@ -411,8 +431,9 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             messages.warning(
                 self.request,
                 _(
-                    'Only {added} out of {batchsize} potential participants with email '
-                    'addresses could be found for this study. These have been contacted.'
+                    'Only {added} out of {batchsize} potential participants with '
+                    'email addresses could be found for this study. These have been '
+                    'contacted.'
                 ).format(added=len(participations), batchsize=batch_size),
             )
         else:
@@ -438,12 +459,16 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, DetailView)
     template_name = 'recruitment/mail_remind.html'
 
     def get_object(self):
-        return get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study, reminded=None)
+        return get_object_or_404(
+            MailBatch, pk=self.kwargs['pk'], study=self.study, reminded=None
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['mail_subject'] = settings.CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE.format(
-            mail_subject=self.study.mail_subject
+        context['mail_subject'] = (
+            settings.CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE.format(
+                mail_subject=self.study.mail_subject
+            )
         )
         return context
 
@@ -533,7 +558,11 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         return self.request.path
 
     def form_valid(self, form):
-        appointments_exist = Appointment.objects.filter(participation=self.object).exists()
+        appointments_exist = (
+            Appointment.objects
+            .filter(participation=self.object)
+            .exists()
+        )
 
         form.instance.batch = None
         if form.instance.status == Participation.INVITED:
@@ -652,7 +681,9 @@ class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateV
         return self.participation.subject
 
     def get_subject_media_url(self, path):
-        return reverse('recruitment-media', args=[self.study.pk, self.participation.pk, path])
+        return reverse(
+            'recruitment-media', args=[self.study.pk, self.participation.pk, path]
+        )
 
 
 class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
@@ -668,7 +699,8 @@ class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
 
     def get_success_url(self):
         return reverse(
-            'recruitment:data-protection-update', args=[self.study.pk, self.participation.pk]
+            'recruitment:data-protection-update',
+            args=[self.study.pk, self.participation.pk],
         )
 
 
@@ -679,7 +711,9 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
         return self.participation.subject
 
 
-class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
+class LegalRepresentativeContactUpdateView(
+    StudyMixin, SubjectMixin, BaseContactUpdateView
+):
     base_template = 'recruitment/base.html'
     study_status = [Study.EXECUTION]
 
@@ -702,8 +736,12 @@ class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContact
         if not self.request.user.has_privacy_level(participation.subject.privacy_level):
             return self.handle_no_permission()
 
-        for legal_representative in participation.subject.contact.legal_representatives.all():
-            h = study_legal_representative_hash(self.study, legal_representative.subject)
+        for legal_representative in (
+            participation.subject.contact.legal_representatives.all()
+        ):
+            h = study_legal_representative_hash(
+                self.study, legal_representative.subject
+            )
             if h == self.kwargs['hash']:
                 return legal_representative
 
@@ -716,7 +754,9 @@ class ReportView(ParticipationMixin, BaseReportView):
     base_template = 'recruitment/participation_base.html'
 
     def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.study.pk, self.participation.pk])
+        return reverse(
+            'recruitment:contact', args=[self.study.pk, self.participation.pk]
+        )
 
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
@@ -731,7 +771,9 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['legend'] = []
-        for resource in Resource.objects.filter(studysession__study=self.study).exclude(url=''):
+        for resource in (
+            Resource.objects.filter(studysession__study=self.study).exclude(url='')
+        ):
             context['legend'].append((resource.color, resource.name))
         if context['legend']:
             context['legend'].insert(0, (FULLCALENDAR_DEFAULT_COLOR, self.study.name))

@@ -14,7 +14,10 @@ def test_has_consent_from_before_full_age():
 
     with freeze_time('2014-01-01'):
         baker.make(
-            Consent, _fill_optional=['document'], subject=contact.subject, underage_when_given=True
+            Consent,
+            _fill_optional=['document'],
+            subject=contact.subject,
+            underage_when_given=True,
         )
 
     with freeze_time('2018-01-01'):
@@ -27,7 +30,10 @@ def test_has_consent_from_before_full_age_not_full_age():
 
     with freeze_time('2014-01-01'):
         baker.make(
-            Consent, _fill_optional=['document'], subject=contact.subject, underage_when_given=True
+            Consent,
+            _fill_optional=['document'],
+            subject=contact.subject,
+            underage_when_given=True,
         )
 
     with freeze_time('2018-01-01'):
@@ -40,7 +46,10 @@ def test_has_consent_from_before_full_age_newer_consent():
 
     with freeze_time('2017-01-01'):
         baker.make(
-            Consent, _fill_optional=['document'], subject=contact.subject, underage_when_given=False
+            Consent,
+            _fill_optional=['document'],
+            subject=contact.subject,
+            underage_when_given=False,
         )
 
     with freeze_time('2018-01-01'):

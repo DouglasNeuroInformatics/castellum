@@ -100,7 +100,10 @@ def test_subject_export_complete(client, user, participation):
     response = client.get(f'/subjects/{subject.pk}/export/')
 
     expected = set(iter_fields())
-    actual = {s.decode('utf-8') for s in re.findall(b'data-fieldname="([^"]*)"', response.content)}
+    actual = {
+        s.decode('utf-8')
+        for s in re.findall(b'data-fieldname="([^"]*)"', response.content)
+    }
 
     assert actual == expected
 

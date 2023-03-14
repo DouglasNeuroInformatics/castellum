@@ -49,7 +49,10 @@ class BaseAPIView(APIAuthMixin, StudyMixin, PermissionRequiredMixin, View):
 
 class APIDomainsView(BaseAPIView):
     def get(self, request, **kwargs):
-        data = [{'key': domain.key, 'name': domain.name} for domain in self.study.domains.all()]
+        data = [
+            {'key': domain.key, 'name': domain.name}
+            for domain in self.study.domains.all()
+        ]
         return JsonResponse({'domains': data})
 
 
@@ -68,7 +71,10 @@ class APIValidateView(BaseAPIView):
             raise Http404 from e
 
         get_object_or_404(
-            Participation, subject=subject, study=self.study, status=Participation.INVITED
+            Participation,
+            subject=subject,
+            study=self.study,
+            status=Participation.INVITED,
         )
 
         return JsonResponse({'pseudonym': pseudonym})
@@ -101,7 +107,10 @@ class APIResolveView(BaseAPIView):
         except Subject.DoesNotExist as e:
             raise Http404 from e
         get_object_or_404(
-            Participation, subject=subject, study=self.study, status=Participation.INVITED
+            Participation,
+            subject=subject,
+            study=self.study,
+            status=Participation.INVITED,
         )
         if not self.request.user.has_privacy_level(subject.privacy_level):
             raise PermissionDenied
@@ -134,7 +143,10 @@ class APIAttributesView(BaseAPIView):
         except Subject.DoesNotExist as e:
             raise Http404 from e
         get_object_or_404(
-            Participation, subject=subject, study=self.study, status=Participation.INVITED
+            Participation,
+            subject=subject,
+            study=self.study,
+            status=Participation.INVITED,
         )
         if not self.request.user.has_privacy_level(subject.privacy_level):
             raise PermissionDenied

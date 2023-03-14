@@ -17,10 +17,14 @@ def test_appointment_assigned_conductors(migrator):
 
     study = baker.make(Study)
     membership = baker.make(Membership, study=study)
-    participation = baker.make(Participation, assigned_conductor=membership, study=study)
+    participation = baker.make(
+        Participation, assigned_conductor=membership, study=study
+    )
     appointment = baker.make(Appointment, participation=participation)
 
-    new_state = migrator.apply_tested_migration(('appointments', '0005_appointment_assigned_conductors'))
+    new_state = migrator.apply_tested_migration(
+        ('appointments', '0005_appointment_assigned_conductors')
+    )
 
     Appointment = new_state.apps.get_model('appointments', 'Appointment')
     Membership = new_state.apps.get_model('studies', 'StudyMembership')

@@ -7,7 +7,9 @@ from castellum.recruitment.models import Participation
 def test_apipseudonymsview(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
-    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.INVITED
+    )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
@@ -20,7 +22,9 @@ def test_apipseudonymsview(client, conductor, study_in_execution_status, subject
 def test_participation_status(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
-    baker.make(Participation, study=study, subject=subject, status=Participation.NOT_CONTACTED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.NOT_CONTACTED
+    )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
@@ -36,7 +40,9 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
 
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
-    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.INVITED
+    )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
@@ -49,7 +55,9 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
 def test_unrelated_domain(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain)
-    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.INVITED
+    )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)

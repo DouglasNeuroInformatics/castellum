@@ -63,11 +63,17 @@ class StudyType(TranslatableModel):
         label=models.CharField(_('Label'), max_length=64),
     )
     exclusion_criteria = models.TextField(
-        _('Additional subject characteristics that should be verified during recruitment'),
+        _(
+            'Additional subject characteristics that should be verified during '
+            'recruitment'
+        ),
         blank=True,
     )
     export_key = models.CharField(
-        _('Export key'), max_length=32, choices=[(k, k) for k in EXPORT_KEYS], blank=True
+        _('Export key'),
+        max_length=32,
+        choices=[(k, k) for k in EXPORT_KEYS],
+        blank=True,
     )
 
     def __str__(self):
@@ -93,22 +99,28 @@ class Study(models.Model):
     principal_investigator = models.CharField(
         _('Principal Investigator'), max_length=254, blank=True
     )
-    affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
+    affiliated_scientists = models.CharField(
+        _('Affiliated Scientists'), max_length=254, blank=True
+    )
     affiliated_research_assistants = models.CharField(
         _('Affiliated Research Assistants'), max_length=254, blank=True
     )
     description = models.TextField(_('Description'), blank=True)
     url = models.URLField(_('URL'), blank=True)
 
-    previous_status = models.SmallIntegerField(_('Previous status'), choices=STATUS, default=EDIT)
+    previous_status = models.SmallIntegerField(
+        _('Previous status'), choices=STATUS, default=EDIT
+    )
     status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)
-    min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), default=0)
+    min_subject_count = models.PositiveIntegerField(
+        _('Required number of subjects'), default=0
+    )
     session_instructions = models.TextField(
         _('Session instructions'),
         help_text=_(
-            'Please describe any requirements for carrying out the sessions listed below. '
-            'For example, specify time intervals between sessions that need to be '
-            'considered for booking appointments.'
+            'Please describe any requirements for carrying out the sessions listed '
+            'below. For example, specify time intervals between sessions that need to '
+            'be considered for booking appointments.'
         ),
         blank=True,
     )
@@ -117,10 +129,11 @@ class Study(models.Model):
     recruitment_text = models.TextField(
         _('Recruitment text'),
         help_text=_(
-            'This text will be used during recruitment dialogue. Thus, please describe the study '
-            'from the perspective of recruiters and potential participants: What is it about? '
-            'How long will it take? Are there any potential benefits or risks for participants? '
-            'If applicable, also present the amount of expense allowance and related requirements.'
+            'This text will be used during recruitment dialogue. Thus, please describe '
+            'the study from the perspective of recruiters and potential participants: '
+            'What is it about? How long will it take? Are there any potential benefits '
+            'or risks for participants? If applicable, also present the amount of '
+            'expense allowance and related requirements.'
         ),
         blank=True,
     )
@@ -136,17 +149,17 @@ class Study(models.Model):
     advanced_filtering = models.BooleanField(
         _('Advanced filtering'),
         help_text=_(
-            'By default you can create only one filtergroup in which all the filters are joined by '
-            'AND operator. Advanced filtering allows you to create multiple filtergroups which are '
-            'joined by OR operator.'
+            'By default you can create only one filtergroup in which all the filters '
+            'are joined by AND operator. Advanced filtering allows you to create '
+            'multiple filtergroups which are joined by OR operator.'
         ),
         default=False,
     )
     geo_filter = RestrictedFileField(
         _('Geo filter file'),
         help_text=_(
-            'A GeoJSON file that contains (multi)polygons. '
-            'Only subjects who live inside the polygons will be considered for this study.'
+            'A GeoJSON file that contains (multi)polygons. Only subjects who live '
+            'inside the polygons will be considered for this study.'
         ),
         blank=True,
         upload_to=geofilter_upload_to,
@@ -157,32 +170,36 @@ class Study(models.Model):
     is_exclusive = models.BooleanField(
         _('Exclusive subjects'),
         help_text=_(
-            'When set, this ensures that potential subjects for this study will not be recruited '
-            'in other studies. Please note that this may hinder other researchers in finding '
-            'enough participants.'
+            'When set, this ensures that potential subjects for this study will not '
+            'be recruited in other studies. Please note that this may hinder other '
+            'researchers in finding enough participants.'
         ),
         default=False,
     )
     complete_matches_only = models.BooleanField(
         _('Complete filter matches only'),
         help_text=_(
-            'By default, filters may include subjects with incomplete attributes. This feature '
-            'is supposed to improve the quality of the database by asking recruiters to fill '
-            'missing values on the go. Only allowing complete filter matches can speed up '
-            'individual recruitments but may deteriorate the quality of the database as a whole. '
-            'Furthermore, this reduces the number of potential subjects.'
+            'By default, filters may include subjects with incomplete attributes. '
+            'This feature is supposed to improve the quality of the database by '
+            'asking recruiters to fill missing values on the go. Only allowing '
+            'complete filter matches can speed up individual recruitments but may '
+            'deteriorate the quality of the database as a whole. Furthermore, this '
+            'reduces the number of potential subjects.'
         ),
         default=False,
     )
     excluded_studies = models.ManyToManyField(
-        'studies.Study', verbose_name=_('Excluded studies'), related_name='+', blank=True
+        'studies.Study',
+        verbose_name=_('Excluded studies'),
+        related_name='+',
+        blank=True,
     )
 
     is_filter_trial = models.BooleanField(
         _('Is a filter trial'),
         help_text=_(
-            'Use this if you only want to see how many subjects would match a specific study '
-            'and filter configuration without actually intending to recruit.'
+            'Use this if you only want to see how many subjects would match a specific '
+            'study and filter configuration without actually intending to recruit.'
         ),
         default=False,
     )
@@ -242,8 +259,8 @@ class Study(models.Model):
         if self.subjectfiltergroup_set.count() > 1 and not self.advanced_filtering:
             raise ValidationError(
                 _(
-                    "Studies with more than one filtergroup can't be transformed back to basic "
-                    'filtering. Delete all but one filtergroup first!'
+                    "Studies with more than one filtergroup can't be transformed back "
+                    'to basic filtering. Delete all but one filtergroup first!'
                 ),
                 code='invalid',
             )
@@ -353,7 +370,9 @@ class Study(models.Model):
             'sessions_end': self.sessions_end,
             'number_participants_expected': self.min_subject_count,
             'keywords': list(self.tags),
-            'type': [t for t in self.study_type.values_list('export_key', flat=True) if t],
+            'type': [
+                t for t in self.study_type.values_list('export_key', flat=True) if t
+            ],
             'members': [{
                 'username': user.username,
                 'name': user.get_full_name()[:128],
@@ -369,7 +388,9 @@ class Study(models.Model):
 
 class StudyGroup(models.Model):
     name = models.CharField(_('name'), max_length=150, unique=True)
-    permissions = models.ManyToManyField(Permission, verbose_name=_('permissions'), blank=True)
+    permissions = models.ManyToManyField(
+        Permission, verbose_name=_('permissions'), blank=True
+    )
 
     def __str__(self):
         return self.name
@@ -409,10 +430,14 @@ class StudySession(models.Model):
     name = models.CharField(_('Name'), max_length=128)
     duration = models.PositiveIntegerField(_('Duration of a session in minutes'))
     type = models.ManyToManyField(StudyType, verbose_name=_('Type'), blank=True)
-    resources = models.ManyToManyField(Resource, verbose_name=_('Resources'), blank=True)
+    resources = models.ManyToManyField(
+        Resource, verbose_name=_('Resources'), blank=True
+    )
     domains = GenericRelation(Domain)
     reminders_enabled = models.BooleanField(_('Enable reminder emails'), default=True)
-    reminder_text = models.TextField(_('Additional text for reminder emails'), blank=True)
+    reminder_text = models.TextField(
+        _('Additional text for reminder emails'), blank=True
+    )
     schedule_id = models.CharField(
         _('External schedule ID'), max_length=64, blank=True, null=True, unique=True
     )

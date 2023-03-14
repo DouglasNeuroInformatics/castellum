@@ -2,8 +2,10 @@ import sys
 
 import pytest
 
-from castellum.recruitment.management.commands.create_demo_content import generate_studies
-from castellum.recruitment.management.commands.create_demo_content import generate_subjects
+from castellum.recruitment.management.commands.create_demo_content import \
+    generate_studies
+from castellum.recruitment.management.commands.create_demo_content import \
+    generate_subjects
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 

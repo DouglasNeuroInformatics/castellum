@@ -20,7 +20,9 @@ def create_participation(
 
 
 def has_match(is_exclusive=False, excluded_studies=[]):
-    study = baker.make(Study, is_exclusive=is_exclusive, excluded_studies=excluded_studies)
+    study = baker.make(
+        Study, is_exclusive=is_exclusive, excluded_studies=excluded_studies
+    )
     baker.make(SubjectFilterGroup, study=study)
     return Subject.objects.filter(filter_queries.study(study)).exists()
 

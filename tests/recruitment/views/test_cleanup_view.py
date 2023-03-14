@@ -18,7 +18,9 @@ def test_cleanup_view_all(client, recruiter, study_in_execution_status):
     client.force_login(recruiter)
 
     participation1 = baker.make(
-        Participation, study=study_in_execution_status, status=Participation.NOT_CONTACTED
+        Participation,
+        study=study_in_execution_status,
+        status=Participation.NOT_CONTACTED,
     )
     participation2 = baker.make(
         Participation, study=study_in_execution_status, status=Participation.INVITED
@@ -36,14 +38,20 @@ def test_cleanup_view_all(client, recruiter, study_in_execution_status):
 def test_cleanup_view_awaiting_response(client, recruiter, study_in_execution_status):
     with freeze_time('1970-01-01'):
         participation1 = baker.make(
-            Participation, study=study_in_execution_status, status=Participation.AWAITING_RESPONSE
+            Participation,
+            study=study_in_execution_status,
+            status=Participation.AWAITING_RESPONSE,
         )
         participation2 = baker.make(
-            Participation, study=study_in_execution_status, status=Participation.NOT_CONTACTED
+            Participation,
+            study=study_in_execution_status,
+            status=Participation.NOT_CONTACTED,
         )
     with freeze_time('1970-01-15'):
         participation3 = baker.make(
-            Participation, study=study_in_execution_status, status=Participation.AWAITING_RESPONSE
+            Participation,
+            study=study_in_execution_status,
+            status=Participation.AWAITING_RESPONSE,
         )
 
     with freeze_time('1970-01-15'):

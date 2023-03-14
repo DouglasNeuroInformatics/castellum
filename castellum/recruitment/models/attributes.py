@@ -95,14 +95,20 @@ class AttributeDescription(TranslatableModel):
 
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
     url = models.URLField(
-        verbose_name=_('URL'), help_text=_('URL to a formal definition in an ontology'), blank=True
+        verbose_name=_('URL'),
+        help_text=_('URL to a formal definition in an ontology'),
+        blank=True,
     )
     order = models.IntegerField(default=0)
     category = models.ForeignKey(
         AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True
     )
     statistics_rank = models.CharField(
-        max_length=16, choices=STATISTICS_RANK_CHOICES, null=True, blank=True, unique=True
+        max_length=16,
+        choices=STATISTICS_RANK_CHOICES,
+        null=True,
+        blank=True,
+        unique=True,
     )
 
     objects = AttributeDescriptionQuerySet.as_manager()
@@ -118,7 +124,8 @@ class AttributeDescription(TranslatableModel):
     def clean(self):
         if self.statistics_rank and self.field_type not in self.STATISTICS_TYPES:
             raise ValidationError(_(
-                'Statistics rank can only be set for the following field types: %(field_types)s',
+                'Statistics rank can only be set for the following '
+                'field types: %(field_types)s',
             ), code='invalid', params={'field_types': ', '.join(self.STATISTICS_TYPES)})
 
     @property

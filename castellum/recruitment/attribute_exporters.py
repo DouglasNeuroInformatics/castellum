@@ -46,7 +46,9 @@ class JSONExporter:
     }
 
     def _json_dumps(self, data):
-        return json.dumps(data, sort_keys=True, indent=4, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return json.dumps(
+            data, sort_keys=True, indent=4, ensure_ascii=False, cls=DjangoJSONEncoder
+        )
 
     def get_schema(self, descriptions):
         schema = {
@@ -132,7 +134,9 @@ class BIDSExporter:
     # https://bids-specification.readthedocs.io/
 
     def _json_dumps(self, data):
-        return json.dumps(data, sort_keys=True, indent=4, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return json.dumps(
+            data, sort_keys=True, indent=4, ensure_ascii=False, cls=DjangoJSONEncoder
+        )
 
     def get_schema(self, descriptions):
         schema = {}

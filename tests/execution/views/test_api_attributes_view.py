@@ -11,7 +11,9 @@ def test_apiattributesview(
     study = study_in_execution_status
     study.exportable_attributes.add(attribute_description)
     domain = baker.make(Domain, context=study)
-    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.INVITED
+    )
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
@@ -27,7 +29,9 @@ def test_apiattributesview(
 def test_participation_status(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
-    baker.make(Participation, study=study, subject=subject, status=Participation.NOT_CONTACTED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.NOT_CONTACTED
+    )
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
@@ -44,7 +48,9 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
 
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
-    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.INVITED
+    )
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
@@ -58,7 +64,9 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
 def test_unrelated_domain(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain)
-    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study, subject=subject, status=Participation.INVITED
+    )
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(

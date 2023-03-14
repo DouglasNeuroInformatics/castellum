@@ -31,7 +31,9 @@ from .mixins import BaseFollowUpFeed
 from .models import Participation
 
 
-class FollowUpFeedForStudy(ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseFollowUpFeed):
+class FollowUpFeedForStudy(
+    ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseFollowUpFeed
+):
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
 
@@ -56,7 +58,9 @@ class FollowUpFeedForUser(ParamAuthMixin, BaseFollowUpFeed):
             )
 
 
-class AppointmentFeed(ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseAppointmentFeed):
+class AppointmentFeed(
+    ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseAppointmentFeed
+):
     permission_required = 'appointments.change_appointment'
     study_status = [Study.EXECUTION]
 

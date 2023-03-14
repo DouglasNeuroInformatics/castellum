@@ -115,7 +115,10 @@ class SessionForm(forms.ModelForm):
         ]
         help_texts = {
             'reminder_text': format_lazy(
-                _('If enabled, all subjects will be reminded {} days before the appointment.'),
+                _(
+                    'If enabled, all subjects will be reminded {} days before '
+                    'the appointment.'
+                ),
                 settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days,
             )
         }
@@ -131,15 +134,18 @@ class SessionForm(forms.ModelForm):
             and self.instance.schedule_id != value
             and self.instance.appointment_set.exists()
         ):
-            raise forms.ValidationError(
-                _('Schedule ID can no longer be changed once appointments have been scheduled')
-            )
+            raise forms.ValidationError(_(
+                'Schedule ID can no longer be changed once appointments have '
+                'been scheduled'
+            ))
 
         if settings.SCHEDULER_URL and value:
             try:
                 scheduler.get_bulk(value)
             except Exception as e:
-                raise forms.ValidationError(_('A schedule with this ID does not exist')) from e
+                raise forms.ValidationError(
+                    _('A schedule with this ID does not exist')
+                ) from e
 
         return value
 
@@ -151,7 +157,9 @@ class ExcludedStudiesForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['excluded_studies'].queryset = Study.objects.exclude(pk=self.instance.pk)
+        self.fields['excluded_studies'].queryset = Study.objects.exclude(
+            pk=self.instance.pk
+        )
         self.fields['excluded_studies'].widget.attrs['class'] = 'form-control'
 
 

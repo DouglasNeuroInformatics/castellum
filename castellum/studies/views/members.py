@@ -39,7 +39,9 @@ from ..models import StudyMembership
 monitoring_logger = logging.getLogger('monitoring.studies')
 
 
-class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, FormView):
+class StudyMembersView(
+    StudyMixin, PermissionRequiredMixin, SingleObjectMixin, FormView
+):
     model = Study
     pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_members.html'
@@ -54,7 +56,8 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['membership_forms'] = [
-            MemberForm(instance=membership) for membership in self.study.studymembership_set.all()
+            MemberForm(instance=membership)
+            for membership in self.study.studymembership_set.all()
         ]
         return context
 
@@ -86,7 +89,9 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
         if 'membership' in self.request.POST:
             membership = StudyMembership.objects.get(pk=self.request.POST['membership'])
             old_groups = set(membership.groups.values_list('pk', flat=True))
-            new_groups = set(int(group) for group in self.request.POST.getlist('groups'))
+            new_groups = set(
+                int(group) for group in self.request.POST.getlist('groups')
+            )
             if old_groups != new_groups:
                 monitoring_logger.info(
                     'Membership changed: study {} user {} groups {} by {}'.format(
@@ -117,7 +122,9 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
     tab = 'members'
 
     def get_object(self):
-        return get_object_or_404(StudyMembership, pk=self.kwargs['pk'], study=self.study)
+        return get_object_or_404(
+            StudyMembership, pk=self.kwargs['pk'], study=self.study
+        )
 
     def delete(self, request, *args, **kwargs):
         membership = self.get_object()
@@ -127,7 +134,9 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
 
         monitoring_logger.info(
             'Membership removed: study {} user {} by {}'.format(
-                membership.study.pk, membership.user.pk, self.request.user.pk,
+                membership.study.pk,
+                membership.user.pk,
+                self.request.user.pk,
             )
         )
 

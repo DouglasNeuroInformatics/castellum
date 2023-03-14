@@ -46,7 +46,9 @@ class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
         except ValueError as e:
             raise Http404 from e
 
-        domain = get_object_or_404(request.user.general_domains, key=self.kwargs['domain'])
+        domain = get_object_or_404(
+            request.user.general_domains, key=self.kwargs['domain']
+        )
 
         try:
             subject = get_subject(domain.key, pseudonym)

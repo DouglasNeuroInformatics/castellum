@@ -62,7 +62,11 @@ urlpatterns = [
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
     path('<int:study_pk>/news/', NewsMailView.as_view(), name='news-mail'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
-    path('<int:pk>/calendar/feed/', AppointmentFeedForStudy.as_view(), name='calendar-feed'),
+    path(
+        '<int:pk>/calendar/feed/',
+        AppointmentFeedForStudy.as_view(),
+        name='calendar-feed',
+    ),
     path('<int:pk>/criteria/', ExclusionCriteriaView.as_view(), name='criteria'),
     path('<int:pk>/export/', ExportView.as_view(), name='export'),
     path('<int:pk>/progress/', ProgressView.as_view(), name='progress'),
@@ -148,14 +152,19 @@ urlpatterns = [
 if settings.CASTELLUM_API_ENABLED:
     urlpatterns += [
         path('api/studies/<int:pk>/domains/', APIDomainsView.as_view()),
-        path('api/studies/<int:pk>/domains/<uuid:domain>/', APIPseudonymsView.as_view()),
-        path('api/studies/<int:pk>/domains/<uuid:domain>/<pseudonym>/', APIValidateView.as_view()),
+        path(
+            'api/studies/<int:pk>/domains/<uuid:domain>/', APIPseudonymsView.as_view()
+        ),
+        path(
+            'api/studies/<int:pk>/domains/<uuid:domain>/<pseudonym>/',
+            APIValidateView.as_view(),
+        ),
         path(
             'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/attributes/',
             APIAttributesView.as_view(),
         ),
         path(
-            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
+            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/', # noqa
             APIResolveView.as_view(),
         ),
     ]

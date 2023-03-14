@@ -214,13 +214,17 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             initial['contact_person'] = self.duplicate.contact_person
             initial['principal_investigator'] = self.duplicate.principal_investigator
             initial['affiliated_scientists'] = self.duplicate.affiliated_scientists
-            initial['affiliated_research_assistants'] = self.duplicate.affiliated_research_assistants  # noqa
+            initial['affiliated_research_assistants'] = (
+                self.duplicate.affiliated_research_assistants
+            )
             initial['phone'] = self.duplicate.phone
             initial['email'] = self.duplicate.email
             initial['description'] = self.duplicate.description
             initial['tags'] = list(self.duplicate.tags)
             initial['min_subject_count'] = self.duplicate.min_subject_count
-            initial['exportable_attributes'] = list(self.duplicate.exportable_attributes.all())
+            initial['exportable_attributes'] = list(
+                self.duplicate.exportable_attributes.all()
+            )
         return initial
 
     def get_context_data(self, **kwargs):
@@ -323,7 +327,9 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
                 f'Study {self.study.name} started by {self.request.user.pk}'
             )
 
-        return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
+        return redirect(
+            get_next_url(request, reverse('studies:detail', args=[self.study.pk]))
+        )
 
 
 class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
@@ -336,7 +342,9 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         else:
             self.study.set_status(self.study.FINISHED)
             self.study.participation_set.exclude(status=Participation.INVITED).delete()
-        return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
+        return redirect(
+            get_next_url(request, reverse('studies:detail', args=[self.study.pk]))
+        )
 
 
 class StudyDomainsMixin(StudyMixin, PermissionRequiredMixin):
@@ -346,7 +354,9 @@ class StudyDomainsMixin(StudyMixin, PermissionRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
+        context['general_domains_exist'] = (
+            Domain.objects.filter(object_id=None).exists()
+        )
         return context
 
 
@@ -358,7 +368,9 @@ class StudyDomainsView(StudyDomainsMixin, TemplateView):
         if self.request.POST.get('action') == 'add':
             self.study.domains.create(bits=settings.CASTELLUM_STUDY_DOMAIN_BITS)
         elif self.request.POST.get('action') == 'name':
-            domain = get_object_or_404(self.study.domains.all(), key=self.request.POST['domain'])
+            domain = get_object_or_404(
+                self.study.domains.all(), key=self.request.POST['domain']
+            )
             form_cls = modelform_factory(Domain, fields=['name'])
             form = form_cls(data=self.request.POST, instance=domain)
             if form.is_valid():
@@ -434,8 +446,12 @@ class StudyImportView(PermissionRequiredMixin, FormView):
             'name': json['name'],
             'contact_person': self.render_person(json.get('contact_person', {})),
             'email': json.get('contact_person', {}).get('email'),
-            'principal_investigator': self.render_person(json.get('principal_investigator', {})),
-            'affiliated_scientists': self.render_persons(json.get('affiliated_scientists', [])),
+            'principal_investigator': self.render_person(
+                json.get('principal_investigator', {})
+            ),
+            'affiliated_scientists': self.render_persons(
+                json.get('affiliated_scientists', [])
+            ),
             'affiliated_research_assistants': self.render_persons(
                 json.get('affiliated_research_assistants', [])
             ),
@@ -459,7 +475,9 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
         return response
 
 
-class StudyProtectedMediaView(StudyMixin, PermissionRequiredMixin, BaseProtectedMediaView):
+class StudyProtectedMediaView(
+    StudyMixin, PermissionRequiredMixin, BaseProtectedMediaView
+):
     permission_required = []
 
     def get_path(self):

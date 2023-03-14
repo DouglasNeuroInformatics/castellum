@@ -69,7 +69,9 @@ urlpatterns = [
         authentication_form=AuthenticationForm,
     ), name='login'),
     path('logout/', mfa_public(LogoutView.as_view()), name='logout'),
-    path('favicon.ico', mfa_public(public(RedirectView.as_view(url='/static/images/favicon.ico')))),
+    path('favicon.ico', mfa_public(public(
+        RedirectView.as_view(url='/static/images/favicon.ico')
+    ))),
     path('theme.css', mfa_public(public(TemplateView.as_view(
         template_name='bootstrap_theme.css',
         content_type='text/css',
@@ -78,17 +80,22 @@ urlpatterns = [
     path('feeds/', FeedsView.as_view(), name='feeds'),
 
     path('i18n/', mfa_public(set_language), name='set_language'),
-    path('jsi18n/', mfa_public(public(JavaScriptCatalog.as_view())), name='javascript-catalog'),
+    path('jsi18n/', mfa_public(public(
+        JavaScriptCatalog.as_view()
+    )), name='javascript-catalog'),
 
     path('admin/', admin.site.urls),
     path('studies/', include('castellum.studies.urls', namespace='studies')),
     path('subjects/', include('castellum.subjects.urls', namespace='subjects')),
     path('contacts/', include('castellum.contacts.urls', namespace='contacts')),
-    path('recruitment/', include('castellum.recruitment.urls', namespace='recruitment')),
+    path(
+        'recruitment/', include('castellum.recruitment.urls', namespace='recruitment')
+    ),
     path('execution/', include('castellum.execution.urls', namespace='execution')),
     path('', include('castellum.appointments.urls', namespace='appointments')),
     path(
-        'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
+        'data-protection/',
+        include('castellum.data_protection.urls', namespace='data_protection'),
     ),
     path('mfa/', include('mfa.urls', namespace='mfa')),
 ]

@@ -35,7 +35,9 @@ logger = logging.getLogger(__name__)
 
 
 class AppointmentsForm(forms.ModelForm):
-    send_notifications = forms.BooleanField(label=_('Notify conductors of changes'), required=False)
+    send_notifications = forms.BooleanField(
+        label=_('Notify conductors of changes'), required=False
+    )
 
     class Meta:
         model = Participation
@@ -60,7 +62,9 @@ class AppointmentsForm(forms.ModelForm):
             )
             self.fields['conductors-' + key] = (
                 Appointment._meta.get_field('assigned_conductors').formfield(
-                    initial=appointment.assigned_conductors.all() if appointment else [],
+                    initial=(
+                        appointment.assigned_conductors.all() if appointment else []
+                    ),
                     queryset=self.instance.study.studymembership_set.filter(
                         user_id__in=[u.pk for u in self.instance.study.conductors]
                     ),

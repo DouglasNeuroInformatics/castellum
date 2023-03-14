@@ -70,5 +70,7 @@ class RestrictedFileField(models.FileField):
     def formfield(self, **kwargs):
         kwargs.setdefault('form_class', RestrictedFileFormField)
         return super().formfield(
-            content_types=self.content_types, max_upload_size=self.max_upload_size, **kwargs
+            content_types=self.content_types,
+            max_upload_size=self.max_upload_size,
+            **kwargs
         )

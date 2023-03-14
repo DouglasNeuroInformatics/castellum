@@ -71,7 +71,9 @@ def test_multiple_choice_display(attribute_description):
 
 def test_multiple_choice_filter_display(attribute_description):
     field = attribute_fields.MultipleChoiceAttributeField(attribute_description)
-    assert field.get_filter_display('contains', [2, 1]) == 'Handedness contains Left, Right'
+    assert field.get_filter_display('contains', [2, 1]) == (
+        'Handedness contains Left, Right'
+    )
 
 
 def test_multiple_choice_filter(db):
@@ -83,7 +85,9 @@ def test_multiple_choice_filter(db):
     baker.make(Subject, attributes={description.json_key: [choice1.pk]})
     baker.make(Subject, attributes={description.json_key: [choice1.pk, choice2.pk]})
 
-    count = Subject.objects.filter(description.field.filter_to_q('contains', choice1.pk)).count()
+    count = Subject.objects.filter(
+        description.field.filter_to_q('contains', choice1.pk)
+    ).count()
     assert count == 2
 
 
@@ -96,7 +100,9 @@ def test_age_display(attribute_description):
 
 def test_age_filter_display(attribute_description):
     field = attribute_fields.AgeAttributeField(attribute_description)
-    assert field.get_filter_display('gt', (5, 'years')) == 'Handedness younger than 5 years'
+    assert field.get_filter_display('gt', (5, 'years')) == (
+        'Handedness younger than 5 years'
+    )
 
 
 def test_age_statistics_bucket(attribute_description, study):

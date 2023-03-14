@@ -47,7 +47,9 @@ def subjects_notify(subjects, base_url):
             if sent:
                 count += 1
                 # do not set updated_at
-                Subject.objects.filter(pk=subject.pk).update(to_be_deleted_notified=True)
+                Subject.objects.filter(pk=subject.pk).update(
+                    to_be_deleted_notified=True
+                )
     return count
 
 

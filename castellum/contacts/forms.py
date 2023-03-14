@@ -38,21 +38,37 @@ from .utils import is_phone_number
 class SubjectMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
         # Getting subject.contact is expensive (separate database).
-        # Since we only render the selected choices it makes sense to calculate it lazily.
+        # Since we only render the selected choices it makes sense to calculate it
+        # lazily.
         return lazy(lambda: obj.contact.full_name, str)
 
 
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = ['country', 'city', 'zip_code', 'street', 'house_number', 'additional_information']
+        fields = [
+            'country',
+            'city',
+            'zip_code',
+            'street',
+            'house_number',
+            'additional_information',
+        ]
         widgets = {
-            'country': DatalistWidget(datalist=(
-                Address.objects.order_by('country').values_list('country', flat=True).distinct
-            )),
-            'city': DatalistWidget(datalist=(
-                Address.objects.order_by('city').values_list('city', flat=True).distinct
-            )),
+            'country': DatalistWidget(
+                datalist=(
+                    Address.objects.order_by('country')
+                    .values_list('country', flat=True)
+                    .distinct
+                )
+            ),
+            'city': DatalistWidget(
+                datalist=(
+                    Address.objects.order_by('city')
+                    .values_list('city', flat=True)
+                    .distinct
+                )
+            ),
         }
 
 
@@ -83,15 +99,21 @@ class ContactForm(forms.ModelForm):
 
         if self.instance.has_legal_representative:
             self.fields['pane'].initial = 'legal_representatives'
-        elif any([self.instance.get_address(), self.instance.phone_number, self.instance.email]):
+        elif any([
+            self.instance.get_address(),
+            self.instance.phone_number,
+            self.instance.email,
+        ]):
             self.fields['pane'].initial = 'self'
 
         self.legal_representatives = self.get_legal_representatives_rm_choices(user)
         if user.has_perm('subjects.change_subject'):
-            self.fields['legal_representatives_remove'] = forms.ModelMultipleChoiceField(
-                Subject.objects, required=False
+            self.fields['legal_representatives_remove'] = (
+                forms.ModelMultipleChoiceField(Subject.objects, required=False)
             )
-            self.fields['legal_representatives_remove'].choices = self.legal_representatives
+            self.fields['legal_representatives_remove'].choices = (
+                self.legal_representatives
+            )
             self.fields['legal_representatives_add'] = SubjectMultipleChoiceField(
                 Subject.objects.filter(privacy_level__lte=user.get_privacy_level()),
                 required=False,
@@ -126,7 +148,9 @@ class ContactForm(forms.ModelForm):
                 for field, errors in address_form.errors.items():
                     self.address.add_error(field, errors)
 
-            raise ValidationError(_('Provide more details for the address.'), code='invalid')
+            raise ValidationError(
+                _('Provide more details for the address.'), code='invalid'
+            )
 
     def clean(self):
         cleaned_data = super().clean()
@@ -171,11 +195,13 @@ class ContactForm(forms.ModelForm):
 
         if self.cleaned_data.get('pane') == 'legal_representatives':
             contact.legal_representatives.remove(*[
-                s.contact for s in self.cleaned_data.get('legal_representatives_remove', [])
+                s.contact
+                for s in self.cleaned_data.get('legal_representatives_remove', [])
             ])
 
             contact.legal_representatives.add(*[
-                s.contact for s in self.cleaned_data.get('legal_representatives_add', [])
+                s.contact
+                for s in self.cleaned_data.get('legal_representatives_add', [])
             ])
         else:
             contact.legal_representatives.set([])
@@ -206,10 +232,9 @@ class SearchForm(forms.Form):
                 names.append(part)
 
         if not (len(names) > 1 or phone_numbers or emails):
-            self.add_error(
-                'search',
-                _('At least full name, phone number or email address have to be provided'),
-            )
+            self.add_error('search', _(
+                'At least full name, phone number or email address have to be provided'
+            ))
 
         cleaned_data['first_name'] = names[0] if names else ''
         cleaned_data['last_name'] = ' '.join(names[1:])

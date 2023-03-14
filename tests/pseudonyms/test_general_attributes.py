@@ -31,7 +31,9 @@ def test_general_domain(client, user, conductor, study_in_execution_status, subj
     assert b'This subject may still have data in general domains.' in response.content
 
 
-def test_general_domain_not_in_study(client, conductor, study_in_execution_status, subject):
+def test_general_domain_not_in_study(
+    client, conductor, study_in_execution_status, subject
+):
     domain = baker.make(Domain)
     participation = baker.make(
         Participation,
@@ -50,7 +52,9 @@ def test_general_domain_not_in_study(client, conductor, study_in_execution_statu
     assert response.status_code == 404
 
 
-def test_general_domain_not_in_user(client, conductor, study_in_execution_status, subject):
+def test_general_domain_not_in_user(
+    client, conductor, study_in_execution_status, subject
+):
     domain = baker.make(Domain)
     participation = baker.make(
         Participation,

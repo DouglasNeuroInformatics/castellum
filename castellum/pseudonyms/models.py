@@ -34,7 +34,9 @@ class Domain(models.Model):
     name = models.CharField(max_length=64, blank=True)
     bits = models.PositiveIntegerField(default=40)
 
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, null=True, blank=True
+    )
     object_id = models.PositiveIntegerField(null=True, blank=True)
     context = GenericForeignKey()
 
@@ -59,7 +61,9 @@ class Domain(models.Model):
 
 
 class Pseudonym(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
+    subject = models.ForeignKey(
+        Subject, on_delete=models.SET_NULL, blank=True, null=True
+    )
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
     pseudonym = models.CharField(max_length=64, default=None)
 

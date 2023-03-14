@@ -37,7 +37,9 @@ class Command(BaseCommand):
         today = datetime.date.today()
 
         full_age_contacts = Contact.objects.filter(
-            date_of_birth__lt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE + 2),
+            date_of_birth__lt=(
+                today - relativedelta(years=settings.CASTELLUM_FULL_AGE + 2)
+            )
         )
         full_age_subjects = Subject.objects.filter(
             filter_queries.uuid_filter(full_age_contacts),

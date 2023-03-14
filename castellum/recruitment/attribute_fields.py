@@ -171,7 +171,9 @@ class BaseChoiceAttributeField(BaseAttributeField):
         return [(c.pk, c.label) for c in qs]
 
     def formfield(self, form_class=None, **kwargs):
-        return super().formfield(form_class=form_class, choices=self.get_choices(), **kwargs)
+        return super().formfield(
+            form_class=form_class, choices=self.get_choices(), **kwargs
+        )
 
     def get_display(self, value):
         if value in ['', None, ANSWER_DECLINED]:
@@ -185,7 +187,8 @@ class BaseChoiceAttributeField(BaseAttributeField):
 
     def get_statistics_grouping(self, study):
         buckets = [
-            (choice.pk, choice.label) for choice in self.description.attributechoice_set.all()
+            (choice.pk, choice.label)
+            for choice in self.description.attributechoice_set.all()
         ] + [
             (None, _('Other')),
         ]
@@ -287,7 +290,10 @@ class AgeAttributeField(DateAttributeField):
                 operator='gt', description=self.description
             ))
             if filters:
-                dates = [today - relativedelta(**{f.value[1]: f.value[0]}) for f in filters]
+                dates = [
+                    today - relativedelta(**{f.value[1]: f.value[0]})
+                    for f in filters
+                ]
                 # Filters within a group are combined with AND.
                 total.append(max(dates))
             else:
@@ -334,7 +340,10 @@ class AgeAttributeField(DateAttributeField):
             value = self.parse_date(value)
             today = datetime.date.today()
             for period, _label in buckets:
-                if period is math.inf or today - relativedelta(**{scale: period + 1}) < value:
+                if (
+                    period is math.inf
+                    or today - relativedelta(**{scale: period + 1}) < value
+                ):
                     return period
 
         return [*buckets, (None, _('Other'))], get_bucket

@@ -131,7 +131,11 @@ def test_create(request, client, user_fixture):
         'privacy_level': 0,
     })
     assert response.status_code == 302
-    qs = Contact.objects.filter(first_name='foo', last_name='bar', email='foo@example.com')
+    qs = Contact.objects.filter(
+        first_name='foo',
+        last_name='bar',
+        email='foo@example.com',
+    )
     assert qs.exists()
     assert qs.get().subject.privacy_level == 0
 

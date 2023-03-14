@@ -24,7 +24,9 @@ def test_last_contacted_elsewhere():
         participation_2.status = Participation.NOT_REACHED
         participation_2.save()
 
-    participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
+    participation_1 = Participation.objects.with_sort_properties().get(
+        pk=participation_1.pk
+    )
     assert participation_1.last_contacted_elsewhere == participation_2.updated_at
 
 
@@ -48,7 +50,9 @@ def test_last_contacted_elsewhere_several_others():
     with freeze_time('2021-11-11 11:11'):
         participation_2.save()
 
-    participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
+    participation_1 = Participation.objects.with_sort_properties().get(
+        pk=participation_1.pk
+    )
     assert participation_1.last_contacted_elsewhere == participation_2.updated_at
 
 
@@ -67,7 +71,9 @@ def test_last_contacted_elsewhere_no_others():
     with freeze_time('2021-11-11 11:11'):
         participation_1.save()
 
-    participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
+    participation_1 = Participation.objects.with_sort_properties().get(
+        pk=participation_1.pk
+    )
     assert participation_1.last_contacted_elsewhere is None
 
 
@@ -91,7 +97,9 @@ def test_last_contacted_elsewhere_several_studies():
         participation_3.status = Participation.NOT_REACHED
         participation_3.save()
 
-    participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
+    participation_1 = Participation.objects.with_sort_properties().get(
+        pk=participation_1.pk
+    )
     assert participation_1.last_contacted_elsewhere == participation_3.updated_at
 
 
@@ -109,16 +117,16 @@ def test_last_contacted_elsewhere_not_contacted():
         participation_2.status = Participation.NOT_CONTACTED
         participation_2.save()
 
-    participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
+    participation_1 = Participation.objects.with_sort_properties().get(
+        pk=participation_1.pk
+    )
     assert participation_1.last_contacted_elsewhere is None
 
 
 @pytest.mark.django_db
 def test_attempts():
     with freeze_time('1970-01-01 12:00'):
-        participation = baker.make(
-            Participation, status=Participation.NOT_REACHED
-        )
+        participation = baker.make(Participation, status=Participation.NOT_REACHED)
 
     with freeze_time('1970-01-02 12:00'):
         participation.status = Participation.INVITED
@@ -132,23 +140,27 @@ def test_attempts():
         participation.status = Participation.NOT_REACHED
         participation.save()
 
-    participation = Participation.objects.with_sort_properties().get(pk=participation.pk)
+    participation = Participation.objects.with_sort_properties().get(
+        pk=participation.pk
+    )
     assert participation.attempts == 2
 
 
 @pytest.mark.django_db
 def test_attempts_single_revision():
-    participation = baker.make(
-        Participation, status=Participation.AWAITING_RESPONSE
+    participation = baker.make(Participation, status=Participation.AWAITING_RESPONSE)
+    participation = Participation.objects.with_sort_properties().get(
+        pk=participation.pk
     )
-    participation = Participation.objects.with_sort_properties().get(pk=participation.pk)
     assert participation.attempts == 1
 
 
 @pytest.mark.django_db
 def test_assigned_to_me(user):
     participation = baker.make(Participation, assigned_recruiter__user=user)
-    participation = Participation.objects.with_assigned_to_me(user).get(pk=participation.pk)
+    participation = Participation.objects.with_assigned_to_me(user).get(
+        pk=participation.pk
+    )
     assert participation.assigned_to_me == 1
 
 

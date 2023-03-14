@@ -52,7 +52,9 @@ class ResourceDetailView(LoginRequiredMixin, BaseCalendarView):
         )
 
     def render_appointment(self, appointment):
-        if self.request.user.has_privacy_level(appointment.participation.subject.privacy_level):
+        if self.request.user.has_privacy_level(
+            appointment.participation.subject.privacy_level
+        ):
             name = appointment.participation.subject.contact.full_name
         else:
             name = _('(insufficient privacy level)')
@@ -72,4 +74,6 @@ class ResourceDetailView(LoginRequiredMixin, BaseCalendarView):
     def get_events(self):
         start = datetime.datetime.fromisoformat(self.request.GET['start'])
         end = datetime.datetime.fromisoformat(self.request.GET['end'])
-        return super().get_events() + get_external_resource_events(self.object, start, end)
+        return super().get_events() + get_external_resource_events(
+            self.object, start, end
+        )

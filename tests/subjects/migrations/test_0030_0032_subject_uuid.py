@@ -15,7 +15,9 @@ def test_keep_foreign_key(migrator):
     subject = baker.make(Subject)
     consent = baker.make(Consent, subject=subject)
 
-    new_state = migrator.apply_tested_migration(('subjects', '0032_subject_uuid_foreign_key'))
+    new_state = migrator.apply_tested_migration(
+        ('subjects', '0032_subject_uuid_foreign_key')
+    )
     Subject = new_state.apps.get_model('subjects', 'Subject')
     Consent = new_state.apps.get_model('subjects', 'Consent')
     subject = Subject.objects.first()
@@ -38,7 +40,9 @@ def test_keep_m2m(migrator):
     study_type = baker.make(StudyType)
     subject.study_type_disinterest.add(study_type)
 
-    new_state = migrator.apply_tested_migration(('subjects', '0032_subject_uuid_foreign_key'))
+    new_state = migrator.apply_tested_migration(
+        ('subjects', '0032_subject_uuid_foreign_key')
+    )
     Subject = new_state.apps.get_model('subjects', 'Subject')
     StudyType = new_state.apps.get_model('studies', 'StudyType')
     subject = Subject.objects.first()

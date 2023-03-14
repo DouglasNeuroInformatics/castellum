@@ -108,7 +108,9 @@ def test_404_if_study_in_edit_status(client, user):
     assert response.status_code == 404
 
 
-def test_remind_updates_participations(subject, study_in_execution_status, client, user):
+def test_remind_updates_participations(
+    subject, study_in_execution_status, client, user
+):
     now = timezone.now()
     client.force_login(user)
 

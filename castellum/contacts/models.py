@@ -63,7 +63,10 @@ class ContactQuerySet(models.QuerySet):
         return q
 
     def full_name_is_matched(self, parts):
-        return self.name_is_matched(parts, 'first') & self.name_is_matched(parts, 'last')
+        return (
+            self.name_is_matched(parts, 'first')
+            & self.name_is_matched(parts, 'last')
+        )
 
     def phone_number_is_matched(self, parts):
         q = models.Q()
@@ -299,7 +302,9 @@ class Address(models.Model):
     )
 
     def lines(self):
-        line1 = ' '.join([self.street, self.house_number, self.additional_information]).strip()
+        line1 = ' '.join(
+            [self.street, self.house_number, self.additional_information]
+        ).strip()
         line2 = f'{self.zip_code} {self.city}'
         return line1, line2
 
@@ -308,7 +313,12 @@ class Address(models.Model):
 
     class Meta:
         ordering = [
-            'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'
+            'country',
+            'city',
+            'zip_code',
+            'street',
+            'house_number',
+            'additional_information',
         ]
         verbose_name = _('Address')
         verbose_name_plural = _('Addresses')

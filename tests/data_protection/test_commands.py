@@ -3,9 +3,12 @@ from django.utils import timezone
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
-from castellum.data_protection.management.commands.cleanup_dashboards import delete_no_legal_basis
-from castellum.data_protection.management.commands.cleanup_dashboards import delete_to_be_deleted
-from castellum.data_protection.management.commands.cleanup_dashboards import delete_unreachable
+from castellum.data_protection.management.commands.cleanup_dashboards import \
+    delete_no_legal_basis
+from castellum.data_protection.management.commands.cleanup_dashboards import \
+    delete_to_be_deleted
+from castellum.data_protection.management.commands.cleanup_dashboards import \
+    delete_unreachable
 from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 

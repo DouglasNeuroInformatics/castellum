@@ -48,7 +48,11 @@ urlpatterns = [
     path('followups/', FollowUpFeedForUser.as_view(), name='followups-user-feed'),
     path('resources/<int:pk>/', ResourceFeed.as_view(), name='resource-feed'),
     path('<int:study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
-    path('<int:study_pk>/invited/', RecruitmentViewInvited.as_view(), name='recruitment-invited'),
+    path(
+        '<int:study_pk>/invited/',
+        RecruitmentViewInvited.as_view(),
+        name='recruitment-invited',
+    ),
     path(
         '<int:study_pk>/unsuitable/',
         RecruitmentViewUnsuitable.as_view(),
@@ -68,7 +72,11 @@ urlpatterns = [
     path('<int:study_pk>/cleanup/', RecruitmentCleanupView.as_view(), name='cleanup'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
     path('<int:pk>/calendar/feed/', AppointmentFeed.as_view(), name='calendar-feed'),
-    path('<int:study_pk>/followups/', FollowUpFeedForStudy.as_view(), name='followups-feed'),
+    path(
+        '<int:study_pk>/followups/',
+        FollowUpFeedForStudy.as_view(),
+        name='followups-feed',
+    ),
     path('<int:study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
     path('<int:study_pk>/<int:pk>/exclude/', ExcludeView.as_view(), name='exclude'),
     path('<int:study_pk>/<int:pk>/report/', ReportView.as_view(), name='report'),

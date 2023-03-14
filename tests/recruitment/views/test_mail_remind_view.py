@@ -23,7 +23,9 @@ def test_mail_remind(client, member, study_in_execution_status):
     assert response.status_code == 302
 
 
-def test_mail_remind_sends_mail(client, member, study_in_execution_status, participation):
+def test_mail_remind_sends_mail(
+    client, member, study_in_execution_status, participation
+):
     study_in_execution_status.mail_body = 'test'
     study_in_execution_status.save()
     batch = baker.make(MailBatch, study=study_in_execution_status)

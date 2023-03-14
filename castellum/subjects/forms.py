@@ -73,8 +73,8 @@ class DataProtectionForm(forms.ModelForm):
         if cleaned_data.get('to_be_deleted') and self.instance.has_consent:
             raise ValidationError(
                 _(
-                    'Subjects can either be marked for deletion or have recruitment consent, '
-                    'not both.'
+                    'Subjects can either be marked for deletion or have '
+                    'recruitment consent, not both.'
                 ),
                 code='invalid',
             )
@@ -136,6 +136,9 @@ class AdditionalInfoForm(forms.ModelForm):
         ]
         widgets = {
             'source': DatalistWidget(datalist=(
-                Subject.objects.order_by('source').values_list('source', flat=True).distinct
+                Subject.objects
+                .order_by('source')
+                .values_list('source', flat=True)
+                .distinct
             )),
         }

@@ -90,7 +90,9 @@ def send_appointment_reminders(base_url):
 
             if not_reachable:
                 with MailContext('internal', ctx.connection) as internal_ctx:
-                    send_mail_to_study_conductors(study, not_reachable, base_url, internal_ctx)
+                    send_mail_to_study_conductors(
+                        study, not_reachable, base_url, internal_ctx
+                    )
 
             due_appointments.update(reminded=True)
 
@@ -104,7 +106,9 @@ class Command(BaseCommand):
         parser.add_argument('base_url')
 
     def handle(self, *args, **options):
-        reached_count, not_reached_count = send_appointment_reminders(options['base_url'])
+        reached_count, not_reached_count = send_appointment_reminders(
+            options['base_url']
+        )
         if options['verbosity'] > 0:
             self.stdout.write(f'Direct appointment reminders: {reached_count}')
             self.stdout.write(f'Indirect appointment reminders: {not_reached_count}')

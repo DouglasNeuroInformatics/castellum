@@ -86,7 +86,10 @@ class SchedulerFetchStudyMixin:
 
 
 class BaseAppointmentsUpdateView(
-    SchedulerFetchParticipationMixin, ParticipationMixin, PermissionRequiredMixin, UpdateView
+    SchedulerFetchParticipationMixin,
+    ParticipationMixin,
+    PermissionRequiredMixin,
+    UpdateView,
 ):
     model = Participation
     form_class = AppointmentsForm

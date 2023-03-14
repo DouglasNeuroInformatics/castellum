@@ -58,7 +58,8 @@ from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import ReliabilityEntry
-from castellum.recruitment.templatetags.recruitment import study_legal_representative_hash
+from castellum.recruitment.templatetags.recruitment import \
+    study_legal_representative_hash
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
@@ -90,7 +91,9 @@ class ParticipationListView(
             .with_appointment_count()
             .filter(status=Participation.INVITED)
             .prefetch_related(
-                models.Prefetch('subject', queryset=Subject.objects.annotate_reliability())
+                models.Prefetch(
+                    'subject', queryset=Subject.objects.annotate_reliability()
+                )
             )
         )
 
@@ -102,7 +105,9 @@ class ParticipationListView(
         elif sort and sort.startswith('tag-'):
             try:
                 tag = self.study.executiontag_set.get(pk=sort[4:])
-                qs = qs.alias(has_tag=models.Count('pk', filter=models.Q(execution_tags=tag)))
+                qs = qs.alias(
+                    has_tag=models.Count('pk', filter=models.Q(execution_tags=tag))
+                )
                 qs = qs.order_by('-has_tag')
             except ExecutionTag.DoesNotExist:
                 pass
@@ -176,10 +181,14 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         return response
 
     def get(self, request, **kwargs):
-        if not request.user.has_privacy_level(self.study.get_invited_max_privacy_level()):
+        if not request.user.has_privacy_level(
+            self.study.get_invited_max_privacy_level()
+        ):
             raise PermissionDenied
         if 'domain' in self.request.GET:
-            domain = get_object_or_404(self.study.domains.all(), key=self.request.GET['domain'])
+            domain = get_object_or_404(
+                self.study.domains.all(), key=self.request.GET['domain']
+            )
             return self.export(domain)
         elif self.study.domains.count() == 1:
             domain = self.study.domains.get()
@@ -299,7 +308,9 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
-        form.fields['execution_tags'].queryset = ExecutionTag.objects.filter(study=self.study)
+        form.fields['execution_tags'].queryset = ExecutionTag.objects.filter(
+            study=self.study
+        )
         form.fields['was_reliable'] = forms.TypedChoiceField(
             label=_('Reliability'),
             help_text=_('Give other recruiters a hint about this subject!'),
@@ -309,8 +320,8 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
             choices=[
                 (True, _('I would invite this subject again for further studies')),
                 (False, _(
-                    'There were issues with this subject (e.g. they did not show up for '
-                    'appointments without prior notice)'
+                    'There were issues with this subject (e.g. they did not show '
+                    'up for appointments without prior notice)'
                 )),
             ],
         )
@@ -345,7 +356,10 @@ class ParticipationConsentUpdateView(ParticipationDetailMixin, UpdateView):
 
 
 class ParticipationAppointmentsUpdateView(BaseAppointmentsUpdateView):
-    permission_required = ['recruitment.conduct_study', 'appointments.change_appointment']
+    permission_required = [
+        'recruitment.conduct_study',
+        'appointments.change_appointment',
+    ]
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
     base_template = 'execution/participation_base.html'
@@ -366,7 +380,9 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
 
     def form_valid(self, form):
         try:
-            subject = get_subject(form.cleaned_data['domain'], form.cleaned_data['pseudonym'])
+            subject = get_subject(
+                form.cleaned_data['domain'], form.cleaned_data['pseudonym']
+            )
             participation = Participation.objects.filter(
                 study=self.study,
                 subject=subject,
@@ -375,7 +391,9 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
             monitoring_logger.info('Pseudonym resolved: domain {} by {}'.format(
                 form.cleaned_data['domain'], self.request.user.pk
             ))
-            return redirect('execution:participation-detail', self.study.pk, participation.pk)
+            return redirect(
+                'execution:participation-detail', self.study.pk, participation.pk
+            )
         except ObjectDoesNotExist:
             messages.warning(self.request, _('No match found'))
             return self.render_to_response(self.get_context_data(form=form))
@@ -408,7 +426,9 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
         )
 
     def send_summary(self, succeeded, failed, form):
-        postal = list(self.study.participation_set.filter(news_interest=Participation.VIA_POSTAL))
+        postal = list(
+            self.study.participation_set.filter(news_interest=Participation.VIA_POSTAL)
+        )
 
         body = f'You sent news emails to {len(succeeded)} subjects.'
 
@@ -463,10 +483,14 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
         if 'testmail' in form.data:
             return self.send_test_mail(form)
 
-        interested = self.study.participation_set.filter(news_interest=Participation.VIA_EMAIL)
+        interested = self.study.participation_set.filter(
+            news_interest=Participation.VIA_EMAIL
+        )
 
         if interested.count() == 0:
-            messages.warning(self.request, _('None of the subjects signed up for news emails.'))
+            messages.warning(
+                self.request, _('None of the subjects signed up for news emails.')
+            )
             return self.form_invalid(form)
 
         succeeded = []
@@ -542,7 +566,9 @@ class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateVie
         return self.participation.subject
 
     def get_subject_media_url(self, path):
-        return reverse('execution-media', args=[self.study.pk, self.participation.pk, path])
+        return reverse(
+            'execution-media', args=[self.study.pk, self.participation.pk, path]
+        )
 
 
 class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
@@ -559,7 +585,8 @@ class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
 
     def get_success_url(self):
         return reverse(
-            'execution:data-protection-update', args=[self.study.pk, self.participation.pk]
+            'execution:data-protection-update',
+            args=[self.study.pk, self.participation.pk],
         )
 
 
@@ -570,7 +597,9 @@ class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateVie
         return self.participation.subject
 
 
-class CalendarView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, BaseCalendarView):
+class CalendarView(
+    SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, BaseCalendarView
+):
     model = Study
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
@@ -578,7 +607,9 @@ class CalendarView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin
     tab = 'calendar'
 
     def render_appointment(self, appointment):
-        if self.request.user.has_privacy_level(appointment.participation.subject.privacy_level):
+        if self.request.user.has_privacy_level(
+            appointment.participation.subject.privacy_level
+        ):
             name = appointment.participation.subject.contact.full_name
             for tag in appointment.participation.execution_tags.all():
                 name += f' #{tag}'
@@ -586,7 +617,9 @@ class CalendarView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin
             name = _('(insufficient privacy level)')
         title = f'{name} - {appointment.session.name}'
 
-        assignees = ', '.join(str(c.user) for c in appointment.assigned_conductors.all())
+        assignees = ', '.join(
+            str(c.user) for c in appointment.assigned_conductors.all()
+        )
         if assignees:
             title = f'{title} ({assignees})'
 
@@ -603,7 +636,9 @@ class CalendarView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin
         return super().get_appointments().filter(session__study=self.object)
 
 
-class ProgressView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, ListView):
+class ProgressView(
+    SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, ListView
+):
     model = Study
     template_name = 'execution/study_progress.html'
     permission_required = 'recruitment.conduct_study'
@@ -654,7 +689,9 @@ class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['forms'] = [self.get_form(tag) for tag in self.study.executiontag_set.all()]
+        context['forms'] = [
+            self.get_form(tag) for tag in self.study.executiontag_set.all()
+        ]
         context['create_form'] = self.get_form()
 
         return context
@@ -672,7 +709,9 @@ class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
             return self.form_invalid()
 
         if 'id' in request.POST:
-            tag = get_object_or_404(ExecutionTag, pk=request.POST['id'], study=self.study)
+            tag = get_object_or_404(
+                ExecutionTag, pk=request.POST['id'], study=self.study
+            )
         else:
             tag = None
 
@@ -691,7 +730,9 @@ class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
             return redirect('execution:execution-tags', self.study.pk)
 
 
-class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
+class LegalRepresentativeContactUpdateView(
+    StudyMixin, SubjectMixin, BaseContactUpdateView
+):
     base_template = 'execution/base.html'
     study_status = [Study.EXECUTION]
 
@@ -717,8 +758,12 @@ class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContact
         if not self.request.user.has_privacy_level(participation.subject.privacy_level):
             return self.handle_no_permission()
 
-        for legal_representative in participation.subject.contact.legal_representatives.all():
-            h = study_legal_representative_hash(self.study, legal_representative.subject)
+        for legal_representative in (
+            participation.subject.contact.legal_representatives.all()
+        ):
+            h = study_legal_representative_hash(
+                self.study, legal_representative.subject
+            )
             if h == self.kwargs['hash']:
                 return legal_representative
 
@@ -733,7 +778,8 @@ class ReportView(ParticipationMixin, BaseReportView):
 
     def get_success_url(self):
         return reverse(
-            'execution:participation-detail', args=[self.study.pk, self.participation.pk]
+            'execution:participation-detail',
+            args=[self.study.pk, self.participation.pk],
         )
 
 

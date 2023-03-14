@@ -57,7 +57,9 @@ def get_no_legal_basis():
     subjects = (
         Subject.objects
         .alias(has_study_consent=exists(participations, subject=models.OuterRef('pk')))
-        .exclude(pk__in=Subject.objects.filter(filter_queries.has_consent(include_waiting=True)))
+        .exclude(pk__in=Subject.objects.filter(
+            filter_queries.has_consent(include_waiting=True))
+        )
         .exclude(blocked=True, deceased=False)
         .exclude(has_study_consent=True)
     )
@@ -90,12 +92,13 @@ def get_unreachable():
 
 def get_unnecessary_recruitment_data():
     completeness, _total = filter_queries.completeness_expr()
+    min_completenes = 1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0
     return (
         Subject.objects
         .alias(completeness=completeness)
         .exclude(filter_queries.has_consent(include_waiting=True))
         .filter(
-            models.Q(completeness__gt=1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0)
+            models.Q(completeness__gt=min_completenes)
             | ~models.Q(study_type_disinterest=None)
         )
     )

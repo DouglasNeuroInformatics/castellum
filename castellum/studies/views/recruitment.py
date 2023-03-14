@@ -61,7 +61,9 @@ def get_related_studies(study):
     )
 
 
-class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
+class StudyRecruitmentSettingsUpdateView(
+    StudyMixin, PermissionRequiredMixin, UpdateView
+):
     model = Study
     pk_url_kwarg = 'study_pk'
     fields = [

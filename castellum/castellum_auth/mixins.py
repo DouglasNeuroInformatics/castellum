@@ -45,7 +45,9 @@ class PermissionRequiredMixin(auth_mixins.PermissionRequiredMixin):
         if not self.check_auth_conditions():
             return self.handle_no_permission()
         # skip auth_mixins.PermissionRequiredMixin
-        return super(auth_mixins.PermissionRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super(auth_mixins.PermissionRequiredMixin, self).dispatch(
+            request, *args, **kwargs
+        )
 
 
 class APIAuthMixin(StrongholdPublicMixin):

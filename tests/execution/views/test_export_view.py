@@ -40,7 +40,9 @@ def test_multi_domain(client, conductor, study_in_execution_status):
 
 
 def test_multi_domain_given(client, conductor, study_in_execution_status):
-    baker.make(Participation, study=study_in_execution_status, status=Participation.INVITED)
+    baker.make(
+        Participation, study=study_in_execution_status, status=Participation.INVITED
+    )
     baker.make(Domain, context=study_in_execution_status)
     domain2 = baker.make(Domain, context=study_in_execution_status)
 
@@ -61,7 +63,9 @@ def test_multi_domain_given_invalid(client, conductor, study_in_execution_status
     baker.make(Domain, context=study_in_execution_status)
 
     client.force_login(conductor)
-    url = '/execution/{}/export/?domain={}'.format(study_in_execution_status.pk, 'invalid')
+    url = '/execution/{}/export/?domain={}'.format(
+        study_in_execution_status.pk, 'invalid'
+    )
     response = client.get(url)
 
     assert response.status_code == 404

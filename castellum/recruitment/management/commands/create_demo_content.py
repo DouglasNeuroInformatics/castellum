@@ -45,7 +45,9 @@ fake = Faker('de_DE')
 
 @functools.lru_cache(maxsize=1)
 def get_highest_degree_choices():
-    return AttributeChoice.objects.filter(description__pk=4).values_list('pk', flat=True)
+    return AttributeChoice.objects.filter(description__pk=4).values_list(
+        'pk', flat=True
+    )
 
 
 def fake_date_of_birth():
@@ -112,11 +114,15 @@ def fake_language():
 
 
 def fake_subject():
-    return Subject(privacy_level=fake.random.randint(0, 2), attributes=fake_attributes())
+    return Subject(
+        privacy_level=fake.random.randint(0, 2), attributes=fake_attributes()
+    )
 
 
 def fake_studysession(study):
-    return StudySession(study=study, name=fake.word(), duration=fake.random.randrange(10, 120, 10))
+    return StudySession(
+        study=study, name=fake.word(), duration=fake.random.randrange(10, 120, 10)
+    )
 
 
 def fake_study():
@@ -230,9 +236,9 @@ def generate_studies(count, stdout):
 
 
 def generate_subjects(count, stdout):
-    # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
-    # the id on the instances, so we have to get them from the database after bulk_create. This
-    # assumes that the database was empty before.
+    # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does
+    # not set the id on the instances, so we have to get them from the database after
+    # bulk_create. This assumes that the database was empty before.
 
     stdout.write('Generating subjects')
     Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)

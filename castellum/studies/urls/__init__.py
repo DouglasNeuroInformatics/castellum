@@ -46,12 +46,20 @@ app_name = 'studies'
 urlpatterns = [
     path('', StudyIndexView.as_view(), name='index'),
     path('create/', StudyCreateView.as_view(), name='create'),
-    path('create/filtertrial/', FilterTrialCreateView.as_view(), name='create-filter-trial'),
+    path(
+        'create/filtertrial/',
+        FilterTrialCreateView.as_view(),
+        name='create-filter-trial',
+    ),
     path('<int:pk>/', StudyDetailView.as_view(), name='detail'),
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
     path('<int:pk>/domains/', StudyDomainsView.as_view(), name='domains'),
-    path('<int:pk>/domains/general/', StudyDomainsGeneralView.as_view(), name='domains-general'),
+    path(
+        '<int:pk>/domains/general/',
+        StudyDomainsGeneralView.as_view(),
+        name='domains-general',
+    ),
     path('<int:pk>/consent/', StudyConsentView.as_view(), name='consent'),
     path(
         '<int:study_pk>/domains/<uuid:key>/',

@@ -31,13 +31,18 @@ from ..models import Participation
 class SubjectFilterGroupManager(models.Manager):
     def clone(self, original_group):
         cloned_group = SubjectFilterGroup.objects.create(study=original_group.study)
-        SubjectFilter.objects.bulk_create(self.clone_filters(original_group, cloned_group))
+        SubjectFilter.objects.bulk_create(
+            self.clone_filters(original_group, cloned_group)
+        )
         return cloned_group
 
     def clone_filters(self, original_group, cloned_group):
         for f in original_group.subjectfilter_set.all():
             yield SubjectFilter(
-                group=cloned_group, description=f.description, operator=f.operator, value=f.value
+                group=cloned_group,
+                description=f.description,
+                operator=f.operator,
+                value=f.value,
             )
 
 
@@ -73,4 +78,6 @@ class SubjectFilter(models.Model):
         return self.description.field.get_filter_display(self.operator, self.value)
 
     def to_q(self, include_unknown=True):
-        return self.description.field.filter_to_q(self.operator, self.value, include_unknown)
+        return self.description.field.filter_to_q(
+            self.operator, self.value, include_unknown
+        )

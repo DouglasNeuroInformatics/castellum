@@ -1,7 +1,9 @@
 import pytest
 
 
-def test_api_study_list_view(client, user, study_in_execution_status, study_in_edit_status):
+def test_api_study_list_view(
+    client, user, study_in_execution_status, study_in_edit_status
+):
     url = '/studies/api/studies/'
     response = client.get(url, HTTP_AUTHORIZATION='token ' + user.token)
 

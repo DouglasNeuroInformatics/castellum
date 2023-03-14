@@ -73,7 +73,9 @@ class DateTimeInput(forms.SplitDateTimeWidget):
         if time_attrs:
             time_defaults.update(time_attrs)
 
-        super().__init__(date_format='%Y-%m-%d', date_attrs=date_defaults, time_attrs=time_defaults)
+        super().__init__(
+            date_format='%Y-%m-%d', date_attrs=date_defaults, time_attrs=time_defaults
+        )
 
 
 class ColorField(forms.CharField):
@@ -206,7 +208,8 @@ class JsonFileValidator:
         errors = list(validator.iter_errors(data))
         if errors:
             raise ValidationError([
-                ValidationError(self.format_error(error), code='schema') for error in errors
+                ValidationError(self.format_error(error), code='schema')
+                for error in errors
             ])
 
         return data

@@ -98,7 +98,9 @@ class ParticipationQuerySet(models.QuerySet):
                 'subject__participation__updated_at',
                 filter=(
                     ~models.Q(subject__participation__study=models.F('study'))
-                    & ~models.Q(subject__participation__status=Participation.NOT_CONTACTED)
+                    & ~models.Q(
+                        subject__participation__status=Participation.NOT_CONTACTED
+                    )
                 ),
             ),
             recent_participation_count=models.Count(
@@ -112,11 +114,15 @@ class ParticipationQuerySet(models.QuerySet):
         )
 
     def with_appointment_count(self):
-        return self.annotate(appointment_count=models.Count('appointment', distinct=True))
+        return self.annotate(
+            appointment_count=models.Count('appointment', distinct=True)
+        )
 
     def with_assigned_to_me(self, user):
         return self.annotate(
-            assigned_to_me=models.Count('id', filter=models.Q(assigned_recruiter__user=user)),
+            assigned_to_me=models.Count(
+                'id', filter=models.Q(assigned_recruiter__user=user)
+            ),
         )
 
 
@@ -150,8 +156,12 @@ class Participation(models.Model):
         'excluded_by_cleanup': _(
             'The subject has been excluded through the bulk cleanup feature.'
         ),
-        'recently_active': _('The subject has recently been in contact with our institute.'),
-        'recently_contacted': _('The subject was recently contacted in another recruitment.'),
+        'recently_active': _(
+            'The subject has recently been in contact with our institute.'
+        ),
+        'recently_contacted': _(
+            'The subject was recently contacted in another recruitment.'
+        ),
         'pseudonyms_deleted': _(
             'It is no longer possible to know which dataset belongs to this subject'
         ),
@@ -160,11 +170,14 @@ class Participation(models.Model):
             NOT_REACHED: _('The last contact attempt has failed.'),
             UNSUITABLE: _('The subject will not participate in the study.'),
             INVITED: _('The subject has agreed to participate in the study.'),
-            FOLLOWUP_APPOINTED: _('The subject has agreed on a date and time for a follow-up.'),
-            AWAITING_RESPONSE: _(
-                'The subject has been contacted (e.g. by email) but has not yet responded.'
+            FOLLOWUP_APPOINTED: _(
+                'The subject has agreed on a date and time for a follow-up.'
             ),
-        }
+            AWAITING_RESPONSE: _(
+                'The subject has been contacted (e.g. by email) but has not yet '
+                'responded.'
+            ),
+        },
     }
 
     created_at = DateTimeField(_('Created at'), auto_now_add=True)
@@ -173,13 +186,19 @@ class Participation(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
     batch = models.ForeignKey(
-        MailBatch, verbose_name=_('Mail batch'), blank=True, null=True, on_delete=models.SET_NULL
+        MailBatch,
+        verbose_name=_('Mail batch'),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
     )
 
     status = models.IntegerField(
         _('Status of participation'), choices=STATUS_OPTIONS, default=NOT_CONTACTED
     )
-    exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
+    exclusion_criteria_checked = models.BooleanField(
+        _('Subject may be suitable'), default=False
+    )
     dropped_out = models.BooleanField(_('Dropped out'), default=False)
     excluded_by_cleanup = models.BooleanField(_('Excluded by cleanup'), default=False)
 
@@ -189,7 +208,9 @@ class Participation(models.Model):
     followup_time = models.TimeField(_('Follow-up time'), blank=True, null=True)
 
     news_interest = models.IntegerField(
-        _('Interest in study news'), choices=NEWS_INTEREST_OPTIONS, default=NOT_INTERESTED
+        _('Interest in study news'),
+        choices=NEWS_INTEREST_OPTIONS,
+        default=NOT_INTERESTED,
     )
     execution_tags = models.ManyToManyField(
         ExecutionTag, verbose_name=_('Execution tags'), blank=True
@@ -263,8 +284,13 @@ class Participation(models.Model):
     def clean(self):
         if self.status == self.FOLLOWUP_APPOINTED and not self.followup_date:
             raise ValidationError(_('No follow-up set'), code='invalid')
-        if self.status != self.FOLLOWUP_APPOINTED and (self.followup_date or self.followup_time):
-            raise ValidationError(_('Follow-up cannot be set with this status'), code='invalid')
+        if (
+            self.status != self.FOLLOWUP_APPOINTED
+            and (self.followup_date or self.followup_time)
+        ):
+            raise ValidationError(
+                _('Follow-up cannot be set with this status'), code='invalid'
+            )
 
     def save(self, *args, **kwargs):
         if self.status in [self.NOT_REACHED, self.AWAITING_RESPONSE]:
@@ -276,7 +302,9 @@ class Participation(models.Model):
             self.attempts = 0
 
         if self.status == self.INVITED:
-            ReliabilityEntry.objects.get_or_create(study=self.study, subject=self.subject)
+            ReliabilityEntry.objects.get_or_create(
+                study=self.study, subject=self.subject
+            )
 
         if self.status != self.UNSUITABLE:
             self.excluded_by_cleanup = False
@@ -294,7 +322,9 @@ class Participation(models.Model):
 
 class ReliabilityEntry(models.Model):
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, verbose_name=_('Subject'), on_delete=models.CASCADE)
+    subject = models.ForeignKey(
+        Subject, verbose_name=_('Subject'), on_delete=models.CASCADE
+    )
     was_reliable = models.BooleanField(_('Was reliable'), default=True)
 
     class Meta:

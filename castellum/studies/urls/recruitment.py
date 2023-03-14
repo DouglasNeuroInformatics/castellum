@@ -31,8 +31,14 @@ from . import subjectfilters as subjectfilters_urls
 urlpatterns = [
     path('', StudyRecruitmentSettingsUpdateView.as_view(), name='recruitmentsettings'),
     path('mail/', StudyMailSettingsView.as_view(), name='mailsettings'),
-    path('mail/test/', StudyRecruitmentTestMailView.as_view(), name='testmail-recruitment'),
-    path('excluded-studies/', StudyExcludedStudiesView.as_view(), name='excluded-studies'),
+    path(
+        'mail/test/',
+        StudyRecruitmentTestMailView.as_view(),
+        name='testmail-recruitment',
+    ),
+    path(
+        'excluded-studies/', StudyExcludedStudiesView.as_view(), name='excluded-studies'
+    ),
     path('convert/', FilterTrialConvertView.as_view(), name='filtertrial-convert'),
     path('filters/', include(subjectfilters_urls)),
 ]

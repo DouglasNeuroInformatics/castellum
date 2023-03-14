@@ -28,7 +28,8 @@ baker.generators.add(
     'castellum.utils.fields.DateField', baker.generators.default_mapping[DateField]
 )
 baker.generators.add(
-    'castellum.utils.fields.DateTimeField', baker.generators.default_mapping[DateTimeField]
+    'castellum.utils.fields.DateTimeField',
+    baker.generators.default_mapping[DateTimeField],
 )
 baker.generators.add(
     'castellum.utils.fields.PhoneNumberField',
@@ -58,7 +59,9 @@ def create_user(group_name):
     user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
     user.user_permissions.remove(Permission.objects.get(codename='privacy_level_2'))
     user.user_permissions.remove(Permission.objects.get(codename='access_study'))
-    user.user_permissions.remove(Permission.objects.get(codename='search_participations'))
+    user.user_permissions.remove(
+        Permission.objects.get(codename='search_participations')
+    )
 
     return user
 
@@ -130,17 +133,23 @@ def data_protection_coordinator(db):
 
 @pytest.fixture
 def member(study, study_in_execution_status, study_in_edit_status):
-    return create_member('all', [study, study_in_execution_status, study_in_edit_status])
+    return create_member(
+        'all', [study, study_in_execution_status, study_in_edit_status]
+    )
 
 
 @pytest.fixture
 def recruiter(study, study_in_execution_status, study_in_edit_status):
-    return create_member('Recruiter', [study, study_in_execution_status, study_in_edit_status])
+    return create_member(
+        'Recruiter', [study, study_in_execution_status, study_in_edit_status]
+    )
 
 
 @pytest.fixture
 def conductor(study, study_in_execution_status, study_in_edit_status):
-    return create_member('Conductor', [study, study_in_execution_status, study_in_edit_status])
+    return create_member(
+        'Conductor', [study, study_in_execution_status, study_in_edit_status]
+    )
 
 
 @pytest.fixture
@@ -191,9 +200,7 @@ def subject_creation_request(db):
 
 @pytest.fixture
 def participation(subject, study_in_execution_status):
-    return baker.make(
-        Participation, study=study_in_execution_status, subject=subject
-    )
+    return baker.make(Participation, study=study_in_execution_status, subject=subject)
 
 
 @pytest.fixture
