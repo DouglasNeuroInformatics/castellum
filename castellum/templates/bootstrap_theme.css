@@ -36,6 +36,10 @@
   --bs-btn-disabled-border-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
 }
 
+.nav-pills {
+  --bs-nav-pills-link-active-bg: {{ BOOTSTRAP_THEME_COLORS.0 }};
+}
+
 .form-check-input:checked {
     background-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
     border-color: {{ BOOTSTRAP_THEME_COLORS.0 }};
