@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(
                 blank=True,
                 help_text='This allows to download these attributes as a data file in study execution, e.g. to use a specific attribute for the analysis.',
-                related_name='_studies_study_exportable_attributes_+',
+                related_name='+',
                 to='recruitment.AttributeDescription',
                 verbose_name='Exportable recruitment attributes',
             ),

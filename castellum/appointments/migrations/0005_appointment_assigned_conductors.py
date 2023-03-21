@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
             name='assigned_conductors',
             field=models.ManyToManyField(
                 blank=True,
-                related_name='_appointments_appointment_assigned_conductors_+',
+                related_name='+',
                 to='studies.StudyMembership',
                 verbose_name='Assigned conductors',
             ),
