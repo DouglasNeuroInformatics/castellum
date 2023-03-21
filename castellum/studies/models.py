@@ -257,7 +257,11 @@ class Study(models.Model):
         self.set_status(self.previous_status)
 
     def clean(self):
-        if self.subjectfiltergroup_set.count() > 1 and not self.advanced_filtering:
+        if (
+            self.pk
+            and not self.advanced_filtering
+            and self.subjectfiltergroup_set.count() > 1
+        ):
             raise ValidationError(
                 _(
                     "Studies with more than one filtergroup can't be transformed back "
