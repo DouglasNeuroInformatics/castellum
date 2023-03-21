@@ -39,6 +39,7 @@ class Command(BaseCommand):
             'plan': False,
             'run_syncdb': False,
             'check_unapplied': False,
+            'prune': False,
         }
         options.update(kwargs)
 
