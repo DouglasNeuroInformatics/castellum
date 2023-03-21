@@ -23,6 +23,7 @@ import logging
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import DeleteView
 from django.views.generic import FormView
 from django.views.generic.detail import SingleObjectMixin
@@ -126,19 +127,19 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
             StudyMembership, pk=self.kwargs['pk'], study=self.study
         )
 
-    def delete(self, request, *args, **kwargs):
-        membership = self.get_object()
+    def get_success_url(self):
+        return reverse('studies:members', args=[self.study.pk])
 
-        if membership.user.pk == request.user.pk:
+    def form_valid(self, form):
+        if self.object.user.pk == self.request.user.pk:
             return HttpResponseBadRequest()
 
         monitoring_logger.info(
             'Membership removed: study {} user {} by {}'.format(
-                membership.study.pk,
-                membership.user.pk,
+                self.object.study.pk,
+                self.object.user.pk,
                 self.request.user.pk,
             )
         )
 
-        membership.delete()
-        return redirect('studies:members', membership.study.pk)
+        return super().form_valid(form)
