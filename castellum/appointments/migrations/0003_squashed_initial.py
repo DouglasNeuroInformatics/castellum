@@ -19,7 +19,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='appointment',
             name='session',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='studies.studysession', verbose_name='Session'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='studies.studysession',
+                verbose_name='Session',
+            ),
         ),
         migrations.AlterUniqueTogether(
             name='appointment',

@@ -11,7 +11,9 @@ def migrate_data(apps, schema_editor):
     )
 
     for appointment in appointments:
-        appointment.assigned_conductors.add(appointment.participation.assigned_conductor)
+        appointment.assigned_conductors.add(
+            appointment.participation.assigned_conductor
+        )
 
 
 class Migration(migrations.Migration):
@@ -26,7 +28,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='appointment',
             name='assigned_conductors',
-            field=models.ManyToManyField(blank=True, related_name='_appointments_appointment_assigned_conductors_+', to='studies.StudyMembership', verbose_name='Assigned conductors'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='_appointments_appointment_assigned_conductors_+',
+                to='studies.StudyMembership',
+                verbose_name='Assigned conductors',
+            ),
         ),
         migrations.RunPython(migrate_data),
     ]

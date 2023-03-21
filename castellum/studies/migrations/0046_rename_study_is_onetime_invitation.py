@@ -18,6 +18,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='study',
             name='is_anonymous_invitation',
-            field=models.BooleanField(default=False, help_text='Use this if you want to skip the usual recruitment workflow and just send an email to subjects, e.g. to invite them to an anonymous online survey.', verbose_name='Is an anonymous invitation'),
+            field=models.BooleanField(
+                default=False,
+                help_text='Use this if you want to skip the usual recruitment workflow and just send an email to subjects, e.g. to invite them to an anonymous online survey.',
+                verbose_name='Is an anonymous invitation',
+            ),
         ),
     ]

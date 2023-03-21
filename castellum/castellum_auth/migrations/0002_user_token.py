@@ -27,6 +27,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='token',
-            field=models.CharField(default=castellum.castellum_auth.models.generate_token, max_length=64, unique=True),
+            field=models.CharField(
+                default=castellum.castellum_auth.models.generate_token,
+                max_length=64,
+                unique=True,
+            ),
         ),
     ]

@@ -13,6 +13,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='resource',
             name='url',
-            field=models.URLField(blank=True, help_text='Any "{start}"- and "{end}-tags included in the URL will automatically be replaced by the relevant datetime in ISO 8601 format.', verbose_name='URL'),
+            field=models.URLField(
+                blank=True,
+                help_text='Any "{start}"- and "{end}-tags included in the URL will automatically be replaced by the relevant datetime in ISO 8601 format.',
+                verbose_name='URL',
+            ),
         ),
     ]

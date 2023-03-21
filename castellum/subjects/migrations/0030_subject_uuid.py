@@ -9,6 +9,7 @@ def factory(app, model_name):
         for obj in Model.objects.all().select_related('subject'):
             obj.subject_uuid = obj.subject.uuid
             obj.save()
+
     return migrate_data
 
 
@@ -20,6 +21,7 @@ def factory_m2m(app, model_name, rel_name):
             qs = getattr(subject, rel_name)
             for obj in qs.all():
                 Model.objects.create(subject_uuid=subject.uuid, obj=obj)
+
     return migrate_data
 
 
@@ -41,7 +43,6 @@ class Migration(migrations.Migration):
             model_name='consent',
             name='subject',
         ),
-
         migrations.AddField(
             model_name='exportanswer',
             name='subject_uuid',
@@ -52,7 +53,6 @@ class Migration(migrations.Migration):
             model_name='exportanswer',
             name='subject',
         ),
-
         migrations.AddField(
             model_name='subjectnote',
             name='subject_uuid',
@@ -63,34 +63,66 @@ class Migration(migrations.Migration):
             model_name='subjectnote',
             name='subject',
         ),
-
         migrations.CreateModel(
             name='StudyTypeDisinterest',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('subject_uuid', models.UUIDField()),
-                ('obj', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='+', to='studies.studytype')),
+                (
+                    'obj',
+                    models.ForeignKey(
+                        on_delete=models.deletion.CASCADE,
+                        related_name='+',
+                        to='studies.studytype',
+                    ),
+                ),
             ],
         ),
-        migrations.RunPython(factory_m2m(
-            'subjects', 'StudyTypeDisinterest', 'study_type_disinterest'
-        )),
+        migrations.RunPython(
+            factory_m2m('subjects', 'StudyTypeDisinterest', 'study_type_disinterest')
+        ),
         migrations.RemoveField(
             model_name='subject',
             name='study_type_disinterest',
         ),
-
         migrations.CreateModel(
             name='AdditionalSuitabilityDocument',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('subject_uuid', models.UUIDField()),
-                ('obj', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='+', to='studies.studytype')),
+                (
+                    'obj',
+                    models.ForeignKey(
+                        on_delete=models.deletion.CASCADE,
+                        related_name='+',
+                        to='studies.studytype',
+                    ),
+                ),
             ],
         ),
-        migrations.RunPython(factory_m2m(
-            'subjects', 'AdditionalSuitabilityDocument', 'additional_suitability_document'
-        )),
+        migrations.RunPython(
+            factory_m2m(
+                'subjects',
+                'AdditionalSuitabilityDocument',
+                'additional_suitability_document',
+            )
+        ),
         migrations.RemoveField(
             model_name='subject',
             name='additional_suitability_document',

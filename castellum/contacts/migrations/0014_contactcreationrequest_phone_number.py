@@ -14,6 +14,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='contactcreationrequest',
             name='phone_number',
-            field=castellum.utils.fields.PhoneNumberField(blank=True, max_length=32, region=None, verbose_name='Phone number'),
+            field=castellum.utils.fields.PhoneNumberField(
+                blank=True, max_length=32, region=None, verbose_name='Phone number'
+            ),
         ),
     ]

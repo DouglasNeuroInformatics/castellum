@@ -14,6 +14,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='consent',
             name='file',
-            field=castellum.utils.fields.RestrictedFileField(blank=True, upload_to='subjects/consents/', verbose_name='Signed file'),
+            field=castellum.utils.fields.RestrictedFileField(
+                blank=True, upload_to='subjects/consents/', verbose_name='Signed file'
+            ),
         ),
     ]

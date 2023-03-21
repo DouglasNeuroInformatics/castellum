@@ -20,7 +20,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='studysession',
             name='resources',
-            field=models.ManyToManyField(blank=True, to='studies.Resource', verbose_name='Resources'),
+            field=models.ManyToManyField(
+                blank=True, to='studies.Resource', verbose_name='Resources'
+            ),
         ),
         migrations.RunPython(migrate_data),
         migrations.RemoveField(

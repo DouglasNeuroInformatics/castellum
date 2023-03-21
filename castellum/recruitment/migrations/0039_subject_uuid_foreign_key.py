@@ -15,7 +15,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='participation',
             name='subject_uuid',
-            field=models.ForeignKey(editable=False, on_delete=django.db.models.deletion.CASCADE, to='subjects.subject'),
+            field=models.ForeignKey(
+                editable=False,
+                on_delete=django.db.models.deletion.CASCADE,
+                to='subjects.subject',
+            ),
         ),
         migrations.RenameField(
             model_name='participation',
@@ -26,11 +30,14 @@ class Migration(migrations.Migration):
             name='participation',
             unique_together={('study', 'subject')},
         ),
-
         migrations.AlterField(
             model_name='reliabilityentry',
             name='subject_uuid',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='subjects.subject', verbose_name='Subject'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='subjects.subject',
+                verbose_name='Subject',
+            ),
         ),
         migrations.RenameField(
             model_name='reliabilityentry',

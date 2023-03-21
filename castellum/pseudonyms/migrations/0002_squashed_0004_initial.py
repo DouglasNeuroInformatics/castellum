@@ -24,12 +24,22 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='pseudonym',
             name='subject',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='subjects.subject'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to='subjects.subject',
+            ),
         ),
         migrations.AddField(
             model_name='domain',
             name='content_type',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='contenttypes.contenttype'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to='contenttypes.contenttype',
+            ),
         ),
         migrations.AlterUniqueTogether(
             name='pseudonym',

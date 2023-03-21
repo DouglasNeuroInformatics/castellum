@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subjectcreationrequest',
             name='data_is_deleted',
-            field=models.BooleanField(default=False, verbose_name='Personal data has been deleted'),
+            field=models.BooleanField(
+                default=False, verbose_name='Personal data has been deleted'
+            ),
         ),
     ]

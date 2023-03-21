@@ -16,7 +16,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('contacts', '0012_rename_guardians_contact_legal_representatives'),
-
         # this dependency is ineffective because it is about the other database
         ('subjects', '0028_alter_subject_uuid'),
     ]

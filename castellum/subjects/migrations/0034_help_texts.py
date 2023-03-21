@@ -13,16 +13,31 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subject',
             name='export_requested',
-            field=models.DateField(blank=True, help_text='The subject wants to receive an export of all data we have stored about them. This includes all data in Castellum and all data collected in studies. When a subject requests GDPR export please use this option to set the processing of their request in motion.', null=True, verbose_name='Export requested'),
+            field=models.DateField(
+                blank=True,
+                help_text='The subject wants to receive an export of all data we have stored about them. This includes all data in Castellum and all data collected in studies. When a subject requests GDPR export please use this option to set the processing of their request in motion.',
+                null=True,
+                verbose_name='Export requested',
+            ),
         ),
         migrations.AlterField(
             model_name='subject',
             name='privacy_level',
-            field=models.PositiveIntegerField(choices=[(0, '0 (regular)'), (1, '1 (increased)'), (2, '2 (high)')], default=0, help_text='Users need at least this level to access this subject', verbose_name='Privacy level'),
+            field=models.PositiveIntegerField(
+                choices=[(0, '0 (regular)'), (1, '1 (increased)'), (2, '2 (high)')],
+                default=0,
+                help_text='Users need at least this level to access this subject',
+                verbose_name='Privacy level',
+            ),
         ),
         migrations.AlterField(
             model_name='subject',
             name='to_be_deleted',
-            field=models.DateField(blank=True, help_text='The subject wants all data about them to be deleted or fully anonymized. This includes all data in Castellum and possibly all data collected in studies (if no other legal bases apply, for example retention periods). Furthermore, the subject has explicitly rejected the option to only withdraw recruitment consent instead. When a subject requests GDPR deletion please use this option to set the processing of their request in motion.', null=True, verbose_name='To be deleted'),
+            field=models.DateField(
+                blank=True,
+                help_text='The subject wants all data about them to be deleted or fully anonymized. This includes all data in Castellum and possibly all data collected in studies (if no other legal bases apply, for example retention periods). Furthermore, the subject has explicitly rejected the option to only withdraw recruitment consent instead. When a subject requests GDPR deletion please use this option to set the processing of their request in motion.',
+                null=True,
+                verbose_name='To be deleted',
+            ),
         ),
     ]

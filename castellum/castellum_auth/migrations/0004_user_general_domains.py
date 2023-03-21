@@ -14,6 +14,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='general_domains',
-            field=models.ManyToManyField(blank=True, limit_choices_to={'object_id': None}, to='pseudonyms.Domain', verbose_name='Available general domains'),
+            field=models.ManyToManyField(
+                blank=True,
+                limit_choices_to={'object_id': None},
+                to='pseudonyms.Domain',
+                verbose_name='Available general domains',
+            ),
         ),
     ]

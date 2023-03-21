@@ -14,6 +14,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='domain',
             name='exportable_attributes',
-            field=models.ManyToManyField(blank=True, related_name='_pseudonyms_domain_exportable_attributes_+', to='recruitment.AttributeDescription', verbose_name='Exportable recruitment attributes'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='_pseudonyms_domain_exportable_attributes_+',
+                to='recruitment.AttributeDescription',
+                verbose_name='Exportable recruitment attributes',
+            ),
         ),
     ]

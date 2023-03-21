@@ -20,6 +20,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subject',
             name='uuid',
-            field=models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False, verbose_name='UUID'),
+            field=models.UUIDField(
+                default=uuid.uuid4,
+                primary_key=True,
+                serialize=False,
+                verbose_name='UUID',
+            ),
         ),
     ]

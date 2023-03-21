@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='resource',
             name='color',
-            field=castellum.utils.fields.ColorField(default='#000000', max_length=7, verbose_name='Color'),
+            field=castellum.utils.fields.ColorField(
+                default='#000000', max_length=7, verbose_name='Color'
+            ),
         ),
         migrations.AddField(
             model_name='resource',

@@ -53,12 +53,87 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='study',
             name='consent',
-            field=castellum.utils.fields.RestrictedFileField(blank=True, help_text='A blueprint of the study consent. This file can be obtained (and printed) later by recruiters or conductors.', upload_to=castellum.studies.models.consent_upload_to, verbose_name='Study consent'),
+            field=castellum.utils.fields.RestrictedFileField(
+                blank=True,
+                help_text='A blueprint of the study consent. This file can be obtained (and printed) later by recruiters or conductors.',
+                upload_to=castellum.studies.models.consent_upload_to,
+                verbose_name='Study consent',
+            ),
         ),
         migrations.AlterField(
             model_name='study',
             name='geo_filter',
-            field=castellum.utils.fields.RestrictedFileField(blank=True, help_text='A GeoJSON file that contains only a single (multi)polygon. Only subjects who live inside this polygon will be considered for this study.', upload_to=castellum.studies.models.geofilter_upload_to, validators=[castellum.utils.forms.JsonFileValidator({'$defs': {'Feature': {'properties': {'geometry': {'oneOf': [{'$ref': '#/$defs/Polygon'}, {'$ref': '#/$defs/MultiPolygon'}]}, 'properties': {'oneOf': [{'type': 'null'}, {'type': 'object'}]}, 'type': {'enum': ['Feature'], 'type': 'string'}}, 'required': ['type', 'properties', 'geometry'], 'type': 'object'}, 'MultiPolygon': {'properties': {'coordinates': {'items': {'$ref': '#/$defs/MultiPolygon'}, 'type': 'array'}, 'type': {'enum': ['MultiPolygon'], 'type': 'string'}}, 'required': ['type', 'coordinates'], 'type': 'object'}, 'Polygon': {'properties': {'coordinates': {'$ref': '#/$defs/PolygonCoordinates'}, 'type': {'enum': ['Polygon'], 'type': 'string'}}, 'required': ['type', 'coordinates'], 'type': 'object'}, 'PolygonCoordinates': {'items': {'items': {'items': {'type': 'number'}, 'minItems': 2, 'type': 'array'}, 'minItems': 4, 'type': 'array'}, 'type': 'array'}}, '$schema': 'http://json-schema.org/draft-07/schema#'}, '#/$defs/Feature')], verbose_name='Geo filter file'),
+            field=castellum.utils.fields.RestrictedFileField(
+                blank=True,
+                help_text='A GeoJSON file that contains only a single (multi)polygon. Only subjects who live inside this polygon will be considered for this study.',
+                upload_to=castellum.studies.models.geofilter_upload_to,
+                validators=[
+                    castellum.utils.forms.JsonFileValidator(
+                        {
+                            '$defs': {
+                                'Feature': {
+                                    'properties': {
+                                        'geometry': {
+                                            'oneOf': [
+                                                {'$ref': '#/$defs/Polygon'},
+                                                {'$ref': '#/$defs/MultiPolygon'},
+                                            ]
+                                        },
+                                        'properties': {
+                                            'oneOf': [
+                                                {'type': 'null'},
+                                                {'type': 'object'},
+                                            ]
+                                        },
+                                        'type': {'enum': ['Feature'], 'type': 'string'},
+                                    },
+                                    'required': ['type', 'properties', 'geometry'],
+                                    'type': 'object',
+                                },
+                                'MultiPolygon': {
+                                    'properties': {
+                                        'coordinates': {
+                                            'items': {'$ref': '#/$defs/MultiPolygon'},
+                                            'type': 'array',
+                                        },
+                                        'type': {
+                                            'enum': ['MultiPolygon'],
+                                            'type': 'string',
+                                        },
+                                    },
+                                    'required': ['type', 'coordinates'],
+                                    'type': 'object',
+                                },
+                                'Polygon': {
+                                    'properties': {
+                                        'coordinates': {
+                                            '$ref': '#/$defs/PolygonCoordinates'
+                                        },
+                                        'type': {'enum': ['Polygon'], 'type': 'string'},
+                                    },
+                                    'required': ['type', 'coordinates'],
+                                    'type': 'object',
+                                },
+                                'PolygonCoordinates': {
+                                    'items': {
+                                        'items': {
+                                            'items': {'type': 'number'},
+                                            'minItems': 2,
+                                            'type': 'array',
+                                        },
+                                        'minItems': 4,
+                                        'type': 'array',
+                                    },
+                                    'type': 'array',
+                                },
+                            },
+                            '$schema': 'http://json-schema.org/draft-07/schema#',
+                        },
+                        '#/$defs/Feature',
+                    )
+                ],
+                verbose_name='Geo filter file',
+            ),
         ),
         migrations.RunPython(migrate_data),
     ]

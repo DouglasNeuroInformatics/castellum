@@ -9,6 +9,7 @@ def factory(app, model_name):
         for obj in Model.objects.all().select_related('subject'):
             obj.subject_uuid = obj.subject.uuid
             obj.save()
+
     return migrate_data
 
 
@@ -33,7 +34,6 @@ class Migration(migrations.Migration):
             model_name='participation',
             name='subject',
         ),
-
         migrations.AddField(
             model_name='reliabilityentry',
             name='subject_uuid',

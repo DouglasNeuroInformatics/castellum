@@ -19,6 +19,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='appointment',
             name='participation',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recruitment.participation', verbose_name='Participation'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='recruitment.participation',
+                verbose_name='Participation',
+            ),
         ),
     ]

@@ -9,6 +9,7 @@ def factory(app, model_name):
         for obj in Model.objects.exclude(subject=None).select_related('subject'):
             obj.subject_uuid = obj.subject.uuid
             obj.save()
+
     return migrate_data
 
 

@@ -15,7 +15,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='pseudonym',
             name='subject_uuid',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='subjects.subject'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to='subjects.subject',
+            ),
         ),
         migrations.RenameField(
             model_name='pseudonym',

@@ -10,15 +10,13 @@ def migrate_data(apps, schema_editor):
     INVITED = 3
     FOLLOWUP_APPOINTED = 4
 
-    subjects = Subject.objects.filter(
-        deceased=False, blocked=False
-    ).annotate(
+    subjects = Subject.objects.filter(deceased=False, blocked=False).annotate(
         participation_updated_at=models.Max(
             'participation__updated_at',
             filter=models.Q(
                 participation__status__in=[INVITED, UNSUITABLE, FOLLOWUP_APPOINTED],
                 participation__excluded_by_cleanup=False,
-            )
+            ),
         )
     )
 
@@ -42,7 +40,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('subjects', '0032_subject_uuid_foreign_key'),
-
         # this dependency is ineffective because it is about the other database
         ('contacts', '0015_contactcreationrequest_message'),
     ]

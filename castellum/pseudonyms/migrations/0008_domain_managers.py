@@ -29,6 +29,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='domain',
             name='managers',
-            field=models.ManyToManyField(blank=True, related_name='general_domains', to=settings.AUTH_USER_MODEL, verbose_name='Users who can access this domain'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='general_domains',
+                to=settings.AUTH_USER_MODEL,
+                verbose_name='Users who can access this domain',
+            ),
         ),
     ]

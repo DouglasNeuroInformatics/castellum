@@ -13,6 +13,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subject',
             name='privacy_level',
-            field=models.FloatField(default=0, help_text='Users need at least this level to access this subject', verbose_name='Privacy level'),
+            field=models.FloatField(
+                default=0,
+                help_text='Users need at least this level to access this subject',
+                verbose_name='Privacy level',
+            ),
         ),
     ]

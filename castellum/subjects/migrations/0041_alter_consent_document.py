@@ -32,7 +32,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='consent',
             name='document',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='subjects.consentdocument', verbose_name='Document'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to='subjects.consentdocument',
+                verbose_name='Document',
+            ),
         ),
         migrations.AddField(
             model_name='subject',

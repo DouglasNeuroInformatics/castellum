@@ -15,6 +15,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='resource',
             name='managers',
-            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, verbose_name='Managers', blank=True),
+            field=models.ManyToManyField(
+                to=settings.AUTH_USER_MODEL, verbose_name='Managers', blank=True
+            ),
         ),
     ]

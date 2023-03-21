@@ -15,6 +15,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='participation',
             name='consent',
-            field=castellum.utils.fields.RestrictedFileField(blank=True, upload_to=castellum.recruitment.models.participations.consent_upload_to, verbose_name='Study consent'),
+            field=castellum.utils.fields.RestrictedFileField(
+                blank=True,
+                upload_to=castellum.recruitment.models.participations.consent_upload_to,
+                verbose_name='Study consent',
+            ),
         ),
     ]

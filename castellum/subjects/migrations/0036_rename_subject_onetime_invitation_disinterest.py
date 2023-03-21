@@ -18,6 +18,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subject',
             name='anonymous_invitation_disinterest',
-            field=models.BooleanField(default=False, verbose_name='Does not want to participate in anonymous invitations'),
+            field=models.BooleanField(
+                default=False,
+                verbose_name='Does not want to participate in anonymous invitations',
+            ),
         ),
     ]

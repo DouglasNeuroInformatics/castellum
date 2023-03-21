@@ -24,22 +24,62 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
             name='ContactCreationRequest',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateField(auto_now_add=True, verbose_name='Created at')),
-                ('updated_at', models.DateField(auto_now=True, verbose_name='Updated at')),
-                ('subject_id', models.PositiveIntegerField(default=None, editable=False, unique=True)),
-                ('first_name', models.CharField(max_length=64, verbose_name='First name')),
-                ('last_name', models.CharField(max_length=64, verbose_name='Last name')),
-                ('title', models.CharField(blank=True, max_length=64, verbose_name='Title')),
-                ('gender', models.CharField(blank=True, choices=[('f', 'female'), ('m', 'male'), ('*', 'diverse')], max_length=1, verbose_name='Gender')),
-                ('date_of_birth', castellum.utils.fields.DateField(blank=True, null=True, verbose_name='Date of birth')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateField(auto_now_add=True, verbose_name='Created at'),
+                ),
+                (
+                    'updated_at',
+                    models.DateField(auto_now=True, verbose_name='Updated at'),
+                ),
+                (
+                    'subject_id',
+                    models.PositiveIntegerField(
+                        default=None, editable=False, unique=True
+                    ),
+                ),
+                (
+                    'first_name',
+                    models.CharField(max_length=64, verbose_name='First name'),
+                ),
+                (
+                    'last_name',
+                    models.CharField(max_length=64, verbose_name='Last name'),
+                ),
+                (
+                    'title',
+                    models.CharField(blank=True, max_length=64, verbose_name='Title'),
+                ),
+                (
+                    'gender',
+                    models.CharField(
+                        blank=True,
+                        choices=[('f', 'female'), ('m', 'male'), ('*', 'diverse')],
+                        max_length=1,
+                        verbose_name='Gender',
+                    ),
+                ),
+                (
+                    'date_of_birth',
+                    castellum.utils.fields.DateField(
+                        blank=True, null=True, verbose_name='Date of birth'
+                    ),
+                ),
                 ('email', models.EmailField(max_length=128, verbose_name='Email')),
             ],
             options={
@@ -49,29 +89,123 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Street',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('name', models.CharField(max_length=64, verbose_name='Name')),
             ],
         ),
         migrations.CreateModel(
             name='Contact',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateField(auto_now_add=True, verbose_name='Created at')),
-                ('updated_at', models.DateField(auto_now=True, verbose_name='Updated at')),
-                ('subject_id', models.PositiveIntegerField(default=None, editable=False, unique=True)),
-                ('first_name', models.CharField(max_length=64, verbose_name='First name')),
-                ('last_name', models.CharField(max_length=64, verbose_name='Last name')),
-                ('title', models.CharField(blank=True, max_length=64, verbose_name='Title')),
-                ('gender', models.CharField(blank=True, choices=[('f', 'female'), ('m', 'male'), ('*', 'diverse')], max_length=1, verbose_name='Gender')),
-                ('date_of_birth', castellum.utils.fields.DateField(blank=True, null=True, verbose_name='Date of birth')),
-                ('first_name_phonetic', models.CharField(default=None, editable=False, max_length=128)),
-                ('last_name_phonetic', models.CharField(default=None, editable=False, max_length=128)),
-                ('email', models.EmailField(blank=True, max_length=128, verbose_name='Email')),
-                ('phone_number', castellum.utils.fields.PhoneNumberField(blank=True, max_length=32, region=None, verbose_name='Phone number')),
-                ('phone_number_alternative', castellum.utils.fields.PhoneNumberField(blank=True, max_length=32, region=None, verbose_name='Phone number alternative')),
-                ('preferred_contact_method', models.CharField(blank=True, choices=[('phone', 'phone'), ('email', 'email'), ('postal', 'postal')], max_length=16, verbose_name='Preferred contact method')),
-                ('legal_representatives', models.ManyToManyField(blank=True, related_name='legal_representative_of', to='contacts.Contact', verbose_name='Legal representatives')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateField(auto_now_add=True, verbose_name='Created at'),
+                ),
+                (
+                    'updated_at',
+                    models.DateField(auto_now=True, verbose_name='Updated at'),
+                ),
+                (
+                    'subject_id',
+                    models.PositiveIntegerField(
+                        default=None, editable=False, unique=True
+                    ),
+                ),
+                (
+                    'first_name',
+                    models.CharField(max_length=64, verbose_name='First name'),
+                ),
+                (
+                    'last_name',
+                    models.CharField(max_length=64, verbose_name='Last name'),
+                ),
+                (
+                    'title',
+                    models.CharField(blank=True, max_length=64, verbose_name='Title'),
+                ),
+                (
+                    'gender',
+                    models.CharField(
+                        blank=True,
+                        choices=[('f', 'female'), ('m', 'male'), ('*', 'diverse')],
+                        max_length=1,
+                        verbose_name='Gender',
+                    ),
+                ),
+                (
+                    'date_of_birth',
+                    castellum.utils.fields.DateField(
+                        blank=True, null=True, verbose_name='Date of birth'
+                    ),
+                ),
+                (
+                    'first_name_phonetic',
+                    models.CharField(default=None, editable=False, max_length=128),
+                ),
+                (
+                    'last_name_phonetic',
+                    models.CharField(default=None, editable=False, max_length=128),
+                ),
+                (
+                    'email',
+                    models.EmailField(blank=True, max_length=128, verbose_name='Email'),
+                ),
+                (
+                    'phone_number',
+                    castellum.utils.fields.PhoneNumberField(
+                        blank=True,
+                        max_length=32,
+                        region=None,
+                        verbose_name='Phone number',
+                    ),
+                ),
+                (
+                    'phone_number_alternative',
+                    castellum.utils.fields.PhoneNumberField(
+                        blank=True,
+                        max_length=32,
+                        region=None,
+                        verbose_name='Phone number alternative',
+                    ),
+                ),
+                (
+                    'preferred_contact_method',
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ('phone', 'phone'),
+                            ('email', 'email'),
+                            ('postal', 'postal'),
+                        ],
+                        max_length=16,
+                        verbose_name='Preferred contact method',
+                    ),
+                ),
+                (
+                    'legal_representatives',
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name='legal_representative_of',
+                        to='contacts.Contact',
+                        verbose_name='Legal representatives',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Contact data',
@@ -82,19 +216,48 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Address',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('country', models.CharField(max_length=64, verbose_name='Country')),
                 ('city', models.CharField(max_length=128, verbose_name='City')),
                 ('zip_code', models.CharField(max_length=5, verbose_name='Zip code')),
                 ('street', models.CharField(max_length=128, verbose_name='Street')),
-                ('house_number', models.CharField(max_length=16, verbose_name='House number')),
-                ('additional_information', models.CharField(blank=True, max_length=32, verbose_name='Additional information')),
-                ('contact', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='contacts.contact')),
+                (
+                    'house_number',
+                    models.CharField(max_length=16, verbose_name='House number'),
+                ),
+                (
+                    'additional_information',
+                    models.CharField(
+                        blank=True, max_length=32, verbose_name='Additional information'
+                    ),
+                ),
+                (
+                    'contact',
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='contacts.contact',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Address',
                 'verbose_name_plural': 'Addresses',
-                'ordering': ['country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'],
+                'ordering': [
+                    'country',
+                    'city',
+                    'zip_code',
+                    'street',
+                    'house_number',
+                    'additional_information',
+                ],
             },
         ),
     ]

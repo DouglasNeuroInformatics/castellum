@@ -15,6 +15,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='report',
             name='additional_wishes',
-            field=models.TextField(blank=True, verbose_name='Additional wishes (optional)'),
+            field=models.TextField(
+                blank=True, verbose_name='Additional wishes (optional)'
+            ),
         ),
     ]
