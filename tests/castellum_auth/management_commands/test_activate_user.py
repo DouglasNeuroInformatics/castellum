@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 from django.utils import timezone
 
@@ -8,8 +10,8 @@ from castellum.castellum_auth.models import User
 @pytest.mark.django_db
 def test_update_expiration_date():
     username = 'test'
-    date1 = timezone.datetime(1970, 1, 1, tzinfo=timezone.utc)
-    date2 = timezone.datetime(1970, 1, 2, tzinfo=timezone.utc)
+    date1 = timezone.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
+    date2 = timezone.datetime(1970, 1, 2, tzinfo=datetime.timezone.utc)
 
     Command().handle(username=username, date=date1)
     user = User.objects.get(username=username)
@@ -23,7 +25,7 @@ def test_update_expiration_date():
 @pytest.mark.django_db
 def test_set_unusable_password():
     username = 'test'
-    date = timezone.datetime(1970, 1, 1, tzinfo=timezone.utc)
+    date = timezone.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
 
     Command().handle(username=username, date=date)
     user = User.objects.get(username=username)

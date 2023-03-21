@@ -26,7 +26,7 @@ from castellum.castellum_auth.models import User
 
 def parse_date(s):
     dt = timezone.datetime.strptime(s, '%Y-%m-%d')
-    return timezone.make_aware(dt, is_dst=False)
+    return timezone.make_aware(dt)
 
 
 class Command(BaseCommand):
