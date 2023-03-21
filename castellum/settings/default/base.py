@@ -159,11 +159,19 @@ NPM_ROOT_PATH = BASE_DIR.parent
 NPM_FILE_PATTERNS = {
     'bootstrap': [
         'dist/css/bootstrap.min.css',
+        'dist/css/bootstrap.min.css.map',
         'dist/js/bootstrap.min.js',
+        'dist/js/bootstrap.min.js.map',
     ],
-    'jdenticon': ['dist/jdenticon.min.js'],
+    'jdenticon': [
+        'dist/jdenticon.min.js',
+        'dist/jdenticon.min.js.map',
+    ],
     'jquery': ['dist/jquery.min.js'],
-    '@popperjs': ['core/dist/umd/popper-lite.min.js'],
+    '@popperjs': [
+        'core/dist/umd/popper-lite.min.js',
+        'core/dist/umd/popper-lite.min.js.map',
+    ],
     '@fortawesome/fontawesome-free': [
         'css/all.min.css',
         'webfonts/fa-regular-400.woff2',
