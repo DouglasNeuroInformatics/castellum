@@ -42,7 +42,8 @@ from castellum.utils.fields import RestrictedFileField
 from castellum.utils.forms import JsonFileValidator
 
 APP_DIR = Path(__file__).resolve().parent
-GEOJSON_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'geojson.json'))
+with open(APP_DIR / 'schemas' / 'geojson.json') as fh:
+    GEOJSON_SCHEMA = json.load(fh)
 
 
 def geofilter_upload_to(instance, filename):

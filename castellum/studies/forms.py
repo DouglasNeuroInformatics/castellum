@@ -38,7 +38,8 @@ from .models import StudyTag
 from .models import StudyType
 
 APP_DIR = Path(__file__).resolve().parent
-IMPORT_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'study.json'))
+with open(APP_DIR / 'schemas' / 'study.json') as fh:
+    IMPORT_SCHEMA = json.load(fh)
 
 
 class StudyForm(forms.ModelForm):
