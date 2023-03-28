@@ -1,3 +1,13 @@
+# 0.88.1 (2023-03-28)
+
+## bug fixes
+
+-   Use correct encodinf when using `X-Sendfile` if the filesystem uses
+    a different encoding then the system default.
+-   Fix some unstyled components when using `BOOTSTRAP_THEME_COLORS`.
+-   Properly close JSON Schema files after parsing them.
+
+
 # 0.88.0 (2023-03-07)
 
 ## breaking changes
