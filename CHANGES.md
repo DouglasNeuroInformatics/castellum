@@ -2,7 +2,7 @@
 
 ## bug fixes
 
--   Use correct encodinf when using `X-Sendfile` if the filesystem uses
+-   Use correct encoding when using `X-Sendfile` if the filesystem uses
     a different encoding then the system default.
 -   Fix some unstyled components when using `BOOTSTRAP_THEME_COLORS`.
 -   Properly close JSON Schema files after parsing them.
