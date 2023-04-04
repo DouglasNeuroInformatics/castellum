@@ -294,8 +294,8 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse('studies:index')
 
-    def delete(self, request, *args, **kwargs):
-        response = super().delete(request, *args, **kwargs)
+    def form_valid(self, form):
+        response = super().form_valid(form)
         monitoring_logger.info(
             f'Study {self.study.name} deleted by {self.request.user.pk}'
         )

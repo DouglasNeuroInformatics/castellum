@@ -20,15 +20,15 @@
 
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm as BaseAuthenticationForm
+from django.contrib.auth.forms import BaseUserCreationForm
 from django.contrib.auth.forms import UserChangeForm
-from django.contrib.auth.forms import UserCreationForm
 
 from .models import User
 from .models import generate_token
 
 
-class UserCreationAdminForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
+class UserCreationAdminForm(BaseUserCreationForm):
+    class Meta(BaseUserCreationForm.Meta):
         model = User
 
     def __init__(self, *args, **kwargs):

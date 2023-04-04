@@ -167,7 +167,7 @@ class Migration(migrations.Migration):
                     models.ManyToManyField(
                         blank=True,
                         help_text='Additional suitability documents are records that certify that a subject may safely undergo all types of exams or tests conducted in the respective type of study.',
-                        related_name='_subjects_subject_additional_suitability_document_+',
+                        related_name='+',
                         to='studies.StudyType',
                         verbose_name='Additional suitability document for study type',
                     ),
@@ -176,7 +176,7 @@ class Migration(migrations.Migration):
                     'study_type_disinterest',
                     models.ManyToManyField(
                         blank=True,
-                        related_name='_subjects_subject_study_type_disinterest_+',
+                        related_name='+',
                         to='studies.StudyType',
                         verbose_name='Does not want to participate in the following study types',
                     ),

@@ -339,7 +339,7 @@ class Migration(migrations.Migration):
                     'excluded_studies',
                     models.ManyToManyField(
                         blank=True,
-                        related_name='_studies_study_excluded_studies_+',
+                        related_name='+',
                         to='studies.Study',
                         verbose_name='Excluded studies',
                     ),
@@ -348,7 +348,7 @@ class Migration(migrations.Migration):
                     'exportable_attributes',
                     models.ManyToManyField(
                         blank=True,
-                        related_name='_studies_study_exportable_attributes_+',
+                        related_name='+',
                         to='recruitment.AttributeDescription',
                         verbose_name='Exportable recruitment attributes',
                     ),
@@ -565,7 +565,7 @@ class Migration(migrations.Migration):
                     'groups',
                     models.ManyToManyField(
                         blank=True,
-                        related_name='_studies_studymembership_groups_+',
+                        related_name='+',
                         to='studies.StudyGroup',
                     ),
                 ),

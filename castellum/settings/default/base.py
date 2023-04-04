@@ -119,7 +119,6 @@ DEFAULT_EXCEPTION_REPORTER = 'castellum.utils.debug.ExceptionReporter'
 
 # Internationalization
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 LOCALE_PATHS = [BASE_DIR / 'locale']
 
@@ -138,7 +137,14 @@ STATICFILES_FINDERS = [
 ]
 
 # enable cache busting
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage',
+    },
+}
 
 STATIC_URL = '/static/'
 
@@ -153,11 +159,19 @@ NPM_ROOT_PATH = BASE_DIR.parent
 NPM_FILE_PATTERNS = {
     'bootstrap': [
         'dist/css/bootstrap.min.css',
+        'dist/css/bootstrap.min.css.map',
         'dist/js/bootstrap.min.js',
+        'dist/js/bootstrap.min.js.map',
     ],
-    'jdenticon': ['dist/jdenticon.min.js'],
+    'jdenticon': [
+        'dist/jdenticon.min.js',
+        'dist/jdenticon.min.js.map',
+    ],
     'jquery': ['dist/jquery.min.js'],
-    '@popperjs': ['core/dist/umd/popper-lite.min.js'],
+    '@popperjs': [
+        'core/dist/umd/popper-lite.min.js',
+        'core/dist/umd/popper-lite.min.js.map',
+    ],
     '@fortawesome/fontawesome-free': [
         'css/all.min.css',
         'webfonts/fa-regular-400.woff2',
