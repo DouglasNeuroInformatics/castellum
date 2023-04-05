@@ -59,7 +59,6 @@ from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import Participation
 from castellum.studies.forms import StudyFilterForm
 from castellum.studies.models import Study
-from castellum.utils.expressions import exists
 from castellum.utils.views import BaseProtectedMediaView
 
 from .forms import SubjectPrivacyLevelForm
@@ -809,11 +808,12 @@ class MaintenanceConsentView(BaseMaintenanceView):
         return (
             Subject.objects
             .annotate(
-                consent_document_deprecated=exists(
-                    self.get_by_deprecated_document(), pk=models.OuterRef('pk')
+                consent_document_deprecated=models.Exists(
+                    self.get_by_deprecated_document().filter(pk=models.OuterRef('pk'))
                 ),
-                consent_from_before_full_age=exists(
-                    self.get_by_consent_from_before_full_age(), pk=models.OuterRef('pk')
+                consent_from_before_full_age=models.Exists(
+                    self.get_by_consent_from_before_full_age()
+                    .filter(pk=models.OuterRef('pk'))
                 ),
             )
             .exclude(

@@ -26,7 +26,6 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
-from castellum.utils.expressions import exists
 
 
 def get_export_requested():
@@ -56,7 +55,9 @@ def get_no_legal_basis():
     # the number of matches, so it is done first
     subjects = (
         Subject.objects
-        .alias(has_study_consent=exists(participations, subject=models.OuterRef('pk')))
+        .alias(has_study_consent=models.Exists(
+            participations.filter(subject=models.OuterRef('pk'))
+        ))
         .exclude(pk__in=Subject.objects.filter(
             filter_queries.has_consent(include_waiting=True))
         )
@@ -122,10 +123,14 @@ def get_subjects():
                 ) + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
                 output_field=models.DateField(),
             ),
-            no_legal_basis=exists(get_no_legal_basis(), pk=models.OuterRef('pk')),
-            unreachable=exists(get_unreachable(), pk=models.OuterRef('pk')),
-            unnecessary_recruitment_data=exists(
-                get_unnecessary_recruitment_data(), pk=models.OuterRef('pk')
+            no_legal_basis=models.Exists(
+                get_no_legal_basis().filter(pk=models.OuterRef('pk'))
+            ),
+            unreachable=models.Exists(
+                get_unreachable().filter(pk=models.OuterRef('pk'))
+            ),
+            unnecessary_recruitment_data=models.Exists(
+                get_unnecessary_recruitment_data().filter(pk=models.OuterRef('pk'))
             ),
         )
         .exclude(
