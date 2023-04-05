@@ -825,18 +825,6 @@ class MaintenanceConsentView(BaseMaintenanceView):
         )
 
 
-class MaintenanceWaitingView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_waiting.html'
-    tab = 'waiting'
-
-    def get_queryset(self):
-        return (
-            super().get_queryset()
-            .filter(consent__isnull=True)
-            .order_by('pk')
-        )
-
-
 class MaintenanceReliabilityView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_reliability.html'
     tab = 'reliability'

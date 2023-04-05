@@ -19,7 +19,6 @@
                 <a href="{% url 'subjects:maintenance-contact' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'contact' %}active{% endif %}">{% translate 'Contact' %}</a>
                 <a href="{% url 'subjects:maintenance-duplicates' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'duplicates' %}active{% endif %}">{% translate 'Duplicates' %}</a>
                 <a href="{% url 'subjects:maintenance-consent' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'consent' %}active{% endif %}">{% translate 'Consent' %}</a>
-                <a href="{% url 'subjects:maintenance-waiting' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'waiting' %}active{% endif %}">{% translate 'Waiting for consent' %}</a>
                 <a href="{% url 'subjects:maintenance-reliability' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'reliability' %}active{% endif %}">{% translate 'Reliability' %}</a>
                 <a href="{% url 'subjects:maintenance-estranged-subjects' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'estranged_subjects' %}active{% endif %}">{% translate 'Estranged subjects' %}</a>
                 {% if CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED %}
