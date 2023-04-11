@@ -98,11 +98,6 @@
         "name": "Receptionist",
         "permissions": [
             [
-                "search_participations",
-                "recruitment",
-                "participation"
-            ],
-            [
                 "view_current_appointments",
                 "appointments",
                 "appointment"
