@@ -39,7 +39,19 @@ class ReceptionView(PermissionRequiredMixin, ListView):
     permission_required = 'appointments.view_current_appointments'
 
     def get_queryset(self):
-        return super().get_queryset().filter(start__date=datetime.date.today(),).order_by('start')
+        return (
+            super().get_queryset()
+            .filter(start__date=datetime.date.today())
+            .order_by('start')
+            .select_related(
+                'participation__subject',
+                'participation__study',
+                'session',
+            )
+            .prefetch_related(
+                'assigned_conductors',
+            )
+        )
 
 
 class ResourceListView(LoginRequiredMixin, ListView):
