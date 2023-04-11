@@ -1,15 +1,13 @@
 {% extends "base_with_breadcrumbs.html" %}
 {% load i18n %}
 
-{% block title %}{% translate 'Reception' %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Today's appointments" %} &middot; {{ block.super }}{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'appointments:reception' %}">{% translate "Reception" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'appointments:reception' %}">{% translate "Today's appointments" %}</a></li>
 {% endblock %}
 
 {% block content %}
-    <h1>{% translate "Today's appointments" %}</h1>
-
     <ul class="table-list">
         {% for appointment in object_list %}
             <li class="table-list-item">
