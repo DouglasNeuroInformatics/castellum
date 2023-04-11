@@ -21,17 +21,17 @@
 </head>
 <body {% if user.is_authenticated %}data-logout-timeout="{{ CASTELLUM_LOGOUT_TIMEOUT.total_seconds }}"{% endif %}>
     {% if DEMO %}
-        <div class="text-bg-warning p-2 text-center" title="{% translate 'Set settings.PRODUCTION to remove this message.' %}">
+        <div class="text-bg-warning p-2 text-center d-print-none" title="{% translate 'Set settings.PRODUCTION to remove this message.' %}">
             {% translate 'Running in Demo mode.' %}
         </div>
     {% endif %}
     {% for message in broadcast_messages %}
-        <div class="text-bg-{{ message.level }} p-2 text-center">
+        <div class="text-bg-{{ message.level }} p-2 text-center d-print-none">
             {{ message.content }}
         </div>
     {% endfor %}
     {% if not view.nochrome %}
-        <header class="text-bg-dark">
+        <header class="text-bg-dark d-print-none">
             <div class="container visually-hidden-focusable">
                 <a href="#content" class="d-inline-block p-2 text-white">{% translate 'Skip to main content' %}</a>
             </div>
