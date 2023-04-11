@@ -132,6 +132,11 @@ def data_protection_coordinator(db):
 
 
 @pytest.fixture
+def receptionist(db):
+    return create_user('Receptionist')
+
+
+@pytest.fixture
 def member(study, study_in_execution_status, study_in_edit_status):
     return create_member(
         'all', [study, study_in_execution_status, study_in_edit_status]

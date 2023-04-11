@@ -93,6 +93,25 @@
 },
 {
     "model": "auth.group",
+    "pk": 6,
+    "fields": {
+        "name": "Receptionist",
+        "permissions": [
+            [
+                "search_participations",
+                "recruitment",
+                "participation"
+            ],
+            [
+                "view_current_appointments",
+                "appointments",
+                "appointment"
+            ]
+        ]
+    }
+},
+{
+    "model": "auth.group",
     "pk": 7,
     "fields": {
         "name": "Study approver",
