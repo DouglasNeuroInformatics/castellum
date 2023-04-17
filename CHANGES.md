@@ -1,3 +1,17 @@
+# 0.89.0 (unrelease)
+
+## breaking changes
+
+-   Django was updated to 4.2. This also means that the minimal
+    supported version of Python is now 3.8 and the minimal supported
+    version of PostgreSQL is now 12.
+-   The "waiting for consent" maintenance view has been removed. It was
+    supposed to help find subjects that have neither given nor denied
+    recruitment consent. This is not actually an issue so there is no
+    reason to have that view.
+-   Header and messages are no longer included when printing a page.
+
+
 # 0.88.1 (2023-03-28)
 
 ## bug fixes
