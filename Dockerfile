@@ -1,4 +1,4 @@
-FROM alpine:3.16.4 AS base
+FROM alpine:3.16.5 AS base
 
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE=django_settings
