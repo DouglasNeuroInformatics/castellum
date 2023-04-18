@@ -25,10 +25,33 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView
 
+from castellum.appointments.models import Appointment
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.studies.models import Resource
 
 from .helpers import get_external_resource_events
 from .mixins import BaseCalendarView
+
+
+class ReceptionView(PermissionRequiredMixin, ListView):
+    model = Appointment
+    template_name = 'appointments/reception.html'
+    permission_required = 'appointments.view_current_appointments'
+
+    def get_queryset(self):
+        return (
+            super().get_queryset()
+            .filter(start__date=datetime.date.today())
+            .order_by('start')
+            .select_related(
+                'participation__subject',
+                'participation__study',
+                'session',
+            )
+            .prefetch_related(
+                'assigned_conductors',
+            )
+        )
 
 
 class ResourceListView(LoginRequiredMixin, ListView):

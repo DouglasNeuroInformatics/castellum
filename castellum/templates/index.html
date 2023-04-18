@@ -27,6 +27,20 @@
             </div>
         </div>
 
+        {% has_perm 'appointments.view_current_appointments' user as can_view_current_appointments %}
+        {% if can_view_current_appointments %}
+            <div class="col-sm-6 col-md-4">
+                <div class="card">
+                    <a href="{% url 'appointments:reception' %}" class="card-header" tabindex="-1" aria-hidden="true">
+                        <img class="w-100 h-auto" src="{% static 'images/circle-icons/booklet.png' %}" alt="" width="184" height="184">
+                    </a>
+                    <div class="card-body">
+                        <a href="{% url 'appointments:reception' %}" class="btn btn-primary d-block w-100">{% translate "Today's appointments" %}</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
         {% if user.resource_set.exists %}
             <div class="col-sm-6 col-md-4 mb-4">
                 <div class="card">

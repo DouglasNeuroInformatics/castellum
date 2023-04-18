@@ -1,0 +1,50 @@
+{% extends "base_with_breadcrumbs.html" %}
+{% load i18n utils %}
+
+{% block title %}{% translate "Today's appointments" %} &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'appointments:reception' %}">{% translate "Today's appointments" %}</a></li>
+{% endblock %}
+
+{% block container_class %}container-lg{% endblock%}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% translate 'Time' %}</th>
+                <th>{% translate 'Name' %}</th>
+                <th>{% translate 'Study' %}</th>
+                <th>{% translate 'Session' %}</th>
+                <th>{% translate 'Contact person' %}</th>
+                <th>{% translate 'Assigned conductors' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in object_list %}
+                <tr>
+                    <td>{{ appointment.start|time }}</th>
+                    <td>{{ appointment.participation.subject.contact.full_name }}</td>
+                    <td>
+                        {% if appointment.participation.study.url %}
+                            <a href="{{ appointment.participation.study.url }}">{{ appointment.participation.study }}</a>
+                        {% else %}
+                            {{ appointment.participation.study }}
+                        {% endif %}
+                    </td>
+                    <td>{{ appointment.session|display:'name' }}</td>
+                    <td>
+                        {{ appointment.participation.study|display:'contact_person' }}
+                        ({{ appointment.participation.study|display:'phone' }})
+                    </td>
+                    <td>{{ appointment|display:'assigned_conductors' }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="fst-italic">{% translate 'No appointments today' %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
