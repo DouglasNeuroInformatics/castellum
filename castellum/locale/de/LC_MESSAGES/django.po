@@ -86,7 +86,11 @@ msgstr "Zugewiesene Durchführer*innen"
 msgid "Appointment"
 msgstr "Termin"
 
-#: castellum/appointments/models.py:78
+#: castellum/appointments/models.py:76
+msgid "Can view current appointments"
+msgstr "Darf aktuelle Termine anschauen"
+
+#: castellum/appointments/models.py:85
 msgid "Session and participation do not belong to the same study"
 msgstr "Sitzung und Teilnahme gehören nicht zur selben Studie"
 
@@ -143,6 +147,16 @@ msgstr "Kalender"
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:86
 msgid "Save"
 msgstr "Speichern"
+
+#: castellum/appointments/templates/appointments/reception.html:4
+#: castellum/appointments/templates/appointments/reception.html:7
+#: castellum/templates/index.html:38
+msgid "Today's appointments"
+msgstr "Heutige Termine"
+
+#: castellum/appointments/templates/appointments/reception.html:16
+msgid "Time"
+msgstr "Uhrzeit"
 
 #: castellum/appointments/templates/appointments/resource_base.html:4
 #: castellum/appointments/templates/appointments/resource_base.html:8
