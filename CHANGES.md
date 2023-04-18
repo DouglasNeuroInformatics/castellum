@@ -1,4 +1,4 @@
-# 0.89.0 (unrelease)
+# 0.89.0 (2023-04-18)
 
 ## breaking changes
 
@@ -10,6 +10,12 @@
     recruitment consent. This is not actually an issue so there is no
     reason to have that view.
 -   Header and messages are no longer included when printing a page.
+
+## new features
+
+-   The reception tile on the start page as well as the "Receptionist"
+    user group that had been removed in 0.80.0 have been restored with
+    minor changes.
 
 
 # 0.88.1 (2023-03-28)
