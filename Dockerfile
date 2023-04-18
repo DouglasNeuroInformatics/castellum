@@ -15,7 +15,7 @@ VOLUME /code/media
 
 EXPOSE 8000/tcp
 
-RUN apk update && apk add uwsgi uwsgi-python uwsgi-router_static python3 py3-pip py3-wheel py3-psycopg2 py3-pyldap py3-cryptography gdal gettext
+RUN apk update && apk add uwsgi uwsgi-python uwsgi-router_static python3 py3-pip py3-wheel py3-psycopg2 py3-pyldap py3-cryptography gdal gettext tzdata
 
 WORKDIR code/
 
