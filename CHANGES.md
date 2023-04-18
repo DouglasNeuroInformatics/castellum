@@ -1,3 +1,8 @@
+# 0.89.1 (2023-04-18)
+
+-   Add missing timezone data to docker image
+
+
 # 0.89.0 (2023-04-18)
 
 ## breaking changes
