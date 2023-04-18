@@ -70,7 +70,7 @@ PROTECTED_MEDIA_URL = '/protected/'
 # Two factor authentication
 # See https://github.com/xi/django-mfa3
 MFA_SITE_TITLE = 'Castellum'
-MFA_DOMAIN = None
+MFA_DOMAIN = 'localhost'
 
 # display export button in study detail view
 CASTELLUM_ENABLE_STUDY_EXPORT = True
