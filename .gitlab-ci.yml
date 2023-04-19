@@ -1,6 +1,7 @@
 stages:
   - test
   - push
+  - deploy
 
 workflow:
   rules:
@@ -78,3 +79,18 @@ docker:push:
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_TAG
+
+deploy:
+  image:
+    name: bitnami/kubectl
+    entrypoint: [""]
+  stage: deploy
+  before_script:
+    - kubectl config set-cluster default --server=https://prod.rancher.gwdg.de/k8s/clusters/c-69w57
+    - kubectl config set-credentials default --token="$K8S_TOKEN"
+    - kubectl config set-context default --cluster=default --user=default --namespace=castellum
+    - kubectl config use-context default
+  script:
+    - kubectl rollout restart deployment/castellum-stage
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $K8S_TOKEN
