@@ -34,8 +34,7 @@ documentation](https://git.mpib-berlin.mpg.de/castellum/castellum/-/tree/main/do
 ## Links
 
 -   Contact: castellum@mpib-berlin.mpg.de
--   Demo: https://castellum.t.mpib-berlin.mpg.de (username: admin,
-    password: password)
+-   Demo: https://castellum.t.mpib-berlin.mpg.de
 -   Source code: https://git.mpib-berlin.mpg.de/castellum/castellum/
 -   Releases: https://git.mpib-berlin.mpg.de/castellum/castellum/-/releases
     ([feed](https://git.mpib-berlin.mpg.de/castellum/castellum/-/tags?format=atom))
