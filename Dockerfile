@@ -30,7 +30,7 @@ COPY castellum/ castellum
 
 RUN django-admin compilemessages -l de --settings=castellum.settings.bare
 
-CMD ["uwsgi", "uwsgi.ini", "--processes", "10", "--cheaper", "1"]
+CMD ["uwsgi", "uwsgi.ini"]
 
 
 FROM base AS static
