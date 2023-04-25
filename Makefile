@@ -2,14 +2,19 @@ VIRTUAL_ENV ?= .venv
 MANAGEPY = $(VIRTUAL_ENV)/bin/python manage.py
 
 .PHONY: all
-all: bootstrap run
+all: install migrate populate compilemessages run
 
 .PHONY: run
 run:
 	$(MANAGEPY) runserver
 
-.PHONY: bootstrap
-bootstrap: install migrate populate castellum/locale/de/LC_MESSAGES/django.mo
+.PHONY: install
+install:
+	if [ ! -d "$(VIRTUAL_ENV)" ]; then python3 -m venv "$(VIRTUAL_ENV)"; fi
+	$(VIRTUAL_ENV)/bin/python -m pip install wheel
+	$(VIRTUAL_ENV)/bin/python -m pip install -e .[test,dev]
+	npm install
+	.misc/extract_fullcalendar_css.sh
 
 .PHONY: migrate
 migrate:
@@ -21,21 +26,6 @@ populate:
 	$(MANAGEPY) create_demo_users
 	$(MANAGEPY) create_demo_content
 
-.PHONY: makemessages
-makemessages:
-	$(MANAGEPY) makemessages --ignore node_modules -l de -d django
-	$(MANAGEPY) makemessages --ignore node_modules -l de -d djangojs
-
-%.mo: %.po
-	$(MANAGEPY) compilemessages -l de
-
-.PHONY: remove_databases
-remove_databases:
-	rm -f db.sqlite3 contacts.sqlite3
-
-.PHONY: reset_databases
-reset_databases: remove_databases migrate populate
-
 .PHONY: lint
 lint:
 	$(VIRTUAL_ENV)/bin/isort castellum tests
@@ -46,13 +36,11 @@ lint:
 test:
 	$(VIRTUAL_ENV)/bin/pytest --no-migrations
 
-.PHONY: install
-install: venv
-	$(VIRTUAL_ENV)/bin/python -m pip install -e .[test,dev]
-	npm install
-	.misc/extract_fullcalendar_css.sh
+.PHONY: makemessages
+makemessages:
+	$(MANAGEPY) makemessages --ignore node_modules -l de -d django
+	$(MANAGEPY) makemessages --ignore node_modules -l de -d djangojs
 
-.PHONY: venv
-venv:
-	if [ ! -d "$(VIRTUAL_ENV)" ]; then python3 -m venv "$(VIRTUAL_ENV)"; fi
-	$(VIRTUAL_ENV)/bin/python -m pip install wheel
+.PHONY: compilemessages
+compilemessages:
+	$(MANAGEPY) compilemessages -l de
