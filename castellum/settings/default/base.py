@@ -118,9 +118,14 @@ LOGIN_URL = '/login/'
 DEFAULT_EXCEPTION_REPORTER = 'castellum.utils.debug.ExceptionReporter'
 
 # Internationalization
+
 USE_I18N = True
+
 USE_TZ = True
-LOCALE_PATHS = [BASE_DIR / 'locale']
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale'
+]
 
 
 # Static files (CSS, JavaScript, Images)
@@ -129,14 +134,12 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'npm.finders.NpmFinder',
 ]
 
-# enable cache busting
 STORAGES = {
     'default': {
         'BACKEND': 'django.core.files.storage.FileSystemStorage',
@@ -146,11 +149,11 @@ STORAGES = {
     },
 }
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 STATIC_ROOT = BASE_DIR.parent / 'static'
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 
