@@ -1,25 +1,6 @@
 [
 {
     "model": "studies.studygroup",
-    "pk": 1,
-    "fields": {
-        "name": "Subject manager",
-        "permissions": [
-            [
-                "view_subject",
-                "subjects",
-                "subject"
-            ],
-            [
-                "change_subject",
-                "subjects",
-                "subject"
-            ]
-        ]
-    }
-},
-{
-    "model": "studies.studygroup",
     "pk": 2,
     "fields": {
         "name": "Recruiter",

@@ -123,7 +123,7 @@ def study_coordinator(db):
 
 @pytest.fixture
 def subject_manager(db):
-    return create_user('Principal subject manager')
+    return create_user('Subject manager')
 
 
 @pytest.fixture
