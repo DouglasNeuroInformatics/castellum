@@ -37,6 +37,7 @@ from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
 
 from ..forms import ExcludedStudiesForm
+from ..forms import MailSettingsForm
 from ..mixins import StudyMixin
 from ..models import Study
 
@@ -157,10 +158,7 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_mailsettings.html'
-    fields = [
-        'mail_subject',
-        'mail_body',
-    ]
+    form_class = MailSettingsForm
     permission_required = 'studies.change_study'
     is_filter_trial = False
     tab = 'recruitmentsettings'

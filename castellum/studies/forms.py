@@ -184,6 +184,26 @@ class MultiMemberForm(MemberForm):
             self._save_m2m()
 
 
+class MailSettingsForm(forms.ModelForm):
+    class Meta:
+        model = Study
+        fields = [
+            'mail_subject',
+            'mail_body',
+        ]
+
+    def clean_mail_body(self):
+        value = self.cleaned_data['mail_body']
+        if not value:
+            return value
+        if '{name}' not in value:
+            raise forms.ValidationError(_(
+                'Without a "{name}" placeholder, recipients cannot '
+                'know who exactly this mail is intended to reach.'
+            ))
+        return value
+
+
 class ImportForm(BaseImportForm):
     schema = IMPORT_SCHEMA
     schema_ref = '#/$defs/Study'
