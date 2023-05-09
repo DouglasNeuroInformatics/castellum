@@ -187,3 +187,8 @@ input:checked + .checkbox-opacity {
 .fc  th {
     border: 1px solid var(--bs-gray-300);
 }
+
+.select2-container--bootstrap4 .select2-results__option--highlighted,
+.select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected="true"] {
+    background-color: var(--bs-primary);
+}
