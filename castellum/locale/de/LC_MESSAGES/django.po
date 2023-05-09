@@ -184,10 +184,8 @@ msgid "Contact person"
 msgstr "Kontaktperson"
 
 #: castellum/appointments/templates/appointments/reception.html:45
-#, fuzzy
-#| msgid "Some appointments overlap"
 msgid "No appointments today"
-msgstr "Einige Termine haben Überschneidungen"
+msgstr "Für heute sind keine Termine eingetragen."
 
 #: castellum/appointments/templates/appointments/resource_base.html:4
 #: castellum/appointments/templates/appointments/resource_base.html:8
@@ -2149,6 +2147,8 @@ msgid ""
 "Without a \"{name}\" placeholder, recipients cannot know who exactly this "
 "mail is intended to reach."
 msgstr ""
+"Ohne einen \"{name}\"-Platzhalter wissen die Empfänger*innen nicht, an wen "
+"die Mail gerichtet ist."
 
 #: castellum/studies/models.py:64
 msgid "Label"
@@ -3499,12 +3499,6 @@ msgstr ""
 "                        "
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:57
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                        The subject has recently come of age.\n"
-#| "                        Please contact the subject for a new consent.\n"
-#| "                    "
 msgid ""
 "\n"
 "                        The subject has recently come of age.\n"
@@ -3514,8 +3508,8 @@ msgid ""
 msgstr ""
 "\n"
 "                            Die Proband*in ist kürzlich volljährig geworden. "
-"Bitte kontaktieren Sie die Proband*in um eine neue Einwilligung zu "
-"erhalten.\n"
+"Bitte kontaktieren Sie die Eltern, um die Kontaktdaten und "
+"Rekrutierungseinwilligung von dem Kind zu erhalten."
 "                        "
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:65
@@ -4171,57 +4165,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Waiting for consent"
-#~ msgstr "Warten auf Einwilligung"
-
-#~ msgid "The following subjects have been contacted for recruitment consent:"
-#~ msgstr ""
-#~ "Die folgenden Proband*innen wurden für eine Rekrutierungseinwilligung "
-#~ "kontaktiert:"
-
-#~ msgid "Waiting since"
-#~ msgstr "auf Antwort wartend seit"
-
-#~ msgid "Responsible contact person"
-#~ msgstr "Verantwortliche Kontaktperson"
-
-#~ msgid "Please double check missing entries before start of recruitment"
-#~ msgstr ""
-#~ "Bitte prüfen Sie die fehlenden Werte, bevor Sie die Rekrutierung starten"
-
-#~ msgid "Currently available"
-#~ msgstr "Aktuell erreichbar"
-
-#, python-format
-#~ msgid ""
-#~ "\n"
-#~ "                (not until %(next_available)s)\n"
-#~ "            "
-#~ msgstr ""
-#~ "\n"
-#~ "(nicht bis %(next_available)s)"
-
-#~ msgid "Operational hints"
-#~ msgstr "Verfahrenshinweise"
-
-#~ msgid "Edit contact"
-#~ msgstr "Kontakt bearbeiten"
-
-#~ msgid "Edit recruitment attributes"
-#~ msgstr "Rekrutierungsmerkmale bearbeiten"
-
-#~ msgid "Add study participation"
-#~ msgstr "Studienteilnahme hinzufügen"
-
-#~ msgid "Subject Study Participation"
-#~ msgstr "Studienteilnahme der Proband*in"
-
-#~ msgid "Edit subject"
-#~ msgstr "Proband*in bearbeiten"
-
-#~ msgid "Subject details"
-#~ msgstr "Proband*innendetails"
-
-#~ msgid "Consent document"
-#~ msgstr "Einwilligungserklärung"
