@@ -1,3 +1,23 @@
+# 0.90.0 (2023-05-09)
+
+## security
+
+-   To limit the impact of study manager privilege escalations, the
+    "subject manager" study group is no longer created by default. If it
+    is not required for your usecase, we recommend to remove it there,
+    too.
+
+## breaking changes
+
+-   The "{name}" placeholder is now required in recruitment mails.
+-   Some configuration options for uwsgi were moved from the Dockerfile
+    to uwsgi.ini.
+
+## other changes
+
+-   The front page icon for today's appointments has been changed.
+
+
 # 0.89.1 (2023-04-18)
 
 -   Add missing timezone data to docker image
