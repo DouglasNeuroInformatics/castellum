@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_bootstrap5',
+    'bootstrap_colors',
     'phonenumber_field',
     'parler',
     'stronghold',

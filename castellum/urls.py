@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from bootstrap_colors.views import BootstrapColorsView
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -72,10 +73,9 @@ urlpatterns = [
     path('favicon.ico', mfa_public(public(
         RedirectView.as_view(url='/static/images/favicon.ico')
     ))),
-    path('theme.css', mfa_public(public(TemplateView.as_view(
-        template_name='bootstrap_theme.css',
-        content_type='text/css',
-    ))), name='bootstrap-theme'),
+    path(
+        'colors.css', mfa_public(public(BootstrapColorsView.as_view())), name='colors'
+    ),
     path('ping/', dummy, name='ping'),
     path('feeds/', FeedsView.as_view(), name='feeds'),
 
