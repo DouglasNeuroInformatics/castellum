@@ -662,8 +662,8 @@ msgstr "… und %(missing)s weitere Einträge"
 #: castellum/subjects/templates/subjects/maintenance_estranged_subjects.html:31
 #: castellum/subjects/templates/subjects/maintenance_reliability.html:32
 #: castellum/subjects/templates/subjects/maintenance_subjectcreationrequest.html:57
-msgid "Page navigation"
-msgstr "Seitennavigation"
+msgid "Pagination"
+msgstr "Seitenzahl"
 
 #: castellum/execution/forms.py:26
 #: castellum/recruitment/models/participations.py:62

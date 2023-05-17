@@ -33,7 +33,7 @@
     </ul>
 
     {% if is_paginated %}
-        <nav aria-label="{% translate 'Page navigation' %}">
+        <nav aria-label="{% translate 'Pagination' %}">
             {% bootstrap_pagination page_obj url=request.get_full_path %}
         </nav>
     {% endif %}
