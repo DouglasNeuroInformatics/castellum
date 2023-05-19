@@ -326,3 +326,41 @@ tasks. An exemplary crontab for running these tasks is provided in the
 [Docker-based deployment example](../example_1/crontab). Please also
 consult the section discussing [backup strategies](../README.md#backups)
 for Castellum's databases in the main guide.
+
+### Updating Castellum
+
+Before performing any updates to your local Castellum instance, it is
+strongly recommended to consult the official
+[Release Notes](https://git.mpib-berlin.mpg.de/castellum/castellum/-/releases)
+to learn about any potential (breaking) changes.
+
+To update your Castellum instance, first stop all Castellum-related
+services:
+
+```bash
+systemctl stop nginx
+systemctl stop castellum.socket
+systemctl stop castellum
+```
+
+Then navigate to Castellum's locally cloned sources and download (but
+not integrate) new data from Castellum's official repository using
+``git fetch``:
+
+```bash
+cd /opt/castellum
+git fetch
+git checkout x.y.z
+export DJANGO_SETTINGS_MODULE="castellum.settings.development"
+cd castellum/
+django-admin migrateall
+django-admin collectstatic
+```
+
+If everything went smoothly, start up the instance again:
+
+```bash
+systemctl start nginx
+systemctl start castellum.socket
+systemctl start castellum
+```
