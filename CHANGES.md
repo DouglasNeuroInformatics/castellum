@@ -1,3 +1,16 @@
+# 0.90.1 (2023-05-30)
+
+## bug fixes
+
+-   remove outdated link to blocking subjects from subject management
+    overview
+-   improve aria-label for pagination
+
+## other changes
+
+-   for the docker image, alpine linux has been updated to 3.17
+
+
 # 0.90.0 (2023-05-09)
 
 ## security
