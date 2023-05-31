@@ -187,6 +187,7 @@ install the Javascript dependencies:
 ```bash
 pip3 install -e .
 npm install
+.misc/extract_fullcalendar_css.sh
 ```
 
 Next, copy the provided configuration file `settings.py` to Castellum's
