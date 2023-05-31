@@ -1,3 +1,8 @@
+# 0.90.2 (2023-05-30)
+
+-   Downgrade fullcalendar to avoid a bug in the latest version
+
+
 # 0.90.1 (2023-05-30)
 
 ## bug fixes
