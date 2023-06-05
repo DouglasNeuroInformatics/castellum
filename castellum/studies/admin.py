@@ -33,8 +33,14 @@ class StudyAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
+class StudyGroupAdmin(admin.ModelAdmin):
+    search_fields = ['name"']
+    ordering = ['name']
+    filter_horizontal = ['permissions']
+
+
 admin.site.register(models.Resource)
 admin.site.register(models.Study, StudyAdmin)
-admin.site.register(models.StudyGroup)
+admin.site.register(models.StudyGroup, StudyGroupAdmin)
 admin.site.register(models.StudyMembership)
 admin.site.register(models.StudyType, TranslatableAdmin)
