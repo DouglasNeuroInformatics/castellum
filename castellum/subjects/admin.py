@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib import admin
 
 from castellum.utils.admin import NoCreateModelAdmin
@@ -33,8 +34,10 @@ class ConsentDocumentAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'created_at']
 
 
-admin.site.register(models.Subject, SubjectAdmin)
-admin.site.register(models.SubjectCreationRequest, NoCreateModelAdmin)
-admin.site.register(models.Consent)
 admin.site.register(models.ConsentDocument, ConsentDocumentAdmin)
-admin.site.register(models.Report)
+
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+    admin.site.register(models.Subject, SubjectAdmin)
+    admin.site.register(models.SubjectCreationRequest, NoCreateModelAdmin)
+    admin.site.register(models.Consent)
+    admin.site.register(models.Report)

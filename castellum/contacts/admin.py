@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib import admin
 
 from castellum.utils.admin import NoCreateModelAdmin
@@ -60,6 +61,7 @@ class ContactAdmin(admin.ModelAdmin):
         return super().get_queryset(request).select_related('address')
 
 
-admin.site.register(Contact, ContactAdmin)
-admin.site.register(ContactCreationRequest, NoCreateModelAdmin)
-admin.site.register(Street)
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+    admin.site.register(Contact, ContactAdmin)
+    admin.site.register(ContactCreationRequest, NoCreateModelAdmin)
+    admin.site.register(Street)

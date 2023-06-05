@@ -18,8 +18,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib import admin
 
 from .models import Appointment
 
-admin.site.register(Appointment)
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+    admin.site.register(Appointment)

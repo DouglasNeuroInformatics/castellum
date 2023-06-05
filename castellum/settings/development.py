@@ -61,6 +61,7 @@ CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']
 CASTELLUM_REPORT_NOTIFICATION_TO = ['report@example.com']
 CASTELLUM_API_ENABLED = True
 CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED = True
+CASTELLUM_ADVANCED_ADMIN_UI = True
 
 # Setup geofilters
 INSTALLED_APPS.append('django.contrib.gis')

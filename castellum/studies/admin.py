@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib import admin
 from parler.admin import TranslatableAdmin
 
@@ -40,7 +41,9 @@ class StudyGroupAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Resource)
-admin.site.register(models.Study, StudyAdmin)
 admin.site.register(models.StudyGroup, StudyGroupAdmin)
-admin.site.register(models.StudyMembership)
 admin.site.register(models.StudyType, TranslatableAdmin)
+
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+    admin.site.register(models.Study, StudyAdmin)
+    admin.site.register(models.StudyMembership)
