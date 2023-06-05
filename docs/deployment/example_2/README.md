@@ -220,6 +220,7 @@ django-admin migrateall
 django-admin loaddata groups study_types study_groups resources attribute_descriptions
 django-admin createsuperuser --username admin
 django-admin activate_user admin
+django-admin compilemessages -l de
 django-admin collectstatic
 ```
 
