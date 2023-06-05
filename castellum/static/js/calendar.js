@@ -36,7 +36,8 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
             if (arg.event.extendedProps.min_subject_count) {
                 var container = arg.el.querySelector('.fc-event-title');
                 var span = document.createElement('span');
-                span.append('(', $$.icon('fas fa-users', django.gettext('Participants')), ' ', arg.event.extendedProps.min_subject_count, ')');
+                var iconLabel = document.querySelector('#i18n-participants').content.textContent;
+                span.append('(', $$.icon('fas fa-users', iconLabel), ' ', arg.event.extendedProps.min_subject_count, ')');
                 container.append(' ', span);
             }
         },

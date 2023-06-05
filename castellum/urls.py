@@ -28,7 +28,6 @@ from django.urls import include
 from django.urls import path
 from django.views.generic import RedirectView
 from django.views.generic import TemplateView
-from django.views.i18n import JavaScriptCatalog
 from mfa.decorators import public as mfa_public
 from mfa.views import LoginView
 from stronghold.decorators import public
@@ -80,9 +79,6 @@ urlpatterns = [
     path('feeds/', FeedsView.as_view(), name='feeds'),
 
     path('i18n/', mfa_public(set_language), name='set_language'),
-    path('jsi18n/', mfa_public(public(
-        JavaScriptCatalog.as_view()
-    )), name='javascript-catalog'),
 
     path('admin/', admin.site.urls),
     path('studies/', include('castellum.studies.urls', namespace='studies')),

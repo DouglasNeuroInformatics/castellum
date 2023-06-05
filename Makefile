@@ -39,7 +39,6 @@ test:
 .PHONY: makemessages
 makemessages:
 	$(MANAGEPY) makemessages --ignore node_modules -l de -d django
-	$(MANAGEPY) makemessages --ignore node_modules -l de -d djangojs
 
 .PHONY: compilemessages
 compilemessages:
