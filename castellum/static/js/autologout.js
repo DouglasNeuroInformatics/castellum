@@ -17,7 +17,7 @@
             });
         } else if (idleTime > warnTimeout) {
             // blocks until the alert is closed
-            alert(django.gettext('If you do nothing your session will expire'));
+            alert(document.querySelector('#i18n-autologout').content.textContent);
 
             if (new Date() - lastActivity <= logoutTimeout) {
                 setActive();

@@ -18,6 +18,11 @@
     {% if BOOTSTRAP_THEME_COLORS %}<link rel="stylesheet" type="text/css" href="{% url 'colors' %}">{% endif %}
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     {% block extra_styles %}{% endblock %}
+
+    <template id="i18n-no-contact">{% translate 'There is no way to contact this subject. Are you sure you want to save?' %}</template>
+    <template id="i18n-appointments">{% translate 'Some of the appointments are outside of the planned time period. Do you want to save it anyway?' %}</template>
+    <template id="i18n-autologout">{% translate 'If you do nothing your session will expire' %}</template>
+    <template id="i18n-participants">{% translate 'Participants' %}</template>
 </head>
 <body {% if user.is_authenticated %}data-logout-timeout="{{ CASTELLUM_LOGOUT_TIMEOUT.total_seconds }}"{% endif %}>
     {% if DEMO %}
@@ -137,7 +142,6 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     {% if user.is_authenticated %}
         <script src="{% static 'js/autologout.js' %}"></script>
     {% endif %}

@@ -16,7 +16,7 @@
                 }
             }
         });
-        if (warn && !confirm(django.gettext('Some of the appointments are outside of the planned time period. Do you want to save it anyway?'))) {
+        if (warn && !confirm(document.querySelector('#i18n-appointments').content.textContent)) {
             event.preventDefault();
         }
     });

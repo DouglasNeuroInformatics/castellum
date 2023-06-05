@@ -23,7 +23,7 @@
             );
         }
         if (!complete) {
-            if (!confirm(django.gettext('There is no way to contact this subject. Are you sure you want to save?'))) {
+            if (!confirm(document.querySelector('#i18n-no-contact').content.textContent)) {
                 event.preventDefault();
             }
         }
