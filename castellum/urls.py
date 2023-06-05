@@ -26,6 +26,7 @@ from django.contrib.auth.views import LogoutView
 from django.http import HttpResponse
 from django.urls import include
 from django.urls import path
+from django.views.decorators.cache import cache_control
 from django.views.generic import RedirectView
 from django.views.generic import TemplateView
 from mfa.decorators import public as mfa_public
@@ -72,9 +73,9 @@ urlpatterns = [
     path('favicon.ico', mfa_public(public(
         RedirectView.as_view(url='/static/images/favicon.ico')
     ))),
-    path(
-        'colors.css', mfa_public(public(BootstrapColorsView.as_view())), name='colors'
-    ),
+    path('colors.css', mfa_public(public(cache_control(max_age=86400)(
+        BootstrapColorsView.as_view()
+    ))), name='colors'),
     path('ping/', dummy, name='ping'),
     path('feeds/', FeedsView.as_view(), name='feeds'),
 
