@@ -26,6 +26,7 @@ from . import models
 class DomainAdmin(admin.ModelAdmin):
     readonly_fields = ['key']
     search_fields = ['name', 'key']
+    list_filter = [('content_type', admin.RelatedOnlyFieldListFilter)]
 
 
 admin.site.register(models.Domain, DomainAdmin)
