@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'parler',
     'stronghold',
+    'statici18n',
     'mfa',
 
     'castellum.utils',
@@ -153,6 +154,8 @@ STORAGES = {
 STATIC_URL = 'static/'
 
 STATIC_ROOT = BASE_DIR.parent / 'static'
+
+STATICI18N_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = 'media/'
 

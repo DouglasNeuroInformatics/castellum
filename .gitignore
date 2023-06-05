@@ -10,3 +10,4 @@ htmlcov/
 *.sqlite3
 
 castellum/static/fullcalendar.css
+castellum/static/jsi18n/

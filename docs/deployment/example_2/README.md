@@ -212,15 +212,19 @@ export DJANGO_SETTINGS_MODULE="castellum.settings.deployment"
 django-admin check --deploy
 ```
 
-If Django does not complain, run all initial database migrations, load
-recommended data and create an admin user::
+If Django does not complain, run all initial database migrations,
+compile translations, collect static files, load recommended data, and
+create an admin user:
 
 ```bash
 django-admin migrateall
+django-admin compilemessages -l de
+django-admin compilejsi18n -l en
+django-admin compilejsi18n -l de
+django-admin collectstatic
 django-admin loaddata groups study_types study_groups resources attribute_descriptions
 django-admin createsuperuser --username admin
 django-admin activate_user admin
-django-admin collectstatic
 ```
 
 Once the initial setup has successfully completed, test Castellum using
