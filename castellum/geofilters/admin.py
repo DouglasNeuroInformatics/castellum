@@ -18,9 +18,11 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.gis.admin import GISModelAdmin
 
 from . import models
 
-admin.site.register(models.Geolocation, GISModelAdmin)
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+    admin.site.register(models.Geolocation, GISModelAdmin)

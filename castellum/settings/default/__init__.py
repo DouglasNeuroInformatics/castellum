@@ -199,6 +199,11 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 #   /subjects/api/subjects/<domain>/<pseudonym>/attributes/
 CASTELLUM_API_ENABLED = False
 
+# By default, only a small set of models is included in the admin UI (`/admin/`).
+#
+# This setting allows you to include all models in the admin UI.
+CASTELLUM_ADVANCED_ADMIN_UI = False
+
 # If you want to allow external services to automatically add subjects
 # to the database you need to write a custom script. However, in most
 # cases it makes sense to add a review step (e.g. to detect duplicates).

@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib import admin
 from parler.admin import TranslatableAdmin
 from parler.admin import TranslatableTabularInline
@@ -46,10 +47,12 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
 
 admin.site.register(AttributeCategory, TranslatableAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
-admin.site.register(ReliabilityEntry)
-admin.site.register(MailBatch)
-admin.site.register(NewsMailBatch)
-admin.site.register(Participation)
-admin.site.register(SubjectFilter)
-admin.site.register(SubjectFilterGroup)
-admin.site.register(ExecutionTag)
+
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+    admin.site.register(ReliabilityEntry)
+    admin.site.register(MailBatch)
+    admin.site.register(NewsMailBatch)
+    admin.site.register(Participation)
+    admin.site.register(SubjectFilter)
+    admin.site.register(SubjectFilterGroup)
+    admin.site.register(ExecutionTag)

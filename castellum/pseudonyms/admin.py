@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib import admin
 
 from . import models
@@ -30,4 +31,6 @@ class DomainAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Domain, DomainAdmin)
-admin.site.register(models.Pseudonym)
+
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+    admin.site.register(models.Pseudonym)
