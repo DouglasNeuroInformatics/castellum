@@ -195,7 +195,7 @@
         </div>
     {% endif %}
 
-    <aside class="border text-bg-light p-3 mb-3 mt-5" aria-labelledby="stats">
+    <aside class="border bg-body-tertiary p-3 mb-3 mt-5" aria-labelledby="stats">
         {% has_perm 'subjects.change_subject' user as can_change_subject %}
         {% if can_change_subject %}
             <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-primary float-end">{% translate 'Maintenance' %}</a>
