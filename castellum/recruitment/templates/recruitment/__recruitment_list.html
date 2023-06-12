@@ -4,7 +4,7 @@
     {% for participation, buckets, can_access, recently_contacted in participations %}
         <li class="table-list-item">
             {% if can_access %}
-                <div {% if participation.dropped_out or recently_contacted or participation.subject.blocked or participation.subject.deceased %}class="text-muted"{% endif %}>
+                <div {% if participation.dropped_out or recently_contacted or participation.subject.blocked or participation.subject.deceased %}class="text-body-secondary"{% endif %}>
                     <div>
                         <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                         {% for desc, bucket in buckets %}
@@ -98,11 +98,11 @@
                     </a>
                 </div>
             {% else %}
-                <div class="text-muted">
+                <div class="text-body-secondary">
                     <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                     <div class="d-inline-block my-1 me-2">
                         {% translate 'insufficient privacy level' %}
-                        <i class="fas fa-ban list-icon bg-danger text-light" role="img" aria-hidden="true"></i>
+                        <i class="fas fa-ban list-icon text-bg-danger" role="img" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="table-list-item-actions">

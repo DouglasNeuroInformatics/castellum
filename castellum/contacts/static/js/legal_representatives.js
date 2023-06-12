@@ -35,7 +35,7 @@
         var restore = wrapper.querySelector('[data-js="legal-representative-restore"]');
         var input = wrapper.querySelector('input');
 
-        wrapper.classList.toggle('text-muted', removed);
+        wrapper.classList.toggle('text-body-secondary', removed);
         remove.hidden = removed;
         restore.hidden = !removed;
         if (input.name === 'legal_representatives_remove') {

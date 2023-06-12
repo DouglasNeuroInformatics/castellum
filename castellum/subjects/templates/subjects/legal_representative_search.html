@@ -78,8 +78,8 @@
                                                 <span class="badge text-bg-dark my-1 me-2" title="{{ subject.TOOLTIPS.blocked }}">{{ subject|verbose_name:'blocked' }}</span>
                                             {% endif %}
                                         {% else %}
-                                            <h3 class="h4 d-inline-block text-muted my-1 me-2">{{ contact.full_name }}</h3>
-                                            <div class="d-inline-block text-muted my-1 me-2">{% translate 'insufficient privacy level' %}</div>
+                                            <h3 class="h4 d-inline-block text-body-secondary my-1 me-2">{{ contact.full_name }}</h3>
+                                            <div class="d-inline-block text-body-secondary my-1 me-2">{% translate 'insufficient privacy level' %}</div>
                                         {% endif %}
                                     </div>
                                     <div class="table-list-item-actions">
