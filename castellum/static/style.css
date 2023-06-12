@@ -45,6 +45,15 @@
     background-image: url("images/bootstrap/caret.svg");
 }
 
+/* work around https://github.com/twbs/bootstrap/issues/38480 */
+:root,
+[data-bs-theme="light"] {
+    --bs-border-color: var(--bs-gray-400);
+}
+[data-bs-theme="dark"] {
+    --bs-border-color: var(--bs-gray-700);
+}
+
 /* work around https://github.com/twbs/bootstrap/issues/23454 */
 .invalid-feedback {
     display: block !important;
