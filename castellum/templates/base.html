@@ -36,12 +36,12 @@
         </div>
     {% endfor %}
     {% if not view.nochrome %}
-        <header class="text-bg-dark d-print-none">
+        <header class="text-bg-dark d-print-none" data-bs-theme="dark">
             <div class="container visually-hidden-focusable">
                 <a href="#content" class="d-inline-block p-2 text-white">{% translate 'Skip to main content' %}</a>
             </div>
             <div class="container">
-                <div class="navbar navbar-expand-sm navbar-dark">
+                <div class="navbar navbar-expand-sm">
                     {% if CASTELLUM_SITE_LOGO %}
                         <a href="/" class="d-inline-block me-2" tabindex="-1" aria-hidden="true">
                             <img src="{{ CASTELLUM_SITE_LOGO }}" alt="" width="40" height="40">
