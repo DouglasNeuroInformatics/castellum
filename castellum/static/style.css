@@ -4,7 +4,7 @@
 }
 
 .table-list-item {
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--bs-border-color);
     padding: 0.5rem 0;
 }
 
@@ -83,9 +83,9 @@
 }
 
 .list-group-item-custom.active {
-    color: var(--bs-dark);
-    background-color: var(--bs-white);
-    border-color: rgba(0,0,0,.125);
+    color: var(--bs-list-group-color);
+    background-color: var(--bs-list-group-bg);
+    border-color: var(--bs-list-group-border-color);
     position: relative;
 }
 
