@@ -53,7 +53,7 @@
             {% else %}
                 {% has_perm 'subjects.view_subject' user as can_view_subject %}
                 {% for subject_pk, contact in form.legal_representatives %}
-                    <div class="rounded-lg border bg-body-tertiary p-3 mb-2 d-flex align-items-center">
+                    <div class="rounded-2 border bg-body-tertiary p-3 mb-2 d-flex align-items-center">
                         <div class="flex-grow-1">
                             <div>{% translate 'Legal representative' %}</div>
                             <div class="h5 mb-0">{{ contact }}</div>
