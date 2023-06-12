@@ -48,8 +48,8 @@
                 {% include 'contacts/__contact_detail.html' with contact=legal_representative legal_representatives=subtree is_legal_representative=True %}
             {% else %}
                 <dl class="row">
-                    <dt class="col-sm-6 text-muted">{% translate 'Legal representative' %}</dt>
-                    <dd class="col-sm-6 text-muted">{% translate 'insufficient privacy level' %}</dd>
+                    <dt class="col-sm-6 text-body-secondary">{% translate 'Legal representative' %}</dt>
+                    <dd class="col-sm-6 text-body-secondary">{% translate 'insufficient privacy level' %}</dd>
                 </dl>
             {% endif %}
         {% endfor %}

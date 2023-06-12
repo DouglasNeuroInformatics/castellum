@@ -39,7 +39,7 @@
         {% for batch in batches reversed %}
             <li class="table-list-item">
                 <div>
-                    <small class="text-muted">
+                    <small class="text-body-secondary">
                         {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.revcounter|ordinal %}
                             {{ counter }} group contacted on {{ datetime }}
                         {% endblocktranslate %}

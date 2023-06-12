@@ -23,7 +23,7 @@
         {% for batch in study.newsmailbatch_set.all reversed %}
             <li class="table-list-item">
                 <div>
-                    <small class="text-muted">
+                    <small class="text-body-secondary">
                         {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.revcounter|ordinal %}
                             {{ counter }} mail sent on {{ datetime }}:
                         {% endblocktranslate %}

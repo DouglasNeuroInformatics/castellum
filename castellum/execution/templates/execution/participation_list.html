@@ -28,7 +28,7 @@
                 {% has_privacy_level participation.subject.privacy_level user as can_access %}
                 {% if can_access %}
                     <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-hidden="true"></svg>
-                    <div class="d-inline-block my-1 me-2 {% if participation.dropped_out or participation.subject.blocked or participation.subject.deceased %}text-muted{% endif %}">
+                    <div class="d-inline-block my-1 me-2 {% if participation.dropped_out or participation.subject.blocked or participation.subject.deceased %}text-body-secondary{% endif %}">
                         <div>
                             {{ participation.subject.contact.full_name }}
                             {% if participation.subject.privacy_level > 0 %}
@@ -67,7 +67,7 @@
                         <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
                     </div>
                 {% else %}
-                    <div class="text-muted">
+                    <div class="text-body-secondary">
                         <div class="d-inline-block my-1 me-2">
                             {% translate 'insufficient privacy level' %}
                             <span class="list-icon text-bg-danger">{% icon 'ban' %}</span>

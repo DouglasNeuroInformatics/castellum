@@ -19,7 +19,7 @@
                     {% if can_access %}
                         <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
-                        <span class="text-muted">{% translate '(insufficient privacy level)' %}</span>{% if not forloop.last %},{% endif %}
+                        <span class="text-body-secondary">{% translate '(insufficient privacy level)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
                 {% endfor %}
             </dd>
@@ -33,7 +33,7 @@
                     {% if can_access %}
                         <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
-                        <span class="text-muted">{% translate '(insufficient privacy level)' %}</span>{% if not forloop.last %},{% endif %}
+                        <span class="text-body-secondary">{% translate '(insufficient privacy level)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
                 {% endfor %}
             </dd>
@@ -70,7 +70,7 @@
     <dl class="row">
         <dt class="col-sm-6">
             {% translate 'Recruitment consent' %}
-            <small class="d-block text-muted">
+            <small class="d-block text-body-secondary">
                 {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent)' %}
             </small>
         </dt>
@@ -87,7 +87,7 @@
 
         <dt class="col-sm-6">
             {% translate 'Study consent' %}
-            <small class="d-block text-muted">
+            <small class="d-block text-body-secondary">
                 {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 27 BDSG (additional rules for scientific research)' %}
             </small>
         </dt>
@@ -102,7 +102,7 @@
 
         <dt class="col-sm-6">
             {% translate 'Legal representative' %}
-            <small class="d-block text-muted">
+            <small class="d-block text-body-secondary">
                 {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 1626, 1902 BGB (responsibilities of legal representatives)' %}
             </small>
         </dt>
@@ -117,7 +117,7 @@
 
         <dt class="col-sm-6">
             {{ subject|verbose_name:'blocked' }}
-            <small class="d-block text-muted">
+            <small class="d-block text-body-secondary">
                 {% translate 'Art. 6 (1) lit. f GDPR (legitimate interests)' %}
             </small>
         </dt>
