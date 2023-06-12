@@ -17,23 +17,23 @@
             <li class="nav-item">
                 <a class="nav-link {% if view.subtab == 'open' %}active{% endif %}" href="{% url 'recruitment:recruitment-open' study.pk %}">
                     {% translate 'Open' %}
-                    <span class="badge text-bg-light text-body">{{ open_count }}</span>
+                    <span class="badge text-bg-light">{{ open_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if view.subtab == 'invited' %}active{% endif %}" href="{% url 'recruitment:recruitment-invited' study.pk %}">
                     {% translate 'Participating' %}
-                    <span class="badge text-bg-light text-body">{{ invited_count }}/{{ study.min_subject_count }}</span>
+                    <span class="badge text-bg-light">{{ invited_count }}/{{ study.min_subject_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if view.subtab == 'unsuitable' %}active{% endif %}" href="{% url 'recruitment:recruitment-unsuitable' study.pk %}">
                     {% translate 'Excluded' %}
-                    <span class="badge text-bg-light text-body">{{ unsuitable_count }}</span>
+                    <span class="badge text-bg-light">{{ unsuitable_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled">{% translate 'All' context 'total' %} <span class="badge text-bg-light text-body">{{ all_count }}</span></a>
+                <a class="nav-link disabled">{% translate 'All' context 'total' %} <span class="badge text-bg-light">{{ all_count }}</span></a>
             </li>
         </ul>
 
