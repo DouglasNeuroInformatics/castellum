@@ -177,7 +177,7 @@
 }
 
 .castellum-required > label::after {
-    content: "*";
+    content: " *";
 }
 
 input:checked + .checkbox-opacity {
