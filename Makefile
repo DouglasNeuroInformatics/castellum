@@ -2,7 +2,7 @@ VIRTUAL_ENV ?= .venv
 MANAGEPY = $(VIRTUAL_ENV)/bin/python manage.py
 
 .PHONY: all
-all: install migrate populate compilemessages run
+all: install migrate populate run
 
 .PHONY: run
 run:
@@ -11,10 +11,11 @@ run:
 .PHONY: install
 install:
 	if [ ! -d "$(VIRTUAL_ENV)" ]; then python3 -m venv "$(VIRTUAL_ENV)"; fi
-	$(VIRTUAL_ENV)/bin/python -m pip install wheel
-	$(VIRTUAL_ENV)/bin/python -m pip install -e .[test,dev]
+	$(VIRTUAL_ENV)/bin/pip install -U pip wheel
+	$(VIRTUAL_ENV)/bin/pip install -e .[test,dev]
 	npm install
 	.misc/extract_fullcalendar_css.sh
+	$(MANAGEPY) compilemessages -l de
 
 .PHONY: migrate
 migrate:
@@ -38,8 +39,4 @@ test:
 
 .PHONY: makemessages
 makemessages:
-	$(MANAGEPY) makemessages --ignore node_modules -l de -d django
-
-.PHONY: compilemessages
-compilemessages:
-	$(MANAGEPY) compilemessages -l de
+	$(MANAGEPY) makemessages -l de -d django
