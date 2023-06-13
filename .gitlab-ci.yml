@@ -23,7 +23,7 @@ test:
       alias: db_contacts
   before_script:
     - apt-get update -q && apt-get install -y -qq python3-pip hunspell hunspell-de-de gdal-bin python3-psycopg2
-    - pip3 install -e .[test]
+    - pip3 install --break-system-packages -e .[test]
   script:
     - isort -c castellum tests
     - flake8
