@@ -58,6 +58,7 @@ from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import Participation
 from castellum.studies.forms import StudyFilterForm
+from castellum.studies.mixins import with_study_lock
 from castellum.studies.models import Study
 from castellum.utils.views import BaseProtectedMediaView
 
@@ -532,6 +533,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
                 pks.append(study.pk)
         return studies.filter(pk__in=pks)
 
+    @with_study_lock
     def post(self, request, *args, **kwargs):
         study = get_object_or_404(
             Study, pk=request.POST['study'], status=Study.EXECUTION
@@ -590,6 +592,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
         context['form'] = self.form
         return context
 
+    @with_study_lock
     def post(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=request.POST['study'])
 

@@ -47,6 +47,7 @@ from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.studies.mixins import StudyMixin
+from castellum.studies.mixins import with_study_lock
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
@@ -285,6 +286,7 @@ class RecruitmentViewOpen(RecruitmentView):
 
         return participations
 
+    @with_study_lock
     def post(self, request, *args, **kwargs):
         is_urgent = request.POST.get('submit') == 'urgent'
 
@@ -406,6 +408,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         )
         return result['contacted_size__sum'] or 0
 
+    @with_study_lock
     def form_valid(self, form):
         batch_size = form.cleaned_data['batch_size']
         allowed_size = min(
