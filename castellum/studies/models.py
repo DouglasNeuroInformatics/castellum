@@ -464,3 +464,7 @@ class StudyTag(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class StudyLock(models.Model):
+    study = models.OneToOneField(Study, on_delete=models.CASCADE)

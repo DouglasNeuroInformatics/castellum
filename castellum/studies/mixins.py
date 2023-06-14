@@ -18,10 +18,15 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import functools
 
+from django.contrib import messages
+from django.db import IntegrityError
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 
 from .models import Study
+from .models import StudyLock
 
 
 class StudyMixin:
@@ -65,3 +70,23 @@ class StudyMixin:
         context = super().get_context_data(**kwargs)
         context['study'] = self.study
         return context
+
+
+def with_study_lock(fn):
+    @functools.wraps(fn)
+    def locked(self, *args, **kwargs):
+        try:
+            lock = StudyLock.objects.create(study=self.study)
+        except IntegrityError:
+            messages.error(self.request, _(
+                'Another recruitment action is currently in progress. '
+                'Please try again later.'
+            ))
+            return self.get(self.request, **self.kwargs)
+
+        try:
+            return fn(self, *args, **kwargs)
+        finally:
+            lock.delete()
+
+    return locked
