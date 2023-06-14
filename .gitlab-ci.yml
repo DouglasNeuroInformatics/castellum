@@ -11,7 +11,7 @@ workflow:
 
 test:
   stage: test
-  image: buildpack-deps
+  image: buildpack-deps:bookworm
   variables:
     DEBIAN_FRONTEND: noninteractive
     DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
