@@ -77,6 +77,9 @@
 
 -   the default `STATIC_ROOT` has been changed from
     `castellum/collected_static/` to `static/`
+-   Due to changes in the fullcalendar library, the script
+    `.misc/extract_fullcalendar_css.sh` must now be executed on every
+    update for non-docker installations.
 
 ## UI changes
 
