@@ -24,7 +24,7 @@ COPY setup.cfg setup.py package.json uwsgi.ini LICENSE COPYRIGHT ./
 COPY castellum/__init__.py castellum/
 
 RUN pip3 install -e . && \
-    pip3 install django-auth-ldap django-axes django-model-stats
+    pip3 install django-auth-ldap django-axes[ipware] django-model-stats
 
 COPY castellum/ castellum
 

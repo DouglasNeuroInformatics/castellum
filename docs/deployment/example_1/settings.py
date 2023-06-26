@@ -104,7 +104,7 @@ MFA_SITE_TITLE = 'Castellum Demo'
 INSTALLED_APPS.append('axes')
 AUTHENTICATION_BACKENDS.insert(0, 'axes.backends.AxesBackend')
 MIDDLEWARE.append('axes.middleware.AxesMiddleware')
-AXES_META_PRECEDENCE_ORDER = ['HTTP_X_REAL_IP']
+AXES_IPWARE_META_PRECEDENCE_ORDER = ['HTTP_X_REAL_IP']
 
 # Setup geofilters
 INSTALLED_APPS.append('django.contrib.gis')
