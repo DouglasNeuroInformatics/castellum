@@ -1,3 +1,29 @@
+# 0.91.0 (2023-06-26)
+
+## bug fixes
+
+-   django-axes uses the package django-ipware to detect client IP
+    addresses. This dependency turned from required to optional in
+    django-axes 6.0. The new docker images contain django-ipware, so
+    detection should work correctly again.
+-   Fixed a race condition in mail recruitment where two recruitment
+    requests could run at the same time, resulting in duplicate mails
+    send to subjects.
+
+## performance
+
+-   The CSS generated from `BOOTSTRAP_THEME_COLORS` is now cached for
+    24h, so changes might not show up immediately.
+-   The default uwsgi config now sets long `Expires` headers for static
+    files to benefit from cache busting.
+
+## other changes
+
+-   The admin UI no longer contains all models by default. You can still
+    including all models by using the `CASTELLUM_ADVANCED_ADMIN_UI`
+    setting.
+
+
 # 0.90.2 (2023-05-30)
 
 -   Downgrade fullcalendar to avoid a bug in the latest version
