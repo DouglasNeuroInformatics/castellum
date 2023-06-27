@@ -216,6 +216,15 @@ CASTELLUM_ADVANCED_ADMIN_UI = False
 # maintenance dashboard).
 CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED = False
 
+# By default, the monitoring log records all subject searches. This
+# allows you to detect users who abuse this feature, e.g. to search for
+# famous people.
+#
+# On the other hand, the search text usually contains personal
+# information such as names and email addresses. It depends on your
+# specific threat model whether you want to include this or not.
+CASTELLUM_MONITORING_INCLUDE_SEARCH = True
+
 # Additional privacy levels for subjects.
 #
 # Each level is a tuple of a float value and a label.
