@@ -1,3 +1,10 @@
+# 0.91.1 (2023-06-27)
+
+## bug fixes
+
+-   fix a 500 error related to the race condition fix.
+
+
 # 0.91.0 (2023-06-26)
 
 ## bug fixes
