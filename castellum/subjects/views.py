@@ -166,9 +166,10 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        monitoring_logger.info((
-            'Subject search: search term: "{search}" by {user}'
-        ).format(user=self.request.user.pk, **form.cleaned_data))
+        if settings.CASTELLUM_MONITORING_INCLUDE_SEARCH:
+            monitoring_logger.info((
+                'Subject search: search term: "{search}" by {user}'
+            ).format(user=self.request.user.pk, **form.cleaned_data))
 
         return self.render_to_response(self.get_context_data(form=form))
 
