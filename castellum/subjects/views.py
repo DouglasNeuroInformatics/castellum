@@ -534,21 +534,24 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
         return studies.filter(pk__in=pks)
 
     @with_study_lock
+    def create_participation(self):
+        participation, __ = Participation.objects.get_or_create(
+            subject=self.subject, study=self.study
+        )
+
+        url = reverse('recruitment:contact', args=[self.study.pk, participation.pk])
+        return redirect(url)
+
     def post(self, request, *args, **kwargs):
-        study = get_object_or_404(
+        self.study = get_object_or_404(
             Study, pk=request.POST['study'], status=Study.EXECUTION
         )
 
         perms = ['recruitment.recruit', 'studies.access_study']
-        if not request.user.has_perms(perms, obj=study):
+        if not request.user.has_perms(perms, obj=self.study):
             raise PermissionDenied
 
-        participation, __ = Participation.objects.get_or_create(
-            subject=self.subject, study=study
-        )
-
-        url = reverse('recruitment:contact', args=[study.pk, participation.pk])
-        return redirect(url)
+        return self.create_participation()
 
 
 class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
@@ -593,17 +596,19 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
         return context
 
     @with_study_lock
-    def post(self, request, *args, **kwargs):
-        study = get_object_or_404(Study, pk=request.POST['study'])
-
+    def create_participation(self):
         Participation._base_manager.update_or_create(
-            subject=self.subject, study=study, defaults={
+            subject=self.subject, study=self.study, defaults={
                 'status': Participation.INVITED,
                 'dropped_out': False,
             }
         )
 
-        return self.get(request, *args, **kwargs)
+        return self.get(self.request, *self.args, **self.kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.study = get_object_or_404(Study, pk=request.POST['study'])
+        return self.create_participation()
 
 
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
