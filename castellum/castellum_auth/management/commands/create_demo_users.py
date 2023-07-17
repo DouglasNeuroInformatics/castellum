@@ -31,24 +31,24 @@ from castellum.castellum_auth.models import User
 
 USERS = {
     'Andreas': [],
-    'Jonas': ['Principal subject manager', 'Data protection coordinator'],
+    'Jonas': ['Subject manager', 'Data protection coordinator'],
     'Sabine': ['Receptionist'],
 
     # first testing group
     'Vera': ['Study coordinator', 'Study approver'],
-    'Arne': ['Principal subject manager'],
+    'Arne': ['Subject manager'],
 
     # second testing group
     'Anna': ['Study coordinator'],
-    'Max': ['Principal subject manager'],
+    'Max': ['Subject manager'],
 
     # third testing group
     'Claus': ['Study coordinator'],
-    'Flora': ['Principal subject manager'],
+    'Flora': ['Subject manager'],
 
     # fourth testing group
     'Hans': ['Study coordinator'],
-    'Nina': ['Principal subject manager'],
+    'Nina': ['Subject manager'],
 }
 
 
