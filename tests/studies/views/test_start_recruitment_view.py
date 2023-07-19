@@ -1,8 +1,6 @@
 import pytest
-from model_bakery import baker
 
 from castellum.studies.models import Study
-from castellum.studies.models import StudyMembership
 
 
 @pytest.mark.parametrize('user_fixture', [
