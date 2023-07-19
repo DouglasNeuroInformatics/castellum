@@ -305,32 +305,30 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         return response
 
 
-class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
-    permission_required = 'studies.view_study'
-    is_filter_trial = False
-
+class StudyStartRecruitmentView(View):
     def post(self, request, study_pk):
         # check 'approve_study' without study context to prevent
         # privilege escalation
         if not self.request.user.has_perm('studies.approve_study'):
             raise PermissionDenied
 
-        if self.study.status == self.study.FINISHED:
+        study = get_object_or_404(Study, pk=study_pk, is_filter_trial=False)
+        if study.status == study.FINISHED:
             return HttpResponseBadRequest()
 
-        if self.study.status == self.study.EXECUTION:
-            self.study.set_status(self.study.EDIT)
+        if study.status == study.EXECUTION:
+            study.set_status(study.EDIT)
             monitoring_logger.info(
-                f'Study {self.study.name} stopped by {self.request.user.pk}'
+                f'Study {study.name} stopped by {request.user.pk}'
             )
         else:
-            self.study.set_status(self.study.EXECUTION)
+            study.set_status(study.EXECUTION)
             monitoring_logger.info(
-                f'Study {self.study.name} started by {self.request.user.pk}'
+                f'Study {study.name} started by {request.user.pk}'
             )
 
         return redirect(
-            get_next_url(request, reverse('studies:detail', args=[self.study.pk]))
+            get_next_url(request, reverse('studies:detail', args=[study.pk]))
         )
 
 

@@ -46,36 +46,36 @@
             {% has_perm 'studies.change_study' user study as can_change_study %}
             {% has_perm 'studies.delete_study' user study as can_delete_study %}
             {% has_perm 'studies.approve_study' user as can_approve_study %}
-            {% if can_access_study %}
-                {% if can_approve_study %}
-                    {% if study.status != study.FINISHED %}
-                        <form class="d-inline" method="post" action="{% url 'studies:start' study.pk %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ request.path }}">
-                            {% if study.status == study.EXECUTION %}
-                                <button class="btn btn-outline-primary active mb-1" title="{% translate 'Stop recruitment and execution for this study' %}">
-                                    {% translate 'Stop' %}
-                                </button>
-                            {% else %}
-                                <button class="btn btn-outline-primary mb-1" title="{% translate 'Start recruitment and execution for this study' %}">
-                                    {% translate 'Start' %}
-                                </button>
-                            {% endif %}
-                        </form>
-                    {% else %}
-                        <form class="d-inline">
-                            {% if study.previous_status == study.EXECUTION %}
-                                <button class="btn btn-outline-primary active mb-1" title="{% translate 'Stop recruitment and execution for this study' %}" disabled>
-                                    {% translate 'Stop' %}
-                                </button>
-                            {% else %}
-                                <button class="btn btn-outline-primary mb-1" title="{% translate 'Start recruitment and execution for this study' %}" disabled>
-                                    {% translate 'Start' %}
-                                </button>
-                            {% endif %}
-                        </form>
-                    {% endif %}
+            {% if can_approve_study %}
+                {% if study.status != study.FINISHED %}
+                    <form class="d-inline" method="post" action="{% url 'studies:start' study.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        {% if study.status == study.EXECUTION %}
+                            <button class="btn btn-outline-primary active mb-1" title="{% translate 'Stop recruitment and execution for this study' %}">
+                                {% translate 'Stop' %}
+                            </button>
+                        {% else %}
+                            <button class="btn btn-outline-primary mb-1" title="{% translate 'Start recruitment and execution for this study' %}">
+                                {% translate 'Start' %}
+                            </button>
+                        {% endif %}
+                    </form>
+                {% else %}
+                    <form class="d-inline">
+                        {% if study.previous_status == study.EXECUTION %}
+                            <button class="btn btn-outline-primary active mb-1" title="{% translate 'Stop recruitment and execution for this study' %}" disabled>
+                                {% translate 'Stop' %}
+                            </button>
+                        {% else %}
+                            <button class="btn btn-outline-primary mb-1" title="{% translate 'Start recruitment and execution for this study' %}" disabled>
+                                {% translate 'Start' %}
+                            </button>
+                        {% endif %}
+                    </form>
                 {% endif %}
+            {% endif %}
+            {% if can_access_study %}
                 {% if can_change_study %}
                     <form class="d-inline" method="post" action="{% url 'studies:finish' study.pk %}">
                         {% csrf_token %}

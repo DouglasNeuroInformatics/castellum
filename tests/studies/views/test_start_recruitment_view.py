@@ -14,7 +14,6 @@ from castellum.studies.models import StudyMembership
 ])
 def test_start(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
-    baker.make(StudyMembership, user=user, study=study)
     client.force_login(user)
 
     study.status = Study.EDIT
@@ -36,7 +35,6 @@ def test_start(request, client, user_fixture, study):
 ])
 def test_stop(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
-    baker.make(StudyMembership, user=user, study=study)
     client.force_login(user)
 
     study.status = Study.EXECUTION
