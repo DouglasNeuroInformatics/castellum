@@ -225,6 +225,8 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             initial['exportable_attributes'] = list(
                 self.duplicate.exportable_attributes.all()
             )
+        if self.request.method == 'GET':
+            initial.update(self.request.GET.dict())
         return initial
 
     def get_context_data(self, **kwargs):

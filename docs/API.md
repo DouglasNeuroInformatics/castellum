@@ -27,3 +27,10 @@ generated automatically.
 
 User accounts that are used for API clients should be prevented from
 logging in by setting no password.
+
+# Initial values for study creation
+
+You can generate links to the study creation form that already contains
+some default values:
+
+    https://example.com/studies/create/?name=My%20Study
