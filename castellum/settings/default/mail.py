@@ -49,6 +49,8 @@ CASTELLUM_APPOINTMENT_MAIL_BODY_EN = (
     "study {study} on {date}.\n"
     "If you have any questions about your appointment, "
     "please get in touch with {reply_to}.\n\n"
+    "Additional information:\n"
+    "{session_reminder_text}\n\n"
     "Sincerely yours\nthe recruitment team"
 )
 CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT = "Appointment reminders for {study}"
