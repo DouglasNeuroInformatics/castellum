@@ -439,7 +439,18 @@ class StudySession(models.Model):
         Resource, verbose_name=_('Resources'), blank=True
     )
     domains = GenericRelation(Domain)
-    reminders_enabled = models.BooleanField(_('Enable reminder emails'), default=True)
+    first_reminder_days = models.PositiveIntegerField(
+        _('First reminder'),
+        null=True,
+        blank=True,
+        default=settings.CASTELLUM_APPOINTMENT_DEFAULT_FIRST_REMINDER_DAYS,
+    )
+    second_reminder_days = models.PositiveIntegerField(
+        _('Second reminder'),
+        null=True,
+        blank=True,
+        default=settings.CASTELLUM_APPOINTMENT_DEFAULT_SECOND_REMINDER_DAYS,
+    )
     reminder_text = models.TextField(
         _('Additional text for reminder emails'), blank=True
     )

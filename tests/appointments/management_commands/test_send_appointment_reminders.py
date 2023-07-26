@@ -10,7 +10,7 @@ from castellum.recruitment.models import Participation
 from castellum.studies.models import StudySession
 
 
-def test_send_appointment_reminders(contact, study_in_execution_status):
+def test_send_appointment_reminders_first(contact, study_in_execution_status):
     contact.email = 'test@example.com'
     contact.save()
     participation = baker.make(
@@ -19,10 +19,12 @@ def test_send_appointment_reminders(contact, study_in_execution_status):
         study=study_in_execution_status,
         status=Participation.INVITED,
     )
-    session = baker.make(StudySession, study=study_in_execution_status)
+    session = baker.make(
+        StudySession, study=study_in_execution_status, first_reminder_days=3
+    )
 
     with freeze_time('1970-01-01 12:00'):
-        baker.make(
+        appointment = baker.make(
             Appointment,
             session=session,
             participation=participation,
@@ -34,3 +36,38 @@ def test_send_appointment_reminders(contact, study_in_execution_status):
 
     assert reached_count == 1
     assert len(mail.outbox) == 1
+
+    appointment.refresh_from_db()
+    assert appointment.first_reminder_sent is True
+
+
+def test_send_appointment_reminders_second(contact, study_in_execution_status):
+    contact.email = 'test@example.com'
+    contact.save()
+    participation = baker.make(
+        Participation,
+        subject=contact.subject,
+        study=study_in_execution_status,
+        status=Participation.INVITED,
+    )
+    session = baker.make(
+        StudySession, study=study_in_execution_status, second_reminder_days=3
+    )
+
+    with freeze_time('1970-01-01 12:00'):
+        appointment = baker.make(
+            Appointment,
+            session=session,
+            participation=participation,
+            start=timezone.now(),
+            first_reminder_sent=True,
+        )
+        reached_count, not_reached_count = (
+            send_appointment_reminders('https://example.com')
+        )
+
+    assert reached_count == 1
+    assert len(mail.outbox) == 1
+
+    appointment.refresh_from_db()
+    assert appointment.second_reminder_sent is True

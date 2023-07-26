@@ -99,11 +99,6 @@ class BaseAppointmentsUpdateView(
     def get_object(self, queryset=None):
         return self.participation
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['reminder_period'] = settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days
-        return context
-
     def get_success_url(self):
         return self.request.path
 

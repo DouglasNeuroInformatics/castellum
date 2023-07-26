@@ -235,8 +235,11 @@
                     <dt class="col-sm-6" data-fieldname="appointments.Appointment.start">{{ appointment|verbose_name:'start' }}</dt>
                     <dd class="col-sm-6">{{ appointment|display:'start' }}</dd>
 
-                    <dt class="col-sm-6" data-fieldname="appointments.Appointment.reminded">{{ appointment|verbose_name:'reminded' }}</dt>
-                    <dd class="col-sm-6">{{ appointment|display:'reminded' }}</dd>
+                    <dt class="col-sm-6" data-fieldname="appointments.Appointment.first_reminder_sent">{{ appointment|verbose_name:'first_reminder_sent' }}</dt>
+                    <dd class="col-sm-6">{{ appointment|display:'first_reminder_sent' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="appointments.Appointment.second_reminder_sent">{{ appointment|verbose_name:'second_reminder_sent' }}</dt>
+                    <dd class="col-sm-6">{{ appointment|display:'second_reminder_sent' }}</dd>
                 </dl>
             {% endfor %}
         {% endif %}

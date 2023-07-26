@@ -19,8 +19,26 @@
             {{ form.resources.as_hidden }}
         {% endif %}
         {% bootstrap_field form.type required_css_class='castellum-required' %}
-        {% bootstrap_field form.reminder_text required_css_class='castellum-required' %}
-        {% bootstrap_field form.reminders_enabled required_css_class='castellum-required' %}
+        <fieldset class="card my-4">
+            <legend class="card-header">
+                {% translate 'Reminders' %}
+            </legend>
+            <div class="card-body">
+                <p>
+                    {% translate 'How many days before the appointment should reminders be sent?' %}<br>
+                    <span class="form-text">{% translate 'Leave empty to send no reminders.' %}</span>
+                </p>
+                <div class="row">
+                    <div class="col">
+                        {% bootstrap_field form.first_reminder_days required_css_class='castellum-required' %}
+                    </div>
+                    <div class="col">
+                        {% bootstrap_field form.second_reminder_days required_css_class='castellum-required' %}
+                    </div>
+                </div>
+                {% bootstrap_field form.reminder_text required_css_class='castellum-required' %}
+            </div>
+        </fieldset>
         {% if SCHEDULER_URL and object %}
             <div class="mb-3">
                 {% bootstrap_field form.schedule_id wrapper_class="" required_css_class='castellum-required' %}
