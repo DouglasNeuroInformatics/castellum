@@ -53,7 +53,8 @@ class Appointment(models.Model):
         StudySession, verbose_name=_('Session'), on_delete=models.CASCADE
     )
     start = DateTimeField(_('Start'))
-    reminded = models.BooleanField(_('Reminded'), default=False)
+    first_reminder_sent = models.BooleanField(_('First reminder sent'), default=False)
+    second_reminder_sent = models.BooleanField(_('Second reminder sent'), default=False)
     participation = models.ForeignKey(
         Participation,
         on_delete=models.CASCADE,
@@ -112,7 +113,8 @@ class Appointment(models.Model):
                     appointment.assigned_conductors.set(conductors)
                 if start != appointment.start:
                     appointment.start = start
-                    appointment.reminded = False
+                    appointment.first_reminder_sent = False
+                    appointment.second_reminder_sent = False
                     appointment.save()
         elif start:
             old = None
