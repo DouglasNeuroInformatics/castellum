@@ -46,8 +46,8 @@
                 {% if entry.reminder_text %}
                     <div class="form-text">{{ entry.reminder_text }}</div>
                 {% endif %}
-                {% if entry.reminders_enabled %}
-                    <div class="form-text">{% blocktranslate with reminder_period=reminder_period %}The subject will be reminded {{ reminder_period }} days before the appointment.{% endblocktranslate %}</div>
+                {% if entry.first_reminder_days %}
+                    <div class="form-text">{% blocktranslate with reminder_days=entry.first_reminder_days %}The subject will be reminded {{ reminder_days }} days before the appointment.{% endblocktranslate %}</div>
                 {% endif %}
             </fieldset>
         {% endfor %}
