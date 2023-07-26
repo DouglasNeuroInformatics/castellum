@@ -23,7 +23,6 @@ from pathlib import Path
 
 from django import forms
 from django.conf import settings
-from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
 from castellum.castellum_auth.models import User
@@ -110,19 +109,11 @@ class SessionForm(forms.ModelForm):
             'duration',
             'resources',
             'type',
-            'reminders_enabled',
+            'first_reminder_days',
+            'second_reminder_days',
             'reminder_text',
             'schedule_id',
         ]
-        help_texts = {
-            'reminder_text': format_lazy(
-                _(
-                    'If enabled, all subjects will be reminded {} days before '
-                    'the appointment.'
-                ),
-                settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days,
-            )
-        }
         widgets = {
             'type': forms.CheckboxSelectMultiple(),
         }
