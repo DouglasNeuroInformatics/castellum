@@ -37,6 +37,9 @@
                     </div>
                 </div>
                 {% bootstrap_field form.reminder_text required_css_class='castellum-required' %}
+                {% if object.pk %}
+                    <button class="btn btn-secondary my-1" formaction="{% url 'studies:testmail-reminder' study.pk object.pk %}">{% translate 'Send test mail to myself' %}</button>
+                {% endif %}
             </div>
         </fieldset>
         {% if SCHEDULER_URL and object %}
@@ -55,9 +58,6 @@
         <div class="d-print-none mb-3">
             <a href="{% url 'studies:sessions' study.pk %}" class="btn btn-outline-primary my-1" data-js="cancel">{% translate 'Cancel' %}</a>
             <button class="btn btn-primary my-1">{% translate 'Save' %}</button>
-            {% if object.pk %}
-                <button class="btn btn-secondary my-1" formaction="{% url 'studies:testmail-reminder' study.pk object.pk %}">{% translate 'Send test mail to myself' %}</button>
-            {% endif %}
         </div>
     </form>
 {% endblock %}
