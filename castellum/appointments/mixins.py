@@ -40,7 +40,6 @@ from castellum.utils import scheduler
 from castellum.utils.feeds import BaseCalendarFeed
 
 from .forms import AppointmentsForm
-from .helpers import change_is_urgent
 from .helpers import fetch_scheduler_appointments
 from .helpers import send_appointment_notifications
 from .models import Appointment
@@ -63,8 +62,7 @@ class SchedulerFetchParticipationMixin:
             change = Appointment.change(session, self.participation, start)
             if change:
                 count += 1
-                if change_is_urgent(change):
-                    send_appointment_notifications(self.participation, change, base_url)
+                send_appointment_notifications(self.participation, change, base_url)
         return count
 
     def get(self, request, *args, **kwargs):
