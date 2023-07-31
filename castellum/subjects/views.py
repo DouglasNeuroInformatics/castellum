@@ -513,14 +513,6 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
                 participation__subject=self.subject,
                 participation__status=Participation.INVITED,
             ))
-            # study.p is the list that contains the particiaption (if it exists)
-            # or nothing.
-            # I did not find a better way to do this.
-            .prefetch_related(models.Prefetch(
-                'participation_set',
-                queryset=self.subject.participation_set.all(),
-                to_attr='p',
-            ))
         )
 
         pks = []
@@ -532,7 +524,17 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
                 ).exists()
             ):
                 pks.append(study.pk)
-        return studies.filter(pk__in=pks)
+        return (
+            studies.filter(pk__in=pks)
+            # study.p is the list that contains the particiaption (if it exists)
+            # or nothing.
+            # I did not find a better way to do this.
+            .prefetch_related(models.Prefetch(
+                'participation_set',
+                queryset=self.subject.participation_set.all(),
+                to_attr='p',
+            ))
+        )
 
     @with_study_lock
     def create_participation(self):
