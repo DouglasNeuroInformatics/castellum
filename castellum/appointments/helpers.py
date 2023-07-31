@@ -33,7 +33,6 @@ from icalevents import icalparser
 
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.models import Participation
-from castellum.utils import add_working_days
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
 from castellum.utils import scheduler
@@ -63,18 +62,6 @@ def get_reminder_body(name, session, dt):
         get_mail_data,
         settings.CASTELLUM_APPOINTMENT_MAIL_BODY,
         settings.CASTELLUM_APPOINTMENT_MAIL_BODY_EN,
-    )
-
-
-def change_is_urgent(change):
-    start = timezone.now()
-    end = add_working_days(start, 2)
-
-    old, new = change
-
-    return (
-        (old and old.start >= start and old.start <= end)
-        or (new and new.start >= start and new.start <= end)
     )
 
 
@@ -186,6 +173,5 @@ def fetch_scheduler_appointments(study, base_url, timeout=0):
             change = Appointment.change(session, participation, start)
             if change:
                 count += 1
-                if change_is_urgent(change):
-                    send_appointment_notifications(participation, change, base_url)
+                send_appointment_notifications(participation, change, base_url)
     return count
