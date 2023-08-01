@@ -1,3 +1,32 @@
+# 0.92.0 (2023-08-01)
+
+## bug fixes
+
+-   adapt the `create_demo_users` script to the changes to the "subject
+    manager" group from 0.90.
+
+## new features
+
+-   allow to pre-fill the study creation form via URL parameters
+-   there can now be up to two appointment reminders and study
+    coordinators can choose how many days before the appointment these
+    reminders should be sent. The new settings
+    `CASTELLUM_APPOINTMENT_DEFAULT_FIRST_REMINDER_DAYS`
+    `CASTELLUM_APPOINTMENT_DEFAULT_SECOND_REMINDER_DAYS`
+    can be used to set defaults. `CASTELLUM_APPOINTMENT_REMINDER_PERIOD`
+    is deprecated but still required for the migration.
+-   subject search can now be excluded from the monitoring log with the
+    new setting `CASTELLUM_MONITORING_INCLUDE_SEARCH`
+
+## other changes
+
+-   study approvers no longer need to be members of the study they want
+    to approve
+-   appointment change notifications are sent regardless of when the
+    appointment will take place (previously it was only sent for
+    appointments in the upcoming two working days, which was confusing)
+
+
 # 0.91.1 (2023-06-27)
 
 ## bug fixes
