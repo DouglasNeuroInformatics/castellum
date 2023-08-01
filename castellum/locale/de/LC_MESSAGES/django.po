@@ -73,13 +73,11 @@ msgstr "Start"
 
 #: castellum/appointments/models.py:56
 msgid "First reminder sent"
-msgstr ""
+msgstr "Erste Erinnerung gesendet"
 
 #: castellum/appointments/models.py:57
-#, fuzzy
-#| msgid "Send reminder"
 msgid "Second reminder sent"
-msgstr "Erinnerung schicken"
+msgstr "Zweite Erinnerung gesendet"
 
 #: castellum/appointments/models.py:61
 msgid "Participation"
@@ -120,14 +118,11 @@ msgid "Copy link"
 msgstr "Link Kopieren"
 
 #: castellum/appointments/templates/appointments/appointments_form.html:50
-#, fuzzy, python-format
-#| msgid ""
-#| "The subject will be reminded %(reminder_period)s days before the "
-#| "appointment."
+#, python-format
 msgid ""
 "The subject will be reminded %(reminder_days)s days before the appointment."
 msgstr ""
-"Die Proband*in wird %(reminder_period)s Tage vor dem Termin an diesen "
+"Die Proband*in wird %(reminder_days)s Tage vor dem Termin an diesen "
 "erinnert."
 
 #: castellum/appointments/templates/appointments/appointments_form.html:56
@@ -2155,7 +2150,7 @@ msgstr ""
 #: castellum/studies/mixins.py:82
 msgid ""
 "Another recruitment action is currently in progress. Please try again later."
-msgstr ""
+msgstr "Es läuft bereits eine andere Rekrutierungsaktion. Bitte versuchen Sie es später noch einmal."
 
 #: castellum/studies/models.py:64
 msgid "Label"
@@ -2408,16 +2403,12 @@ msgid "Duration of a session in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
 #: castellum/studies/models.py:443
-#, fuzzy
-#| msgid "Send reminder"
 msgid "First reminder"
-msgstr "Erinnerung schicken"
+msgstr "Erste Erinnerung"
 
 #: castellum/studies/models.py:449
-#, fuzzy
-#| msgid "Send reminder"
 msgid "Second reminder"
-msgstr "Erinnerung schicken"
+msgstr "Zweite Erinnerung"
 
 #: castellum/studies/models.py:455
 msgid "Additional text for reminder emails"
@@ -2958,18 +2949,16 @@ msgid "Session details"
 msgstr "Sitzungsdetails"
 
 #: castellum/studies/templates/studies/studysession_form.html:24
-#, fuzzy
-#| msgid "Reminded"
 msgid "Reminders"
-msgstr "Erinnert"
+msgstr "Erinnerungen"
 
 #: castellum/studies/templates/studies/studysession_form.html:28
 msgid "How many days before the appointment should reminders be sent?"
-msgstr ""
+msgstr "Wie viele Tage vor dem Termin sollen die Erinnerungen verschickt werden?"
 
 #: castellum/studies/templates/studies/studysession_form.html:29
 msgid "Leave empty to send no reminders."
-msgstr ""
+msgstr "Sie können die Felder leer lassen, um keine Erinnerungen zu verschicken."
 
 #: castellum/studies/templates/studies/studysession_form.html:49
 msgid "Go to schedule"
