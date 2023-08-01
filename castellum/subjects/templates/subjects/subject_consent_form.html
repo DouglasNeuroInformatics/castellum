@@ -23,7 +23,7 @@
                         {% elif value %}
                             {{ label }}
                         {% else %}
-                            {% translate "Consent withdrawn" %}
+                            {% translate "Consent declined/withdrawn" %}
                         {% endif %}
                         {% if value.instance %}
                             {% if value.instance.is_deprecated %}

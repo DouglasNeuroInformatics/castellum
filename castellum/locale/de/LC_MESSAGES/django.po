@@ -3467,8 +3467,8 @@ msgid "Please select which consent document the subject has agreed to:"
 msgstr "Bitte wählen Sie aus, welchem Dokument die Proband*in zugestimmt hat:"
 
 #: castellum/subjects/templates/subjects/subject_consent_form.html:26
-msgid "Consent withdrawn"
-msgstr "Einwilligung widerrufen"
+msgid "Consent declined/withdrawn"
+msgstr "Einwilligung abgelehnt/widerrufen"
 
 #: castellum/subjects/templates/subjects/subject_consent_form.html:30
 msgid "deprecated"
