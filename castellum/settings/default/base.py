@@ -187,13 +187,13 @@ NPM_FILE_PATTERNS = {
         'webfonts/fa-v4compatibility.woff2',
         'webfonts/fa-v4compatibility.ttf',
     ],
-    'select2': [
-        'dist/css/select2.min.css',
-        'dist/js/select2.min.js',
-        'dist/js/i18n/de.js',
+    '@selectize/selectize': [
+        'dist/css/selectize.css',
+        'dist/css/selectize.bootstrap5.css',
+        'dist/js/selectize.min.js',
     ],
-    '@ttskch/select2-bootstrap4-theme': [
-        'dist/select2-bootstrap4.min.css',
+    'selectize-plugin-a11y': [
+        'selectize-plugin-a11y.js',
     ],
     'fullcalendar-scheduler': [
         'index.global.min.js',

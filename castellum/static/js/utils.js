@@ -109,14 +109,22 @@
             .catch(() => spinner.remove());
     });
 
-    $.fn.select2.defaults.set('theme', 'bootstrap4');
-    $('[data-js="select2"]').select2();
-    $('[data-js="select2-tags"]').select2({tags: true});
-    $('[data-js="d-select2"] select').select2();
-    $('[data-js="d-select2-clear"] select').select2({
+    var selectDefaults = {
+        plugins: ['selectize-plugin-a11y'],
+        render: {
+            option: function($item, escape) {
+                var id = $item.text.replace(' ', '-');
+                return `<div class="option" role="option" id="${escape(id)}">${escape($item.text)}</div>`
+            },
+        },
+    };
+    $('[data-js="select2"]').selectize(selectDefaults);
+    $('[data-js="select2-tags"]').selectize(Object.assign({}, selectDefaults, {create: true}));
+    $('[data-js="d-select2"] select').selectize(selectDefaults);
+    $('[data-js="d-select2-clear"] select').selectize(Object.assign({}, selectDefaults, {
         allowClear: true,
         placeholder: '---',
-    });
+    }));
 
     var prefixColor = function(state) {
         if (!state.element) {
@@ -128,11 +136,12 @@
         return $badge;
     };
 
-    $('[data-js="d-select2-color"] select').select2({
+    // TODO
+    $('[data-js="d-select2-color"] select').selectize(Object.assign({}, selectDefaults, {
         minimumResultsForSearch: -1,
         templateResult: prefixColor,
         templateSelection: prefixColor,
-    });
+    }));
 
     var firstErrorInTab = document.querySelector(
         '[role="tabpanel"] form .alert-danger, [role="tabpanel"] .is-invalid'
