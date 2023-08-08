@@ -47,7 +47,7 @@ services:
     ports:
       - "8001:8000"
     volumes:
-      - ./scheduler_settings.py:/code/django_settings.py:ro
+      - ./scheduler_settings.py:/app/django_settings.py:ro
     depends_on:
       - db_scheduler
       - ldap
@@ -62,7 +62,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./settings.py:/code/django_settings.py:ro
+      - ./settings.py:/app/django_settings.py:ro
     depends_on:
       - db_default
       - db_contacts
@@ -71,9 +71,9 @@ services:
   cron:
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
     restart: unless-stopped
-    command: crond -f -L /code/log/cron.log
+    command: crond -f -L /app/log/cron.log
     volumes:
-      - ./settings.py:/code/django_settings.py:ro
+      - ./settings.py:/app/django_settings.py:ro
       - ./crontab:/etc/crontabs/root:ro
     depends_on:
       - db_default

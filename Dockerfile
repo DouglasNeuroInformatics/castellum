@@ -5,19 +5,19 @@ ENV DJANGO_SETTINGS_MODULE=django_settings
 
 RUN adduser -D -g '' uwsgi
 
-RUN mkdir -p /code/log
-RUN chown uwsgi /code/log
-VOLUME /code/log
+RUN mkdir -p /app/log
+RUN chown uwsgi /app/log
+VOLUME /app/log
 
-RUN mkdir -p /code/media
-RUN chown uwsgi /code/media
-VOLUME /code/media
+RUN mkdir -p /app/media
+RUN chown uwsgi /app/media
+VOLUME /app/media
 
 EXPOSE 8000/tcp
 
 RUN apk update && apk add uwsgi uwsgi-python uwsgi-router_static python3 py3-pip py3-wheel py3-psycopg2 py3-pyldap py3-cryptography gdal gettext tzdata
 
-WORKDIR code/
+WORKDIR /app/
 
 RUN mkdir castellum
 COPY setup.cfg setup.py package.json uwsgi.ini LICENSE COPYRIGHT ./
@@ -41,4 +41,4 @@ RUN django-admin collectstatic --no-input --settings=castellum.settings.bare
 
 
 FROM base AS final
-COPY --from=static /code/static/ static
+COPY --from=static /app/static/ static

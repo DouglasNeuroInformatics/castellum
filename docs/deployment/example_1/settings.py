@@ -28,7 +28,7 @@ DATABASES = {
     }
 }
 
-MEDIA_ROOT = Path('/code/media')
+MEDIA_ROOT = Path('/app/media')
 PROTECTED_MEDIA_SERVER = 'uwsgi'
 
 # The example deployment does not contain a mail server, so use dummy instead
@@ -51,7 +51,7 @@ LOGGING = {
         },
         'monitoring-file': {
             'class': 'logging.FileHandler',
-            'filename': '/code/log/monitoring.log',
+            'filename': '/app/log/monitoring.log',
             'formatter': 'verbose',
         },
     },
