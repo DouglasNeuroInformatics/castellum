@@ -28,6 +28,7 @@ class DomainAdmin(admin.ModelAdmin):
     readonly_fields = ['key']
     search_fields = ['name', 'key']
     list_filter = [('content_type', admin.RelatedOnlyFieldListFilter)]
+    filter_horizontal = ['managers', 'exportable_attributes']
 
 
 admin.site.register(models.Domain, DomainAdmin)
