@@ -26,11 +26,8 @@
                     {% if can_recruit %}
                         <li><a href="{% webcal_url 'recruitment:followups-feed' study.pk %}">{% translate 'recruitment follow-ups' %}</a></li>
                     {% endif %}
-                    {% if can_conduct %}
-                        <li><a href="{% webcal_url 'execution:calendar-feed' study.pk %}">{% translate 'appointments' %}</a></li>
-                    {% endif %}
-                    {% if can_change_appointment %}
-                        <li><a href="{% webcal_url 'recruitment:calendar-feed' study.pk %}">{% translate 'appointments' %} {% translate '(without personal data)' %}</a></li>
+                    {% if can_change_appointment or can_conduct %}
+                        <li><a href="{% webcal_url 'recruitment:calendar-feed' study.pk %}">{% translate 'appointments' %}</a></li>
                     {% endif %}
                 </ul>
             </li>
@@ -44,10 +41,7 @@
             <li>
                 {{ resource }}
                 <ul>
-                    {% if can_manage_resource %}
-                        <li><a href="{% webcal_url 'execution:resource-feed' resource.pk %}">{% translate 'appointments' %}</a></li>
-                    {% endif %}
-                    <li><a href="{% webcal_url 'recruitment:resource-feed' resource.pk %}">{% translate 'appointments' %} {% translate '(without personal data)' %}</a></li>
+                    <li><a href="{% webcal_url 'recruitment:resource-feed' resource.pk %}">{% translate 'appointments' %}</a></li>
                 </ul>
             </li>
         {% endfor %}

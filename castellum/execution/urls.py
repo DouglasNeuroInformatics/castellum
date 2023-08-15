@@ -26,8 +26,6 @@ from .api import APIDomainsView
 from .api import APIPseudonymsView
 from .api import APIResolveView
 from .api import APIValidateView
-from .feeds import AppointmentFeedForResource
-from .feeds import AppointmentFeedForStudy
 from .feeds import AppointmentFeedForUser
 from .views import AdditionalInfoUpdateView
 from .views import AttributesUpdateView
@@ -57,20 +55,10 @@ from .views import TagView
 app_name = 'execution'
 urlpatterns = [
     path('calendar/feed/', AppointmentFeedForUser.as_view(), name='calendar-user-feed'),
-    path(
-        'resources/<int:pk>/',
-        AppointmentFeedForResource.as_view(),
-        name='resource-feed',
-    ),
     path('<int:study_pk>/', ParticipationListView.as_view(), name='participation-list'),
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
     path('<int:study_pk>/news/', NewsMailView.as_view(), name='news-mail'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
-    path(
-        '<int:pk>/calendar/feed/',
-        AppointmentFeedForStudy.as_view(),
-        name='calendar-feed',
-    ),
     path('<int:pk>/criteria/', ExclusionCriteriaView.as_view(), name='criteria'),
     path('<int:pk>/export/', ExportView.as_view(), name='export'),
     path('<int:pk>/progress/', ProgressView.as_view(), name='progress'),
