@@ -12,7 +12,7 @@
             <svg class="identicon" data-jdenticon-value="{{ subject.pk }}" aria-hidden="true"></svg>
             {{ subject.contact.full_name }}
         </h1>
-        {% if CASTELLUM_REPORT_NOTIFICATION_TO %}
+        {% if CASTELLUM_REPORT_NOTIFICATION_TO and not subject.blocked %}
             <a href="{% url 'subjects:report' subject.pk %}" class="btn btn-sm btn-light">{% icon 'flag' %} {% translate 'report' %}</a>
         {% endif %}
     </div>
