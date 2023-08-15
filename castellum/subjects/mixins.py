@@ -160,6 +160,9 @@ class BaseReportView(PermissionRequiredMixin, CreateView):
         form.instance.user = self.request.user
         obj = form.save()
 
+        self.subject.blocked = True
+        self.subject.save()
+
         path = reverse('subjects:report-detail', args=[obj.pk])
         url = self.request.build_absolute_uri(path)
 

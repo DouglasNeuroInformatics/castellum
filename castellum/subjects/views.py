@@ -467,11 +467,13 @@ class ReportDetailView(PermissionRequiredMixin, DetailView):
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
         if request.POST.get('submit') == 'block':
-            obj.subject.blocked = True
-            obj.subject.save()
-            messages.success(request, _('Subject has been blocked.'))
+            messages.success(request, _('Subject remains blocked.'))
         else:
-            messages.success(request, _('Report has been discarded.'))
+            obj.subject.blocked = False
+            obj.subject.save()
+            messages.success(request, _(
+                'Report has been discarded. The subject has been un-blocked.'
+            ))
         obj.delete()
         return redirect('index')
 
