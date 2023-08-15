@@ -20,6 +20,7 @@
 
 from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import SuspiciousOperation
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -156,9 +157,15 @@ class BaseReportView(PermissionRequiredMixin, CreateView):
     template_name = 'subjects/subject_report.html'
 
     def form_valid(self, form):
+        if self.subject.blocked:
+            raise SuspiciousOperation
+
         form.instance.subject = self.subject
         form.instance.user = self.request.user
         obj = form.save()
+
+        self.subject.blocked = True
+        self.subject.save()
 
         path = reverse('subjects:report-detail', args=[obj.pk])
         url = self.request.build_absolute_uri(path)
