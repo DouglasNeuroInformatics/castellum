@@ -82,7 +82,7 @@ class AppointmentFeedForUser(ParamAuthMixin, BaseExecutionAppointmentFeed):
                 yield item
 
 
-class ResourceFeed(ParamAuthMixin, BaseExecutionAppointmentFeed):
+class AppointmentFeedForResource(ParamAuthMixin, BaseExecutionAppointmentFeed):
     def items(self):
         resource = get_object_or_404(
             Resource, pk=self.kwargs['pk'], managers=self.request.user

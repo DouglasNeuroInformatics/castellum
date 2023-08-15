@@ -20,10 +20,10 @@
 
 from django.urls import path
 
-from .feeds import AppointmentFeed
+from .feeds import AppointmentFeedForResource
+from .feeds import AppointmentFeedForStudy
 from .feeds import FollowUpFeedForStudy
 from .feeds import FollowUpFeedForUser
-from .feeds import ResourceFeed
 from .views import AdditionalInfoUpdateView
 from .views import AppointmentsUpdateView
 from .views import AttributesUpdateView
@@ -46,7 +46,11 @@ from .views import ReportView
 app_name = 'recruitment'
 urlpatterns = [
     path('followups/', FollowUpFeedForUser.as_view(), name='followups-user-feed'),
-    path('resources/<int:pk>/', ResourceFeed.as_view(), name='resource-feed'),
+    path(
+        'resources/<int:pk>/',
+        AppointmentFeedForResource.as_view(),
+        name='resource-feed',
+    ),
     path('<int:study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
     path(
         '<int:study_pk>/invited/',
@@ -71,7 +75,11 @@ urlpatterns = [
     ),
     path('<int:study_pk>/cleanup/', RecruitmentCleanupView.as_view(), name='cleanup'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
-    path('<int:pk>/calendar/feed/', AppointmentFeed.as_view(), name='calendar-feed'),
+    path(
+        '<int:pk>/calendar/feed/',
+        AppointmentFeedForStudy.as_view(),
+        name='calendar-feed',
+    ),
     path(
         '<int:study_pk>/followups/',
         FollowUpFeedForStudy.as_view(),

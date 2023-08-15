@@ -58,7 +58,7 @@ class FollowUpFeedForUser(ParamAuthMixin, BaseFollowUpFeed):
             )
 
 
-class AppointmentFeed(
+class AppointmentFeedForStudy(
     ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseAppointmentFeed
 ):
     permission_required = 'appointments.change_appointment'
@@ -71,7 +71,7 @@ class AppointmentFeed(
         return ''
 
 
-class ResourceFeed(ParamAuthMixin, BaseAppointmentFeed):
+class AppointmentFeedForResource(ParamAuthMixin, BaseAppointmentFeed):
     def items(self):
         resource = get_object_or_404(Resource, pk=self.kwargs['pk'])
         return (
