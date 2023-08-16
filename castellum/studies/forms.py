@@ -142,7 +142,7 @@ class SessionForm(forms.ModelForm):
         return value
 
 
-class ExcludedStudiesForm(forms.ModelForm):
+class OtherStudiesForm(forms.ModelForm):
     class Meta:
         model = Study
         fields = ['excluded_studies']
