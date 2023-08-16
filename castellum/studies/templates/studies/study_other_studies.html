@@ -15,18 +15,20 @@
             </div>
 
             <div class="card-body">
-                <div data-js="d-select2-clear">
-                    {{ form.excluded_studies }}
+                <div data-js="d-select2-clear" class="mb-3">
+                    {% bootstrap_field form.excluded_studies wrapper_class="" %}
+                    {% if related_studies %}
+                        <div class="form-text">
+                            {% translate 'Studies in which potential subjects have participated' %}:
+                            {% for study in related_studies %}
+                                {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-                <div class="form-text">{% translate 'Participants from excluded studies will be excluded from recruitment for this study.' %}</div>
-                {% if related_studies %}
-                    <div class="form-text">
-                        {% translate 'Studies in which potential subjects have participated' %}:
-                        {% for study in related_studies %}
-                            {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div data-js="d-select2-clear">
+                    {% bootstrap_field form.included_studies %}
+                </div>
             </div>
         </div>
 

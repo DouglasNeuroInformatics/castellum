@@ -145,14 +145,15 @@ class SessionForm(forms.ModelForm):
 class OtherStudiesForm(forms.ModelForm):
     class Meta:
         model = Study
-        fields = ['excluded_studies']
+        fields = ['excluded_studies', 'included_studies']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['excluded_studies'].queryset = Study.objects.exclude(
-            pk=self.instance.pk
-        )
+        qs = Study.objects.exclude(pk=self.instance.pk)
+        self.fields['excluded_studies'].queryset = qs
         self.fields['excluded_studies'].widget.attrs['class'] = 'form-control'
+        self.fields['included_studies'].queryset = qs
+        self.fields['included_studies'].widget.attrs['class'] = 'form-control'
 
 
 class MemberForm(forms.ModelForm):
