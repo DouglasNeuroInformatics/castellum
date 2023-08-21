@@ -29,11 +29,14 @@ from . import helpers
 
 class DataProtectionView(PermissionRequiredMixin, ListView):
     template_name = 'data_protection/index.html'
-    permission_required = [
-        'subjects.export_subject',
-        'castellum_auth.privacy_level_2',
-    ]
+    permission_required = ['subjects.export_subject']
     paginate_by = 15
+
+    def check_auth_conditions(self):
+        return (
+            super().check_auth_conditions()
+            and self.request.user.has_privacy_level(2)
+        )
 
     def get_queryset(self):
         if self.request.user.has_perm('subjects.delete_subject'):
