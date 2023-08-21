@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
             name="included_studies",
             field=models.ManyToManyField(
                 blank=True,
-                help_text="If selected, only Participants from included studies will be considered in the recruitment for this study.",
+                help_text="If selected, only participants from included studies will be considered in the recruitment for this study. Note that reusing data from those studies is not always possible, e.g. because the study consent does not allow data reuse or because the pseudonyms have already been deleted.",
                 related_name="+",
                 to="studies.study",
                 verbose_name="Included studies",
