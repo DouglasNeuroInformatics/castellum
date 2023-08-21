@@ -293,13 +293,15 @@ class Study(models.Model):
 
     @cached_property
     def members_max_privacy_level(self):
-        members = set(self.recruiters + self.conductors)
-        return max([user.privacy_level for user in members], default=2)
+        if not self.members.exists():
+            return 2
+        return self.members.aggregate(v=models.Max('privacy_level'))['v']
 
     @cached_property
     def members_min_privacy_level(self):
-        members = set(self.recruiters + self.conductors)
-        return min([user.privacy_level for user in members], default=2)
+        if not self.members.exists():
+            return 2
+        return self.members.aggregate(v=models.Min('privacy_level'))['v']
 
     @property
     def study_type(self):
