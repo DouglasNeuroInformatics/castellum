@@ -2334,10 +2334,8 @@ msgstr ""
 "für diese Studie ausgeschlossen."
 
 #: castellum/studies/models.py:204
-#, fuzzy
-#| msgid "Excluded studies"
 msgid "Included studies"
-msgstr "Ausgeschlossene Studien"
+msgstr "Eingeschlossene Studien"
 
 #: castellum/studies/models.py:206
 msgid ""
@@ -2346,6 +2344,12 @@ msgid ""
 "not always possible, e.g. because the study consent does not allow data "
 "reuse or because the pseudonyms have already been deleted."
 msgstr ""
+"Wenn Sie diese Option auswählen, werden nur Teilnehmer*innen aus den "
+"eingeschlossenen Studien bei der Rekrutierung für diese Studie "
+"berücksichtigt. Beachten Sie, dass die Wiederverwendung von Daten aus diesen "
+"Studien nicht immer möglich ist, z.B. weil die Zustimmung zur Studie die "
+"Wiederverwendung von Daten nicht erlaubt oder weil die Pseudonyme bereits "
+"gelöscht wurden."
 
 #: castellum/studies/models.py:217
 msgid "Is a filter trial"
@@ -2895,10 +2899,8 @@ msgstr "Globale Gruppen"
 
 #: castellum/studies/templates/studies/study_other_studies.html:4
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:16
-#, fuzzy
-#| msgid "No studies"
 msgid "Other studies"
-msgstr "Keine Studien"
+msgstr "Andere Studien"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:24
 msgid ""
@@ -3387,13 +3389,6 @@ msgid "Reported subject"
 msgstr "Gemeldete Proband*in"
 
 #: castellum/subjects/templates/subjects/report_detail.html:8
-#, fuzzy
-#| msgid ""
-#| "A user has reported a subject for inappropriate behavior. You now have "
-#| "two options: You can block the subject, in which case they will no longer "
-#| "be invited to studies. In order to enforce that block, their contact "
-#| "information will be stored even against their will. Or you can discard "
-#| "this reports without blocking the subject."
 msgid ""
 "A user has reported a subject for inappropriate behavior. They have been "
 "blocked temporarily. You now have two options: You can confirm the block, in "
@@ -3402,11 +3397,11 @@ msgid ""
 "will. Or you can discard this reports and un-block the subject."
 msgstr ""
 "Eine Benutzer*in hat eine Proband*in wegen unangemessenen Verhaltens "
-"gemeldet. Sie haben nun zwei Möglichkeiten: Sie können die Proband*in "
-"sperren. In diesem Fall wird sie nicht mehr zu Studien eingeladen. Um diese "
-"Sperre durchzusetzen, werden die Kontaktinformationen auch gegen den Willen "
-"der Proband*in gespeichert. Oder Sie können diese Meldungen verwerfen, ohne "
-"die Proband*in zu sperren."
+"gemeldet. Sie haben nun zwei Möglichkeiten: Sie können die Sperrung "
+"bestätigen. In diesem Fall wird sie nicht mehr zu Studien eingeladen. Um "
+"diese Sperrung durchzusetzen, werden die Kontaktinformationen auch gegen den "
+"Willen der Proband*in gespeichert. Oder Sie können diese Meldungen verwerfen "
+"und die Sperrung aufheben."
 
 #: castellum/subjects/templates/subjects/report_detail.html:21
 msgid "Block subject"
@@ -3855,16 +3850,12 @@ msgid "Subject has been deleted."
 msgstr "Die Proband*in wurde gelöscht"
 
 #: castellum/subjects/views.py:472
-#, fuzzy
-#| msgid "Subject is blocked"
 msgid "Subject remains blocked."
-msgstr "Proband*in ist gesperrt"
+msgstr "Proband*in bleibt gesperrt"
 
 #: castellum/subjects/views.py:477
-#, fuzzy
-#| msgid "Report has been discarded."
 msgid "Report has been discarded. The subject has been un-blocked."
-msgstr "Die Meldung wurde verworfen."
+msgstr "Die Meldung wurde verworfen. Die Sperrung wurde aufgehoben."
 
 #: castellum/templates/403.html:4 castellum/templates/403.html:12
 msgid "Forbidden"
