@@ -294,12 +294,12 @@ class Study(models.Model):
     @cached_property
     def members_max_privacy_level(self):
         members = set(self.recruiters + self.conductors)
-        return max([user.get_privacy_level() for user in members], default=2)
+        return max([user.privacy_level for user in members], default=2)
 
     @cached_property
     def members_min_privacy_level(self):
         members = set(self.recruiters + self.conductors)
-        return min([user.get_privacy_level() for user in members], default=2)
+        return min([user.privacy_level for user in members], default=2)
 
     @property
     def study_type(self):

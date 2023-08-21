@@ -50,11 +50,8 @@ class User(AbstractUser):
     class Meta:
         ordering = ['username']
 
-    def get_privacy_level(self):
-        return self.privacy_level
-
     def has_privacy_level(self, level):
-        return self.get_privacy_level() >= level
+        return self.privacy_level >= level
 
     def get_full_name(self):
         return super().get_full_name() or self.get_username()

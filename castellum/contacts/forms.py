@@ -115,7 +115,7 @@ class ContactForm(forms.ModelForm):
                 self.legal_representatives
             )
             self.fields['legal_representatives_add'] = SubjectMultipleChoiceField(
-                Subject.objects.filter(privacy_level__lte=user.get_privacy_level()),
+                Subject.objects.filter(privacy_level__lte=user.privacy_level),
                 required=False,
             )
 
