@@ -82,7 +82,16 @@ def study_exclusion(study):
 
     prs = Participation._base_manager.filter(pr_q)
 
-    return ~models.Q(pk__in=prs.values('subject'))
+    q = ~models.Q(pk__in=prs.values('subject'))
+
+    # Included studies
+    if study.included_studies.exists():
+        q &= models.Q(pk__in=Participation._base_manager.filter(
+            status=Participation.INVITED,
+            study__in=study.included_studies.all(),
+        ).values('subject'))
+
+    return q
 
 
 def study_disinterest(study):

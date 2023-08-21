@@ -192,6 +192,23 @@ class Study(models.Model):
     excluded_studies = models.ManyToManyField(
         'studies.Study',
         verbose_name=_('Excluded studies'),
+        help_text=_(
+            'Participants from excluded studies will be '
+            'excluded from recruitment for this study.'
+        ),
+        related_name='+',
+        blank=True,
+    )
+    included_studies = models.ManyToManyField(
+        'studies.Study',
+        verbose_name=_('Included studies'),
+        help_text=_(
+            'If selected, only participants from included studies will be '
+            'considered in the recruitment for this study. Note that reusing data '
+            'from those studies is not always possible, e.g. because the study '
+            'consent does not allow data reuse or because the pseudonyms have '
+            'already been deleted.'
+        ),
         related_name='+',
         blank=True,
     )

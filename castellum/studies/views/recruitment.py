@@ -36,8 +36,8 @@ from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
 
-from ..forms import ExcludedStudiesForm
 from ..forms import MailSettingsForm
+from ..forms import OtherStudiesForm
 from ..mixins import StudyMixin
 from ..models import Study
 
@@ -96,14 +96,14 @@ class StudyRecruitmentSettingsUpdateView(
         return super().form_valid(form)
 
 
-class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
+class StudyOtherStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     pk_url_kwarg = 'study_pk'
-    template_name = 'studies/study_excluded_studies.html'
-    form_class = ExcludedStudiesForm
+    template_name = 'studies/study_other_studies.html'
+    form_class = OtherStudiesForm
     permission_required = 'studies.change_study'
     tab = 'recruitmentsettings'
-    subtab = 'excluded-studies'
+    subtab = 'other-studies'
 
     @property
     def base_template(self):
