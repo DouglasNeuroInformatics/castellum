@@ -12,16 +12,6 @@
         });
     };
 
-    $$.on(document, 'click', 'a:not([data-js="cancel"]):not([href^="#"])', function(event){
-        if (unsavedForms.length) {
-            event.preventDefault();
-            var el = document.querySelector('#unsaved-changes-modal');
-            var modal = new bootstrap.Modal(el);
-            el.querySelector('[data-js="cancel"]').href = this.href;
-            modal.show();
-        }
-    });
-
     document.addEventListener('change', function(event) {
         // form can be defined implicitly (ancestor) or explicitly (`form="…"`)
         var form = event.target.form;
