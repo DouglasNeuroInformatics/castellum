@@ -1,3 +1,30 @@
+# 0.93.0 (2023-08-22)
+
+## breaking changes
+
+-   The working directory in the docker image has changed from /code/ to
+    /app/
+-   To protect study conductors, subjects who get reported are no
+    blocked immedately. If the reviewers discard the report, the subject
+    is un-blocked.
+
+## bug fixes
+
+-   The number of recruitable subjects on the subject management page no
+    longer includes subjects who are deceased or blocked.
+
+## new features
+
+-   Studies can now select "included studies". Only participants from
+    included studies will be considered in the recruitment for the
+    study.
+
+## other changes
+
+-   Castellum now uses the browser's default warning message when the
+    user might lose unsaved changes.
+
+
 # 0.92.0 (2023-08-01)
 
 ## bug fixes
