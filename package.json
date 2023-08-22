@@ -15,7 +15,7 @@
         "select2": "4.0.13"
     },
     "devDependencies": {
-        "eslint": "8.46.0"
+        "eslint": "8.47.0"
     },
     "eslintConfig": {
         "parserOptions": {
