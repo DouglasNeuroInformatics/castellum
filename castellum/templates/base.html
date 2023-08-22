@@ -125,23 +125,6 @@
 
     {% block footer %}{% endblock %}
 
-    <div id="unsaved-changes-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="unsaved-changes-modal-title" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title h4" id="unsaved-changes-modal-title">{% translate 'Unsaved Changes' %}</h1>
-                </div>
-                <div class="modal-body">
-                    <p>{% translate "Your changes will be lost if you leave before saving." %}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">{% translate "Stay on Page" %}</button>
-                    <a class="btn btn-outline-primary" data-js="cancel">{% translate "Discard Changes" %}</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     {% if user.is_authenticated %}
         <script src="{% static 'js/autologout.js' %}"></script>
     {% endif %}
