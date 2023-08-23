@@ -50,13 +50,13 @@
                         {% endif %}
                     </small>
                     <div>
-                        {% blocktranslate with contacted_size=batch.contacted_size no_response_size=batch.no_response_set.count %}
+                        {% blocktranslate with contacted_size=batch.contacted_size no_response_size=batch.no_response_size %}
                             still awaiting response for {{ no_response_size }}/{{ contacted_size }} potential subjects
                         {% endblocktranslate %}
                     </div>
                 </div>
                 <div class="table-list-item-actions">
-                    {% if batch.no_response_set.count %}
+                    {% if batch.no_response_size %}
                         {% if not batch.reminded %}
                             <a href="{% url 'recruitment:mail-remind' study.pk batch.pk %}" class="btn btn-outline-primary">
                                 {% translate 'Send reminder' %}…

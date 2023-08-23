@@ -354,6 +354,10 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         context['batches'] = list(
             self.study.mailbatch_set
             .order_by('datetime')
+            .annotate(
+                # PERF: not exactly the same as no_response_set.count(), but much faster
+                no_response_size=models.Count('participation', distinct=True),
+            )
         )
         return context
 
