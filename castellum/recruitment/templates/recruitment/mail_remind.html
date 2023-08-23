@@ -8,7 +8,7 @@
         <p class="alert alert-danger">{% translate "Mail recruitment has not been set up!" %}</p>
     {% else %}
         <p>
-            {% blocktranslate with no_response_size=object.participation_set.count contacted_size=object.contacted_size %}
+            {% blocktranslate with no_response_size=object.no_response_set.count contacted_size=object.contacted_size %}
                 Send reminder to {{ no_response_size }}/{{ contacted_size }} potential subjects.
             {% endblocktranslate %}
         </p>

@@ -116,6 +116,7 @@ def test_remind_updates_participations(
 
     subject.contact.email = 'foo@example.com'
     subject.contact.save()
+    baker.make(Consent, subject=subject, _fill_optional=['document'])
 
     batch = baker.make(MailBatch, study=study_in_execution_status)
     participation = baker.make(

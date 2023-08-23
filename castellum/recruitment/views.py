@@ -354,9 +354,6 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         context['batches'] = list(
             self.study.mailbatch_set
             .order_by('datetime')
-            .annotate(
-                no_response_size=models.Count('participation', distinct=True),
-            )
         )
         return context
 
@@ -488,7 +485,7 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, DetailView)
 
     def send_reminder_mails(self, batch):
         with MailContext('recruitment') as ctx:
-            for participation in batch.participation_set.select_related('subject'):
+            for participation in batch.no_response_set.select_related('subject'):
                 contact = participation.subject.contact
                 success = self.send_reminder_mail(contact, ctx)
                 if success:

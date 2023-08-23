@@ -3,6 +3,7 @@ from django.core import mail
 from model_bakery import baker
 
 from castellum.recruitment.models import MailBatch
+from castellum.subjects.models import Consent
 
 
 @pytest.mark.smoketest
@@ -28,6 +29,7 @@ def test_mail_remind_sends_mail(
 ):
     study_in_execution_status.mail_body = 'test'
     study_in_execution_status.save()
+    baker.make(Consent, subject=participation.subject, _fill_optional=['document'])
     batch = baker.make(MailBatch, study=study_in_execution_status)
     participation.batch = batch
     participation.save()

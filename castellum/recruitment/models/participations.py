@@ -56,6 +56,14 @@ class BaseMailBatch(models.Model):
 class MailBatch(BaseMailBatch):
     reminded = models.DateTimeField(_('Reminder date'), blank=True, null=True)
 
+    @property
+    def no_response_set(self):
+        from .. import filter_queries
+        return self.participation_set.filter(subject__in=Subject.objects.filter(
+            filter_queries.has_consent(),
+            filter_queries.study(self.study),
+        ))
+
 
 class NewsMailBatch(BaseMailBatch):
     other_size = models.PositiveIntegerField()
