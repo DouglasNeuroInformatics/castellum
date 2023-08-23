@@ -1,3 +1,10 @@
+# 0.93.1 (2023-08-23)
+
+-   Fix crash in filter trials (regression from 0.93.0)
+-   Do not send recruitment mail reminders to subjects who are no longer
+    suitable for the study.
+
+
 # 0.93.0 (2023-08-22)
 
 ## breaking changes
