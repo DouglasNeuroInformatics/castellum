@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             model_name='report',
             name='additional_wishes',
             field=models.TextField(
-                blank=True, verbose_name='Additional wishes (optional)'
+                blank=True, help_text='e.g. Request for a confidential conversation', verbose_name='Additional wishes (optional)'
             ),
         ),
     ]

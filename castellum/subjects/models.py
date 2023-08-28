@@ -349,7 +349,11 @@ class Report(models.Model):
         Subject, verbose_name=_('Subject'), on_delete=models.CASCADE
     )
     user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE)
-    additional_wishes = models.TextField(_('Additional wishes (optional)'), blank=True)
+    additional_wishes = models.TextField(
+        _('Additional wishes (optional)'),
+        help_text=_('e.g. Request for a confidential conversation'),
+        blank=True,
+    )
 
 
 class SubjectCreationRequest(TimeStampedModel):
