@@ -15,9 +15,7 @@
 
         <div class="d-print-none mb-3">
             <button class="btn btn-primary my-1">{% translate 'Save' %}</button>
-            {% if study.mail_body %}
-                <button class="btn btn-secondary my-1" formaction="{% url 'studies:testmail-recruitment' study.pk %}">{% translate 'Send test mail to myself' %}</button>
-            {% endif %}
+            <button class="btn btn-secondary my-1" type="button" data-js="submit" data-animation="success" data-action="{% url 'studies:testmail-recruitment' study.pk %}">{% translate 'Send test mail to myself' %}</button>
         </div>
     </form>
 {% endblock %}

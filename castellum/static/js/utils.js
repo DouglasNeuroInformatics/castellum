@@ -109,6 +109,14 @@
             .catch(() => spinner.remove());
     });
 
+    $$.on(document, 'click', '[data-js="submit"]', function() {
+        fetch(this.dataset.action, {
+            credentials: 'same-origin',
+            method: 'POST',
+            body: new FormData(this.form),
+        });
+    });
+
     $.fn.select2.defaults.set('theme', 'bootstrap4');
     $('[data-js="select2"]').select2();
     $('[data-js="select2-tags"]').select2({tags: true});
