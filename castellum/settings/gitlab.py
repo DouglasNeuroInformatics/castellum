@@ -30,6 +30,7 @@ DATABASES = {
 }
 
 CASTELLUM_API_ENABLED = True
+CASTELLUM_ENABLE_STUDY_EXPORT = True
 
 # Setup geofilters
 INSTALLED_APPS.append('django.contrib.gis')
