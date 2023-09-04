@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import logging
 
 from django.conf import settings
@@ -26,6 +27,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.forms import modelform_factory
+from django.http import Http404
 from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
 from django.http import QueryDict
@@ -118,6 +120,75 @@ class StudyIndexView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form
+        return context
+
+
+class StudyMaintenanceView(LoginRequiredMixin, ListView):
+    model = Study
+    paginate_by = 15
+    template_name = 'studies/study_maintenance_list.html'
+    NEXT_STEPS = {
+        'edit': _('Start the study'),
+        'execution-unknown': _('Provide an estimate for the end of sessions'),
+        'execution-future': _('Conduct the study'),
+        'execution-past': _('Finish the study'),
+        'finished-domains': _('Delete the pseudonym domains'),
+        'finished-anon': _('Delete the study'),
+    }
+    EXPLANATIONS = {
+        'edit': _('These studies have not yet started:'),
+        'execution-unknown': _(
+            'These studies have started, but the end of sessions has not been set:'
+        ),
+        'execution-future': _(
+            'These studies have started, and the sessions are still ongoing:'
+        ),
+        'execution-past': _(
+            'These studies have started, but the sessions have already concluded. '
+            'It can be helpful to keep these studies open for some more time in '
+            'order to access pseudonyms. '
+            'However, they should be finished as soon as that is no longer required '
+            'so that all data concerning the subjects that did not end up '
+            'participating can be cleared.'
+        ),
+        'finished-domains': _(
+            'These studies have finished, but the pseudonym domains have '
+            'not yet been deleted. The date when pseudonym domains must be '
+            'deleted is often defined in the study consent.'
+        ),
+        'finished-anon': _(
+            'These studies have finished, and the pseudonym domains have '
+            'already been deleted. The only reason to keep these studies is '
+            'to exclude or include them in future recruitments.'
+        ),
+    }
+
+    @property
+    def subtab(self):
+        return self.kwargs['subtab']
+
+    def get_queryset(self):
+        qs = super().get_queryset().filter(is_filter_trial=False)
+        today = datetime.date.today()
+        if self.subtab == 'edit':
+            qs = qs.filter(status=Study.EDIT)
+        elif self.subtab == 'execution-unknown':
+            qs = qs.filter(status=Study.EXECUTION, sessions_end=None)
+        elif self.subtab == 'execution-future':
+            qs = qs.filter(status=Study.EXECUTION, sessions_end__gte=today)
+        elif self.subtab == 'execution-past':
+            qs = qs.filter(status=Study.EXECUTION, sessions_end__lt=today)
+        elif self.subtab == 'finished-domains':
+            qs = qs.filter(status=Study.FINISHED).exclude(domains=None)
+        elif self.subtab == 'finished-anon':
+            qs = qs.filter(status=Study.FINISHED).filter(domains=None)
+        else:
+            raise Http404
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['explanation'] = self.EXPLANATIONS[self.subtab]
         return context
 
 
