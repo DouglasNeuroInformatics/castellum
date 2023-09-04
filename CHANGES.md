@@ -11,7 +11,7 @@
 
 -   The working directory in the docker image has changed from /code/ to
     /app/
--   To protect study conductors, subjects who get reported are no
+-   To protect study conductors, subjects who get reported are now
     blocked immedately. If the reviewers discard the report, the subject
     is un-blocked.
 
