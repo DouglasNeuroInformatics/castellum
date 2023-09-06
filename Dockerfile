@@ -29,8 +29,6 @@ COPY castellum/ castellum
 
 RUN django-admin compilemessages -l de --settings=castellum.settings.bare
 
-CMD ["uwsgi", "uwsgi.ini"]
-
 
 FROM base AS static
 RUN apk add npm
@@ -42,3 +40,5 @@ RUN django-admin collectstatic --no-input --settings=castellum.settings.bare
 
 FROM base AS final
 COPY --from=static /app/static/ static
+USER uwsgi
+CMD ["uwsgi", "uwsgi.ini"]
