@@ -1,0 +1,51 @@
+{% extends "studies/base.html" %}
+{% load i18n static auth django_bootstrap5 utils %}
+
+{% block title %}{% translate "Studies" %} &middot; {{ block.super }}{% endblock %}
+
+{% block container_class %}container-lg{% endblock %}
+
+{% block header %}
+    <div class="container text-center my-4">
+        <h1>{% translate 'Overview by status' %}</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-3">
+                <div class="card-header" id="subtabs-header">
+                    {% translate 'Possible next step' %}
+                </div>
+                <nav class="list-group list-group-flush" aria-labelledby="subtabs-header">
+                    {% for key, label in view.NEXT_STEPS.items %}
+                        <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == key %}active{% endif %}" href="{% url 'studies:maintenance' key %}">{{ label }}</a>
+                    {% endfor %}
+                </nav>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <p>{{ explanation }}</p>
+
+            <ul class="table-list mb-3">
+                {% for study in object_list %}
+                    <li class="table-list-item">
+                        {% include 'studies/__study_item.html' with study=study %}
+                    </li>
+                {% empty %}
+                    <li class="alert alert-warning">
+                        {% translate 'No studies' %}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {% if is_paginated %}
+                <nav aria-label="{% translate 'Pagination' %}">
+                    {% bootstrap_pagination page_obj url=request.get_full_path %}
+                </nav>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

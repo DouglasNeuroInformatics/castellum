@@ -67,6 +67,7 @@
                         {% csrf_token %}
                         <button class="btn btn-secondary mb-1">{% translate 'Try filters' %}</button>
                     </form>
+                    <a href="{% url 'studies:maintenance' 'edit' %}" class="btn btn-secondary mb-1">{% translate 'Overview by status' %}</a>
                 </div>
             {% endif %}
 
@@ -84,35 +85,7 @@
                 <ul class="table-list mb-3">
                     {% for study in object_list %}
                         <li class="table-list-item">
-                            <div>
-                                <div class="h4 d-inline-block my-1 me-2">{{ study.name }}</div>
-                                <div class="d-inline-block my-1 me-2">{{ study.contact_person }}</div>
-                                {% for tag in study.tags.all %}
-                                    <span class="badge text-bg-info">{{ tag }}</span>
-                                {% endfor %}
-                                {% if study.status == study.FINISHED %}
-                                    <span class="badge text-bg-secondary" title="{% translate 'Recruitment and execution for this study have ended.' %}">{% translate 'Finished' %}</span>
-                                {% endif %}
-                            </div>
-                            <div class="table-list-item-actions">
-                                {% has_perm 'studies.access_study' user study as can_access %}
-                                {% if can_access and study.status == study.EXECUTION %}
-                                    {% has_perm 'recruitment.recruit' user study as can_recruit %}
-                                    {% if can_recruit %}
-                                        <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% translate 'Recruitment' %}</a>
-                                    {% endif %}
-
-                                    {% has_perm 'recruitment.conduct_study' user study as can_conduct %}
-                                    {% if can_conduct %}
-                                        <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-list' study.pk %}">{% translate 'Execution' %}</a>
-                                    {% endif %}
-                                {% endif %}
-
-                                {% has_perm 'studies.view_study' user study as can_view_study %}
-                                {% if can_view_study %}
-                                    <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' study.pk %}">{% translate 'Details' %}</a>
-                                {% endif %}
-                            </div>
+                            {% include 'studies/__study_item.html' with study=study %}
                         </li>
                     {% empty %}
                         <li class="alert alert-warning">
