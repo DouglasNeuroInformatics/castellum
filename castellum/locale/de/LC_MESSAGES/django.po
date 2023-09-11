@@ -2813,7 +2813,7 @@ msgstr "Schlüssel Kopieren"
 
 #: castellum/studies/templates/studies/study_domains_study.html:31
 msgid "participants have a pseudonym in this domain"
-msgstr ""
+msgstr "Teilnehmer*innen haben ein Pseudonym in dieser Domäne"
 
 #: castellum/studies/templates/studies/study_domains_study.html:47
 msgid "Add domain"
@@ -2881,10 +2881,8 @@ msgstr "Filter ausprobieren"
 
 #: castellum/studies/templates/studies/study_list.html:70
 #: castellum/studies/templates/studies/study_maintenance_list.html:10
-#, fuzzy
-#| msgid "Overview"
 msgid "Overview by status"
-msgstr "Überblick"
+msgstr "Überblick nach Status"
 
 #: castellum/studies/templates/studies/study_list.html:93
 msgid "No results found."
@@ -2914,7 +2912,7 @@ msgstr ""
 
 #: castellum/studies/templates/studies/study_maintenance_list.html:19
 msgid "Possible next step"
-msgstr ""
+msgstr "Möglicher nächster Schritt"
 
 #: castellum/studies/templates/studies/study_members.html:13
 msgid "Global groups"
@@ -3011,52 +3009,42 @@ msgid "New schedule"
 msgstr "Neuer Terminplan"
 
 #: castellum/studies/views/studies.py:131
-#, fuzzy
-#| msgid "Convert to study"
 msgid "Start the study"
-msgstr "In Studie umwandeln"
+msgstr "Studie starten"
 
 #: castellum/studies/views/studies.py:132
-#, fuzzy
-#| msgid "Provide more details for the address."
 msgid "Provide an estimate for the end of sessions"
-msgstr "Adressdaten unvollständig"
+msgstr "Eine Schätzung für das Ende der Sitzungen angeben"
 
 #: castellum/studies/views/studies.py:133
-#, fuzzy
-#| msgid "Convert to study"
 msgid "Conduct the study"
-msgstr "In Studie umwandeln"
+msgstr "Studie durchführen"
 
 #: castellum/studies/views/studies.py:134
-#, fuzzy
-#| msgid "Finish study"
 msgid "Finish the study"
 msgstr "Studie beenden"
 
 #: castellum/studies/views/studies.py:135
-#, fuzzy
-#| msgid "General pseudonym domains"
 msgid "Delete the pseudonym domains"
-msgstr "Allgemeine Pseudonym-Domänen"
+msgstr "Pseudonym-Domänen löschen"
 
 #: castellum/studies/views/studies.py:136
 msgid "Delete the study from Castellum"
-msgstr ""
+msgstr "Studie aus Castellum löschen"
 
 #: castellum/studies/views/studies.py:139
-#, fuzzy
-#| msgid "The subject has not yet been contacted."
 msgid "These studies have not yet started:"
-msgstr "Die Proband*innen wurde noch nicht kontaktiert."
+msgstr "Diese Studien wurden noch nicht gestartet:"
 
 #: castellum/studies/views/studies.py:141
 msgid "These studies have started, but the end of sessions has not been set:"
 msgstr ""
+"Diese Studien wurden gestartet, aber das Ende der Sitzungen wurde nicht "
+"gesetzt:"
 
 #: castellum/studies/views/studies.py:144
 msgid "These studies have started, and the sessions are still ongoing:"
-msgstr ""
+msgstr "Diese Studien wurden gestartet und die Sitzungen laufen noch:"
 
 #: castellum/studies/views/studies.py:147
 msgid ""
@@ -3066,6 +3054,11 @@ msgid ""
 "required so that all data of subjects who were contacted but did not "
 "participate can be deleted."
 msgstr ""
+"Diese Studien wurden gestartet, aber die Sitzungen sind bereits beendet. Es "
+"kann hilfreich sein die Studien noch eine Weile offen zu lassen, um auf "
+"Pseudonyme zuzugreifen. Sie sollten allerdings beendet werden sobald dies "
+"nicht mehr notwendig ist, sodass alle Daten zu Proband*innen gelöscht werden "
+"können, die kontaktiert wurden aber nicht an der Studie teilgenommen haben."
 
 #: castellum/studies/views/studies.py:155
 msgid ""
@@ -3073,6 +3066,9 @@ msgid ""
 "deleted. The date when pseudonym domains must be deleted is usually defined "
 "in the study consent."
 msgstr ""
+"Diese Studien wurden beendet, aber die Pseudonym-Domänen sind noch nicht "
+"gelöscht worden. Das Datum, an dem Pseudonym-Domänen gelöscht werden müssen, "
+"ist üblicherweise in der Studieneinwilligung definiert."
 
 #: castellum/studies/views/studies.py:160
 msgid ""
@@ -3082,6 +3078,11 @@ msgid ""
 "only reason to keep these studies is to exclude or include them in future "
 "recruitments."
 msgstr ""
+"Diese Studien wurden beendet und die Pseudonym-Domänen sind bereits gelöscht "
+"worden. Das bedeutet, dass Castellum nicht mehr weiß, welche Daten zu "
+"welcher Proband*in gehören. Es weiß nur, dass die Proband*in an der Studie "
+"teilgenommen hat. Der einzige Grund diese Studien zu behalten ist um sie in "
+"zukünftigen Rekrutierungen ein- oder auszuschließen."
 
 #: castellum/studies/views/studies.py:378
 msgid "Study has been deleted."
@@ -3312,7 +3313,7 @@ msgstr "Zusätzliche Wünsche (optional)"
 
 #: castellum/subjects/models.py:354
 msgid "e.g. Request for a confidential conversation"
-msgstr ""
+msgstr "z.B. Bitte um ein vertrauliches Gespräch"
 
 #: castellum/subjects/models.py:361
 msgid "Delete URL"
@@ -4300,33 +4301,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Unsaved Changes"
-#~ msgstr "Nicht gespeicherte Änderungen"
-
-#~ msgid "Your changes will be lost if you leave before saving."
-#~ msgstr ""
-#~ "Ihre Änderungen gehen verloren, wenn Sie die Seite vor dem Speichern "
-#~ "verlassen."
-
-#~ msgid "Stay on Page"
-#~ msgstr "Auf der Seite bleiben"
-
-#~ msgid "Discard Changes"
-#~ msgstr "Änderungen verwerfen"
-
-#~ msgid "Subject has been blocked."
-#~ msgstr "Die Proband*in wurde gesperrt."
-
-#~ msgid ""
-#~ "If enabled, all subjects will be reminded {} days before the appointment."
-#~ msgstr ""
-#~ "Fall aktiviert werden alle Proband*innen {} Tage vor jedem Termin an "
-#~ "diesen erinnert."
-
-#~ msgid "Enable reminder emails"
-#~ msgstr "Erinnerungs-E-Mails aktivieren"
-
-#, python-format
-#~ msgid "If applicable, <a href=\"%(url)s\">block this subject</a>."
-#~ msgstr "<a href=\"%(url)s\">Diese Proband*in sperren</a>, sofern anwendbar"
