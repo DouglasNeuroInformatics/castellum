@@ -18,15 +18,15 @@
                             <input type="text" name="name" maxlength="64" class="form-control" placeholder="{{ domain.key }}" value="{{ domain.name }}">
                         </label>
                     </div>
-                    <div class="col-md">
-                        <label class="input-group">
-                            <span class="visually-hidden">{{ domain|verbose_name:'key' }}</span>
+                    <label class="col-md">
+                        <span class="visually-hidden">{{ domain|verbose_name:'key' }}</span>
+                        <div class="input-group">
                             <input id="domain_key_{{ domain.key }}" class="form-control text-truncate" value="{{ domain.key }}" readonly>
                             <button type="button" class="btn btn-outline-secondary" tabindex="-1" data-clipboard="#domain_key_{{ domain.key }}" data-animation="success" title="{% translate 'Copy key' %}">
                                 {% icon 'copy' label=_('Copy key') %}
                             </button>
-                        </label>
-                    </div>
+                        </div>
+                    </label>
                     <div class="col flex-grow-0">
                         <button class="btn btn-secondary">{% translate 'Save' %}</button>
                     </div>
