@@ -133,7 +133,7 @@ class StudyMaintenanceView(LoginRequiredMixin, ListView):
         'execution-future': _('Conduct the study'),
         'execution-past': _('Finish the study'),
         'finished-domains': _('Delete the pseudonym domains'),
-        'finished-anon': _('Delete the study'),
+        'finished-anon': _('Delete the study from Castellum'),
     }
     EXPLANATIONS = {
         'edit': _('These studies have not yet started:'),
@@ -147,19 +147,21 @@ class StudyMaintenanceView(LoginRequiredMixin, ListView):
             'These studies have started, but the sessions have already concluded. '
             'It can be helpful to keep these studies open for some more time in '
             'order to access pseudonyms. '
-            'However, they should be finished as soon as that is no longer required '
-            'so that all data concerning the subjects that did not end up '
-            'participating can be cleared.'
+            'However, they should be finished as soon as this is no longer required '
+            'so that all data of subjects who were contacted but did not participate '
+            'can be deleted.'
         ),
         'finished-domains': _(
             'These studies have finished, but the pseudonym domains have '
             'not yet been deleted. The date when pseudonym domains must be '
-            'deleted is often defined in the study consent.'
+            'deleted is usually defined in the study consent.'
         ),
         'finished-anon': _(
             'These studies have finished, and the pseudonym domains have '
-            'already been deleted. The only reason to keep these studies is '
-            'to exclude or include them in future recruitments.'
+            'already been deleted. This means that Castellum no longer knows '
+            'which data belongs to a subject, it just knows that the subject '
+            'has participated in the study. The only reason to keep these '
+            'studies is to exclude or include them in future recruitments.'
         ),
     }
 
