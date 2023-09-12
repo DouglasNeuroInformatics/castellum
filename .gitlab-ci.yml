@@ -22,14 +22,15 @@ test:
     - name: postgis/postgis:latest
       alias: db_contacts
   before_script:
-    - apt-get update -q && apt-get install -y -qq python3-pip hunspell hunspell-de-de gdal-bin python3-psycopg2
-    - pip3 install --break-system-packages -e .[test]
+    - apt-get update -q && apt-get install -y -qq python3-pip python3-venv hunspell hunspell-de-de gdal-bin python3-psycopg2
+    - python3 -m venv .venv --system-site-packages
+    - .venv/bin/pip install -e .[test]
   script:
-    - isort -c castellum tests
-    - flake8
-    - pospell -l de_DE -p .misc/spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
-    - django-admin makemigrations --dry-run --check --noinput
-    - pytest --ds=$DJANGO_SETTINGS_MODULE
+    - .venv/bin/isort -c castellum tests
+    - .venv/bin/flake8
+    - .venv/bin/pospell -l de_DE -p .misc/spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
+    - .venv/bin/django-admin makemigrations --dry-run --check --noinput
+    - .venv/bin/pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
 
 test-js:
