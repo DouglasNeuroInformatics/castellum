@@ -1,4 +1,4 @@
-# 0.94.0 (unreleased)
+# 0.94.0 (2023-09-12)
 
 ## breaking changes
 
