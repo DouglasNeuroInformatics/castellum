@@ -25,6 +25,7 @@ RUN apk update && apk add \
     py3-psycopg2 \
     py3-pyldap \
     py3-cryptography \
+    libspatialite-dev \
     gdal \
     gettext \
     tzdata
