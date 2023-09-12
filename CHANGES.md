@@ -1,3 +1,35 @@
+# 0.94.0 (unreleased)
+
+## breaking changes
+
+-   The docker image now uses the uwsgi user instead of root to tighten
+    security. This also means that you can no longer install packages.
+    If you need to do that, it is recommended to build a custom image
+    instead.
+-   The default value of `CASTELLUM_ENABLE_STUDY_EXPORT` changed to
+    `False`. We are thinking about removing that feature completly
+    because the study API provides a better solution in many cases.
+    Please get in touch if you think you have a valid use case.
+
+## bug fixes
+
+-   Fixed some bugs/unexpected behavior concerning test mails (e.g. for
+    appointment reminders).
+
+## new features
+
+-   Study management now provides an "Overview by status" that allows to
+    keep track of studies and explains possible next steps.
+-   Pseudonym domains in study management now also display the number of
+    pseudonyms that have been accessed. This allows you to identify
+    domains that have not been used.
+
+## other changes
+
+-   `CASTELLUM_APPOINTMENT_MAIL_BODY` was extended to explain the impact
+    of no-shows.
+
+
 # 0.93.1 (2023-08-23)
 
 -   Fix crash in filter trials (regression from 0.93.0)
