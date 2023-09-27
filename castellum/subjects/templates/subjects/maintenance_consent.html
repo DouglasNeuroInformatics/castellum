@@ -18,6 +18,7 @@
                         {% endif %}
                         {% if subject.consent_document_deprecated %}
                             {{ subject.consent.document }}
+                            <span class="badge text-bg-warning">{% translate "deprecated" %}</span>
                         {% endif %}
                     </div>
                     <div>{% translate 'Last contacted on' %}: {{ subject.updated_at|date }}</div>
