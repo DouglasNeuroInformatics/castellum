@@ -72,9 +72,6 @@ PROTECTED_MEDIA_URL = '/protected/'
 MFA_SITE_TITLE = 'Castellum'
 MFA_DOMAIN = 'localhost'
 
-# display export button in study detail view
-CASTELLUM_ENABLE_STUDY_EXPORT = False
-
 # Add additional metadata fields to studies
 CASTELLUM_ENABLE_STUDY_METADATA = [
     'principal_investigator',

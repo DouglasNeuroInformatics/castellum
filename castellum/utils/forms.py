@@ -215,20 +215,6 @@ class JsonFileValidator:
         return data
 
 
-class BaseImportForm(forms.Form):
-    # magic seems to detect 'text/plain' for json files
-    file = RestrictedFileField(
-        label=_('File'), content_types=['application/json'], required=True
-    )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        if 'file' in cleaned_data:
-            validator = JsonFileValidator(self.schema, self.schema_ref)
-            cleaned_data['json'] = validator(cleaned_data['file'])
-        return cleaned_data
-
-
 class Select2Mixin:
     def widget_attrs(self, widget):
         attrs = super().widget_attrs(widget)

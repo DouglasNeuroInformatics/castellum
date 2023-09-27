@@ -30,18 +30,15 @@ from django.forms import modelform_factory
 from django.http import Http404
 from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
-from django.http import QueryDict
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
-from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
@@ -55,7 +52,6 @@ from castellum.utils import uuid_str
 from castellum.utils.views import BaseProtectedMediaView
 from castellum.utils.views import get_next_url
 
-from ..forms import ImportForm
 from ..forms import StudyFilterForm
 from ..forms import StudyForm
 from ..mixins import StudyMixin
@@ -493,60 +489,6 @@ class StudyConsentView(PermissionRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
-
-
-class StudyImportView(PermissionRequiredMixin, FormView):
-    permission_required = 'studies.change_study'
-    template_name = 'studies/study_import.html'
-    form_class = ImportForm
-
-    def render_person(self, person):
-        return person.get('name', person.get('email'))
-
-    def render_persons(self, persons):
-        return ', '.join([s for s in [self.render_person(p) for p in persons] if s])
-
-    def form_valid(self, form):
-        # Not every JSON input that is valid according to the schema is
-        # also valid according to the model. So we send the input to
-        # ``StudyCreateView`` to also check the model restrictions. If
-        # there are any issues, that view will provide helpful error
-        # messages to users.
-
-        json = form.cleaned_data['json']
-
-        self.request.POST = QueryDict(mutable=True)
-        self.request.POST.update({
-            'name': json['name'],
-            'contact_person': self.render_person(json.get('contact_person', {})),
-            'email': json.get('contact_person', {}).get('email'),
-            'principal_investigator': self.render_person(
-                json.get('principal_investigator', {})
-            ),
-            'affiliated_scientists': self.render_persons(
-                json.get('affiliated_scientists', [])
-            ),
-            'affiliated_research_assistants': self.render_persons(
-                json.get('affiliated_research_assistants', [])
-            ),
-            'description': json.get('description'),
-            'min_subject_count': json.get('number_participants_expected'),
-        })
-        self.request.POST.setlist('tags', json.get('keywords', []))
-
-        create_view = StudyCreateView.as_view()
-        return create_view(self.request)
-
-
-class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
-    permission_required = 'studies.view_study'
-
-    def get(self, request, *args, **kwargs):
-        data = self.study.export()
-        response = JsonResponse({k: v for k, v in data.items() if v})
-        filename = f'castellum_{slugify(self.study.name)}.json'
-        response['Content-Disposition'] = f'attachment; filename="{filename}"'
-        return response
 
 
 class StudyProtectedMediaView(

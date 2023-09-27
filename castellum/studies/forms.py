@@ -27,7 +27,6 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.castellum_auth.models import User
 from castellum.utils import scheduler
-from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import TagField
 
 from .models import Study
@@ -35,10 +34,6 @@ from .models import StudyMembership
 from .models import StudySession
 from .models import StudyTag
 from .models import StudyType
-
-APP_DIR = Path(__file__).resolve().parent
-with open(APP_DIR / 'schemas' / 'study.json') as fh:
-    IMPORT_SCHEMA = json.load(fh)
 
 
 class StudyForm(forms.ModelForm):
@@ -194,8 +189,3 @@ class MailSettingsForm(forms.ModelForm):
                 'know who exactly this mail is intended to reach.'
             ))
         return value
-
-
-class ImportForm(BaseImportForm):
-    schema = IMPORT_SCHEMA
-    schema_ref = '#/$defs/Study'

@@ -32,9 +32,7 @@ from ..views.studies import StudyDetailView
 from ..views.studies import StudyDomainDeleteView
 from ..views.studies import StudyDomainsGeneralView
 from ..views.studies import StudyDomainsView
-from ..views.studies import StudyExportView
 from ..views.studies import StudyFinishRecruitmentView
-from ..views.studies import StudyImportView
 from ..views.studies import StudyIndexView
 from ..views.studies import StudyMaintenanceView
 from ..views.studies import StudyStartRecruitmentView
@@ -74,12 +72,6 @@ urlpatterns = [
     path('<int:study_pk>/recruitmentsettings/', include(recruitment_urls)),
     path('<int:study_pk>/sessions/', include(sessions_urls)),
 ]
-
-if settings.CASTELLUM_ENABLE_STUDY_EXPORT:
-    urlpatterns += [
-        path('import/', StudyImportView.as_view(), name='import'),
-        path('<int:pk>/export/', StudyExportView.as_view(), name='export'),
-    ]
 if settings.CASTELLUM_API_ENABLED:
     urlpatterns += [
         path('api/studies/', APIStudyListView.as_view()),

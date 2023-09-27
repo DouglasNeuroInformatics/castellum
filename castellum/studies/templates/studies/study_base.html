@@ -95,9 +95,6 @@
                         <a href="{% url 'studies:create' %}?duplicate_pk={{ study.pk }}" class="btn btn-outline-primary mb-1">{% translate 'Duplicate' %}</a>
                     {% endif %}
                 {% endif %}
-                {% if CASTELLUM_ENABLE_STUDY_EXPORT %}
-                    <a href="{% url 'studies:export' study.pk %}" class="btn btn-outline-primary mb-1">{% translate 'Export' %}</a>
-                {% endif %}
                 {% if study.status == study.FINISHED and can_delete_study %}
                     <a href="{% url 'studies:delete' study.pk %}" class="btn btn-danger mb-1">{% translate 'Delete' %}</a>
                 {% endif %}
