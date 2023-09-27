@@ -98,5 +98,8 @@
 {% block footer %}
     <footer class="container text-center text-body-secondary my-1">
         Castellum {{ CASTELLUM_VERSION }} ({{ CASTELLUM_RELEASE_DATE }})
+        {% if CASTELLUM_DOCUMENTATION_LINK %}
+            &middot; <a href="{{ CASTELLUM_DOCUMENTATION_LINK }}" class="link-secondary">{% translate 'Documentation' %}</a>
+        {% endif %}
     </footer>
 {% endblock %}

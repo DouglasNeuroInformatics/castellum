@@ -27,6 +27,10 @@ CASTELLUM_SITE_LOGO = None
 # Default: ['#0d6efd', '#0b5ed7', '#0a58ca']
 BOOTSTRAP_THEME_COLORS = None
 
+# Will be included on the front page
+# Set to `None` to disable
+CASTELLUM_DOCUMENTATION_LINK = 'https://castellum.mpib.berlin/documentation/en/'
+
 CASTELLUM_LOGOUT_TIMEOUT = datetime.timedelta(seconds=15 * 60)
 SESSION_COOKIE_AGE = 24 * 60 * 60
 
