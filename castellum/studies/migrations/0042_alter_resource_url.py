@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             field=models.URLField(
                 blank=True,
                 help_text='Any "{start}"- and "{end}-tags included in the URL will automatically be replaced by the relevant datetime in ISO 8601 format.',
-                verbose_name='URL',
+                verbose_name='Calendar URL',
             ),
         ),
     ]

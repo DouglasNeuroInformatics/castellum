@@ -2415,6 +2415,10 @@ msgstr "Name"
 msgid "Managers"
 msgstr "Manager*innen"
 
+#: castellum/studies/models.py:437
+msgid "Calendar URL"
+msgstr "Kalender URL"
+
 #: castellum/studies/models.py:439
 #, python-brace-format
 msgid ""
@@ -2423,6 +2427,10 @@ msgid ""
 msgstr ""
 "Alle \"{start}\"- und \"{end}-Tags in der URL werden automatisch durch die "
 "relevante Zeitangabe im ISO 8601-Format ersetzt."
+
+#: castellum/studies/models.py:444
+msgid "Calendar color"
+msgstr "Kalender Farbe"
 
 #: castellum/studies/models.py:453
 msgid "Duration of a session in minutes"
