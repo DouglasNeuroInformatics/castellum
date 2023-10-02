@@ -18,9 +18,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import json
-from pathlib import Path
-
 from django import forms
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
