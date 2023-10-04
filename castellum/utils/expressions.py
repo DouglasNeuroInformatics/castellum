@@ -81,3 +81,11 @@ class ListContainsLookup(json.DataContains):
             'EXISTS(SELECT (1) FROM JSON_EACH({}, %s) '
             'WHERE JSON_QUOTE(json_each.value) = {} LIMIT 1)'
         ).format(lhs, rhs), params
+
+
+def exists(qs, **kwargs):
+    # workaround for https://code.djangoproject.com/ticket/33482
+    if qs.exists():
+        return models.Exists(qs.filter(**kwargs))
+    else:
+        return models.Value(False)
