@@ -1,3 +1,28 @@
+# 0.95.0 (2023-10-09)
+
+Starting with this release the release schedule will change:
+
+-   Minor releases will be published roughly every three months instead
+    of every three weeks
+-   Beta releases might be published to offer previews on new features
+-   Bug fix releases will be published on demand
+
+## breaking changes
+
+-   Study import/export has been removed.
+
+## bug fixes
+
+-   Work around an issue where the data protection dashboard was not
+    filtered under some circumstances (see
+    https://code.djangoproject.com/ticket/33482)
+
+## new features
+
+-   The front page now contains a link to the documentation. The URL can
+    be customized using `CASTELLUM_DOCUMENTATION_LINK`.
+
+
 # 0.94.0 (2023-09-12)
 
 ## breaking changes
