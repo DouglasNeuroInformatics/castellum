@@ -1,3 +1,8 @@
+# 0.95.1 (2023-10-11)
+
+-   Fix support for Python 3.8
+
+
 # 0.95.0 (2023-10-09)
 
 Starting with this release the release schedule will change:
