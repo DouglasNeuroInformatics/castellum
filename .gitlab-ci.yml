@@ -33,6 +33,10 @@ test:
     - .venv/bin/pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
 
+test-py38:
+  extends: test
+  image: buildpack-deps:focal
+
 test-js:
   stage: test
   image: node
