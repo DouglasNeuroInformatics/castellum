@@ -195,9 +195,6 @@ NPM_FILE_PATTERNS = {
     '@ttskch/select2-bootstrap4-theme': [
         'dist/select2-bootstrap4.min.css',
     ],
-    'fullcalendar-scheduler': [
-        'index.global.min.js',
-    ],
     '@fullcalendar': [
         'core/locales/de.global.min.js',
         'bootstrap/index.global.min.js',
