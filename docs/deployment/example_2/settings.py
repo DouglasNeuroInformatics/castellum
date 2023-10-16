@@ -55,6 +55,7 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
+            'level': 'INFO',
         },
         'monitoring-file': {
             'class': 'logging.FileHandler',
@@ -69,13 +70,11 @@ LOGGING = {
         # logs will not be created unless configured.
         'monitoring': {
             'handlers': ['monitoring-file'],
-            'level': 'INFO',
             'propagate': False,
         },
     },
     'root': {
         'handlers': ['console'],
-        'level': 'INFO',
     },
 }
 
