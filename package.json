@@ -4,12 +4,12 @@
     "private": true,
     "dependencies": {
         "@fortawesome/fontawesome-free": "6.4.2",
-        "@fullcalendar/bootstrap": "6.1.7",
+        "@fullcalendar/bootstrap": "6.1.9",
         "@popperjs/core": "2.11.8",
         "@ttskch/select2-bootstrap4-theme": "1.5.2",
         "bootstrap": "5.3.2",
         "cbor-js": "0.1.0",
-        "fullcalendar-scheduler": "6.1.7",
+        "fullcalendar-scheduler": "6.1.9",
         "jdenticon": "3.2.0",
         "jquery": "3.7.1",
         "select2": "4.0.13"
