@@ -75,6 +75,7 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
+        'level': 'NOTSET',
     },
 }
 
