@@ -18,57 +18,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
 
 from castellum.appointments.mixins import BaseAppointmentFeed
 from castellum.castellum_auth.mixins import ParamAuthMixin
-from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.studies.mixins import StudyMixin
-from castellum.studies.models import Resource
 from castellum.studies.models import Study
 
 
-class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
-    def item_title(self, item):
-        if self.request.user.has_privacy_level(
-            item.participation.subject.privacy_level
-        ):
-            name = item.participation.subject.contact.full_name
-            for tag in item.participation.execution_tags.all():
-                name += f' #{tag}'
-        else:
-            name = _('(insufficient privacy level)')
-        title = f'{name} - {item.session.name}'
-
-        assignees = ', '.join(str(c.user) for c in item.assigned_conductors.all())
-        if assignees:
-            title = f'{title} ({assignees})'
-
-        return title
-
-    def item_link(self, item):
-        return reverse('execution:participation-detail', args=[
-            item.session.study.pk, item.participation.pk
-        ])
-
-
-class AppointmentFeedForStudy(
-    ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseExecutionAppointmentFeed
-):
-    permission_required = 'recruitment.conduct_study'
-    study_status = [Study.EXECUTION]
-
-    def items(self):
-        return (
-            super().items()
-            .filter(session__study=self.study)
-            .select_related('participation__subject', 'session__study')
-        )
-
-
-class AppointmentFeedForUser(ParamAuthMixin, BaseExecutionAppointmentFeed):
+class AppointmentFeedForUser(ParamAuthMixin, BaseAppointmentFeed):
     def items(self):
         items = (
             super().items()
@@ -81,14 +38,10 @@ class AppointmentFeedForUser(ParamAuthMixin, BaseExecutionAppointmentFeed):
             if self.request.user.has_perms(perms, obj=item.session.study):
                 yield item
 
+    def item_title(self, item):
+        return item.session.study.name
 
-class AppointmentFeedForResource(ParamAuthMixin, BaseExecutionAppointmentFeed):
-    def items(self):
-        resource = get_object_or_404(
-            Resource, pk=self.kwargs['pk'], managers=self.request.user
-        )
-        return (
-            super().items()
-            .filter(session__resources=resource)
-            .exclude(session__study__status=Study.FINISHED)
-        )
+    def item_link(self, item):
+        return reverse('execution:participation-detail', args=[
+            item.session.study.pk, item.participation.pk
+        ])

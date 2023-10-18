@@ -61,8 +61,16 @@ class FollowUpFeedForUser(ParamAuthMixin, BaseFollowUpFeed):
 class AppointmentFeedForStudy(
     ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseAppointmentFeed
 ):
-    permission_required = 'appointments.change_appointment'
+    permission_required = ['studies.access_study']
     study_status = [Study.EXECUTION]
+
+    def has_permission(self):
+        if not super().has_permission():
+            return False
+        return any(self.request.user.has_perm(perm, obj=self.study) for perm in [
+            'appointments.change_appointment',
+            'recruitment.conduct_study',
+        ])
 
     def items(self):
         return super().items().filter(session__study=self.study)
