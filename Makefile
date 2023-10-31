@@ -31,7 +31,7 @@ populate:
 lint:
 	$(VIRTUAL_ENV)/bin/isort castellum tests
 	$(VIRTUAL_ENV)/bin/flake8 castellum tests
-	npx eslint castellum
+	npx eslint castellum --ignore-pattern 'castellum/static/fullcalendar.*'
 
 .PHONY: test
 test:
