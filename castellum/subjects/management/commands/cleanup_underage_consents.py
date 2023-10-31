@@ -51,5 +51,5 @@ class Command(BaseCommand):
 
         count, _ = consents.delete()
 
-        if options['verbosity'] > 0 and count > 0:
+        if options['verbosity'] > 0:
             self.stdout.write(f'Cleared {count} consents')
