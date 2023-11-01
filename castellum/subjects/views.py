@@ -895,7 +895,7 @@ class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
     tab = 'subjectcreationrequest'
 
     def get_success_url(self):
-        return reverse('subjects:index')
+        return reverse('subjects:maintenance-subjectcreationrequest')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
