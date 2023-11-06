@@ -80,10 +80,7 @@ def send_appointment_notifications(participation, change, base_url, user=None):
     def get_mail_data():
         return {
             'study': participation.study,
-            'change': '{} -> {}'.format(
-                format_state(old),
-                format_state(new),
-            ),
+            'change': f'{format_state(old)} -> {format_state(new)}',
             'participation_url': urljoin(base_url, reverse(
                 'execution:participation-detail',
                 args=[participation.study.pk, participation.pk],
