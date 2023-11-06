@@ -21,9 +21,7 @@ def test_appointment(client, member, participation):
     participation.save()
 
     client.force_login(member)
-    url = '/recruitment/{}/{}/appointments/'.format(
-        participation.study.pk, participation.pk
-    )
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/appointments/'
     response = client.post(url, {
         'status': 2,
         f'appointment-{session.pk}_0': '2020-01-01',
@@ -48,9 +46,7 @@ def test_appointment_delete(client, member, participation):
     participation.save()
 
     client.force_login(member)
-    url = '/recruitment/{}/{}/appointments/'.format(
-        participation.study.pk, participation.pk
-    )
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/appointments/'
     response = client.post(url, {
         'status': 2,
     })
@@ -75,9 +71,7 @@ def test_appointment_overlap(client, member, participation, time):
     participation.save()
 
     client.force_login(member)
-    url = '/recruitment/{}/{}/appointments/'.format(
-        participation.study.pk, participation.pk
-    )
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/appointments/'
     response = client.post(url, {
         'status': 2,
         f'appointment-{session1.pk}_0': '2020-01-01',
@@ -116,9 +110,7 @@ def test_appointment_resource_overlap(client, member, participation, time):
     participation.save()
 
     client.force_login(member)
-    url = '/recruitment/{}/{}/appointments/'.format(
-        participation.study.pk, participation.pk
-    )
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/appointments/'
     response = client.post(url, {
         'status': 2,
         f'appointment-{session.pk}_0': '2020-01-01',

@@ -24,9 +24,7 @@ def test_lists_all_pseudonyms(client, conductor, study):
     participation = baker.make(Participation, study=study, status=Participation.INVITED)
     study.domains.create()
     client.force_login(conductor)
-    response = client.get('/execution/{}/{}/pseudonyms/'.format(
-        study.pk, participation.pk
-    ))
+    response = client.get(f'/execution/{study.pk}/{participation.pk}/pseudonyms/')
     assert response.status_code == 200
     assert response.content.count(b'<tr') == 2
 
@@ -37,7 +35,5 @@ def test_no_name(client, conductor, study, subject):
     )
     study.domains.create()
     client.force_login(conductor)
-    response = client.get('/execution/{}/{}/pseudonyms/'.format(
-        study.pk, participation.pk
-    ))
+    response = client.get(f'/execution/{study.pk}/{participation.pk}/pseudonyms/')
     assert subject.contact.last_name not in response.content.decode('utf-8')

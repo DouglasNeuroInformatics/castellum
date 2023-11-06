@@ -156,7 +156,7 @@ if settings.CASTELLUM_API_ENABLED:
             APIAttributesView.as_view(),
         ),
         path(
-            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/', # noqa
+            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
             APIResolveView.as_view(),
         ),
     ]

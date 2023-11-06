@@ -36,8 +36,7 @@ from django.db.models import FileField
 
 def iter_models():
     for app_config in apps.get_app_configs():
-        for model in app_config.get_models():
-            yield model
+        yield from app_config.get_models()
 
 
 def iter_file_fields(model):

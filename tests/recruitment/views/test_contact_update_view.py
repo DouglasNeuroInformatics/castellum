@@ -3,8 +3,9 @@ from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import Participation
-from castellum.recruitment.templatetags.recruitment import \
-    study_legal_representative_hash
+from castellum.recruitment.templatetags.recruitment import (
+    study_legal_representative_hash,
+)
 
 
 @pytest.mark.smoketest

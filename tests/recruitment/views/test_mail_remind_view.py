@@ -37,7 +37,5 @@ def test_mail_remind_sends_mail(
     participation.subject.contact.save()
 
     client.force_login(member)
-    client.post('/recruitment/{}/mail/{}/remind/'.format(
-        study_in_execution_status.pk, batch.pk
-    ))
+    client.post(f'/recruitment/{study_in_execution_status.pk}/mail/{batch.pk}/remind/')
     assert len(mail.outbox) == 1
