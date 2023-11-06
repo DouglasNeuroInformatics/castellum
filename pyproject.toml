@@ -1,0 +1,13 @@
+[tool.ruff]
+select = ["E", "F", "W", "C9", "I", "N", "Q", "UP", "RUF", "ISC", "T20"]
+ignore = ["RUF012"]
+extend-exclude = [
+    "migrations",
+    "settings",
+]
+
+[tool.ruff.isort]
+force-single-line = true
+
+[tool.ruff.flake8-quotes]
+inline-quotes = "single"

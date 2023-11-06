@@ -26,8 +26,7 @@ test:
     - python3 -m venv .venv --system-site-packages
     - .venv/bin/pip install -e .[test]
   script:
-    - .venv/bin/isort -c castellum tests
-    - .venv/bin/flake8
+    - .venv/bin/ruff castellum tests
     - .venv/bin/pospell -l de_DE -p .misc/spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
     - .venv/bin/django-admin makemigrations --dry-run --check --noinput
     - .venv/bin/pytest --ds=$DJANGO_SETTINGS_MODULE
