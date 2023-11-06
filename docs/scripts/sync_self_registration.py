@@ -1,9 +1,18 @@
 """Fetch SubjectCreationRequests from self registration.
 
-Customize this script and copy it to ``castellum/subjects/management/commands/``,
-You can then execute it using ``django-admin sync_self_registration``.
+You can save a lot of work by allowing subjects to sign up for the
+recruitment by themselves. However, this can easily lead to low quality
+entries (duplicates, missing data, spam, …). So castellum provides an
+intermediary step: Subjects can create a SubjectCreationRequest, and
+subject managers can review those requests and convert them to proper
+subject entries with just a few clicks.
 
-See https://git.mpib-berlin.mpg.de/castellum/castellum_self_registration
+Since Castellum is not meant to be accessible from the internet for
+security reasons, it does not provide a UI for subjects to create those
+SubjectCreationRequest themselves. Instead, a script is needed to import
+the SubjectCreationRequest from an external source, e.g. a survey tool.
+
+This script show how that could be done.
 """
 
 from django.core.management.base import BaseCommand
