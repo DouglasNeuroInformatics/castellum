@@ -36,42 +36,42 @@ CASTELLUM_FALLBACK_LANGUAGE_MARKERS = (
 CASTELLUM_APPOINTMENT_REMINDER_PERIOD = datetime.timedelta(days=3)  # deprecated
 CASTELLUM_APPOINTMENT_DEFAULT_FIRST_REMINDER_DAYS = 3
 CASTELLUM_APPOINTMENT_DEFAULT_SECOND_REMINDER_DAYS = None
-CASTELLUM_APPOINTMENT_MAIL_SUBJECT = "Reminder: You have an appointment"
+CASTELLUM_APPOINTMENT_MAIL_SUBJECT = 'Reminder: You have an appointment'
 CASTELLUM_APPOINTMENT_MAIL_BODY = (
-    "Guten Tag {name},\n\n"
-    "wir möchten Sie an Ihren Termin in der Studie {study} am {date} erinnern.\n\n"
-    "Bitte informieren Sie uns so früh wie möglich, "
-    "falls Sie Ihren Termin ändern oder absagen müssen. "
-    "Unsere Experimente sind oft mit hohem Aufwand und Kosten verbunden. "
-    "Wenn Sie wiederholt nicht zu Terminen erscheinen, "
-    "können wir Sie für zukünftige Studien nicht mehr berücksichtigen.\n\n"
-    "Für Rückfragen zu Ihrem Termin wenden Sie sich bitte an {reply_to}.\n\n"
-    "Zusätzliche Informationen:\n"
-    "{session_reminder_text}\n\n"
-    "Mit freundlichen Grüßen\ndas Rekrutierungsteam"
+    'Guten Tag {name},\n\n'
+    'wir möchten Sie an Ihren Termin in der Studie {study} am {date} erinnern.\n\n'
+    'Bitte informieren Sie uns so früh wie möglich, '
+    'falls Sie Ihren Termin ändern oder absagen müssen. '
+    'Unsere Experimente sind oft mit hohem Aufwand und Kosten verbunden. '
+    'Wenn Sie wiederholt nicht zu Terminen erscheinen, '
+    'können wir Sie für zukünftige Studien nicht mehr berücksichtigen.\n\n'
+    'Für Rückfragen zu Ihrem Termin wenden Sie sich bitte an {reply_to}.\n\n'
+    'Zusätzliche Informationen:\n'
+    '{session_reminder_text}\n\n'
+    'Mit freundlichen Grüßen\ndas Rekrutierungsteam'
 )
 CASTELLUM_APPOINTMENT_MAIL_BODY_EN = (
-    "Dear {name},\n\n"
-    "we would like to kindly remind you of your appointment in "
-    "study {study} on {date}.\n\n"
-    "If you have to change or cancel your appointment, please make sure to notify "
-    "us as early as possible. Our experiments are often complex and expensive. If "
-    "you do not show up for appointments repeatedly, we may no longer consider "
-    "you for future studies.\n\n"
-    "If you have any questions about your appointment, "
-    "please get in touch with {reply_to}.\n\n"
-    "Additional information:\n"
-    "{session_reminder_text}\n\n"
-    "Sincerely yours\nthe recruitment team"
+    'Dear {name},\n\n'
+    'we would like to kindly remind you of your appointment in '
+    'study {study} on {date}.\n\n'
+    'If you have to change or cancel your appointment, please make sure to notify '
+    'us as early as possible. Our experiments are often complex and expensive. If '
+    'you do not show up for appointments repeatedly, we may no longer consider '
+    'you for future studies.\n\n'
+    'If you have any questions about your appointment, '
+    'please get in touch with {reply_to}.\n\n'
+    'Additional information:\n'
+    '{session_reminder_text}\n\n'
+    'Sincerely yours\nthe recruitment team'
 )
-CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT = "Appointment reminders for {study}"
+CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT = 'Appointment reminders for {study}'
 CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY = (
-    "The following subjects have upcoming appointments, but could not be reached by email. "
-    "Please contact them by other means to remind them of their appointment:\n\n{urls}"
+    'The following subjects have upcoming appointments, but could not be reached by email. '
+    'Please contact them by other means to remind them of their appointment:\n\n{urls}'
 )
 CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY_EN = None
 
-CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE = "Reminder/Erinnerung: {mail_subject}"
+CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE = 'Reminder/Erinnerung: {mail_subject}'
 
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT = 'Subject export'
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY = (

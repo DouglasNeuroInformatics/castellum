@@ -127,7 +127,7 @@ class StudyReminderTestMailView(StudyMixin, PermissionRequiredMixin, View):
 
     def post(self, request, **kwargs):
         self.object = self.get_object()
-        self.object.reminder_text = self.request.POST.get("reminder_text", "")
+        self.object.reminder_text = self.request.POST.get('reminder_text', '')
 
         with MailContext('recruitment') as ctx:
             name = request.user.get_full_name()
