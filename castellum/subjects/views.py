@@ -41,6 +41,7 @@ from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 from django.views.generic import View
 
 from castellum.appointments.models import Appointment
@@ -699,6 +700,10 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
             privacy_level_form=privacy_level_form,
             contact_form=contact_form,
         ))
+
+
+class GlobalStatisticsView(LoginRequiredMixin, TemplateView):
+    template_name = 'subjects/global_statistics.html'
 
 
 class BaseMaintenanceView(PermissionRequiredMixin, ListView):

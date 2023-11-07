@@ -28,6 +28,7 @@ from .views import ConsentChangeView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
 from .views import DeleteRecruitmentDataView
+from .views import GlobalStatisticsView
 from .views import LegalRepresentativeSearchView
 from .views import MaintenanceAttributesView
 from .views import MaintenanceConsentView
@@ -60,6 +61,7 @@ urlpatterns = [
         LegalRepresentativeSearchView.as_view(),
         name='legal-representative-search',
     ),
+    path('statistics/', GlobalStatisticsView.as_view(), name='statistics'),
     path(
         'maintenance/attributes/',
         MaintenanceAttributesView.as_view(),
