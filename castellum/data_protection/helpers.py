@@ -27,6 +27,7 @@ from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.expressions import exists
+from castellum.utils.models import value_set
 
 
 def get_export_requested():
@@ -63,12 +64,12 @@ def get_no_legal_basis():
         .exclude(blocked=True, deceased=False)
         .exclude(has_study_consent=True)
     )
-    subject_uuids = subjects.values_list('uuid', flat=True)
+    subject_uuids = value_set(subjects, 'uuid')
 
     contacts = (
         Contact.objects
         .alias(legal_representative_of_count=models.Count('legal_representative_of'))
-        .filter(legal_representative_of_count=0, subject_uuid__in=list(subject_uuids))
+        .filter(legal_representative_of_count=0, subject_uuid__in=subject_uuids)
     )
 
     return Subject.objects.filter(filter_queries.uuid_filter(contacts))

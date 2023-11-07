@@ -61,6 +61,7 @@ from castellum.studies.forms import StudyFilterForm
 from castellum.studies.mixins import with_study_lock
 from castellum.studies.models import Study
 from castellum.utils.expressions import exists
+from castellum.utils.models import value_set
 from castellum.utils.views import BaseProtectedMediaView
 
 from .forms import SubjectPrivacyLevelForm
@@ -771,11 +772,8 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
     tab = 'duplicates'
 
     def get_queryset(self):
-        to_be_deleted = list(
-            Subject.objects
-            .filter(to_be_deleted__isnull=False)
-            .values_list('pk', flat=True)
-            .order_by()
+        to_be_deleted = value_set(
+            Subject.objects.filter(to_be_deleted__isnull=False), 'pk'
         )
 
         return (

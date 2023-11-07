@@ -38,6 +38,7 @@ from django.utils import timezone
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
+from castellum.utils.models import value_set
 
 from .models import AttributeDescription
 from .models import Participation
@@ -157,7 +158,7 @@ def study_filters(study, include_unknown=None):
 def uuid_filter(qs, key='subject_uuid'):
     # This is a micro-optimization to avoid large IN queries in postgres
     # See https://dba.stackexchange.com/questions/91247
-    uuids = set(qs.values_list(key, flat=True).order_by())
+    uuids = value_set(qs, key)
     total = Subject.objects.count()
     if len(uuids) > total / 2:
         all_uuids = Subject.objects.values_list('uuid', flat=True)
