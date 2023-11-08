@@ -12,8 +12,6 @@ describes how this feature can be activated and used.
     which should be done in a cron job.
 -   After that we can check wether the subject lives inside of a
     user-defined area.
--   Most dependencies are already installed and configured with
-    Castellum by default. However, some additional steps are needed.
 
 
 ## Set up Nominatim
@@ -50,6 +48,11 @@ Further reading:
 
 ## Configure Castellum
 
+-   Install the additional libraries that are [required for
+    GeoDjango](https://docs.djangoproject.com/en/stable/ref/contrib/gis/install/geolibs/)
+-   Use a geo-aware engine for the contacts database, e.g.
+    `django.contrib.gis.db.backends.postgis`. If you already have
+    data in a that database, you have to migrate it to the new one.
 -   Add `'django.contrib.gis'` and `'castellum.geofilters'` to
     `INSTALLED_APPS`
 -   Configure `NOMINATIM`. You only have to set `domain` to point geopy
