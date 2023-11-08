@@ -160,7 +160,6 @@ application. Thus, these steps are only necessary on `castellum-sv`.
 
 First, install required dependencies using the system's package manager:
 
--   gdal-bin
 -   npm
 -   python3
 -   python3-pip
