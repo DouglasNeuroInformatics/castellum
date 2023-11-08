@@ -146,6 +146,17 @@ before you can start using it:
 ## Updates
 
 After updating to a new version of Castellum it is usually sufficient to
-run `django-admin migrateall`. For non-docker installations, you also
-need to execute `.misc/extract_fullcalendar_css.sh`. Any additional
-steps that are required will be mentioned in the release notes.
+run `django-admin migrateall`.
+
+For non-docker installations, you also need to update the dependencies:
+
+```
+pip install -e .
+npm install
+.misc/extract_fullcalendar_css.sh
+django-admin collectstatic
+django-admin compilemessages -l de
+```
+
+Any additional steps that are required will be mentioned in the release
+notes.
