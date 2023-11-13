@@ -152,7 +152,7 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
 
     def export(self, domain):
         exporter = get_exporter()
-        descriptions = self.study.exportable_attributes.all()
+        attributes = self.study.exportable_attributes.all()
         response = HttpResponse(content_type='application/zip')
         zresponse = zipfile.ZipFile(response, 'w')
 
@@ -166,12 +166,12 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
             subjects.append((pseudonym, participation.subject))
 
         filename = exporter.get_schema_filename()
-        content = exporter.get_schema(descriptions)
+        content = exporter.get_schema(attributes)
         with zresponse.open(filename, 'w') as fh:
             fh.write(content.encode('UTF-8'))
 
         filename = exporter.get_data_filename()
-        content = exporter.get_data(descriptions, subjects)
+        content = exporter.get_data(attributes, subjects)
         with zresponse.open(filename, 'w') as fh:
             fh.write(content.encode('UTF-8'))
 

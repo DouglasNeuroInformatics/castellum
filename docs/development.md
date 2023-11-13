@@ -40,8 +40,8 @@ packages, but e.g. with pyenv you will have to enable it yourself.
     `castellum.studies.backends.StudyPermissionBackend` for details.
 
 -   The available recruitment attributes can be changed at runtime. The
-    ones created with `python3 -m django loaddata
-    attribute_descriptions` merely serve as examples. See
+    ones created with `python3 -m django loaddata attributes` merely
+    serve as examples. See
     `docs/deployment/dynamic_recruitment_attributes.md` for details.
 
 -   The available groups can be changed at runtime. The ones created

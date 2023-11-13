@@ -216,7 +216,7 @@ recommended data and create an admin user::
 
 ```bash
 python3 -m django migrateall
-python3 -m django loaddata groups study_types study_groups resources attribute_descriptions
+python3 -m django loaddata groups study_types study_groups resources attributes
 python3 -m django createsuperuser --username admin
 python3 -m django activate_user admin
 python3 -m django compilemessages -l de

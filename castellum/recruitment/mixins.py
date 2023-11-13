@@ -37,7 +37,7 @@ from castellum.utils.feeds import BaseCalendarFeed
 
 from . import filter_queries
 from .forms import AttributesForm
-from .models import AttributeDescription
+from .models import Attribute
 from .models import Participation
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
@@ -135,19 +135,19 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         form = context['form']
 
-        def get_bound_fields(descriptions):
-            for description in descriptions:
-                value = self.object.attributes.get(description.json_key)
+        def get_bound_fields(attributes):
+            for attribute in attributes:
+                value = self.object.attributes.get(attribute.json_key)
                 try:
-                    yield form[f'd{description.pk}'], value == ANSWER_DECLINED
+                    yield form[attribute.json_key], value == ANSWER_DECLINED
                 except KeyError:
                     pass
 
-        categories = AttributeDescription.objects.by_category()
+        categories = Attribute.objects.by_category()
         context['uncategorized'] = get_bound_fields(categories.pop(UNCATEGORIZED))
         context['categories'] = {
-            category: get_bound_fields(descriptions)
-            for category, descriptions in categories.items()
+            category: get_bound_fields(attributes)
+            for category, attributes in categories.items()
         }
 
         return context

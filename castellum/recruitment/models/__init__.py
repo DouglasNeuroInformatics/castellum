@@ -22,7 +22,7 @@
 
 from .attributes import AttributeCategory
 from .attributes import AttributeChoice
-from .attributes import AttributeDescription
+from .attributes import Attribute
 from .participations import ExecutionTag
 from .participations import MailBatch
 from .participations import NewsMailBatch

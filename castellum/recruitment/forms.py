@@ -25,46 +25,46 @@ from django.utils.translation import gettext_lazy as _
 from castellum.subjects.models import Subject
 from castellum.utils.forms import DisabledChoiceField
 
-from .models import AttributeDescription
+from .models import Attribute
 from .models import Participation
 from .models import SubjectFilter
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
 
 
-def get_description_choices():
+def get_attribute_choices():
     choices = [(None, '---')]
 
-    categories = AttributeDescription.objects.by_category()
+    categories = Attribute.objects.by_category()
 
-    for description in categories.pop(UNCATEGORIZED):
-        choices.append((description.pk, description.filter_label))
+    for attribute in categories.pop(UNCATEGORIZED):
+        choices.append((attribute.pk, attribute.filter_label))
 
-    for category, descriptions in categories.items():
+    for category, attributes in categories.items():
         sub = []
-        for description in descriptions:
-            sub.append((description.pk, description.filter_label))
+        for attribute in attributes:
+            sub.append((attribute.pk, attribute.filter_label))
         choices.append((category.label, sub))
 
     return choices
 
 
 class SubjectFilterAddForm(forms.Form):
-    description = forms.ModelChoiceField(
-        AttributeDescription.objects.none(), label=_('Attribute'), required=False
+    attribute = forms.ModelChoiceField(
+        Attribute.objects.none(), label=_('Attribute'), required=False
     )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['description'].choices = get_description_choices()
+        self.fields['attribute'].choices = get_attribute_choices()
 
 
 class SubjectFilterForm(forms.ModelForm):
     class Meta:
         model = SubjectFilter
         fields = [
-            'description',
+            'attribute',
             'operator',
             'value',
         ]
@@ -72,7 +72,7 @@ class SubjectFilterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.desc = self._get_selected_description(**kwargs)
+        self.desc = self._get_selected_attribute(**kwargs)
 
         self.fields['value'] = self.desc.field.filter_formfield(
             label=_('Filter value'), required=True
@@ -81,21 +81,21 @@ class SubjectFilterForm(forms.ModelForm):
             label=_('Comparison'), choices=self.desc.field.available_operators
         )
 
-    def _get_selected_description(
+    def _get_selected_attribute(
         self, instance=None, data=None, prefix=None, **kwargs
     ):
         if instance:
-            return instance.description
+            return instance.attribute
 
-        key = prefix + '-description' if prefix else 'description'
+        key = prefix + '-attribute' if prefix else 'attribute'
         if data and data[key]:
             try:
-                return AttributeDescription.objects.get(pk=data[key])
-            except AttributeDescription.DoesNotExist:
+                return Attribute.objects.get(pk=data[key])
+            except Attribute.DoesNotExist:
                 return None
 
         try:
-            return kwargs['initial']['description']
+            return kwargs['initial']['attribute']
         except KeyError:
             return None
 
@@ -108,7 +108,7 @@ class SubjectFilterFormSet(forms.BaseModelFormSet):
         for form in self.forms:
             if not form.cleaned_data.get('DELETE', False):
                 values.append((
-                    form.cleaned_data.get('description'),
+                    form.cleaned_data.get('attribute'),
                     form.cleaned_data.get('operator'),
                     form.cleaned_data.get('value'),
                 ))
@@ -151,11 +151,11 @@ class AttributesForm(forms.ModelForm):
 
     @classmethod
     def factory(cls):
-        descriptions = (
-            AttributeDescription.objects
+        attributes = (
+            Attribute.objects
             .exclude(id=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
         )
-        form_fields = {desc.json_key: desc.field.formfield() for desc in descriptions}
+        form_fields = {attr.json_key: attr.field.formfield() for attr in attributes}
         return type('AttributesForm', (cls,), form_fields)
 
 

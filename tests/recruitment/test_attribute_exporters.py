@@ -1,5 +1,5 @@
 from castellum.recruitment import attribute_exporters
-from castellum.recruitment.models import AttributeDescription
+from castellum.recruitment.models import Attribute
 
 ATTRIBUTES = {
     'd1': 1,
@@ -125,29 +125,29 @@ BIDS_DATA = (
 )
 
 
-def test_json_schema(attribute_descriptions, db):
+def test_json_schema(attributes, db):
     exporter = attribute_exporters.JSONExporter()
-    descriptions = AttributeDescription.objects.all()
-    assert exporter.get_schema(descriptions) == JSON_SCHEMA
+    attributes = Attribute.objects.all()
+    assert exporter.get_schema(attributes) == JSON_SCHEMA
 
 
-def test_json_data(attribute_descriptions, contact):
+def test_json_data(attributes, contact):
     exporter = attribute_exporters.JSONExporter()
-    descriptions = AttributeDescription.objects.all()
+    attributes = Attribute.objects.all()
     contact.subject.attributes = ATTRIBUTES
     subjects = [('test', contact.subject)]
-    assert exporter.get_data(descriptions, subjects) == JSON_DATA
+    assert exporter.get_data(attributes, subjects) == JSON_DATA
 
 
-def test_bids_schema(attribute_descriptions, db):
+def test_bids_schema(attributes, db):
     exporter = attribute_exporters.BIDSExporter()
-    descriptions = AttributeDescription.objects.all()
-    assert exporter.get_schema(descriptions) == BIDS_SCHEMA
+    attributes = Attribute.objects.all()
+    assert exporter.get_schema(attributes) == BIDS_SCHEMA
 
 
-def test_bids_data(attribute_descriptions, contact):
+def test_bids_data(attributes, contact):
     exporter = attribute_exporters.BIDSExporter()
-    descriptions = AttributeDescription.objects.all()
+    attributes = Attribute.objects.all()
     contact.subject.attributes = ATTRIBUTES
     subjects = [('test', contact.subject)]
-    assert exporter.get_data(descriptions, subjects) == BIDS_DATA
+    assert exporter.get_data(attributes, subjects) == BIDS_DATA

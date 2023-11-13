@@ -7,16 +7,16 @@ import pytest
     'subject_manager',
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_update_200(request, client, user_fixture, subject, attribute_description):
+def test_update_200(request, client, user_fixture, subject, attribute):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = f'/subjects/{subject.pk}/attributes/'
     response = client.get(url)
     assert response.status_code == 200
-    assert attribute_description.label.encode(response.charset) in response.content
+    assert attribute.label.encode(response.charset) in response.content
 
 
-def test_update_post(client, user, subject, attribute_description):
+def test_update_post(client, user, subject, attribute):
     client.force_login(user)
     url = f'/subjects/{subject.pk}/attributes/'
     response = client.post(url, {

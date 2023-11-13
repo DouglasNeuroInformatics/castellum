@@ -3,7 +3,7 @@
     var container = document.getElementById('filter-forms');
 
     $$.on(document, 'click', '[data-js="filter-add"]', function() {
-        var pk = this.form.description.value;
+        var pk = this.form.attribute.value;
         var template = document.getElementById('template-' + pk);
         if (template) {
             var formrow = document.createElement('fieldset');

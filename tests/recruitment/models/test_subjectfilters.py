@@ -121,17 +121,17 @@ def test_clone_with_empty_filter_group(study):
 
 
 @pytest.mark.django_db
-def test_clone_with_multiple_filters(attribute_description, study):
+def test_clone_with_multiple_filters(attribute, study):
     subject_filter_group = baker.make(SubjectFilterGroup, study=study)
     SubjectFilter.objects.create(
         group=subject_filter_group,
-        description=attribute_description,
+        attribute=attribute,
         operator='operator1',
         value='value1',
     )
     SubjectFilter.objects.create(
         group=subject_filter_group,
-        description=attribute_description,
+        attribute=attribute,
         operator='operator2',
         value='value2',
     )

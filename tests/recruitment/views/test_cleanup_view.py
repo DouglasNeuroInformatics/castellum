@@ -68,7 +68,7 @@ def test_cleanup_view_awaiting_response(client, recruiter, study_in_execution_st
 
 
 def test_cleanup_view_mismatch(
-    client, recruiter, study_in_execution_status, attribute_description
+    client, recruiter, study_in_execution_status, attribute
 ):
     client.force_login(recruiter)
 
@@ -77,7 +77,7 @@ def test_cleanup_view_mismatch(
         study=study_in_execution_status,
         status=Participation.NOT_CONTACTED,
         subject__attributes={
-            attribute_description.json_key: 1,
+            attribute.json_key: 1,
         },
     )
     baker.make(Consent, subject=participation1.subject, _fill_optional=['document'])
@@ -87,7 +87,7 @@ def test_cleanup_view_mismatch(
         study=study_in_execution_status,
         status=Participation.NOT_CONTACTED,
         subject__attributes={
-            attribute_description.json_key: 2,
+            attribute.json_key: 2,
         },
     )
     baker.make(Consent, subject=participation2.subject, _fill_optional=['document'])
@@ -105,7 +105,7 @@ def test_cleanup_view_mismatch(
         study=study_in_execution_status,
         status=Participation.INVITED,
         subject__attributes={
-            attribute_description.json_key: 2,
+            attribute.json_key: 2,
         },
     )
     baker.make(Consent, subject=participation4.subject, _fill_optional=['document'])
@@ -115,7 +115,7 @@ def test_cleanup_view_mismatch(
         study=study_in_execution_status,
         status=Participation.FOLLOWUP_APPOINTED,
         subject__attributes={
-            attribute_description.json_key: 2,
+            attribute.json_key: 2,
         },
     )
     baker.make(Consent, subject=participation5.subject, _fill_optional=['document'])
@@ -125,14 +125,14 @@ def test_cleanup_view_mismatch(
         study=study_in_execution_status,
         status=Participation.NOT_CONTACTED,
         subject__attributes={
-            attribute_description.json_key: 1,
+            attribute.json_key: 1,
         },
     )
 
     baker.make(
         SubjectFilter,
         group__study=study_in_execution_status,
-        description=attribute_description,
+        attribute=attribute,
         operator='exact',
         value=1,
     )

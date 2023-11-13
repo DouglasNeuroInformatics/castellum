@@ -45,7 +45,7 @@ fake = Faker('de_DE')
 
 @functools.lru_cache(maxsize=1)
 def get_highest_degree_choices():
-    return AttributeChoice.objects.filter(description__pk=4).values_list(
+    return AttributeChoice.objects.filter(attribute__pk=4).values_list(
         'pk', flat=True
     )
 

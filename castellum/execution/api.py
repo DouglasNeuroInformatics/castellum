@@ -152,12 +152,12 @@ class APIAttributesView(BaseAPIView):
             raise PermissionDenied
 
         exporter = JSONExporter()
-        descriptions = self.study.exportable_attributes.all()
+        attributes = self.study.exportable_attributes.all()
 
-        attrs = exporter.get_subject_attributes(descriptions, subject)
+        data = exporter.get_subject_attributes(attributes, subject)
 
         monitoring_logger.info('Attribute export: study {} subject {} by {}'.format(
             self.study.pk, subject.pk, request.user.pk
         ))
 
-        return JsonResponse(attrs)
+        return JsonResponse(data)

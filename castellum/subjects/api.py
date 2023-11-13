@@ -59,12 +59,12 @@ class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
             raise PermissionDenied
 
         exporter = JSONExporter()
-        descriptions = domain.exportable_attributes.all()
+        attributes = domain.exportable_attributes.all()
 
-        attrs = exporter.get_subject_attributes(descriptions, subject)
+        data = exporter.get_subject_attributes(attributes, subject)
 
         monitoring_logger.info('Attribute export: domain {} subject {} by {}'.format(
             domain.key, subject.pk, request.user.pk
         ))
 
-        return JsonResponse(attrs)
+        return JsonResponse(data)

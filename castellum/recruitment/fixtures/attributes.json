@@ -1,6 +1,6 @@
 [
 {
-    "model": "recruitment.attributedescriptiontranslation",
+    "model": "recruitment.attributetranslation",
     "pk": 1,
     "fields": {
         "language_code": "de",
@@ -11,7 +11,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescriptiontranslation",
+    "model": "recruitment.attributetranslation",
     "pk": 2,
     "fields": {
         "language_code": "en",
@@ -22,7 +22,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescriptiontranslation",
+    "model": "recruitment.attributetranslation",
     "pk": 3,
     "fields": {
         "language_code": "de",
@@ -33,7 +33,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescriptiontranslation",
+    "model": "recruitment.attributetranslation",
     "pk": 4,
     "fields": {
         "language_code": "en",
@@ -44,7 +44,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescriptiontranslation",
+    "model": "recruitment.attributetranslation",
     "pk": 5,
     "fields": {
         "language_code": "de",
@@ -55,7 +55,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescriptiontranslation",
+    "model": "recruitment.attributetranslation",
     "pk": 6,
     "fields": {
         "language_code": "en",
@@ -66,7 +66,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescriptiontranslation",
+    "model": "recruitment.attributetranslation",
     "pk": 7,
     "fields": {
         "language_code": "de",
@@ -77,7 +77,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescriptiontranslation",
+    "model": "recruitment.attributetranslation",
     "pk": 8,
     "fields": {
         "language_code": "en",
@@ -88,7 +88,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescription",
+    "model": "recruitment.attribute",
     "pk": 1,
     "fields": {
         "field_type": "ChoiceField",
@@ -98,7 +98,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescription",
+    "model": "recruitment.attribute",
     "pk": 2,
     "fields": {
         "field_type": "CharField",
@@ -108,7 +108,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescription",
+    "model": "recruitment.attribute",
     "pk": 3,
     "fields": {
         "field_type": "AgeField",
@@ -118,7 +118,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescription",
+    "model": "recruitment.attribute",
     "pk": 4,
     "fields": {
         "field_type": "OrderedChoiceField",
@@ -311,7 +311,7 @@
     "model": "recruitment.attributechoice",
     "pk": 1,
     "fields": {
-        "description": 1,
+        "attribute": 1,
         "order": 0
     }
 },
@@ -319,7 +319,7 @@
     "model": "recruitment.attributechoice",
     "pk": 2,
     "fields": {
-        "description": 1,
+        "attribute": 1,
         "order": 10
     }
 },
@@ -327,7 +327,7 @@
     "model": "recruitment.attributechoice",
     "pk": 3,
     "fields": {
-        "description": 1,
+        "attribute": 1,
         "order": 20
     }
 },
@@ -335,7 +335,7 @@
     "model": "recruitment.attributechoice",
     "pk": 4,
     "fields": {
-        "description": 4,
+        "attribute": 4,
         "order": 0
     }
 },
@@ -343,7 +343,7 @@
     "model": "recruitment.attributechoice",
     "pk": 5,
     "fields": {
-        "description": 4,
+        "attribute": 4,
         "order": 10
     }
 },
@@ -351,7 +351,7 @@
     "model": "recruitment.attributechoice",
     "pk": 6,
     "fields": {
-        "description": 4,
+        "attribute": 4,
         "order": 20
     }
 },
@@ -359,7 +359,7 @@
     "model": "recruitment.attributechoice",
     "pk": 7,
     "fields": {
-        "description": 4,
+        "attribute": 4,
         "order": 30
     }
 },
@@ -367,7 +367,7 @@
     "model": "recruitment.attributechoice",
     "pk": 8,
     "fields": {
-        "description": 4,
+        "attribute": 4,
         "order": 40
     }
 },
@@ -375,7 +375,7 @@
     "model": "recruitment.attributechoice",
     "pk": 9,
     "fields": {
-        "description": 4,
+        "attribute": 4,
         "order": 50
     }
 },
@@ -383,7 +383,7 @@
     "model": "recruitment.attributechoice",
     "pk": 10,
     "fields": {
-        "description": 4,
+        "attribute": 4,
         "order": 60
     }
 }

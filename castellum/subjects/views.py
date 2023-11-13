@@ -55,7 +55,7 @@ from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
-from castellum.recruitment.models import AttributeDescription
+from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import Participation
 from castellum.studies.forms import StudyFilterForm
 from castellum.studies.mixins import with_study_lock
@@ -363,10 +363,10 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             )
 
             context['attributes'] = []
-            for description in AttributeDescription.objects.all():
-                value = self.object.attributes.get(description.json_key)
+            for attribute in Attribute.objects.all():
+                value = self.object.attributes.get(attribute.json_key)
                 context['attributes'].append((
-                    description.label, description.field.get_display(value)
+                    attribute.label, attribute.field.get_display(value)
                 ))
 
             monitoring_logger.info('GDPR-Request export: {} by {}'.format(
@@ -440,7 +440,7 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
     def post(self, request, *args, **kwargs):
         attributes = {}
         if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
-            desc = AttributeDescription.objects.get(
+            desc = Attribute.objects.get(
                 pk=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
             )
             if desc.json_key in self.subject.attributes:

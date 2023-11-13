@@ -70,7 +70,7 @@ def test_not_contacted_count_is_gte_to_hard_limit(
 
 
 def test_no_matching_subjects(
-    client, member, study_in_execution_status, attribute_description
+    client, member, study_in_execution_status, attribute
 ):
     study_in_execution_status.min_subject_count = 5
     study_in_execution_status.save()
@@ -84,7 +84,7 @@ def test_no_matching_subjects(
     baker.make(
         SubjectFilter,
         group=subject_filter_group,
-        description=attribute_description,
+        attribute=attribute,
         operator='exact',
         value='foo',
     )
