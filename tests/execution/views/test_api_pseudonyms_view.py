@@ -12,7 +12,7 @@ def test_apipseudonymsview(client, conductor, study_in_execution_status, subject
     )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     data = response.json()
@@ -27,7 +27,7 @@ def test_participation_status(client, conductor, study_in_execution_status, subj
     )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     data = response.json()
@@ -45,7 +45,7 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
     )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     data = response.json()
@@ -60,6 +60,6 @@ def test_unrelated_domain(client, conductor, study_in_execution_status, subject)
     )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 404

@@ -21,7 +21,7 @@ def test_apiresolveview(client, conductor, study_in_execution_status, subject):
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     assert response.json() == {'pseudonym': target_pseudonym}
@@ -61,7 +61,7 @@ def test_user_expired(client, conductor, study_in_execution_status, subject):
         study.pk, domain.key, pseudonym, target_domain.key
     )
     with freeze_time('2000-01-02'):
-        response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+        response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 403
 
@@ -98,7 +98,7 @@ def test_permission_required(client, recruiter, study_in_execution_status, subje
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + recruiter.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {recruiter.token}')
 
     assert response.status_code == 403
 
@@ -118,7 +118,7 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 403
 
@@ -134,7 +134,7 @@ def test_study_status(client, conductor, study, subject):
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 404
 
@@ -151,7 +151,7 @@ def test_participation_status(client, conductor, study_in_execution_status, subj
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 404
 
@@ -173,7 +173,7 @@ def test_source_domain_wrong_study(
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 404
 
@@ -194,7 +194,7 @@ def test_source_domain_general(client, conductor, study_in_execution_status, sub
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 404
 
@@ -216,7 +216,7 @@ def test_target_domain_other_study(
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 404
 
@@ -238,7 +238,7 @@ def test_target_domain_general(client, conductor, study_in_execution_status, sub
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     assert response.json() == {'pseudonym': target_pseudonym}
@@ -261,7 +261,7 @@ def test_target_domain_general_bad_user(
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 404
 
@@ -283,7 +283,7 @@ def test_source_domain_general_bad_study(
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym, target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 404
 
@@ -301,7 +301,7 @@ def test_normalize_pseudonym(client, conductor, study_in_execution_status, subje
     url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
         study.pk, domain.key, pseudonym.lower(), target_domain.key
     )
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     assert response.json() == {'pseudonym': target_pseudonym}

@@ -30,7 +30,7 @@ ContactForm = modelform_factory(ContactCreationRequest, fields=[
 
 
 def get_remote_data(url, token):
-    r = requests.get(url, headers={'Authorization': 'token ' + token})
+    r = requests.get(url, headers={'Authorization': f'token {token}'})
     r.raise_for_status()
     return r.json()['subjects']
 
@@ -82,7 +82,9 @@ def do_cleanup_remote(token):
     errors = []
 
     for subject in SubjectCreationRequest.objects.exclude(delete_url=None):
-        r = requests.delete(subject.delete_url, headers={'Authorization': 'token ' + token})
+        r = requests.delete(subject.delete_url, headers={
+            'Authorization': f'token {token}'
+        })
         if r.status_code in [200, 204, 404]:
             subject.external_id = None
             subject.save()

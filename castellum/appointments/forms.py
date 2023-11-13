@@ -60,7 +60,7 @@ class AppointmentsForm(forms.ModelForm):
                 ),
                 required=False,
             )
-            self.fields['conductors-' + key] = (
+            self.fields[f'conductors-{key}'] = (
                 Appointment._meta.get_field('assigned_conductors').formfield(
                     initial=(
                         appointment.assigned_conductors.all() if appointment else []
@@ -121,6 +121,6 @@ class AppointmentsForm(forms.ModelForm):
                 'first_reminder_days': session.first_reminder_days,
                 'reminder_text': session.reminder_text,
                 'field': self[key],
-                'assigned_conductors': self['conductors-' + key],
+                'assigned_conductors': self[f'conductors-{key}'],
                 'invitation_url': self.get_invitation_url(session),
             }

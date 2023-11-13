@@ -47,7 +47,7 @@ class Command(BaseCommand):
             options['database'] = database
             if options['verbosity'] >= 1:
                 self.stdout.write(self.style.MIGRATE_HEADING('Database:'))
-                self.stdout.write('  ' + database)
+                self.stdout.write(f'  {database}')
             migrate.handle(*args, **options)
             if options['verbosity'] >= 1:
                 self.stdout.write('')

@@ -61,12 +61,12 @@ class BaseAttributeField:
         return self.formfield(self.filter_form_class, **kwargs)
 
     def _filter_to_q(self, operator, value):
-        field_name = 'attributes__' + self.instance.json_key
+        field_name = f'attributes__{self.instance.json_key}'
         key = f'{field_name}__{operator}'
         return models.Q(**{key: value})
 
     def filter_to_q(self, operator, value, include_unknown=True):
-        field_name = 'attributes__' + self.instance.json_key
+        field_name = f'attributes__{self.instance.json_key}'
         inverse = operator.startswith('!')
         if inverse:
             operator = operator[1:]
@@ -74,7 +74,7 @@ class BaseAttributeField:
         q_unknown = (
             models.Q(**{field_name: ''})
             | models.Q(**{field_name: None})
-            | models.Q(**{field_name + '__isnull': True})
+            | models.Q(**{f'{field_name}__isnull': True})
         )
 
         if inverse:
@@ -243,12 +243,12 @@ class OrderedChoiceAttributeField(ChoiceAttributeField):
         if operator in ['gte', 'lte']:
             threshold = self.instance.attributechoice_set.get(pk=value)
             allowed_choices = self.instance.attributechoice_set.filter(**{
-                'order__' + operator: threshold.order
+                f'order__{operator}': threshold.order
             })
             # JSONField cannot use `in` lookups
             q = models.Q()
             for choice in allowed_choices:
-                q |= models.Q(**{'attributes__' + self.instance.json_key: choice.pk})
+                q |= models.Q(**{f'attributes__{self.instance.json_key}': choice.pk})
             return q
         return super()._filter_to_q(operator, value)
 

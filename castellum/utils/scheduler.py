@@ -37,7 +37,7 @@ def request(method, id, token, allowed_status=[]):
 
     url = f'{settings.SCHEDULER_URL}/api/{id}/{token}/'
     r = requests.request(method, url, headers={
-        'Authorization': 'token ' + settings.SCHEDULER_TOKEN,
+        'Authorization': f'token {settings.SCHEDULER_TOKEN}',
     })
     if r.status_code not in allowed_status:
         r.raise_for_status()
@@ -61,7 +61,7 @@ def get(id, token):
 def get_bulk(id):
     url = f'{settings.SCHEDULER_URL}/api/{id}/'
     r = requests.get(url, headers={
-        'Authorization': 'token ' + settings.SCHEDULER_TOKEN,
+        'Authorization': f'token {settings.SCHEDULER_TOKEN}',
     })
     r.raise_for_status()
     return {

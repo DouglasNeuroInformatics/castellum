@@ -102,8 +102,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             desc1 = get_attribute_by_statistics_rank('primary')
             desc2 = get_attribute_by_statistics_rank('secondary')
             order_by = [
-                '-subject__attributes__' + desc1.json_key,
-                '-subject__attributes__' + desc2.json_key,
+                f'-subject__attributes__{desc1.json_key}',
+                f'-subject__attributes__{desc2.json_key}',
                 '-updated_at',
             ]
         elif self.sort == 'recently-active':

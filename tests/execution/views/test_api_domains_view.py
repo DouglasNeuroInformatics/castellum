@@ -8,7 +8,7 @@ def test_apidomainsview(client, conductor, study_in_execution_status):
     baker.make(Domain, context=study_in_execution_status)
 
     url = f'/execution/api/studies/{study_in_execution_status.pk}/domains/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     data = response.json()
@@ -21,7 +21,7 @@ def test_no_general_domains(client, conductor, study_in_execution_status):
     conductor.general_domains.add(domain)
 
     url = f'/execution/api/studies/{study_in_execution_status.pk}/domains/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     data = response.json()
@@ -30,7 +30,7 @@ def test_no_general_domains(client, conductor, study_in_execution_status):
 
 def test_permission(client, recruiter, study_in_execution_status):
     url = f'/execution/api/studies/{study_in_execution_status.pk}/domains/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + recruiter.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {recruiter.token}')
     assert response.status_code == 403
 
 

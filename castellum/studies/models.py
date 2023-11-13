@@ -306,7 +306,7 @@ class Study(models.Model):
             .filter(status=Participation.INVITED)
             .aggregate(models.Max(key))
         )
-        return result[key + '__max'] or 0
+        return result[f'{key}__max'] or 0
 
     @cached_property
     def members_max_privacy_level(self):

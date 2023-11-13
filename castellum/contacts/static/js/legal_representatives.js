@@ -1,8 +1,8 @@
 (function() {
     $$.on(document, 'change', '[name="pane"]', function() {
         ['self', 'legal_representatives'].forEach(function(id) {
-            var pane = document.getElementById('contact-' + id);
-            var radio = document.querySelector('[name="pane"][value="' + id + '"]');
+            var pane = document.getElementById(`contact-${id}`);
+            var radio = document.querySelector(`[name="pane"][value="${id}"]`);
             pane.hidden = !radio.checked;
         });
     });

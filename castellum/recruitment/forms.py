@@ -87,7 +87,7 @@ class SubjectFilterForm(forms.ModelForm):
         if instance:
             return instance.attribute
 
-        key = prefix + '-attribute' if prefix else 'attribute'
+        key = f'{prefix}-attribute' if prefix else 'attribute'
         if data and data[key]:
             try:
                 return Attribute.objects.get(pk=data[key])
@@ -137,7 +137,7 @@ class AttributesForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         for key in cleaned_data:
-            if key + '_answer_declined' in self.data:
+            if f'{key}_answer_declined' in self.data:
                 cleaned_data[key] = ANSWER_DECLINED
         study_type_disinterest = cleaned_data.pop('study_type_disinterest')
         return {

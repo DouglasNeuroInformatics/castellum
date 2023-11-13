@@ -77,7 +77,7 @@ class Command(BaseCommand):
             defaults = {
                 'first_name': first_name,
                 'last_name': last_name,
-                'email': name + '@example.com',
+                'email': f'{name}@example.com',
                 'expiration_date': expiration_date,
             }
             user, created = User.objects.get_or_create(username=name, defaults=defaults)

@@ -1,7 +1,7 @@
 (function() {
     var input = document.querySelector('[name="street"]');
     var list = document.createElement('datalist');
-    list.id = input.id + '_list';
+    list.id = `${input.id}_list`;
     input.after(list);
     input.setAttribute('list', list.id);
 

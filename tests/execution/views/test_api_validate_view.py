@@ -14,7 +14,7 @@ def test_apivalidateview(client, conductor, study_in_execution_status, subject):
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym}/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     assert response.json() == {'pseudonym': pseudonym}
@@ -29,7 +29,7 @@ def test_normalize_pseudonym(client, conductor, study_in_execution_status, subje
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym.lower()}/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     assert response.json() == {'pseudonym': pseudonym}
@@ -44,7 +44,7 @@ def test_unrelated_domain(client, conductor, study_in_execution_status, subject)
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym}/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 404
 
@@ -61,7 +61,7 @@ def test_ignore_privacylevel(client, conductor, study_in_execution_status, subje
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym}/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
     assert response.status_code == 200
     assert response.json() == {'pseudonym': pseudonym}

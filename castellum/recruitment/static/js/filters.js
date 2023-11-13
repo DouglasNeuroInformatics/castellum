@@ -4,11 +4,11 @@
 
     $$.on(document, 'click', '[data-js="filter-add"]', function() {
         var pk = this.form.attribute.value;
-        var template = document.getElementById('template-' + pk);
+        var template = document.getElementById(`template-${pk}`);
         if (template) {
             var formrow = document.createElement('fieldset');
             formrow.className = 'row gx-2 mb-3';
-            formrow.innerHTML = template.innerHTML.replace(/{prefix}/g, 'form-' + totalForms.value);
+            formrow.innerHTML = template.innerHTML.replace(/{prefix}/g, `form-${totalForms.value}`);
             container.append(formrow);
             totalForms.value = parseInt(totalForms.value, 10) + 1;
             $$.trigger(totalForms, 'change');
@@ -20,11 +20,11 @@
         var formrow = this.closest('fieldset');
         var index = Array.prototype.indexOf.call(formrow.parentElement.children, formrow);
 
-        formrow.querySelector('[name^="form-' + index + '-value"]').remove();
+        formrow.querySelector(`[name^="form-${index}-value"]`).remove();
 
         var hidden = document.createElement('input');
         hidden.type = 'hidden';
-        hidden.name = 'form-' + index + '-DELETE';
+        hidden.name = `form-${index}-DELETE`;
         hidden.value = 'on';
 
         formrow.append(hidden);

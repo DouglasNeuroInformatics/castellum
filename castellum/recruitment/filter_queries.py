@@ -201,12 +201,12 @@ def completeness_expr():
     completeness = models.Value(0, output_field=models.IntegerField())
     for attribute in Attribute.objects.all():
         total += 1
-        field_name = 'attributes__' + attribute.json_key
+        field_name = f'attributes__{attribute.json_key}'
         completeness += models.Case(
             models.When((
                 models.Q(**{field_name: ''})
                 | models.Q(**{field_name: None})
-                | models.Q(**{field_name + '__isnull': True})
+                | models.Q(**{f'{field_name}__isnull': True})
             ), models.Value(0)),
             default=models.Value(1),
         )

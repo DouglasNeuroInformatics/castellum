@@ -14,7 +14,7 @@ def test_api_attributes_view(client, user, subject, attribute):
     user.general_domains.add(domain)
 
     url = f'/subjects/api/subjects/{domain.key}/{pseudonym}/attributes/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + user.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {user.token}')
 
     assert response.status_code == 200
     data = response.json()
@@ -27,6 +27,6 @@ def test_api_attributes_view_no_user_access(client, user, subject, attribute):
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = f'/subjects/api/subjects/{domain.key}/{pseudonym}/attributes/'
-    response = client.get(url, HTTP_AUTHORIZATION='token ' + user.token)
+    response = client.get(url, HTTP_AUTHORIZATION=f'token {user.token}')
 
     assert response.status_code == 404

@@ -8,7 +8,7 @@ def migrate_data(apps, schema_editor):
 
     for study in Study.objects.exclude(exclusion_criteria=''):
         if study.recruitment_text:
-            study.recruitment_text += '\n\n' + study.exclusion_criteria
+            study.recruitment_text += f'\n\n{study.exclusion_criteria}'
         else:
             study.recruitment_text = study.exclusion_criteria
         study.save()
