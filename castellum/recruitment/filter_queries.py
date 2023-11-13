@@ -40,7 +40,7 @@ from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.models import value_set
 
-from .models import AttributeDescription
+from .models import Attribute
 from .models import Participation
 
 
@@ -199,9 +199,9 @@ def completeness_expr():
     # Needs to match ``Subject.get_completeness()``.
     total = 0
     completeness = models.Value(0, output_field=models.IntegerField())
-    for description in AttributeDescription.objects.all():
+    for attribute in Attribute.objects.all():
         total += 1
-        field_name = 'attributes__' + description.json_key
+        field_name = 'attributes__' + attribute.json_key
         completeness += models.Case(
             models.When((
                 models.Q(**{field_name: ''})

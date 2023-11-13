@@ -47,7 +47,7 @@ class Domain(models.Model):
         blank=True,
     )
     exportable_attributes = models.ManyToManyField(
-        'recruitment.AttributeDescription',
+        'recruitment.Attribute',
         verbose_name=_('Exportable recruitment attributes'),
         related_name='+',
         blank=True,

@@ -15,7 +15,7 @@ from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import ContactCreationRequest
 from castellum.recruitment.management.commands import create_demo_content
-from castellum.recruitment.models import AttributeDescription
+from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
@@ -82,10 +82,10 @@ def create_member(group_name, studies):
 
 
 @pytest.fixture(scope='session', autouse=True)
-def attribute_descriptions(django_db_setup, django_db_blocker):
+def attributes(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
-        call_command('loaddata', 'attribute_descriptions')
-        call_command('loaddata', 'attribute_descriptions_extra')
+        call_command('loaddata', 'attributes')
+        call_command('loaddata', 'attributes_extra')
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -209,8 +209,8 @@ def participation(subject, study_in_execution_status):
 
 
 @pytest.fixture
-def attribute_description(db, attribute_descriptions):
-    return AttributeDescription.objects.get(pk=1)
+def attribute(db, attributes):
+    return Attribute.objects.get(pk=1)
 
 
 @pytest.fixture
@@ -219,9 +219,9 @@ def subject_filter_group(db, study):
 
 
 @pytest.fixture
-def subject_filter(subject_filter_group, attribute_description):
+def subject_filter(subject_filter_group, attribute):
     return SubjectFilter.objects.create(
-        description=attribute_description,
+        attribute=attribute,
         operator='exact',
         value=1,
         group=subject_filter_group,

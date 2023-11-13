@@ -9,7 +9,7 @@ to change the set of available languages.
 -   User interface strings in the code are always written in english. A
     german translation is included.
 -   Some models that are created via the admin interface (i.e.
-    `StudyType` and `AttributeDescription`) are treated as part of the
+    `StudyType` and `Attribute`) are treated as part of the
     UI and can therefore be translated.
 -   Users can select a language using the language switcher that is
     always available in the header.

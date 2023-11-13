@@ -1,6 +1,6 @@
 [
 {
-    "model": "recruitment.attributedescriptiontranslation",
+    "model": "recruitment.attributetranslation",
     "pk": 9,
     "fields": {
         "language_code": "de",
@@ -11,7 +11,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescriptiontranslation",
+    "model": "recruitment.attributetranslation",
     "pk": 9,
     "fields": {
         "language_code": "en",
@@ -22,7 +22,7 @@
     }
 },
 {
-    "model": "recruitment.attributedescription",
+    "model": "recruitment.attribute",
     "pk": 5,
     "fields": {
         "field_type": "MultipleChoiceField",
@@ -89,7 +89,7 @@
     "model": "recruitment.attributechoice",
     "pk": 11,
     "fields": {
-        "description": 5,
+        "attribute": 5,
         "order": 0
     }
 },
@@ -97,7 +97,7 @@
     "model": "recruitment.attributechoice",
     "pk": 12,
     "fields": {
-        "description": 5,
+        "attribute": 5,
         "order": 10
     }
 },
@@ -105,7 +105,7 @@
     "model": "recruitment.attributechoice",
     "pk": 13,
     "fields": {
-        "description": 5,
+        "attribute": 5,
         "order": 20
     }
 }

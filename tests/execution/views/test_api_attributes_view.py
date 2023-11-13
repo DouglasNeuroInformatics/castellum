@@ -6,10 +6,10 @@ from castellum.recruitment.models import Participation
 
 
 def test_apiattributesview(
-    client, conductor, study_in_execution_status, subject, attribute_description
+    client, conductor, study_in_execution_status, subject, attribute
 ):
     study = study_in_execution_status
-    study.exportable_attributes.add(attribute_description)
+    study.exportable_attributes.add(attribute)
     domain = baker.make(Domain, context=study)
     baker.make(
         Participation, study=study, subject=subject, status=Participation.INVITED

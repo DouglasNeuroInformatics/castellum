@@ -35,10 +35,10 @@ UNCATEGORIZED = 'UNCATEGORIZED'
 
 
 @functools.lru_cache(maxsize=2)
-def get_description_by_statistics_rank(rank):
+def get_attribute_by_statistics_rank(rank):
     try:
-        return AttributeDescription.objects.get(statistics_rank=rank)
-    except AttributeDescription.DoesNotExist:
+        return Attribute.objects.get(statistics_rank=rank)
+    except Attribute.DoesNotExist:
         return None
 
 
@@ -56,21 +56,21 @@ class AttributeCategory(TranslatableModel):
         return self.label
 
 
-class AttributeDescriptionQuerySet(TranslatableQuerySet):
+class AttributeQuerySet(TranslatableQuerySet):
     def by_category(self, qs=None):
         qs = qs or self.all()
         qs = qs.select_related('category').order_by('category__order', 'order')
 
         categories = OrderedDict()
         categories[UNCATEGORIZED] = []
-        for description in qs:
-            category = description.category or UNCATEGORIZED
+        for attribute in qs:
+            category = attribute.category or UNCATEGORIZED
             categories.setdefault(category, [])
-            categories[category].append(description)
+            categories[category].append(attribute)
         return categories
 
 
-class AttributeDescription(TranslatableModel):
+class Attribute(TranslatableModel):
     FIELD_TYPE_CHOICES = [
         ('CharField', _('CharField')),
         ('ChoiceField', _('ChoiceField')),
@@ -111,7 +111,7 @@ class AttributeDescription(TranslatableModel):
         unique=True,
     )
 
-    objects = AttributeDescriptionQuerySet.as_manager()
+    objects = AttributeQuerySet.as_manager()
 
     class Meta:
         ordering = ['order']
@@ -153,7 +153,7 @@ class AttributeDescription(TranslatableModel):
 
 
 class AttributeChoice(TranslatableModel):
-    description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
     order = models.IntegerField(default=0)
     translations = TranslatedFields(label=models.CharField(max_length=64))
 

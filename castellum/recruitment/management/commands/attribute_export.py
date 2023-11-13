@@ -23,7 +23,7 @@ import uuid
 from django.core.management.base import BaseCommand
 
 from castellum.recruitment.attribute_exporters import get_exporter
-from castellum.recruitment.models import AttributeDescription
+from castellum.recruitment.models import Attribute
 from castellum.subjects.models import Subject
 
 
@@ -36,10 +36,10 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         exporter = get_exporter(options.get('exporter'))
-        descriptions = AttributeDescription.objects.all()
+        attributes = Attribute.objects.all()
         if options['subject_uuid'] is None:
-            s = exporter.get_schema(descriptions)
+            s = exporter.get_schema(attributes)
         else:
             subject = Subject.objects.get(pk=options['subject_uuid'])
-            s = exporter.get_data(descriptions, [(subject.pk, subject)])
+            s = exporter.get_data(attributes, [(subject.pk, subject)])
         self.stdout.write(s)

@@ -23,9 +23,9 @@ from django.contrib import admin
 from parler.admin import TranslatableAdmin
 from parler.admin import TranslatableTabularInline
 
+from .models import Attribute
 from .models import AttributeCategory
 from .models import AttributeChoice
-from .models import AttributeDescription
 from .models import ExecutionTag
 from .models import MailBatch
 from .models import NewsMailBatch
@@ -39,14 +39,14 @@ class AttributeChoiceInline(TranslatableTabularInline):
     model = AttributeChoice
 
 
-class AttributeDescriptionAdmin(TranslatableAdmin):
+class AttributeAdmin(TranslatableAdmin):
     inlines = [
         AttributeChoiceInline,
     ]
 
 
 admin.site.register(AttributeCategory, TranslatableAdmin)
-admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
+admin.site.register(Attribute, AttributeAdmin)
 
 if settings.CASTELLUM_ADVANCED_ADMIN_UI:
     admin.site.register(ReliabilityEntry)

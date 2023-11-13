@@ -50,7 +50,7 @@ class JSONExporter:
             data, sort_keys=True, indent=4, ensure_ascii=False, cls=DjangoJSONEncoder
         )
 
-    def get_schema(self, descriptions):
+    def get_schema(self, attributes):
         schema = {
             'type': 'object',
             'properties': {
@@ -64,15 +64,15 @@ class JSONExporter:
             },
         }
 
-        for description in descriptions:
-            key = description.label
-            choices = list(description.attributechoice_set.all())
+        for attribute in attributes:
+            key = attribute.label
+            choices = list(attribute.attributechoice_set.all())
 
             data = {k: v for k, v in [
-                ('type', self.TYPES.get(description.field_type, 'string')),
-                ('format', self.FORMATS.get(description.field_type)),
+                ('type', self.TYPES.get(attribute.field_type, 'string')),
+                ('format', self.FORMATS.get(attribute.field_type)),
                 ('enum', [c.label for c in choices]),
-                ('description', description.help_text),
+                ('description', attribute.help_text),
             ] if v}
 
             if data['type'] == 'array':
@@ -89,39 +89,39 @@ class JSONExporter:
     def get_schema_filename(self):
         return 'attributes.schema.json'
 
-    def get_subject_attributes(self, descriptions, subject):
-        attrs = {}
+    def get_subject_attributes(self, attributes, subject):
+        data = {}
 
-        for description in descriptions:
-            key = description.label
-            choices = list(description.attributechoice_set.all())
+        for attribute in attributes:
+            key = attribute.label
+            choices = list(attribute.attributechoice_set.all())
 
-            value = subject.attributes.get(description.json_key)
+            value = subject.attributes.get(attribute.json_key)
             if value in ['', None, ANSWER_DECLINED]:
-                attrs[key] = None
+                data[key] = None
             elif choices:
                 if isinstance(value, list):
-                    attrs[key] = []
+                    data[key] = []
                     for v in value:
-                        choice = description.attributechoice_set.get(pk=v)
-                        attrs[key].append(choice.label)
+                        choice = attribute.attributechoice_set.get(pk=v)
+                        data[key].append(choice.label)
                 else:
-                    choice = description.attributechoice_set.get(pk=value)
-                    attrs[key] = choice.label
+                    choice = attribute.attributechoice_set.get(pk=value)
+                    data[key] = choice.label
             else:
-                attrs[key] = value
+                data[key] = value
 
-        attrs['privacy_level'] = subject.get_effective_privacy_level()
+        data['privacy_level'] = subject.get_effective_privacy_level()
 
-        return attrs
+        return data
 
-    def get_data(self, descriptions, subjects):
+    def get_data(self, attributes, subjects):
         data = []
 
         for _id, subject in subjects:
             data.append({
                 'id': str(_id),
-                **self.get_subject_attributes(descriptions, subject),
+                **self.get_subject_attributes(attributes, subject),
             })
 
         return self._json_dumps(data)
@@ -138,17 +138,17 @@ class BIDSExporter:
             data, sort_keys=True, indent=4, ensure_ascii=False, cls=DjangoJSONEncoder
         )
 
-    def get_schema(self, descriptions):
+    def get_schema(self, attributes):
         schema = {}
 
-        for description in descriptions:
-            key = description.label.lower().replace(' ', '_')
-            choices = list(description.attributechoice_set.all())
+        for attribute in attributes:
+            key = attribute.label.lower().replace(' ', '_')
+            choices = list(attribute.attributechoice_set.all())
 
             schema[key] = {k: v for k, v in [
                 ('Levels', {c.id: c.label for c in choices}),
-                ('Description', description.help_text),
-                ('TermURL', description.url),
+                ('Description', attribute.help_text),
+                ('TermURL', attribute.url),
             ] if v}
 
         schema['privacy_level'] = {
@@ -164,10 +164,10 @@ class BIDSExporter:
     def get_schema_filename(self):
         return 'participants.json'
 
-    def get_data(self, descriptions, subjects):
+    def get_data(self, attributes, subjects):
         fieldnames = ['participant_id', 'privacy_level']
-        for desc in descriptions:
-            key = desc.label.lower().replace(' ', '_')
+        for attribute in attributes:
+            key = attribute.label.lower().replace(' ', '_')
             fieldnames.append(key)
 
         fh = StringIO()
@@ -179,9 +179,9 @@ class BIDSExporter:
                 'participant_id': f'sub-{_id}',
                 'privacy_level': subject.get_effective_privacy_level(),
             }
-            for desc in descriptions:
-                key = desc.label.lower().replace(' ', '_')
-                value = subject.attributes.get(desc.json_key)
+            for attribute in attributes:
+                key = attribute.label.lower().replace(' ', '_')
+                value = subject.attributes.get(attribute.json_key)
                 if value in ['', None, ANSWER_DECLINED]:
                     row[key] = 'n/a'
                 elif isinstance(value, list):

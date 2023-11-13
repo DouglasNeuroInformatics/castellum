@@ -35,7 +35,7 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.forms import SubjectFilterAddForm
 from castellum.recruitment.forms import SubjectFilterForm
 from castellum.recruitment.forms import SubjectFilterFormSet
-from castellum.recruitment.models import AttributeDescription
+from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
@@ -174,9 +174,9 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
 
         context['add_form'] = SubjectFilterAddForm()
         context['templates'] = {}
-        for description in AttributeDescription.objects.all():
-            context['templates'][description.pk] = SubjectFilterForm(
-                initial={'description': description}, prefix='{prefix}'
+        for attribute in Attribute.objects.all():
+            context['templates'][attribute.pk] = SubjectFilterForm(
+                initial={'attribute': attribute}, prefix='{prefix}'
             )
 
         if 'formset' not in context:

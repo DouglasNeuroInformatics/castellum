@@ -44,14 +44,14 @@ class Select2IntegerMultipleChoiceField(Select2Mixin, IntegerMultipleChoiceField
 class BaseAttributeField:
     filter_form_class = None
 
-    def __init__(self, description):
-        self.description = description
+    def __init__(self, instance):
+        self.instance = instance
 
     def formfield(self, form_class=None, **kwargs):
         form_class = form_class or self.form_class
         defaults = {
-            'label': self.description.label,
-            'help_text': self.description.help_text,
+            'label': self.instance.label,
+            'help_text': self.instance.help_text,
             'required': False,
         }
         defaults.update(kwargs)
@@ -61,12 +61,12 @@ class BaseAttributeField:
         return self.formfield(self.filter_form_class, **kwargs)
 
     def _filter_to_q(self, operator, value):
-        field_name = 'attributes__' + self.description.json_key
+        field_name = 'attributes__' + self.instance.json_key
         key = f'{field_name}__{operator}'
         return models.Q(**{key: value})
 
     def filter_to_q(self, operator, value, include_unknown=True):
-        field_name = 'attributes__' + self.description.json_key
+        field_name = 'attributes__' + self.instance.json_key
         inverse = operator.startswith('!')
         if inverse:
             operator = operator[1:]
@@ -98,7 +98,7 @@ class BaseAttributeField:
 
     def get_filter_display(self, operator, value):
         operator = dict(self.available_operators)[operator]
-        return f'{self.description.filter_label} {operator} {value}'
+        return f'{self.instance.filter_label} {operator} {value}'
 
     def get_statistics_grouping(self, study):
         raise NotImplementedError
@@ -167,7 +167,7 @@ class TextAttributeField(BaseAttributeField):
 
 class BaseChoiceAttributeField(BaseAttributeField):
     def get_choices(self):
-        qs = self.description.attributechoice_set.all()
+        qs = self.instance.attributechoice_set.all()
         return [(c.pk, c.label) for c in qs]
 
     def formfield(self, form_class=None, **kwargs):
@@ -178,7 +178,7 @@ class BaseChoiceAttributeField(BaseAttributeField):
     def get_display(self, value):
         if value in ['', None, ANSWER_DECLINED]:
             return super().get_display(value)
-        choice = self.description.attributechoice_set.get(pk=value)
+        choice = self.instance.attributechoice_set.get(pk=value)
         return choice.label
 
     def get_filter_display(self, operator, value):
@@ -188,7 +188,7 @@ class BaseChoiceAttributeField(BaseAttributeField):
     def get_statistics_grouping(self, study):
         buckets = [
             (choice.pk, choice.label)
-            for choice in self.description.attributechoice_set.all()
+            for choice in self.instance.attributechoice_set.all()
         ] + [
             (None, _('Other')),
         ]
@@ -241,14 +241,14 @@ class OrderedChoiceAttributeField(ChoiceAttributeField):
 
     def _filter_to_q(self, operator, value):
         if operator in ['gte', 'lte']:
-            threshold = self.description.attributechoice_set.get(pk=value)
-            allowed_choices = self.description.attributechoice_set.filter(**{
+            threshold = self.instance.attributechoice_set.get(pk=value)
+            allowed_choices = self.instance.attributechoice_set.filter(**{
                 'order__' + operator: threshold.order
             })
             # JSONField cannot use `in` lookups
             q = models.Q()
             for choice in allowed_choices:
-                q |= models.Q(**{'attributes__' + self.description.json_key: choice.pk})
+                q |= models.Q(**{'attributes__' + self.instance.json_key: choice.pk})
             return q
         return super()._filter_to_q(operator, value)
 
@@ -287,7 +287,7 @@ class AgeAttributeField(DateAttributeField):
         total = []
         for group in study.subjectfiltergroup_set.all():
             filters = list(group.subjectfilter_set.filter(
-                operator='gt', description=self.description
+                operator='gt', attribute=self.instance
             ))
             if filters:
                 dates = [

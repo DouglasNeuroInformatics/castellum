@@ -267,17 +267,17 @@ class Subject(TimeStampedModel):
         return dict(options).get(self.privacy_level)
 
     def get_attributes(self):
-        from castellum.recruitment.models import AttributeDescription
+        from castellum.recruitment.models import Attribute
 
-        qs = AttributeDescription.objects.all()
+        qs = Attribute.objects.all()
         return {desc.json_key: self.attributes.get(desc.json_key) for desc in qs}
 
     def get_completeness(self):
-        from castellum.recruitment.models import AttributeDescription
+        from castellum.recruitment.models import Attribute
 
         # Needs to match ``filter_queries.completeness_expr()``
         completed = len([k for k, v in self.attributes.items() if v not in [None, '']])
-        total = AttributeDescription.objects.count()
+        total = Attribute.objects.count()
         return completed, total
 
     def get_effective_privacy_level(self):

@@ -23,7 +23,7 @@ migrate:
 
 .PHONY: populate
 populate:
-	$(MANAGEPY) loaddata groups study_types study_groups attribute_descriptions resources
+	$(MANAGEPY) loaddata groups study_types study_groups attributes resources
 	$(MANAGEPY) create_demo_users
 	$(MANAGEPY) create_demo_content
 

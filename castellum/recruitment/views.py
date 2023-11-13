@@ -67,7 +67,7 @@ from .mixins import ParticipationMixin
 from .mixins import get_recruitable
 from .models import MailBatch
 from .models import Participation
-from .models.attributes import get_description_by_statistics_rank
+from .models.attributes import get_attribute_by_statistics_rank
 from .templatetags.recruitment import study_legal_representative_hash
 
 FULLCALENDAR_DEFAULT_COLOR = '#3788d8'
@@ -99,8 +99,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         elif self.sort == 'last_contact_attempt':
             order_by = ['-status_not_reached', '-updated_at']
         elif self.sort == 'statistics':
-            desc1 = get_description_by_statistics_rank('primary')
-            desc2 = get_description_by_statistics_rank('secondary')
+            desc1 = get_attribute_by_statistics_rank('primary')
+            desc2 = get_attribute_by_statistics_rank('secondary')
             order_by = [
                 '-subject__attributes__' + desc1.json_key,
                 '-subject__attributes__' + desc2.json_key,
@@ -134,13 +134,13 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             study=self.study, status=Participation.INVITED
         ).prefetch_related('subject')
 
-        desc1 = get_description_by_statistics_rank('primary')
+        desc1 = get_attribute_by_statistics_rank('primary')
         if desc1:
             buckets1, get_bucket1 = desc1.field.get_statistics_grouping(self.study)
         else:
             return None
 
-        desc2 = get_description_by_statistics_rank('secondary')
+        desc2 = get_attribute_by_statistics_rank('secondary')
         if desc2:
             buckets2, get_bucket2 = desc2.field.get_statistics_grouping(self.study)
         else:
@@ -183,8 +183,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        desc1 = get_description_by_statistics_rank('primary')
-        desc2 = get_description_by_statistics_rank('secondary')
+        desc1 = get_attribute_by_statistics_rank('primary')
+        desc2 = get_attribute_by_statistics_rank('secondary')
         if desc1:
             buckets1, get_bucket1 = desc1.field.get_statistics_grouping(self.study)
             buckets1 = dict(buckets1)

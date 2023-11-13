@@ -23,10 +23,10 @@ def instantiate_formset(formset_class, data, instance=None, initial=None):
         return formset_class(formset_data, initial=initial)
 
 
-def test_formset_with_arbitary_data(attribute_description):
+def test_formset_with_arbitary_data(attribute):
     filterformset = modelformset_factory(
         SubjectFilter,
-        fields=['description', 'operator', 'value'],
+        fields=['attribute', 'operator', 'value'],
         formset=SubjectFilterFormSet,
         extra=0,
         max_num=5,
@@ -42,10 +42,10 @@ def test_formset_with_arbitary_data(attribute_description):
     assert formset.is_valid() is False
 
 
-def test_formset_with_valid_data(attribute_description):
+def test_formset_with_valid_data(attribute):
     filterformset = modelformset_factory(
         SubjectFilter,
-        fields=['description', 'operator', 'value'],
+        fields=['attribute', 'operator', 'value'],
         formset=SubjectFilterFormSet,
         extra=0,
         max_num=5,
@@ -55,13 +55,13 @@ def test_formset_with_valid_data(attribute_description):
 
     formset = instantiate_formset(filterformset, [
         {
-            'description': attribute_description.pk,
+            'attribute': attribute.pk,
             'operator': 'contains',
             'value': 2,
             'DELETE': 'False',
         },
         {
-            'description': attribute_description.pk,
+            'attribute': attribute.pk,
             'operator': 'contains',
             'value': 1,
             'DELETE': 'False',
@@ -71,10 +71,10 @@ def test_formset_with_valid_data(attribute_description):
     assert formset.is_valid() is True
 
 
-def test_two_identical_filters(attribute_description):
+def test_two_identical_filters(attribute):
     filterformset = modelformset_factory(
         SubjectFilter,
-        fields=['description', 'operator', 'value'],
+        fields=['attribute', 'operator', 'value'],
         formset=SubjectFilterFormSet,
         extra=0,
         max_num=5,
@@ -84,13 +84,13 @@ def test_two_identical_filters(attribute_description):
 
     formset = instantiate_formset(filterformset, [
         {
-            'description': attribute_description.pk,
+            'attribute': attribute.pk,
             'operator': 'contains',
             'value': 2,
             'DELETE': False,
         },
         {
-            'description': attribute_description.pk,
+            'attribute': attribute.pk,
             'operator': 'contains',
             'value': 2,
             'DELETE': False,
@@ -100,10 +100,10 @@ def test_two_identical_filters(attribute_description):
     assert formset.is_valid() is False
 
 
-def test_two_identical_filters_with_delete(attribute_description):
+def test_two_identical_filters_with_delete(attribute):
     filterformset = modelformset_factory(
         SubjectFilter,
-        fields=['description', 'operator', 'value'],
+        fields=['attribute', 'operator', 'value'],
         formset=SubjectFilterFormSet,
         extra=0,
         max_num=5,
@@ -113,13 +113,13 @@ def test_two_identical_filters_with_delete(attribute_description):
 
     formset = instantiate_formset(filterformset, [
         {
-            'description': attribute_description.pk,
+            'attribute': attribute.pk,
             'operator': 'contains',
             'value': 2,
             'DELETE': False,
         },
         {
-            'description': attribute_description.pk,
+            'attribute': attribute.pk,
             'operator': 'contains',
             'value': 2,
             'DELETE': True,

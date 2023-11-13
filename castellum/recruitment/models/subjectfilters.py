@@ -24,7 +24,7 @@ from django.urls import reverse
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 
-from ..models import AttributeDescription
+from ..models import Attribute
 from ..models import Participation
 
 
@@ -40,7 +40,7 @@ class SubjectFilterGroupManager(models.Manager):
         for f in original_group.subjectfilter_set.all():
             yield SubjectFilter(
                 group=cloned_group,
-                description=f.description,
+                attribute=f.attribute,
                 operator=f.operator,
                 value=f.value,
             )
@@ -70,14 +70,14 @@ class SubjectFilterGroup(models.Model):
 
 class SubjectFilter(models.Model):
     group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
-    description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
     operator = models.CharField(max_length=64)
     value = models.JSONField(editable=True)
 
     def __str__(self):
-        return self.description.field.get_filter_display(self.operator, self.value)
+        return self.attribute.field.get_filter_display(self.operator, self.value)
 
     def to_q(self, include_unknown=True):
-        return self.description.field.filter_to_q(
+        return self.attribute.field.filter_to_q(
             self.operator, self.value, include_unknown
         )

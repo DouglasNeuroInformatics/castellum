@@ -27,7 +27,7 @@ def test_404_if_study_in_edit_status(client, member, study_in_edit_status):
     assert response.status_code == 404
 
 
-def test_statistics(attribute_descriptions, study, participation):
+def test_statistics(attributes, study, participation):
     view = RecruitmentView()
     view.study = study
 
