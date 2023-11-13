@@ -538,7 +538,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        if not self.object.match:
+        if not self.object.is_match:
             initial['status'] = Participation.UNSUITABLE
             initial['followup_date'] = None
             initial['followup_time'] = None

@@ -31,9 +31,9 @@ def get_streets(path):
     names = set()
     with open(path) as fh:
         for line in fh:
-            match = RE_STREET.match(line)
-            if match:
-                names.add(match.group(1))
+            m = RE_STREET.match(line)
+            if m:
+                names.add(m.group(1))
     return sorted(names)
 
 

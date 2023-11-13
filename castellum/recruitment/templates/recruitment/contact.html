@@ -4,12 +4,12 @@
 {% block title %}{% translate "Recruitment" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    {% if not object.match %}
+    {% if not object.is_match %}
         <div class="alert alert-danger" role="alert">
             {% translate 'Subject is unsuitable or blocked in another study.' %}
         </div>
     {% else %}
-        {% if object.match == 'incomplete' %}
+        {% if object.is_match == 'incomplete' %}
             <div class="alert alert-warning" role="alert">
                 {% translate 'Subject has missing recruitment attributes. Please contact to check if they are suitable.' %}
             </div>

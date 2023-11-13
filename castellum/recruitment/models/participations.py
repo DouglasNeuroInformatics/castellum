@@ -273,7 +273,7 @@ class Participation(models.Model):
         return self.appointment_set.filter(start__date=datetime.date.today()).exists()
 
     @cached_property
-    def match(self):
+    def is_match(self):
         from .. import filter_queries
 
         if Subject.objects.filter(

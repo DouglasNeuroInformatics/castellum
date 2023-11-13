@@ -179,12 +179,12 @@ class ContactForm(forms.ModelForm):
             choices=model_status.choices,
             coerce=int,
         )
-        if not self.instance.match:
+        if not self.instance.is_match:
             self.fields['status'].widget.disabled_choices = [
                 choice for choice, label in Participation.STATUS_OPTIONS
                 if choice != Participation.UNSUITABLE
             ]
-        elif self.instance.match == 'incomplete':
+        elif self.instance.is_match == 'incomplete':
             self.fields['status'].widget.disabled_choices = [Participation.INVITED]
 
         recruiter_pks = [recruiter.pk for recruiter in self.instance.study.recruiters]
