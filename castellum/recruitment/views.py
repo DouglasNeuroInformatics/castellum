@@ -549,13 +549,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        choices = [(None, '---'), *list(Participation.STATUS_OPTIONS[1:])]
-        status_field = context['form'].fields['status']
-        status_field.widget.choices = choices
-
         context['sessions'] = self.study.studysession_set.order_by('pk')
-
         return context
 
     def get_success_url(self):

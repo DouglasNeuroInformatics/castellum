@@ -176,7 +176,16 @@ class ContactForm(forms.ModelForm):
         model_status = Participation._meta.get_field('status')
         self.fields['status'] = DisabledChoiceField(
             label=model_status.verbose_name,
-            choices=model_status.choices,
+            choices=[(None, '---')] + [
+                (choice, label) for choice, label in model_status.choices
+                if choice in [
+                    Participation.NOT_REACHED,
+                    Participation.AWAITING_RESPONSE,
+                    Participation.FOLLOWUP_APPOINTED,
+                    Participation.INVITED,
+                    Participation.UNSUITABLE,
+                ]
+            ],
             coerce=int,
         )
         if not self.instance.is_match:
