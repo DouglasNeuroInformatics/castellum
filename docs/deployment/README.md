@@ -42,7 +42,7 @@ integrate with an existing LDAP setup. Please refer to the linked
 documentation for details on the configuration.
 
 In addition to that, you must set expiration dates for accounts. That is
-possible from the admin UI or with the `django-admin activate_user`
+possible from the admin UI or with the `python3 -m django activate_user`
 command.
 
 ## Security
@@ -120,16 +120,16 @@ before you can start using it:
 
 2.  Check for some common issues:
 
-        django-admin check --deploy
+        python3 -m django check --deploy
 
 3.  Run migrations on all databases:
 
-        django-admin migrateall
+        python3 -m django migrateall
 
 4.  Load recommended data. This is not strictly necessary, but it
     usually makes sense to start from these defaults:
 
-        django-admin loaddata groups study_types study_groups resources attribute_descriptions
+        python3 -m django loaddata groups study_types study_groups resources attribute_descriptions
 
     **Warning**: If you run this command a second time, the database
     will be reset and all edits will be lost.
@@ -137,8 +137,8 @@ before you can start using it:
 5.  Create and activate an initial user. This user can then be used to
     activate (i.e. set expiration dates for) all further users:
 
-        django-admin createsuperuser --username admin
-        django-admin activate_user admin
+        python3 -m django createsuperuser --username admin
+        python3 -m django activate_user admin
 
     See the [end-user documentation](https://castellum.mpib.berlin/documentation/en/roles.html#administrator)
     for further information.
@@ -146,7 +146,7 @@ before you can start using it:
 ## Updates
 
 After updating to a new version of Castellum it is usually sufficient to
-run `django-admin migrateall`.
+run `python3 -m django migrateall`.
 
 For non-docker installations, you also need to update the dependencies:
 
@@ -154,8 +154,8 @@ For non-docker installations, you also need to update the dependencies:
 pip install -e .
 npm install
 .misc/extract_fullcalendar_css.sh
-django-admin collectstatic
-django-admin compilemessages -l de
+python3 -m django collectstatic
+python3 -m django compilemessages -l de
 ```
 
 Any additional steps that are required will be mentioned in the release

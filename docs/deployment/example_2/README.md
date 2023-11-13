@@ -208,26 +208,26 @@ settings:
 ```bash
 cd /opt/castellum/
 export DJANGO_SETTINGS_MODULE="castellum.settings.deployment"
-django-admin check --deploy
+python3 -m django check --deploy
 ```
 
 If Django does not complain, run all initial database migrations, load
 recommended data and create an admin user::
 
 ```bash
-django-admin migrateall
-django-admin loaddata groups study_types study_groups resources attribute_descriptions
-django-admin createsuperuser --username admin
-django-admin activate_user admin
-django-admin compilemessages -l de
-django-admin collectstatic
+python3 -m django migrateall
+python3 -m django loaddata groups study_types study_groups resources attribute_descriptions
+python3 -m django createsuperuser --username admin
+python3 -m django activate_user admin
+python3 -m django compilemessages -l de
+python3 -m django collectstatic
 ```
 
 Once the initial setup has successfully completed, test Castellum using
 Django's built-in development server:
 
 ```bash
-django-admin runserver --verbosity 3 192.168.10.1:8000
+python3 -m django runserver --verbosity 3 192.168.10.1:8000
 ```
 
 Connecting to http://192.168.10.1:8000 in a browser should show
@@ -354,8 +354,8 @@ git fetch
 git checkout x.y.z
 export DJANGO_SETTINGS_MODULE="castellum.settings.development"
 cd castellum/
-django-admin migrateall
-django-admin collectstatic
+python3 -m django migrateall
+python3 -m django collectstatic
 ```
 
 If everything went smoothly, start up the instance again:

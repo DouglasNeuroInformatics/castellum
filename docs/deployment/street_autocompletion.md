@@ -11,5 +11,5 @@ This is an example for  Berlin:
 
     wget 'https://download.geofabrik.de/europe/germany/berlin-latest.osm.bz2'
     bzip2 -d berlin-latest.osm.bz2
-    django-admin import_osm_street_names --clear berlin-latest.osm
+    python3 -m django import_osm_street_names --clear berlin-latest.osm
     rm berlin-latest.osm

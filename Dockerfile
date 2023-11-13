@@ -41,7 +41,7 @@ RUN pip3 install -e .[ldap,axes,model-stats]
 
 COPY castellum/ castellum
 
-RUN django-admin compilemessages -l de --settings=castellum.settings.bare
+RUN python3 -m django compilemessages -l de --settings=castellum.settings.bare
 
 
 FROM base AS static
@@ -49,7 +49,7 @@ RUN apk add npm
 RUN npm install --omit=dev
 COPY .misc/extract_fullcalendar_css.sh extract_fullcalendar_css.sh
 RUN ./extract_fullcalendar_css.sh
-RUN django-admin collectstatic --no-input --settings=castellum.settings.bare
+RUN python3 -m django collectstatic --no-input --settings=castellum.settings.bare
 
 
 FROM base AS final

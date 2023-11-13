@@ -28,7 +28,7 @@ test:
   script:
     - .venv/bin/ruff castellum tests
     - .venv/bin/pospell -l de_DE -p .misc/spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
-    - .venv/bin/django-admin makemigrations --dry-run --check --noinput
+    - .venv/bin/python -m django makemigrations --dry-run --check --noinput
     - .venv/bin/pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
 

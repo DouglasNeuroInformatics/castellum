@@ -8,16 +8,16 @@ docker-compose up -d
 # wait for databases
 docker-compose run --rm db_wait
 
-docker-compose run --rm web django-admin migrateall
-docker-compose run --rm scheduler django-admin migrate
+docker-compose run --rm web python3 -m django migrateall
+docker-compose run --rm scheduler python3 -m django migrate
 
 # Load recommended data
-docker-compose run --rm web django-admin loaddata groups study_types study_groups resources attribute_descriptions
+docker-compose run --rm web python3 -m django loaddata groups study_types study_groups resources attribute_descriptions
 
 # Load optional demo data (WARNING: do not use in production!)
 if [ "$1" = '--demo' ]; then
-    docker-compose run --rm web django-admin create_demo_users
-    docker-compose run --rm web django-admin create_demo_content
+    docker-compose run --rm web python3 -m django create_demo_users
+    docker-compose run --rm web python3 -m django create_demo_content
 fi
 
 echo ''

@@ -1,11 +1,11 @@
 # min	hour	day	month	weekday	command
-0	1	*	*	*	django-admin clearsessions
-1	1	*	*	*	django-admin cleanup_media
-2	1	*	*	*	django-admin cleanup_availability
-3	1	*	*	*	django-admin cleanup_underage_consents
-4	1	*	*	*	django-admin cleanup_filter_trials
-5	1	*	*	*	django-admin notify_to_be_deleted http://example.com
-6	1	*	*	*	django-admin notify_sessions_end
-7	1	*	*	*	django-admin fetch_scheduler_appointments http://example.com
-8	1	*	*	*	django-admin send_appointment_reminders http://example.com
-9	1	*	*	1	django-admin geocode_all
+0	1	*	*	*	python3 -m django clearsessions
+1	1	*	*	*	python3 -m django cleanup_media
+2	1	*	*	*	python3 -m django cleanup_availability
+3	1	*	*	*	python3 -m django cleanup_underage_consents
+4	1	*	*	*	python3 -m django cleanup_filter_trials
+5	1	*	*	*	python3 -m django notify_to_be_deleted http://example.com
+6	1	*	*	*	python3 -m django notify_sessions_end
+7	1	*	*	*	python3 -m django fetch_scheduler_appointments http://example.com
+8	1	*	*	*	python3 -m django send_appointment_reminders http://example.com
+9	1	*	*	1	python3 -m django geocode_all

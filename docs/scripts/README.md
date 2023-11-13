@@ -6,4 +6,4 @@ submit your own script if you feel it could be helpful to other.
 
 To use these scripts, customize them for your specific use case and copy
 them to ``castellum/subjects/management/commands/``. You can then
-execute them using ``django-admin``.
+execute them using ``python3 -m django``.
