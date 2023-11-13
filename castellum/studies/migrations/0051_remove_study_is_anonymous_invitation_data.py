@@ -11,6 +11,7 @@ def delete_anonymous_invitations(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('recruitment', '0040_change_anonymous_invitation_participation_status'),
         ('studies', '0050_remove_study_exclusion_criteria'),
     ]
 
