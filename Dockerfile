@@ -1,6 +1,7 @@
 FROM alpine:3.17.5 AS base
 
 ENV PYTHONUNBUFFERED 1
+ENV PYTHONPATH=/app/
 ENV DJANGO_SETTINGS_MODULE=django_settings
 
 RUN adduser -D -g '' uwsgi
