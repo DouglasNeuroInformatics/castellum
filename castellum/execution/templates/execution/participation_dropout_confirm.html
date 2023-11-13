@@ -7,7 +7,7 @@
     <form method="post">
         {% csrf_token %}
         <p>{% translate 'Are you sure you want to remove this participation?' %}</p>
-        <label class="form-check">
+        <label class="form-check mb-3">
             <input type="checkbox" class="form-check-input" data-js="confirm-delete">
             <span class="form-check-label">{% translate "I have made sure that all external data related to this study participation has been destroyed" %}</span>
         </label>
