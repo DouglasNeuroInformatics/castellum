@@ -6,7 +6,7 @@
             {% if can_access %}
                 <div {% if participation.dropped_out or recently_contacted or participation.subject.blocked or participation.subject.deceased %}class="text-body-secondary"{% endif %}>
                     <div>
-                        <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
+                        <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-hidden="true"></svg>
                         {% for desc, bucket in buckets %}
                             <span class="d-inline-block my-1 me-2" title="{{ desc.label }}">{{ bucket }}</span>
                         {% endfor %}
@@ -99,7 +99,7 @@
                 </div>
             {% else %}
                 <div class="text-body-secondary">
-                    <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
+                    <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-hidden="true"></svg>
                     <div class="d-inline-block my-1 me-2">
                         {% translate 'insufficient privacy level' %}
                         <i class="fas fa-ban list-icon text-bg-danger" role="img" aria-hidden="true"></i>
