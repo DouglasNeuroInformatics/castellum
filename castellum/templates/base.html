@@ -126,7 +126,7 @@
     {% block footer %}{% endblock %}
 
     {% if user.is_authenticated %}
-        <script src="{% static 'js/autologout.js' %}"></script>
+        <script type="module" src="{% static 'js/autologout.js' %}"></script>
     {% endif %}
 
     <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
@@ -135,8 +135,8 @@
     <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'select2/dist/js/select2.min.js' %}"></script>
     <script src="{% static 'select2/dist/js/i18n/de.js' %}"></script>
-    <script src="{% static 'js/utils.js' %}"></script>
-    <script src="{% static 'js/unsaved-changes.js' %}"></script>
+    <script type="module" src="{% static 'js/utils.js' %}"></script>
+    <script type="module" src="{% static 'js/unsaved-changes.js' %}"></script>
 
     {% block extra_scripts %}{% endblock %}
 </body>
