@@ -106,7 +106,7 @@
                     </div>
                 </div>
                 <div class="table-list-item-actions">
-                    {% if participation.status != participation.UNSUITABLE %}
+                    {% if participation.status not in participation.EXCLUDED_SET %}
                         <a class="btn btn-outline-danger my-1" href="{% url 'recruitment:exclude' study.pk participation.pk %}">{% translate 'Exclude' %}</a>
                     {% endif %}
                 </div>

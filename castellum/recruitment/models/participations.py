@@ -142,6 +142,7 @@ class Participation(models.Model):
     FOLLOWUP_APPOINTED = 4
     AWAITING_RESPONSE = 5
     INVITED_SET = [INVITED]
+    EXCLUDED_SET = [UNSUITABLE]
     STATUS_OPTIONS = [
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
@@ -315,7 +316,7 @@ class Participation(models.Model):
                 study=self.study, subject=self.subject
             )
 
-        if self.status != self.UNSUITABLE:
+        if self.status not in self.EXCLUDED_SET:
             self.excluded_by_cleanup = False
 
         if (

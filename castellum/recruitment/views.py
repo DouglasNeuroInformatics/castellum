@@ -245,7 +245,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             queryset.filter(status__in=Participation.INVITED_SET).count()
         )
         context['unsuitable_count'] = (
-            queryset.filter(status=Participation.UNSUITABLE).count()
+            queryset.filter(status__in=Participation.EXCLUDED_SET).count()
         )
         context['open_count'] = queryset.filter(status__in=[
             Participation.NOT_CONTACTED,
@@ -265,7 +265,7 @@ class RecruitmentViewInvited(RecruitmentView):
 
 
 class RecruitmentViewUnsuitable(RecruitmentView):
-    shown_status = [Participation.UNSUITABLE]
+    shown_status = Participation.EXCLUDED_SET
     subtab = 'unsuitable'
 
 
