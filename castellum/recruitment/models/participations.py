@@ -141,6 +141,12 @@ class Participation(models.Model):
     INVITED = 3
     FOLLOWUP_APPOINTED = 4
     AWAITING_RESPONSE = 5
+    RECRUITMENT_SET = [
+        NOT_CONTACTED,
+        NOT_REACHED,
+        FOLLOWUP_APPOINTED,
+        AWAITING_RESPONSE,
+    ]
     INVITED_SET = [INVITED]
     EXCLUDED_SET = [UNSUITABLE]
     STATUS_OPTIONS = [
@@ -258,15 +264,6 @@ class Participation(models.Model):
         super().__init__(*args, **kwargs)
         self._old_status = self.status
 
-    @property
-    def status_open(self):
-        return self.status in [
-            Participation.NOT_CONTACTED,
-            Participation.NOT_REACHED,
-            Participation.FOLLOWUP_APPOINTED,
-            Participation.AWAITING_RESPONSE,
-        ]
-
     def get_status_tooltip(self):
         return self.TOOLTIPS['status'][self.status]
 
@@ -320,7 +317,8 @@ class Participation(models.Model):
             self.excluded_by_cleanup = False
 
         if (
-            self.status in [self.INVITED, self.UNSUITABLE, self.FOLLOWUP_APPOINTED]
+            self.status in self.RECRUITMENT_SET
+            and self.status != self.FOLLOWUP_APPOINTED
             and self.status != self._old_status
             and not self.excluded_by_cleanup
         ):

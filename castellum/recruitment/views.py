@@ -212,7 +212,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             )
 
             recently_contacted = (
-                participation.status_open
+                participation.status in Participation.RECRUITMENT_SET
                 and participation.last_contacted_elsewhere
                 and (
                     participation.last_contacted_elsewhere.date()
@@ -270,12 +270,7 @@ class RecruitmentViewUnsuitable(RecruitmentView):
 
 
 class RecruitmentViewOpen(RecruitmentView):
-    shown_status = [
-        Participation.NOT_CONTACTED,
-        Participation.NOT_REACHED,
-        Participation.FOLLOWUP_APPOINTED,
-        Participation.AWAITING_RESPONSE,
-    ]
+    shown_status = Participation.RECRUITMENT_SET
     subtab = 'open'
 
     def create_participations(self, batch_size, is_urgent=False):
@@ -604,11 +599,11 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
     tab = 'recruitment'
 
     def get_querysets(self):
-        qs = self.study.participation_set.exclude(status__in=[
-            Participation.INVITED,
-            Participation.UNSUITABLE,
-            Participation.FOLLOWUP_APPOINTED,
-        ])
+        qs = (
+            self.study.participation_set
+            .filter(status__in=Participation.RECRUITMENT_SET)
+            .exclude(status=Participation.FOLLOWUP_APPOINTED)
+        )
         return {
             'all': qs,
             'mismatch': qs.exclude(subject__in=Subject.objects.filter(

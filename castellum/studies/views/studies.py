@@ -206,8 +206,8 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
             Subject.objects
             .filter(filter_queries.study(self.object), filter_queries.has_consent())
             .exclude(
-                pk__in=self.object.participation_set.filter(
-                    status__in=[Participation.INVITED, Participation.UNSUITABLE]
+                pk__in=self.object.participation_set.exclude(
+                    status__in=Participation.RECRUITMENT_SET
                 ).values('subject')
             )
             .count()

@@ -76,8 +76,8 @@ class FilterGroupListView(FilterMixin, ListView):
             Subject.objects
             .filter(filter_queries.study(self.study), filter_queries.has_consent())
             .exclude(
-                pk__in=self.study.participation_set.filter(
-                    status__in=[Participation.INVITED, Participation.UNSUITABLE]
+                pk__in=self.study.participation_set.exclude(
+                    status__in=Participation.RECRUITMENT_SET
                 ).values('subject')
             )
             .count()
