@@ -411,7 +411,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             self.study.restore_previous_status()
         else:
             self.study.set_status(self.study.FINISHED)
-            self.study.participation_set.exclude(status=Participation.INVITED).delete()
+            self.study.participation_set.exclude(status__in=Participation.INVITED_SET).delete()
         return redirect(
             get_next_url(request, reverse('studies:detail', args=[self.study.pk]))
         )

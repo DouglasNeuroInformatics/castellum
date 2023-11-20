@@ -25,7 +25,7 @@
                                 <span class="badge text-bg-secondary" title="{{ study.p.0.TOOLTIPS.dropped_out }}">{{ study.p.0|verbose_name:'dropped_out' }}</span>
                             {% endif %}
                         </div>
-                        {% if study.p.0.status != study.p.0.INVITED %}
+                        {% if study.p.0.status not in study.p.0.INVITED_SET %}
                             <form class ="table-list-item-actions" method="POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="study" value="{{ study.pk }}">

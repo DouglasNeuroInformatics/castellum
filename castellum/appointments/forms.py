@@ -55,7 +55,7 @@ class AppointmentsForm(forms.ModelForm):
             self.fields[key] = Appointment._meta.get_field('start').formfield(
                 initial=appointment.start if appointment else None,
                 disabled=(
-                    self.instance.status != Participation.INVITED
+                    self.instance.status not in Participation.INVITED_SET
                     or bool(session.schedule_id)
                 ),
                 required=False,
@@ -69,7 +69,7 @@ class AppointmentsForm(forms.ModelForm):
                         user_id__in=[u.pk for u in self.instance.study.conductors]
                     ),
                     disabled=(
-                        self.instance.status != Participation.INVITED
+                        self.instance.status not in Participation.INVITED_SET
                         or (bool(session.schedule_id) and not appointment)
                     ),
                 )
@@ -79,7 +79,7 @@ class AppointmentsForm(forms.ModelForm):
         if (
             settings.SCHEDULER_URL
             and session.schedule_id
-            and self.instance.status == Participation.INVITED
+            and self.instance.status in Participation.INVITED_SET
         ):
             pseudonym = get_pseudonym(self.instance.subject, session.domain)
             try:

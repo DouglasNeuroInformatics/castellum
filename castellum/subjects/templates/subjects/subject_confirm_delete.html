@@ -50,7 +50,7 @@
                                     {% endif %}
                                 </div>
                                 <div class="table-list-item-actions">
-                                    {% if participation.status == participation.INVITED %}
+                                    {% if participation.status in participation.INVITED_SET %}
                                         <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-pseudonyms' participation.study.pk participation.pk %}">{% translate 'Pseudonyms' %}</a>
                                         <a class="btn btn-outline-primary my-1" href="{% delete_mail_uri participation %}">{% translate 'Mail to study' %}</a>
                                     {% endif %}

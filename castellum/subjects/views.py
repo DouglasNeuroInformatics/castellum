@@ -104,7 +104,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 can_access_study = user.has_perm(
                     'studies.access_study', obj=participation.study
                 )
-                invited = participation.status == Participation.INVITED
+                invited = participation.status in Participation.INVITED_SET
                 can_recruit = (
                     has_privacy_level
                     and can_access_study
@@ -135,7 +135,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         context['count_updated'] = Contact.objects.filter(updated_at__gte=start).count()
 
         context['count_participated'] = Subject.objects.filter(
-            participation__status=Participation.INVITED
+            participation__status__in=Participation.INVITED_SET
         ).distinct().count()
 
         completeness, total = filter_queries.completeness_expr()
@@ -259,7 +259,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         dropout_count = self.object.participation_set.filter(dropped_out=True).count()
         dropout_total = self.object.participation_set.filter(
-            models.Q(status=Participation.INVITED) | models.Q(dropped_out=True)
+            models.Q(status__in=Participation.INVITED_SET) | models.Q(dropped_out=True)
         ).count()
         if dropout_total == 0:
             context['dropout_rate'] = '—'
@@ -495,7 +495,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self):
         return (
             self.subject.participation_set
-            .filter(status=Participation.INVITED)
+            .filter(status__in=Participation.INVITED_SET)
             .order_by('-updated_at')
         )
 
@@ -517,7 +517,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
             .filter(status=Study.EXECUTION)
             .exclude(pk__in=Study.objects.filter(
                 participation__subject=self.subject,
-                participation__status=Participation.INVITED,
+                participation__status__in=Participation.INVITED_SET,
             ))
         )
 

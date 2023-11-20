@@ -131,7 +131,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
     def _get_statistics(self):
         participations = Participation.objects.filter(
-            study=self.study, status=Participation.INVITED
+            study=self.study, status__in=Participation.INVITED_SET
         ).prefetch_related('subject')
 
         desc1 = get_attribute_by_statistics_rank('primary')
@@ -241,7 +241,9 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         queryset = Participation.objects.filter(study=self.study)
         context['all_count'] = queryset.count()
-        context['invited_count'] = queryset.filter(status=Participation.INVITED).count()
+        context['invited_count'] = (
+            queryset.filter(status__in=Participation.INVITED_SET).count()
+        )
         context['unsuitable_count'] = (
             queryset.filter(status=Participation.UNSUITABLE).count()
         )
@@ -258,7 +260,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
 
 class RecruitmentViewInvited(RecruitmentView):
-    shown_status = [Participation.INVITED]
+    shown_status = Participation.INVITED_SET
     subtab = 'invited'
 
 
@@ -563,11 +565,11 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         )
 
         form.instance.batch = None
-        if form.instance.status == Participation.INVITED:
+        if form.instance.status in Participation.INVITED_SET:
             form.instance.dropped_out = False
         response = super().form_valid(form)
         messages.success(self.request, _('Data has been saved.'))
-        if self.object.status != Participation.INVITED and appointments_exist:
+        if self.object.status not in Participation.INVITED_SET and appointments_exist:
             messages.warning(self.request, _(
                 'Appointments for this participation have been deleted.'
             ))

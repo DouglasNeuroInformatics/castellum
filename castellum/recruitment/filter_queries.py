@@ -58,14 +58,14 @@ def study_exclusion(study):
     # Excluded studies
     pr_q = models.Q(
         study__in=study.excluded_studies.all(),
-        status=Participation.INVITED,
+        status__in=Participation.INVITED_SET,
     )
 
     # Reverse excluded studies:
     # Exclude studies which exclude this study.
     pr_q |= models.Q(
         study__excluded_studies=study,
-        status=Participation.INVITED,
+        status__in=Participation.INVITED_SET,
     )
 
     if study.is_exclusive:
@@ -88,7 +88,7 @@ def study_exclusion(study):
     # Included studies
     if study.included_studies.exists():
         q &= models.Q(pk__in=Participation._base_manager.filter(
-            status=Participation.INVITED,
+            status__in=Participation.INVITED_SET,
             study__in=study.included_studies.all(),
         ).values('subject'))
 

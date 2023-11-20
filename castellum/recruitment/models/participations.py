@@ -115,7 +115,7 @@ class ParticipationQuerySet(models.QuerySet):
                 'subject__participation',
                 filter=models.Q(
                     subject__participation__updated_at__gt=recent,
-                    subject__participation__status=Participation.INVITED,
+                    subject__participation__status__in=Participation.INVITED_SET,
                 ),
                 distinct=True,
             ),
@@ -141,6 +141,7 @@ class Participation(models.Model):
     INVITED = 3
     FOLLOWUP_APPOINTED = 4
     AWAITING_RESPONSE = 5
+    INVITED_SET = [INVITED]
     STATUS_OPTIONS = [
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
@@ -309,7 +310,7 @@ class Participation(models.Model):
         else:
             self.attempts = 0
 
-        if self.status == self.INVITED:
+        if self.status in self.INVITED_SET:
             ReliabilityEntry.objects.get_or_create(
                 study=self.study, subject=self.subject
             )

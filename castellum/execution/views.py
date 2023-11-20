@@ -90,7 +90,7 @@ class ParticipationListView(
         qs = (
             self.study.participation_set
             .with_appointment_count()
-            .filter(status=Participation.INVITED)
+            .filter(status__in=Participation.INVITED_SET)
             .prefetch_related(
                 models.Prefetch(
                     'subject', queryset=Subject.objects.annotate_reliability()
@@ -159,7 +159,7 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         subjects = []
         for participation in (
             self.study.participation_set
-            .filter(status=Participation.INVITED)
+            .filter(status__in=Participation.INVITED_SET)
             .select_related('subject')
         ):
             pseudonym = get_pseudonym(participation.subject, domain.key)
@@ -202,7 +202,7 @@ class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
     model = Participation
     permission_required = ['recruitment.conduct_study']
     study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
+    participation_status = Participation.INVITED_SET
 
     def get_object(self, queryset=None):
         return self.participation
@@ -222,7 +222,7 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
 
 
 class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
-    participation_status = [Participation.INVITED]
+    participation_status = Participation.INVITED_SET
     study_status = []  # for GDPR requests after study has finished
     template_name = 'execution/participation_pseudonyms.html'
     tab = 'overview'
@@ -362,7 +362,7 @@ class ParticipationAppointmentsUpdateView(BaseAppointmentsUpdateView):
         'appointments.change_appointment',
     ]
     study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
+    participation_status = Participation.INVITED_SET
     base_template = 'execution/participation_base.html'
     tab = 'appointments'
 
@@ -387,7 +387,7 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
             participation = Participation.objects.filter(
                 study=self.study,
                 subject=subject,
-                status=Participation.INVITED,
+                status__in=Participation.INVITED_SET,
             ).get()
             monitoring_logger.info('Pseudonym resolved: domain {} by {}'.format(
                 form.cleaned_data['domain'], self.request.user.pk
@@ -528,7 +528,7 @@ class ExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, DetailView):
 
 class ExecutionUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
+    participation_status = Participation.INVITED_SET
     base_template = 'execution/participation_update_base.html'
     tab = 'update-data'
 
@@ -574,7 +574,7 @@ class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateVie
 
 class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
     study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
+    participation_status = Participation.INVITED_SET
     base_template = 'execution/participation_update_base.html'
     tab = 'update-data'
     subtab = 'data-protection'
@@ -650,10 +650,10 @@ class ProgressView(
         context = super().get_context_data(**kwargs)
 
         context['participating'] = self.study.participation_set.filter(
-            status=Participation.INVITED, dropped_out=False
+            status__in=Participation.INVITED_SET, dropped_out=False
         ).count()
         context['dropped_out'] = self.study.participation_set.filter(
-            status=Participation.INVITED, dropped_out=True
+            status__in=Participation.INVITED_SET, dropped_out=True
         ).count()
         context['invited'] = context['participating'] + context['dropped_out']
         context['total'] = max(self.study.min_subject_count, context['invited'])
@@ -754,7 +754,7 @@ class LegalRepresentativeContactUpdateView(
             Participation,
             pk=self.kwargs['participation_pk'],
             study=self.study,
-            status=Participation.INVITED,
+            status__in=Participation.INVITED_SET,
         )
         if not self.request.user.has_privacy_level(participation.subject.privacy_level):
             return self.handle_no_permission()
@@ -773,7 +773,7 @@ class LegalRepresentativeContactUpdateView(
 
 class ReportView(ParticipationMixin, BaseReportView):
     study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
+    participation_status = Participation.INVITED_SET
     permission_required = 'recruitment.conduct_study'
     base_template = 'execution/participation_base.html'
 
@@ -789,7 +789,7 @@ class ExecutionProtectedMediaView(
 ):
     permission_required = ['subjects.view_subject', 'recruitment.conduct_study']
     study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
+    participation_status = Participation.INVITED_SET
 
     def get_path(self):
         return 'subjects/{}'.format(self.kwargs['path'])
@@ -800,7 +800,7 @@ class StudyConsentProtectedMediaView(
 ):
     permission_required = ['subjects.view_subject', 'recruitment.conduct_study']
     study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
+    participation_status = Participation.INVITED_SET
 
     def get_path(self):
         return 'studyconsents/{}/{}/{}'.format(

@@ -85,7 +85,7 @@ class FilterGroupListView(FilterMixin, ListView):
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
 
         participating = self.study.participation_set.filter(
-            status=Participation.INVITED
+            status__in=Participation.INVITED_SET
         ).count()
         still_needed = self.study.min_subject_count - participating
         context['expected_subject_count'] = (
@@ -165,7 +165,7 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
 
         participating = self.study.participation_set.filter(
-            status=Participation.INVITED
+            status__in=Participation.INVITED_SET
         ).count()
         still_needed = self.study.min_subject_count - participating
         context['expected_subject_count'] = (
