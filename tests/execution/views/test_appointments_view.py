@@ -17,7 +17,7 @@ from castellum.studies.models import StudySession
 def test_appointment(client, member, participation):
     session = baker.make(StudySession, study=participation.study)
 
-    participation.status = participation.INVITED
+    participation.status = participation.PARTICIPATING
     participation.save()
 
     client.force_login(member)
@@ -42,7 +42,7 @@ def test_appointment_delete(client, member, participation):
         participation=participation,
     )
 
-    participation.status = participation.INVITED
+    participation.status = participation.PARTICIPATING
     participation.save()
 
     client.force_login(member)
@@ -67,7 +67,7 @@ def test_appointment_overlap(client, member, participation, time):
     session1 = baker.make(StudySession, study=participation.study, duration=60)
     session2 = baker.make(StudySession, study=participation.study, duration=60)
 
-    participation.status = participation.INVITED
+    participation.status = participation.PARTICIPATING
     participation.save()
 
     client.force_login(member)
@@ -103,10 +103,10 @@ def test_appointment_resource_overlap(client, member, participation, time):
         session=session,
         start=timezone.make_aware(timezone.datetime(2020, 1, 1, 12)),
         participation__study=participation.study,
-        participation__status=Participation.INVITED,
+        participation__status=Participation.PARTICIPATING,
     )
 
-    participation.status = participation.INVITED
+    participation.status = participation.PARTICIPATING
     participation.save()
 
     client.force_login(member)
@@ -130,7 +130,7 @@ def test_appointment_change_appointment_permission(client, member, participation
 
     session = baker.make(StudySession, study=participation.study, duration=60)
 
-    participation.status = participation.INVITED
+    participation.status = participation.PARTICIPATING
     participation.save()
 
     url = f'/recruitment/{participation.study.pk}/{participation.pk}/appointments/'

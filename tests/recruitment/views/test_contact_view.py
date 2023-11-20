@@ -43,13 +43,13 @@ def test_404_if_study_in_edit_status(client, member, participation):
 def test_post_updated_at(client, member, participation):
     client.force_login(member)
     url = f'/recruitment/{participation.study.pk}/{participation.pk}/'
-    client.post(url, {'status': Participation.UNSUITABLE})
+    client.post(url, {'status': Participation.EXCLUDED})
     participation = Participation.objects.get()
     assert participation.updated_at.strftime('%Y-%m-%d') == '2018-01-01'
 
 
 def test_warning_on_appointment_deletion(client, member, participation):
-    participation.status = Participation.INVITED
+    participation.status = Participation.PARTICIPATING
     participation.save()
 
     session = baker.make(StudySession, study=participation.study, schedule_id='1s2a3')
@@ -65,11 +65,11 @@ def test_warning_on_appointment_deletion(client, member, participation):
     warning = b'Appointments for this participation have been deleted.'
 
     response = client.post(url, {
-        'status': Participation.INVITED,
+        'status': Participation.PARTICIPATING,
     }, follow=True)
     assert warning not in response.content
 
     response = client.post(url, {
-        'status': Participation.UNSUITABLE,
+        'status': Participation.EXCLUDED,
     }, follow=True)
     assert warning in response.content

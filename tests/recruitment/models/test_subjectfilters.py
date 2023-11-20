@@ -12,7 +12,7 @@ from castellum.subjects.models import Subject
 
 
 def create_participation(
-    subject, is_finished=False, is_exclusive=False, status=Participation.INVITED
+    subject, is_finished=False, is_exclusive=False, status=Participation.PARTICIPATING
 ):
     study_status = Study.FINISHED if is_finished else Study.EXECUTION
     study = baker.make(Study, status=study_status, is_exclusive=is_exclusive)
@@ -36,14 +36,14 @@ def test_to_q_excluded_study(subject):
     assert not has_match(excluded_studies=[participation.study])
 
 
-def test_to_q_excluded_study_and_unsuitable(subject):
-    participation = create_participation(subject, status=Participation.UNSUITABLE)
+def test_to_q_excluded_study_and_excluded(subject):
+    participation = create_participation(subject, status=Participation.EXCLUDED)
     assert has_match(excluded_studies=[participation.study])
 
 
-def test_to_q_excluded_study_and_unsuitable_for_other_study(subject):
+def test_to_q_excluded_study_and_excluded_for_other_study(subject):
     participation = create_participation(subject)
-    create_participation(subject, status=Participation.UNSUITABLE)
+    create_participation(subject, status=Participation.EXCLUDED)
     assert not has_match(excluded_studies=[participation.study])
 
 
@@ -67,7 +67,7 @@ def test_to_q_exclusive_study_in_same_study(subject):
     study = baker.make(Study, is_exclusive=True)
     baker.make(
         Participation,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
         study=study,
     )
@@ -80,8 +80,8 @@ def test_to_q_exclusive_study_and_unfinished(subject):
     assert not has_match(is_exclusive=True)
 
 
-def test_to_q_exclusive_study_and_unsuitable(subject):
-    create_participation(subject, status=Participation.UNSUITABLE)
+def test_to_q_exclusive_study_and_excluded(subject):
+    create_participation(subject, status=Participation.EXCLUDED)
     assert has_match(is_exclusive=True)
 
 

@@ -8,7 +8,7 @@ def test_apipseudonymsview(client, conductor, study_in_execution_status, subject
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'
@@ -41,7 +41,7 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'
@@ -56,7 +56,7 @@ def test_unrelated_domain(client, conductor, study_in_execution_status, subject)
     study = study_in_execution_status
     domain = baker.make(Domain)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/'

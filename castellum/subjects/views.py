@@ -608,7 +608,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     def create_participation(self):
         Participation._base_manager.update_or_create(
             subject=self.subject, study=self.study, defaults={
-                'status': Participation.INVITED,
+                'status': Participation.PARTICIPATING,
                 'dropped_out': False,
             }
         )

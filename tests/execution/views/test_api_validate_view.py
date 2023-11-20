@@ -9,7 +9,7 @@ def test_apivalidateview(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -24,7 +24,7 @@ def test_normalize_pseudonym(client, conductor, study_in_execution_status, subje
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -39,7 +39,7 @@ def test_unrelated_domain(client, conductor, study_in_execution_status, subject)
     study = study_in_execution_status
     domain = baker.make(Domain)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -56,7 +56,7 @@ def test_ignore_privacylevel(client, conductor, study_in_execution_status, subje
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 

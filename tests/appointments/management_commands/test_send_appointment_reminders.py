@@ -18,7 +18,7 @@ def test_send_appointment_reminders_first(contact, study_in_execution_status):
         Participation,
         subject=contact.subject,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
     session = baker.make(
         StudySession, study=study_in_execution_status, first_reminder_days=3
@@ -49,7 +49,7 @@ def test_send_appointment_reminders_second(contact, study_in_execution_status):
         Participation,
         subject=contact.subject,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
     session = baker.make(
         StudySession, study=study_in_execution_status, second_reminder_days=3

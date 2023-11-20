@@ -289,7 +289,7 @@ class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
     def post(self, request, *args, **kwargs):
         participation = self.get_object()
         participation.dropped_out = True
-        participation.status = Participation.UNSUITABLE
+        participation.status = Participation.EXCLUDED
         participation.save()
         return redirect('execution:participation-list', participation.study.pk)
 

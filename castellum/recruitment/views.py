@@ -518,7 +518,7 @@ class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, DetailView
         self.object.participation_set.exclude(
             status=Participation.FOLLOWUP_APPOINTED
         ).update(
-            status=Participation.UNSUITABLE,
+            status=Participation.EXCLUDED,
             batch=None,
             excluded_by_cleanup=True,
         )
@@ -536,7 +536,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     def get_initial(self):
         initial = super().get_initial()
         if not self.object.is_match:
-            initial['status'] = Participation.UNSUITABLE
+            initial['status'] = Participation.EXCLUDED
             initial['followup_date'] = None
             initial['followup_time'] = None
         return initial
@@ -580,7 +580,7 @@ class ExcludeView(StudyMixin, PermissionRequiredMixin, TemplateView):
 
     def post(self, request, **kwargs):
         obj = get_object_or_404(Participation, study=self.study, pk=kwargs['pk'])
-        obj.status = Participation.UNSUITABLE
+        obj.status = Participation.EXCLUDED
         obj.save()
         return redirect('recruitment:recruitment-open', self.study.pk)
 
@@ -630,7 +630,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
 
         # needs to be update() in order not to set Subject.updated_at
         querysets[action].update(
-            status=Participation.UNSUITABLE, batch=None, excluded_by_cleanup=True
+            status=Participation.EXCLUDED, batch=None, excluded_by_cleanup=True
         )
 
         return redirect('recruitment:recruitment-open', self.study.pk)

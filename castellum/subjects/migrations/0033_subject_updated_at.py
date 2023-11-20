@@ -6,15 +6,15 @@ def migrate_data(apps, schema_editor):
     Contact = apps.get_model('contacts', 'Contact')
 
     # re-implementation of constants from model Participation
-    UNSUITABLE = 2
-    INVITED = 3
+    EXCLUDED = 2
+    PARTICIPATING = 3
     FOLLOWUP_APPOINTED = 4
 
     subjects = Subject.objects.filter(deceased=False, blocked=False).annotate(
         participation_updated_at=models.Max(
             'participation__updated_at',
             filter=models.Q(
-                participation__status__in=[INVITED, UNSUITABLE, FOLLOWUP_APPOINTED],
+                participation__status__in=[PARTICIPATING, EXCLUDED, FOLLOWUP_APPOINTED],
                 participation__excluded_by_cleanup=False,
             ),
         )

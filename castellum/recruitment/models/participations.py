@@ -137,8 +137,8 @@ class ParticipationQuerySet(models.QuerySet):
 class Participation(models.Model):
     NOT_CONTACTED = 0
     NOT_REACHED = 1
-    UNSUITABLE = 2
-    INVITED = 3
+    EXCLUDED = 2
+    PARTICIPATING = 3
     FOLLOWUP_APPOINTED = 4
     AWAITING_RESPONSE = 5
     RECRUITMENT_SET = [
@@ -147,15 +147,15 @@ class Participation(models.Model):
         FOLLOWUP_APPOINTED,
         AWAITING_RESPONSE,
     ]
-    INVITED_SET = [INVITED]
-    EXCLUDED_SET = [UNSUITABLE]
+    INVITED_SET = [PARTICIPATING]
+    EXCLUDED_SET = [EXCLUDED]
     STATUS_OPTIONS = [
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
         (FOLLOWUP_APPOINTED, _('follow-up scheduled')),
         (AWAITING_RESPONSE, _('awaiting response')),
-        (INVITED, _('participating')),
-        (UNSUITABLE, _('excluded')),
+        (PARTICIPATING, _('participating')),
+        (EXCLUDED, _('excluded')),
     ]
 
     NOT_INTERESTED = 1
@@ -184,8 +184,8 @@ class Participation(models.Model):
         'status': {
             NOT_CONTACTED: _('The subject has not yet been contacted.'),
             NOT_REACHED: _('The last contact attempt has failed.'),
-            UNSUITABLE: _('The subject will not participate in the study.'),
-            INVITED: _('The subject has agreed to participate in the study.'),
+            EXCLUDED: _('The subject will not participate in the study.'),
+            PARTICIPATING: _('The subject has agreed to participate in the study.'),
             FOLLOWUP_APPOINTED: _(
                 'The subject has agreed on a date and time for a follow-up.'
             ),

@@ -10,7 +10,7 @@ def test_general_domain(client, user, conductor, study_in_execution_status, subj
         Participation,
         study=study_in_execution_status,
         subject=subject,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
 
     study_in_execution_status.general_domains.add(domain)
@@ -39,7 +39,7 @@ def test_general_domain_not_in_study(
         Participation,
         study=study_in_execution_status,
         subject=subject,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
 
     conductor.general_domains.add(domain)
@@ -60,7 +60,7 @@ def test_general_domain_not_in_user(
         Participation,
         study=study_in_execution_status,
         subject=subject,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
 
     study_in_execution_status.general_domains.add(domain)

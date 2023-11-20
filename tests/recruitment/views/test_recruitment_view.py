@@ -34,7 +34,7 @@ def test_statistics(attributes, study, participation):
     baker.make(
         Participation,
         study=study,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject__attributes={
             'd1': 1,
             'd3': '1930-01-01',

@@ -13,7 +13,7 @@ def test_apiresolveview(client, conductor, study_in_execution_status, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
     target_pseudonym = get_pseudonym(subject, target_domain.key)
@@ -32,7 +32,7 @@ def test_token_required(client, conductor, study_in_execution_status, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -49,7 +49,7 @@ def test_user_expired(client, conductor, study_in_execution_status, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -73,7 +73,7 @@ def test_token_required_logged_in(
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -91,7 +91,7 @@ def test_permission_required(client, recruiter, study_in_execution_status, subje
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -111,7 +111,7 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -127,7 +127,7 @@ def test_study_status(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -166,7 +166,7 @@ def test_source_domain_wrong_study(
 
     target_domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -187,7 +187,7 @@ def test_source_domain_general(client, conductor, study_in_execution_status, sub
 
     target_domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -209,7 +209,7 @@ def test_target_domain_other_study(
     target_domain = baker.make(Domain, context=other_study)
 
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -230,7 +230,7 @@ def test_target_domain_general(client, conductor, study_in_execution_status, sub
     conductor.general_domains.add(target_domain)
 
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
     target_pseudonym = get_pseudonym(subject, target_domain.key)
@@ -254,7 +254,7 @@ def test_target_domain_general_bad_user(
     study.general_domains.add(target_domain)
 
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -276,7 +276,7 @@ def test_source_domain_general_bad_study(
     conductor.general_domains.add(target_domain)
 
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
@@ -293,7 +293,7 @@ def test_normalize_pseudonym(client, conductor, study_in_execution_status, subje
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.INVITED
+        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
     )
     pseudonym = get_pseudonym(subject, domain.key)
     target_pseudonym = get_pseudonym(subject, target_domain.key)
