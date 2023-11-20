@@ -27,9 +27,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if view.subtab == 'unsuitable' %}active{% endif %}" href="{% url 'recruitment:recruitment-unsuitable' study.pk %}">
+                <a class="nav-link {% if view.subtab == 'excluded' %}active{% endif %}" href="{% url 'recruitment:recruitment-excluded' study.pk %}">
                     {% translate 'Excluded' %}
-                    <span class="badge text-bg-light">{{ unsuitable_count }}</span>
+                    <span class="badge text-bg-light">{{ excluded_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
