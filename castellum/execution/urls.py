@@ -42,10 +42,10 @@ from .views import ParticipationConsentUpdateView
 from .views import ParticipationConsentView
 from .views import ParticipationDetailView
 from .views import ParticipationDropoutConfirmView
-from .views import ParticipationDropoutView
 from .views import ParticipationListView
 from .views import ParticipationPseudonymsView
 from .views import ParticipationPseudonymView
+from .views import ParticipationStatusView
 from .views import ParticipationUpdateView
 from .views import ProgressView
 from .views import ReportView
@@ -79,9 +79,9 @@ urlpatterns = [
         name='participation-pseudonym',
     ),
     path(
-        '<int:study_pk>/<int:pk>/dropout/',
-        ParticipationDropoutView.as_view(),
-        name='participation-dropout',
+        '<int:study_pk>/<int:pk>/status/',
+        ParticipationStatusView.as_view(),
+        name='participation-status',
     ),
     path(
         '<int:study_pk>/<int:pk>/dropout/confirm/',

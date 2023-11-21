@@ -232,7 +232,7 @@ def test_participation_update_view(client, member, study_in_execution_status, su
 
 
 @pytest.mark.smoketest
-def test_participation_dropout_view(client, member, study_in_execution_status, subject):
+def test_participation_status_view(client, member, study_in_execution_status, subject):
     client.force_login(member)
 
     participation = baker.make(
@@ -241,12 +241,12 @@ def test_participation_dropout_view(client, member, study_in_execution_status, s
         status=Participation.PARTICIPATING,
         subject=subject,
     )
-    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/dropout/'
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/status/'
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_participation_dropout_view_post(
+def test_participation_status_view_post(
     client, member, study_in_execution_status, subject
 ):
     client.force_login(member)
@@ -257,7 +257,7 @@ def test_participation_dropout_view_post(
         status=Participation.PARTICIPATING,
         subject=subject,
     )
-    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/dropout/'
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/status/'
     response = client.post(url, {'dropped_out': '1'})
     participation.refresh_from_db()
     assert response.status_code == 302

@@ -271,8 +271,8 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
         return HttpResponse(pseudonym)
 
 
-class ParticipationDropoutView(ParticipationDetailMixin, DetailView):
-    template_name = 'execution/participation_dropout.html'
+class ParticipationStatusView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_status.html'
     tab = 'overview'
 
     def post(self, request, *args, **kwargs):

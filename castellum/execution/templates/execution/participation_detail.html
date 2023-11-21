@@ -30,7 +30,7 @@
     {% include 'contacts/__contact.html' with subject=subject %}
 
     <div class="mb-3 d-print-none">
-        <a class="btn btn-danger my-1" href="{% url 'execution:participation-dropout' study.pk object.pk %}">
+        <a class="btn btn-danger my-1" href="{% url 'execution:participation-status' study.pk object.pk %}">
             {% translate 'Dropped out' context 'verb' %}…
         </a>
     </div>
