@@ -6,14 +6,18 @@
 {% block content %}
     {% with width=400 %}
         <svg class="progress w-100" viewbox="0 0 {{ width }} 10" preserveAspectRatio="none">
-            <rect class="text-danger" fill="currentColor" width="{% widthratio invited total width %}" height="10" />
-            <rect class="text-success" fill="currentColor" width="{% widthratio participating total width %}" height="10" />
+            <rect class="text-danger" fill="currentColor" width="{% widthratio dropped_out_acc total width %}" height="10" />
+            <rect class="text-warning" fill="currentColor" width="{% widthratio participating_acc total width %}" height="10" />
+            <rect class="text-success" fill="currentColor" width="{% widthratio completed total width %}" height="10" />
             <line stroke="currentColor" x1="{% widthratio study.min_subject_count total width %}" x2="{% widthratio study.min_subject_count total width %}" y1="0" y2="10" />
         </svg>
     {% endwith %}
     <dl class="dl-inline">
-        <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'participating' %}</dt>
-        <dd>{{ participating }}/{{ study.min_subject_count }}</dd>
+        <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'completed' %}</dt>
+        <dd>{{ completed }}/{{ study.min_subject_count }}</dd>
+
+        <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {% translate 'participating' %}</dt>
+        <dd>{{ participating }}</dd>
 
         <dt><span class="text-danger" aria-hidden="true">&#9679;</span> {% translate 'dropped out' %}</dt>
         <dd>{{ dropped_out }}</dd>

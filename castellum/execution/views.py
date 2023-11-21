@@ -672,14 +672,22 @@ class ProgressView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['invited'] = self.study.participation_set.filter(
-            status__in=Participation.INVITED_SET
+        context['completed'] = self.study.participation_set.filter(
+            status=Participation.COMPLETED,
+        ).count()
+        context['participating'] = self.study.participation_set.filter(
+            status=Participation.PARTICIPATING
         ).count()
         context['dropped_out'] = self.study.participation_set.filter(
             status=Participation.PARTICIPATING_DROPPED_OUT,
         ).count()
-        context['participating'] = context['invited'] - context['dropped_out']
-        context['total'] = max(self.study.min_subject_count, context['invited'])
+        context['participating_acc'] = (
+            context['completed'] + context['participating']
+        )
+        context['dropped_out_acc'] = (
+            context['completed'] + context['participating'] + context['dropped_out']
+        )
+        context['total'] = max(self.study.min_subject_count, context['dropped_out_acc'])
         context['sessions'] = self.study.studysession_set.annotate(
             took_place=models.Count(
                 'appointment',
