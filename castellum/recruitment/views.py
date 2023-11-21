@@ -518,9 +518,8 @@ class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, DetailView
         self.object.participation_set.exclude(
             status=Participation.FOLLOWUP_APPOINTED
         ).update(
-            status=Participation.EXCLUDED,
+            status=Participation.EXCLUDED_BY_CLEANUP,
             batch=None,
-            excluded_by_cleanup=True,
         )
         return redirect('recruitment:mail', self.study.pk)
 
@@ -628,7 +627,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
 
         # needs to be update() in order not to set Subject.updated_at
         querysets[action].update(
-            status=Participation.EXCLUDED, batch=None, excluded_by_cleanup=True
+            status=Participation.EXCLUDED_BY_CLEANUP, batch=None
         )
 
         return redirect('recruitment:recruitment-open', self.study.pk)

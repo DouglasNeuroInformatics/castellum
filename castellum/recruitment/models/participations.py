@@ -143,6 +143,7 @@ class Participation(models.Model):
     AWAITING_RESPONSE = 5
     EXCLUDED_DROPPED_OUT = 6
     PARTICIPATING_DROPPED_OUT = 7
+    EXCLUDED_BY_CLEANUP = 8
     RECRUITMENT_SET = [
         NOT_CONTACTED,
         NOT_REACHED,
@@ -150,7 +151,7 @@ class Participation(models.Model):
         AWAITING_RESPONSE,
     ]
     INVITED_SET = [PARTICIPATING, PARTICIPATING_DROPPED_OUT]
-    EXCLUDED_SET = [EXCLUDED, EXCLUDED_DROPPED_OUT]
+    EXCLUDED_SET = [EXCLUDED, EXCLUDED_DROPPED_OUT, EXCLUDED_BY_CLEANUP]
     DEFAULT_SET = [NOT_CONTACTED, PARTICIPATING, EXCLUDED]
     STATUS_OPTIONS = [
         (NOT_CONTACTED, _('not contacted')),
@@ -161,6 +162,7 @@ class Participation(models.Model):
         (PARTICIPATING_DROPPED_OUT, _('participating (dropped out)')),
         (EXCLUDED, _('excluded')),
         (EXCLUDED_DROPPED_OUT, _('excluded (dropped out)')),
+        (EXCLUDED_BY_CLEANUP, _('excluded by cleanup')),
     ]
 
     NOT_INTERESTED = 1
@@ -173,9 +175,6 @@ class Participation(models.Model):
     ]
 
     TOOLTIPS = {
-        'excluded_by_cleanup': _(
-            'The subject has been excluded through the bulk cleanup feature.'
-        ),
         'recently_active': _(
             'The subject has recently been in contact with our institute.'
         ),
@@ -199,6 +198,9 @@ class Participation(models.Model):
             ),
             EXCLUDED_DROPPED_OUT: _('The subject did not complete the study.'),
             PARTICIPATING_DROPPED_OUT: _('The subject did not complete the study.'),
+            EXCLUDED_BY_CLEANUP: _(
+                'The subject has been excluded through the bulk cleanup feature.'
+            ),
         },
     }
 
@@ -221,7 +223,6 @@ class Participation(models.Model):
     exclusion_criteria_checked = models.BooleanField(
         _('Subject may be suitable'), default=False
     )
-    excluded_by_cleanup = models.BooleanField(_('Excluded by cleanup'), default=False)
 
     attempts = models.IntegerField(_('Attempts'), default=0)
 

@@ -9,11 +9,7 @@
             <svg class="identicon" data-jdenticon-value="{{ participation.pk }}" aria-hidden="true"></svg>
             {{ subject.contact.full_name }}
         </h1>
-        {% if participation.excluded_by_cleanup %}
-            <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.excluded_by_cleanup }}">{{ participation|verbose_name:'excluded_by_cleanup' }}</span>
-        {% else %}
-            <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.get_status_tooltip }}">{{ participation|display:'status' }}</span>
-        {% endif %}
+        <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.get_status_tooltip }}">{{ participation|display:'status' }}</span>
         {% if not subject.is_available %}
             <span class="list-icon text-bg-warning" title="{% blocktranslate with next_available=subject.not_available_until %}not available until {{ next_available }}{% endblocktranslate %}">{% icon 'phone-slash' %}</span>
         {% endif %}

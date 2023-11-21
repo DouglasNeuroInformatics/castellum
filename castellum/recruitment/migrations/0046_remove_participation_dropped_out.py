@@ -7,11 +7,16 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("recruitment", "0045_alter_participation_status"),
+        ("subjects", "0033_subject_updated_at"),
     ]
 
     operations = [
         migrations.RemoveField(
             model_name="participation",
             name="dropped_out",
+        ),
+        migrations.RemoveField(
+            model_name="participation",
+            name="excluded_by_cleanup",
         ),
     ]
