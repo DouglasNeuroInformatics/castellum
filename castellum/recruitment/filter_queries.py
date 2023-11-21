@@ -50,6 +50,7 @@ def _reverse_exclusive_studies():
         ~models.Q(status__in=[
             *Participation.EXCLUDED_SET,
             Participation.PARTICIPATING_DROPPED_OUT,
+            Participation.COMPLETED,
         ]),
         study__is_exclusive=True,
     )
@@ -85,6 +86,7 @@ def study_exclusion(study):
             ~models.Q(status__in=[
                 *Participation.EXCLUDED_SET,
                 Participation.PARTICIPATING_DROPPED_OUT,
+                Participation.COMPLETED,
             ]),
             ~models.Q(study__pk=study.pk),
         )
@@ -102,6 +104,7 @@ def study_exclusion(study):
         q &= models.Q(pk__in=Participation._base_manager.filter(
             status__in=[
                 Participation.PARTICIPATING,
+                Participation.COMPLETED,
             ],
             study__in=study.included_studies.all(),
         ).values('subject'))
