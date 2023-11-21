@@ -40,9 +40,6 @@
                                 <div class="h4 d-inline">{{ participation.study }}</div>
                                 <span>{{ participation.study.contact_person }}</span>
                                 <span class="badge text-bg-secondary" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
-                                {% if participation.dropped_out %}
-                                    <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
-                                {% endif %}
                             </div>
                             <div class="table-list-item-actions">
                                 {% if participation.status in participation.INVITED_SET %}
@@ -184,11 +181,8 @@
                     <dt class="col-sm-6" data-fieldname="recruitment.Participation.study">{{ participation|verbose_name:'study' }}</dt>
                     <dd class="col-sm-6">{{ participation|display:'study' }}</dd>
 
-                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.status">{{ participation|verbose_name:'status' }}</dt>
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.status">{{ participation|display:'status' }}</dt>
                     <dd class="col-sm-6">{{ participation|display:'status' }}</dd>
-
-                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.dropped_out">{{ participation|verbose_name:'dropped_out' }}</dt>
-                    <dd class="col-sm-6">{{ participation|display:'dropped_out' }}</dd>
 
                     <dt class="col-sm-6" data-fieldname="recruitment.Participation.excluded_by_cleanup">
                         {{ participation|verbose_name:'excluded_by_cleanup' }}

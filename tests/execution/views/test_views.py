@@ -261,8 +261,7 @@ def test_participation_dropout_view_post(
     response = client.post(url, {'dropped_out': '1'})
     participation.refresh_from_db()
     assert response.status_code == 302
-    assert participation.status == Participation.PARTICIPATING
-    assert participation.dropped_out
+    assert participation.status == Participation.PARTICIPATING_DROPPED_OUT
 
 
 def test_participation_dropout_confirm_view_post(
@@ -282,8 +281,7 @@ def test_participation_dropout_confirm_view_post(
     response = client.post(url)
     participation.refresh_from_db()
     assert response.status_code == 302
-    assert participation.status == Participation.EXCLUDED
-    assert participation.dropped_out
+    assert participation.status == Participation.EXCLUDED_DROPPED_OUT
 
 
 @pytest.mark.smoketest

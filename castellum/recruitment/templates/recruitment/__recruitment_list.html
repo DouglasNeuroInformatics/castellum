@@ -4,7 +4,7 @@
     {% for participation, buckets, can_access, recently_contacted in participations %}
         <li class="table-list-item">
             {% if can_access %}
-                <div {% if participation.dropped_out or recently_contacted or participation.subject.blocked or participation.subject.deceased %}class="text-body-secondary"{% endif %}>
+                <div {% if participation.status == participation.PARTICIPATING_DROPPED_OUT or recently_contacted or participation.subject.blocked or participation.subject.deceased %}class="text-body-secondary"{% endif %}>
                     <div>
                         <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-hidden="true"></svg>
                         {% for desc, bucket in buckets %}
@@ -21,7 +21,7 @@
                         {% endif %}
                         {% if participation.excluded_by_cleanup %}
                             <span class="badge text-bg-secondary my-1" title="{{ participation.TOOLTIPS.excluded_by_cleanup }}">{{ participation|verbose_name:'excluded_by_cleanup' }}</span>
-                        {% elif participation.status in participation.RECRUITMENT_SET and participation.status != participation.NOT_CONTACTED %}
+                        {% elif participation.status not in participation.DEFAULT_SET %}
                             <span class="badge text-bg-secondary my-1" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
                         {% endif %}
                         {% if participation.status in participation.INVITED_SET and session_count > 0 %}
@@ -29,9 +29,6 @@
                                 {% icon 'calendar' label=_('Appointments') %}
                                 {{ participation.appointment_count }}/{{ session_count }}
                             </span>
-                        {% endif %}
-                        {% if participation.dropped_out %}
-                            <span class="badge text-bg-secondary my-1" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
                         {% endif %}
                         {% if recently_contacted %}
                             <span class="badge text-bg-dark my-1" title="{{ participation.TOOLTIPS.recently_contacted }}">{% translate 'contacted elsewhere' %}</span>

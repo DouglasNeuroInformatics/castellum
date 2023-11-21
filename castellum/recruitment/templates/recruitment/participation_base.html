@@ -14,9 +14,6 @@
         {% else %}
             <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.get_status_tooltip }}">{{ participation|display:'status' }}</span>
         {% endif %}
-        {% if participation.dropped_out %}
-            <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
-        {% endif %}
         {% if not subject.is_available %}
             <span class="list-icon text-bg-warning" title="{% blocktranslate with next_available=subject.not_available_until %}not available until {{ next_available }}{% endblocktranslate %}">{% icon 'phone-slash' %}</span>
         {% endif %}

@@ -42,9 +42,6 @@
                                     <div class="h4 d-inline">{{ participation.study }}</div>
                                     <span>{{ participation.study.contact_person }}</span>
                                     <span class="badge text-bg-secondary" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
-                                    {% if participation.dropped_out %}
-                                        <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
-                                    {% endif %}
                                     {% if participation.study.status == participation.study.FINISHED and not participation.study.domains.exists %}
                                         <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.pseudonyms_deleted }}">{% translate 'Pseudonyms deleted' %}</span>
                                     {% endif %}

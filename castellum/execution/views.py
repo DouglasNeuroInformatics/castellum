@@ -277,7 +277,10 @@ class ParticipationDropoutView(ParticipationDetailMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         participation = self.get_object()
-        participation.dropped_out = request.POST.get('dropped_out') == '1'
+        if request.POST.get('dropped_out') == '1':
+            participation.status = Participation.PARTICIPATING_DROPPED_OUT
+        else:
+            participation.status = Participation.PARTICIPATING
         participation.save()
         return redirect('execution:participation-list', participation.study.pk)
 
@@ -288,8 +291,7 @@ class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         participation = self.get_object()
-        participation.dropped_out = True
-        participation.status = Participation.EXCLUDED
+        participation.status = Participation.EXCLUDED_DROPPED_OUT
         participation.save()
         return redirect('execution:participation-list', participation.study.pk)
 
@@ -649,13 +651,13 @@ class ProgressView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['participating'] = self.study.participation_set.filter(
-            status__in=Participation.INVITED_SET, dropped_out=False
+        context['invited'] = self.study.participation_set.filter(
+            status__in=Participation.INVITED_SET
         ).count()
         context['dropped_out'] = self.study.participation_set.filter(
-            status__in=Participation.INVITED_SET, dropped_out=True
+            status=Participation.PARTICIPATING_DROPPED_OUT,
         ).count()
-        context['invited'] = context['participating'] + context['dropped_out']
+        context['participating'] = context['invited'] - context['dropped_out']
         context['total'] = max(self.study.min_subject_count, context['invited'])
         context['sessions'] = self.study.studysession_set.annotate(
             took_place=models.Count(

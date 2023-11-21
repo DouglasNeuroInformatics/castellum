@@ -141,21 +141,26 @@ class Participation(models.Model):
     PARTICIPATING = 3
     FOLLOWUP_APPOINTED = 4
     AWAITING_RESPONSE = 5
+    EXCLUDED_DROPPED_OUT = 6
+    PARTICIPATING_DROPPED_OUT = 7
     RECRUITMENT_SET = [
         NOT_CONTACTED,
         NOT_REACHED,
         FOLLOWUP_APPOINTED,
         AWAITING_RESPONSE,
     ]
-    INVITED_SET = [PARTICIPATING]
-    EXCLUDED_SET = [EXCLUDED]
+    INVITED_SET = [PARTICIPATING, PARTICIPATING_DROPPED_OUT]
+    EXCLUDED_SET = [EXCLUDED, EXCLUDED_DROPPED_OUT]
+    DEFAULT_SET = [NOT_CONTACTED, PARTICIPATING, EXCLUDED]
     STATUS_OPTIONS = [
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
         (FOLLOWUP_APPOINTED, _('follow-up scheduled')),
         (AWAITING_RESPONSE, _('awaiting response')),
         (PARTICIPATING, _('participating')),
+        (PARTICIPATING_DROPPED_OUT, _('participating (dropped out)')),
         (EXCLUDED, _('excluded')),
+        (EXCLUDED_DROPPED_OUT, _('excluded (dropped out)')),
     ]
 
     NOT_INTERESTED = 1
@@ -168,7 +173,6 @@ class Participation(models.Model):
     ]
 
     TOOLTIPS = {
-        'dropped_out': _('The subject did not complete the study.'),
         'excluded_by_cleanup': _(
             'The subject has been excluded through the bulk cleanup feature.'
         ),
@@ -193,6 +197,8 @@ class Participation(models.Model):
                 'The subject has been contacted (e.g. by email) but has not yet '
                 'responded.'
             ),
+            EXCLUDED_DROPPED_OUT: _('The subject did not complete the study.'),
+            PARTICIPATING_DROPPED_OUT: _('The subject did not complete the study.'),
         },
     }
 
@@ -215,7 +221,6 @@ class Participation(models.Model):
     exclusion_criteria_checked = models.BooleanField(
         _('Subject may be suitable'), default=False
     )
-    dropped_out = models.BooleanField(_('Dropped out'), default=False)
     excluded_by_cleanup = models.BooleanField(_('Excluded by cleanup'), default=False)
 
     attempts = models.IntegerField(_('Attempts'), default=0)

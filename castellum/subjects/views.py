@@ -257,10 +257,15 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         completed, total = self.object.get_completeness()
         context['attribute_completeness'] = f'{completed / (total or 1):.0%}'
 
-        dropout_count = self.object.participation_set.filter(dropped_out=True).count()
-        dropout_total = self.object.participation_set.filter(
-            models.Q(status__in=Participation.INVITED_SET) | models.Q(dropped_out=True)
-        ).count()
+        dropout_count = self.object.participation_set.filter(status__in=[
+            Participation.PARTICIPATING_DROPPED_OUT,
+            Participation.EXCLUDED_DROPPED_OUT,
+        ]).count()
+        dropout_total = self.object.participation_set.filter(status__in=[
+            *Participation.INVITED_SET,
+            Participation.PARTICIPATING_DROPPED_OUT,
+            Participation.EXCLUDED_DROPPED_OUT,
+        ]).count()
         if dropout_total == 0:
             context['dropout_rate'] = '—'
         else:
@@ -609,7 +614,6 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
         Participation._base_manager.update_or_create(
             subject=self.subject, study=self.study, defaults={
                 'status': Participation.PARTICIPATING,
-                'dropped_out': False,
             }
         )
 

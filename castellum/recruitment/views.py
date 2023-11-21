@@ -560,8 +560,6 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         )
 
         form.instance.batch = None
-        if form.instance.status in Participation.INVITED_SET:
-            form.instance.dropped_out = False
         response = super().form_valid(form)
         messages.success(self.request, _('Data has been saved.'))
         if self.object.status not in Participation.INVITED_SET and appointments_exist:
