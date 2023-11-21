@@ -100,7 +100,9 @@ def study_exclusion(study):
     # Included studies
     if study.included_studies.exists():
         q &= models.Q(pk__in=Participation._base_manager.filter(
-            status__in=Participation.INVITED_SET,
+            status__in=[
+                Participation.PARTICIPATING,
+            ],
             study__in=study.included_studies.all(),
         ).values('subject'))
 
