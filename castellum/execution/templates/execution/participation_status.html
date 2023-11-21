@@ -4,6 +4,12 @@
 {% block title %}{% translate "Status" context 'verb' %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if object.is_match != 'complete' %}
+        <div class="alert alert-danger" role="alert">
+            {% translate 'Subject is unsuitable or blocked in another study.' %}
+        </div>
+    {% endif %}
+
     <form method="post">
         {% csrf_token %}
         <p>{% translate 'Do you want to mark this subject as "dropped out"? This may apply if the subject can no longer take part in the study or repeatedly did not show up for appoitments.' %}</p>
@@ -15,7 +21,7 @@
                     {% translate 'The subject will continue participating in this study.' %}
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary d-block w-100" name="status" value="{{ object.PARTICIPATING }}">{% translate 'Participate' %}</button>
+                    <button class="btn btn-primary d-block w-100" name="status" value="{{ object.PARTICIPATING }}" {% if object.is_match != 'complete' %}disabled{% endif %}>{% translate 'Participate' %}</button>
                 </div>
             </div>
             <div class="card">
