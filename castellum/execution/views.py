@@ -273,7 +273,7 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
 
 class ParticipationStatusView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_status.html'
-    tab = 'overview'
+    tab = 'status'
 
     def post(self, request, *args, **kwargs):
         participation = self.get_object()
@@ -282,12 +282,12 @@ class ParticipationStatusView(ParticipationDetailMixin, DetailView):
         else:
             participation.status = Participation.PARTICIPATING
         participation.save()
-        return redirect('execution:participation-list', participation.study.pk)
+        return redirect(self.request.path)
 
 
 class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_dropout_confirm.html'
-    tab = 'overview'
+    tab = 'status'
 
     def post(self, request, *args, **kwargs):
         participation = self.get_object()
