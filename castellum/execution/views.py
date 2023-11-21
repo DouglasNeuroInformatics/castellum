@@ -277,10 +277,20 @@ class ParticipationStatusView(ParticipationDetailMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         participation = self.get_object()
-        if request.POST.get('dropped_out') == '1':
-            participation.status = Participation.PARTICIPATING_DROPPED_OUT
-        else:
+        try:
+            status = int(request.POST.get('status'), 10)
+        except (ValueError, TypeError):
+            status = None
+        if status == Participation.PARTICIPATING:
             participation.status = Participation.PARTICIPATING
+        elif status == Participation.PARTICIPATING_DROPPED_OUT:
+            participation.status = Participation.PARTICIPATING_DROPPED_OUT
+        elif status == Participation.EXCLUDED_DROPPED_OUT:
+            return redirect(
+                'execution:participation-dropout-confirm',
+                self.study.pk,
+                self.participation.pk,
+            )
         participation.save()
         return redirect(self.request.path)
 

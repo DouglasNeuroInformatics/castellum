@@ -258,7 +258,9 @@ def test_participation_status_view_post(
         subject=subject,
     )
     url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/status/'
-    response = client.post(url, {'dropped_out': '1'})
+    response = client.post(url, {
+        'status': str(Participation.PARTICIPATING_DROPPED_OUT)
+    })
     participation.refresh_from_db()
     assert response.status_code == 302
     assert participation.status == Participation.PARTICIPATING_DROPPED_OUT
