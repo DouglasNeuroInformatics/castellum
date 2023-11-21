@@ -12,34 +12,35 @@
 
     <form method="post">
         {% csrf_token %}
-        <p>{% translate 'Do you want to mark this subject as "dropped out"? This may apply if the subject can no longer take part in the study or repeatedly did not show up for appoitments.' %}</p>
-        <p>{% translate "In addition, you must decide what should happen with the data collected this far: If you plan to use the data, the participation must not be removed as this would also delete the pseudonyms. If you do not plan to use the data, delete all of it and then remove the participation." %}</p>
+        <p>{% translate 'This page allows you to change the status of the participantion, e.g. if the subject can no longer take part in the study or repeatedly did not show up for appoitments.' %}</p>
+        <p>{% translate 'Please select one of these options:' %}</p>
 
-        <div class="card-group mb-3">
-            <div class="card">
-                <div class="card-body">
+        <fieldset class="mb-3">
+            <div class="form-check mb-2">
+                <input class="form-check-input" id="status-participating" type="radio" name="status" value="{{ object.PARTICIPATING }}" {% if object.status == object.PARTICIPATING %}checked{% endif %} {% if object.is_match != 'complete' %}disabled{% endif %}>
+                <label class="form-check-label" for="status-participating">
+                    <strong>{% translate 'Participating' %}</strong>:
                     {% translate 'The subject will continue participating in this study.' %}
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary d-block w-100" name="status" value="{{ object.PARTICIPATING }}" {% if object.is_match != 'complete' %}disabled{% endif %}>{% translate 'Participate' %}</button>
-                </div>
+                </label>
             </div>
-            <div class="card">
-                <div class="card-body">
+            <div class="form-check mb-2">
+                <input class="form-check-input" id="status-dropped-out" type="radio" name="status" value="{{ object.PARTICIPATING_DROPPED_OUT }}" {% if object.status == object.PARTICIPATING_DROPPED_OUT %}checked{% endif %}>
+                <label class="form-check-label" for="status-dropped-out">
+                    <strong>{% translate 'Dropped out' %}</strong>:
                     {% translate 'The subject will no longer participate in this study, but the data collected so far will be used.' %}
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary d-block w-100" name="status" value="{{ object.PARTICIPATING_DROPPED_OUT }}">{% translate 'Drop out' %}</button>
-                </div>
+                </label>
             </div>
-            <div class="card">
-                <div class="card-body">
+            <div class="form-check mb-2">
+                <input class="form-check-input" id="status-excluded" type="radio" name="status" value="{{ object.EXCLUDED_DROPPED_OUT }}">
+                <label class="form-check-label" for="status-excluded">
+                    <strong>{% translate 'Excluded' %}</strong>:
                     {% translate 'The subject will no longer participate in this study, and the data collected so far will not be used.' %}
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-danger d-block w-100" name="status" value="{{ object.EXCLUDED_DROPPED_OUT }}">{% translate 'Drop out' %}</button>
-                </div>
+                </label>
             </div>
+        </fieldset>
+
+        <div class="d-print-none mb-3">
+            <button class="btn btn-primary">{% translate 'Save' %}</button>
         </div>
     </form>
 {% endblock %}
