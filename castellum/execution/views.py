@@ -288,6 +288,8 @@ class ParticipationStatusView(ParticipationDetailMixin, DetailView):
             participation.status = Participation.PARTICIPATING
         elif status == Participation.PARTICIPATING_DROPPED_OUT:
             participation.status = Participation.PARTICIPATING_DROPPED_OUT
+        elif status == Participation.COMPLETED:
+            participation.status = Participation.COMPLETED
         elif status == Participation.EXCLUDED_DROPPED_OUT:
             return redirect(
                 'execution:participation-dropout-confirm',

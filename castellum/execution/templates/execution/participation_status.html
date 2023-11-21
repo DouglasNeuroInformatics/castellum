@@ -24,6 +24,13 @@
                 </label>
             </div>
             <div class="form-check mb-2">
+                <input class="form-check-input" id="status-completed" type="radio" name="status" value="{{ object.COMPLETED }}" {% if object.status == object.COMPLETED %}checked{% endif %}>
+                <label class="form-check-label" for="status-completed">
+                    <strong>{% translate 'Completed' %}</strong>:
+                    {% translate 'The subject has completed all tests. If this study is exclusive, this option will free up this subject for other studies.' %}
+                </label>
+            </div>
+            <div class="form-check mb-2">
                 <input class="form-check-input" id="status-dropped-out" type="radio" name="status" value="{{ object.PARTICIPATING_DROPPED_OUT }}" {% if object.status == object.PARTICIPATING_DROPPED_OUT %}checked{% endif %}>
                 <label class="form-check-label" for="status-dropped-out">
                     <strong>{% translate 'Dropped out' %}</strong>:
