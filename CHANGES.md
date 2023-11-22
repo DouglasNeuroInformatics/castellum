@@ -1,3 +1,10 @@
+# 0.95.2 (2023-11-22)
+
+-   Allow to run Castellum without gdal
+-   Add missing migration dependency
+-   Add some missing margins
+
+
 # 0.95.1 (2023-10-11)
 
 -   Fix support for Python 3.8
