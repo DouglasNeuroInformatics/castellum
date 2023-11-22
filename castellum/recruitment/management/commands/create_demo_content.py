@@ -22,7 +22,6 @@ import functools
 
 import phonenumbers
 from django.conf import settings
-from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 from django.core.management.base import CommandError
 from django.db import IntegrityError
@@ -202,6 +201,8 @@ def fake_attributes():
 
 
 def generate_geolocations(contacts):
+    from django.contrib.gis.geos import Point
+
     from castellum.geofilters.models import Geolocation
 
     Geolocation.objects.bulk_create(Geolocation(
