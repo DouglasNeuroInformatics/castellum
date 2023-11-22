@@ -31,7 +31,6 @@ which can be passed to ``Subjects.objects.filter()``.
 import json
 
 from django.conf import settings
-from django.contrib.gis.geos import GEOSGeometry
 from django.db import models
 from django.utils import timezone
 
@@ -168,6 +167,8 @@ def uuid_filter(qs, key='subject_uuid'):
 
 
 def geofilter(study):
+    from django.contrib.gis.geos import GEOSGeometry
+
     from castellum.geofilters.models import Geolocation
 
     data = json.load(study.geo_filter)
