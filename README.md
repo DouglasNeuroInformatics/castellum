@@ -31,6 +31,12 @@ dependencies and start a test server. You can then log in with username
 For more detailled instructions, see the [developer
 documentation](https://git.mpib-berlin.mpg.de/castellum/castellum/-/tree/main/docs).
 
+## Release Schedule
+
+-   Minor releases are published roughly every three months
+-   Beta releases might be published to offer previews on new features
+-   Bug fix releases are published on demand
+
 ## Links
 
 -   Contact: castellum@mpib-berlin.mpg.de
