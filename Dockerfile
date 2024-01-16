@@ -37,7 +37,7 @@ RUN mkdir castellum
 COPY setup.cfg setup.py package.json uwsgi.ini LICENSE COPYRIGHT ./
 COPY castellum/__init__.py castellum/
 
-RUN pip3 install -e .[ldap,axes,model-stats]
+RUN pip3 install -e .[ldap,axes,model-stats,storage-timestamps]
 
 COPY castellum/ castellum
 
