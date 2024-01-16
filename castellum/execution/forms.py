@@ -1,4 +1,4 @@
-# (c) 2018-2023 MPIB <https://www.mpib-berlin.mpg.de/>,
+# (c) 2018-2024 MPIB <https://www.mpib-berlin.mpg.de/>,
 #     2018-2019 MPI-CBS <https://www.cbs.mpg.de/>,
 #     2018-2019 MPIP <http://www.psych.mpg.de/>
 #
