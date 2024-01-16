@@ -128,3 +128,12 @@ NOMINATIM = {
 SCHEDULER_URL = os.getenv('CASTELLUM_SCHEDULER_URL', 'http://scheduler:8000')
 SCHEDULER_TOKEN = 'CHANGEME'
 
+# See https://git.mpib-berlin.mpg.de/castellum/django-storage-timestamps/
+INSTALLED_APPS.append('storage_timestamps')
+STORAGES = {
+    **STORAGES,
+    'default': {
+        'BACKEND': 'storage_timestamps.storage.TimestampedFileSystemStorage',
+    },
+}
+TIMESTAMP_AUTHORITY = 'https://freetsa.org/tsr'
