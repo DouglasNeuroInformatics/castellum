@@ -34,8 +34,13 @@ PROTECTED_MEDIA_SERVER = 'uwsgi'
 # The example deployment does not contain a mail server, so use dummy instead
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# People who get code error notifications in production
+ADMINS = [
+    ('admin1', 'admin1@example.com'),
+    ('admin2', 'admin2@example.com'),
+]
+
 # See https://docs.djangoproject.com/en/stable/topics/logging/
-ADMINS = [('admin', 'admin@example.com')]
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -106,6 +111,10 @@ AUTHENTICATION_BACKENDS.insert(0, 'axes.backends.AxesBackend')
 MIDDLEWARE.append('axes.middleware.AxesMiddleware')
 AXES_IPWARE_META_PRECEDENCE_ORDER = ['HTTP_X_REAL_IP']
 
+CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = 3
+CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']
+CASTELLUM_REPORT_NOTIFICATION_TO = ['report@example.com']
+
 # Setup geofilters
 INSTALLED_APPS.append('django.contrib.gis')
 INSTALLED_APPS.append('castellum.geofilters')
@@ -115,9 +124,7 @@ NOMINATIM = {
     'scheme': 'http',
 }
 
+# See https://git.mpib-berlin.mpg.de/castellum/castellum_scheduler/
 SCHEDULER_URL = os.getenv('CASTELLUM_SCHEDULER_URL', 'http://scheduler:8000')
 SCHEDULER_TOKEN = 'CHANGEME'
 
-CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = 3
-CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']
-CASTELLUM_REPORT_NOTIFICATION_TO = ['report@example.com']

@@ -10,6 +10,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET')
 # Define hosts than can connect
 ALLOWED_HOSTS = ['.example.com', '192.168.10.*']
 
+# Only postgres/postgis are officially supported for Castellum.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -43,6 +44,7 @@ ADMINS = [
     ('admin2', 'admin2@example.com'),
 ]
 
+# See https://docs.djangoproject.com/en/stable/topics/logging/
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
