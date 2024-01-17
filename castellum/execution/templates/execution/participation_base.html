@@ -53,6 +53,10 @@
                     </a>
                 </li>
             {% endif %}
+
+            <li class="nav-item">
+                <a href="{% url 'execution:participation-status' study.pk participation.pk %}" class="nav-link {% if view.tab == 'status' %}active{% endif %}">{% translate 'Status' %}</a>
+            </li>
         </ul>
     </nav>
 {% endblock %}

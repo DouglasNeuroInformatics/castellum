@@ -58,8 +58,13 @@ def test_to_q_exclusive_study(subject):
     assert has_match(is_exclusive=True)
 
 
-def test_to_q_exclusive_study_and_finished(subject):
+def test_to_q_exclusive_study_and_study_finished(subject):
     create_participation(subject, is_finished=True)
+    assert has_match(is_exclusive=True)
+
+
+def test_to_q_exclusive_study_and_participation_completed(subject):
+    create_participation(subject, status=Participation.COMPLETED)
     assert has_match(is_exclusive=True)
 
 

@@ -12,7 +12,7 @@
             <span class="form-check-label">{% translate "I have made sure that all external data related to this study participation has been destroyed" %}</span>
         </label>
         <div class="d-print-none mb-3">
-            <a href="{% url 'execution:participation-detail' study.pk object.pk %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
+            <a href="{% url 'execution:participation-status' study.pk object.pk %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
             <button class="btn btn-danger" disabled>{% translate 'Confirm' %}</button>
         </div>
     </form>

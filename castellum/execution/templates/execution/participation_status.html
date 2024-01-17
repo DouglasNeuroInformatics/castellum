@@ -1,0 +1,53 @@
+{% extends "execution/participation_base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Status" context 'verb' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    {% if object.is_match != 'complete' %}
+        <div class="alert alert-danger" role="alert">
+            {% translate 'Subject is unsuitable or blocked in another study.' %}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <p>{% translate 'This page allows you to change the status of the participantion, e.g. if the subject can no longer take part in the study or repeatedly did not show up for appoitments.' %}</p>
+        <p>{% translate 'Please select one of these options:' %}</p>
+
+        <fieldset class="mb-3">
+            <div class="form-check mb-2">
+                <input class="form-check-input" id="status-participating" type="radio" name="status" value="{{ object.PARTICIPATING }}" {% if object.status == object.PARTICIPATING %}checked{% endif %} {% if object.is_match != 'complete' %}disabled{% endif %}>
+                <label class="form-check-label" for="status-participating">
+                    <strong>{% translate 'Participating' %}</strong>:
+                    {% translate 'The subject will continue participating in this study.' %}
+                </label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" id="status-completed" type="radio" name="status" value="{{ object.COMPLETED }}" {% if object.status == object.COMPLETED %}checked{% endif %}>
+                <label class="form-check-label" for="status-completed">
+                    <strong>{% translate 'Completed' %}</strong>:
+                    {% translate 'The subject has completed all tests. If this study is exclusive, this option will free up this subject for other studies.' %}
+                </label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" id="status-dropped-out" type="radio" name="status" value="{{ object.PARTICIPATING_DROPPED_OUT }}" {% if object.status == object.PARTICIPATING_DROPPED_OUT %}checked{% endif %}>
+                <label class="form-check-label" for="status-dropped-out">
+                    <strong>{% translate 'Dropped out' %}</strong>:
+                    {% translate 'The subject will no longer participate in this study, but the data collected so far will be used.' %}
+                </label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" id="status-excluded" type="radio" name="status" value="{{ object.EXCLUDED_DROPPED_OUT }}">
+                <label class="form-check-label" for="status-excluded">
+                    <strong>{% translate 'Excluded' %}</strong>:
+                    {% translate 'The subject will no longer participate in this study, and the data collected so far will not be used.' %}
+                </label>
+            </div>
+        </fieldset>
+
+        <div class="d-print-none mb-3">
+            <button class="btn btn-primary">{% translate 'Save' %}</button>
+        </div>
+    </form>
+{% endblock %}

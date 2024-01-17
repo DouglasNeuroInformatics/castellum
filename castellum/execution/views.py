@@ -101,6 +101,8 @@ class ParticipationListView(
         sort = self.request.GET.get('sort')
         if sort == 'appointment_count':
             qs = qs.order_by('appointment_count')
+        elif sort == 'status':
+            qs = qs.order_by('status')
         elif sort == 'privacy-level':
             qs = qs.order_by('subject__privacy_level')
         elif sort and sort.startswith('tag-'):
@@ -124,7 +126,11 @@ class ParticipationListView(
         context = super().get_context_data(**kwargs)
         context['session_count'] = self.study.studysession_set.count()
 
-        sort_options = [('name', _('Name')), ('privacy-level', _('Privacy level'))]
+        sort_options = [
+            ('name', _('Name')),
+            ('status', _('Status')),
+            ('privacy-level', _('Privacy level')),
+        ]
         if context['session_count'] > 0:
             sort_options.append(('appointment_count', _('Appointments')))
         for tag in self.study.executiontag_set.exclude(participation=None):
@@ -271,23 +277,38 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
         return HttpResponse(pseudonym)
 
 
-class ParticipationDropoutView(ParticipationDetailMixin, DetailView):
-    template_name = 'execution/participation_dropout.html'
-    tab = 'overview'
+class ParticipationStatusView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_status.html'
+    tab = 'status'
 
     def post(self, request, *args, **kwargs):
         participation = self.get_object()
-        if request.POST.get('dropped_out') == '1':
-            participation.status = Participation.PARTICIPATING_DROPPED_OUT
-        else:
+        try:
+            status = int(request.POST.get('status'), 10)
+        except (ValueError, TypeError):
+            status = None
+        if (
+            status == Participation.PARTICIPATING
+            and participation.is_match == 'complete'
+        ):
             participation.status = Participation.PARTICIPATING
+        elif status == Participation.PARTICIPATING_DROPPED_OUT:
+            participation.status = Participation.PARTICIPATING_DROPPED_OUT
+        elif status == Participation.COMPLETED:
+            participation.status = Participation.COMPLETED
+        elif status == Participation.EXCLUDED_DROPPED_OUT:
+            return redirect(
+                'execution:participation-dropout-confirm',
+                self.study.pk,
+                self.participation.pk,
+            )
         participation.save()
-        return redirect('execution:participation-list', participation.study.pk)
+        return redirect(self.request.path)
 
 
 class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_dropout_confirm.html'
-    tab = 'overview'
+    tab = 'status'
 
     def post(self, request, *args, **kwargs):
         participation = self.get_object()
@@ -651,14 +672,22 @@ class ProgressView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['invited'] = self.study.participation_set.filter(
-            status__in=Participation.INVITED_SET
+        context['completed'] = self.study.participation_set.filter(
+            status=Participation.COMPLETED,
+        ).count()
+        context['participating'] = self.study.participation_set.filter(
+            status=Participation.PARTICIPATING
         ).count()
         context['dropped_out'] = self.study.participation_set.filter(
             status=Participation.PARTICIPATING_DROPPED_OUT,
         ).count()
-        context['participating'] = context['invited'] - context['dropped_out']
-        context['total'] = max(self.study.min_subject_count, context['invited'])
+        context['participating_acc'] = (
+            context['completed'] + context['participating']
+        )
+        context['dropped_out_acc'] = (
+            context['completed'] + context['participating'] + context['dropped_out']
+        )
+        context['total'] = max(self.study.min_subject_count, context['dropped_out_acc'])
         context['sessions'] = self.study.studysession_set.annotate(
             took_place=models.Count(
                 'appointment',

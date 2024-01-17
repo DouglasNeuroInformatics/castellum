@@ -39,6 +39,7 @@ class Migration(migrations.Migration):
                     (2, "excluded"),
                     (6, "excluded (dropped out)"),
                     (8, "excluded by cleanup"),
+                    (9, "completed"),
                 ],
                 default=0,
                 verbose_name="Status of participation",

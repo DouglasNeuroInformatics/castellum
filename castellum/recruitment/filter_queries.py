@@ -46,7 +46,11 @@ from .models import Participation
 def _reverse_exclusive_studies():
     return models.Q(
         ~models.Q(study__status=Study.FINISHED),
-        ~models.Q(status__in=Participation.EXCLUDED_SET),
+        ~models.Q(status__in=[
+            *Participation.EXCLUDED_SET,
+            Participation.PARTICIPATING_DROPPED_OUT,
+            Participation.COMPLETED,
+        ]),
         study__is_exclusive=True,
     )
 
@@ -57,14 +61,20 @@ def study_exclusion(study):
     # Excluded studies
     pr_q = models.Q(
         study__in=study.excluded_studies.all(),
-        status__in=Participation.INVITED_SET,
+        status__in=[
+            *Participation.INVITED_SET,
+            Participation.EXCLUDED_DROPPED_OUT,
+        ],
     )
 
     # Reverse excluded studies:
     # Exclude studies which exclude this study.
     pr_q |= models.Q(
         study__excluded_studies=study,
-        status__in=Participation.INVITED_SET,
+        status__in=[
+            *Participation.INVITED_SET,
+            Participation.EXCLUDED_DROPPED_OUT,
+        ],
     )
 
     if study.is_exclusive:
@@ -72,7 +82,11 @@ def study_exclusion(study):
         # Exclude all other studies (including exclusive studies).
         pr_q |= models.Q(
             ~models.Q(study__status=Study.FINISHED),
-            ~models.Q(status__in=Participation.EXCLUDED_SET),
+            ~models.Q(status__in=[
+                *Participation.EXCLUDED_SET,
+                Participation.PARTICIPATING_DROPPED_OUT,
+                Participation.COMPLETED,
+            ]),
             ~models.Q(study__pk=study.pk),
         )
     else:
@@ -87,7 +101,10 @@ def study_exclusion(study):
     # Included studies
     if study.included_studies.exists():
         q &= models.Q(pk__in=Participation._base_manager.filter(
-            status__in=Participation.INVITED_SET,
+            status__in=[
+                Participation.PARTICIPATING,
+                Participation.COMPLETED,
+            ],
             study__in=study.included_studies.all(),
         ).values('subject'))
 

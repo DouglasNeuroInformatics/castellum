@@ -144,13 +144,14 @@ class Participation(models.Model):
     EXCLUDED_DROPPED_OUT = 6
     PARTICIPATING_DROPPED_OUT = 7
     EXCLUDED_BY_CLEANUP = 8
+    COMPLETED = 9
     RECRUITMENT_SET = [
         NOT_CONTACTED,
         NOT_REACHED,
         FOLLOWUP_APPOINTED,
         AWAITING_RESPONSE,
     ]
-    INVITED_SET = [PARTICIPATING, PARTICIPATING_DROPPED_OUT]
+    INVITED_SET = [PARTICIPATING, PARTICIPATING_DROPPED_OUT, COMPLETED]
     EXCLUDED_SET = [EXCLUDED, EXCLUDED_DROPPED_OUT, EXCLUDED_BY_CLEANUP]
     DEFAULT_SET = [NOT_CONTACTED, PARTICIPATING, EXCLUDED]
     STATUS_OPTIONS = [
@@ -163,6 +164,7 @@ class Participation(models.Model):
         (EXCLUDED, _('excluded')),
         (EXCLUDED_DROPPED_OUT, _('excluded (dropped out)')),
         (EXCLUDED_BY_CLEANUP, _('excluded by cleanup')),
+        (COMPLETED, _('completed')),
     ]
 
     NOT_INTERESTED = 1
@@ -201,6 +203,7 @@ class Participation(models.Model):
             EXCLUDED_BY_CLEANUP: _(
                 'The subject has been excluded through the bulk cleanup feature.'
             ),
+            COMPLETED: _('The subject has completed all tests.'),
         },
     }
 
