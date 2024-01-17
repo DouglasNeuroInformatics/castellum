@@ -38,9 +38,9 @@ from .views import MailRecruitmentCleanupView
 from .views import MailRecruitmentRemindView
 from .views import MailRecruitmentView
 from .views import RecruitmentCleanupView
+from .views import RecruitmentViewExcluded
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
-from .views import RecruitmentViewUnsuitable
 from .views import ReportView
 
 app_name = 'recruitment'
@@ -58,9 +58,9 @@ urlpatterns = [
         name='recruitment-invited',
     ),
     path(
-        '<int:study_pk>/unsuitable/',
-        RecruitmentViewUnsuitable.as_view(),
-        name='recruitment-unsuitable',
+        '<int:study_pk>/excluded/',
+        RecruitmentViewExcluded.as_view(),
+        name='recruitment-excluded',
     ),
     path('<int:study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
     path(

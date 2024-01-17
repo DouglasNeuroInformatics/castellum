@@ -131,7 +131,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
     def _get_statistics(self):
         participations = Participation.objects.filter(
-            study=self.study, status=Participation.INVITED
+            study=self.study, status__in=Participation.INVITED_SET
         ).prefetch_related('subject')
 
         desc1 = get_attribute_by_statistics_rank('primary')
@@ -212,7 +212,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             )
 
             recently_contacted = (
-                participation.status_open
+                participation.status in Participation.RECRUITMENT_SET
                 and participation.last_contacted_elsewhere
                 and (
                     participation.last_contacted_elsewhere.date()
@@ -241,9 +241,11 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         queryset = Participation.objects.filter(study=self.study)
         context['all_count'] = queryset.count()
-        context['invited_count'] = queryset.filter(status=Participation.INVITED).count()
-        context['unsuitable_count'] = (
-            queryset.filter(status=Participation.UNSUITABLE).count()
+        context['invited_count'] = (
+            queryset.filter(status__in=Participation.INVITED_SET).count()
+        )
+        context['excluded_count'] = (
+            queryset.filter(status__in=Participation.EXCLUDED_SET).count()
         )
         context['open_count'] = queryset.filter(status__in=[
             Participation.NOT_CONTACTED,
@@ -258,22 +260,17 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
 
 class RecruitmentViewInvited(RecruitmentView):
-    shown_status = [Participation.INVITED]
+    shown_status = Participation.INVITED_SET
     subtab = 'invited'
 
 
-class RecruitmentViewUnsuitable(RecruitmentView):
-    shown_status = [Participation.UNSUITABLE]
-    subtab = 'unsuitable'
+class RecruitmentViewExcluded(RecruitmentView):
+    shown_status = Participation.EXCLUDED_SET
+    subtab = 'excluded'
 
 
 class RecruitmentViewOpen(RecruitmentView):
-    shown_status = [
-        Participation.NOT_CONTACTED,
-        Participation.NOT_REACHED,
-        Participation.FOLLOWUP_APPOINTED,
-        Participation.AWAITING_RESPONSE,
-    ]
+    shown_status = Participation.RECRUITMENT_SET
     subtab = 'open'
 
     def create_participations(self, batch_size, is_urgent=False):
@@ -521,9 +518,8 @@ class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, DetailView
         self.object.participation_set.exclude(
             status=Participation.FOLLOWUP_APPOINTED
         ).update(
-            status=Participation.UNSUITABLE,
+            status=Participation.EXCLUDED_BY_CLEANUP,
             batch=None,
-            excluded_by_cleanup=True,
         )
         return redirect('recruitment:mail', self.study.pk)
 
@@ -539,7 +535,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     def get_initial(self):
         initial = super().get_initial()
         if not self.object.is_match:
-            initial['status'] = Participation.UNSUITABLE
+            initial['status'] = Participation.EXCLUDED
             initial['followup_date'] = None
             initial['followup_time'] = None
         return initial
@@ -563,11 +559,9 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         )
 
         form.instance.batch = None
-        if form.instance.status == Participation.INVITED:
-            form.instance.dropped_out = False
         response = super().form_valid(form)
         messages.success(self.request, _('Data has been saved.'))
-        if self.object.status != Participation.INVITED and appointments_exist:
+        if self.object.status not in Participation.INVITED_SET and appointments_exist:
             messages.warning(self.request, _(
                 'Appointments for this participation have been deleted.'
             ))
@@ -583,7 +577,7 @@ class ExcludeView(StudyMixin, PermissionRequiredMixin, TemplateView):
 
     def post(self, request, **kwargs):
         obj = get_object_or_404(Participation, study=self.study, pk=kwargs['pk'])
-        obj.status = Participation.UNSUITABLE
+        obj.status = Participation.EXCLUDED
         obj.save()
         return redirect('recruitment:recruitment-open', self.study.pk)
 
@@ -602,11 +596,11 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
     tab = 'recruitment'
 
     def get_querysets(self):
-        qs = self.study.participation_set.exclude(status__in=[
-            Participation.INVITED,
-            Participation.UNSUITABLE,
-            Participation.FOLLOWUP_APPOINTED,
-        ])
+        qs = (
+            self.study.participation_set
+            .filter(status__in=Participation.RECRUITMENT_SET)
+            .exclude(status=Participation.FOLLOWUP_APPOINTED)
+        )
         return {
             'all': qs,
             'mismatch': qs.exclude(subject__in=Subject.objects.filter(
@@ -633,7 +627,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
 
         # needs to be update() in order not to set Subject.updated_at
         querysets[action].update(
-            status=Participation.UNSUITABLE, batch=None, excluded_by_cleanup=True
+            status=Participation.EXCLUDED_BY_CLEANUP, batch=None
         )
 
         return redirect('recruitment:recruitment-open', self.study.pk)

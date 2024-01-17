@@ -111,7 +111,7 @@ def test_post_urgent(client, member, study_in_execution_status):
     with freeze_time('1970-01-01'):
         baker.make(
             Participation,
-            status=Participation.INVITED,
+            status=Participation.PARTICIPATING,
             study=other_study,
             subject=subject1,
         )

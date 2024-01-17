@@ -11,8 +11,10 @@ from castellum.utils import scheduler
 def test_scheduler_delete_token_on_uninvite(delete, settings, study):
     settings.SCHEDULER_URL = 'http://example.com'
     baker.make(StudySession, study=study, schedule_id='1dd7sdtsg')
-    participation = baker.make(Participation, study=study, status=Participation.INVITED)
-    participation.status = Participation.UNSUITABLE
+    participation = baker.make(
+        Participation, study=study, status=Participation.PARTICIPATING
+    )
+    participation.status = Participation.EXCLUDED
     participation.save()
     assert delete.called
 

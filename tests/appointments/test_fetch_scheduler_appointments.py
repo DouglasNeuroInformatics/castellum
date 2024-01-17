@@ -10,7 +10,7 @@ from castellum.studies.models import StudySession
 
 
 def test_fetch_scheduler_appointments(participation):
-    participation.status = participation.INVITED
+    participation.status = participation.PARTICIPATING
     participation.save()
 
     session = baker.make(

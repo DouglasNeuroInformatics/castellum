@@ -303,7 +303,7 @@ class Study(models.Model):
         key = 'subject__privacy_level'
         result = (
             self.participation_set
-            .filter(status=Participation.INVITED)
+            .filter(status__in=Participation.INVITED_SET)
             .aggregate(models.Max(key))
         )
         return result[f'{key}__max'] or 0
@@ -347,7 +347,9 @@ class Study(models.Model):
     @cached_property
     def invited_count(self):
         from castellum.recruitment.models import Participation
-        return self.participation_set.filter(status=Participation.INVITED).count()
+        return self.participation_set.filter(
+            status__in=Participation.INVITED_SET
+        ).count()
 
     @property
     def is_started(self):

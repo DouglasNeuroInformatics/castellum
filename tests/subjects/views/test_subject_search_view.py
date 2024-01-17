@@ -59,7 +59,7 @@ def test_only_members(request, client, user_fixture, study_in_execution_status):
         Participation,
         study=study_in_execution_status,
         subject=contact.subject,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
 
     client.force_login(user)
@@ -79,27 +79,27 @@ def test_matches(client, member, study_in_execution_status, study):
         Participation,
         study=study_in_execution_status,
         subject=contact1.subject,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
     # no subitem because of study status
     baker.make(
         Participation,
         study=study,
         subject=contact2.subject,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
     # no execution button because of particiaption status
     baker.make(
         Participation,
         study=study_in_execution_status,
         subject=contact3.subject,
-        status=Participation.UNSUITABLE,
+        status=Participation.EXCLUDED,
     )
     baker.make(
         Participation,
         study=study_in_execution_status,
         subject=contact4.subject,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
 
     client.force_login(member)

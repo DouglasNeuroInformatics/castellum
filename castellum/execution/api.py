@@ -74,7 +74,7 @@ class APIValidateView(BaseAPIView):
             Participation,
             subject=subject,
             study=self.study,
-            status=Participation.INVITED,
+            status__in=Participation.INVITED_SET,
         )
 
         return JsonResponse({'pseudonym': pseudonym})
@@ -86,7 +86,7 @@ class APIPseudonymsView(BaseAPIView):
 
         pseudonyms = [get_pseudonym(p.subject, domain.key) for p in (
             self.study.participation_set
-            .filter(status=Participation.INVITED)
+            .filter(status__in=Participation.INVITED_SET)
             .select_related('subject')
         )]
 
@@ -110,7 +110,7 @@ class APIResolveView(BaseAPIView):
             Participation,
             subject=subject,
             study=self.study,
-            status=Participation.INVITED,
+            status__in=Participation.INVITED_SET,
         )
         if not self.request.user.has_privacy_level(subject.privacy_level):
             raise PermissionDenied
@@ -146,7 +146,7 @@ class APIAttributesView(BaseAPIView):
             Participation,
             subject=subject,
             study=self.study,
-            status=Participation.INVITED,
+            status__in=Participation.INVITED_SET,
         )
         if not self.request.user.has_privacy_level(subject.privacy_level):
             raise PermissionDenied

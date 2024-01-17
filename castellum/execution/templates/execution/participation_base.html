@@ -12,8 +12,8 @@
         {% for tag in participation.execution_tags.all %}
             <span class="badge text-bg-{{ tag.color }}">{{ tag }}</span>
         {% endfor %}
-        {% if participation.dropped_out %}
-            <span class="badge text-bg-secondary" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
+        {% if participation.status not in participation.DEFAULT_SET %}
+            <span class="badge text-bg-secondary" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
         {% endif %}
         {% if not subject.is_available %}
             <span class="list-icon text-bg-warning" title="{% blocktranslate with next_available=subject.not_available_until %}not available until {{ next_available }}{% endblocktranslate %}">{% icon 'phone-slash' %}</span>

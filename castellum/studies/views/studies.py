@@ -206,8 +206,8 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
             Subject.objects
             .filter(filter_queries.study(self.object), filter_queries.has_consent())
             .exclude(
-                pk__in=self.object.participation_set.filter(
-                    status__in=[Participation.INVITED, Participation.UNSUITABLE]
+                pk__in=self.object.participation_set.exclude(
+                    status__in=Participation.RECRUITMENT_SET
                 ).values('subject')
             )
             .count()
@@ -411,7 +411,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             self.study.restore_previous_status()
         else:
             self.study.set_status(self.study.FINISHED)
-            self.study.participation_set.exclude(status=Participation.INVITED).delete()
+            self.study.participation_set.exclude(status__in=Participation.INVITED_SET).delete()
         return redirect(
             get_next_url(request, reverse('studies:detail', args=[self.study.pk]))
         )

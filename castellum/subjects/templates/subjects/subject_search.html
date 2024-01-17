@@ -110,9 +110,6 @@
                                                     <span class="h5 d-inline-block my-1 me-2">{{ participation.study }}</span>
                                                     <span class="d-inline-block my-1 me-2">{{ participation.study.contact_person }}</span>
                                                     <span class="badge text-bg-secondary my-1" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
-                                                    {% if participation.dropped_out %}
-                                                        <span class="badge text-bg-secondary my-1" title="{{ participation.STATUS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
-                                                    {% endif %}
                                                 </div>
                                                 <div class="table-list-item-actions">
                                                     {% if can_recruit %}

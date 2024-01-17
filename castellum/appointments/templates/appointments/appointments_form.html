@@ -2,7 +2,7 @@
 {% load i18n static django_bootstrap5 utils %}
 
 {% block content %}
-    {% if participation.status != participation.INVITED %}
+    {% if participation.status not in participation.INVITED_SET %}
         <p class="alert alert-warning">{% translate 'Appointments only available for participating subjects' %}</p>
     {% endif %}
 

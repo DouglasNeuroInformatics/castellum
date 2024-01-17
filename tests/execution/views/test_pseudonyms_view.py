@@ -13,7 +13,9 @@ from castellum.recruitment.models import Participation
     'data_protection_coordinator',
 ])
 def test_200(request, client, study, user_fixture):
-    participation = baker.make(Participation, study=study, status=Participation.INVITED)
+    participation = baker.make(
+        Participation, study=study, status=Participation.PARTICIPATING
+    )
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     response = client.get(f'/execution/{study.pk}/{participation.pk}/pseudonyms/')
@@ -21,7 +23,9 @@ def test_200(request, client, study, user_fixture):
 
 
 def test_lists_all_pseudonyms(client, conductor, study):
-    participation = baker.make(Participation, study=study, status=Participation.INVITED)
+    participation = baker.make(
+        Participation, study=study, status=Participation.PARTICIPATING
+    )
     study.domains.create()
     client.force_login(conductor)
     response = client.get(f'/execution/{study.pk}/{participation.pk}/pseudonyms/')
@@ -31,7 +35,7 @@ def test_lists_all_pseudonyms(client, conductor, study):
 
 def test_no_name(client, conductor, study, subject):
     participation = baker.make(
-        Participation, subject=subject, study=study, status=Participation.INVITED
+        Participation, subject=subject, study=study, status=Participation.PARTICIPATING
     )
     study.domains.create()
     client.force_login(conductor)

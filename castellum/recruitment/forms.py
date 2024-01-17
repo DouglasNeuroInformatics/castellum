@@ -182,8 +182,8 @@ class ContactForm(forms.ModelForm):
                     Participation.NOT_REACHED,
                     Participation.AWAITING_RESPONSE,
                     Participation.FOLLOWUP_APPOINTED,
-                    Participation.INVITED,
-                    Participation.UNSUITABLE,
+                    Participation.PARTICIPATING,
+                    Participation.EXCLUDED,
                 ]
             ],
             coerce=int,
@@ -191,10 +191,12 @@ class ContactForm(forms.ModelForm):
         if not self.instance.is_match:
             self.fields['status'].widget.disabled_choices = [
                 choice for choice, label in Participation.STATUS_OPTIONS
-                if choice != Participation.UNSUITABLE
+                if choice != Participation.EXCLUDED
             ]
         elif self.instance.is_match == 'incomplete':
-            self.fields['status'].widget.disabled_choices = [Participation.INVITED]
+            self.fields['status'].widget.disabled_choices = [
+                Participation.PARTICIPATING
+            ]
 
         recruiter_pks = [recruiter.pk for recruiter in self.instance.study.recruiters]
         self.fields['assigned_recruiter'].queryset = (

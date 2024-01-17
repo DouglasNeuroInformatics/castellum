@@ -37,7 +37,7 @@ def delete_appointments_on_save(sender, instance, using, **kwargs):
 
     from .models import Appointment
 
-    if sender is Participation and instance.status != Participation.INVITED:
+    if sender is Participation and instance.status not in Participation.INVITED_SET:
         # PERF: ignore if instance has not been saved to the database yet
         if not instance.pk:
             return

@@ -104,7 +104,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 can_access_study = user.has_perm(
                     'studies.access_study', obj=participation.study
                 )
-                invited = participation.status == Participation.INVITED
+                invited = participation.status in Participation.INVITED_SET
                 can_recruit = (
                     has_privacy_level
                     and can_access_study
@@ -135,7 +135,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         context['count_updated'] = Contact.objects.filter(updated_at__gte=start).count()
 
         context['count_participated'] = Subject.objects.filter(
-            participation__status=Participation.INVITED
+            participation__status__in=Participation.INVITED_SET
         ).distinct().count()
 
         completeness, total = filter_queries.completeness_expr()
@@ -257,10 +257,15 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         completed, total = self.object.get_completeness()
         context['attribute_completeness'] = f'{completed / (total or 1):.0%}'
 
-        dropout_count = self.object.participation_set.filter(dropped_out=True).count()
-        dropout_total = self.object.participation_set.filter(
-            models.Q(status=Participation.INVITED) | models.Q(dropped_out=True)
-        ).count()
+        dropout_count = self.object.participation_set.filter(status__in=[
+            Participation.PARTICIPATING_DROPPED_OUT,
+            Participation.EXCLUDED_DROPPED_OUT,
+        ]).count()
+        dropout_total = self.object.participation_set.filter(status__in=[
+            *Participation.INVITED_SET,
+            Participation.PARTICIPATING_DROPPED_OUT,
+            Participation.EXCLUDED_DROPPED_OUT,
+        ]).count()
         if dropout_total == 0:
             context['dropout_rate'] = '—'
         else:
@@ -495,7 +500,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self):
         return (
             self.subject.participation_set
-            .filter(status=Participation.INVITED)
+            .filter(status__in=Participation.INVITED_SET)
             .order_by('-updated_at')
         )
 
@@ -517,7 +522,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
             .filter(status=Study.EXECUTION)
             .exclude(pk__in=Study.objects.filter(
                 participation__subject=self.subject,
-                participation__status=Participation.INVITED,
+                participation__status__in=Participation.INVITED_SET,
             ))
         )
 
@@ -608,8 +613,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     def create_participation(self):
         Participation._base_manager.update_or_create(
             subject=self.subject, study=self.study, defaults={
-                'status': Participation.INVITED,
-                'dropped_out': False,
+                'status': Participation.PARTICIPATING,
             }
         )
 

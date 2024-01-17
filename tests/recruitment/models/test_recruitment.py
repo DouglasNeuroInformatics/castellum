@@ -129,7 +129,7 @@ def test_attempts():
         participation = baker.make(Participation, status=Participation.NOT_REACHED)
 
     with freeze_time('1970-01-02 12:00'):
-        participation.status = Participation.INVITED
+        participation.status = Participation.PARTICIPATING
         participation.save()
 
     with freeze_time('1970-01-03 12:00'):

@@ -50,7 +50,7 @@ def get_related_studies(study):
     dt = timezone.now() - relativedelta(years=2)
     related_prs = Participation.objects.filter(
         updated_at__gte=dt,
-        status=Participation.INVITED,
+        status__in=Participation.INVITED_SET,
         subject__in=Subject.objects.filter(filter_queries.study(study)),
     )
     return (

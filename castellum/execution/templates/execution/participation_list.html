@@ -28,7 +28,7 @@
                 {% has_privacy_level participation.subject.privacy_level user as can_access %}
                 {% if can_access %}
                     <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-hidden="true"></svg>
-                    <div class="d-inline-block my-1 me-2 {% if participation.dropped_out or participation.subject.blocked or participation.subject.deceased %}text-body-secondary{% endif %}">
+                    <div class="d-inline-block my-1 me-2 {% if participation.status == participation.PARTICIPATING_DROPPED_OUT or participation.subject.blocked or participation.subject.deceased %}text-body-secondary{% endif %}">
                         <div>
                             {{ participation.subject.contact.full_name }}
                             {% if participation.subject.privacy_level > 0 %}
@@ -52,8 +52,8 @@
                             {% for tag in participation.execution_tags.all %}
                                 <span class="badge text-bg-{{ tag.color }} my-1">{{ tag }}</span>
                             {% endfor %}
-                            {% if participation.dropped_out %}
-                                <span class="badge text-bg-secondary my-1" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
+                            {% if participation.status not in participation.DEFAULT_SET %}
+                                <span class="badge text-bg-secondary my-1" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
                             {% endif %}
                             {% if participation.subject.blocked %}
                                 <span class="badge text-bg-dark my-1" title="{{ participation.subject.TOOLTIPS.blocked }}">{{ participation.subject|verbose_name:'blocked' }}</span>

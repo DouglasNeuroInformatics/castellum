@@ -35,7 +35,7 @@ def test_participation_list_view_appointment_count(
     baker.make(StudySession, study=study_in_execution_status)
     participation = baker.make(
         Participation,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
         study=study_in_execution_status,
     )
@@ -64,7 +64,7 @@ def test_participation_detail_view_invited(
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
     )
 
@@ -73,7 +73,7 @@ def test_participation_detail_view_invited(
     assert response.status_code == 200
 
 
-def test_participation_detail_view_unsuitable(
+def test_participation_detail_view_excluded(
     request, client, subject, conductor, study_in_execution_status
 ):
     client.force_login(conductor)
@@ -81,7 +81,7 @@ def test_participation_detail_view_unsuitable(
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.UNSUITABLE,
+        status=Participation.EXCLUDED,
         subject=subject,
     )
 
@@ -97,7 +97,7 @@ def test_participation_detail_view_tags(
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
     )
     tag = baker.make(ExecutionTag, name='test_tag', study=study_in_execution_status)
@@ -116,7 +116,7 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
     )
 
@@ -147,7 +147,7 @@ def test_resolve_view_wrong_domain(client, member, study_in_execution_status, su
     baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
     )
 
@@ -171,7 +171,7 @@ def test_update_contact_view(client, member, study_in_execution_status, subject)
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
     )
 
@@ -195,7 +195,7 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
     )
     baker.make(
@@ -223,7 +223,7 @@ def test_participation_update_view(client, member, study_in_execution_status, su
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
     )
     url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/update/'
@@ -238,7 +238,7 @@ def test_participation_dropout_view(client, member, study_in_execution_status, s
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
     )
     url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/dropout/'
@@ -254,15 +254,14 @@ def test_participation_dropout_view_post(
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
     )
     url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/dropout/'
     response = client.post(url, {'dropped_out': '1'})
     participation.refresh_from_db()
     assert response.status_code == 302
-    assert participation.status == Participation.INVITED
-    assert participation.dropped_out
+    assert participation.status == Participation.PARTICIPATING_DROPPED_OUT
 
 
 def test_participation_dropout_confirm_view_post(
@@ -273,7 +272,7 @@ def test_participation_dropout_confirm_view_post(
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject=subject,
     )
     url = (
@@ -282,8 +281,7 @@ def test_participation_dropout_confirm_view_post(
     response = client.post(url)
     participation.refresh_from_db()
     assert response.status_code == 302
-    assert participation.status == Participation.UNSUITABLE
-    assert participation.dropped_out
+    assert participation.status == Participation.EXCLUDED_DROPPED_OUT
 
 
 @pytest.mark.smoketest

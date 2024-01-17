@@ -41,7 +41,9 @@ def test_multi_domain(client, conductor, study_in_execution_status):
 
 def test_multi_domain_given(client, conductor, study_in_execution_status):
     baker.make(
-        Participation, study=study_in_execution_status, status=Participation.INVITED
+        Participation,
+        study=study_in_execution_status,
+        status=Participation.PARTICIPATING,
     )
     baker.make(Domain, context=study_in_execution_status)
     domain2 = baker.make(Domain, context=study_in_execution_status)

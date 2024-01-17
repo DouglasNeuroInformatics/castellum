@@ -115,7 +115,7 @@ class ParticipationQuerySet(models.QuerySet):
                 'subject__participation',
                 filter=models.Q(
                     subject__participation__updated_at__gt=recent,
-                    subject__participation__status=Participation.INVITED,
+                    subject__participation__status__in=Participation.INVITED_SET,
                 ),
                 distinct=True,
             ),
@@ -137,17 +137,32 @@ class ParticipationQuerySet(models.QuerySet):
 class Participation(models.Model):
     NOT_CONTACTED = 0
     NOT_REACHED = 1
-    UNSUITABLE = 2
-    INVITED = 3
+    EXCLUDED = 2
+    PARTICIPATING = 3
     FOLLOWUP_APPOINTED = 4
     AWAITING_RESPONSE = 5
+    EXCLUDED_DROPPED_OUT = 6
+    PARTICIPATING_DROPPED_OUT = 7
+    EXCLUDED_BY_CLEANUP = 8
+    RECRUITMENT_SET = [
+        NOT_CONTACTED,
+        NOT_REACHED,
+        FOLLOWUP_APPOINTED,
+        AWAITING_RESPONSE,
+    ]
+    INVITED_SET = [PARTICIPATING, PARTICIPATING_DROPPED_OUT]
+    EXCLUDED_SET = [EXCLUDED, EXCLUDED_DROPPED_OUT, EXCLUDED_BY_CLEANUP]
+    DEFAULT_SET = [NOT_CONTACTED, PARTICIPATING, EXCLUDED]
     STATUS_OPTIONS = [
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
         (FOLLOWUP_APPOINTED, _('follow-up scheduled')),
         (AWAITING_RESPONSE, _('awaiting response')),
-        (INVITED, _('participating')),
-        (UNSUITABLE, _('excluded')),
+        (PARTICIPATING, _('participating')),
+        (PARTICIPATING_DROPPED_OUT, _('participating (dropped out)')),
+        (EXCLUDED, _('excluded')),
+        (EXCLUDED_DROPPED_OUT, _('excluded (dropped out)')),
+        (EXCLUDED_BY_CLEANUP, _('excluded by cleanup')),
     ]
 
     NOT_INTERESTED = 1
@@ -160,10 +175,6 @@ class Participation(models.Model):
     ]
 
     TOOLTIPS = {
-        'dropped_out': _('The subject did not complete the study.'),
-        'excluded_by_cleanup': _(
-            'The subject has been excluded through the bulk cleanup feature.'
-        ),
         'recently_active': _(
             'The subject has recently been in contact with our institute.'
         ),
@@ -176,14 +187,19 @@ class Participation(models.Model):
         'status': {
             NOT_CONTACTED: _('The subject has not yet been contacted.'),
             NOT_REACHED: _('The last contact attempt has failed.'),
-            UNSUITABLE: _('The subject will not participate in the study.'),
-            INVITED: _('The subject has agreed to participate in the study.'),
+            EXCLUDED: _('The subject will not participate in the study.'),
+            PARTICIPATING: _('The subject has agreed to participate in the study.'),
             FOLLOWUP_APPOINTED: _(
                 'The subject has agreed on a date and time for a follow-up.'
             ),
             AWAITING_RESPONSE: _(
                 'The subject has been contacted (e.g. by email) but has not yet '
                 'responded.'
+            ),
+            EXCLUDED_DROPPED_OUT: _('The subject did not complete the study.'),
+            PARTICIPATING_DROPPED_OUT: _('The subject did not complete the study.'),
+            EXCLUDED_BY_CLEANUP: _(
+                'The subject has been excluded through the bulk cleanup feature.'
             ),
         },
     }
@@ -207,8 +223,6 @@ class Participation(models.Model):
     exclusion_criteria_checked = models.BooleanField(
         _('Subject may be suitable'), default=False
     )
-    dropped_out = models.BooleanField(_('Dropped out'), default=False)
-    excluded_by_cleanup = models.BooleanField(_('Excluded by cleanup'), default=False)
 
     attempts = models.IntegerField(_('Attempts'), default=0)
 
@@ -256,15 +270,6 @@ class Participation(models.Model):
         super().__init__(*args, **kwargs)
         self._old_status = self.status
 
-    @property
-    def status_open(self):
-        return self.status in [
-            Participation.NOT_CONTACTED,
-            Participation.NOT_REACHED,
-            Participation.FOLLOWUP_APPOINTED,
-            Participation.AWAITING_RESPONSE,
-        ]
-
     def get_status_tooltip(self):
         return self.TOOLTIPS['status'][self.status]
 
@@ -309,16 +314,17 @@ class Participation(models.Model):
         else:
             self.attempts = 0
 
-        if self.status == self.INVITED:
+        if self.status in self.INVITED_SET:
             ReliabilityEntry.objects.get_or_create(
                 study=self.study, subject=self.subject
             )
 
-        if self.status != self.UNSUITABLE:
+        if self.status not in self.EXCLUDED_SET:
             self.excluded_by_cleanup = False
 
         if (
-            self.status in [self.INVITED, self.UNSUITABLE, self.FOLLOWUP_APPOINTED]
+            self.status in self.RECRUITMENT_SET
+            and self.status != self.FOLLOWUP_APPOINTED
             and self.status != self._old_status
             and not self.excluded_by_cleanup
         ):

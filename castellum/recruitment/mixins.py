@@ -75,7 +75,7 @@ def get_recruitable(study, is_urgent=False):
             'participation',
             filter=models.Q(
                 participation__updated_at__gt=recent,
-                participation__status=Participation.INVITED,
+                participation__status__in=Participation.INVITED_SET,
             ),
             distinct=True,
         )).exclude(recent_participation_count=0)

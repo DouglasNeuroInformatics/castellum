@@ -211,7 +211,7 @@ class Subject(TimeStampedModel):
         from castellum.studies.models import Study
         return (
             self.participation_set
-            .exclude(status=Participation.UNSUITABLE)
+            .exclude(status__in=Participation.EXCLUDED_SET)
             .exclude(
                 study__status=Study.FINISHED,
                 study__domains=None,
