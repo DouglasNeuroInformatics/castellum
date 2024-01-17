@@ -764,6 +764,7 @@ msgid "Update data"
 msgstr "Daten aktualisieren"
 
 #: castellum/execution/templates/execution/participation_base.html:58
+#: castellum/execution/templates/execution/participation_status.html:4
 #: castellum/execution/views.py:131 castellum/studies/forms.py:88
 #: castellum/studies/models.py:115
 msgid "Status"
@@ -879,6 +880,8 @@ msgid ""
 "Note that all appointments related to it will be <strong>permanently "
 "deleted</strong>."
 msgstr ""
+"Beachten Sie, dass alle Termine <strong>unwiederbringlich gelöscht</strong> "
+"werden."
 
 #: castellum/execution/templates/execution/participation_dropout_confirm.html:15
 msgid ""
@@ -947,38 +950,24 @@ msgstr "Domänen-Name"
 msgid "No domains"
 msgstr "Keine Domänen"
 
-#: castellum/execution/templates/execution/participation_status.html:4
-#, fuzzy
-#| msgid "Status"
-msgctxt "verb"
-msgid "Status"
-msgstr "Status"
-
 #: castellum/execution/templates/execution/participation_status.html:9
 #: castellum/recruitment/templates/recruitment/contact.html:9
 msgid "Subject is unsuitable or blocked in another study."
 msgstr "Proband*in ist nicht geeignet oder in einer anderen Studie blockiert."
 
 #: castellum/execution/templates/execution/participation_status.html:15
-#, fuzzy
-#| msgid ""
-#| "Do you want to mark this subject as \"dropped out\"? This may apply if "
-#| "the subject can no longer take part in the study or repeatedly did not "
-#| "show up for appoitments."
 msgid ""
 "This page allows you to change the status of the participantion, e.g. if the "
 "subject can no longer take part in the study or repeatedly did not show up "
 "for appoitments."
 msgstr ""
-"Soll die Teilnahme dieser Proband*in als \"abgebrochen\" markiert werden? "
-"Dies ist beispielsweise sinnvoll wenn die Proband*in nicht mehr an der "
-"Studie teilnehmen kann oder wiederholt nicht zu Terminen erschienen ist."
+"Auf dieser Seite können sie den Teilnahmestatus ändern, z.B. wenn die "
+"Proband*in nicht mehr an der Studie teilnehmen kann oder wiederholt nicht zu "
+"Terminen erschienen ist."
 
 #: castellum/execution/templates/execution/participation_status.html:16
-#, fuzzy
-#| msgid "Please delete all of these study participations:"
 msgid "Please select one of these options:"
-msgstr "Bitte löschen Sie die folgenden Studienteilnahmen:"
+msgstr "Bitte wählen Sie eine der folgenden Opionen:"
 
 #: castellum/execution/templates/execution/participation_status.html:22
 #: castellum/recruitment/templates/recruitment/recruitment.html:25
@@ -993,13 +982,16 @@ msgstr "Die Proband*in wird weiterhin an der Studie teilnehmen."
 
 #: castellum/execution/templates/execution/participation_status.html:29
 msgid "Completed"
-msgstr ""
+msgstr "Abgeschlossen"
 
 #: castellum/execution/templates/execution/participation_status.html:30
 msgid ""
 "The subject has completed all tests. If this study is exclusive, this option "
 "will free up this subject for other studies."
 msgstr ""
+"Diese Proband*in hat alle Tests abgeschlossen. Falls diese Studie exklusiv "
+"ist, wird die Proband*in durch diese Option wieder für andere Studien "
+"freigegeben."
 
 #: castellum/execution/templates/execution/participation_status.html:36
 msgid "Dropped out"
@@ -1018,6 +1010,8 @@ msgid ""
 "Appointments will not be deleted automatically, so you may want to remove "
 "them manually."
 msgstr ""
+"Die Termine werden nicht automatisch gelöscht, so dass Sie sie ggf. manuell "
+"entfernen wollen."
 
 #: castellum/execution/templates/execution/participation_status.html:44
 #: castellum/recruitment/templates/recruitment/recruitment.html:31
@@ -1034,7 +1028,7 @@ msgstr ""
 
 #: castellum/execution/templates/execution/participation_status.html:46
 msgid "Appointments will be deleted automatically."
-msgstr ""
+msgstr "Die Termine werden automatisch gelöscht."
 
 #: castellum/execution/templates/execution/participation_update_base.html:9
 #: castellum/recruitment/templates/recruitment/participation_update_base.html:9
@@ -1185,7 +1179,7 @@ msgstr ""
 #: castellum/execution/templates/execution/study_progress.html:16
 #: castellum/recruitment/models/participations.py:167
 msgid "completed"
-msgstr ""
+msgstr "abgeschlossen"
 
 #: castellum/execution/templates/execution/study_progress.html:19
 #: castellum/recruitment/models/participations.py:162
@@ -1516,26 +1510,20 @@ msgid "awaiting response"
 msgstr "auf Antwort wartend"
 
 #: castellum/recruitment/models/participations.py:163
-#, fuzzy
-#| msgid "Participation created at"
 msgid "participating (dropped out)"
-msgstr "Teilnahme erstellt am"
+msgstr "nimmt teil (abgebrochen)"
 
 #: castellum/recruitment/models/participations.py:164
 msgid "excluded"
 msgstr "ausgeschlossen"
 
 #: castellum/recruitment/models/participations.py:165
-#, fuzzy
-#| msgid "dropped out"
 msgid "excluded (dropped out)"
-msgstr "abgebrochen"
+msgstr "ausgeschlossen (abgebrochen)"
 
 #: castellum/recruitment/models/participations.py:166
-#, fuzzy
-#| msgid "Excluded by cleanup"
 msgid "excluded by cleanup"
-msgstr "Durch Aufräumen ausgeschlossen"
+msgstr "durch Aufräumen ausgeschlossen"
 
 #: castellum/recruitment/models/participations.py:174
 msgid "not interested"
@@ -1601,10 +1589,8 @@ msgid "The subject has been excluded through the bulk cleanup feature."
 msgstr "Die Proband*in wurde durch die Aufräumfunktion ausgeschlossen."
 
 #: castellum/recruitment/models/participations.py:206
-#, fuzzy
-#| msgid "The subject did not complete the study."
 msgid "The subject has completed all tests."
-msgstr "Die Proband*in hat die Studie nicht abgeschlossen."
+msgstr "Die Proband*in hat alle Tests abgeschlossen."
 
 #: castellum/recruitment/models/participations.py:210
 #: castellum/subjects/models.py:289 castellum/subjects/models.py:336
@@ -2339,21 +2325,17 @@ msgid "Exclusive subjects"
 msgstr "Exklusive Proband*innen"
 
 #: castellum/studies/models.py:174
-#, fuzzy
-#| msgid ""
-#| "When set, this ensures that potential subjects for this study will not be "
-#| "recruited in other studies. Please note that this may hinder other "
-#| "researchers in finding enough participants."
 msgid ""
 "When set, this ensures that potential subjects for this study will not be "
 "recruited in other studies. Please note that this may hinder other "
 "researchers in finding enough participants. You can free up participants for "
-"other users by using the \"completed\" participation status."
+"other studies by using the \"completed\" participation status."
 msgstr ""
 "Wenn diese Option gesetzt ist wird sichergestellt, dass potentielle "
 "Proband*innen für diese Studie nicht in anderen Studien rekrutiert werden. "
 "Beachten Sie, dass dies andere Wissenschaftler*innen daran hindern könnte, "
-"genug Proband*innen zu finden."
+"genug Proband*innen zu finden. Sie können Proband*innen für andere Studien "
+"freigeben, indem sie den \"Abgeschlossen\" Status auswählen."
 
 #: castellum/studies/models.py:182
 msgid "Complete filter matches only"
@@ -4363,24 +4345,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid ""
-#~ "In addition, you must decide what should happen with the data collected "
-#~ "this far: If you plan to use the data, the participation must not be "
-#~ "removed as this would also delete the pseudonyms. If you do not plan to "
-#~ "use the data, delete all of it and then remove the participation."
-#~ msgstr ""
-#~ "Zusätzlich müssen Sie entscheiden was mit den bereits erhobenen Daten "
-#~ "passieren soll: Wenn die Daten benutzt werden sollen darf die Teilnahme "
-#~ "nicht entfernt werden, da dadurch auch die Pseudonyme gelöscht werden "
-#~ "würden. Wenn die Daten nicht benutzt werden sollen müssen diese zunächst "
-#~ "gelöscht werden, um anschließend die Teilnahme zu entfernen."
-
-#~ msgid "Participate"
-#~ msgstr "Teilnehmen"
-
-#~ msgid "Drop out"
-#~ msgstr "Abbrechen"
-
-#~ msgid "(without personal data)"
-#~ msgstr "(ohne personenbezogene Daten)"

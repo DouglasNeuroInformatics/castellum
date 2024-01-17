@@ -1,7 +1,7 @@
 {% extends "execution/participation_base.html" %}
 {% load i18n %}
 
-{% block title %}{% translate "Status" context 'verb' %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Status" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     {% if object.is_match != 'complete' %}
