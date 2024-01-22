@@ -29,7 +29,7 @@ data for Berlin (~20mins):
 
     cd docs/deployment/example_1/
     wget 'https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf' -O nominatim/berlin.osm.pbf
-    docker-compose run --rm nominatim sh /app/init.sh /data/berlin.osm.pbf postgresdata 4
+    docker compose run --rm nominatim sh /app/init.sh /data/berlin.osm.pbf postgresdata 4
     rm nominatim/berlin.osm.pbf
 
 Nominatim is also capable of automatically updating the data.
@@ -37,8 +37,8 @@ For that you need to adapt `CONST_Replication_Url` in the nominatim
 config (`nominatim/local.php` in the example deployment). Then run these
 commands:
 
-    docker-compose exec nominatim sudo -u postgres ./src/build/utils/update.php --init-updates
-    docker-compose exec nominatim sudo -u postgres ./src/build/utils/update.php --import-osmosis
+    docker compose exec nominatim sudo -u postgres ./src/build/utils/update.php --init-updates
+    docker compose exec nominatim sudo -u postgres ./src/build/utils/update.php --import-osmosis
 
 Further reading:
 
