@@ -967,7 +967,7 @@ msgstr ""
 
 #: castellum/execution/templates/execution/participation_status.html:16
 msgid "Please select one of these options:"
-msgstr "Bitte wählen Sie eine der folgenden Opionen:"
+msgstr "Bitte wählen Sie eine der folgenden Optionen:"
 
 #: castellum/execution/templates/execution/participation_status.html:22
 #: castellum/recruitment/templates/recruitment/recruitment.html:25

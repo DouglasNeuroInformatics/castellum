@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name="is_exclusive",
             field=models.BooleanField(
                 default=False,
-                help_text='When set, this ensures that potential subjects for this study will not be recruited in other studies. Please note that this may hinder other researchers in finding enough participants. You can free up participants for other users by using the "completed" participation status.',
+                help_text='When set, this ensures that potential subjects for this study will not be recruited in other studies. Please note that this may hinder other researchers in finding enough participants. You can free up participants for other studies by using the "completed" participation status.',
                 verbose_name="Exclusive subjects",
             ),
         ),
