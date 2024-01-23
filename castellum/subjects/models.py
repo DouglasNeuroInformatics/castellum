@@ -309,9 +309,7 @@ class ConsentDocument(models.Model):
         return self.name or _('Version {}').format(self.pk)
 
 
-class Consent(models.Model):
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
+class BaseConsent(models.Model):
     underage_when_given = models.BooleanField(_('Underage when given'), null=True)
     document = models.ForeignKey(
         ConsentDocument,
@@ -330,12 +328,38 @@ class Consent(models.Model):
     )
 
     class Meta:
+        abstract = True
+
+
+class Consent(BaseConsent):
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+
+    class Meta:
         verbose_name = _('Consent')
 
     def save(self, *args, **kwargs):
         # updates Subject.updated_at
         self.subject.save()
+
+        ConsentRevision.objects.create(
+            subject=self.subject,
+            underage_when_given=self.underage_when_given,
+            document=self.document,
+            file=self.file,
+        )
+
         return super().save(*args, **kwargs)
+
+
+class ConsentRevision(BaseConsent):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Consent revision')
+        verbose_name_plural = _('Consent revisions')
+        ordering = ['created_at']
 
 
 class ExportAnswer(models.Model):

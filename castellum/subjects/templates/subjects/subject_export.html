@@ -166,6 +166,25 @@
             </dl>
         {% endif %}
 
+        {% if subject.consentrevision_set.exists %}
+            <h2>{{ subject|verbose_name:'consentrevision' }}</h2>
+            {% for revision in subject.consentrevision_set.all %}
+                <dl class="row">
+                    <dt class="col-sm-6" data-fieldname="subjects.ConsentRevision.document">{{ revision|verbose_name:'document' }}</dt>
+                    <dd class="col-sm-6">{{ revision|display:'document' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="subjects.ConsentRevision.file">{{ revision|verbose_name:'file' }}</dt>
+                    <dd class="col-sm-6">{{ revision|display:'file' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="subjects.ConsentRevision.created_at">{{ revision|verbose_name:'created_at' }}</dt>
+                    <dd class="col-sm-6">{{ revision|display:'created_at' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="subjects.ConsentRevision.underage_when_given">{{ revision|verbose_name:'underage_when_given' }}</dt>
+                    <dd class="col-sm-6">{{ revision|display:'underage_when_given' }}</dd>
+                </dl>
+            {% endfor %}
+        {% endif %}
+
         <h2>{{ subject|verbose_name:'attributes' }}</h2>
         <dl class="row" data-fieldname="subjects.Subject.attributes">
             {% for label, value in attributes %}

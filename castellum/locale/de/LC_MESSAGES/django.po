@@ -3344,7 +3344,15 @@ msgstr "Dokument"
 msgid "Signed file"
 msgstr "Unterschriebene Datei"
 
-#: castellum/subjects/models.py:337
+#: castellum/subjects/models.py:360
+msgid "Consent revision"
+msgstr "Einwilligung-Revision"
+
+#: castellum/subjects/models.py:361
+msgid "Consent revisions"
+msgstr "Einwilligungs-Revisionen"
+
+#: castellum/subjects/models.py:368
 msgid "Created by"
 msgstr "Erstellt von"
 
