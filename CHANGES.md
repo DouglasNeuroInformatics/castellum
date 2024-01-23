@@ -1,3 +1,36 @@
+# 0.96.0 (unreleased)
+
+## breaking changes
+
+-   Calendar feeds no longer contain contact information of subjects.
+    The endpoints `/execution/resources/<id>/` and
+    `/execution/<id>/calendar/feed/` have been removed completely.
+
+## new features
+
+-   We developed a reusable Django app to automatically create signed
+    timestamps for uploaded files. This allows to proof that the file
+    has not been manipulated after the fact. Starting with this release,
+    that app is installed (but not configured) in the Castellum Docker
+    image by default. See
+    https://git.mpib-berlin.mpg.de/castellum/django-storage-timestamps/ for
+    details.
+-   The participation status system has been overhauled and expanded
+    -   The new status "completed" allows to free up subjects from
+        exclusive studies
+    -   Dropped out subjects are now freed up for exclusive studies
+    -   Dropped out subjects are now excluded in excluded studies
+        (because they may still have learning effects, even if the data
+        is not used)
+    -   Dropped out subjects are no longer considered for included
+    -   The view to change participation status in execution has been
+        revised and is now integrated in the navigation
+
+## other changes
+
+-   The `AttributeDescription` model has been renamed to `Attribute`
+
+
 # 0.95.2 (2023-11-22)
 
 -   Allow to run Castellum without gdal
