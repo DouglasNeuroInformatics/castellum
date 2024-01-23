@@ -34,6 +34,8 @@
                                     <a href="{{ object.consent.document.file.url }}">{{ object.consent.document }}</a>
                                 {% else %}
                                     {{ object.consent.document }}
+                                {% endif %}
+                                {% if object.consent.document.is_deprecated %}
                                     <span class="badge text-bg-warning">{% translate "deprecated" %}</span>
                                 {% endif %}
                                 {% if object.consent.file %}
