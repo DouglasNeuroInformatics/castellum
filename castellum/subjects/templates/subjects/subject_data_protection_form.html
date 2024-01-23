@@ -25,7 +25,7 @@
                     {% elif not object.consent.document %}
                         <div>{% translate 'This subject has declined recruitment consent' %}</div>
                         <small>{% translate 'on' %} {{ object.consent.updated_at|date }}</small>
-                     {% else %}
+                    {% else %}
                         <div>{% translate 'This subject has given recruitment consent' %}</div>
                         <small>
                             {% translate 'on' %} {{ object.consent.updated_at|date }}
