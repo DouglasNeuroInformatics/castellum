@@ -3751,6 +3751,14 @@ msgstr ""
 "Studieneinwilligungen. Entsprechend werden auch keine Daten im Kontext "
 "bereits existierender Studien gelöscht."
 
+#: castellum/subjects/templates/subjects/subject_data_protection_form.html:83
+msgid "History"
+msgstr "Historie"
+
+#: castellum/subjects/templates/subjects/subject_data_protection_form.html:101
+msgid "invalid"
+msgstr "ungültig"
+
 #: castellum/subjects/templates/subjects/subject_detail.html:9
 msgid "Please edit data sets marked with"
 msgstr "Bitte editieren Sie die Datensätze mit dem folgenden Symbol:"

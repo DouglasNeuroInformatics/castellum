@@ -78,6 +78,47 @@
                         Therefore no data related to existing studies is deleted.
                     {% endblocktranslate %}
                 </div>
+                {% if subject.consentrevision_set.exists %}
+                    <details class="mt-2">
+                        <summary>{% translate 'History' %}</summary>
+                        <ul>
+                            {% for revision in subject.consentrevision_set.all reversed %}
+                                <li class="d-flex align-items-center gap-2 mb-2">
+                                    {% if revision.document %}
+                                        <i class="fa fa-check text-success fs-5" aria-hidden="true"></i>
+                                    {% else %}
+                                        <i class="fa fa-xmark text-danger fs-5" aria-hidden="true"></i>
+                                    {% endif %}
+                                    <div class="flex-grow-1">
+                                        {% if not revision.document %}
+                                        <div>{% translate 'This subject has declined recruitment consent' %}</div>
+                                        <small>{% translate 'on' %} {{ revision.created_at|date }}</small>
+                                    {% else %}
+                                        <div>{% translate 'This subject has given recruitment consent' %}</div>
+                                        <small>
+                                            {% translate 'on' %} {{ revision.created_at|date }}
+                                            &middot;
+                                            {% if revision.document.file %}
+                                                <a href="{{ revision.document.file.url }}">{{ revision.document }}</a>
+                                            {% else %}
+                                                {{ revision.document }}
+                                            {% endif %}
+                                            {% if not revision.document.is_valid %}
+                                                <span class="badge text-bg-danger">{% translate "invalid" %}</span>
+                                            {% elif revision.document.is_deprecated %}
+                                                <span class="badge text-bg-warning">{% translate "deprecated" %}</span>
+                                            {% endif %}
+                                            {% if revision.file %}
+                                                &middot;
+                                                <a href="{% subject_media_url revision.file.url %}">{% translate 'Download signed document' %}</a>
+                                            {% endif %}
+                                        </small>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                {% endif %}
             </div>
         </div>
 
