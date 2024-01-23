@@ -137,7 +137,7 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
 def has_consent(include_waiting=False, exclude_deprecated=False):
     """Exclude subjects who do not want to be contacted for recruitment."""
 
-    q = models.Q(consent__document__isnull=False)
+    q = models.Q(consent__document__is_valid=True)
 
     if exclude_deprecated:
         q &= models.Q(consent__document__is_deprecated=False)

@@ -134,7 +134,7 @@ class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
         return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
     def get_form(self):
-        if not ConsentDocument.objects.exists():
+        if not ConsentDocument.objects.filter(is_valid=True).exists():
             ConsentDocument.objects.create()
         return super().get_form()
 

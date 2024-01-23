@@ -19,7 +19,7 @@
                         <i class="fa fa-xmark text-danger fs-5" aria-hidden="true"></i>
                     {% endif %}
                     <div class="flex-grow-1">
-                        {% if not object.consent %}
+                        {% if object.unknown_consent %}
                             <div>{% translate 'This subject has no recruitment consent yet' %}</div>
                             <small>{% translate 'Subject created on' %} {{ subject.created_at|date }}</small>
                         {% elif not object.consent.document %}
