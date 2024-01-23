@@ -19,6 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import os
 
 from django.conf import settings
 from django.db import models
@@ -37,8 +38,9 @@ from castellum.utils.fields import RestrictedFileField
 
 
 def consent_upload_to(instance, filename):
-    assert instance.pk
-    return f'studyconsents/{instance.study.pk}/{instance.pk}/{filename}'
+    participation = instance.participation
+    assert participation.pk
+    return f'studyconsents/{participation.study.pk}/{participation.pk}/{filename}'
 
 
 class BaseMailBatch(models.Model):
@@ -249,14 +251,6 @@ class Participation(models.Model):
         related_name='+',
     )
 
-    consent = RestrictedFileField(
-        _('Study consent'),
-        blank=True,
-        upload_to=consent_upload_to,
-        content_types=['application/pdf'],
-        max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
-    )
-
     objects = ParticipationQuerySet.as_manager()
 
     class Meta:
@@ -335,6 +329,25 @@ class Participation(models.Model):
             self.subject.save()
 
         super().save(*args, **kwargs)
+
+
+class ParticipationConsent(models.Model):
+    participation = models.ForeignKey(Participation, on_delete=models.CASCADE)
+    name = models.CharField(_('Name'), max_length=64, blank=True)
+    file = RestrictedFileField(
+        _('File'),
+        upload_to=consent_upload_to,
+        content_types=['application/pdf'],
+        max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
+    )
+
+    class Meta:
+        verbose_name = _('Participation consent')
+        verbose_name_plural = _('Participation consents')
+        ordering = ['pk']
+
+    def __str__(self):
+        return self.name or os.path.basename(self.file.path)
 
 
 class ReliabilityEntry(models.Model):

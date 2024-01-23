@@ -27,6 +27,7 @@ from .participations import ExecutionTag
 from .participations import MailBatch
 from .participations import NewsMailBatch
 from .participations import Participation
+from .participations import ParticipationConsent
 from .participations import ReliabilityEntry
 from .subjectfilters import SubjectFilter
 from .subjectfilters import SubjectFilterGroup

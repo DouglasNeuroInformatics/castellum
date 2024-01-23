@@ -30,6 +30,7 @@ from .models import ExecutionTag
 from .models import MailBatch
 from .models import NewsMailBatch
 from .models import Participation
+from .models import ParticipationConsent
 from .models import ReliabilityEntry
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
@@ -53,6 +54,7 @@ if settings.CASTELLUM_ADVANCED_ADMIN_UI:
     admin.site.register(MailBatch)
     admin.site.register(NewsMailBatch)
     admin.site.register(Participation)
+    admin.site.register(ParticipationConsent)
     admin.site.register(SubjectFilter)
     admin.site.register(SubjectFilterGroup)
     admin.site.register(ExecutionTag)
