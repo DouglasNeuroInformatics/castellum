@@ -209,6 +209,16 @@ def participation(subject, study_in_execution_status):
 
 
 @pytest.fixture
+def invited(subject, study_in_execution_status):
+    return baker.make(
+        Participation,
+        study=study_in_execution_status,
+        subject=subject,
+        status=Participation.PARTICIPATING,
+    )
+
+
+@pytest.fixture
 def attribute(db, attributes):
     return Attribute.objects.get(pk=1)
 
