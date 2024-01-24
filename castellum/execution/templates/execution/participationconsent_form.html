@@ -1,16 +1,13 @@
-{% extends "execution/participation_base.html" %}
-{% load static i18n django_bootstrap5 %}
-
-{% block title %}
-    {% translate "Change study consent" %} &middot; {{ block.super }}
-{% endblock %}
+{% extends "execution/participationconsent_base.html" %}
+{% load i18n django_bootstrap5 %}
 
 {% block content %}
     <form method="post" enctype="multipart/form-data">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
-        {% bootstrap_field form.consent %}
+        {% bootstrap_field form.name required_css_class='castellum-required' %}
+        {% bootstrap_field form.file required_css_class='castellum-required' %}
 
         <div class="d-print-none mb-3">
             <a href="{{ view.get_success_url }}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>

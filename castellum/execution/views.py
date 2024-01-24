@@ -34,6 +34,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import CreateView
+from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
@@ -57,6 +59,7 @@ from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
+from castellum.recruitment.models import ParticipationConsent
 from castellum.recruitment.models import ReliabilityEntry
 from castellum.recruitment.templatetags.recruitment import (
     study_legal_representative_hash,
@@ -363,14 +366,39 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
 
 
 class ParticipationConsentView(ParticipationDetailMixin, DetailView):
+    model = ParticipationConsent
     template_name = 'execution/participation_consent.html'
     tab = 'consent'
 
 
-class ParticipationConsentUpdateView(ParticipationDetailMixin, UpdateView):
-    template_name = 'execution/participation_consent_change.html'
-    fields = ['consent']
+class ParticipationConsentCreateView(ParticipationDetailMixin, CreateView):
+    model = ParticipationConsent
+    template_name = 'execution/participationconsent_form.html'
+    fields = ['file', 'name']
     tab = 'consent'
+
+    def form_valid(self, form):
+        form.instance.participation = self.participation
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse(
+            'execution:participation-consent',
+            args=[self.study.pk, self.participation.pk],
+        )
+
+
+class ParticipationConsentDeleteView(ParticipationDetailMixin, DeleteView):
+    model = ParticipationConsent
+    template_name = 'execution/participationconsent_confirm_delete.html'
+    tab = 'consent'
+
+    def get_object(self):
+        return get_object_or_404(
+            ParticipationConsent,
+            participation=self.participation,
+            pk=self.kwargs['consent_pk'],
+        )
 
     def get_success_url(self):
         return reverse(
