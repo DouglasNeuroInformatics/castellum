@@ -162,42 +162,44 @@ NPM_ROOT_PATH = BASE_DIR.parent
 
 NPM_FILE_PATTERNS = {
     'bootstrap': [
-        'dist/css/bootstrap.min.css',
-        'dist/css/bootstrap.min.css.map',
-        'dist/js/bootstrap.min.js',
-        'dist/js/bootstrap.min.js.map',
+        Path('dist', 'css', 'bootstrap.min.css'),
+        Path('dist', 'css', 'bootstrap.min.css.map'),
+        Path('dist', 'js', 'bootstrap.min.js'),
+        Path('dist', 'js', 'bootstrap.min.js.map'),
     ],
     'jdenticon': [
-        'dist/jdenticon.min.js',
-        'dist/jdenticon.min.js.map',
+        Path('dist', 'jdenticon.min.js'),
+        Path('dist', 'jdenticon.min.js.map'),
     ],
-    'jquery': ['dist/jquery.min.js'],
+    'jquery': [
+        Path('dist', 'jquery.min.js'),
+    ],
     '@popperjs': [
-        'core/dist/umd/popper-lite.min.js',
-        'core/dist/umd/popper-lite.min.js.map',
+        Path('core', 'dist', 'umd', 'popper-lite.min.js'),
+        Path('core', 'dist', 'umd', 'popper-lite.min.js.map'),
     ],
-    '@fortawesome/fontawesome-free': [
-        'css/all.min.css',
-        'webfonts/fa-regular-400.woff2',
-        'webfonts/fa-regular-400.ttf',
-        'webfonts/fa-brands-400.woff2',
-        'webfonts/fa-brands-400.ttf',
-        'webfonts/fa-solid-900.woff2',
-        'webfonts/fa-solid-900.ttf',
-        'webfonts/fa-v4compatibility.woff2',
-        'webfonts/fa-v4compatibility.ttf',
+    Path('@fortawesome', 'fontawesome-free'): [
+        Path('css', 'all.min.css'),
+        Path('webfonts', 'fa-regular-400.woff2'),
+        Path('webfonts', 'fa-regular-400.ttf'),
+        Path('webfonts', 'fa-brands-400.woff2'),
+        Path('webfonts', 'fa-brands-400.ttf'),
+        Path('webfonts', 'fa-solid-900.woff2'),
+        Path('webfonts', 'fa-solid-900.ttf'),
+        Path('webfonts', 'fa-v4compatibility.woff2'),
+        Path('webfonts', 'fa-v4compatibility.ttf'),
     ],
     'select2': [
-        'dist/css/select2.min.css',
-        'dist/js/select2.min.js',
-        'dist/js/i18n/de.js',
+        Path('dist', 'css', 'select2.min.css'),
+        Path('dist', 'js', 'select2.min.js'),
+        Path('dist', 'js', 'i18n', 'de.js'),
     ],
-    '@ttskch/select2-bootstrap4-theme': [
-        'dist/select2-bootstrap4.min.css',
+    Path('@ttskch', 'select2-bootstrap4-theme'): [
+        Path('dist', 'select2-bootstrap4.min.css'),
     ],
     '@fullcalendar': [
-        'core/locales/de.global.min.js',
-        'bootstrap/index.global.min.js',
+        Path('core', 'locales', 'de.global.min.js'),
+        Path('bootstrap', 'index.global.min.js'),
     ],
     'cbor-js': [
         'cbor.js',
