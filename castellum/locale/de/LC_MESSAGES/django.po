@@ -776,7 +776,7 @@ msgid ""
 "page to upload the study consent documents so you don't lose track."
 msgstr ""
 "Eine Studieneinwilligung ist rechtlich für die Datenerhebung erforderlich. "
-"Auf dieser Seite können Sie das Einwilligungsdokumente hochladen, um die "
+"Auf dieser Seite können Sie die Einwilligungsdokumente hochladen, um die "
 "Übersicht zu behalten."
 
 #: castellum/execution/templates/execution/participation_consent.html:14
