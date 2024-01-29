@@ -771,16 +771,12 @@ msgid "Status"
 msgstr "Status"
 
 #: castellum/execution/templates/execution/participation_consent.html:5
-#, fuzzy
-#| msgid ""
-#| "Study consent is legally required to start data collection. You can use "
-#| "this page to upload the study consent document so you don't lose track."
 msgid ""
 "Study consent is legally required to start data collection. You can use this "
 "page to upload the study consent documents so you don't lose track."
 msgstr ""
 "Eine Studieneinwilligung ist rechtlich für die Datenerhebung erforderlich. "
-"Auf dieser Seite können Sie das Einwilligungsdokument hochladen, um die "
+"Auf dieser Seite können Sie das Einwilligungsdokumente hochladen, um die "
 "Übersicht zu behalten."
 
 #: castellum/execution/templates/execution/participation_consent.html:14
@@ -1071,16 +1067,12 @@ msgid "Additional Info"
 msgstr "Zusätzliche Informationen"
 
 #: castellum/execution/templates/execution/participationconsent_confirm_delete.html:9
-#, fuzzy
-#| msgid ""
-#| "Are you sure you want to <strong>permanently delete</strong> this subject "
-#| "creation request?"
 msgid ""
 "Are you sure you want to <strong>permanently delete</strong> this study "
 "consent?"
 msgstr ""
-"Sind Sie sicher, dass Sie diese Anfrage zur Erstellung einer Proband*in und "
-"alle zugehörigen Daten <strong>unwiederbringlich</strong> löschen möchten?"
+"Sind Sie sicher, dass Sie diese Studieneinwilligung "
+"<strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/execution/templates/execution/study_base.html:13
 msgid "Export recruitment attributes"
@@ -1685,16 +1677,12 @@ msgid "File"
 msgstr "Datei"
 
 #: castellum/recruitment/models/participations.py:345
-#, fuzzy
-#| msgid "Participation"
 msgid "Participation consent"
-msgstr "Teilnahme"
+msgstr "Teilnahme-Einwilligung"
 
 #: castellum/recruitment/models/participations.py:346
-#, fuzzy
-#| msgid "Participating subjects"
 msgid "Participation consents"
-msgstr "Teilnehmende Proband*innen"
+msgstr "Teilnehmende-Einwilligungen"
 
 #: castellum/recruitment/models/participations.py:356
 #: castellum/subjects/models.py:153 castellum/subjects/models.py:349
