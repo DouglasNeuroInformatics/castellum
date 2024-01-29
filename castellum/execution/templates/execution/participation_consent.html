@@ -1,42 +1,31 @@
-{% extends "execution/participation_base.html" %}
+{% extends "execution/participationconsent_base.html" %}
 {% load i18n %}
 
-{% block title %}
-    {% translate "Study consent" %} &middot; {{ block.super }}
-{% endblock %}
-
 {% block content %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <div class="d-flex align-items-center gap-2">
-                {% if object.consent %}
-                    <i class="fa fa-check text-success fs-5" aria-hidden="true"></i>
-                    <div class="flex-grow-1">
-                        <div>{% blocktranslate %}This subject has given consent for study "{{ study }}"{% endblocktranslate %}</div>
-                        <small>
-                            <a href="{{ object.consent.url }}">{% translate 'Download' %}</a>
-                            {% if study.consent %}
-                                &middot;
-                                <a href="{{ study.consent.url }}">{% translate 'Download blueprint' %}</a>
-                            {% endif %}
-                        </small>
+    <p>{% translate "Study consent is legally required to start data collection. You can use this page to upload the study consent documents so you don't lose track." %}</p>
+
+    <ul class="p-0">
+        {% for consent in object.participationconsent_set.all %}
+            <li class="card mb-2">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="flex-grow-1">{{ consent }}</div>
+                        <div>
+                            <a class="btn btn-outline-primary" href="{{ consent.file.url }}">{% translate 'Download' %}</a>
+                            <a class="btn btn-outline-danger" href="{% url 'execution:participation-consent-delete' study.pk participation.pk consent.pk %}">{% translate "Delete" %}</a>
+                        </div>
                     </div>
-                {% else %}
-                    <i class="fa fa-xmark text-danger fs-5" aria-hidden="true"></i>
-                    <div class="flex-grow-1">
-                        <div>{% blocktranslate %}This subject has no study consent for "{{ study }}" yet{% endblocktranslate %}</div>
-                        {% if study.consent %}
-                            <small>
-                                <a href="{{ study.consent.url }}">{% translate 'Download blueprint' %}</a>
-                            </small>
-                        {% endif %}
-                    </div>
-                {% endif %}
-                <a href="change/" class="btn btn-outline-primary">{% translate "Change" %}</a>
-            </div>
-            <div class="form-text">
-                {% translate "Study consent is legally required to start data collection. You can use this page to upload the study consent document so you don't lose track." %}
-            </div>
-        </div>
+                </div>
+            </li>
+        {% empty %}
+            <li class="d-block alert alert-warning">{% blocktranslate %}This subject has no study consent for "{{ study }}" yet{% endblocktranslate %}</li>
+        {% endfor %}
+    </ul>
+
+    <div class="d-print-none mb-3">
+        <a class="btn btn-primary" href="{% url 'execution:participation-consent-create' study.pk participation.pk %}">{% translate 'Add' %}</a>
+        {% if study.consent %}
+            <a class="btn btn-secondary" href="{{ study.consent.url }}">{% translate 'Download blueprint' %}</a>
+        {% endif %}
     </div>
 {% endblock %}

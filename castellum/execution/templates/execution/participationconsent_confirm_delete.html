@@ -1,0 +1,15 @@
+{% extends "execution/participationconsent_base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Delete" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>{% translate "Are you sure you want to <strong>permanently delete</strong> this study consent?" %}</p>
+        <div class="d-print-none mb-3">
+            <a href="{{ view.get_success_url }}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
+            <button class="btn btn-danger">{% translate 'Confirm' %}</button>
+        </div>
+    </form>
+{% endblock %}

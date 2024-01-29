@@ -62,6 +62,7 @@ EXCLUDED = [
     'subjects.ExportAnswer.',
     'contacts.Address.',
     'recruitment.Participation.appointment',
+    'recruitment.Participation.participationconsent',
     'recruitment.ExecutionTag.',
     'subjects.Subject.participation',
     'subjects.Subject.reliabilityentry',
@@ -72,7 +73,7 @@ EXCLUDED = [
     'appointments.Appointment.assigned_conductors',
 
     # Skipped because it should be included in study data
-    'recruitment.Participation.consent',
+    'recruitment.ParticipationConsent.',
 ]
 
 

@@ -38,7 +38,8 @@ from .views import ExportView
 from .views import LegalRepresentativeContactUpdateView
 from .views import NewsMailView
 from .views import ParticipationAppointmentsUpdateView
-from .views import ParticipationConsentUpdateView
+from .views import ParticipationConsentCreateView
+from .views import ParticipationConsentDeleteView
 from .views import ParticipationConsentView
 from .views import ParticipationDetailView
 from .views import ParticipationDropoutConfirmView
@@ -99,9 +100,14 @@ urlpatterns = [
         name='participation-consent',
     ),
     path(
-        '<int:study_pk>/<int:pk>/consent/change/',
-        ParticipationConsentUpdateView.as_view(),
-        name='participation-consent-change',
+        '<int:study_pk>/<int:pk>/consent/add/',
+        ParticipationConsentCreateView.as_view(),
+        name='participation-consent-create',
+    ),
+    path(
+        '<int:study_pk>/<int:pk>/consent/<int:consent_pk>/delete/',
+        ParticipationConsentDeleteView.as_view(),
+        name='participation-consent-delete',
     ),
     path(
         '<int:study_pk>/<int:pk>/appointments/',
