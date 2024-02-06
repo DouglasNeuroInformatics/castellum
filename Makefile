@@ -11,8 +11,8 @@ run:
 .PHONY: install
 install:
 	if [ ! -d "$(VIRTUAL_ENV)" ]; then python3 -m venv "$(VIRTUAL_ENV)"; fi
-	$(VIRTUAL_ENV)/bin/pip install -U pip wheel
-	$(VIRTUAL_ENV)/bin/pip install -e .[test,dev]
+	$(VIRTUAL_ENV)/bin/python -m pip install -U pip wheel
+	$(VIRTUAL_ENV)/bin/python -m pip install -e .[test,dev]
 	npm install
 	.misc/extract_fullcalendar_css.sh
 	$(MANAGEPY) compilemessages -l de
