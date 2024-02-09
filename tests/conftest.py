@@ -182,6 +182,11 @@ def study_in_edit_status(db):
 
 
 @pytest.fixture
+def study_in_finished_status(db):
+    return baker.make(Study, status=Study.FINISHED)
+
+
+@pytest.fixture
 def address(db):
     return baker.make(Address)
 

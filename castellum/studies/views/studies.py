@@ -119,9 +119,10 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         return context
 
 
-class StudyMaintenanceView(LoginRequiredMixin, ListView):
+class StudyMaintenanceView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Study
     paginate_by = 15
+    permission_required = 'studies.change_study'
     template_name = 'studies/study_maintenance_list.html'
     NEXT_STEPS = {
         'edit': _('Start the study'),
