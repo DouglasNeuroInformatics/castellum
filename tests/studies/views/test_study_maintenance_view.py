@@ -1,13 +1,13 @@
-from collections import Counter
-from datetime import date, timedelta
-
 import pytest
-from model_bakery import baker
 
-from castellum.castellum_auth.templatetags.auth import has_perm
 from castellum.pseudonyms.models import Domain
 from castellum.studies.models import Study
 from castellum.studies.views.studies import StudyMaintenanceView
+
+from model_bakery import baker
+
+from datetime import date
+from datetime import timedelta
 
 
 @pytest.mark.usefixtures
@@ -24,7 +24,7 @@ def test_study_maintenance_200(request, client, user_fixture, study):
 
     this_user = request.getfixturevalue(user_fixture)
     client.force_login(this_user)
-    response = client.get(f'/studies/maintenance/edit/')
+    response = client.get('/studies/maintenance/edit/')
     assert response.status_code == 200
 
 
@@ -35,7 +35,7 @@ def test_studies_start_in_edit(client, user):
     baker.make(Study, _quantity=3)
 
     client.force_login(user)
-    response = client.get(f'/studies/maintenance/edit/')
+    response = client.get('/studies/maintenance/edit/')
 
     assert response.content.count(b'class="table-list-item"') == 3
 
@@ -48,7 +48,7 @@ def test_finished_study_in_finished(client, user, study_in_finished_status):
 
     finished_subtabs = [
         subtab for subtab in StudyMaintenanceView.NEXT_STEPS
-        if subtab.startswith("finished-")
+        if subtab.startswith('finished-')
     ]
 
     assert finished_subtabs, ("Couldn't find any subtabs for finished studies"
@@ -71,26 +71,26 @@ def test_each_study_in_exactly_one_view(client, user):
     """
     client.force_login(user)
 
-    baker.make(Study, name="Fresh Study")
+    baker.make(Study, name='Fresh Study')
 
     tomorrow = date.today() + timedelta(1),
     yesterday = date.today() - timedelta(1)
 
-    baker.make(Study, status=Study.EXECUTION, name="Execution Unknown")
+    baker.make(Study, status=Study.EXECUTION, name='Execution Unknown')
     baker.make(Study, status=Study.EXECUTION, sessions_end=tomorrow,
-               name="Execution Future")
+               name='Execution Future')
     baker.make(Study, status=Study.EXECUTION, sessions_end=yesterday,
-               name="Execution Past")
+               name='Execution Past')
 
-    baker.make(Study, status=Study.FINISHED, name="Finished Domains")
+    baker.make(Study, status=Study.FINISHED, name='Finished Domains')
     domain = baker.make(Domain)
-    baker.make(Study, status=Study.FINISHED, name="Finished Anon").domains.add(domain)
+    baker.make(Study, status=Study.FINISHED, name='Finished Anon').domains.add(domain)
 
     name_appearances = {this_study.name: [] for this_study in Study.objects.all()}
 
     for subtab in StudyMaintenanceView.NEXT_STEPS:
         response = client.get(f'/studies/maintenance/{subtab}/')
-        for study_in_response in response.context["study_list"]:
+        for study_in_response in response.context['study_list']:
             name_appearances[study_in_response.name].append(subtab)
 
     no_appearances = {
@@ -102,7 +102,7 @@ def test_each_study_in_exactly_one_view(client, user):
         if len(appearances) > 1
     }
 
-    assert not no_appearances, (f"Studies could not be found in any tab of the"
-                                f" maintenance view: {multi_appearances}")
-    assert not multi_appearances, (f"Found appearances in multiple maintenance tabs for"
-                                   f" {len(no_appearances)} studies: {no_appearances}")
+    assert not no_appearances, (f'Studies could not be found in any tab of the'
+                                f' maintenance view: {multi_appearances}')
+    assert not multi_appearances, (f'Found appearances in multiple maintenance tabs for'
+                                   f' {len(no_appearances)} studies: {no_appearances}')
