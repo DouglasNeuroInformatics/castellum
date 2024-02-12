@@ -76,9 +76,9 @@ def test_each_study_in_exactly_one_view(client, user):
     yesterday = date.today() - timedelta(1)
 
     baker.make(Study, status=Study.EXECUTION, name='Execution Unknown')
-    baker.make(Study, status=Study.EXECUTION, sessions_end=tomorrow,
+    baker.make(Study, status=Study.EXECUTION, sessions_end=str(tomorrow),
                name='Execution Future')
-    baker.make(Study, status=Study.EXECUTION, sessions_end=yesterday,
+    baker.make(Study, status=Study.EXECUTION, sessions_end=str(yesterday),
                name='Execution Past')
 
     baker.make(Study, status=Study.FINISHED, name='Finished Domains')
