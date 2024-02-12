@@ -1,13 +1,12 @@
+from datetime import date
+from datetime import timedelta
+
 import pytest
+from model_bakery import baker
 
 from castellum.pseudonyms.models import Domain
 from castellum.studies.models import Study
 from castellum.studies.views.studies import StudyMaintenanceView
-
-from model_bakery import baker
-
-from datetime import date
-from datetime import timedelta
 
 
 @pytest.mark.usefixtures
