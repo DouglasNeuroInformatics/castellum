@@ -42,12 +42,7 @@
                     </div>
 
                     <div class="me-2">
-                        {% if participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE %}
-                            <div class="d-inline-block my-1 me-2">
-                                {% blocktranslate count attempts=participation.attempts %}{{ attempts }} attempt{% plural %}{{ attempts }} attempts{% endblocktranslate %},
-                                {% translate 'last' %}: <time>{{ participation.updated_at|longdate }}</time>
-                            </div>
-                        {% elif participation.status == participation.FOLLOWUP_APPOINTED %}
+                        {% if participation.status == participation.FOLLOWUP_APPOINTED %}
                             <div class="d-inline-block my-1 me-2">
                                 {% if participation.followup_date|is_today %}
                                     {% if participation.followup_time %}

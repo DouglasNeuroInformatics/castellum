@@ -229,8 +229,6 @@ class Participation(models.Model):
         _('Subject may be suitable'), default=False
     )
 
-    attempts = models.IntegerField(_('Attempts'), default=0)
-
     followup_date = DateField(_('Follow-up date'), blank=True, null=True)
     followup_time = models.TimeField(_('Follow-up time'), blank=True, null=True)
 
@@ -303,13 +301,6 @@ class Participation(models.Model):
             )
 
     def save(self, *args, **kwargs):
-        if self.status in [self.NOT_REACHED, self.AWAITING_RESPONSE]:
-            if self.status == self._old_status:
-                self.attempts += 1
-            else:
-                self.attempts = 1
-        else:
-            self.attempts = 0
 
         if self.status in self.INVITED_SET:
             ReliabilityEntry.objects.get_or_create(

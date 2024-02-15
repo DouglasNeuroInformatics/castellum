@@ -384,7 +384,6 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                         study=self.study,
                         subject=pick,
                         status=Participation.AWAITING_RESPONSE,
-                        attempts=1,
                     ))
 
         return participations
