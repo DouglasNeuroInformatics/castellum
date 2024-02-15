@@ -301,7 +301,6 @@ class Participation(models.Model):
             )
 
     def save(self, *args, **kwargs):
-
         if self.status in self.INVITED_SET:
             ReliabilityEntry.objects.get_or_create(
                 study=self.study, subject=self.subject
