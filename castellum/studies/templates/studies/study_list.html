@@ -56,17 +56,17 @@
         </div>
 
         <div class="col-md-9">
-            {% has_perm 'studies.change_study' user as can_add_study %}
-            {% if can_add_study %}
-                <div class="d-print-none text-end mb-3">
+            <div class="d-print-none text-end mb-3">
+                {% has_perm 'studies.change_study' user as can_add_study %}
+                {% if can_add_study %}
                     <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
                     <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
                         {% csrf_token %}
                         <button class="btn btn-secondary mb-1">{% translate 'Try filters' %}</button>
                     </form>
-                    <a href="{% url 'studies:maintenance' 'edit' %}" class="btn btn-secondary mb-1">{% translate 'Overview by status' %}</a>
-                </div>
-            {% endif %}
+                {% endif %}
+                <a href="{% url 'studies:maintenance' 'edit' %}" class="btn btn-secondary mb-1">{% translate 'Overview by status' %}</a>
+            </div>
 
             <ul class="nav nav-tabs mb-2">
                 {% for value, label in form.display.field.choices %}
