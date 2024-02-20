@@ -59,7 +59,7 @@ def test_empty_study_in_edit(client, user):
     """
     client.force_login(user)
 
-    study = baker.make(Study)
+    study = baker.make(Study, name='Empty Study')
 
     assert_subtab_for_study(study, client, 'edit')
 
