@@ -9,99 +9,126 @@ from castellum.studies.models import Study
 from castellum.studies.views.studies import StudyMaintenanceView
 
 
+def assert_subtab_for_study(study, client, expected_sub_tab):
+    """Helper function that checks if a study is in exactly one sub-tab of the
+    Study Maintenance View, and then returns it."""
+    appearances = []
+
+    for sub_tab in StudyMaintenanceView.NEXT_STEPS:
+        response = client.get(f'/studies/maintenance/{sub_tab}/')
+        if study in response.context['study_list']:
+            appearances.append(sub_tab)
+
+    assert appearances, (
+        f'Study {study} was found in none of the subtabs of the StudyMaintenanceView.'
+    )
+    assert len(appearances) < 2, (
+        f'Study {study} was found in multiple subtabs'
+        f' of the StudyMaintenanceView: {appearances}.'
+    )
+    assert appearances[0] == expected_sub_tab, (
+        f'Study {study} was expected in {expected_sub_tab} subtab of the'
+        f' StudyMaintenanceView but was found in {appearances[0]} subtab instead.'
+    )
+
+
 @pytest.mark.usefixtures
 @pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
-    'study_coordinator',
-    pytest.param('receptionist', marks=pytest.mark.xfail(strict=True)),
+    'receptionist',
+    pytest.param(None, marks=pytest.mark.xfail(strict=True)),
 ])
-def test_study_maintenance_200(request, client, user_fixture, study):
+def test_study_maintenance_login_required(request, client, user_fixture, study):
     """
     Only people who can view studies should be able to see this view,
     because it shows a list of all studies.
     """
 
-    this_user = request.getfixturevalue(user_fixture)
-    client.force_login(this_user)
+    if user_fixture:
+        this_user = request.getfixturevalue(user_fixture)
+        client.force_login(this_user)
     response = client.get('/studies/maintenance/edit/')
     assert response.status_code == 200
 
 
-def test_studies_start_in_edit(client, user):
+def test_empty_study_in_edit(client, user):
     """
-    A study that has been freshly created should start in "edit".
-    """
-    baker.make(Study, _quantity=3)
-
-    client.force_login(user)
-    response = client.get('/studies/maintenance/edit/')
-
-    assert response.content.count(b'class="table-list-item"') == 3
-
-
-def test_finished_study_in_finished(client, user, study_in_finished_status):
-    """
-    A finished study should be in one of the "finished-" views.
+    A study that has been freshly created should start in the "edit" tab.
     """
     client.force_login(user)
 
-    finished_subtabs = [
-        subtab for subtab in StudyMaintenanceView.NEXT_STEPS
-        if subtab.startswith('finished-')
-    ]
+    study = baker.make(Study)
 
-    assert finished_subtabs, ("Couldn't find any subtabs for finished studies"
-                              " in the maintenance view. Found subtabs: "
-                              f"{list(StudyMaintenanceView.NEXT_STEPS)}")
-
-    for subtab in finished_subtabs:
-        response = client.get(f'/studies/maintenance/{subtab}/')
-        if response.content.count(b'class="table-list-item"') == 1:
-            break
-    else:
-        assert False
+    assert_subtab_for_study(study, client, 'edit')
 
 
-def test_each_study_in_exactly_one_view(client, user):
+def test_study_without_execution_date_in_execution_unknown(client, user):
     """
-    Every study should be visible on the maintenance view, which means that it has
-    to be part of at least one tab.
-    Every study should also only be visible on *at most* one tab.
+    An empty study in Execution status should be in the "execution-unknown" subtab.
     """
     client.force_login(user)
 
-    baker.make(Study, name='Fresh Study')
+    study = baker.make(Study, status=Study.EXECUTION, name='Execution Unknown')
+
+    assert_subtab_for_study(study, client, 'execution-unknown')
+
+
+def test_study_with_future_exuction_date_in_excution_future(client, user):
+    """
+    An empty study in Execution status with a future sessions_end should be in the
+    "execution-future" subtab.
+    """
+    client.force_login(user)
 
     tomorrow = date.today() + timedelta(1)
+    study = baker.make(
+        Study,
+        status=Study.EXECUTION,
+        sessions_end=tomorrow.strftime('%Y-%m-%d'),
+        name='Execution Future'
+    )
+
+    assert_subtab_for_study(study, client, 'execution-future')
+
+
+def test_study_with_past_exuction_date_in_excution_past(client, user):
+    """
+    An empty study in Execution status with a past sessions_end should be in the
+    "execution-past" subtab.
+    """
+    client.force_login(user)
+
     yesterday = date.today() - timedelta(1)
+    study = baker.make(
+        Study,
+        status=Study.EXECUTION,
+        sessions_end=yesterday.strftime('%Y-%m-%d'),
+        name='Execution Future'
+    )
 
-    baker.make(Study, status=Study.EXECUTION, name='Execution Unknown')
-    baker.make(Study, status=Study.EXECUTION,
-               sessions_end=tomorrow.strftime('%Y-%m-%d'), name='Execution Future')
-    baker.make(Study, status=Study.EXECUTION,
-               sessions_end=yesterday.strftime('%Y-%m-%d'), name='Execution Past')
+    assert_subtab_for_study(study, client, 'execution-past')
 
-    baker.make(Study, status=Study.FINISHED, name='Finished Domains')
+
+def test_finished_study_without_domains_in_finished_anon(client, user):
+    """
+    An empty study in Finished status should be in the finished-anon subtab.
+    """
+    client.force_login(user)
+
+    study = baker.make(Study, status=Study.FINISHED, name='Finished & No Domains')
+
+    assert_subtab_for_study(study, client, 'finished-anon')
+
+
+def test_finished_study_with_domains_in_finished_domains(client, user):
+    """
+    A study in Finished status that has an associated domain should be in the finished-domains subtab.
+    """
+    client.force_login(user)
+
+    study = baker.make(Study, status=Study.FINISHED, name='Finished With Domains')
     domain = baker.make(Domain)
-    baker.make(Study, status=Study.FINISHED, name='Finished Anon').domains.add(domain)
+    study.domains.add(domain)
+    study.save()
 
-    name_appearances = {this_study.name: [] for this_study in Study.objects.all()}
-
-    for subtab in StudyMaintenanceView.NEXT_STEPS:
-        response = client.get(f'/studies/maintenance/{subtab}/')
-        for study_in_response in response.context['study_list']:
-            name_appearances[study_in_response.name].append(subtab)
-
-    no_appearances = {
-        name: appearances for name, appearances in name_appearances.items()
-        if len(appearances) == 0
-    }
-    multi_appearances = {
-        name: appearances for name, appearances in name_appearances.items()
-        if len(appearances) > 1
-    }
-
-    assert not no_appearances, (f'Studies could not be found in any tab of the'
-                                f' maintenance view: {multi_appearances}')
-    assert not multi_appearances, (f'Found appearances in multiple maintenance tabs for'
-                                   f' {len(no_appearances)} studies: {no_appearances}')
+    assert_subtab_for_study(study, client, 'finished-domains')
