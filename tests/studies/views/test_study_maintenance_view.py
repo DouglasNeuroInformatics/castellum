@@ -10,8 +10,10 @@ from castellum.studies.views.studies import StudyMaintenanceView
 
 
 def assert_subtab_for_study(study, client, expected_sub_tab):
-    """Helper function that checks if a study is in exactly one sub-tab of the
-    Study Maintenance View, and then returns it."""
+    """
+    Helper function that checks if a study is in a specified sub-tab of the
+    Study Maintenance View, and also asserts that it's the only sub-tab containing it.
+    """
     appearances = []
 
     for sub_tab in StudyMaintenanceView.NEXT_STEPS:
