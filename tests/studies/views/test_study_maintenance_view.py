@@ -124,7 +124,8 @@ def test_finished_study_without_domains_in_finished_anon(client, user):
 
 def test_finished_study_with_domains_in_finished_domains(client, user):
     """
-    A study in Finished status that has an associated domain should be in the finished-domains subtab.
+    A study in Finished status that has an associated domain should be in the
+    finished-domains subtab.
     """
     client.force_login(user)
 
