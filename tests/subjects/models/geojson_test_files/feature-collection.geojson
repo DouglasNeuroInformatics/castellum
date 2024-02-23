@@ -1,0 +1,71 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Fictional Place First Half"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            0.0,
+                            0.0
+                        ],
+                        [
+                            3.0,
+                            0.0
+                        ],
+                        [
+                            3.0,
+                            3.0
+                        ],
+                        [
+                            0.0,
+                            3.0
+                        ],
+                        [
+                            0.0,
+                            0.0
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Fictional Place Second Half"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            10.0,
+                            10.0
+                        ],
+                        [
+                            13.0,
+                            10.0
+                        ],
+                        [
+                            13.0,
+                            13.0
+                        ],
+                        [
+                            10.0,
+                            13.0
+                        ],
+                        [
+                            10.0,
+                            10.0
+                        ]
+                    ]
+                ]
+            }
+        }
+    ]
+}
