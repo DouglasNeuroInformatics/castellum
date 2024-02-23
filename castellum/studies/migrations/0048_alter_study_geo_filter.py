@@ -67,7 +67,7 @@ class Migration(migrations.Migration):
                                 'MultiPolygon': {
                                     'properties': {
                                         'coordinates': {
-                                            'items': {'$ref': '#/$defs/MultiPolygon'},
+                                            'items': {'$ref': '#/$defs/PolygonCoordinates'},
                                             'type': 'array',
                                         },
                                         'type': {

@@ -39,7 +39,7 @@
                 "coordinates": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/MultiPolygon"
+                        "$ref": "#/$defs/PolygonCoordinates"
                     }
                 }
             }
