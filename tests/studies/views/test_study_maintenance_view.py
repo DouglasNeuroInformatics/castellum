@@ -1,7 +1,5 @@
-from datetime import date
-from datetime import timedelta
-
 import pytest
+from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.pseudonyms.models import Domain
@@ -75,6 +73,7 @@ def test_study_without_execution_date_in_execution_unknown(client, user):
     assert_subtab_for_study(study, client, 'execution-unknown')
 
 
+@freeze_time('2024-01-02 12:00:00')
 def test_study_with_future_exuction_date_in_excution_future(client, user):
     """
     An empty study in Execution status with a future sessions_end should be in the
@@ -82,17 +81,17 @@ def test_study_with_future_exuction_date_in_excution_future(client, user):
     """
     client.force_login(user)
 
-    tomorrow = date.today() + timedelta(1)
     study = baker.make(
         Study,
         status=Study.EXECUTION,
-        sessions_end=tomorrow.strftime('%Y-%m-%d'),
-        name='Execution Future'
+        sessions_end='2024-01-03',
+        name='Execution Future',
     )
 
     assert_subtab_for_study(study, client, 'execution-future')
 
 
+@freeze_time('2024-01-02 12:00:00')
 def test_study_with_past_exuction_date_in_excution_past(client, user):
     """
     An empty study in Execution status with a past sessions_end should be in the
@@ -100,12 +99,11 @@ def test_study_with_past_exuction_date_in_excution_past(client, user):
     """
     client.force_login(user)
 
-    yesterday = date.today() - timedelta(1)
     study = baker.make(
         Study,
         status=Study.EXECUTION,
-        sessions_end=yesterday.strftime('%Y-%m-%d'),
-        name='Execution Future'
+        sessions_end='2024-01-01',
+        name='Execution Future',
     )
 
     assert_subtab_for_study(study, client, 'execution-past')
@@ -132,6 +130,5 @@ def test_finished_study_with_domains_in_finished_domains(client, user):
     study = baker.make(Study, status=Study.FINISHED, name='Finished With Domains')
     domain = baker.make(Domain)
     study.domains.add(domain)
-    study.save()
 
     assert_subtab_for_study(study, client, 'finished-domains')
