@@ -29,8 +29,9 @@ def test_update_other_study(client, member, subject_filter_group):
     client.force_login(member)
     other_study = baker.make(Study)
     baker.make(StudyMembership, user=member, study=other_study)
-    url = '/studies/{}/recruitmentsettings/filters/{}/'.format(
-        other_study.pk, subject_filter_group.pk
+    url = (
+        f'/studies/{other_study.pk}'
+        f'/recruitmentsettings/filters/{subject_filter_group.pk}/'
     )
     response = client.get(url)
     assert response.status_code == 404
@@ -39,8 +40,9 @@ def test_update_other_study(client, member, subject_filter_group):
 def test_delete_200(client, member, subject_filter_group):
     client.force_login(member)
     study = subject_filter_group.study
-    url = '/studies/{}/recruitmentsettings/filters/{}/delete/'.format(
-        study.pk, subject_filter_group.pk
+    url = (
+        f'/studies/{study.pk}/'
+        f'recruitmentsettings/filters/{subject_filter_group.pk}/delete/'
     )
     response = client.get(url)
     assert response.status_code == 200
@@ -50,8 +52,9 @@ def test_delete_other_study(client, member, subject_filter_group):
     client.force_login(member)
     other_study = baker.make(Study)
     baker.make(StudyMembership, user=member, study=other_study)
-    url = '/studies/{}/recruitmentsettings/filters/{}/delete/'.format(
-        other_study.pk, subject_filter_group.pk
+    url = (
+        f'/studies/{other_study.pk}'
+        f'/recruitmentsettings/filters/{subject_filter_group.pk}/delete/'
     )
     response = client.get(url)
     assert response.status_code == 404

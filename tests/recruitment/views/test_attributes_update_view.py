@@ -9,7 +9,6 @@ def test_200(client, member, participation):
     participation.save()
 
     client.force_login(member)
-    response = client.get('/recruitment/{}/{}/update-attributes/'.format(
-        participation.study.pk, participation.pk
-    ))
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/update-attributes/'
+    response = client.get(url)
     assert response.status_code == 200

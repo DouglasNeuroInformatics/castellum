@@ -9,9 +9,11 @@ def test_data_protection_200(client, member, participation):
     participation.save()
 
     client.force_login(member)
-    response = client.get('/recruitment/{}/{}/update-data-protection/'.format(
-        participation.study.pk, participation.pk
-    ))
+    url = (
+        f'/recruitment/{participation.study.pk}'
+        f'/{participation.pk}/update-data-protection/'
+    )
+    response = client.get(url)
     assert response.status_code == 200
 
 
@@ -21,7 +23,9 @@ def test_additional_info_200(client, member, participation):
     participation.save()
 
     client.force_login(member)
-    response = client.get('/recruitment/{}/{}/update-additional-info/'.format(
-        participation.study.pk, participation.pk
-    ))
+    url = (
+        f'/recruitment/{participation.study.pk}'
+        f'/{participation.pk}/update-additional-info/'
+    )
+    response = client.get(url)
     assert response.status_code == 200

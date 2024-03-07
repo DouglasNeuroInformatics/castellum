@@ -16,8 +16,9 @@ def test_apiattributesview(
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
-        study.pk, domain.key, pseudonym
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/attributes/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -34,8 +35,9 @@ def test_participation_status(client, conductor, study_in_execution_status, subj
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
-        study.pk, domain.key, pseudonym
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/attributes/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -53,8 +55,9 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
-        study.pk, domain.key, pseudonym
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/attributes/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -69,8 +72,9 @@ def test_unrelated_domain(client, conductor, study_in_execution_status, subject)
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
-        study.pk, domain.key, pseudonym
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/attributes/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 

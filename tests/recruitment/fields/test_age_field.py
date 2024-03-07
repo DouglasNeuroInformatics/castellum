@@ -13,8 +13,9 @@ def test_error_if_age_out_of_limits(
     client, attributes, member, subject_filter_group, age, expected
 ):
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/{}/'.format(
-        subject_filter_group.study.pk, subject_filter_group.pk
+    url = (
+        f'/studies/{subject_filter_group.study.pk}'
+        f'/recruitmentsettings/filters/{subject_filter_group.pk}/'
     )
     response = client.post(url, {
         'form-0-attribute': 3,

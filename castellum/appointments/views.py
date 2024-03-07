@@ -81,12 +81,11 @@ class ResourceDetailView(LoginRequiredMixin, BaseCalendarView):
             name = appointment.participation.subject.contact.full_name
         else:
             name = _('(insufficient privacy level)')
+
+        associated_study = appointment.participation.study
+        associated_session_name = appointment.session.name
         return {
-            'title': '{} ({} - {})'.format(
-                name,
-                appointment.participation.study,
-                appointment.session.name,
-            ),
+            'title': f'{name} ({associated_study} - {associated_session_name})',
             'url': reverse('execution:participation-detail', args=[
                 appointment.participation.study.pk,
                 appointment.participation.pk,

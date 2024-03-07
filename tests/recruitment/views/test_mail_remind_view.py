@@ -13,14 +13,11 @@ def test_mail_remind(client, member, study_in_execution_status):
     batch = baker.make(MailBatch, study=study_in_execution_status)
 
     client.force_login(member)
-    response = client.get('/recruitment/{}/mail/{}/remind/'.format(
-        study_in_execution_status.pk, batch.pk
-    ))
+    url = f'/recruitment/{study_in_execution_status.pk}/mail/{batch.pk}/remind/'
+    response = client.get(url)
     assert response.status_code == 200
 
-    response = client.post('/recruitment/{}/mail/{}/remind/'.format(
-        study_in_execution_status.pk, batch.pk
-    ))
+    response = client.post(url)
     assert response.status_code == 302
 
 

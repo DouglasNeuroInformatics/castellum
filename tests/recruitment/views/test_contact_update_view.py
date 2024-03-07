@@ -14,9 +14,8 @@ def test_200(client, member, participation):
     participation.save()
 
     client.force_login(member)
-    response = client.get('/recruitment/{}/{}/update-contact/'.format(
-        participation.study.pk, participation.pk
-    ))
+    url = f'/recruitment/{participation.study.pk}/{participation.pk}/update-contact/'
+    response = client.get(url)
     assert response.status_code == 200
 
 
@@ -34,9 +33,9 @@ def test_legal_representative_200(client, member, participation):
     )
 
     client.force_login(member)
-    response = client.get(
-        '/recruitment/{}/{}/representatives/{}/update-contact/'.format(
-            participation.study.pk, participation.pk, h
-        )
+    url = (
+        f'/recruitment/{participation.study.pk}'
+        f'/{participation.pk}/representatives/{h}/update-contact/'
     )
+    response = client.get(url)
     assert response.status_code == 200

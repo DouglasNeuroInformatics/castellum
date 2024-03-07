@@ -288,9 +288,8 @@ class RecruitmentViewOpen(RecruitmentView):
         is_urgent = request.POST.get('submit') == 'urgent'
 
         if is_urgent:
-            monitoring_logger.info('Urgent recruitment in study {} by {}'.format(
-                self.study.pk, request.user.pk
-            ))
+            info = f'Urgent recruitment in study {self.study.pk} by {request.user.pk}'
+            monitoring_logger.info(info)
 
         if self.study.min_subject_count == 0:
             messages.error(request, _(

@@ -47,10 +47,9 @@ def build_uri(context, participation, subject, body, body_en):
     subject = subject.format(**get_mail_data())
     body = ctx.prepare_body((get_mail_data, body, body_en))
 
-    return 'mailto:{}?subject={}&body={}'.format(
-        participation.study.email,
-        quote(subject, safe=[]),
-        quote(body, safe=[]),
+    return (
+        f'mailto:{participation.study.email}'
+        f'?subject={quote(subject, safe=[])}&body={quote(body, safe=[])}'
     )
 
 

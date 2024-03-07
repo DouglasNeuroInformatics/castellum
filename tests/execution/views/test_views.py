@@ -133,9 +133,8 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
     })
 
     assert response.status_code == 302
-    assert response.url == '/execution/{}/{}/'.format(
-        study_in_execution_status.pk, participation.pk
-    )
+    expected_url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/'
+    assert response.url == expected_url
 
 
 def test_resolve_view_wrong_domain(client, member, study_in_execution_status, subject):
@@ -175,9 +174,11 @@ def test_update_contact_view(client, member, study_in_execution_status, subject)
         subject=subject,
     )
 
-    response = client.get('/execution/{}/{}/update-contact/'.format(
-        study_in_execution_status.pk, participation.pk
-    ))
+    url = (
+        f'/execution/{study_in_execution_status.pk}'
+        f'/{participation.pk}/update-contact/'
+    )
+    response = client.get(url)
 
     assert response.status_code == 200
 
@@ -211,9 +212,8 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
     data = response.json()
     assert 'events' in data
     assert len(data['events']) == 1
-    assert data['events'][0]['url'] == '/execution/{}/{}/'.format(
-        study_in_execution_status.pk, participation.pk
-    )
+    expected_url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/'
+    assert data['events'][0]['url'] == expected_url
 
 
 @pytest.mark.smoketest

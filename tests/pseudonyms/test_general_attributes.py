@@ -16,8 +16,9 @@ def test_general_domain(client, user, conductor, study_in_execution_status, subj
     study_in_execution_status.general_domains.add(domain)
     conductor.general_domains.add(domain)
 
-    url = '/execution/{}/{}/pseudonyms/{}/'.format(
-        study_in_execution_status.pk, participation.pk, domain.key
+    url = (
+        f'/execution/{study_in_execution_status.pk}'
+        f'/{participation.pk}/pseudonyms/{domain.key}/'
     )
     client.force_login(conductor)
     response = client.get(url)
@@ -44,8 +45,9 @@ def test_general_domain_not_in_study(
 
     conductor.general_domains.add(domain)
 
-    url = '/execution/{}/{}/pseudonyms/{}/'.format(
-        study_in_execution_status.pk, participation.pk, domain.key
+    url = (
+        f'/execution/{study_in_execution_status.pk}'
+        f'/{participation.pk}/pseudonyms/{domain.key}/'
     )
     client.force_login(conductor)
     response = client.get(url)
@@ -65,8 +67,9 @@ def test_general_domain_not_in_user(
 
     study_in_execution_status.general_domains.add(domain)
 
-    url = '/execution/{}/{}/pseudonyms/{}/'.format(
-        study_in_execution_status.pk, participation.pk, domain.key
+    url = (
+        f'/execution/{study_in_execution_status.pk}'
+        f'/{participation.pk}/pseudonyms/{domain.key}/'
     )
     client.force_login(conductor)
     response = client.get(url)

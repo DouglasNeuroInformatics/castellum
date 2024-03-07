@@ -193,8 +193,9 @@ def test_delete_post(client, user, contact):
 def test_participation_delete_post(request, client, user_fixture, participation):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/participations/{}/delete/'.format(
-        participation.subject.pk, participation.pk
+    url = (
+        f'/subjects/{participation.subject.pk}'
+        f'/participations/{participation.pk}/delete/'
     )
     response = client.post(url)
     assert response.status_code == 302

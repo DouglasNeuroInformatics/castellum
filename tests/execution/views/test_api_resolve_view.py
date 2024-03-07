@@ -18,8 +18,9 @@ def test_apiresolveview(client, conductor, study_in_execution_status, subject):
     pseudonym = get_pseudonym(subject, domain.key)
     target_pseudonym = get_pseudonym(subject, target_domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -36,8 +37,9 @@ def test_token_required(client, conductor, study_in_execution_status, subject):
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url)  # no token
 
@@ -57,8 +59,9 @@ def test_user_expired(client, conductor, study_in_execution_status, subject):
         conductor.expiration_date = timezone.now()
         conductor.save()
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     with freeze_time('2000-01-02'):
         response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
@@ -77,8 +80,9 @@ def test_token_required_logged_in(
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     client.force_login(conductor)
     response = client.get(url)  # no token
@@ -95,8 +99,9 @@ def test_permission_required(client, recruiter, study_in_execution_status, subje
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {recruiter.token}')
 
@@ -115,8 +120,9 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -131,8 +137,9 @@ def test_study_status(client, conductor, study, subject):
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -148,8 +155,9 @@ def test_participation_status(client, conductor, study_in_execution_status, subj
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -170,8 +178,9 @@ def test_source_domain_wrong_study(
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -191,8 +200,9 @@ def test_source_domain_general(client, conductor, study_in_execution_status, sub
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -213,8 +223,9 @@ def test_target_domain_other_study(
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -235,8 +246,9 @@ def test_target_domain_general(client, conductor, study_in_execution_status, sub
     pseudonym = get_pseudonym(subject, domain.key)
     target_pseudonym = get_pseudonym(subject, target_domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -258,8 +270,9 @@ def test_target_domain_general_bad_user(
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -280,8 +293,9 @@ def test_source_domain_general_bad_study(
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym, target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 
@@ -298,8 +312,9 @@ def test_normalize_pseudonym(client, conductor, study_in_execution_status, subje
     pseudonym = get_pseudonym(subject, domain.key)
     target_pseudonym = get_pseudonym(subject, target_domain.key)
 
-    url = '/execution/api/studies/{}/domains/{}/{}/{}/'.format(
-        study.pk, domain.key, pseudonym.lower(), target_domain.key
+    url = (
+        f'/execution/api/studies/{study.pk}'
+        f'/domains/{domain.key}/{pseudonym.lower()}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
 

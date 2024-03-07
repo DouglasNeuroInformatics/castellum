@@ -13,16 +13,15 @@ def test_feed_for_study_in_execution_status(client, member, study_in_execution_s
         status=Participation.FOLLOWUP_APPOINTED,
         _fill_optional=['followup_time', 'followup_date'],
     )
-    response = client.get('/recruitment/{}/followups/?token={}'.format(
-        study_in_execution_status.pk, member.token
-    ))
+
+    url = f'/recruitment/{study_in_execution_status.pk}/followups/?token={member.token}'
+    response = client.get(url)
     assert response.status_code == 200
 
 
 def test_feed_for_study_in_edit_status(client, member, study_in_edit_status):
-    response = client.get('/recruitment/{}/followups/?token={}'.format(
-        study_in_edit_status.pk, member.token
-    ))
+    url = f'/recruitment/{study_in_edit_status.pk}/followups/?token={member.token}'
+    response = client.get(url)
     assert response.status_code == 404
 
 
