@@ -11,7 +11,11 @@
         <dd class="col-sm-6"><a href="{% url 'subjects:detail' object.subject.pk %}">{{ object.subject.contact }}</a></dd>
 
         <dt class="col-sm-6">{{ object|verbose_name:'user' }}</dt>
-        <dd class="col-sm-6"><a {% if object.email %}href="mailto:{{ object.email }}"{% endif %}>{{ object.user.get_full_name }}</a></dd>
+        {% if object.user %}
+            <dd class="col-sm-6"><a {% if object.email %}href="mailto:{{ object.email }}"{% endif %}>{{ object.user.get_full_name }}</a></dd>
+        {% else %}
+            <dd class="col-sm-6 text-muted"><em>{% translate "DELETED USER" %}</em></dd>
+        {% endif %}
 
         <dt class="col-sm-6">{{ object|verbose_name:'additional_wishes' }}</dt>
         <dd class="col-sm-6">{{ object|display:'additional_wishes' }}</dd>

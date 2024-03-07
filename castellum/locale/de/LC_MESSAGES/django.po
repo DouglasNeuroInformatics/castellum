@@ -3554,6 +3554,10 @@ msgstr ""
 "Willen der Proband*in gespeichert. Oder Sie können diese Meldungen verwerfen "
 "und die Sperrung aufheben."
 
+#: castellum/subjects/templates/subjects/report_detail.html:17
+msgid "DELETED USER"
+msgstr "GELÖSCHTE NUTZER*IN"
+
 #: castellum/subjects/templates/subjects/report_detail.html:21
 msgid "Block subject"
 msgstr "Proband*in sperren"
