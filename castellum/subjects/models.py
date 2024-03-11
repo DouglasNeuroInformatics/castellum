@@ -348,7 +348,12 @@ class Report(models.Model):
     subject = models.ForeignKey(
         Subject, verbose_name=_('Subject'), on_delete=models.CASCADE
     )
-    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User,
+        verbose_name=_('User'),
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     additional_wishes = models.TextField(
         _('Additional wishes (optional)'),
         help_text=_('e.g. Request for a confidential conversation'),
