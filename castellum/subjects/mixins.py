@@ -141,6 +141,7 @@ class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         Consent.objects.filter(subject=self.subject).delete()
         form.instance.subject = self.subject
+        form.instance.underage_when_given = self.subject.contact.is_underage
         return super().form_valid(form)
 
 
