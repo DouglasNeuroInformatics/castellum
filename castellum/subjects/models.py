@@ -354,8 +354,10 @@ class Report(models.Model):
     #   legitimate report.
     # - The report is kept even if the user has been deleted so reviewers can still make
     #   a decision.
+    # - The report is kept even if the subject has been deleted so reviewers can still
+    #   offer support.
     subject = models.ForeignKey(
-        Subject, verbose_name=_('Subject'), on_delete=models.CASCADE
+        Subject, verbose_name=_('Subject'), on_delete=models.SET_NULL, null=True
     )
     user = models.ForeignKey(
         User, verbose_name=_('User'), on_delete=models.SET_NULL, null=True

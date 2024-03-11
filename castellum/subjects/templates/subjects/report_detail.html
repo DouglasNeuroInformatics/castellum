@@ -8,7 +8,11 @@
     <p>{% translate 'A user has reported a subject for inappropriate behavior. They have been blocked temporarily. You now have two options: You can confirm the block, in which case they will no longer be invited to studies. In order to enforce that block, their contact information will be stored even against their will. Or you can discard this reports and un-block the subject.' %}</p>
     <dl class="row">
         <dt class="col-sm-6">{{ object|verbose_name:'subject' }}</dt>
-        <dd class="col-sm-6"><a href="{% url 'subjects:detail' object.subject.pk %}">{{ object.subject.contact }}</a></dd>
+        {% if object.subject %}
+            <dd class="col-sm-6"><a href="{% url 'subjects:detail' object.subject.pk %}">{{ object.subject.contact }}</a></dd>
+        {% else %}
+            <dd class="col-sm-6"><em>{% translate "DELETED SUBJECT" %}</em></dd>
+        {% endif  %}
 
         <dt class="col-sm-6">{{ object|verbose_name:'user' }}</dt>
         {% if object.user %}
@@ -22,7 +26,11 @@
     </dl>
     <form method="post">
         {% csrf_token %}
-        <button name="submit" value="block" class="btn btn-primary">{% translate 'Block subject' %}</button>
-        <button name="submit" value="discard" class="btn btn-danger">{% translate 'Discard report' %}</button>
+        {% if object.subject %}
+            <button name="submit" value="block" class="btn btn-primary">{% translate 'Block subject' %}</button>
+            <button name="submit" value="discard" class="btn btn-danger">{% translate 'Discard report' %}</button>
+        {% else %}
+            <button name="submit" value="nothing" class="btn btn-primary">{% translate 'Discard report' %}</button>
+        {% endif %}
     </form>
 {% endblock %}

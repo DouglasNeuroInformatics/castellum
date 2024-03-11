@@ -474,7 +474,7 @@ class ReportDetailView(PermissionRequiredMixin, DetailView):
         obj = self.get_object()
         if request.POST.get('submit') == 'block':
             messages.success(request, _('Subject remains blocked.'))
-        else:
+        elif request.POST.get('submit') == 'discard':
             obj.subject.blocked = False
             obj.subject.save()
             messages.success(request, _(
