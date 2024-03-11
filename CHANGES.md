@@ -1,3 +1,15 @@
+# 0.96.1 (2024-03-11)
+
+-   Fix expiration of consents given by parents when a subject turns 16.
+    This was not handled correctly since 0.79.0 (2022-07-19).
+    Fortunately, the information can be fully recovered. Also, since the
+    bug was introduced less than 2 years ago, no consent are actually
+    affected.
+-   Display study maintenance link for all users
+-   Fix validation of MultiPolygons for geo filters
+-   Fix a type in the german translation
+
+
 # 0.96.0 (2024-01-29)
 
 ## breaking changes
