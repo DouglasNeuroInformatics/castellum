@@ -135,3 +135,7 @@ CASTELLUM_REPORT_NOTIFICATION_BODY = (
     'Please review the report here:\n\n{url}'
 )
 CASTELLUM_REPORT_NOTIFICATION_BODY_EN = None
+
+# used by the notify_on_full_age command
+CASTELLUM_FULL_AGE_MAIL_SUBJECT = None
+CASTELLUM_FULL_AGE_MAIL_BODY = None

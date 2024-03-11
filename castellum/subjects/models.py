@@ -307,6 +307,12 @@ class Consent(models.Model):
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     underage_when_given = models.BooleanField(_('Underage when given'), null=True)
+    full_age_notified_1 = models.BooleanField(
+        _('First expiration notification sent'), default=False
+    )
+    full_age_notified_2 = models.BooleanField(
+        _('Second expiration notification sent'), default=False
+    )
     document = models.ForeignKey(
         ConsentDocument,
         verbose_name=_('Document'),
