@@ -47,7 +47,7 @@ class Command(BaseCommand):
         consents = Consent.objects.filter(
             underage_when_given=True,
             subject__in=full_age_subjects,
-        )
+        ).exclude(document=None)
 
         count, _ = consents.delete()
 
