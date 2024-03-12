@@ -11,7 +11,7 @@ from castellum.studies.models import StudySession
 
 
 def test_send_appointment_reminders_first(
-    mailoutbox, contact, study_in_execution_status,
+    contact, study_in_execution_status, mailoutbox
 ):
     contact.email = 'test@example.com'
     contact.save()
@@ -44,9 +44,7 @@ def test_send_appointment_reminders_first(
 
 
 def test_send_appointment_reminders_second(
-    mailoutbox,
-    contact,
-    study_in_execution_status,
+    contact, study_in_execution_status, mailoutbox
 ):
     contact.email = 'test@example.com'
     contact.save()

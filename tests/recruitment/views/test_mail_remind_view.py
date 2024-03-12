@@ -21,7 +21,7 @@ def test_mail_remind(client, member, study_in_execution_status):
 
 
 def test_mail_remind_sends_mail(
-    client, mailoutbox, member, study_in_execution_status, participation
+    client, member, study_in_execution_status, participation, mailoutbox
 ):
     study_in_execution_status.mail_body = 'test'
     study_in_execution_status.save()

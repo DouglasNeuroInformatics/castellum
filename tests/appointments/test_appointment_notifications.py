@@ -9,7 +9,7 @@ def dt(s):
     return timezone.make_aware(parse_datetime(s))
 
 
-def test_appointment_notifications(mailoutbox, conductor, participation):
+def test_appointment_notifications(conductor, participation, mailoutbox):
     send_appointment_notifications(
         participation,
         (AppointmentState(dt('2017-01-01 12:00'), set()), None),
@@ -18,7 +18,7 @@ def test_appointment_notifications(mailoutbox, conductor, participation):
     assert len(mailoutbox) == 1
 
 
-def test_appointment_notifications_no_members(mailoutbox, participation):
+def test_appointment_notifications_no_members(participation, mailoutbox):
     send_appointment_notifications(
         participation,
         (AppointmentState(dt('2017-01-01 12:00'), set()), None),
@@ -27,7 +27,7 @@ def test_appointment_notifications_no_members(mailoutbox, participation):
     assert len(mailoutbox) == 0
 
 
-def test_appointment_notifications_cc(mailoutbox, user, conductor, participation):
+def test_appointment_notifications_cc(user, conductor, participation, mailoutbox):
     send_appointment_notifications(
         participation,
         (AppointmentState(dt('2017-01-01 12:00'), set()), None),
@@ -39,9 +39,7 @@ def test_appointment_notifications_cc(mailoutbox, user, conductor, participation
 
 
 def test_no_appointment_notifications_if_only_conductor(
-    mailoutbox,
-    conductor,
-    participation,
+    conductor, participation, mailoutbox
 ):
     send_appointment_notifications(
         participation,
