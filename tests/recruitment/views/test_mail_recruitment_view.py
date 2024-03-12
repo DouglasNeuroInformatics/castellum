@@ -1,4 +1,3 @@
-from django.core import mail
 from django.utils import timezone
 from freezegun import freeze_time
 from model_bakery import baker
@@ -12,7 +11,7 @@ from castellum.studies.models import Study
 from castellum.subjects.models import Consent
 
 
-def test_mail_add_to_study(client, user):
+def test_mail_add_to_study(client, user, mailoutbox):
     client.force_login(user)
     study = baker.make(
         Study,
@@ -31,13 +30,13 @@ def test_mail_add_to_study(client, user):
     participations = view.create_participations(3)
 
     assert len(participations) == 2
-    assert len(mail.outbox) == 2
+    assert len(mailoutbox) == 2
 
     Participation.objects.bulk_create(participations)
     assert study.participation_set.count() == 2
 
 
-def test_legal_representative_mail_add_to_study(client, user):
+def test_legal_representative_mail_add_to_study(client, user, mailoutbox):
     client.force_login(user)
     study = baker.make(
         Study,
@@ -55,7 +54,7 @@ def test_legal_representative_mail_add_to_study(client, user):
     participations = view.create_participations(3)
 
     assert len(participations) == 1
-    assert len(mail.outbox) == 1
+    assert len(mailoutbox) == 1
 
     Participation.objects.bulk_create(participations)
     assert study.participation_set.count() == 1

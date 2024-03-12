@@ -1,4 +1,3 @@
-from django.core import mail
 from django.utils import timezone
 from freezegun import freeze_time
 from model_bakery import baker
@@ -11,7 +10,9 @@ from castellum.recruitment.models import Participation
 from castellum.studies.models import StudySession
 
 
-def test_send_appointment_reminders_first(contact, study_in_execution_status):
+def test_send_appointment_reminders_first(
+    mailoutbox, contact, study_in_execution_status,
+):
     contact.email = 'test@example.com'
     contact.save()
     participation = baker.make(
@@ -36,13 +37,17 @@ def test_send_appointment_reminders_first(contact, study_in_execution_status):
         )
 
     assert reached_count == 1
-    assert len(mail.outbox) == 1
+    assert len(mailoutbox) == 1
 
     appointment.refresh_from_db()
     assert appointment.first_reminder_sent is True
 
 
-def test_send_appointment_reminders_second(contact, study_in_execution_status):
+def test_send_appointment_reminders_second(
+    mailoutbox,
+    contact,
+    study_in_execution_status,
+):
     contact.email = 'test@example.com'
     contact.save()
     participation = baker.make(
@@ -68,7 +73,7 @@ def test_send_appointment_reminders_second(contact, study_in_execution_status):
         )
 
     assert reached_count == 1
-    assert len(mail.outbox) == 1
+    assert len(mailoutbox) == 1
 
     appointment.refresh_from_db()
     assert appointment.second_reminder_sent is True

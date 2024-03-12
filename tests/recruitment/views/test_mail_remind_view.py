@@ -1,5 +1,4 @@
 import pytest
-from django.core import mail
 from model_bakery import baker
 
 from castellum.recruitment.models import MailBatch
@@ -22,7 +21,7 @@ def test_mail_remind(client, member, study_in_execution_status):
 
 
 def test_mail_remind_sends_mail(
-    client, member, study_in_execution_status, participation
+    client, mailoutbox, member, study_in_execution_status, participation
 ):
     study_in_execution_status.mail_body = 'test'
     study_in_execution_status.save()
@@ -35,4 +34,4 @@ def test_mail_remind_sends_mail(
 
     client.force_login(member)
     client.post(f'/recruitment/{study_in_execution_status.pk}/mail/{batch.pk}/remind/')
-    assert len(mail.outbox) == 1
+    assert len(mailoutbox) == 1
