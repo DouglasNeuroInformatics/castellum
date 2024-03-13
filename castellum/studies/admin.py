@@ -35,7 +35,7 @@ class StudyAdmin(admin.ModelAdmin):
 
 
 class StudyGroupAdmin(admin.ModelAdmin):
-    search_fields = ['name"']
+    search_fields = ['name']
     ordering = ['name']
     filter_horizontal = ['permissions']
 
