@@ -45,6 +45,7 @@ from django.views.generic import View
 
 from castellum.appointments.models import Appointment
 from castellum.audit.helpers import audit
+from castellum.audit.models import AuditEvent
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
@@ -494,6 +495,26 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
         audit('subject updated', request.user.username, subject_pk=self.subject.pk)
 
         return redirect('subjects:attributes', pk=self.subject.pk)
+
+
+class SubjectAuditTrailView(SubjectMixin, PermissionRequiredMixin, ListView):
+    model = AuditEvent
+    permission_required = ['subjects.view_audit_trail']
+    template_name = 'subjects/subject_audit_trail.html'
+    tab = 'audit-trail'
+    paginate_by = 20
+
+    def get_subject(self):
+        return get_object_or_404(Subject, pk=self.kwargs['pk'])
+
+    def get_queryset(self):
+        return (
+            super().get_queryset()
+            .filter(subject_pk=self.subject.pk)
+            .values('created_at__date', 'action', 'username')
+            .annotate(created_at=models.Max('created_at'), count=models.Count('id'))
+            .order_by('-created_at')
+        )
 
 
 class ReportView(SubjectMixin, BaseReportView):

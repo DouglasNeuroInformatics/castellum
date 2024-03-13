@@ -153,6 +153,7 @@ class Subject(TimeStampedModel):
         verbose_name = _('Subject')
         permissions = [
             ('export_subject', _('Can export all data related to a subject')),
+            ('view_audit_trail', _('Can view audit trail')),
         ]
 
     def delete(self):

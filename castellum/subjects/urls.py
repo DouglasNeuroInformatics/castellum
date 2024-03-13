@@ -42,6 +42,7 @@ from .views import ParticipationListView
 from .views import ParticipationRecruitView
 from .views import ReportDetailView
 from .views import ReportView
+from .views import SubjectAuditTrailView
 from .views import SubjectCreationRequestDeleteView
 from .views import SubjectDeleteView
 from .views import SubjectDetailView
@@ -152,6 +153,7 @@ urlpatterns = [
         name='participation-delete',
     ),
     path('<uuid:pk>/report/', ReportView.as_view(), name='report'),
+    path('<uuid:pk>/audit-trail/', SubjectAuditTrailView.as_view(), name='audit-trail'),
     path('reports/<int:pk>/', ReportDetailView.as_view(), name='report-detail'),
 ]
 

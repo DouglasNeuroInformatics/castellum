@@ -64,6 +64,11 @@
                 "subject"
             ],
             [
+                "view_audit_trail",
+                "subjects",
+                "subject"
+            ],
+            [
                 "access_study",
                 "studies",
                 "study"
