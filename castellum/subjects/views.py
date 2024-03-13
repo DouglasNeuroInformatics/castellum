@@ -372,6 +372,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         audit(
             'subject deleted',
             self.request.user.username,
+            subject_pk=self.object.pk,
             extra={'to_be_deleted': self.object.to_be_deleted},
         )
         messages.success(self.request, _('Subject has been deleted.'))
@@ -489,6 +490,8 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
         self.subject.save()
 
         self.subject.study_type_disinterest.all().delete()
+
+        audit('subject updated', request.user.username, subject_pk=self.subject.pk)
 
         return redirect('subjects:attributes', pk=self.subject.pk)
 
@@ -681,6 +684,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
         audit(
             'participation deleted',
             self.request.user.username,
+            subject_pk=self.object.subject.pk,
             study_pk=self.object.study.pk,
         )
 

@@ -28,6 +28,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 
+from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.utils.mail import MailContext
 
@@ -119,6 +120,8 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                 if old.to_be_deleted:
                     self.object.to_be_deleted_notified = False
 
+        audit('subject updated', self.request.user.username, subject_pk=self.object.pk)
+
         return super().form_valid(form)
 
 
@@ -142,6 +145,7 @@ class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
         Consent.objects.filter(subject=self.subject).delete()
         form.instance.subject = self.subject
         form.instance.underage_when_given = self.subject.contact.is_underage
+        audit('consent changed', self.request.user.username, subject_pk=self.subject.pk)
         return super().form_valid(form)
 
 
@@ -150,6 +154,14 @@ class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = AdditionalInfoForm
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_additional_info_form.html'
+
+    def form_valid(self, form):
+        audit(
+            'subject updated',
+            self.request.user.username,
+            subject_pk=self.subject.pk,
+        )
+        return super().form_valid(form)
 
 
 class BaseReportView(PermissionRequiredMixin, CreateView):

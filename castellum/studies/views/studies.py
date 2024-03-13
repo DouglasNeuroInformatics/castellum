@@ -413,8 +413,10 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     def post(self, request, study_pk):
         if self.study.status == self.study.FINISHED:
             self.study.restore_previous_status()
+            audit('study resumed', request.user.username, study_pk=study_pk)
         else:
             self.study.set_status(self.study.FINISHED)
+            audit('study finished', request.user.username, study_pk=study_pk)
             self.study.participation_set.exclude(status__in=Participation.INVITED_SET).delete()
         return redirect(
             get_next_url(request, reverse('studies:detail', args=[self.study.pk]))

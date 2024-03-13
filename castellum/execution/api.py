@@ -129,6 +129,7 @@ class APIResolveView(BaseAPIView):
         audit(
             'pseudonym accessed',
             self.request.user.username,
+            study_pk=self.study.pk,
             extra={'domain': target_domain.key},
         )
 

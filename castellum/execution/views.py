@@ -281,6 +281,7 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
         audit(
             'pseudonym accessed',
             self.request.user.username,
+            study_pk=self.study.pk,
             extra={'domain': domain.key},
         )
 
@@ -454,6 +455,7 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
             audit(
                 'pseudonym resolved',
                 self.request.user.username,
+                study_pk=self.study.pk,
                 extra={'domain': form.cleaned_data['domain']},
             )
             return redirect(

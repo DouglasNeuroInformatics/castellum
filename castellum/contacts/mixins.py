@@ -22,6 +22,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import UpdateView
 
+from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
 from .forms import ContactForm
@@ -42,3 +43,11 @@ class BaseContactUpdateView(PermissionRequiredMixin, UpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        audit(
+            'subject updated',
+            self.request.user.username,
+            subject_pk=self.object.subject_uuid,
+        )
+        return super().form_valid(form)
