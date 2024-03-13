@@ -1,0 +1,26 @@
+{% extends "studies/study_base.html" %}
+{% load i18n django_bootstrap5 %}
+
+{% block title %}{% translate "Audit trail" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <ul class="table-list mb-3">
+        {% for event in object_list %}
+            <li class="table-list-item">
+                <time class="text-secondary">{{ event.created_at }}</time>:
+                {{ event.type }} by {{ event.username }}
+                {% if event.count > 1 %}
+                    (×{{ event.count }})
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="alert alert-info">{% translate 'No events yet.' %}</li>
+        {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+        <nav aria-label="{% translate 'Pagination' %}">
+            {% bootstrap_pagination page_obj url=request.get_full_path %}
+        </nav>
+    {% endif %}
+{% endblock %}

@@ -25,6 +25,7 @@ from django.urls import path
 from ..views.api import APIStudyDetailView
 from ..views.api import APIStudyListView
 from ..views.studies import FilterTrialCreateView
+from ..views.studies import StudyAuditTrailView
 from ..views.studies import StudyConsentView
 from ..views.studies import StudyCreateView
 from ..views.studies import StudyDeleteView
@@ -68,6 +69,9 @@ urlpatterns = [
     ),
     path('<int:study_pk>/start/', StudyStartRecruitmentView.as_view(), name='start'),
     path('<int:study_pk>/finish/', StudyFinishRecruitmentView.as_view(), name='finish'),
+    path(
+        '<int:study_pk>/audit-trail/', StudyAuditTrailView.as_view(), name='audit-trail'
+    ),
     path('<int:study_pk>/members/', include(members_urls)),
     path('<int:study_pk>/recruitmentsettings/', include(recruitment_urls)),
     path('<int:study_pk>/sessions/', include(sessions_urls)),

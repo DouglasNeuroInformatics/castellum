@@ -125,6 +125,11 @@
                 "approve_study",
                 "studies",
                 "study"
+            ],
+            [
+                "view_audit_trail",
+                "studies",
+                "study"
             ]
         ]
     }
