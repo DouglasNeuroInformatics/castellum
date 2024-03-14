@@ -136,8 +136,12 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
         def get_bound_fields(attributes):
             for attribute in attributes:
                 value = self.object.attributes.get(attribute.json_key)
+                answer_declined = value == ANSWER_DECLINED
+                date_of_birth = (
+                    attribute.id == settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
+                )
                 try:
-                    yield form[attribute.json_key], value == ANSWER_DECLINED
+                    yield form[attribute.json_key], answer_declined, date_of_birth
                 except KeyError:
                     pass
 

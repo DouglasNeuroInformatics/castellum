@@ -151,11 +151,15 @@ class AttributesForm(forms.ModelForm):
 
     @classmethod
     def factory(cls):
-        attributes = (
-            Attribute.objects
-            .exclude(id=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
-        )
+        attributes = Attribute.objects.all()
         form_fields = {attr.json_key: attr.field.formfield() for attr in attributes}
+
+        date_of_birth_attribute = Attribute.objects.filter(
+            id=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
+        )
+        if date_of_birth_attribute:
+            form_fields[date_of_birth_attribute.first().json_key].disabled = True
+
         return type('AttributesForm', (cls,), form_fields)
 
 

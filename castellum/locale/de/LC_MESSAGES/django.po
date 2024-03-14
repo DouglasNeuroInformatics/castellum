@@ -1804,6 +1804,16 @@ msgstr "Die Liste ist leer"
 msgid "Delete all"
 msgstr "Alles löschen"
 
+#: castellum/recruitment/templates/recruitment/attributes_form.html:26
+#: castellum/recruitment/templates/recruitment/attributes_form.html:44
+#, python-format
+msgid ""
+"This attribute can only be changed in the <a href='%(contact_url)s'>Contact</"
+"a> tab."
+msgstr ""
+"Dieses Attribut kann nur im <a href='%(contact_url)s'>Kontakt-Reiter</"
+"a> geändert werden."
+
 #: castellum/recruitment/templates/recruitment/base.html:8
 msgid "Recruitment for"
 msgstr "Rekrutierung für"
