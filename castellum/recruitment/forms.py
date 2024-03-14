@@ -134,11 +134,26 @@ class AttributesForm(forms.ModelForm):
                 kwargs['initial'][key] = None if value == ANSWER_DECLINED else value
         super().__init__(instance=instance, **kwargs)
 
+    @staticmethod
+    def get_date_of_birth_attribute_json_key():
+        date_of_birth_attribute = Attribute.objects.filter(
+            id=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
+        )
+        if date_of_birth_attribute:
+            return date_of_birth_attribute.first().json_key
+
+        return None
+
     def clean(self):
         cleaned_data = super().clean()
+
+        # Prevent date of birth being saved through this form, just in case
+        cleaned_data.pop(self.get_date_of_birth_attribute_json_key(), None)
+
         for key in cleaned_data:
             if f'{key}_answer_declined' in self.data:
                 cleaned_data[key] = ANSWER_DECLINED
+
         study_type_disinterest = cleaned_data.pop('study_type_disinterest')
         return {
             'study_type_disinterest': study_type_disinterest,
@@ -154,11 +169,9 @@ class AttributesForm(forms.ModelForm):
         attributes = Attribute.objects.all()
         form_fields = {attr.json_key: attr.field.formfield() for attr in attributes}
 
-        date_of_birth_attribute = Attribute.objects.filter(
-            id=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
-        )
-        if date_of_birth_attribute:
-            form_fields[date_of_birth_attribute.first().json_key].disabled = True
+        birthday_attribute_key = cls.get_date_of_birth_attribute_json_key()
+        if birthday_attribute_key:
+            form_fields[birthday_attribute_key].disabled = True
 
         return type('AttributesForm', (cls,), form_fields)
 
