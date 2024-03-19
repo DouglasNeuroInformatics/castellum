@@ -121,6 +121,29 @@ def study_max_privacy_level(study):
     return models.Q(privacy_level__lte=study.members_max_privacy_level)
 
 
+def study_activity(study):
+    """Exclude subjects based on last activity."""
+
+    qs = Subject.objects.alias(
+        last_study_activity=models.Max(
+            'participation__updated_at__date',
+            filter=models.Q(participation__status__in=Participation.INVITED_SET),
+        ),
+    ).alias(
+        last_activity=models.Case(
+            models.When(last_study_activity=None, then=models.F('created_at')),
+            default=models.F('last_study_activity'),
+        ),
+    )
+
+    if study.recruitment_active_after:
+        qs = qs.filter(last_activity__gt=study.recruitment_active_after)
+    if study.recruitment_active_before:
+        qs = qs.filter(last_activity__lt=study.recruitment_active_before)
+
+    return models.Q(pk__in=qs)
+
+
 def subjectfilters(subjectfiltergroup, include_unknown=None):
     """Exclude subjects according to subjectfilters from a single subjectfiltergroup."""
 
@@ -235,6 +258,8 @@ def study_except_filters(study, include_unknown=None):
     q &= study_exclusion(study)
     q &= study_disinterest(study)
     q &= study_max_privacy_level(study)
+    if study.recruitment_active_after or study.recruitment_active_before:
+        q &= study_activity(study)
     q &= to_be_deleted()
     q &= models.Q(deceased=False)
     q &= models.Q(blocked=False)

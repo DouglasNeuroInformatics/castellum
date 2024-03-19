@@ -214,6 +214,13 @@ class Study(models.Model):
         blank=True,
     )
 
+    recruitment_active_after = models.DateField(
+        _('Last subject activity after'), null=True, blank=True
+    )
+    recruitment_active_before = models.DateField(
+        _('Last subject activity before'), null=True, blank=True
+    )
+
     is_filter_trial = models.BooleanField(
         _('Is a filter trial'),
         help_text=_(

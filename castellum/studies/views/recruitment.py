@@ -72,6 +72,8 @@ class StudyRecruitmentSettingsUpdateView(
         'recruitment_text',
         'is_exclusive',
         'complete_matches_only',
+        'recruitment_active_after',
+        'recruitment_active_before',
     ]
     permission_required = 'studies.change_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
