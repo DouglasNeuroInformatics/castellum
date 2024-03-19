@@ -33,7 +33,6 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import gettext_noop
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
@@ -45,7 +44,6 @@ from castellum.appointments.helpers import get_external_resource_events
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.models import Appointment
-from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.studies.mixins import StudyMixin
@@ -108,8 +106,6 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 f'-subject__attributes__{desc2.json_key}',
                 '-updated_at',
             ]
-        elif self.sort == 'recently-active':
-            order_by = ['-recent_participation_count', '-updated_at']
         elif self.sort == 'assigned-to-me':
             order_by = ['-assigned_to_me', '-updated_at']
         else:
@@ -232,7 +228,6 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ('followup', _('Follow-up date')),
             ('last_contact_attempt', _('Last contact attempt')),
             ('statistics', _('Statistics')),
-            ('recently-active', _('Recently active')),
             ('assigned-to-me', _('Assigned to me')),
             ('privacy-level', _('Privacy level')),
         ]
@@ -275,8 +270,8 @@ class RecruitmentViewOpen(RecruitmentView):
     shown_status = Participation.RECRUITMENT_SET
     subtab = 'open'
 
-    def create_participations(self, batch_size, is_urgent=False):
-        subjects = get_recruitable(self.study, is_urgent)
+    def create_participations(self, batch_size):
+        subjects = get_recruitable(self.study)
 
         added = min(batch_size, len(subjects))
         participations = []
@@ -287,18 +282,6 @@ class RecruitmentViewOpen(RecruitmentView):
 
     @with_study_lock
     def post(self, request, *args, **kwargs):
-        is_urgent = request.POST.get('submit') == 'urgent'
-
-        if is_urgent:
-            monitoring_logger.info(
-                f'Urgent recruitment in study {self.study.pk} by {request.user.pk}'
-            )
-            audit(
-                gettext_noop('urgent recruitment'),
-                request.user.username,
-                study_pk=self.study.pk,
-            )
-
         if self.study.min_subject_count == 0:
             messages.error(request, _(
                 'This study does not require participants. '
@@ -326,7 +309,7 @@ class RecruitmentViewOpen(RecruitmentView):
             settings.CASTELLUM_RECRUITMENT_BATCH_SIZE,
             hard_limit - not_contacted_count,
         )
-        participations = self.create_participations(batch_size, is_urgent)
+        participations = self.create_participations(batch_size)
         Participation.objects.bulk_create(participations)
 
         if not participations:

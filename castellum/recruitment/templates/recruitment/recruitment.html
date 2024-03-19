@@ -64,10 +64,6 @@
                 {% csrf_token %}
                 <button class="btn btn-primary">{% translate 'Add' %}</button>
             </form>
-            <form method="post" class="d-inline">
-                {% csrf_token %}
-                <button class="btn btn-secondary" name="submit" value="urgent" title="{% translate "Add only subjects who have recently participated in studies and thus are likely to participate spontaneously" %}">{% translate 'Add recently active' %}</button>
-            </form>
             <a class="btn btn-secondary" href="{% url 'recruitment:cleanup' study.pk %}">{% translate 'Cleanup' %}…</a>
         </div>
     {% endif %}
