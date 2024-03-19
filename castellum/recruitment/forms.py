@@ -153,7 +153,6 @@ class AttributesForm(forms.ModelForm):
         for key in cleaned_data:
             if f'{key}_answer_declined' in self.data:
                 cleaned_data[key] = ANSWER_DECLINED
-
         study_type_disinterest = cleaned_data.pop('study_type_disinterest')
         return {
             'study_type_disinterest': study_type_disinterest,
