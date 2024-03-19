@@ -177,8 +177,7 @@ def uuid_filter(qs, key='subject_uuid'):
     uuids = value_set(qs, key)
     total = Subject.objects.count()
     if len(uuids) > total / 2:
-        all_uuids = Subject.objects.values_list('uuid', flat=True)
-        uuids = set(all_uuids).difference(uuids)
+        uuids = value_set(Subject.objects.all(), 'uuid').difference(uuids)
         return ~models.Q(uuid__in=uuids)
     else:
         return models.Q(uuid__in=uuids)
