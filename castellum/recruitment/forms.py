@@ -138,9 +138,9 @@ class AttributesForm(forms.ModelForm):
     def get_date_of_birth_attribute_json_key():
         date_of_birth_attribute = Attribute.objects.filter(
             id=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
-        )
+        ).first()
         if date_of_birth_attribute:
-            return date_of_birth_attribute.first().json_key
+            return date_of_birth_attribute.json_key
 
         return None
 

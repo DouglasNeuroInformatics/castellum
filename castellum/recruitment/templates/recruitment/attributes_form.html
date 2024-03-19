@@ -18,10 +18,10 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
-        {% for field, answer_declined, date_of_birth in uncategorized %}
+        {% for field, answer_declined, is_date_of_birth in uncategorized %}
             <div class="mb-3">
                 {% bootstrap_field field wrapper_class="" %}
-                {% if date_of_birth %}
+                {% if is_date_of_birth %}
                     {% url 'subjects:contact' subject.pk as contact_url %}
                     <span class="text-muted">{% blocktranslate %}This attribute can only be changed in the <a href='{{ contact_url }}'>Contact</a> tab.{% endblocktranslate %}</span>
                 {% else %}
@@ -36,10 +36,10 @@
         {% for category, fields in categories.items %}
             <fieldset>
                 <legend>{{ category }}</legend>
-                {% for field, answer_declined, date_of_birth in fields %}
+                {% for field, answer_declined, is_date_of_birth in fields %}
                     <div class="mb-3">
                         {% bootstrap_field field wrapper_class="" %}
-                        {% if date_of_birth %}
+                        {% if is_date_of_birth %}
                             {% url 'subjects:contact' subject.pk as contact_url %}
                             <span class="text-muted">{% blocktranslate %}This attribute can only be changed in the <a href='{{ contact_url }}'>Contact</a> tab.{% endblocktranslate %}</span>
                         {% else %}
