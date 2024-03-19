@@ -137,11 +137,8 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
             for attribute in attributes:
                 value = self.object.attributes.get(attribute.json_key)
                 answer_declined = value == ANSWER_DECLINED
-                is_date_of_birth = (
-                    attribute.id == settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
-                )
                 try:
-                    yield form[attribute.json_key], answer_declined, is_date_of_birth
+                    yield form[attribute.json_key], answer_declined
                 except KeyError:
                     pass
 

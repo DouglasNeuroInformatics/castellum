@@ -147,7 +147,7 @@ class AttributesForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        # Prevent date of birth being saved through this form, just in case
+        # Prevent date of birth being saved, it is meant to be read-only.
         cleaned_data.pop(self.get_date_of_birth_attribute_json_key(), None)
 
         for key in cleaned_data:
@@ -169,9 +169,10 @@ class AttributesForm(forms.ModelForm):
         attributes = Attribute.objects.all()
         form_fields = {attr.json_key: attr.field.formfield() for attr in attributes}
 
-        birthday_attribute_key = cls.get_date_of_birth_attribute_json_key()
-        if birthday_attribute_key:
-            form_fields[birthday_attribute_key].disabled = True
+        # Date of birth attribute is read-only, it is changed through the "contact" tab
+        date_of_birth_attribute_key = cls.get_date_of_birth_attribute_json_key()
+        if date_of_birth_attribute_key:
+            form_fields[date_of_birth_attribute_key].disabled = True
 
         return type('AttributesForm', (cls,), form_fields)
 
