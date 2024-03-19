@@ -99,29 +99,3 @@ def test_no_matching_subjects(
         'No potential participants could be found for this study.'
     )
     assert response.status_code == 200
-
-
-def test_post_urgent(client, member, study_in_execution_status):
-    study_in_execution_status.min_subject_count = 2
-    study_in_execution_status.save()
-
-    subject1 = create_subject()
-    subject2 = create_subject()
-    other_study = baker.make(Study)
-    with freeze_time('1970-01-01'):
-        baker.make(
-            Participation,
-            status=Participation.PARTICIPATING,
-            study=other_study,
-            subject=subject1,
-        )
-
-    with freeze_time('1970-02-01'):
-        client.force_login(member)
-        url = f'/recruitment/{study_in_execution_status.pk}/'
-        response = client.post(url, {'submit': 'urgent'})
-
-    assert response.status_code == 200
-    participations = study_in_execution_status.participation_set
-    assert participations.filter(subject=subject1).exists()
-    assert not participations.filter(subject=subject2).exists()
