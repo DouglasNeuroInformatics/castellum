@@ -195,3 +195,7 @@ class BaseAppointmentFeed(BaseCalendarFeed):
 
     def item_uid(self, item):
         return f'appointment-{item.pk}@{self.request.get_host()}'
+
+    def item_attendees(self, item):
+        qs = item.assigned_conductors.select_related('user')
+        return [membership.user for membership in qs]
