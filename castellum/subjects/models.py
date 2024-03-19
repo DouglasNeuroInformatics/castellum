@@ -345,8 +345,19 @@ class ExportAnswer(models.Model):
 
 
 class Report(models.Model):
+    # - A subject is blocked immediately when a report is created to protect employees.
+    # - Reviewers can decide to revert a block. They can also take action against users
+    #   who abuse the report feature.
+    # - The report is deleted when the reviewers make their decision.
+    # - It is not possible to report an already blocked subject. Otherwise reviewers
+    #   might revert a block based on a bogus report even if there had previously been a
+    #   legitimate report.
+    # - The report is kept even if the user has been deleted so reviewers can still make
+    #   a decision.
+    # - The report is kept even if the subject has been deleted so reviewers can still
+    #   offer support.
     subject = models.ForeignKey(
-        Subject, verbose_name=_('Subject'), on_delete=models.CASCADE
+        Subject, verbose_name=_('Subject'), on_delete=models.SET_NULL, null=True
     )
     user = models.ForeignKey(
         User, verbose_name=_('User'), on_delete=models.SET_NULL, null=True
