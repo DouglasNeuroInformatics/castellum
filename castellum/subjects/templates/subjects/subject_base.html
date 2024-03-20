@@ -66,7 +66,7 @@
             </li>
 
             {% has_perm 'subjects.view_audit_trail' user as can_view_audit_trail %}
-            {% if can_view_audit_trail %}
+            {% if CASTELLUM_AUDIT_TRAIL_ENABLED and can_view_audit_trail %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:audit-trail' subject.pk %}" class="nav-link {% if view.tab == 'audit-trail' %}active{% endif %}">
                         {% translate 'Audit trail' %}

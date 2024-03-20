@@ -132,7 +132,7 @@
                     <a class="nav-link {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% translate 'Recruitment Settings' %}</a>
                 </li>
             {% endif %}
-            {% if can_view_audit_trail %}
+            {% if CASTELLUM_AUDIT_TRAIL_ENABLED and can_view_audit_trail %}
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'audit-trail' %}active{% endif %}" href="{% url 'studies:audit-trail' study.pk %}">{% translate 'Audit trail' %}</a>
                 </li>

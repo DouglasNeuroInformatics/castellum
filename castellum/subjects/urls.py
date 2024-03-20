@@ -153,9 +153,17 @@ urlpatterns = [
         name='participation-delete',
     ),
     path('<uuid:pk>/report/', ReportView.as_view(), name='report'),
-    path('<uuid:pk>/audit-trail/', SubjectAuditTrailView.as_view(), name='audit-trail'),
     path('reports/<int:pk>/', ReportDetailView.as_view(), name='report-detail'),
 ]
+
+if settings.CASTELLUM_AUDIT_TRAIL_ENABLED:
+    urlpatterns += [
+        path(
+            '<uuid:pk>/audit-trail/',
+            SubjectAuditTrailView.as_view(),
+            name='audit-trail',
+        ),
+    ]
 
 if settings.CASTELLUM_API_ENABLED:
     urlpatterns += [

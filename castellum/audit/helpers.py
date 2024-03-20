@@ -18,14 +18,17 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
+
 from .models import AuditEvent
 
 
 def audit(action, username, *, study_pk=None, subject_pk=None, extra=None):
-    AuditEvent.objects.create(
-        action=action,
-        username=username or 'anon',
-        study_pk=study_pk,
-        subject_pk=subject_pk,
-        extra=extra,
-    )
+    if settings.CASTELLUM_AUDIT_TRAIL_ENABLED:
+        AuditEvent.objects.create(
+            action=action,
+            username=username or 'anon',
+            study_pk=study_pk,
+            subject_pk=subject_pk,
+            extra=extra,
+        )
