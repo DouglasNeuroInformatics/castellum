@@ -171,9 +171,10 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         if settings.CASTELLUM_MONITORING_INCLUDE_SEARCH:
-            monitoring_logger.info((
-                'Subject search: search term: "{search}" by {user}'
-            ).format(user=self.request.user.pk, **form.cleaned_data))
+            monitoring_logger.info(
+                f'Subject search: search term: "{form.cleaned_data["search"]}" '
+                f'by {self.request.user.pk}'
+            )
 
         return self.render_to_response(self.get_context_data(form=form))
 
@@ -236,9 +237,10 @@ class SubjectResolveView(PermissionRequiredMixin, FormView):
             subject = get_subject(
                 form.cleaned_data['domain'], form.cleaned_data['pseudonym']
             )
-            monitoring_logger.info('Pseudonym resolved: domain {} by {}'.format(
-                form.cleaned_data['domain'], self.request.user.pk
-            ))
+            monitoring_logger.info(
+                f'Pseudonym resolved: domain {form.cleaned_data["domain"]} '
+                f'by {self.request.user.pk}'
+            )
             return redirect('subjects:detail', subject.pk)
         except Subject.DoesNotExist:
             messages.warning(self.request, _('No match found'))
@@ -918,4 +920,4 @@ class SubjectProtectedMediaView(
         return get_object_or_404(Subject, pk=self.kwargs['uuid'])
 
     def get_path(self):
-        return 'subjects/{}'.format(self.kwargs['path'])
+        return f'subjects/{self.kwargs["path"]}'

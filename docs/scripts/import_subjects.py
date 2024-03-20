@@ -12,7 +12,7 @@ from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.subjects.models import Subject
 
-SOURCE = 'import {}'.format(datetime.date.today())
+SOURCE = f'import {datetime.date.today()}'
 ADDRESS_MAP = {}
 CONTACT_MAP = {
     'first_name': 0,

@@ -440,9 +440,10 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
                 subject=subject,
                 status__in=Participation.INVITED_SET,
             ).get()
-            monitoring_logger.info('Pseudonym resolved: domain {} by {}'.format(
-                form.cleaned_data['domain'], self.request.user.pk
-            ))
+            monitoring_logger.info(
+                f'Pseudonym resolved: '
+                f'domain {form.cleaned_data["domain"]} by {self.request.user.pk}'
+            )
             return redirect(
                 'execution:participation-detail', self.study.pk, participation.pk
             )
@@ -561,10 +562,10 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
         self.send_summary(succeeded, failed, form)
         messages.success(self.request, _(
-            'Mail was sent to {} subjects. '
-            'An email was sent to all study conductors with further information. '
-            'That email also lists potential next steps.'
-        ).format(len(succeeded)))
+            f'Mail was sent to {len(succeeded)} subjects. '
+            f'An email was sent to all study conductors with further information. '
+            f'That email also lists potential next steps.'
+        ))
 
         return redirect('execution:news-mail', self.study.pk)
 
@@ -851,7 +852,7 @@ class ExecutionProtectedMediaView(
     participation_status = Participation.INVITED_SET
 
     def get_path(self):
-        return 'subjects/{}'.format(self.kwargs['path'])
+        return f'subjects/{self.kwargs["path"]}'
 
 
 class StudyConsentProtectedMediaView(
@@ -862,8 +863,7 @@ class StudyConsentProtectedMediaView(
     participation_status = Participation.INVITED_SET
 
     def get_path(self):
-        return 'studyconsents/{}/{}/{}'.format(
-            self.study.pk,
-            self.participation.pk,
-            self.kwargs['filename'],
+        return (
+            f'studyconsents/{self.study.pk}/{self.participation.pk}/'
+            f'{self.kwargs["filename"]}'
         )

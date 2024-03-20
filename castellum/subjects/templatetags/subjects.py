@@ -96,7 +96,7 @@ def subject_media_url(context, url):
     security checks and then convert the URL back an internal URL to
     deliver the actual media file.
     """
-    url_prefix = '/{}/subjects/'.format(settings.MEDIA_URL.strip('/'))
+    url_prefix = f'/{settings.MEDIA_URL.strip("/")}/subjects/'
     if not url.startswith(url_prefix):
         raise TypeError(url)
     path = unquote(url[len(url_prefix):])

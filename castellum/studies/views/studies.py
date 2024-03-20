@@ -497,4 +497,4 @@ class StudyProtectedMediaView(
     permission_required = []
 
     def get_path(self):
-        return 'studies/{}/{}'.format(self.study.pk, self.kwargs['path'])
+        return f'studies/{self.study.pk}/{self.kwargs["path"]}'
