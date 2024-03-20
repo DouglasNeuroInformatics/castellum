@@ -206,8 +206,9 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
                 subject.save()
 
-                info = f'SubjectData update: {subject.pk} by {self.request.user.pk}'
-                monitoring_logger.info(info)
+                monitoring_logger.info(
+                    f'SubjectData update: {subject.pk} by {self.request.user.pk}'
+                )
                 return redirect('subjects:detail', pk=subject.pk)
             else:
                 messages.error(request, _(
@@ -304,8 +305,9 @@ class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
         domain = get_object_or_404(Domain, key=kwargs['domain'], object_id=None)
         pseudonym = get_pseudonym_if_exists(self.subject, domain.key)
 
-        info = f'Pseudonym access: domain {domain.key} by {self.request.user.pk}'
-        monitoring_logger.info(info)
+        monitoring_logger.info(
+            f'Pseudonym access: domain {domain.key} by {self.request.user.pk}'
+        )
 
         return HttpResponse(pseudonym or '—')
 
@@ -338,9 +340,10 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
             return self.get(self.request, **self.kwargs)
         response = super().form_valid(form)
         if self.object.to_be_deleted:
-            user_pk, to_be_deleted = self.request.user.pk, self.object.to_be_deleted
-            info = f'Subject deleted by {user_pk} as requested on {to_be_deleted}'
-            monitoring_logger.info(info)
+            monitoring_logger.info(
+                f'Subject deleted by {self.request.user.pk} '
+                f'as requested on {self.object.to_be_deleted}'
+            )
         else:
             monitoring_logger.info(f'Subject deleted by {self.request.user.pk}')
         messages.success(self.request, _('Subject has been deleted.'))
@@ -372,8 +375,9 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
                     attribute.label, attribute.field.get_display(value)
                 ))
 
-            info = f'GDPR-Request export: {self.object.pk} by {self.request.user.pk}'
-            monitoring_logger.info(info)
+            monitoring_logger.info(
+                f'GDPR-Request export: {self.object.pk} by {self.request.user.pk}'
+            )
 
         return context
 
@@ -638,8 +642,9 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
         response = super().form_valid(form)
 
         study_name, user_pk = self.object.study.name, self.request.user.pk
-        info = f'Participation in Study {study_name} deleted by {user_pk}'
-        monitoring_logger.info(info)
+        monitoring_logger.info(
+            f'Participation in Study {study_name} deleted by {user_pk}'
+        )
 
         return response
 
@@ -687,8 +692,9 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
             )
             contact.subject.save()
 
-            info = f'SubjectData update: {contact.subject.pk} by {self.request.user.pk}'
-            monitoring_logger.info(info)
+            monitoring_logger.info(
+                f'SubjectData update: {contact.subject.pk} by {self.request.user.pk}'
+            )
             return TemplateResponse(
                 self.request,
                 'subjects/legal_representative_success.html',

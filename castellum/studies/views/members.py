@@ -94,12 +94,11 @@ class StudyMembersView(
                 int(group) for group in self.request.POST.getlist('groups')
             )
             if old_groups != new_groups:
-                info = (
+                monitoring_logger.info(
                     f'Membership changed: study {self.study.pk} '
                     f'user {membership.user.pk} groups {format_list(new_groups)} '
                     f'by {self.request.user.pk}'
                 )
-                monitoring_logger.info(info)
         else:
             monitoring_logger.info(
                 'Membership created: study {} users {} groups {} by {}'.format(
@@ -132,10 +131,9 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
         if self.object.user.pk == self.request.user.pk:
             return HttpResponseBadRequest()
 
-        info = (
+        monitoring_logger.info(
             f'Membership removed: study {self.object.study.pk} '
             f'user {self.object.user.pk} by {self.request.user.pk}'
         )
-        monitoring_logger.info(info)
 
         return super().form_valid(form)

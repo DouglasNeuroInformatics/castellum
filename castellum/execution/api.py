@@ -122,8 +122,9 @@ class APIResolveView(BaseAPIView):
         target_domain = get_object_or_404(domains, key=self.kwargs['target_domain'])
         pseudonym = get_pseudonym(subject, target_domain.key)
 
-        info = f'Pseudonym access: domain {target_domain.key} by {self.request.user.pk}'
-        monitoring_logger.info(info)
+        monitoring_logger.info(
+            f'Pseudonym access: domain {target_domain.key} by {self.request.user.pk}'
+        )
 
         return JsonResponse({'pseudonym': pseudonym})
 
@@ -155,10 +156,9 @@ class APIAttributesView(BaseAPIView):
 
         data = exporter.get_subject_attributes(attributes, subject)
 
-        info = (
+        monitoring_logger.info(
             f'Attribute export: '
             f'study {self.study.pk} subject {subject.pk} by {request.user.pk}'
         )
-        monitoring_logger.info(info)
 
         return JsonResponse(data)

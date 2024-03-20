@@ -184,8 +184,9 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         with zresponse.open(filename, 'w') as fh:
             fh.write(content.encode('UTF-8'))
 
-        info = f'Attribute export: study {self.study.pk} by {self.request.user.pk}'
-        monitoring_logger.info(info)
+        monitoring_logger.info(
+            f'Attribute export: study {self.study.pk} by {self.request.user.pk}'
+        )
 
         return response
 
@@ -272,8 +273,9 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
         domain = get_object_or_404(qs, key=kwargs['domain'])
         pseudonym = get_pseudonym(self.subject, domain.key)
 
-        info = f'Pseudonym access: domain {domain.key} by {self.request.user.pk}'
-        monitoring_logger.info(info)
+        monitoring_logger.info(
+            f'Pseudonym access: domain {domain.key} by {self.request.user.pk}'
+        )
 
         return HttpResponse(pseudonym)
 

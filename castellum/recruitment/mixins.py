@@ -125,8 +125,9 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        info = f'Attributes update: {self.object.pk} by {self.request.user.pk}'
-        monitoring_logger.info(info)
+        monitoring_logger.info(
+            f'Attributes update: {self.object.pk} by {self.request.user.pk}'
+        )
         return result
 
     def get_context_data(self, **kwargs):

@@ -63,10 +63,9 @@ class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
 
         data = exporter.get_subject_attributes(attributes, subject)
 
-        info = (
+        monitoring_logger.info(
             f'Attribute export: '
             f'domain {domain.key} subject {subject.pk} by {request.user.pk}'
         )
-        monitoring_logger.info(info)
 
         return JsonResponse(data)
