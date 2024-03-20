@@ -359,7 +359,7 @@ class Migration(migrations.Migration):
                         blank=True,
                         limit_choices_to={'object_id': None},
                         to='pseudonyms.Domain',
-                        verbose_name='General pseudonym domains',
+                        verbose_name='General pseudonym lists',
                     ),
                 ),
             ],

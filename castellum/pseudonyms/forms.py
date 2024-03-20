@@ -34,7 +34,7 @@ class PseudonymField(forms.CharField):
 
 
 class DomainForm(forms.Form):
-    domain = forms.ChoiceField(label=_('Domain'))
+    domain = forms.ChoiceField(label=_('Pseudonym list'))
 
     def __init__(self, *args, domains, **kwargs):
         super().__init__(*args, **kwargs)
@@ -45,7 +45,7 @@ class DomainForm(forms.Form):
         else:
             self.fields['domain'].disabled = True
             self.cleaned_data = {}
-            self.add_error(None, _('All pseudonym domains have been deleted.'))
+            self.add_error(None, _('All pseudonym lists have been deleted.'))
 
 
 class PseudonymForm(DomainForm):

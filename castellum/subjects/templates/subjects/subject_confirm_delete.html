@@ -19,7 +19,7 @@
             </p>
         {% elif has_pseudonym_in_general_domain %}
             <p class="alert alert-warning">
-                {% translate "This subject may still have data in general domains." %}
+                {% translate "This subject may still have data from general pseudonym lists." %}
             </p>
         {% else %}
             <p class="alert alert-success">
@@ -63,7 +63,7 @@
                         {% if has_pseudonym_in_general_domain %}
                             <li class="table-list-item">
                                 <div class="my-1 me-2">
-                                    <div class="h4 d-inline">{% translate "General pseudonym domains" %}</div>
+                                    <div class="h4 d-inline">{% translate "General pseudonym lists" %}</div>
                                 </div>
                                 <div class="table-list-item-actions">
                                     <a class="btn btn-outline-primary my-1" href="{% url 'subjects:pseudonyms' subject.pk %}">{% translate 'Pseudonyms' %}</a>

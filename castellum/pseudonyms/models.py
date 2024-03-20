@@ -42,7 +42,7 @@ class Domain(models.Model):
 
     managers = models.ManyToManyField(
         User,
-        verbose_name=_('Users who can access this domain'),
+        verbose_name=_('Users who can access this pseudonym list'),
         related_name='general_domains',
         blank=True,
     )

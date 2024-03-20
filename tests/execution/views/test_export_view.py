@@ -24,7 +24,7 @@ def test_no_domain(client, conductor, study):
 
     assert response.status_code == 200
     assert response['Content-Type'] == 'text/html; charset=utf-8'
-    assert b'All pseudonym domains have been deleted.' in response.content
+    assert b'All pseudonym lists have been deleted.' in response.content
 
 
 def test_multi_domain(client, conductor, study):

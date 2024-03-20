@@ -1,13 +1,13 @@
 {% extends "studies/study_domains_base.html" %}
 {% load i18n auth django_bootstrap5 utils %}
 
-{% block title %}{% translate "General domains" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "General lists" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <form method="post" class="mb-3" data-js="d-select2">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
-        <p>{% translate 'General Domains allow you to access pseudonyms for data that is shared via central repositories. Please note these pseudonyms allow to identify subjects globally and therefore carry a high privacy risk.' %}</p>
+        <p>{% translate 'General pseudonym lists allow you to access pseudonyms for data that is shared via central repositories. Please note these pseudonyms allow to identify subjects globally and therefore carry a high privacy risk.' %}</p>
         {% bootstrap_field form.general_domains %}
         <button class="btn btn-primary">{% translate 'Save' %}</button>
     </form>

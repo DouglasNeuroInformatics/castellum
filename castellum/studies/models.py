@@ -143,7 +143,7 @@ class Study(models.Model):
     domains = GenericRelation(Domain)
     general_domains = models.ManyToManyField(
         Domain,
-        verbose_name=_('General pseudonym domains'),
+        verbose_name=_('General pseudonym lists'),
         blank=True,
         limit_choices_to={'object_id': None},
     )
