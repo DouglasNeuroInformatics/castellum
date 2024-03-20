@@ -25,6 +25,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 
@@ -120,7 +121,11 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                 if old.to_be_deleted:
                     self.object.to_be_deleted_notified = False
 
-        audit('subject updated', self.request.user.username, subject_pk=self.object.pk)
+        audit(
+            gettext_noop('subject updated'),
+            self.request.user.username,
+            subject_pk=self.object.pk,
+        )
 
         return super().form_valid(form)
 
@@ -145,7 +150,11 @@ class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
         Consent.objects.filter(subject=self.subject).delete()
         form.instance.subject = self.subject
         form.instance.underage_when_given = self.subject.contact.is_underage
-        audit('consent changed', self.request.user.username, subject_pk=self.subject.pk)
+        audit(
+            gettext_noop('consent changed'),
+            self.request.user.username,
+            subject_pk=self.subject.pk,
+        )
         return super().form_valid(form)
 
 
@@ -157,7 +166,7 @@ class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         audit(
-            'subject updated',
+            gettext_noop('subject updated'),
             self.request.user.username,
             subject_pk=self.subject.pk,
         )

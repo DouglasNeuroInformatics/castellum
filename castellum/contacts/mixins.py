@@ -19,6 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext_noop
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import UpdateView
 
@@ -46,7 +47,7 @@ class BaseContactUpdateView(PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         audit(
-            'subject updated',
+            gettext_noop('subject updated'),
             self.request.user.username,
             subject_pk=self.object.subject_uuid,
         )

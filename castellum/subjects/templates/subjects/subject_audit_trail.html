@@ -8,7 +8,7 @@
         {% for event in object_list %}
             <li class="table-list-item">
                 <time class="text-secondary">{{ event.created_at }}</time>:
-                {{ event.type }} by {{ event.username }}
+                {% translate event.action %} {% translate "by" %} {{ event.username }}
                 {% if event.count > 1 %}
                     (×{{ event.count }})
                 {% endif %}

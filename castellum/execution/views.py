@@ -34,6 +34,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
@@ -188,7 +189,11 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         monitoring_logger.info(
             f'Attribute export: study {self.study.pk} by {self.request.user.pk}'
         )
-        audit('attributes exported', self.request.user.username, study_pk=self.study.pk)
+        audit(
+            gettext_noop('attributes exported'),
+            self.request.user.username,
+            study_pk=self.study.pk,
+        )
 
         return response
 
@@ -279,7 +284,7 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
             f'Pseudonym access: domain {domain.key} by {self.request.user.pk}'
         )
         audit(
-            'pseudonym accessed',
+            gettext_noop('pseudonym accessed'),
             self.request.user.username,
             study_pk=self.study.pk,
             extra={'domain': domain.key},
@@ -453,7 +458,7 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
                 f'domain {form.cleaned_data["domain"]} by {self.request.user.pk}'
             )
             audit(
-                'pseudonym resolved',
+                gettext_noop('pseudonym resolved'),
                 self.request.user.username,
                 study_pk=self.study.pk,
                 extra={'domain': form.cleaned_data['domain']},

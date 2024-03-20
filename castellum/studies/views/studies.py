@@ -35,6 +35,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
@@ -373,7 +374,11 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         monitoring_logger.info(
             f'Study {self.study.name} deleted by {self.request.user.pk}'
         )
-        audit('study deleted', self.response.user.username, study_pk=self.study.pk)
+        audit(
+            gettext_noop('study deleted'),
+            self.response.user.username,
+            study_pk=self.study.pk,
+        )
         messages.success(self.request, _('Study has been deleted.'))
         return response
 
@@ -394,13 +399,21 @@ class StudyStartRecruitmentView(View):
             monitoring_logger.info(
                 f'Study {study.name} stopped by {request.user.pk}'
             )
-            audit('study stopped', request.user.username, study_pk=study.pk)
+            audit(
+                gettext_noop('study stopped'),
+                request.user.username,
+                study_pk=study.pk,
+            )
         else:
             study.set_status(study.EXECUTION)
             monitoring_logger.info(
                 f'Study {study.name} started by {request.user.pk}'
             )
-            audit('study started', request.user.username, study_pk=study.pk)
+            audit(
+                gettext_noop('study started'),
+                request.user.username,
+                study_pk=study.pk,
+            )
 
         return redirect(
             get_next_url(request, reverse('studies:detail', args=[study.pk]))
@@ -414,10 +427,18 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     def post(self, request, study_pk):
         if self.study.status == self.study.FINISHED:
             self.study.restore_previous_status()
-            audit('study resumed', request.user.username, study_pk=study_pk)
+            audit(
+                gettext_noop('study resumed'),
+                request.user.username,
+                study_pk=study_pk,
+            )
         else:
             self.study.set_status(self.study.FINISHED)
-            audit('study finished', request.user.username, study_pk=study_pk)
+            audit(
+                gettext_noop('study finished'),
+                request.user.username,
+                study_pk=study_pk,
+            )
             self.study.participation_set.exclude(status__in=Participation.INVITED_SET).delete()
         return redirect(
             get_next_url(request, reverse('studies:detail', args=[self.study.pk]))
@@ -508,7 +529,7 @@ class StudyAuditTrailView(PermissionRequiredMixin, ListView):
     def get_queryset(self):
         self.study = get_object_or_404(Study, pk=self.kwargs.get('study_pk'))
         audit(
-            'audit trail accessed',
+            gettext_noop('audit trail accessed'),
             self.request.user.username,
             study_pk=self.study.pk,
         )

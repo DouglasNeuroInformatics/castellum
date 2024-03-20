@@ -33,6 +33,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
@@ -292,7 +293,11 @@ class RecruitmentViewOpen(RecruitmentView):
             monitoring_logger.info(
                 f'Urgent recruitment in study {self.study.pk} by {request.user.pk}'
             )
-            audit('urgent recruitment', request.user.username, study_pk=self.study.pk)
+            audit(
+                gettext_noop('urgent recruitment'),
+                request.user.username,
+                study_pk=self.study.pk,
+            )
 
         if self.study.min_subject_count == 0:
             messages.error(request, _(

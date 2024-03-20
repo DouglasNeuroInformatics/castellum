@@ -24,6 +24,7 @@ from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.translation import gettext_noop
 from django.views.generic import DeleteView
 from django.views.generic import FormView
 from django.views.generic.detail import SingleObjectMixin
@@ -101,7 +102,7 @@ class StudyMembersView(
                     f'by {self.request.user.pk}'
                 )
                 audit(
-                    'member changed',
+                    gettext_noop('member changed'),
                     self.request.user.username,
                     study_pk=self.study.pk,
                     extra={
@@ -120,7 +121,7 @@ class StudyMembersView(
             )
             for member in form.cleaned_data['users']:
                 audit(
-                    'member added',
+                    gettext_noop('member added'),
                     self.request.user.username,
                     study_pk=self.study.pk,
                     extra={
@@ -156,7 +157,7 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
             f'user {self.object.user.pk} by {self.request.user.pk}'
         )
         audit(
-            'member removed',
+            gettext_noop('member removed'),
             self.request.user.username,
             study_pk=self.study.pk,
             extra={'member': self.object.user.username},

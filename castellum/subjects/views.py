@@ -36,6 +36,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
@@ -178,7 +179,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 f'by {self.request.user.pk}'
             )
             audit(
-                'subject searched',
+                gettext_noop('subject searched'),
                 self.request.user.username,
                 extra={'query': form.cleaned_data['search']},
             )
@@ -218,7 +219,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                     f'SubjectData update: {subject.pk} by {self.request.user.pk}'
                 )
                 audit(
-                    'subject created',
+                    gettext_noop('subject created'),
                     self.request.user.username,
                     subject_pk=subject.pk,
                 )
@@ -254,7 +255,7 @@ class SubjectResolveView(PermissionRequiredMixin, FormView):
                 f'by {self.request.user.pk}'
             )
             audit(
-                'pseudonym resolved',
+                gettext_noop('pseudonym resolved'),
                 self.request.user.username,
                 extra={'domain': form.cleaned_data['domain']},
             )
@@ -328,7 +329,7 @@ class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
             f'Pseudonym access: domain {domain.key} by {self.request.user.pk}'
         )
         audit(
-            'pseudonym accessed',
+            gettext_noop('pseudonym accessed'),
             self.request.user.username,
             extra={'domain': domain.key},
         )
@@ -371,7 +372,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         else:
             monitoring_logger.info(f'Subject deleted by {self.request.user.pk}')
         audit(
-            'subject deleted',
+            gettext_noop('subject deleted'),
             self.request.user.username,
             subject_pk=self.object.pk,
             extra={'to_be_deleted': self.object.to_be_deleted},
@@ -409,7 +410,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
                 f'GDPR-Request export: {self.object.pk} by {self.request.user.pk}'
             )
             audit(
-                'subject exported',
+                gettext_noop('subject exported'),
                 self.request.user.username,
                 subject_pk=self.object.pk,
             )
@@ -492,7 +493,11 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
 
         self.subject.study_type_disinterest.all().delete()
 
-        audit('subject updated', request.user.username, subject_pk=self.subject.pk)
+        audit(
+            gettext_noop('subject updated'),
+            request.user.username,
+            subject_pk=self.subject.pk,
+        )
 
         return redirect('subjects:attributes', pk=self.subject.pk)
 
@@ -509,7 +514,7 @@ class SubjectAuditTrailView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         audit(
-            'audit trail accessed',
+            gettext_noop('audit trail accessed'),
             self.request.user.username,
             subject_pk=self.subject.pk,
         )
@@ -708,7 +713,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
             f'Participation in Study {study_name} deleted by {user_pk}'
         )
         audit(
-            'participation deleted',
+            gettext_noop('participation deleted'),
             self.request.user.username,
             subject_pk=self.object.subject.pk,
             study_pk=self.object.study.pk,
@@ -764,7 +769,7 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
                 f'SubjectData update: {contact.subject.pk} by {self.request.user.pk}'
             )
             audit(
-                'subject created',
+                gettext_noop('subject created'),
                 self.request.user.username,
                 subject_pk=contact.subject.pk,
             )

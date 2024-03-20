@@ -27,6 +27,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_noop
 from django.views.generic import UpdateView
 
 from castellum.audit.helpers import audit
@@ -129,7 +130,11 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
         monitoring_logger.info(
             f'Attributes update: {self.object.pk} by {self.request.user.pk}'
         )
-        audit('subject updated', self.request.user.username, subject_pk=self.object.pk)
+        audit(
+            gettext_noop('subject updated'),
+            self.request.user.username,
+            subject_pk=self.object.pk,
+        )
         return result
 
     def get_context_data(self, **kwargs):
