@@ -72,5 +72,5 @@ class RestrictedFileField(models.FileField):
         return super().formfield(
             content_types=self.content_types,
             max_upload_size=self.max_upload_size,
-            **kwargs
+            **kwargs,
         )

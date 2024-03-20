@@ -182,7 +182,7 @@ def test_maintenance_consent_from_before_full_age(client, user):
             Consent,
             _fill_optional=['document'],
             subject=contact.subject,
-            underage_when_given=True
+            underage_when_given=True,
         )
 
     with freeze_time('2018-01-01'):
