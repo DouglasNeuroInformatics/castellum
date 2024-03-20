@@ -507,6 +507,11 @@ class StudyAuditTrailView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         self.study = get_object_or_404(Study, pk=self.kwargs.get('study_pk'))
+        audit(
+            'audit trail accessed',
+            self.request.user.username,
+            study_pk=self.study.pk,
+        )
         return (
             super().get_queryset()
             .filter(study_pk=self.study.pk)

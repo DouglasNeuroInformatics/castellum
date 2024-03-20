@@ -508,6 +508,11 @@ class SubjectAuditTrailView(SubjectMixin, PermissionRequiredMixin, ListView):
         return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
     def get_queryset(self):
+        audit(
+            'audit trail accessed',
+            self.request.user.username,
+            subject_pk=self.subject.pk,
+        )
         return (
             super().get_queryset()
             .filter(subject_pk=self.subject.pk)
