@@ -232,6 +232,8 @@ CASTELLUM_MONITORING_INCLUDE_SEARCH = True
 # Users can see the audit events related to subjects or studies if they have the
 # `subjects.view_audit_trail` / `studies.view_audit_trail` permission. The full list of
 # events is also available in the admin UI.
+#
+# Events are automatically deleted after one year.
 CASTELLUM_AUDIT_TRAIL_ENABLED = False
 
 # Additional privacy levels for subjects.

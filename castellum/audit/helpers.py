@@ -18,13 +18,21 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.conf import settings
 
 from .models import AuditEvent
 
 
+def cleanup(dt=datetime.timedelta(days=365)):
+    threshold = datetime.date.today() - dt
+    AuditEvent.objects.filter(created_at__lt=threshold).delete()
+
+
 def audit(action, username, *, study_pk=None, subject_pk=None, extra=None):
     if settings.CASTELLUM_AUDIT_TRAIL_ENABLED:
+        cleanup()
         AuditEvent.objects.create(
             action=action,
             username=username or 'anon',
