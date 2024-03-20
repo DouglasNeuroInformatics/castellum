@@ -46,6 +46,7 @@ from django.views.generic import View
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.mixins import SchedulerFetchStudyMixin
+from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import DomainForm
@@ -187,6 +188,7 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         monitoring_logger.info(
             f'Attribute export: study {self.study.pk} by {self.request.user.pk}'
         )
+        audit('attributes exported', self.request.user.username, study_pk=self.study.pk)
 
         return response
 
@@ -275,6 +277,11 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
 
         monitoring_logger.info(
             f'Pseudonym access: domain {domain.key} by {self.request.user.pk}'
+        )
+        audit(
+            'pseudonym accessed',
+            self.request.user.username,
+            extra={'domain': domain.key},
         )
 
         return HttpResponse(pseudonym)
@@ -443,6 +450,11 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
             monitoring_logger.info(
                 f'Pseudonym resolved: '
                 f'domain {form.cleaned_data["domain"]} by {self.request.user.pk}'
+            )
+            audit(
+                'pseudonym resolved',
+                self.request.user.username,
+                extra={'domain': form.cleaned_data['domain']},
             )
             return redirect(
                 'execution:participation-detail', self.study.pk, participation.pk

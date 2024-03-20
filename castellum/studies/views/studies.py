@@ -43,6 +43,7 @@ from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
+from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
@@ -371,6 +372,7 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         monitoring_logger.info(
             f'Study {self.study.name} deleted by {self.request.user.pk}'
         )
+        audit('study deleted', self.response.user.username, study_pk=self.study.pk)
         messages.success(self.request, _('Study has been deleted.'))
         return response
 
@@ -391,11 +393,13 @@ class StudyStartRecruitmentView(View):
             monitoring_logger.info(
                 f'Study {study.name} stopped by {request.user.pk}'
             )
+            audit('study stopped', request.user.username, study_pk=study.pk)
         else:
             study.set_status(study.EXECUTION)
             monitoring_logger.info(
                 f'Study {study.name} started by {request.user.pk}'
             )
+            audit('study started', request.user.username, study_pk=study.pk)
 
         return redirect(
             get_next_url(request, reverse('studies:detail', args=[study.pk]))

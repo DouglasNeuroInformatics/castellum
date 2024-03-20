@@ -44,6 +44,7 @@ from castellum.appointments.helpers import get_external_resource_events
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.models import Appointment
+from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.studies.mixins import StudyMixin
@@ -291,6 +292,7 @@ class RecruitmentViewOpen(RecruitmentView):
             monitoring_logger.info(
                 f'Urgent recruitment in study {self.study.pk} by {request.user.pk}'
             )
+            audit('urgent recruitment', request.user.username, study_pk=self.study.pk)
 
         if self.study.min_subject_count == 0:
             messages.error(request, _(
