@@ -26,12 +26,12 @@ def create_participation(study, status=Participation.NOT_CONTACTED):
     baker.make(Participation, subject=subject, study=study, status=status)
 
 
-def test_min_subject_count_is_zero(client, member, study_in_execution_status):
-    study_in_execution_status.min_subject_count = 0
-    study_in_execution_status.save()
+def test_min_subject_count_is_zero(client, member, study):
+    study.min_subject_count = 0
+    study.save()
 
     client.force_login(member)
-    url = f'/recruitment/{study_in_execution_status.pk}/'
+    url = f'/recruitment/{study.pk}/'
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -47,17 +47,15 @@ def test_min_subject_count_is_zero(client, member, study_in_execution_status):
     10 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR,
     11 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR,
 ])
-def test_not_contacted_count_is_gte_to_hard_limit(
-    client, member, study_in_execution_status, subject_count
-):
-    study_in_execution_status.min_subject_count = 10
-    study_in_execution_status.save()
+def test_not_contacted_count_is_gte_to_hard_limit(client, member, study, subject_count):
+    study.min_subject_count = 10
+    study.save()
 
     for _i in range(subject_count):
-        create_participation(study_in_execution_status)
+        create_participation(study)
 
     client.force_login(member)
-    url = f'/recruitment/{study_in_execution_status.pk}/'
+    url = f'/recruitment/{study.pk}/'
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -69,18 +67,14 @@ def test_not_contacted_count_is_gte_to_hard_limit(
     assert response.status_code == 200
 
 
-def test_no_matching_subjects(
-    client, member, study_in_execution_status, attribute
-):
-    study_in_execution_status.min_subject_count = 5
-    study_in_execution_status.save()
+def test_no_matching_subjects(client, member, study, attribute):
+    study.min_subject_count = 5
+    study.save()
 
     for _i in range(5):
         create_subject()
 
-    subject_filter_group = baker.make(
-        SubjectFilterGroup, study=study_in_execution_status
-    )
+    subject_filter_group = baker.make(SubjectFilterGroup, study=study)
     baker.make(
         SubjectFilter,
         group=subject_filter_group,
@@ -90,7 +84,7 @@ def test_no_matching_subjects(
     )
 
     client.force_login(member)
-    url = f'/recruitment/{study_in_execution_status.pk}/'
+    url = f'/recruitment/{study.pk}/'
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -101,9 +95,9 @@ def test_no_matching_subjects(
     assert response.status_code == 200
 
 
-def test_post_urgent(client, member, study_in_execution_status):
-    study_in_execution_status.min_subject_count = 2
-    study_in_execution_status.save()
+def test_post_urgent(client, member, study):
+    study.min_subject_count = 2
+    study.save()
 
     subject1 = create_subject()
     subject2 = create_subject()
@@ -118,10 +112,10 @@ def test_post_urgent(client, member, study_in_execution_status):
 
     with freeze_time('1970-02-01'):
         client.force_login(member)
-        url = f'/recruitment/{study_in_execution_status.pk}/'
+        url = f'/recruitment/{study.pk}/'
         response = client.post(url, {'submit': 'urgent'})
 
     assert response.status_code == 200
-    participations = study_in_execution_status.participation_set
+    participations = study.participation_set
     assert participations.filter(subject=subject1).exists()
     assert not participations.filter(subject=subject2).exists()

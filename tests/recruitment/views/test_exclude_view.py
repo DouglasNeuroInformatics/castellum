@@ -12,7 +12,7 @@ def test_200(client, member, participation):
     assert response.status_code == 200
 
 
-def test_404_if_study_in_edit_status(client, member, participation):
+def test_404_if_draft_study(client, member, participation):
     participation.study.status = Study.EDIT
     participation.study.save()
 

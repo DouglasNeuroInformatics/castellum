@@ -96,9 +96,7 @@ def test_get_when_study_has_minimal_subject_count_set_to_zero(
 
 
 @pytest.mark.django_db
-def test_get_when_study_has_not_enough_subjects_in_filter_group(
-    client, member, study
-):
+def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member, study):
     client.force_login(member)
 
     study.min_subject_count = 100

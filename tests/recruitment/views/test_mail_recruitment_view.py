@@ -67,7 +67,7 @@ def test_404_if_study_is_not_provided(client, member):
     assert response.status_code == 404
 
 
-def test_200_if_study_in_execution_status_and_mail_settings(client, user):
+def test_200_if_study_and_mail_settings(client, user):
     client.force_login(user)
     study = baker.make(
         Study,
@@ -83,18 +83,16 @@ def test_200_if_study_in_execution_status_and_mail_settings(client, user):
     assert b'Mail recruitment has not been set up!' not in response.content
 
 
-def test_200_if_study_in_execution_status_no_mail_settings(
-    client, member, study_in_execution_status
-):
+def test_200_if_study_no_mail_settings(client, member, study):
     client.force_login(member)
-    url = f'/recruitment/{study_in_execution_status.pk}/mail/'
+    url = f'/recruitment/{study.pk}/mail/'
     response = client.get(url)
     assert response.status_code == 200
     assert b'Mail recruitment has not been set up!' in response.content
     assert b'id_batch_size' not in response.content
 
 
-def test_404_if_study_in_edit_status(client, user):
+def test_404_if_draft_study(client, user):
     client.force_login(user)
     study = baker.make(
         Study,
@@ -108,9 +106,7 @@ def test_404_if_study_in_edit_status(client, user):
     assert response.status_code == 404
 
 
-def test_remind_updates_participations(
-    subject, study_in_execution_status, client, user
-):
+def test_remind_updates_participations(subject, study, client, user):
     now = timezone.now()
     client.force_login(user)
 
@@ -118,14 +114,12 @@ def test_remind_updates_participations(
     subject.contact.save()
     baker.make(Consent, subject=subject, _fill_optional=['document'])
 
-    batch = baker.make(MailBatch, study=study_in_execution_status)
-    participation = baker.make(
-        Participation, subject=subject, study=study_in_execution_status, batch=batch
-    )
+    batch = baker.make(MailBatch, study=study)
+    participation = baker.make(Participation, subject=subject, study=study, batch=batch)
 
     with freeze_time(now):
         remind_view = MailRecruitmentRemindView()
-        remind_view.study = study_in_execution_status
+        remind_view.study = study
         remind_view.send_reminder_mails(batch)
 
     participation.refresh_from_db()

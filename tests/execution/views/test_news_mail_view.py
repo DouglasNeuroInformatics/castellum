@@ -17,12 +17,7 @@ test_mail = {
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_news_mail_200(
-    request,
-    client,
-    user_fixture,
-    study_in_execution_status,
-):
+def test_news_mail_200(request, client, user_fixture, study):
     """
     Only people in charge of conducting studies should be able to see this view.
     """
@@ -30,21 +25,21 @@ def test_news_mail_200(
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
-    url = f'/execution/{study_in_execution_status.pk}/news/'
+    url = f'/execution/{study.pk}/news/'
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_news_mail_empty_study(client, member, study_in_execution_status):
+def test_news_mail_empty_study(client, member, study):
     """
     For an empty study, no emails should be sent and a warning should pop up if you try.
     """
 
-    assert not study_in_execution_status.participation_set.exists()
+    assert not study.participation_set.exists()
 
     client.force_login(member)
 
-    url = f'/execution/{study_in_execution_status.pk}/news/'
+    url = f'/execution/{study.pk}/news/'
     client.post(url, test_mail, follow='True')
 
     assert len(mail.outbox) == 0

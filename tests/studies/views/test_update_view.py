@@ -20,9 +20,7 @@ def test_tags(client, member, study):
     client.force_login(member)
 
     for tags in [['foo', 'bar'], ['foo', 'baz'], []]:
-        client.post(f'/studies/{study.pk}/update/', {
-            'tags': tags, **FORM_DEFAULTS
-        })
+        client.post(f'/studies/{study.pk}/update/', {'tags': tags, **FORM_DEFAULTS})
 
         study.refresh_from_db()
         assert set(study.tags) == set(tags)

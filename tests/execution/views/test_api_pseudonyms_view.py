@@ -4,8 +4,7 @@ from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import Participation
 
 
-def test_apipseudonymsview(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_apipseudonymsview(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     baker.make(
         Participation, study=study, subject=subject, status=Participation.PARTICIPATING
@@ -19,8 +18,7 @@ def test_apipseudonymsview(client, conductor, study_in_execution_status, subject
     assert len(data['pseudonyms']) == 1
 
 
-def test_participation_status(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_participation_status(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     baker.make(
         Participation, study=study, subject=subject, status=Participation.NOT_CONTACTED
@@ -34,11 +32,10 @@ def test_participation_status(client, conductor, study_in_execution_status, subj
     assert len(data['pseudonyms']) == 0
 
 
-def test_privacy_level(client, conductor, study_in_execution_status, subject):
+def test_privacy_level(client, conductor, study, subject):
     subject.privacy_level = 2
     subject.save()
 
-    study = study_in_execution_status
     domain = baker.make(Domain, context=study)
     baker.make(
         Participation, study=study, subject=subject, status=Participation.PARTICIPATING
@@ -52,8 +49,7 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
     assert len(data['pseudonyms']) == 1
 
 
-def test_unrelated_domain(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_unrelated_domain(client, conductor, study, subject):
     domain = baker.make(Domain)
     baker.make(
         Participation, study=study, subject=subject, status=Participation.PARTICIPATING

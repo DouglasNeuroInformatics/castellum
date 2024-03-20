@@ -51,13 +51,13 @@ def test_match(request, client, user_fixture):
     'member',
     pytest.param('user', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_only_members(request, client, user_fixture, study_in_execution_status):
+def test_only_members(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
 
     contact = baker.make(Contact, first_name='foo', last_name='bar')
     baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         subject=contact.subject,
         status=Participation.PARTICIPATING,
     )
@@ -68,7 +68,7 @@ def test_only_members(request, client, user_fixture, study_in_execution_status):
     assert response.content.count(b'<li class="table-list-item">') == 1
 
 
-def test_matches(client, member, study_in_execution_status, study):
+def test_matches(client, member, study, draft_study):
     contact1 = baker.make(Contact, first_name='asd', last_name='asd')
     contact2 = baker.make(Contact, first_name='foo', last_name='bar')
     contact3 = baker.make(Contact, first_name='foo', last_name='bar')
@@ -77,27 +77,27 @@ def test_matches(client, member, study_in_execution_status, study):
     # no item because of name
     baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         subject=contact1.subject,
         status=Participation.PARTICIPATING,
     )
     # no subitem because of study status
     baker.make(
         Participation,
-        study=study,
+        study=draft_study,
         subject=contact2.subject,
         status=Participation.PARTICIPATING,
     )
     # no execution button because of particiaption status
     baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         subject=contact3.subject,
         status=Participation.EXCLUDED,
     )
     baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         subject=contact4.subject,
         status=Participation.PARTICIPATING,
     )

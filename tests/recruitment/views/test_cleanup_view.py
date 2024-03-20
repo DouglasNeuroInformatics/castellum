@@ -8,27 +8,27 @@ from castellum.subjects.models import Consent
 
 
 @pytest.mark.smoketest
-def test_cleanup_view_200(client, recruiter, study_in_execution_status):
+def test_cleanup_view_200(client, recruiter, study):
     client.force_login(recruiter)
-    response = client.get(f'/recruitment/{study_in_execution_status.pk}/cleanup/')
+    response = client.get(f'/recruitment/{study.pk}/cleanup/')
     assert response.status_code == 200
 
 
-def test_cleanup_view_all(client, recruiter, study_in_execution_status):
+def test_cleanup_view_all(client, recruiter, study):
     client.force_login(recruiter)
 
     participation1 = baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         status=Participation.NOT_CONTACTED,
     )
     participation2 = baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         status=Participation.PARTICIPATING,
     )
 
-    url = f'/recruitment/{study_in_execution_status.pk}/cleanup/'
+    url = f'/recruitment/{study.pk}/cleanup/'
     client.post(url, {'action': 'all'})
 
     participation1.refresh_from_db()
@@ -37,28 +37,28 @@ def test_cleanup_view_all(client, recruiter, study_in_execution_status):
     assert participation2.status == Participation.PARTICIPATING
 
 
-def test_cleanup_view_awaiting_response(client, recruiter, study_in_execution_status):
+def test_cleanup_view_awaiting_response(client, recruiter, study):
     with freeze_time('1970-01-01'):
         participation1 = baker.make(
             Participation,
-            study=study_in_execution_status,
+            study=study,
             status=Participation.AWAITING_RESPONSE,
         )
         participation2 = baker.make(
             Participation,
-            study=study_in_execution_status,
+            study=study,
             status=Participation.NOT_CONTACTED,
         )
     with freeze_time('1970-01-15'):
         participation3 = baker.make(
             Participation,
-            study=study_in_execution_status,
+            study=study,
             status=Participation.AWAITING_RESPONSE,
         )
 
     with freeze_time('1970-01-15'):
         client.force_login(recruiter)
-        url = f'/recruitment/{study_in_execution_status.pk}/cleanup/'
+        url = f'/recruitment/{study.pk}/cleanup/'
         client.post(url, {'action': 'awaiting_response'})
 
     participation1.refresh_from_db()
@@ -69,14 +69,12 @@ def test_cleanup_view_awaiting_response(client, recruiter, study_in_execution_st
     assert participation3.status == Participation.AWAITING_RESPONSE
 
 
-def test_cleanup_view_mismatch(
-    client, recruiter, study_in_execution_status, attribute
-):
+def test_cleanup_view_mismatch(client, recruiter, study, attribute):
     client.force_login(recruiter)
 
     participation1 = baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         status=Participation.NOT_CONTACTED,
         subject__attributes={
             attribute.json_key: 1,
@@ -86,7 +84,7 @@ def test_cleanup_view_mismatch(
 
     participation2 = baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         status=Participation.NOT_CONTACTED,
         subject__attributes={
             attribute.json_key: 2,
@@ -96,7 +94,7 @@ def test_cleanup_view_mismatch(
 
     participation3 = baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         status=Participation.NOT_CONTACTED,
         subject__attributes={},
     )
@@ -104,7 +102,7 @@ def test_cleanup_view_mismatch(
 
     participation4 = baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         status=Participation.PARTICIPATING,
         subject__attributes={
             attribute.json_key: 2,
@@ -114,7 +112,7 @@ def test_cleanup_view_mismatch(
 
     participation5 = baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         status=Participation.FOLLOWUP_APPOINTED,
         subject__attributes={
             attribute.json_key: 2,
@@ -124,7 +122,7 @@ def test_cleanup_view_mismatch(
 
     participation6 = baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         status=Participation.NOT_CONTACTED,
         subject__attributes={
             attribute.json_key: 1,
@@ -133,13 +131,13 @@ def test_cleanup_view_mismatch(
 
     baker.make(
         SubjectFilter,
-        group__study=study_in_execution_status,
+        group__study=study,
         attribute=attribute,
         operator='exact',
         value=1,
     )
 
-    url = f'/recruitment/{study_in_execution_status.pk}/cleanup/'
+    url = f'/recruitment/{study.pk}/cleanup/'
     client.post(url, {'action': 'mismatch'})
 
     participation1.refresh_from_db()

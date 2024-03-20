@@ -8,8 +8,7 @@ from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 
 
-def test_apiresolveview(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_apiresolveview(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
@@ -28,8 +27,7 @@ def test_apiresolveview(client, conductor, study_in_execution_status, subject):
     assert response.json() == {'pseudonym': target_pseudonym}
 
 
-def test_token_required(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_token_required(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
@@ -46,8 +44,7 @@ def test_token_required(client, conductor, study_in_execution_status, subject):
     assert response.status_code == 403
 
 
-def test_user_expired(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_user_expired(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
@@ -69,10 +66,7 @@ def test_user_expired(client, conductor, study_in_execution_status, subject):
     assert response.status_code == 403
 
 
-def test_token_required_logged_in(
-    client, conductor, study_in_execution_status, subject
-):
-    study = study_in_execution_status
+def test_token_required_logged_in(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
@@ -90,8 +84,7 @@ def test_token_required_logged_in(
     assert response.status_code == 403
 
 
-def test_permission_required(client, recruiter, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_permission_required(client, recruiter, study, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
@@ -108,11 +101,10 @@ def test_permission_required(client, recruiter, study_in_execution_status, subje
     assert response.status_code == 403
 
 
-def test_privacy_level(client, conductor, study_in_execution_status, subject):
+def test_privacy_level(client, conductor, study, subject):
     subject.privacy_level = 2
     subject.save()
 
-    study = study_in_execution_status
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
@@ -129,16 +121,19 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
     assert response.status_code == 403
 
 
-def test_study_status(client, conductor, study, subject):
-    domain = baker.make(Domain, context=study)
-    target_domain = baker.make(Domain, context=study)
+def test_study_status(client, conductor, draft_study, subject):
+    domain = baker.make(Domain, context=draft_study)
+    target_domain = baker.make(Domain, context=draft_study)
     baker.make(
-        Participation, study=study, subject=subject, status=Participation.PARTICIPATING
+        Participation,
+        study=draft_study,
+        subject=subject,
+        status=Participation.PARTICIPATING,
     )
     pseudonym = get_pseudonym(subject, domain.key)
 
     url = (
-        f'/execution/api/studies/{study.pk}'
+        f'/execution/api/studies/{draft_study.pk}'
         f'/domains/{domain.key}/{pseudonym}/{target_domain.key}/'
     )
     response = client.get(url, HTTP_AUTHORIZATION=f'token {conductor.token}')
@@ -146,8 +141,7 @@ def test_study_status(client, conductor, study, subject):
     assert response.status_code == 404
 
 
-def test_participation_status(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_participation_status(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(
@@ -164,11 +158,7 @@ def test_participation_status(client, conductor, study_in_execution_status, subj
     assert response.status_code == 404
 
 
-def test_source_domain_wrong_study(
-    client, conductor, study_in_execution_status, subject
-):
-    study = study_in_execution_status
-
+def test_source_domain_wrong_study(client, conductor, study, subject):
     other_study = baker.make(Study)
     domain = baker.make(Domain, context=other_study)
 
@@ -187,9 +177,7 @@ def test_source_domain_wrong_study(
     assert response.status_code == 404
 
 
-def test_source_domain_general(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
-
+def test_source_domain_general(client, conductor, study, subject):
     domain = baker.make(Domain)
     study.general_domains.add(domain)
     conductor.general_domains.add(domain)
@@ -209,10 +197,7 @@ def test_source_domain_general(client, conductor, study_in_execution_status, sub
     assert response.status_code == 404
 
 
-def test_target_domain_other_study(
-    client, conductor, study_in_execution_status, subject
-):
-    study = study_in_execution_status
+def test_target_domain_other_study(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
 
     other_study = baker.make(Study)
@@ -232,8 +217,7 @@ def test_target_domain_other_study(
     assert response.status_code == 404
 
 
-def test_target_domain_general(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_target_domain_general(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
 
     target_domain = baker.make(Domain)
@@ -256,10 +240,7 @@ def test_target_domain_general(client, conductor, study_in_execution_status, sub
     assert response.json() == {'pseudonym': target_pseudonym}
 
 
-def test_target_domain_general_bad_user(
-    client, conductor, study_in_execution_status, subject
-):
-    study = study_in_execution_status
+def test_target_domain_general_bad_user(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
 
     target_domain = baker.make(Domain)
@@ -279,10 +260,7 @@ def test_target_domain_general_bad_user(
     assert response.status_code == 404
 
 
-def test_source_domain_general_bad_study(
-    client, conductor, study_in_execution_status, subject
-):
-    study = study_in_execution_status
+def test_source_domain_general_bad_study(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
 
     target_domain = baker.make(Domain)
@@ -302,8 +280,7 @@ def test_source_domain_general_bad_study(
     assert response.status_code == 404
 
 
-def test_normalize_pseudonym(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_normalize_pseudonym(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)
     baker.make(

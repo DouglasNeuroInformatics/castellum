@@ -137,24 +137,18 @@ def receptionist(db):
 
 
 @pytest.fixture
-def member(study, study_in_execution_status, study_in_edit_status):
-    return create_member(
-        'all', [study, study_in_execution_status, study_in_edit_status]
-    )
+def member(study, draft_study):
+    return create_member('all', [study, draft_study])
 
 
 @pytest.fixture
-def recruiter(study, study_in_execution_status, study_in_edit_status):
-    return create_member(
-        'Recruiter', [study, study_in_execution_status, study_in_edit_status]
-    )
+def recruiter(study, draft_study):
+    return create_member('Recruiter', [study, draft_study])
 
 
 @pytest.fixture
-def conductor(study, study_in_execution_status, study_in_edit_status):
-    return create_member(
-        'Conductor', [study, study_in_execution_status, study_in_edit_status]
-    )
+def conductor(study, draft_study):
+    return create_member('Conductor', [study, draft_study])
 
 
 @pytest.fixture
@@ -168,16 +162,11 @@ def admin(db):
 
 @pytest.fixture
 def study(db):
-    return baker.make(Study)
-
-
-@pytest.fixture
-def study_in_execution_status(db):
     return baker.make(Study, status=Study.EXECUTION)
 
 
 @pytest.fixture
-def study_in_edit_status(db):
+def draft_study(db):
     return baker.make(Study, status=Study.EDIT)
 
 
@@ -204,15 +193,15 @@ def subject_creation_request(db):
 
 
 @pytest.fixture
-def participation(subject, study_in_execution_status):
-    return baker.make(Participation, study=study_in_execution_status, subject=subject)
+def participation(subject, study):
+    return baker.make(Participation, study=study, subject=subject)
 
 
 @pytest.fixture
-def invited(subject, study_in_execution_status):
+def invited(subject, study):
     return baker.make(
         Participation,
-        study=study_in_execution_status,
+        study=study,
         subject=subject,
         status=Participation.PARTICIPATING,
     )

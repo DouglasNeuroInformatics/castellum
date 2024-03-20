@@ -5,8 +5,7 @@ from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import Participation
 
 
-def test_apivalidateview(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_apivalidateview(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     baker.make(
         Participation, study=study, subject=subject, status=Participation.PARTICIPATING
@@ -20,8 +19,7 @@ def test_apivalidateview(client, conductor, study_in_execution_status, subject):
     assert response.json() == {'pseudonym': pseudonym}
 
 
-def test_normalize_pseudonym(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_normalize_pseudonym(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
     baker.make(
         Participation, study=study, subject=subject, status=Participation.PARTICIPATING
@@ -35,8 +33,7 @@ def test_normalize_pseudonym(client, conductor, study_in_execution_status, subje
     assert response.json() == {'pseudonym': pseudonym}
 
 
-def test_unrelated_domain(client, conductor, study_in_execution_status, subject):
-    study = study_in_execution_status
+def test_unrelated_domain(client, conductor, study, subject):
     domain = baker.make(Domain)
     baker.make(
         Participation, study=study, subject=subject, status=Participation.PARTICIPATING
@@ -49,11 +46,10 @@ def test_unrelated_domain(client, conductor, study_in_execution_status, subject)
     assert response.status_code == 404
 
 
-def test_ignore_privacylevel(client, conductor, study_in_execution_status, subject):
+def test_ignore_privacylevel(client, conductor, study, subject):
     subject.privacy_level = 2
     subject.save()
 
-    study = study_in_execution_status
     domain = baker.make(Domain, context=study)
     baker.make(
         Participation, study=study, subject=subject, status=Participation.PARTICIPATING

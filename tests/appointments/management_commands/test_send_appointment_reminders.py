@@ -11,18 +11,16 @@ from castellum.recruitment.models import Participation
 from castellum.studies.models import StudySession
 
 
-def test_send_appointment_reminders_first(contact, study_in_execution_status):
+def test_send_appointment_reminders_first(contact, study):
     contact.email = 'test@example.com'
     contact.save()
     participation = baker.make(
         Participation,
         subject=contact.subject,
-        study=study_in_execution_status,
+        study=study,
         status=Participation.PARTICIPATING,
     )
-    session = baker.make(
-        StudySession, study=study_in_execution_status, first_reminder_days=3
-    )
+    session = baker.make(StudySession, study=study, first_reminder_days=3)
 
     with freeze_time('1970-01-01 12:00'):
         appointment = baker.make(
@@ -42,18 +40,16 @@ def test_send_appointment_reminders_first(contact, study_in_execution_status):
     assert appointment.first_reminder_sent is True
 
 
-def test_send_appointment_reminders_second(contact, study_in_execution_status):
+def test_send_appointment_reminders_second(contact, study):
     contact.email = 'test@example.com'
     contact.save()
     participation = baker.make(
         Participation,
         subject=contact.subject,
-        study=study_in_execution_status,
+        study=study,
         status=Participation.PARTICIPATING,
     )
-    session = baker.make(
-        StudySession, study=study_in_execution_status, second_reminder_days=3
-    )
+    session = baker.make(StudySession, study=study, second_reminder_days=3)
 
     with freeze_time('1970-01-01 12:00'):
         appointment = baker.make(

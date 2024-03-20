@@ -8,7 +8,7 @@ def test_200(client, user, subject):
     assert b'No matching studies found' in response.content
 
 
-def test_200_with_study(client, member, subject, study_in_execution_status):
+def test_200_with_study(client, member, subject, study):
     client.force_login(member)
     response = client.get(f'/subjects/{subject.pk}/participations/recruit/')
     assert response.status_code == 200
