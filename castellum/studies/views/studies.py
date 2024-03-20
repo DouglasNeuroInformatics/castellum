@@ -128,7 +128,7 @@ class StudyMaintenanceView(LoginRequiredMixin, ListView):
         'execution-unknown': _('Provide an estimate for the end of sessions'),
         'execution-future': _('Conduct the study'),
         'execution-past': _('Finish the study'),
-        'finished-domains': _('Delete the pseudonym domains'),
+        'finished-domains': _('Delete the pseudonym list'),
         'finished-anon': _('Delete the study from Castellum'),
     }
     EXPLANATIONS = {
@@ -148,12 +148,12 @@ class StudyMaintenanceView(LoginRequiredMixin, ListView):
             'can be deleted.'
         ),
         'finished-domains': _(
-            'These studies have finished, but the pseudonym domains have '
-            'not yet been deleted. The date when pseudonym domains must be '
+            'These studies have finished, but the pseudonym lists have '
+            'not yet been deleted. The date when pseudonym lists must be '
             'deleted is usually defined in the study consent.'
         ),
         'finished-anon': _(
-            'These studies have finished, and the pseudonym domains have '
+            'These studies have finished, and the pseudonym lists have '
             'already been deleted. This means that Castellum no longer knows '
             'which data belongs to a subject, it just knows that the subject '
             'has participated in the study. The only reason to keep these '

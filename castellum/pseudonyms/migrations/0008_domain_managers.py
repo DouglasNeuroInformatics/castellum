@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 related_name='general_domains',
                 to=settings.AUTH_USER_MODEL,
-                verbose_name='Users who can access this domain',
+                verbose_name='Users who can access this pseudonym list',
             ),
         ),
     ]
