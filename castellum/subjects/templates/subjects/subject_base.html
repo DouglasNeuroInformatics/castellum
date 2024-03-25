@@ -65,6 +65,15 @@
                 <a href="{% url 'subjects:participation-list' subject.pk %}" class="nav-link {% if view.tab == 'participations' %}active{% endif %}">{% translate "Study Participations" %}</a>
             </li>
 
+            {% has_perm 'subjects.view_audit_trail' user as can_view_audit_trail %}
+            {% if CASTELLUM_AUDIT_TRAIL_ENABLED and can_view_audit_trail %}
+                <li class="nav-item">
+                    <a href="{% url 'subjects:audit-trail' subject.pk %}" class="nav-link {% if view.tab == 'audit-trail' %}active{% endif %}">
+                        {% translate 'Audit trail' %}
+                    </a>
+                </li>
+            {% endif %}
+
             {% has_perm 'subjects.export_subject' user as can_export_subject %}
             {% if can_export_subject %}
                 <li class="nav-item">

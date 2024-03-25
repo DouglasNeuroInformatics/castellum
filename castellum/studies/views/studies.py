@@ -35,6 +35,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
@@ -43,6 +44,8 @@ from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
+from castellum.audit.helpers import audit
+from castellum.audit.models import AuditEvent
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
@@ -371,6 +374,11 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         monitoring_logger.info(
             f'Study {self.study.name} deleted by {self.request.user.pk}'
         )
+        audit(
+            gettext_noop('study deleted'),
+            self.response.user.username,
+            study_pk=self.study.pk,
+        )
         messages.success(self.request, _('Study has been deleted.'))
         return response
 
@@ -391,10 +399,20 @@ class StudyStartRecruitmentView(View):
             monitoring_logger.info(
                 f'Study {study.name} stopped by {request.user.pk}'
             )
+            audit(
+                gettext_noop('study stopped'),
+                request.user.username,
+                study_pk=study.pk,
+            )
         else:
             study.set_status(study.EXECUTION)
             monitoring_logger.info(
                 f'Study {study.name} started by {request.user.pk}'
+            )
+            audit(
+                gettext_noop('study started'),
+                request.user.username,
+                study_pk=study.pk,
             )
 
         return redirect(
@@ -409,8 +427,18 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     def post(self, request, study_pk):
         if self.study.status == self.study.FINISHED:
             self.study.restore_previous_status()
+            audit(
+                gettext_noop('study resumed'),
+                request.user.username,
+                study_pk=study_pk,
+            )
         else:
             self.study.set_status(self.study.FINISHED)
+            audit(
+                gettext_noop('study finished'),
+                request.user.username,
+                study_pk=study_pk,
+            )
             self.study.participation_set.exclude(status__in=Participation.INVITED_SET).delete()
         return redirect(
             get_next_url(request, reverse('studies:detail', args=[self.study.pk]))
@@ -489,6 +517,34 @@ class StudyConsentView(PermissionRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
+
+
+class StudyAuditTrailView(PermissionRequiredMixin, ListView):
+    model = AuditEvent
+    permission_required = ['studies.view_audit_trail']
+    template_name = 'studies/study_audit_trail.html'
+    tab = 'audit-trail'
+    paginate_by = 20
+
+    def get_queryset(self):
+        self.study = get_object_or_404(Study, pk=self.kwargs.get('study_pk'))
+        audit(
+            gettext_noop('audit trail accessed'),
+            self.request.user.username,
+            study_pk=self.study.pk,
+        )
+        return (
+            super().get_queryset()
+            .filter(study_pk=self.study.pk)
+            .values('created_at__date', 'action', 'username')
+            .annotate(created_at=models.Max('created_at'), count=models.Count('id'))
+            .order_by('-created_at')
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['study'] = self.study
+        return context
 
 
 class StudyProtectedMediaView(

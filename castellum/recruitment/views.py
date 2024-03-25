@@ -33,6 +33,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
@@ -44,6 +45,7 @@ from castellum.appointments.helpers import get_external_resource_events
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.models import Appointment
+from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.studies.mixins import StudyMixin
@@ -290,6 +292,11 @@ class RecruitmentViewOpen(RecruitmentView):
         if is_urgent:
             monitoring_logger.info(
                 f'Urgent recruitment in study {self.study.pk} by {request.user.pk}'
+            )
+            audit(
+                gettext_noop('urgent recruitment'),
+                request.user.username,
+                study_pk=self.study.pk,
             )
 
         if self.study.min_subject_count == 0:

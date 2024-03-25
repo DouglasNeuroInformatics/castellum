@@ -224,6 +224,18 @@ CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED = False
 # specific threat model whether you want to include this or not.
 CASTELLUM_MONITORING_INCLUDE_SEARCH = True
 
+# Create an audit trail
+#
+# This audit is intentionally very limited: Neither the before nor the after values are
+# stored. Only who did what when.
+#
+# Users can see the audit events related to subjects or studies if they have the
+# `subjects.view_audit_trail` / `studies.view_audit_trail` permission. The full list of
+# events is also available in the admin UI.
+#
+# Events are automatically deleted after one year.
+CASTELLUM_AUDIT_TRAIL_ENABLED = False
+
 # Additional privacy levels for subjects.
 #
 # Each level is a tuple of a float value and a label.

@@ -24,10 +24,12 @@ from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.translation import gettext_noop
 from django.views.generic import DeleteView
 from django.views.generic import FormView
 from django.views.generic.detail import SingleObjectMixin
 
+from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
 
@@ -99,6 +101,15 @@ class StudyMembersView(
                     f'user {membership.user.pk} groups {format_list(new_groups)} '
                     f'by {self.request.user.pk}'
                 )
+                audit(
+                    gettext_noop('member changed'),
+                    self.request.user.username,
+                    study_pk=self.study.pk,
+                    extra={
+                        'member': membership.user.username,
+                        'groups': format_list(new_groups),
+                    },
+                )
         else:
             monitoring_logger.info(
                 'Membership created: study {} users {} groups {} by {}'.format(
@@ -108,6 +119,16 @@ class StudyMembersView(
                     self.request.user.pk,
                 )
             )
+            for member in form.cleaned_data['users']:
+                audit(
+                    gettext_noop('member added'),
+                    self.request.user.username,
+                    study_pk=self.study.pk,
+                    extra={
+                        'member': member.username,
+                        'groups': format_list(self.request.POST.getlist('groups')),
+                    },
+                )
 
         form.save()
         return redirect('studies:members', self.object.pk)
@@ -134,6 +155,12 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
         monitoring_logger.info(
             f'Membership removed: study {self.object.study.pk} '
             f'user {self.object.user.pk} by {self.request.user.pk}'
+        )
+        audit(
+            gettext_noop('member removed'),
+            self.request.user.username,
+            study_pk=self.study.pk,
+            extra={'member': self.object.user.username},
         )
 
         return super().form_valid(form)

@@ -261,6 +261,7 @@ class Study(models.Model):
         permissions = [
             ('access_study', _('Can access studies')),
             ('approve_study', _('Can approve studies')),
+            ('view_audit_trail', _('Can view audit trail')),
         ]
 
     def __str__(self):

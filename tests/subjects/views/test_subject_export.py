@@ -15,6 +15,7 @@ EXCLUDED = [
     'admin.',
     'appointments.Appointment.id',
     'appointments.Appointment.participation',
+    'audit.',
     'auth.',
     'castellum_auth',
     'contacts.Contact.first_name_phonetic',

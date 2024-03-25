@@ -26,8 +26,10 @@ from django.db import models
 from django.http import Http404
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_noop
 from django.views.generic import View
 
+from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import APIAuthMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_pseudonym
@@ -125,6 +127,12 @@ class APIResolveView(BaseAPIView):
         monitoring_logger.info(
             f'Pseudonym access: domain {target_domain.key} by {self.request.user.pk}'
         )
+        audit(
+            gettext_noop('pseudonym accessed'),
+            self.request.user.username,
+            study_pk=self.study.pk,
+            extra={'domain': target_domain.key},
+        )
 
         return JsonResponse({'pseudonym': pseudonym})
 
@@ -159,6 +167,12 @@ class APIAttributesView(BaseAPIView):
         monitoring_logger.info(
             f'Attribute export: '
             f'study {self.study.pk} subject {subject.pk} by {request.user.pk}'
+        )
+        audit(
+            gettext_noop('attributes exported'),
+            request.user.username,
+            study_pk=self.study.pk,
+            subject_pk=subject.pk,
         )
 
         return JsonResponse(data)

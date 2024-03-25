@@ -27,8 +27,10 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_noop
 from django.views.generic import UpdateView
 
+from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.studies.mixins import StudyMixin
 from castellum.subjects.mixins import SubjectMixin
@@ -127,6 +129,11 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
         result = super().form_valid(form)
         monitoring_logger.info(
             f'Attributes update: {self.object.pk} by {self.request.user.pk}'
+        )
+        audit(
+            gettext_noop('subject updated'),
+            self.request.user.username,
+            subject_pk=self.object.pk,
         )
         return result
 

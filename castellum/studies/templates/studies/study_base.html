@@ -105,6 +105,7 @@
     <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
         {% has_perm 'studies.access_study' user study as can_access_study %}
         {% has_perm 'studies.change_study' user study as can_change_study %}
+        {% has_perm 'studies.view_audit_trail' user study as can_view_audit_trail %}
 
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
@@ -129,6 +130,11 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% translate 'Recruitment Settings' %}</a>
+                </li>
+            {% endif %}
+            {% if CASTELLUM_AUDIT_TRAIL_ENABLED and can_view_audit_trail %}
+                <li class="nav-item">
+                    <a class="nav-link {% if view.tab == 'audit-trail' %}active{% endif %}" href="{% url 'studies:audit-trail' study.pk %}">{% translate 'Audit trail' %}</a>
                 </li>
             {% endif %}
         </ul>

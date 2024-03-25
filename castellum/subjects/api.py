@@ -25,8 +25,10 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_noop
 from django.views.generic import View
 
+from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import APIAuthMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_subject
@@ -66,6 +68,12 @@ class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
         monitoring_logger.info(
             f'Attribute export: '
             f'domain {domain.key} subject {subject.pk} by {request.user.pk}'
+        )
+        audit(
+            gettext_noop('attributes exported'),
+            request.user.username,
+            subject_pk=subject.pk,
+            extra={'domain': domain.key},
         )
 
         return JsonResponse(data)

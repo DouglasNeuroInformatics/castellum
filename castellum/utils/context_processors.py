@@ -41,6 +41,7 @@ def get_settings(request):
         ),
         'CASTELLUM_REPORT_NOTIFICATION_TO': settings.CASTELLUM_REPORT_NOTIFICATION_TO,
         'CASTELLUM_REPORT_TEXT': settings.CASTELLUM_REPORT_TEXT,
+        'CASTELLUM_AUDIT_TRAIL_ENABLED': settings.CASTELLUM_AUDIT_TRAIL_ENABLED,
         'SCHEDULER_URL': settings.SCHEDULER_URL,
 
         # Error templates do not get a context. Invert this value to

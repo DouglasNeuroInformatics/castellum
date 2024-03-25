@@ -36,6 +36,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
@@ -44,6 +45,8 @@ from django.views.generic import ListView
 from django.views.generic import View
 
 from castellum.appointments.models import Appointment
+from castellum.audit.helpers import audit
+from castellum.audit.models import AuditEvent
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
@@ -175,6 +178,11 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 f'Subject search: search term: "{form.cleaned_data["search"]}" '
                 f'by {self.request.user.pk}'
             )
+            audit(
+                gettext_noop('subject searched'),
+                self.request.user.username,
+                extra={'query': form.cleaned_data['search']},
+            )
 
         return self.render_to_response(self.get_context_data(form=form))
 
@@ -210,6 +218,11 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 monitoring_logger.info(
                     f'SubjectData update: {subject.pk} by {self.request.user.pk}'
                 )
+                audit(
+                    gettext_noop('subject created'),
+                    self.request.user.username,
+                    subject_pk=subject.pk,
+                )
                 return redirect('subjects:detail', pk=subject.pk)
             else:
                 messages.error(request, _(
@@ -240,6 +253,11 @@ class SubjectResolveView(PermissionRequiredMixin, FormView):
             monitoring_logger.info(
                 f'Pseudonym resolved: domain {form.cleaned_data["domain"]} '
                 f'by {self.request.user.pk}'
+            )
+            audit(
+                gettext_noop('pseudonym resolved'),
+                self.request.user.username,
+                extra={'domain': form.cleaned_data['domain']},
             )
             return redirect('subjects:detail', subject.pk)
         except Subject.DoesNotExist:
@@ -310,6 +328,11 @@ class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
         monitoring_logger.info(
             f'Pseudonym access: domain {domain.key} by {self.request.user.pk}'
         )
+        audit(
+            gettext_noop('pseudonym accessed'),
+            self.request.user.username,
+            extra={'domain': domain.key},
+        )
 
         return HttpResponse(pseudonym or '—')
 
@@ -348,6 +371,12 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
             )
         else:
             monitoring_logger.info(f'Subject deleted by {self.request.user.pk}')
+        audit(
+            gettext_noop('subject deleted'),
+            self.request.user.username,
+            subject_pk=self.object.pk,
+            extra={'to_be_deleted': self.object.to_be_deleted},
+        )
         messages.success(self.request, _('Subject has been deleted.'))
         return response
 
@@ -379,6 +408,11 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
             monitoring_logger.info(
                 f'GDPR-Request export: {self.object.pk} by {self.request.user.pk}'
+            )
+            audit(
+                gettext_noop('subject exported'),
+                self.request.user.username,
+                subject_pk=self.object.pk,
             )
 
         return context
@@ -459,7 +493,38 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
 
         self.subject.study_type_disinterest.all().delete()
 
+        audit(
+            gettext_noop('subject updated'),
+            request.user.username,
+            subject_pk=self.subject.pk,
+        )
+
         return redirect('subjects:attributes', pk=self.subject.pk)
+
+
+class SubjectAuditTrailView(SubjectMixin, PermissionRequiredMixin, ListView):
+    model = AuditEvent
+    permission_required = ['subjects.view_audit_trail']
+    template_name = 'subjects/subject_audit_trail.html'
+    tab = 'audit-trail'
+    paginate_by = 20
+
+    def get_subject(self):
+        return get_object_or_404(Subject, pk=self.kwargs['pk'])
+
+    def get_queryset(self):
+        audit(
+            gettext_noop('audit trail accessed'),
+            self.request.user.username,
+            subject_pk=self.subject.pk,
+        )
+        return (
+            super().get_queryset()
+            .filter(subject_pk=self.subject.pk)
+            .values('created_at__date', 'action', 'username')
+            .annotate(created_at=models.Max('created_at'), count=models.Count('id'))
+            .order_by('-created_at')
+        )
 
 
 class ReportView(SubjectMixin, BaseReportView):
@@ -647,6 +712,12 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
         monitoring_logger.info(
             f'Participation in Study {study_name} deleted by {user_pk}'
         )
+        audit(
+            gettext_noop('participation deleted'),
+            self.request.user.username,
+            subject_pk=self.object.subject.pk,
+            study_pk=self.object.study.pk,
+        )
 
         return response
 
@@ -696,6 +767,11 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
 
             monitoring_logger.info(
                 f'SubjectData update: {contact.subject.pk} by {self.request.user.pk}'
+            )
+            audit(
+                gettext_noop('subject created'),
+                self.request.user.username,
+                subject_pk=contact.subject.pk,
             )
             return TemplateResponse(
                 self.request,

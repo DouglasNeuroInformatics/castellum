@@ -25,6 +25,7 @@ from django.urls import path
 from ..views.api import APIStudyDetailView
 from ..views.api import APIStudyListView
 from ..views.studies import FilterTrialCreateView
+from ..views.studies import StudyAuditTrailView
 from ..views.studies import StudyConsentView
 from ..views.studies import StudyCreateView
 from ..views.studies import StudyDeleteView
@@ -72,6 +73,16 @@ urlpatterns = [
     path('<int:study_pk>/recruitmentsettings/', include(recruitment_urls)),
     path('<int:study_pk>/sessions/', include(sessions_urls)),
 ]
+
+if settings.CASTELLUM_AUDIT_TRAIL_ENABLED:
+    urlpatterns += [
+        path(
+            '<int:study_pk>/audit-trail/',
+            StudyAuditTrailView.as_view(),
+            name='audit-trail',
+        ),
+    ]
+
 if settings.CASTELLUM_API_ENABLED:
     urlpatterns += [
         path('api/studies/', APIStudyListView.as_view()),
