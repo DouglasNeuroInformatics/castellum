@@ -119,13 +119,14 @@ CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY_EN = None
 
 CASTELLUM_SESSIONS_END_MAIL_SUBJECT = '[{study}] Sessions ended'
 CASTELLUM_SESSIONS_END_MAIL_BODY = (
-    'Please note that the data collection of study {study} ends today (according to the study '
-    'settings in Castellum). Therefore, now would be a good time to verify again that all '
-    'appointments and participations are correctly maintained in Castellum. If necessary, you '
-    'can extend the data collection period in the study settings.\n\n'
-    'Be aware that complete and correct tracking of participations in Castellum is essential '
-    'as Castellum is the central starting point to carry out requests in respect to GDPR data '
-    'subjects rights.'
+    'This is a reminder that the data collection of study "{study}" ends today.\n\n'
+    'Please remember to mark the study as finished. To anonymize the data, also '
+    'remember to delete the pseudonym lists once they are no longer needed. If the '
+    'data collection has been extended, please adapt the information in Castellum '
+    'accordingly.\n\n'
+    'Be aware that complete and correct tracking of participations in Castellum is '
+    'essential as Castellum is the central starting point to carry out requests in '
+    'respect to GDPR data subjects rights.'
 )
 CASTELLUM_SESSIONS_END_MAIL_BODY_EN = None
 
