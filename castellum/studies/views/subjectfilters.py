@@ -74,7 +74,7 @@ class FilterGroupListView(FilterMixin, ListView):
         context['total_count'] = Subject.objects.count()
         context['count'] = (
             Subject.objects
-            .filter(filter_queries.study(self.study), filter_queries.has_consent())
+            .filter(filter_queries.study_recruitable(self.study))
             .exclude(
                 pk__in=self.study.participation_set.exclude(
                     status__in=Participation.RECRUITMENT_SET

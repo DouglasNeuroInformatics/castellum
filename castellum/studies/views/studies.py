@@ -207,7 +207,7 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['potential_count'] = (
             Subject.objects
-            .filter(filter_queries.study(self.object), filter_queries.has_consent())
+            .filter(filter_queries.study_recruitable(self.object))
             .exclude(
                 pk__in=self.object.participation_set.exclude(
                     status__in=Participation.RECRUITMENT_SET

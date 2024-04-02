@@ -58,9 +58,8 @@ class SubjectFilterGroup(models.Model):
         from .. import filter_queries
 
         return Subject.objects.filter(
-            filter_queries.study(self.study, enable_filters=False),
+            filter_queries.study_recruitable(self.study, enable_filters=False),
             filter_queries.subjectfilters(self),
-            filter_queries.has_consent(),
         ).exclude(
             pk__in=self.study.participation_set.exclude(
                 status__in=Participation.RECRUITMENT_SET

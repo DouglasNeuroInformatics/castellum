@@ -62,8 +62,7 @@ class MailBatch(BaseMailBatch):
     def no_response_set(self):
         from .. import filter_queries
         return self.participation_set.filter(subject__in=Subject.objects.filter(
-            filter_queries.has_consent(),
-            filter_queries.study(self.study),
+            filter_queries.study_recruitable(self.study),
         ))
 
 

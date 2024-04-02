@@ -241,11 +241,10 @@ def study_criteria(study, *, enable_filters=True, include_unknown=None):
     return q
 
 
-def study(study, **kwargs):
+def study_recruitable(study, **kwargs):
     return (
         study_criteria(study, **kwargs)
         & to_be_deleted()
-        & models.Q(deceased=False)
-        & models.Q(blocked=False)
+        & has_consent()
         & study_max_privacy_level(study)
     )
