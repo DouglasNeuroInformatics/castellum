@@ -58,7 +58,7 @@ class SubjectFilterGroup(models.Model):
         from .. import filter_queries
 
         return Subject.objects.filter(
-            filter_queries.study_except_filters(self.study),
+            filter_queries.study(self.study, enable_filters=False),
             filter_queries.subjectfilters(self),
             filter_queries.has_consent(),
         ).exclude(
