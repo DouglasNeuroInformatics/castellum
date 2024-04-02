@@ -230,16 +230,22 @@ def completeness_expr():
     return completeness, total
 
 
-def study(study, enable_filters=True, include_unknown=None):
+def study_criteria(study, *, enable_filters=True, include_unknown=None):
     q = models.Q()
     q &= study_exclusion(study)
     q &= study_disinterest(study)
-    q &= study_max_privacy_level(study)
-    q &= to_be_deleted()
-    q &= models.Q(deceased=False)
-    q &= models.Q(blocked=False)
     if 'castellum.geofilters' in settings.INSTALLED_APPS and study.geo_filter:
         q &= geofilter(study)
     if enable_filters:
         q &= study_filters(study, include_unknown=include_unknown)
     return q
+
+
+def study(study, **kwargs):
+    return (
+        study_criteria(study, **kwargs)
+        & to_be_deleted()
+        & models.Q(deceased=False)
+        & models.Q(blocked=False)
+        & study_max_privacy_level(study)
+    )

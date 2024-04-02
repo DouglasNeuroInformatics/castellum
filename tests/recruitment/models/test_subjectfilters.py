@@ -24,7 +24,7 @@ def has_match(is_exclusive=False, excluded_studies=[]):
         Study, is_exclusive=is_exclusive, excluded_studies=excluded_studies
     )
     baker.make(SubjectFilterGroup, study=study)
-    return Subject.objects.filter(filter_queries.study(study)).exists()
+    return Subject.objects.filter(filter_queries.study_criteria(study)).exists()
 
 
 def test_to_q(subject):
@@ -51,7 +51,7 @@ def test_to_q_reverse_excluded_study(subject):
     participation = create_participation(subject)
     study = baker.make(Study)
     participation.study.excluded_studies.add(study)
-    assert not Subject.objects.filter(filter_queries.study(study)).exists()
+    assert not Subject.objects.filter(filter_queries.study_criteria(study)).exists()
 
 
 def test_to_q_exclusive_study(subject):
@@ -112,7 +112,7 @@ def test_disinterest_in_study_type(db):
     session = baker.make(StudySession, study=study)
     session.type.add(study_type)
     baker.make(Subject, study_type_disinterest=[study_type])
-    assert not Subject.objects.filter(filter_queries.study(study)).exists()
+    assert not Subject.objects.filter(filter_queries.study_criteria(study)).exists()
 
 
 @pytest.mark.django_db

@@ -279,12 +279,12 @@ class Participation(models.Model):
         from .. import filter_queries
 
         if Subject.objects.filter(
-            filter_queries.study(self.study, include_unknown=False),
+            filter_queries.study_criteria(self.study, include_unknown=False),
             pk=self.subject.pk,
         ).exists():
             return 'complete'
         elif Subject.objects.filter(
-            filter_queries.study(self.study, include_unknown=True),
+            filter_queries.study_criteria(self.study, include_unknown=True),
             pk=self.subject.pk,
         ).exists():
             return 'incomplete'
