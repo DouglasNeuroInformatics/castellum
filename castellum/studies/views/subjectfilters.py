@@ -72,16 +72,10 @@ class FilterGroupListView(FilterMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_count'] = Subject.objects.count()
-        context['count'] = (
-            Subject.objects
-            .filter(filter_queries.study_recruitable(self.study))
-            .exclude(
-                pk__in=self.study.participation_set.exclude(
-                    status__in=Participation.RECRUITMENT_SET
-                ).values('subject')
-            )
-            .count()
-        )
+        context['count'] = Subject.objects.filter(
+            filter_queries.study_recruitable(self.study),
+            filter_queries.already_in_study(self.study, include_recruitment=False),
+        ).count()
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
 
         participating = self.study.participation_set.filter(

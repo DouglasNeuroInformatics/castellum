@@ -25,7 +25,6 @@ from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 
 from ..models import Attribute
-from ..models import Participation
 
 
 class SubjectFilterGroupManager(models.Manager):
@@ -60,10 +59,7 @@ class SubjectFilterGroup(models.Model):
         return Subject.objects.filter(
             filter_queries.study_recruitable(self.study, enable_filters=False),
             filter_queries.subjectfilters(self),
-        ).exclude(
-            pk__in=self.study.participation_set.exclude(
-                status__in=Participation.RECRUITMENT_SET
-            ).values('subject')
+            filter_queries.already_in_study(self.study, include_recruitment=False),
         )
 
 

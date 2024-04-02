@@ -154,9 +154,16 @@ def to_be_deleted():
     return models.Q(to_be_deleted__isnull=True)
 
 
-def already_in_study(study):
+def already_in_study(study, *, include_recruitment=True):
     """Exclude subjects if they already have a participation in this study."""
-    return ~models.Q(participation__study=study)
+    if include_recruitment:
+        return ~models.Q(participation__study=study)
+    else:
+        return ~models.Q(
+            pk__in=study.participation_set.exclude(
+                status__in=Participation.RECRUITMENT_SET
+            ).values('subject')
+        )
 
 
 def study_filters(study, include_unknown=None):
