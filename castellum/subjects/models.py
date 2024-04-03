@@ -179,6 +179,13 @@ class Subject(TimeStampedModel):
         return not Consent.objects.filter(subject=self).exists()
 
     @cached_property
+    def has_consent_with_ineffective(self):
+        from castellum.recruitment import filter_queries
+        return Subject.objects.filter(
+            filter_queries.has_consent(include_ineffective=True), pk=self.pk,
+        ).exists()
+
+    @cached_property
     def has_consent_or_waiting(self):
         from castellum.recruitment import filter_queries
         return Subject.objects.filter(

@@ -78,7 +78,7 @@
             {% if subject.deceased %}
                 <em>{% translate 'deceased' %}</em>
             {% elif subject.has_legal_basis %}
-                {{ subject|display:'has_consent' }}
+                {{ subject|display:'has_consent_with_ineffective' }}
             {% else %}
                 {% url 'subjects:data-protection' subject.pk as url %}
                 {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktranslate %}
