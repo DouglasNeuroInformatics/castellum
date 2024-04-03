@@ -134,7 +134,16 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
     return q
 
 
-def has_consent(include_waiting=False, exclude_deprecated=False):
+def to_be_deleted():
+    """Exclude subjects who want to be deleted."""
+    return models.Q(to_be_deleted__isnull=True)
+
+
+def has_consent(
+    include_waiting=False,
+    exclude_deprecated=False,
+    include_ineffective=False,
+):
     """Exclude subjects who do not want to be contacted for recruitment."""
 
     q = models.Q(consent__document__isnull=False)
@@ -146,12 +155,11 @@ def has_consent(include_waiting=False, exclude_deprecated=False):
         acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
         q |= models.Q(consent__isnull=True, created_at__gte=acceptable_datetime)
 
-    return q & models.Q(deceased=False, blocked=False)
+    if not include_ineffective:
+        q &= models.Q(deceased=False, blocked=False)
+        q &= to_be_deleted()
 
-
-def to_be_deleted():
-    """Exclude subjects who want to be deleted."""
-    return models.Q(to_be_deleted__isnull=True)
+    return q
 
 
 def already_in_study(study, *, include_recruitment=True):
@@ -251,7 +259,6 @@ def study_criteria(study, *, enable_filters=True, include_unknown=None):
 def study_recruitable(study, **kwargs):
     return (
         study_criteria(study, **kwargs)
-        & to_be_deleted()
         & has_consent()
         & study_max_privacy_level(study)
     )

@@ -139,7 +139,7 @@ class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
     def get_object(self):
         # weird because model = Consent, but this is only used in
         # SubjectMixin, not in CreateView
-        return get_object_or_404(Subject, pk=self.kwargs['pk'])
+        return get_object_or_404(Subject, pk=self.kwargs['pk'], to_be_deleted=None)
 
     def get_form(self):
         if not ConsentDocument.objects.exists():
