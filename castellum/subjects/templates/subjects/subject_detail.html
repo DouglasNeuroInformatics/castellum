@@ -75,10 +75,14 @@
             </small>
         </dt>
         <dd class="col-sm-6">
-            {% if subject.deceased %}
-                <em>{% translate 'deceased' %}</em>
-            {% elif subject.has_legal_basis %}
-                {{ subject|display:'has_consent_with_ineffective' }}
+            {% if subject.has_legal_basis %}
+                {% if subject.has_consent_with_ineffective and subject.deceased %}
+                    <em>{{ subject|display:'has_consent_with_ineffective' }} ({% translate 'deceased' %})</em>
+                {% elif subject.has_consent_with_ineffective and subject.blocked %}
+                    <em>{{ subject|display:'has_consent_with_ineffective' }} ({% translate 'blocked' %})</em>
+                {% else %}
+                    {{ subject|display:'has_consent_with_ineffective' }}
+                {% endif %}
             {% else %}
                 {% url 'subjects:data-protection' subject.pk as url %}
                 {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktranslate %}
@@ -122,10 +126,12 @@
             </small>
         </dt>
         <dd class="col-sm-6">
-            {% if subject.deceased %}
-                <em>{% translate 'deceased' %}</em>
-            {% elif subject.has_legal_basis %}
-                {{ subject|display:'blocked' }}
+            {% if subject.has_legal_basis %}
+                {% if subject.blocked and subject.deceased %}
+                    <em>{{ subject|display:'blocked' }} ({% translate 'deceased' %})</em>
+                {% else %}
+                    {{ subject|display:'blocked' }}
+                {% endif %}
             {% endif %}
         </dd>
     </dl>
