@@ -205,16 +205,10 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['potential_count'] = (
-            Subject.objects
-            .filter(filter_queries.study(self.object), filter_queries.has_consent())
-            .exclude(
-                pk__in=self.object.participation_set.exclude(
-                    status__in=Participation.RECRUITMENT_SET
-                ).values('subject')
-            )
-            .count()
-        )
+        context['potential_count'] = Subject.objects.filter(
+            filter_queries.study_recruitable(self.object),
+            filter_queries.already_in_study(self.object, include_recruitment=False),
+        ).count()
         context['related_studies'] = list(get_related_studies(self.object))
         return context
 

@@ -303,10 +303,7 @@ class ParticipationStatusView(ParticipationDetailMixin, DetailView):
             status = int(request.POST.get('status'), 10)
         except (ValueError, TypeError):
             status = None
-        if (
-            status == Participation.PARTICIPATING
-            and participation.is_match == 'complete'
-        ):
+        if status == Participation.PARTICIPATING:
             participation.status = Participation.PARTICIPATING
         elif status == Participation.PARTICIPATING_DROPPED_OUT:
             participation.status = Participation.PARTICIPATING_DROPPED_OUT

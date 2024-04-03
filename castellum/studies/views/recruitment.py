@@ -51,7 +51,7 @@ def get_related_studies(study):
     related_prs = Participation.objects.filter(
         updated_at__gte=dt,
         status__in=Participation.INVITED_SET,
-        subject__in=Subject.objects.filter(filter_queries.study(study)),
+        subject__in=Subject.objects.filter(filter_queries.study_criteria(study)),
     )
     return (
         Study.objects
@@ -114,8 +114,7 @@ class StudyOtherStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['count'] = (
             Subject.objects.filter(
-                filter_queries.study(self.object),
-                filter_queries.has_consent()
+                filter_queries.study_recruitable(self.object),
             ).count()
         )
         context['total_count'] = Subject.objects.count()

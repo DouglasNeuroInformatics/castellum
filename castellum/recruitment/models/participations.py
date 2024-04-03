@@ -62,8 +62,7 @@ class MailBatch(BaseMailBatch):
     def no_response_set(self):
         from .. import filter_queries
         return self.participation_set.filter(subject__in=Subject.objects.filter(
-            filter_queries.has_consent(),
-            filter_queries.study(self.study),
+            filter_queries.study_recruitable(self.study),
         ))
 
 
@@ -279,12 +278,12 @@ class Participation(models.Model):
         from .. import filter_queries
 
         if Subject.objects.filter(
-            filter_queries.study(self.study, include_unknown=False),
+            filter_queries.study_criteria(self.study, include_unknown=False),
             pk=self.subject.pk,
         ).exists():
             return 'complete'
         elif Subject.objects.filter(
-            filter_queries.study(self.study, include_unknown=True),
+            filter_queries.study_criteria(self.study, include_unknown=True),
             pk=self.subject.pk,
         ).exists():
             return 'incomplete'

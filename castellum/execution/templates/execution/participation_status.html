@@ -5,7 +5,7 @@
 
 {% block content %}
     {% if object.is_match != 'complete' %}
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-warning" role="alert">
             {% translate 'Subject is unsuitable or blocked in another study.' %}
         </div>
     {% endif %}
@@ -17,7 +17,7 @@
 
         <fieldset class="mb-3">
             <div class="form-check mb-2">
-                <input class="form-check-input" id="status-participating" type="radio" name="status" value="{{ object.PARTICIPATING }}" {% if object.status == object.PARTICIPATING %}checked{% endif %} {% if object.is_match != 'complete' %}disabled{% endif %}>
+                <input class="form-check-input" id="status-participating" type="radio" name="status" value="{{ object.PARTICIPATING }}" {% if object.status == object.PARTICIPATING %}checked{% endif %}>
                 <label class="form-check-label" for="status-participating">
                     <strong>{% translate 'Participating' %}</strong>:
                     {% translate 'The subject will continue participating in this study.' %}

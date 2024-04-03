@@ -599,7 +599,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
             if (
                 self.request.user.has_perms(perms, obj=study)
                 and Subject.objects.filter(
-                    filter_queries.study(study), pk=self.subject.pk
+                    filter_queries.study_criteria(study), pk=self.subject.pk
                 ).exists()
             ):
                 pks.append(study.pk)

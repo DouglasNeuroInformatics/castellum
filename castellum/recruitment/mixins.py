@@ -54,8 +54,7 @@ def get_recruitable(study, is_urgent=False):
     i.e. apply all filters
     """
     qs = Subject.objects.filter(
-        filter_queries.study(study),
-        filter_queries.has_consent(),
+        filter_queries.study_recruitable(study),
         filter_queries.already_in_study(study),
     )
 

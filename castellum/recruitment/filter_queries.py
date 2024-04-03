@@ -154,9 +154,16 @@ def to_be_deleted():
     return models.Q(to_be_deleted__isnull=True)
 
 
-def already_in_study(study):
+def already_in_study(study, *, include_recruitment=True):
     """Exclude subjects if they already have a participation in this study."""
-    return ~models.Q(participation__study=study)
+    if include_recruitment:
+        return ~models.Q(participation__study=study)
+    else:
+        return ~models.Q(
+            pk__in=study.participation_set.exclude(
+                status__in=Participation.RECRUITMENT_SET
+            ).values('subject')
+        )
 
 
 def study_filters(study, include_unknown=None):
@@ -230,22 +237,21 @@ def completeness_expr():
     return completeness, total
 
 
-def study_except_filters(study, include_unknown=None):
+def study_criteria(study, *, enable_filters=True, include_unknown=None):
     q = models.Q()
     q &= study_exclusion(study)
     q &= study_disinterest(study)
-    q &= study_max_privacy_level(study)
-    q &= to_be_deleted()
-    q &= models.Q(deceased=False)
-    q &= models.Q(blocked=False)
     if 'castellum.geofilters' in settings.INSTALLED_APPS and study.geo_filter:
         q &= geofilter(study)
+    if enable_filters:
+        q &= study_filters(study, include_unknown=include_unknown)
     return q
 
 
-def study(study, include_unknown=None):
-    """Combine all filters related to ``study``."""
+def study_recruitable(study, **kwargs):
     return (
-        study_filters(study, include_unknown=include_unknown)
-        & study_except_filters(study, include_unknown=include_unknown)
+        study_criteria(study, **kwargs)
+        & to_be_deleted()
+        & has_consent()
+        & study_max_privacy_level(study)
     )
