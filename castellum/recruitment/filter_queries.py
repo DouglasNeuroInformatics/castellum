@@ -134,6 +134,11 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
     return q
 
 
+def to_be_deleted():
+    """Exclude subjects who want to be deleted."""
+    return models.Q(to_be_deleted__isnull=True)
+
+
 def has_consent(
     include_waiting=False,
     exclude_deprecated=False,
@@ -152,13 +157,9 @@ def has_consent(
 
     if not include_ineffective:
         q &= models.Q(deceased=False, blocked=False)
+        q &= to_be_deleted()
 
     return q
-
-
-def to_be_deleted():
-    """Exclude subjects who want to be deleted."""
-    return models.Q(to_be_deleted__isnull=True)
 
 
 def already_in_study(study, *, include_recruitment=True):
@@ -258,7 +259,6 @@ def study_criteria(study, *, enable_filters=True, include_unknown=None):
 def study_recruitable(study, **kwargs):
     return (
         study_criteria(study, **kwargs)
-        & to_be_deleted()
         & has_consent()
         & study_max_privacy_level(study)
     )
