@@ -61,78 +61,108 @@
         <dd class="col-sm-6">{{ dropout_rate }}</dd>
     </dl>
 
-    <h2 class="h4">{% translate 'Legal basis for data processing' %}</h2>
+    <h2 class="h4 mt-4 mb-3">{% translate 'Legal basis for data processing' %}</h2>
 
     {% if not subject.has_legal_basis %}
         <p class="alert alert-warning">{% translate 'Currently there is no legal basis for storing this subject. This subject will be deleted unless you provide at least one of these options.' %}</p>
     {% endif %}
 
-    <dl class="row">
-        <dt class="col-sm-6">
-            {% translate 'Recruitment consent' %}
-            <small class="d-block text-body-secondary">
-                {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent)' %}
-            </small>
-        </dt>
-        <dd class="col-sm-6">
-            {% if subject.has_legal_basis %}
-                {% if subject.has_consent_with_ineffective and subject.deceased %}
-                    <em>{{ subject|display:'has_consent_with_ineffective' }} ({% translate 'deceased' %})</em>
-                {% elif subject.has_consent_with_ineffective and subject.blocked %}
-                    <em>{{ subject|display:'has_consent_with_ineffective' }} ({% translate 'blocked' %})</em>
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <div class="p-2 {% if not subject.has_consent %}opacity-25{% endif %}">{% icon 'address-book fa-fw fa-xl' %}</div>
+        <div class="row flex-grow-1 align-items-center">
+            <div class="col-sm-8">
+                <strong>{% translate 'Recruitment consent' %}</strong>
+                <small class="d-block text-body-secondary">
+                    {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent)' %}
+                </small>
+            </div>
+            <div class="col-sm-4">
+                {% if subject.has_legal_basis %}
+                    {% if not subject.has_consent_with_ineffective %}
+                        {% icon 'xmark text-danger' label=_('No') %}
+                    {% elif subject.deceased %}
+                        <em class="text-body-secondary">{% icon 'check' label=_('Yes') %} ({% translate 'deceased' %})</em>
+                    {% elif subject.blocked %}
+                        <em class="text-body-secondary">{% icon 'check' label=_('Yes') %} ({% translate 'blocked' %})</em>
+                    {% else %}
+                        {% icon 'check text-success' label=_('Yes') %}
+                    {% endif %}
                 {% else %}
-                    {{ subject|display:'has_consent_with_ineffective' }}
+                    {% url 'subjects:data-protection' subject.pk as url %}
+                    {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktranslate %}
                 {% endif %}
-            {% else %}
-                {% url 'subjects:data-protection' subject.pk as url %}
-                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktranslate %}
-            {% endif %}
-        </dd>
+            </div>
+        </div>
+    </div>
 
-        <dt class="col-sm-6">
-            {% translate 'Study consent' %}
-            <small class="d-block text-body-secondary">
-                {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 27 BDSG (additional rules for scientific research)' %}
-            </small>
-        </dt>
-        <dd class="col-sm-6">
-            {% if subject.has_legal_basis %}
-                {{ subject|display:'has_study_consent' }}
-            {% else %}
-                {% url 'subjects:participation-list' subject.pk as url %}
-                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktranslate %}
-            {% endif %}
-        </dd>
-
-        <dt class="col-sm-6">
-            {% translate 'Legal representative' %}
-            <small class="d-block text-body-secondary">
-                {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 1626, 1902 BGB (responsibilities of legal representatives)' %}
-            </small>
-        </dt>
-        <dd class="col-sm-6">
-            {% if subject.has_legal_basis %}
-                {{ subject.contact|display:'is_legal_representative' }}
-            {% else %}
-                {% url 'subjects:index' as url %}
-                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their legal representative.{% endblocktranslate %}
-            {% endif %}
-        </dd>
-
-        <dt class="col-sm-6">
-            {{ subject|verbose_name:'blocked' }}
-            <small class="d-block text-body-secondary">
-                {% translate 'Art. 6 (1) lit. f GDPR (legitimate interests)' %}
-            </small>
-        </dt>
-        <dd class="col-sm-6">
-            {% if subject.has_legal_basis %}
-                {% if subject.blocked and subject.deceased %}
-                    <em>{{ subject|display:'blocked' }} ({% translate 'deceased' %})</em>
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <div class="p-2 {% if not subject.has_study_consent %}opacity-25{% endif %}">{% icon 'file-signature fa-fw fa-xl' %}</div>
+        <div class="row flex-grow-1 align-items-center">
+            <div class="col-sm-8">
+                <strong>{% translate 'Study consent' %}</strong>
+                <small class="d-block text-body-secondary">
+                    {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 27 BDSG (additional rules for scientific research)' %}
+                </small>
+            </div>
+            <div class="col-sm-4">
+                {% if subject.has_legal_basis %}
+                    {% if subject.has_study_consent %}
+                        {% icon 'check text-success' label=_('Yes') %}
+                    {% else %}
+                        {% icon 'xmark text-danger' label=_('No') %}
+                    {% endif %}
                 {% else %}
-                    {{ subject|display:'blocked' }}
+                    {% url 'subjects:participation-list' subject.pk as url %}
+                    {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktranslate %}
                 {% endif %}
-            {% endif %}
-        </dd>
-    </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <div class="p-2 {% if not subject.contact.is_legal_representative %}opacity-25{% endif %}">{% icon 'user-group fa-fw fa-xl' %}</div>
+        <div class="row flex-grow-1 align-items-center">
+            <div class="col-sm-8">
+                <strong>{% translate 'Legal representative' %}</strong>
+                <small class="d-block text-body-secondary">
+                    {% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR (explicit consent) and Art. 1626, 1902 BGB (responsibilities of legal representatives)' %}
+                </small>
+            </div>
+            <div class="col-sm-4">
+                {% if subject.has_legal_basis %}
+                    {% if subject.contact.is_legal_representative %}
+                        {% icon 'check text-success' label=_('Yes') %}
+                    {% else %}
+                        {% icon 'xmark text-danger' label=_('No') %}
+                    {% endif %}
+                {% else %}
+                    {% url 'subjects:index' as url %}
+                    {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their legal representative.{% endblocktranslate %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <div class="p-2 {% if not subject.blocked or subject.deceased %}opacity-25{% endif %}">{% icon 'flag fa-fw fa-xl' %}</div>
+        <div class="row flex-grow-1 align-items-center">
+            <div class="col-sm-8">
+                <strong>{{ subject|verbose_name:'blocked' }}</strong>
+                <small class="d-block text-body-secondary">
+                    {% translate 'Art. 6 (1) lit. f GDPR (legitimate interests)' %}
+                </small>
+            </div>
+            <div class="col-sm-4">
+                {% if subject.has_legal_basis %}
+                    {% if not subject.blocked %}
+                        {% icon 'xmark text-danger' label=_('No') %}
+                    {% elif subject.deceased %}
+                        <em class="text-body-secondary">{% icon 'check' label=_('Yes') %} ({% translate 'deceased' %})</em>
+                    {% else %}
+                        {% icon 'check text-success' label=_('Yes') %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
