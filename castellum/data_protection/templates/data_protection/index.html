@@ -55,6 +55,9 @@
                                 <span class="badge text-bg-danger" title="{{ subject.TOOLTIPS.no_legal_basis }}">{% translate 'No legal basis' %}</span>
                             {% endif %}
                         {% endif %}
+                        {% if subject.blocked %}
+                            <span class="badge text-bg-secondary" title="{{ subject.TOOLTIPS.blocked }}">{% translate 'Blocked' %}</span>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="table-list-item-actions flex-grow-0">
