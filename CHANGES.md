@@ -1,3 +1,57 @@
+# 0.97.0 (unreleased)
+
+## breaking changes
+
+-   Study conductors are no longer prevented from changing the
+    participation status to "participating" if a subject does not match
+    the study criteria. A warning is still shown.
+-   When using `cleanup_underage_consents`, do not delete rejections.
+
+## bug fixes
+
+-   Prevent setting recruitment consent for subjects that have requested
+    deletion.
+-   Consistently ignore recruitment consent if the subject is blocked or
+    deceased.
+-   Consider some conditions (deceased, blocked, to be deleted, privacy
+    level) only when deciding whether a subject should be added to the
+    recruitment list, not generally when when deciding whether a
+    subject matches the criteria for a study.
+-   Don't delete abuse reports when the subject is deleted.
+-   Hide form fields to select a study type if none is configured
+
+## new features
+
+-   Experimental: an audit trail was added. To enable, set
+    `CASTELLUM_AUDIT_TRAIL_ENABLED`. Users can see the audit events
+    related to subjects or studies if they have the
+    `subjects.view_audit_trail` / `studies.view_audit_trail` permission.
+    The full list of events is also available in the admin UI. Events
+    are automatically deleted after one year.
+
+    If this audit log proves to be useful, we plan to deprecate the
+    existing monitoring log feature in the next release and remove it in
+    the release after that.
+
+-   The new `notify_on_full_age` command allows to contact subjects
+    whose parents have given recruitment consent, but who are now old
+    enough to give consent themselves.
+
+-   Castellum now keeps a history of recruitment consents
+
+## other changes
+
+-   Redesign the UI for legal bases in subject management
+-   Tweak the default text for the notification mail at the end of test
+    sessions
+-   Change wording from "pseudonym domain" to "pseudonym list"
+-   Display a read-only input field for date of birth if
+    `CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID` is set
+-   Include assigned conductors in appointment feeds
+-   Display whether a subject is blocked in the data protection
+    dashboard.
+
+
 # 0.96.2 (2024-04-15)
 
 -   Do not delete study types when removing unnecessary recruitment
