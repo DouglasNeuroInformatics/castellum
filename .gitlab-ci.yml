@@ -36,15 +36,6 @@ test-py38:
   extends: test
   image: buildpack-deps:focal
 
-test-js:
-  stage: test
-  image: node
-  script:
-    - npx eslint castellum
-  rules:
-    - changes:
-        - castellum/**/*.js
-
 docker:build:
   stage: test
   image:

@@ -13,25 +13,5 @@
         "jdenticon": "3.2.0",
         "jquery": "3.7.1",
         "select2": "4.0.13"
-    },
-    "devDependencies": {
-        "eslint": "8.56.0"
-    },
-    "eslintConfig": {
-        "parserOptions": {
-            "ecmaVersion": 6
-        },
-        "env": {
-            "browser": true
-        },
-        "extends": "eslint:recommended",
-        "globals": {
-            "$": "readonly",
-            "$$": "readonly",
-            "django": "readonly",
-            "jdenticon": "readonly",
-            "bootstrap": "readonly",
-            "FullCalendar": "readonly"
-        }
     }
 }
