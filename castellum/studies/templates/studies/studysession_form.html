@@ -18,7 +18,11 @@
         {% else %}
             {{ form.resources.as_hidden }}
         {% endif %}
-        {% bootstrap_field form.type required_css_class='castellum-required' %}
+        {% if form.type.field.choices %}
+            {% bootstrap_field form.type required_css_class='castellum-required' %}
+        {% else %}
+            {{ form.type.as_hidden }}
+        {% endif %}
         <fieldset class="card my-4">
             <legend class="card-header">
                 {% translate 'Reminders' %}
