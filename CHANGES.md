@@ -1,3 +1,12 @@
+# 0.96.2 (2024-04-15)
+
+-   Do not delete study types when removing unnecessary recruitment
+    attributes. This bug could result in data loss for both studies
+    (`StudySession.type`) and subjects (`Subject.study_type_disinterest`).
+    Please check your backups to see if any study types have been deleted!
+-   Fix admin search for StudyGroup
+
+
 # 0.96.1 (2024-03-11)
 
 -   Fix expiration of consents given by parents when a subject turns 16.
