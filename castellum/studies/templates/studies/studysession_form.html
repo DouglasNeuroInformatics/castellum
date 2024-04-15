@@ -11,6 +11,7 @@
 
         {% bootstrap_field form.name required_css_class='castellum-required' %}
         {% bootstrap_field form.duration required_css_class='castellum-required' %}
+
         {% if has_resources %}
             <div data-js="d-select2">
                 {% bootstrap_field form.resources required_css_class='castellum-required' %}
@@ -18,11 +19,13 @@
         {% else %}
             {{ form.resources.as_hidden }}
         {% endif %}
+
         {% if form.type.field.choices %}
             {% bootstrap_field form.type required_css_class='castellum-required' %}
         {% else %}
             {{ form.type.as_hidden }}
         {% endif %}
+
         <fieldset class="card my-4">
             <legend class="card-header">
                 {% translate 'Reminders' %}
@@ -46,6 +49,7 @@
                 {% endif %}
             </div>
         </fieldset>
+
         {% if SCHEDULER_URL and object %}
             <div class="mb-3">
                 {% bootstrap_field form.schedule_id wrapper_class="" required_css_class='castellum-required' %}
