@@ -451,7 +451,7 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
         self.subject.attributes = attributes
         self.subject.save()
 
-        self.subject.study_type_disinterest.all().delete()
+        self.subject.study_type_disinterest.clear()
 
         return redirect('subjects:attributes', pk=self.subject.pk)
 
