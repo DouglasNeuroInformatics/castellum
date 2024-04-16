@@ -40,6 +40,7 @@ from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
 from castellum.utils.fields import RestrictedFileField
 from castellum.utils.forms import JsonFileValidator
+from castellum.utils.models import TimeStampedModel
 
 APP_DIR = Path(__file__).resolve().parent
 with open(APP_DIR / 'schemas' / 'geojson.json') as fh:
@@ -81,7 +82,7 @@ class StudyType(TranslatableModel):
         return self.label
 
 
-class Study(models.Model):
+class Study(TimeStampedModel):
     EDIT = 0
     EXECUTION = 1
     FINISHED = 2
