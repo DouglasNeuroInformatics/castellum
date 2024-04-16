@@ -45,9 +45,7 @@
                             </small>
                         {% endif %}
                     </div>
-                    {% if not subject.to_be_deleted %}
-                        <a href="consent/" class="btn btn-outline-primary">{% translate "Change" %}</a>
-                    {% endif %}
+                    <a href="consent/" class="btn btn-outline-primary">{% translate "Change" %}</a>
                 </div>
                 {% if object.consent.document.is_deprecated %}
                     <div class="form-text text-bg-warning p-2 mb-2">

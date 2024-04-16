@@ -70,18 +70,6 @@ class DataProtectionForm(forms.ModelForm):
                 _('Please choose lower privacy level for the subject.'), code='invalid'
             )
 
-        if (
-            cleaned_data.get('to_be_deleted')
-            and self.instance.has_consent_with_ineffective
-        ):
-            raise ValidationError(
-                _(
-                    'Subjects can either be marked for deletion or have '
-                    'recruitment consent, not both.'
-                ),
-                code='invalid',
-            )
-
         return cleaned_data
 
     def save(self, *args, **kwargs):
