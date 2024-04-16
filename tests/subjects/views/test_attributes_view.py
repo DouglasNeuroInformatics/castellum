@@ -10,7 +10,7 @@ from castellum.studies.models import StudyType
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_update_200(request, client, user_fixture, subject, attribute):
     user = request.getfixturevalue(user_fixture)
@@ -40,7 +40,7 @@ def test_update_post(client, user, subject, attribute):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_delete_attributes_200(request, client, user_fixture, subject):
     """The attributes deletion view should only be accessible if you have the

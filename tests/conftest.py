@@ -127,8 +127,8 @@ def subject_manager(db):
 
 
 @pytest.fixture
-def data_protection_coordinator(db):
-    return create_user('Data protection coordinator')
+def data_protection_officer(db):
+    return create_user('Data protection officer')
 
 
 @pytest.fixture

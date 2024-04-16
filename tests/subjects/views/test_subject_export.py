@@ -117,7 +117,7 @@ def test_subject_export_complete(client, user, participation):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    'data_protection_coordinator',
+    'data_protection_officer',
 ])
 def test_export_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)

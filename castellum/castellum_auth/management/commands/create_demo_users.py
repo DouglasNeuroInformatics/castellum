@@ -31,7 +31,7 @@ from castellum.castellum_auth.models import User
 
 USERS = {
     'Andreas': [],
-    'Jonas': ['Subject manager', 'Data protection coordinator'],
+    'Jonas': ['Subject manager', 'Data protection officer'],
     'Sabine': ['Receptionist'],
 
     # first testing group

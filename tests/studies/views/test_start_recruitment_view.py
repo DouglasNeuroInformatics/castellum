@@ -7,7 +7,7 @@ from castellum.studies.models import Study
     'study_approver',
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
     pytest.param('conductor', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_start(request, client, user_fixture, study):
@@ -28,7 +28,7 @@ def test_start(request, client, user_fixture, study):
     'study_approver',
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
     pytest.param('conductor', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_stop(request, client, user_fixture, study):

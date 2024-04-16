@@ -17,7 +17,7 @@ from castellum.subjects.models import Subject
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_maintenance_attributes_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -56,7 +56,7 @@ def test_maintenance_attributes_no_underage_subjects(request, client, user):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_maintenance_contact_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -81,7 +81,7 @@ def test_maintenance_contact_not_empty(client, user):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_maintenance_duplicates_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -163,7 +163,7 @@ def test_maintenance_duplicates_to_be_deleted(client, user):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_maintenance_consent_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -199,7 +199,7 @@ def test_maintenance_consent_from_before_full_age(client, user):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_maintenance_reliability_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -225,7 +225,7 @@ def test_maintenance_reliability(client, user, subject):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_maintenance_subjectcreationrequest(
     request, user_fixture, client, user, subject_creation_request
@@ -255,7 +255,7 @@ def test_maintenance_delete_subjectcreationrequest(
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_maintenance_estranged_subjects_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)

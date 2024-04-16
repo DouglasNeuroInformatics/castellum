@@ -12,7 +12,7 @@ from castellum.subjects.models import ConsentDocument
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    'data_protection_coordinator',
+    'data_protection_officer',
 ])
 def test_detail_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
@@ -27,7 +27,7 @@ def test_detail_200(request, client, user_fixture, subject):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_data_protection_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
@@ -85,7 +85,7 @@ def test_data_protection_post_invalid_to_be_deleted_consent(client, user, subjec
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_consent_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
@@ -121,7 +121,7 @@ def test_consent_create_document(request, client, user, subject):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_additional_info_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
@@ -136,7 +136,7 @@ def test_additional_info_200(request, client, user_fixture, subject):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_contact_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
@@ -151,7 +151,7 @@ def test_contact_200(request, client, user_fixture, subject):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    'data_protection_coordinator',
+    'data_protection_officer',
 ])
 def test_partcipation_list_200(request, client, user_fixture, participation):
     user = request.getfixturevalue(user_fixture)
@@ -166,7 +166,7 @@ def test_partcipation_list_200(request, client, user_fixture, participation):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    'data_protection_coordinator',
+    'data_protection_officer',
 ])
 def test_delete_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
@@ -188,7 +188,7 @@ def test_delete_post(client, user, contact):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    'data_protection_coordinator',
+    'data_protection_officer',
 ])
 def test_participation_delete_post(request, client, user_fixture, participation):
     user = request.getfixturevalue(user_fixture)
@@ -206,7 +206,7 @@ def test_participation_delete_post(request, client, user_fixture, participation)
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    'data_protection_coordinator',
+    'data_protection_officer',
 ])
 def test_pseudonyms_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
@@ -222,7 +222,7 @@ def test_pseudonyms_200(request, client, user_fixture, subject):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    'data_protection_coordinator',
+    'data_protection_officer',
 ])
 def test_pseudonym_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)

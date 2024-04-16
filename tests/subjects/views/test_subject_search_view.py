@@ -12,7 +12,7 @@ from castellum.subjects.models import SubjectCreationRequest
     'study_coordinator',
     'recruiter',
     'subject_manager',
-    'data_protection_coordinator',
+    'data_protection_officer',
 ])
 def test_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -122,7 +122,7 @@ def test_no_create_tab_on_incomplete_name(client, user):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_create(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)

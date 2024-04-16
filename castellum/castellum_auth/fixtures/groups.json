@@ -46,7 +46,7 @@
     "model": "auth.group",
     "pk": 5,
     "fields": {
-        "name": "Data protection coordinator",
+        "name": "Data protection officer",
         "permissions": [
             [
                 "view_subject",

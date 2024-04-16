@@ -10,7 +10,7 @@ from castellum.pseudonyms.models import Domain
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    'data_protection_coordinator',
+    'data_protection_officer',
 ])
 def test_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
