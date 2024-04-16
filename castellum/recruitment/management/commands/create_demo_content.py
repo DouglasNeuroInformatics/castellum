@@ -264,7 +264,7 @@ def generate_subjects(count, stdout):
         generate_geolocations(contacts)
 
     stdout.write('Generating consents')
-    document, _ = ConsentDocument.objects.get_or_create()
+    document, _ = ConsentDocument.objects.filter(is_valid=True).get_or_create()
     consents = [Consent(subject=s, document=document) for s in subjects]
     Consent.objects.bulk_create(consents)
 

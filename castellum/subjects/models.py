@@ -176,7 +176,12 @@ class Subject(TimeStampedModel):
 
     @cached_property
     def unknown_consent(self):
-        return not Consent.objects.filter(subject=self).exists()
+        return not (
+            Consent.objects
+            .exclude(document__is_valid=False)
+            .filter(subject=self)
+            .exists()
+        )
 
     @cached_property
     def has_consent_with_ineffective(self):
@@ -295,6 +300,7 @@ class Subject(TimeStampedModel):
 class ConsentDocument(models.Model):
     name = models.CharField(_('Name'), max_length=254, blank=True)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
+    is_valid = models.BooleanField(_('Is valid'), default=True)
     is_deprecated = models.BooleanField(_('Is deprecated'), default=False)
     file = RestrictedFileField(
         _('File'),
@@ -311,9 +317,7 @@ class ConsentDocument(models.Model):
         return self.name or _('Version {}').format(self.pk)
 
 
-class Consent(models.Model):
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
+class BaseConsent(models.Model):
     underage_when_given = models.BooleanField(_('Underage when given'), null=True)
     full_age_notified_1 = models.BooleanField(
         _('First expiration notification sent'), default=False
@@ -323,6 +327,7 @@ class Consent(models.Model):
     )
     document = models.ForeignKey(
         ConsentDocument,
+        limit_choices_to={'is_valid': True},
         verbose_name=_('Document'),
         on_delete=models.CASCADE,
         blank=True,
@@ -337,12 +342,38 @@ class Consent(models.Model):
     )
 
     class Meta:
+        abstract = True
+
+
+class Consent(BaseConsent):
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+
+    class Meta:
         verbose_name = _('Consent')
 
     def save(self, *args, **kwargs):
         # updates Subject.updated_at
         self.subject.save()
+
+        ConsentRevision.objects.create(
+            subject=self.subject,
+            underage_when_given=self.underage_when_given,
+            document=self.document,
+            file=self.file,
+        )
+
         return super().save(*args, **kwargs)
+
+
+class ConsentRevision(BaseConsent):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Consent revision')
+        verbose_name_plural = _('Consent revisions')
+        ordering = ['created_at']
 
 
 class ExportAnswer(models.Model):

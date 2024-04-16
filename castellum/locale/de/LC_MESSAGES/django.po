@@ -3330,7 +3330,11 @@ msgstr "bisher keine Daten"
 msgid "{issues} issues in {total} studies"
 msgstr "{issues} Probleme in {total} Studien"
 
-#: castellum/subjects/models.py:290
+#: castellum/subjects/models.py:295
+msgid "Is valid"
+msgstr "Ist gültig"
+
+#: castellum/subjects/models.py:296
 msgid "Is deprecated"
 msgstr "Ist überholt"
 
@@ -3350,7 +3354,15 @@ msgstr "Dokument"
 msgid "Signed file"
 msgstr "Unterschriebene Datei"
 
-#: castellum/subjects/models.py:337
+#: castellum/subjects/models.py:360
+msgid "Consent revision"
+msgstr "Einwilligung-Revision"
+
+#: castellum/subjects/models.py:361
+msgid "Consent revisions"
+msgstr "Einwilligungs-Revisionen"
+
+#: castellum/subjects/models.py:368
 msgid "Created by"
 msgstr "Erstellt von"
 
@@ -3752,6 +3764,14 @@ msgstr ""
 "Rekrutierungseinwilligung hat keine Auswirkungen auf die "
 "Studieneinwilligungen. Entsprechend werden auch keine Daten im Kontext "
 "bereits existierender Studien gelöscht."
+
+#: castellum/subjects/templates/subjects/subject_data_protection_form.html:83
+msgid "History"
+msgstr "Historie"
+
+#: castellum/subjects/templates/subjects/subject_data_protection_form.html:101
+msgid "invalid"
+msgstr "ungültig"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:9
 msgid "Please edit data sets marked with"

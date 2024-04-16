@@ -51,6 +51,8 @@ EXCLUDED = [
     'subjects.ConsentDocument.',
     'subjects.Consent.id',
     'subjects.Consent.subject',
+    'subjects.ConsentRevision.id',
+    'subjects.ConsentRevision.subject',
     'subjects.ExportAnswer.id',
     'subjects.Subject.id',
     'subjects.Subject.to_be_deleted_notified',

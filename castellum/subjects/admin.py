@@ -31,7 +31,7 @@ class SubjectAdmin(NoCreateModelAdmin):
 
 
 class ConsentDocumentAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'created_at']
+    list_display = ['__str__', 'created_at', 'is_valid']
 
 
 admin.site.register(models.ConsentDocument, ConsentDocumentAdmin)
@@ -40,4 +40,5 @@ if settings.CASTELLUM_ADVANCED_ADMIN_UI:
     admin.site.register(models.Subject, SubjectAdmin)
     admin.site.register(models.SubjectCreationRequest, NoCreateModelAdmin)
     admin.site.register(models.Consent)
+    admin.site.register(models.ConsentRevision)
     admin.site.register(models.Report)

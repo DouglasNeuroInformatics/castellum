@@ -146,7 +146,7 @@ def has_consent(
 ):
     """Exclude subjects who do not want to be contacted for recruitment."""
 
-    q = models.Q(consent__document__isnull=False)
+    q = models.Q(consent__document__is_valid=True)
 
     if exclude_deprecated:
         q &= models.Q(consent__document__is_deprecated=False)
