@@ -21,12 +21,13 @@
 import datetime
 
 from django.conf import settings
+from django.utils import timezone
 
 from .models import AuditEvent
 
 
 def cleanup(dt=datetime.timedelta(days=365)):
-    threshold = datetime.date.today() - dt
+    threshold = timezone.now() - dt
     AuditEvent.objects.filter(created_at__lt=threshold).delete()
 
 
