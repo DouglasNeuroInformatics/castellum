@@ -1,8 +1,9 @@
-var fileInput = document.getElementById('id_file');
+var form = document.getElementById('id_file').form;
 
 var update = function() {
-    fileInput.disabled = !fileInput.form.document.value;
+    form.file.disabled = !form.document.value;
+    form.to_be_deleted.disabled = form.document.value;
 };
 
-fileInput.form.addEventListener('change', update);
+form.addEventListener('change', update);
 update();

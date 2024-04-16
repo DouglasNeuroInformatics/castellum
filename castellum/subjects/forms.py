@@ -27,6 +27,7 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.utils.forms import DatalistWidget
 
+from .models import Consent
 from .models import Subject
 
 
@@ -43,11 +44,6 @@ class DataProtectionForm(forms.ModelForm):
             ])),
         }
 
-    to_be_deleted = forms.BooleanField(
-        label=_('To be deleted'),
-        required=False,
-        help_text=Subject._meta.get_field('to_be_deleted').help_text,
-    )
     export_requested = forms.BooleanField(
         label=_('Export requested'),
         required=False,
@@ -58,7 +54,6 @@ class DataProtectionForm(forms.ModelForm):
         self.user = user
         super().__init__(*args, **kwargs)
 
-        self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
 
     def clean(self):
@@ -73,11 +68,6 @@ class DataProtectionForm(forms.ModelForm):
         return cleaned_data
 
     def save(self, *args, **kwargs):
-        if not self.cleaned_data.get('to_be_deleted'):
-            self.instance.to_be_deleted = None
-        elif not self.instance.to_be_deleted:
-            self.instance.to_be_deleted = datetime.date.today()
-
         if not self.cleaned_data.get('export_requested'):
             self.instance.export_requested = None
         elif not self.instance.export_requested:
@@ -133,3 +123,27 @@ class AdditionalInfoForm(forms.ModelForm):
                 .distinct
             )),
         }
+
+
+class ConsentForm(forms.ModelForm):
+    to_be_deleted = forms.BooleanField(
+        label=_('Also delete existing data'),
+        required=False,
+        help_text=Subject._meta.get_field('to_be_deleted').help_text,
+    )
+
+    class Meta:
+        model = Consent
+        fields = ['document', 'file']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data['to_be_deleted'] and cleaned_data['document']:
+            raise ValidationError(
+                _(
+                    'Subjects can either be marked for deletion or have '
+                    'recruitment consent, not both.'
+                ),
+                code='invalid',
+            )
+        return cleaned_data

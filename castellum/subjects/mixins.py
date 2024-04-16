@@ -18,6 +18,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import SuspiciousOperation
@@ -34,6 +36,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.utils.mail import MailContext
 
 from .forms import AdditionalInfoForm
+from .forms import ConsentForm
 from .forms import DataProtectionForm
 from .models import Consent
 from .models import ConsentDocument
@@ -99,28 +102,6 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                         settings.CASTELLUM_GDPR_NOTIFICATION_TO,
                     )
 
-                if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
-                    rel = reverse('subjects:detail', args=[self.object.pk])
-                    url = self.request.build_absolute_uri(rel)
-
-                    self.object.to_be_deleted_notified = ctx.send_mail(
-                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
-                        (
-                            lambda: {'url': url},
-                            settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY,
-                            settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY_EN,
-                        ),
-                        settings.CASTELLUM_GDPR_NOTIFICATION_TO,
-                    )
-
-            # If a user explicitly removes the ``to_be_deleted`` they
-            # expect that this task is done. If there are still reasons
-            # for deletion there should be a new notificaition.
-            if not self.object.to_be_deleted and self.object.to_be_deleted_notified:
-                old = Subject.objects.get(pk=self.object.pk)
-                if old.to_be_deleted:
-                    self.object.to_be_deleted_notified = False
-
         audit(
             gettext_noop('subject updated'),
             self.request.user.username,
@@ -132,7 +113,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
 
 class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
     model = Consent
-    fields = ['document', 'file']
+    form_class = ConsentForm
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_consent_form.html'
 
@@ -146,10 +127,44 @@ class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
             ConsentDocument.objects.create()
         return super().get_form()
 
+    def notify_to_be_deleted(self):
+        if not settings.CASTELLUM_GDPR_NOTIFICATION_TO:
+            return
+        if self.subject.to_be_deleted_notified:
+            return
+        with MailContext('internal') as ctx:
+            rel = reverse('subjects:detail', args=[self.subject.pk])
+            url = self.request.build_absolute_uri(rel)
+
+            return ctx.send_mail(
+                settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
+                (
+                    lambda: {'url': url},
+                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY,
+                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY_EN,
+                ),
+                settings.CASTELLUM_GDPR_NOTIFICATION_TO,
+            )
+
     def form_valid(self, form):
         Consent.objects.filter(subject=self.subject).delete()
         form.instance.subject = self.subject
         form.instance.underage_when_given = self.subject.contact.is_underage
+
+        if form.cleaned_data['to_be_deleted']:
+            if not self.subject.to_be_deleted:
+                self.subject.to_be_deleted = datetime.date.today()
+                self.subject.to_be_deleted_notified = self.notify_to_be_deleted()
+                self.subject.save()
+        else:
+            if self.subject.to_be_deleted:
+                # If a user explicitly removes the ``to_be_deleted`` they
+                # expect that this task is done. If there are still reasons
+                # for deletion there should be a new notificaition.
+                self.subject.to_be_deleted = None
+                self.subject.to_be_deleted_notified = False
+                self.subject.save()
+
         audit(
             gettext_noop('consent changed'),
             self.request.user.username,
