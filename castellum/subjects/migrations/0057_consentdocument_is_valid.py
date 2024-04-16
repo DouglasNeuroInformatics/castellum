@@ -4,7 +4,7 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("subjects", "0050_report_additional_wishes"),
+        ("subjects", "0056_consent_full_age_notified"),
     ]
 
     operations = [

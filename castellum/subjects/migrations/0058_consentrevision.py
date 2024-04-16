@@ -23,7 +23,7 @@ def migrate_data(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("subjects", "0051_consentdocument_is_valid"),
+        ("subjects", "0057_consentdocument_is_valid"),
     ]
 
     operations = [
@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "id",
-                    models.AutoField(
+                    models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,

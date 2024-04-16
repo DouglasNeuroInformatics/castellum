@@ -319,12 +319,6 @@ class ConsentDocument(models.Model):
 
 class BaseConsent(models.Model):
     underage_when_given = models.BooleanField(_('Underage when given'), null=True)
-    full_age_notified_1 = models.BooleanField(
-        _('First expiration notification sent'), default=False
-    )
-    full_age_notified_2 = models.BooleanField(
-        _('Second expiration notification sent'), default=False
-    )
     document = models.ForeignKey(
         ConsentDocument,
         limit_choices_to={'is_valid': True},
@@ -348,6 +342,12 @@ class BaseConsent(models.Model):
 class Consent(BaseConsent):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+    full_age_notified_1 = models.BooleanField(
+        _('First expiration notification sent'), default=False
+    )
+    full_age_notified_2 = models.BooleanField(
+        _('Second expiration notification sent'), default=False
+    )
 
     class Meta:
         verbose_name = _('Consent')
