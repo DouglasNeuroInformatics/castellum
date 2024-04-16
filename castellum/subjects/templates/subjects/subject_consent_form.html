@@ -20,10 +20,8 @@
                     <label class="form-check-label" for="{{ form.document.id_for_label }}_{{ value }}">
                         {% if value.instance.file %}
                             <a href="{{ value.instance.file.url }}">{{ label }}</a>
-                        {% elif value %}
-                            {{ label }}
                         {% else %}
-                            {% translate "Consent declined/withdrawn" %}
+                            {{ label }}
                         {% endif %}
                         {% if value.instance %}
                             {% if value.instance.is_deprecated %}

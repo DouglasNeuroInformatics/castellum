@@ -27,6 +27,8 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.utils.forms import DatalistWidget
 
+from .models import Consent
+from .models import ConsentDocument
 from .models import Subject
 
 
@@ -133,3 +135,37 @@ class AdditionalInfoForm(forms.ModelForm):
                 .distinct
             )),
         }
+
+
+class ConsentForm(forms.ModelForm):
+    document = forms.ChoiceField()
+
+    class Meta:
+        model = Consent
+        fields = ['file']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['document'].choices = [
+            *[
+                (doc.id, str(doc))
+                for doc in ConsentDocument.objects.filter(is_valid=True)
+            ],
+            ('decline', _('Consent declined/withdrawn')),
+            ('delete', _('Consent declined/withdrawn and deletion of existing data requested')),
+        ]
+
+    def save(self, *args, **kwargs):
+        if self.cleaned_data['document'] == 'decline':
+            self.instance.to_be_deleted = False
+            self.instance.document = None
+        elif self.cleaned_data['document'] == 'delete':
+            self.instance.to_be_deleted = True
+            self.instance.document = None
+        else:
+            self.instance.to_be_deleted = False
+            self.instance.document = (
+                ConsentDocument.objects.get(pk=self.cleaned_data['document'])
+            )
+
+        return super().save(*args, **kwargs)

@@ -34,6 +34,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.utils.mail import MailContext
 
 from .forms import AdditionalInfoForm
+from .forms import ConsentForm
 from .forms import DataProtectionForm
 from .models import Consent
 from .models import ConsentDocument
@@ -132,7 +133,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
 
 class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
     model = Consent
-    fields = ['document', 'file']
+    form_class = ConsentForm
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_consent_form.html'
 
