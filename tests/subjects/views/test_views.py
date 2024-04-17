@@ -1,4 +1,5 @@
 import pytest
+from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
@@ -144,6 +145,74 @@ def test_contact_200(request, client, user_fixture, subject):
     url = f'/subjects/{subject.pk}/contact/'
     response = client.get(url)
     assert response.status_code == 200
+
+
+def test_sync_date_of_birth_consent(settings, client, user):
+    settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = 3
+    date_of_birth = '1900-01-01'
+
+    with freeze_time('1970-01-01'):
+        contact = baker.make(Contact)
+        subject = contact.subject
+        document = baker.make(ConsentDocument)
+        baker.make(Consent, subject=subject, document=document)
+
+    with freeze_time('1971-01-01'):
+        client.force_login(user)
+        client.post(f'/subjects/{subject.pk}/contact/', {
+            'first_name': 'first_name',
+            'last_name': 'last_name',
+            'date_of_birth': date_of_birth,
+            'pane': 'self',
+            'email': 'foo@example.com',
+        })
+
+    subject.refresh_from_db()
+    assert subject.attributes['d3'] == date_of_birth
+
+
+def test_sync_date_of_birth_consent_waiting(settings, client, user):
+    settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = 3
+    date_of_birth = '1900-01-01'
+
+    with freeze_time('1970-01-01'):
+        contact = baker.make(Contact)
+        subject = contact.subject
+
+    with freeze_time('1970-01-02'):
+        client.force_login(user)
+        client.post(f'/subjects/{subject.pk}/contact/', {
+            'first_name': 'first_name',
+            'last_name': 'last_name',
+            'date_of_birth': date_of_birth,
+            'pane': 'self',
+            'email': 'foo@example.com',
+        })
+
+    subject.refresh_from_db()
+    assert subject.attributes['d3'] == date_of_birth
+
+
+def test_sync_date_of_birth_no_consent(settings, client, user):
+    settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = 3
+    date_of_birth = '1900-01-01'
+
+    with freeze_time('1970-01-01 00:00'):
+        contact = baker.make(Contact)
+        subject = contact.subject
+
+    with freeze_time('1971-01-01 00:00'):
+        client.force_login(user)
+        client.post(f'/subjects/{subject.pk}/contact/', {
+            'first_name': 'first_name',
+            'last_name': 'last_name',
+            'date_of_birth': date_of_birth,
+            'pane': 'self',
+            'email': 'foo@example.com',
+        })
+
+    subject.refresh_from_db()
+    assert subject.attributes['d3'] == date_of_birth
 
 
 @pytest.mark.smoketest
