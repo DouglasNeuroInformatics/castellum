@@ -246,10 +246,8 @@ class Subject(TimeStampedModel):
     def has_unnecessary_recruitment_data(self):
         # Needs to match ``data_protection.helpers.get_unnecessary_recruitment_data()``
         completed, _total = self.get_completeness()
-        min_completenes = 1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0
         return not self.has_consent_or_waiting and (
-            completed > min_completenes
-            or self.study_type_disinterest.exists()
+            completed or self.study_type_disinterest.exists()
         )
 
     @property

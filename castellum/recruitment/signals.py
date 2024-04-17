@@ -51,6 +51,7 @@ def sync_date_of_birth(sender, instance, using, **kwargs):
         settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
         and sender is Contact
         and instance.subject_uuid
+        and instance.subject.has_consent_or_waiting
     ):
         key = f'd{settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID}'
         instance.subject.attributes[key] = instance.date_of_birth

@@ -212,7 +212,7 @@ def test_sync_date_of_birth_no_consent(settings, client, user):
         })
 
     subject.refresh_from_db()
-    assert subject.attributes['d3'] == date_of_birth
+    assert not subject.attributes.get('d3')
 
 
 @pytest.mark.smoketest

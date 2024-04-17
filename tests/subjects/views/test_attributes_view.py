@@ -76,8 +76,8 @@ def test_delete_attributes_post(client, user, subject, study_types):
     assert not subject.study_type_disinterest.exists()
 
 
-def test_birth_attribute_remains(client, user, subject):
-    """Check that birthday attribute is retained through attribute deletion."""
+def test_birth_attribute_is_deleted(client, user, subject):
+    """Check that birthday attribute is also deleted through attribute deletion."""
 
     settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = 3
     client.force_login(user)
@@ -97,4 +97,4 @@ def test_birth_attribute_remains(client, user, subject):
     client.post(url)
     subject.refresh_from_db()
 
-    assert subject.attributes[key] == date_of_birth
+    assert key not in subject.attributes
