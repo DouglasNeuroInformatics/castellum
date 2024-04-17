@@ -28,11 +28,11 @@ All of the functions return instances of ``django.db.models.Q``,
 which can be passed to ``Subjects.objects.filter()``.
 """
 
+import datetime
 import json
 
 from django.conf import settings
 from django.db import models
-from django.utils import timezone
 
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
@@ -152,8 +152,10 @@ def has_consent(
         q &= models.Q(consent__document__is_deprecated=False)
 
     if include_waiting:
-        acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
-        q |= models.Q(consent__isnull=True, created_at__gte=acceptable_datetime)
+        acceptable_date = (
+            datetime.date.today() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
+        )
+        q |= models.Q(consent__isnull=True, created_at__gte=acceptable_date)
 
     if not include_ineffective:
         q &= models.Q(deceased=False, blocked=False)
