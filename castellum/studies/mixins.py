@@ -73,6 +73,18 @@ class StudyMixin:
 
 
 def with_study_lock(fn):
+    """Prevent concurrent recruitment.
+
+    This is especially important for mail recruitment, because:
+
+    -   Sending mails is slow, so races are more likely.
+    -   Sending mails is a side effect that exists outside of the
+        database, so it is not covered by database integrity guarantees.
+    -   If we send out mails to subjects and then do not create
+        participations for them, we might end up sending mails to the
+        same subjects again.
+    """
+
     @functools.wraps(fn)
     def locked(self, *args, **kwargs):
         try:
