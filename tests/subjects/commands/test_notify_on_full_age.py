@@ -27,7 +27,7 @@ def test_missing_settings(settings):
     ('2017-09-01', True, False, True, False, 0),
     ('2017-10-01', True, False, True, True, 1),
     ('2017-11-01', True, False, True, True, 1),
-    ('2020-01-01', False, False, True, True, 2),
+    ('2020-01-01', False, False, False, True, 1),
 ])
 def test_command(
     settings, mailoutbox, subject, date, before1, before2, after1, after2, mails

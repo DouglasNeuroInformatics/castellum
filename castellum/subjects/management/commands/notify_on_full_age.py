@@ -49,6 +49,7 @@ def send(months, attr):
         .filter(filter_queries.uuid_filter(full_age_contacts))
         .filter(consent__underage_when_given=True)
         .exclude(consent__document=None)
+        .filter(consent__full_age_notified_2=False)
         .filter(**{f'consent__{attr}': False})
     )
 
@@ -83,12 +84,12 @@ class Command(BaseCommand):
         if not settings.CASTELLUM_FULL_AGE_MAIL_BODY:
             raise CommandError('CASTELLUM_FULL_AGE_MAIL_BODY not set')
 
-        reached, not_reached = send(1, 'full_age_notified_1')
-        if options['verbosity'] > 0:
-            self.stdout.write(f'full age notification 1 reached: {reached}')
-            self.stdout.write(f'full age notification 1 not reached: {not_reached}')
-
         reached, not_reached = send(21, 'full_age_notified_2')
         if options['verbosity'] > 0:
             self.stdout.write(f'full age notification 2 reached: {reached}')
             self.stdout.write(f'full age notification 2 not reached: {not_reached}')
+
+        reached, not_reached = send(1, 'full_age_notified_1')
+        if options['verbosity'] > 0:
+            self.stdout.write(f'full age notification 1 reached: {reached}')
+            self.stdout.write(f'full age notification 1 not reached: {not_reached}')
