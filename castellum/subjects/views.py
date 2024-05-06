@@ -368,11 +368,14 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
             )
         else:
             monitoring_logger.info(f'Subject deleted by {self.request.user.pk}')
+        audit_extra = {}
+        if self.object.to_be_deleted:
+            audit_extra['to_be_deleted'] = self.object.to_be_deleted.isoformat()
         audit(
             gettext_noop('subject deleted'),
             self.request.user.username,
             subject_pk=self.object.pk,
-            extra={'to_be_deleted': self.object.to_be_deleted},
+            extra=audit_extra,
         )
         messages.success(self.request, _('Subject has been deleted.'))
         return response
