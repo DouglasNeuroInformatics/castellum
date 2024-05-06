@@ -59,7 +59,9 @@ def send(months, attr):
         for subject in subjects.all():
             success = ctx.send_separate_mails(
                 settings.CASTELLUM_FULL_AGE_MAIL_SUBJECT,
-                settings.CASTELLUM_FULL_AGE_MAIL_BODY,
+                settings.CASTELLUM_FULL_AGE_MAIL_BODY.replace(
+                    '{name}', subject.contact.full_name
+                ),
                 subject.contact.own_or_legal_representative_emails,
                 recipients_string=subject.contact.email_recipients_string,
             )

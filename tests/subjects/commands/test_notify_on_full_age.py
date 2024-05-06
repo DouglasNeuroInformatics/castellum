@@ -56,3 +56,27 @@ def test_command(
     assert consent.full_age_notified_1 is after1
     assert consent.full_age_notified_2 is after2
     assert len(mail.outbox) == mails
+
+
+def test_mail_body(settings, mailoutbox, subject):
+    settings.CASTELLUM_FULL_AGE_MAIL_SUBJECT = 'subject'
+    settings.CASTELLUM_FULL_AGE_MAIL_BODY = 'Dear {name},\nbody'
+
+    subject.contact.first_name = 'Foo'
+    subject.contact.last_name = 'Bar'
+    subject.contact.date_of_birth = datetime.date(2000, 1, 1)
+    subject.contact.email = 'foo@example.com'
+    subject.contact.save()
+
+    baker.make(
+        Consent,
+        subject=subject,
+        document=baker.make(ConsentDocument),
+        underage_when_given=True,
+    )
+
+    cmd = Command()
+    with freeze_time('2016-02-01'):
+        cmd.handle(verbosity=0)
+
+    assert mail.outbox[0].body == 'Dear Foo Bar,\nbody'
