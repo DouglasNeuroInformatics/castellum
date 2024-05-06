@@ -1,3 +1,10 @@
+# 0.97.1 (2024-05-06)
+
+-   fix error on subject deletion if audit trail is enabled
+-   `notify_on_full_age`: never send two mails to the same person
+-   `notify_on_full_age`: support {name} placeholder
+
+
 # 0.97.0 (2024-04-29)
 
 ## breaking changes
