@@ -12,8 +12,8 @@ Attributes are stored in the database as JSON. This allows to store a
 wide range of values and even allows basic queries.
 
 The schema is also defined in the database. Every attribute is defined
-in an `Attribute` which contains the information necessary to
-create a [`FormField`](https://docs.djangoproject.com/en/stable/ref/forms/fields/#core-field-arguments).
+in an instance of the `Attribute` model which contains the information
+necessary to create a [`FormField`](https://docs.djangoproject.com/en/stable/ref/forms/fields/#core-field-arguments).
 This includes informational data such as label and help text as well as
 the field type which defines behavior.
 
@@ -55,5 +55,5 @@ deprecating the old one over modifying an existing one.
 ## Deleting Attributes
 
 If you delete an attribute, all related data will automatically be
-deleted along with it. Note that subject filters for this attribute will
+deleted along with it. Note that filters which use this attribute will
 also be deleted.
