@@ -41,8 +41,16 @@ packages, but e.g. with pyenv you will have to enable it yourself.
 
 -   The available recruitment attributes can be changed at runtime. The
     ones created with `python3 -m django loaddata attributes` merely
-    serve as examples. See
-    `docs/deployment/dynamic_recruitment_attributes.md` for details.
+    serve as examples.
+
+    Every attribute is defined in an instance of the `Attribute` model.
+    It contains the information necessary to create a `FormField`. This
+    includes informational data such as label and help text as well as
+    the field type which defines behavior.
+
+    Available field types are defined in
+    `castellum.recruitment.attribute_fields`. The values themselves are
+    stored as JSON in `Subject.attributes`.
 
 -   The available groups can be changed at runtime. The ones created
     with `python3 -m django loaddata groups study_groups` merely serve as
