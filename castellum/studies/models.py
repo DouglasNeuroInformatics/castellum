@@ -58,7 +58,6 @@ def consent_upload_to(instance, filename):
 
 
 class StudyType(TranslatableModel):
-    # see also schemas/study.json
     EXPORT_KEYS = 'Online', 'Behavioral lab', 'MRI', 'Simulation', 'EEG'
 
     translations = TranslatedFields(
