@@ -130,7 +130,11 @@ class StudyMaintenanceView(LoginRequiredMixin, ListView):
         'execution-unknown': _('Provide an estimate for the end of sessions'),
         'execution-future': _('Conduct the study'),
         'execution-past': _('Finish the study'),
-        'finished-domains': _('Delete the pseudonym list'),
+        'finished-domains-unknown': _(
+            'Provide a deletion date for the pseudonym lists'
+        ),
+        'finished-domains-future': _('Keep the pseudonym lists'),
+        'finished-domains-past': _('Delete the pseudonym lists'),
         'finished-anon': _('Delete the study from Castellum'),
     }
     EXPLANATIONS = {
@@ -149,10 +153,16 @@ class StudyMaintenanceView(LoginRequiredMixin, ListView):
             'so that all data of subjects who were contacted but did not participate '
             'can be deleted.'
         ),
-        'finished-domains': _(
+        'finished-domains-unknown': _(
+            'These studies have finished, but a date for the deletion of pseudonym '
+            'lists has not been set:'
+        ),
+        'finished-domains-future': _(
+            'These studies have finished, but the pseudonym lists are still needed:'
+        ),
+        'finished-domains-past': _(
             'These studies have finished, but the pseudonym lists have '
-            'not yet been deleted. The date when pseudonym lists must be '
-            'deleted is usually defined in the study consent.'
+            'not yet been deleted.'
         ),
         'finished-anon': _(
             'These studies have finished, and the pseudonym lists have '
@@ -169,6 +179,7 @@ class StudyMaintenanceView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset().filter(is_filter_trial=False)
+        qs_domains = qs.filter(status=Study.FINISHED).exclude(domains=None)
         today = datetime.date.today()
         if self.subtab == 'edit':
             qs = qs.filter(status=Study.EDIT)
@@ -178,8 +189,12 @@ class StudyMaintenanceView(LoginRequiredMixin, ListView):
             qs = qs.filter(status=Study.EXECUTION, sessions_end__gte=today)
         elif self.subtab == 'execution-past':
             qs = qs.filter(status=Study.EXECUTION, sessions_end__lt=today)
-        elif self.subtab == 'finished-domains':
-            qs = qs.filter(status=Study.FINISHED).exclude(domains=None)
+        elif self.subtab == 'finished-domains-unknown':
+            qs = qs_domains.filter(pseudonyms_delete_date=None)
+        elif self.subtab == 'finished-domains-future':
+            qs = qs_domains.filter(pseudonyms_delete_date__gte=today)
+        elif self.subtab == 'finished-domains-past':
+            qs = qs_domains.filter(pseudonyms_delete_date__lt=today)
         elif self.subtab == 'finished-anon':
             qs = qs.filter(status=Study.FINISHED).filter(domains=None)
         else:
