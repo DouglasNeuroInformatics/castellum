@@ -101,6 +101,8 @@ user requests. We provide the following management commands for that:
     should be deleted.
 -   `notify_sessions_end`: Remind study members to finish a study when
     sessions end.
+-   `notify_on_full_age`: Contact subjects who recently came off age to
+    renew their consent.
 -   `send_appointment_reminders`: Send email reminders to subjects with
     upcoming appointments. If the subjects have no email address, a note
     is sent to the respective study coordinators instead.
