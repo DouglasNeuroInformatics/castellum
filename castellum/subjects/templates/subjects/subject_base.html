@@ -22,7 +22,7 @@
             <li class="nav-item">
                 <a href="{% url 'subjects:detail' subject.pk %}" class="nav-link {% if view.tab == 'detail' %}active{% endif %}">
                     {% if not subject.has_legal_basis %}
-                        {% icon 'exclamation-triangle' label=_('No legal basis') %}
+                        {% icon 'exclamation-triangle' label=_('Action required') %}
                     {% endif %}
                     {% translate 'Overview' %}
                 </a>
@@ -41,7 +41,7 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:attributes' subject.pk %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">
                         {% if subject.has_unnecessary_recruitment_data %}
-                            {% icon 'exclamation-triangle' label=_('Unnecessary recruitment data') %}
+                            {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
                         {% translate "Recruitment attributes" %}
                     </a>
@@ -79,7 +79,7 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:export' subject.pk %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">
                         {% if subject.export_requested %}
-                            {% icon 'exclamation-triangle' label=_('Export requested') %}
+                            {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
                         {% translate 'Export' %}
                     </a>
@@ -91,7 +91,7 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:delete' subject.pk %}" class="nav-link {% if view.tab == 'delete' %}active{% endif %}">
                         {% if subject.to_be_deleted %}
-                            {% icon 'exclamation-triangle' label=_('To be deleted') %}
+                            {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
                         {% translate 'Delete' %}
                     </a>
