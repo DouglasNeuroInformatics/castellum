@@ -41,7 +41,6 @@ from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
-from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.audit.helpers import audit
@@ -452,9 +451,18 @@ class StudyDomainsMixin(StudyMixin, PermissionRequiredMixin):
         return context
 
 
-class StudyDomainsView(StudyDomainsMixin, TemplateView):
+class StudyDomainsView(StudyDomainsMixin, UpdateView):
+    model = Study
     template_name = 'studies/study_domains_study.html'
+    fields = ['pseudonyms_delete_date']
     subtab = 'domains-study'
+
+    def get_success_url(self):
+        return self.request.path
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
     def post(self, request, *args, **kwargs):
         if self.request.POST.get('action') == 'add':
@@ -467,6 +475,8 @@ class StudyDomainsView(StudyDomainsMixin, TemplateView):
             form = form_cls(data=self.request.POST, instance=domain)
             if form.is_valid():
                 form.save()
+        else:
+            return super().post(request, *args, **kwargs)
 
         return redirect(self.request.path)
 
