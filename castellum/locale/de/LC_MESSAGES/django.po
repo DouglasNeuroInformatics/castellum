@@ -339,20 +339,16 @@ msgid "Can access privacy level 2"
 msgstr "Hat Zugriff auf Vertraulichkeitsstufe 2"
 
 #: castellum/castellum_auth/signals.py:37
-#, fuzzy
-#| msgid "Login"
 msgid "login"
-msgstr "Anmelden"
+msgstr "Anmeldung"
 
 #: castellum/castellum_auth/signals.py:45
 msgid "login failed"
-msgstr ""
+msgstr "Anmeldung fehlgeschlagen"
 
 #: castellum/castellum_auth/signals.py:52
-#, fuzzy
-#| msgid "Logout"
 msgid "logout"
-msgstr "Abmelden"
+msgstr "Abmeldung"
 
 #: castellum/castellum_auth/templates/admin/castellum_auth/user_permissions.html:6
 #: castellum/templates/base_with_breadcrumbs.html:8
@@ -411,10 +407,8 @@ msgstr ""
 #: castellum/contacts/mixins.py:50 castellum/recruitment/mixins.py:133
 #: castellum/subjects/mixins.py:125 castellum/subjects/mixins.py:169
 #: castellum/subjects/views.py:497
-#, fuzzy
-#| msgid "Subject created on"
 msgid "subject updated"
-msgstr "Proband*in erstellt am"
+msgstr "Proband*in aktualisiert"
 
 #: castellum/contacts/models.py:134
 msgid "female"
@@ -667,10 +661,8 @@ msgstr "Keine Rechtsgrundlage"
 
 #: castellum/data_protection/templates/data_protection/index.html:59
 #: castellum/subjects/templates/subjects/subject_detail.html:86
-#, fuzzy
-#| msgid "Block subject"
 msgid "Blocked"
-msgstr "Proband*in sperren"
+msgstr "Gesperrt"
 
 #: castellum/data_protection/templates/data_protection/index.html:68
 #: castellum/subjects/templates/subjects/maintenance_attributes.html:31
@@ -705,17 +697,13 @@ msgstr "Seitenzahl"
 
 #: castellum/execution/api.py:131 castellum/execution/views.py:288
 #: castellum/subjects/views.py:329
-#, fuzzy
-#| msgid "Pseudonyms deleted"
 msgid "pseudonym accessed"
-msgstr "Pseudonyme gelöscht"
+msgstr "Pseudonym abgerufen"
 
 #: castellum/execution/api.py:172 castellum/execution/views.py:194
 #: castellum/subjects/api.py:73
-#, fuzzy
-#| msgid "Attribute categories"
 msgid "attributes exported"
-msgstr "Merkmalskategorien"
+msgstr "Merkmale exportiert"
 
 #: castellum/execution/forms.py:26
 #: castellum/recruitment/models/participations.py:71
@@ -994,23 +982,17 @@ msgstr "Keine Teilnahmen gefunden"
 
 #: castellum/execution/templates/execution/participation_pseudonyms.html:12
 #: castellum/subjects/templates/subjects/subject_pseudonyms.html:10
-#, fuzzy
-#| msgid "List is empty"
 msgid "List key"
-msgstr "Die Liste ist leer"
+msgstr "Listen-Schlüssel"
 
 #: castellum/execution/templates/execution/participation_pseudonyms.html:13
 #: castellum/subjects/templates/subjects/subject_pseudonyms.html:11
-#, fuzzy
-#| msgid "Last name"
 msgid "List name"
-msgstr "Nachname"
+msgstr "Listen-Name"
 
 #: castellum/execution/templates/execution/participation_pseudonyms.html:30
-#, fuzzy
-#| msgid "By pseudonym"
 msgid "No pseudonym lists"
-msgstr "Nach Pseudonym"
+msgstr "Keine Pseudonym-Listen"
 
 #: castellum/execution/templates/execution/participation_status.html:9
 #: castellum/recruitment/templates/recruitment/contact.html:9
@@ -1280,10 +1262,8 @@ msgstr ""
 "vorherige Ankündigung)"
 
 #: castellum/execution/views.py:459 castellum/subjects/views.py:255
-#, fuzzy
-#| msgid "Pseudonyms deleted"
 msgid "pseudonym resolved"
-msgstr "Pseudonyme gelöscht"
+msgstr "Pseudonym aufgelöst"
 
 #: castellum/execution/views.py:468 castellum/subjects/views.py:261
 msgid "No match found"
@@ -1325,22 +1305,16 @@ msgid "Invalid pseudonym"
 msgstr "Ungültiges Pseudonym"
 
 #: castellum/pseudonyms/forms.py:37
-#, fuzzy
-#| msgid "Pseudonyms"
 msgid "Pseudonym list"
-msgstr "Pseudonyme"
+msgstr "Pseudonym-Liste"
 
 #: castellum/pseudonyms/forms.py:48
-#, fuzzy
-#| msgid "All pseudonym domains have been deleted."
 msgid "All pseudonym lists have been deleted."
-msgstr "Alle Pseudonym-Domänen wurden gelöscht"
+msgstr "Alle Pseudonym-Listen wurden gelöscht"
 
 #: castellum/pseudonyms/models.py:45
-#, fuzzy
-#| msgid "Users who can access this domain"
 msgid "Users who can access this pseudonym list"
-msgstr "Nutzer*innen, die auf diese Domäne zugreifen können"
+msgstr "Nutzer*innen, die auf diese Pseudonym-Liste zugreifen können"
 
 #: castellum/pseudonyms/models.py:51 castellum/studies/models.py:241
 msgid "Exportable recruitment attributes"
@@ -2186,10 +2160,8 @@ msgid "Assigned to me"
 msgstr "Mir zugewiesen"
 
 #: castellum/recruitment/views.py:297
-#, fuzzy
-#| msgid "Currently recruitable"
 msgid "urgent recruitment"
-msgstr "Aktuell rekrutierbar"
+msgstr "Dringende Rekrutierung"
 
 #: castellum/recruitment/views.py:304
 msgid ""
@@ -2393,10 +2365,8 @@ msgstr ""
 #: castellum/studies/models.py:147
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:66
 #: castellum/subjects/templates/subjects/subject_export.html:58
-#, fuzzy
-#| msgid "General pseudonyms"
 msgid "General pseudonym lists"
-msgstr "Allgemeine Pseudonyme"
+msgstr "Allgemeine Pseudonym-Liste"
 
 #: castellum/studies/models.py:152
 msgid "Advanced filtering"
@@ -2532,7 +2502,7 @@ msgstr "Darf Studien genehmigen"
 
 #: castellum/studies/models.py:265 castellum/subjects/models.py:156
 msgid "Can view audit trail"
-msgstr ""
+msgstr "Kann Prüfprotokoll ansehen"
 
 #: castellum/studies/models.py:287
 msgid ""
@@ -2631,21 +2601,16 @@ msgstr "Rekrutierung und Ausführung für diese Studie haben geendet."
 #: castellum/studies/templates/studies/domain_confirm_delete.html:4
 #: castellum/studies/templates/studies/study_domains_base.html:11
 #: castellum/studies/templates/studies/study_domains_study.html:4
-#, fuzzy
-#| msgid "Study consent"
 msgid "Study lists"
-msgstr "Studieneinwilligung"
+msgstr "Studien-Listen"
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "Are you sure you want to <strong>permanently delete</strong> the domain "
-#| "\"%(object)s\" and all related pseudonyms?"
+#, python-format
 msgid ""
 "Are you sure you want to <strong>permanently delete</strong> the pseudonym "
 "list \"%(object)s\" and all related pseudonyms?"
 msgstr ""
-"Sind Sie sicher, dass Sie die Domäne \"%(object)s\" und alle zugehörigen "
+"Sind Sie sicher, dass Sie die Liste \"%(object)s\" und alle zugehörigen "
 "Pseudonyme <strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:10
@@ -2661,28 +2626,20 @@ msgstr ""
 "Schritte notwendig."
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:11
-#, fuzzy
-#| msgid ""
-#| "The date when a domain should be deleted is usually defined in the ethics "
-#| "application and the study consent form."
 msgid ""
 "The date when a pseudonym list should be deleted is usually defined in the "
 "ethics application and the study consent form."
 msgstr ""
-"Das Datum an dem eine Domäne gelöscht werden sollte ist üblicherweise im "
+"Das Datum an dem eine Pseudonym-Liste gelöscht werden sollte ist üblicherweise im "
 "Ethikantrag und in der Studieneinwilligung definiert."
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:15
-#, fuzzy
-#| msgid ""
-#| "I understand that I will no longer be able to find subjects based on "
-#| "pseudonyms from this domain."
 msgid ""
 "I understand that I will no longer be able to find subjects based this "
 "pseudonym list."
 msgstr ""
 "Ich verstehe, dass es nicht mehr möglich sein wird, die Proband*innen zu den "
-"Pseudonymen aus dieser Domäne zu finden."
+"Pseudonymen aus dieser Liste zu finden."
 
 #: castellum/studies/templates/studies/filtergroup.html:4
 #: castellum/studies/templates/studies/study_filtertrial_base.html:26
@@ -2787,17 +2744,17 @@ msgstr ""
 #: castellum/subjects/templates/subjects/subject_audit_trail.html:4
 #: castellum/subjects/templates/subjects/subject_base.html:72
 msgid "Audit trail"
-msgstr ""
+msgstr "Audit-Protokoll"
 
 #: castellum/studies/templates/studies/study_audit_trail.html:11
 #: castellum/subjects/templates/subjects/subject_audit_trail.html:11
 msgid "by"
-msgstr ""
+msgstr "von"
 
 #: castellum/studies/templates/studies/study_audit_trail.html:17
 #: castellum/subjects/templates/subjects/subject_audit_trail.html:17
 msgid "No audit events in the past year."
-msgstr ""
+msgstr "Keine Audit-Ereignisse im letzten Jahr."
 
 #: castellum/studies/templates/studies/study_base.html:19
 msgid "Recruitment and execution for this study have started."
@@ -2859,10 +2816,8 @@ msgid "Consent"
 msgstr "Einwilligung"
 
 #: castellum/studies/templates/studies/study_base.html:126
-#, fuzzy
-#| msgid "Pseudonyms"
 msgid "Pseudonym lists"
-msgstr "Pseudonyme"
+msgstr "Pseudonym Listen"
 
 #: castellum/studies/templates/studies/study_base.html:129
 #: castellum/studies/templates/studies/study_detail.html:26
@@ -2960,36 +2915,22 @@ msgstr "Rekrutierungsfilter eingestellt"
 
 #: castellum/studies/templates/studies/study_domains_base.html:12
 #: castellum/studies/templates/studies/study_domains_general.html:4
-#, fuzzy
-#| msgid "General domains"
 msgid "General lists"
-msgstr "Allgemeine Domänen"
+msgstr "Allgemeine Listen"
 
 #: castellum/studies/templates/studies/study_domains_general.html:10
-#, fuzzy
-#| msgid ""
-#| "General Domains allow you to access pseudonyms for data that is shared "
-#| "via central repositories. Please note these pseudonyms allow to identify "
-#| "subjects globally and therefore carry a high privacy risk."
 msgid ""
 "General pseudonym lists allow you to access pseudonyms for data that is "
 "shared via central repositories. Please note these pseudonyms allow to "
 "identify subjects globally and therefore carry a high privacy risk."
 msgstr ""
-"Allgemeine Domänen erlauben den Zugriff auf Pseudonyme für Daten, welche "
+"Allgemeine Pseudonym-Listen erlauben den Zugriff auf Pseudonyme für Daten, welche "
 "über zentrale Datenspeichersysteme verwaltet werden. Bitte beachten Sie, "
 "dass es mithilfe dieser Pseudonyme möglich sein kann, Proband*innen "
 "kontextunabhängig zu identifizieren. Daher ist dieses Verfahren mit hohen "
 "Risiken für den Datenschutz verbunden."
 
 #: castellum/studies/templates/studies/study_domains_study.html:7
-#, fuzzy
-#| msgid ""
-#| "Pseudonyms allow you to store data about subjects without their names and "
-#| "other identifying data. Often it is sufficient to have one pseudonym per "
-#| "subject and study. However, if you need more than that you can create "
-#| "additional pseudonym domains. Note that a pseudonym is only meaningful in "
-#| "combination with its domain."
 msgid ""
 "Pseudonyms allow you to store data about subjects without their names and "
 "other identifying data. Often it is sufficient to have one pseudonym per "
@@ -3000,9 +2941,8 @@ msgstr ""
 "Pseudonyme erlauben es, Daten über Proband*innen zu speichern, ohne diese "
 "mit Namen oder anderen personenbezogenen Daten zu verknüpfen. Oft genügt ein "
 "einzelnes Pseudonym pro Proband*in und Studie. Sollten allerdings mehr "
-"erforderlich sein, können Sie zusätzliche Pseudonym-Domänen erzeugen. Bitte "
-"beachten Sie, dass ein Pseudonym nur in Kombination mit seiner Domäne "
-"bedeutsam ist."
+"erforderlich sein, können Sie zusätzliche Pseudonym-Listen erzeugen. Bitte "
+"beachten Sie, dass ein Pseudonym nur bedeutsam ist, wenn sie wissen, zu welcher Liste es gehört."
 
 #: castellum/studies/templates/studies/study_domains_study.html:25
 #: castellum/studies/templates/studies/study_domains_study.html:26
@@ -3010,16 +2950,12 @@ msgid "Copy key"
 msgstr "Schlüssel Kopieren"
 
 #: castellum/studies/templates/studies/study_domains_study.html:31
-#, fuzzy
-#| msgid "participants have a pseudonym in this domain"
 msgid "participants have a pseudonym in this list"
-msgstr "Teilnehmer*innen haben ein Pseudonym in dieser Domäne"
+msgstr "Teilnehmer*innen haben ein Pseudonym in dieser Liste"
 
 #: castellum/studies/templates/studies/study_domains_study.html:47
-#, fuzzy
-#| msgid "By pseudonym"
 msgid "Add pseudonym list"
-msgstr "Nach Pseudonym"
+msgstr "Pseudonym-Liste hinzufügen"
 
 #: castellum/studies/templates/studies/study_filtertrial_base.html:4
 #: castellum/studies/templates/studies/study_filtertrial_base.html:8
@@ -3210,18 +3146,16 @@ msgid "New schedule"
 msgstr "Neuer Terminplan"
 
 #: castellum/studies/views/members.py:105
-#, fuzzy
-#| msgid "Member management"
 msgid "member changed"
-msgstr "Mitgliederverwaltung"
+msgstr "Mitglied verändert"
 
 #: castellum/studies/views/members.py:124
 msgid "member added"
-msgstr ""
+msgstr "Mitglied hinzugefügt"
 
 #: castellum/studies/views/members.py:160
 msgid "member removed"
-msgstr ""
+msgstr "Mitglied entfernt"
 
 #: castellum/studies/views/studies.py:130
 msgid "Start the study"
@@ -3240,10 +3174,8 @@ msgid "Finish the study"
 msgstr "Studie beenden"
 
 #: castellum/studies/views/studies.py:134
-#, fuzzy
-#| msgid "Delete the pseudonym domains"
 msgid "Delete the pseudonym list"
-msgstr "Pseudonym-Domänen löschen"
+msgstr "Pseudonym-Liste löschen"
 
 #: castellum/studies/views/studies.py:135
 msgid "Delete the study from Castellum"
@@ -3278,28 +3210,16 @@ msgstr ""
 "können, die kontaktiert wurden aber nicht an der Studie teilgenommen haben."
 
 #: castellum/studies/views/studies.py:154
-#, fuzzy
-#| msgid ""
-#| "These studies have finished, but the pseudonym domains have not yet been "
-#| "deleted. The date when pseudonym domains must be deleted is usually "
-#| "defined in the study consent."
 msgid ""
 "These studies have finished, but the pseudonym lists have not yet been "
 "deleted. The date when pseudonym lists must be deleted is usually defined in "
 "the study consent."
 msgstr ""
-"Diese Studien wurden beendet, aber die Pseudonym-Domänen sind noch nicht "
-"gelöscht worden. Das Datum, an dem Pseudonym-Domänen gelöscht werden müssen, "
+"Diese Studien wurden beendet, aber die Pseudonym-Listen sind noch nicht "
+"gelöscht worden. Das Datum, an dem Pseudonym-Listen gelöscht werden müssen, "
 "ist üblicherweise in der Studieneinwilligung definiert."
 
 #: castellum/studies/views/studies.py:159
-#, fuzzy
-#| msgid ""
-#| "These studies have finished, and the pseudonym domains have already been "
-#| "deleted. This means that Castellum no longer knows which data belongs to "
-#| "a subject, it just knows that the subject has participated in the study. "
-#| "The only reason to keep these studies is to exclude or include them in "
-#| "future recruitments."
 msgid ""
 "These studies have finished, and the pseudonym lists have already been "
 "deleted. This means that Castellum no longer knows which data belongs to a "
@@ -3307,17 +3227,15 @@ msgid ""
 "only reason to keep these studies is to exclude or include them in future "
 "recruitments."
 msgstr ""
-"Diese Studien wurden beendet und die Pseudonym-Domänen sind bereits gelöscht "
+"Diese Studien wurden beendet und die Pseudonym-Listen sind bereits gelöscht "
 "worden. Das bedeutet, dass Castellum nicht mehr weiß, welche Daten zu "
 "welcher Proband*in gehören. Es weiß nur, dass die Proband*in an der Studie "
 "teilgenommen hat. Der einzige Grund diese Studien zu behalten ist um sie in "
 "zukünftigen Rekrutierungen ein- oder auszuschließen."
 
 #: castellum/studies/views/studies.py:372
-#, fuzzy
-#| msgid "Pseudonyms deleted"
 msgid "study deleted"
-msgstr "Pseudonyme gelöscht"
+msgstr "Studie gelöscht"
 
 #: castellum/studies/views/studies.py:376
 msgid "Study has been deleted."
@@ -3325,27 +3243,23 @@ msgstr "Die Studie wurde gelöscht"
 
 #: castellum/studies/views/studies.py:397
 msgid "study stopped"
-msgstr ""
+msgstr "Studie angehalten"
 
 #: castellum/studies/views/studies.py:407
-#, fuzzy
-#| msgid "Started"
 msgid "study started"
-msgstr "Gestartet"
+msgstr "Studie gestartet"
 
 #: castellum/studies/views/studies.py:425
 msgid "study resumed"
-msgstr ""
+msgstr "Studie wiederaufgenommen"
 
 #: castellum/studies/views/studies.py:432
-#, fuzzy
-#| msgid "Finished"
 msgid "study finished"
-msgstr "Beendet"
+msgstr "Studie beendet"
 
 #: castellum/studies/views/studies.py:526 castellum/subjects/views.py:517
 msgid "audit trail accessed"
-msgstr ""
+msgstr "Audit-Protokoll angesehen"
 
 #: castellum/studies/views/subjectfilters.py:134
 msgid "Filter update successfull!"
@@ -3386,7 +3300,7 @@ msgstr ""
 
 #: castellum/subjects/mixins.py:154
 msgid "consent changed"
-msgstr ""
+msgstr "Einwilligung geändert"
 
 #: castellum/subjects/mixins.py:206
 msgid "Your report has been received."
@@ -3556,11 +3470,11 @@ msgstr "Unterschriebene Datei"
 
 #: castellum/subjects/models.py:346
 msgid "First expiration notification sent"
-msgstr ""
+msgstr "Erste Ablauf-Erinnerung gesendet"
 
 #: castellum/subjects/models.py:349
 msgid "Second expiration notification sent"
-msgstr ""
+msgstr "Zweite Ablauf-Erinnerung gesendet"
 
 #: castellum/subjects/models.py:374
 msgid "Consent revision"
@@ -3786,10 +3700,8 @@ msgstr ""
 "und die Sperrung aufheben."
 
 #: castellum/subjects/templates/subjects/report_detail.html:14
-#, fuzzy
-#| msgid "DELETED USER"
 msgid "DELETED SUBJECT"
-msgstr "GELÖSCHTE NUTZER*IN"
+msgstr "GELÖSCHTE PROBAND*IN"
 
 #: castellum/subjects/templates/subjects/report_detail.html:21
 msgid "DELETED USER"
@@ -3826,11 +3738,9 @@ msgstr ""
 "vorhanden sind."
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:22
-#, fuzzy
-#| msgid "This subject may still have data in general domains."
 msgid "This subject may still have data from general pseudonym lists."
 msgstr ""
-"Zu dieser Proband*in sind möglicherweise noch Daten in allgemeinen Domänen "
+"Zu dieser Proband*in sind möglicherweise noch Daten in allgemeinen Pseudonym-Listen "
 "vorhanden."
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:26
@@ -4041,10 +3951,8 @@ msgstr ""
 
 #: castellum/subjects/templates/subjects/subject_detail.html:84
 #: castellum/subjects/templates/subjects/subject_detail.html:160
-#, fuzzy
-#| msgid "deceased"
 msgid "Deceased"
-msgstr "verstorben"
+msgstr "Verstorben"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:92
 #, python-format
@@ -4188,10 +4096,8 @@ msgid "Send report"
 msgstr "Meldung abschicken"
 
 #: castellum/subjects/templates/subjects/subject_resolve.html:12
-#, fuzzy
-#| msgid "Find subjects based on their pseudonyms from general domains."
 msgid "Find subjects based on general pseudonym lists."
-msgstr "Proband*innen anhand ihrer Pseudonyme aus allgemeinen Domänen finden."
+msgstr "Proband*innen anhand von allgemeinen Pseudonym-Listen finden."
 
 #: castellum/subjects/templates/subjects/subject_search.html:12
 #, python-format
@@ -4253,16 +4159,12 @@ msgstr ""
 "alle zugehörigen Daten <strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/subjects/views.py:179
-#, fuzzy
-#| msgid "Subject is deceased"
 msgid "subject searched"
-msgstr "Proband*in ist verstorben"
+msgstr "Proband*in gesucht"
 
 #: castellum/subjects/views.py:219 castellum/subjects/views.py:772
-#, fuzzy
-#| msgid "Subject created on"
 msgid "subject created"
-msgstr "Proband*in erstellt am"
+msgstr "Proband*in erstellt"
 
 #: castellum/subjects/views.py:226
 msgid "Both first and last name must be provided in order to create a subject!"
@@ -4271,20 +4173,16 @@ msgstr ""
 "anzulegen!"
 
 #: castellum/subjects/views.py:375
-#, fuzzy
-#| msgid "To be deleted"
 msgid "subject deleted"
-msgstr "Zur Löschung vorgemerkt"
+msgstr "Proband*in gelöscht"
 
 #: castellum/subjects/views.py:380
 msgid "Subject has been deleted."
 msgstr "Die Proband*in wurde gelöscht"
 
 #: castellum/subjects/views.py:413
-#, fuzzy
-#| msgid "Request export"
 msgid "subject exported"
-msgstr "Auskunft beantragen"
+msgstr "Proband*in exportiert"
 
 #: castellum/subjects/views.py:547
 msgid "Subject remains blocked."
@@ -4295,10 +4193,8 @@ msgid "Report has been discarded. The subject has been un-blocked."
 msgstr "Die Meldung wurde verworfen. Die Sperrung wurde aufgehoben."
 
 #: castellum/subjects/views.py:716
-#, fuzzy
-#| msgid "Participation created at"
 msgid "participation deleted"
-msgstr "Teilnahme erstellt am"
+msgstr "Teilnahme gelöscht"
 
 #: castellum/templates/403.html:4 castellum/templates/403.html:12
 msgid "Forbidden"
