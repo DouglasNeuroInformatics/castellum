@@ -381,6 +381,15 @@ class Study(TimeStampedModel):
                 conductors.append(user)
         return conductors
 
+    @cached_property
+    def should_delete_domains(self):
+        today = datetime.date.today()
+        return (
+            self.pseudonyms_delete_date
+            and self.pseudonyms_delete_date < today
+            and self.domains.exists()
+        )
+
     def export(self):
         status_map = {
             Study.EDIT: 'not_started',
