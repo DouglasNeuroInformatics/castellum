@@ -382,6 +382,13 @@ CASTELLUM_SESSIONS_END_MAIL_BODY = (
 )
 CASTELLUM_SESSIONS_END_MAIL_BODY_EN = None
 
+CASTELLUM_PSEUDONYMS_DELETE_MAIL_SUBJECT = '[{study}] Pseudonyms should be deleted'
+CASTELLUM_PSEUDONYMS_DELETE_MAIL_BODY = (
+    'This is a reminder that the pseudonyms for study "{study}" should be deleted '
+    'today.'
+)
+CASTELLUM_PSEUDONYMS_DELETE_MAIL_BODY_EN = None
+
 CASTELLUM_REPORT_NOTIFICATION_SUBJECT = 'Subject reported'
 CASTELLUM_REPORT_NOTIFICATION_BODY = (
     'A user reported a subject for inappropriate behavior. '

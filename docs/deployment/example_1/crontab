@@ -6,6 +6,7 @@
 4	1	*	*	*	python3 -m django cleanup_filter_trials
 5	1	*	*	*	python3 -m django notify_to_be_deleted http://example.com
 6	1	*	*	*	python3 -m django notify_sessions_end
+6	1	*	*	*	python3 -m django notify_pseudonyms_delete
 7	1	*	*	*	python3 -m django notify_on_full_age
 8	1	*	*	*	python3 -m django fetch_scheduler_appointments http://example.com
 9	1	*	*	*	python3 -m django send_appointment_reminders http://example.com
