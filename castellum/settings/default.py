@@ -139,7 +139,8 @@ CASTELLUM_REPORT_NOTIFICATION_TO = []
 # You can include details about the review process or links for specific
 # support offerings.
 CASTELLUM_REPORT_TEXT = (
-    'If you experience inappropriate behavior from a subject, please file a report so we can make sure that this subject will never be invited again.'
+    'If you experience inappropriate behavior from a subject, please file a report so '
+    'we can make sure that this subject will never be invited again.'
 )
 
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
@@ -316,8 +317,9 @@ CASTELLUM_APPOINTMENT_MAIL_BODY_EN = (
 )
 CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT = 'Appointment reminders for {study}'
 CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY = (
-    'The following subjects have upcoming appointments, but could not be reached by email. '
-    'Please contact them by other means to remind them of their appointment:\n\n{urls}'
+    'The following subjects have upcoming appointments, but could not be reached by '
+    'email. Please contact them by other means to remind them of their appointment:\n\n'
+    '{urls}'
 )
 CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY_EN = None
 
@@ -348,8 +350,8 @@ CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN = None
 CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_SUBJECT = '[{study}] Export requested'
 CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_BODY = (
     'Dear {name},\n\n'
-    'we received an export request from a subject who participated in {study}. Please gather all '
-    'information related to the following subject:\n\n'
+    'we received an export request from a subject who participated in {study}. '
+    'Please gather all information related to the following subject:\n\n'
     '{url}\n(link only available for conductors)\n\n'
     'If you have any questions, feel free to get back to me.\n\n'
     '{sender_name}\n'
@@ -359,8 +361,8 @@ CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_BODY_EN = None
 CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_SUBJECT = '[{study}] Deletion requested'
 CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY = (
     'Dear {name},\n\n'
-    'we received a deletion request from a subject who participated in {study}. Please delete all '
-    'information related to the following subject:\n\n'
+    'we received a deletion request from a subject who participated in {study}. '
+    'Please delete all information related to the following subject:\n\n'
     '{url}\n(link only available for conductors)\n\n'
     'If you have any questions, feel free to get back to me.\n\n'
     '{sender_name}\n'
