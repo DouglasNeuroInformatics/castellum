@@ -33,6 +33,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext_noop
 from django.views.generic import CreateView
@@ -577,11 +578,11 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
                     failed.append(participation)
 
         self.send_summary(succeeded, failed, form)
-        messages.success(self.request, _(
-            f'Mail was sent to {len(succeeded)} subjects. '
-            f'An email was sent to all study conductors with further information. '
-            f'That email also lists potential next steps.'
-        ))
+        messages.success(self.request, format_lazy(_(
+            'Mail was sent to {} subjects. '
+            'An email was sent to all study conductors with further information. '
+            'That email also lists potential next steps.'
+        ), len(succeeded)))
 
         return redirect('execution:news-mail', self.study.pk)
 
