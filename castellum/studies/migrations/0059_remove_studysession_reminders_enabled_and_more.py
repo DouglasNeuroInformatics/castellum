@@ -1,10 +1,11 @@
-from django.conf import settings
+import datetime
+
 from django.db import migrations, models
 
 
 def migrate_data(apps, schema_editor):
     StudySession = apps.get_model('studies', 'StudySession')
-    old_default = settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days
+    old_default = datetime.timedelta(days=3)
 
     for session in StudySession.objects.all():
         if session.reminders_enabled:
