@@ -81,9 +81,9 @@
                     {% if not subject.has_consent_with_ineffective %}
                         {% icon 'xmark text-danger' label=_('No') %}
                     {% elif subject.deceased %}
-                        <em class="text-body-secondary">{% icon 'check' label=_('Yes') %} ({% translate 'deceased' %})</em>
+                        <em class="text-body-secondary">{% icon 'check' label=_('Yes') %} ({% translate 'Deceased' %})</em>
                     {% elif subject.blocked %}
-                        <em class="text-body-secondary">{% icon 'check' label=_('Yes') %} ({% translate 'blocked' %})</em>
+                        <em class="text-body-secondary">{% icon 'check' label=_('Yes') %} ({% translate 'Blocked' %})</em>
                     {% else %}
                         {% icon 'check text-success' label=_('Yes') %}
                     {% endif %}
@@ -157,7 +157,7 @@
                     {% if not subject.blocked %}
                         {% icon 'xmark text-danger' label=_('No') %}
                     {% elif subject.deceased %}
-                        <em class="text-body-secondary">{% icon 'check' label=_('Yes') %} ({% translate 'deceased' %})</em>
+                        <em class="text-body-secondary">{% icon 'check' label=_('Yes') %} ({% translate 'Deceased' %})</em>
                     {% else %}
                         {% icon 'check text-success' label=_('Yes') %}
                     {% endif %}
