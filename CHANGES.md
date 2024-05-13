@@ -1,3 +1,8 @@
+# 0.97.2 (2024-05-13)
+
+-   fix german translation
+
+
 # 0.97.1 (2024-05-06)
 
 -   fix error on subject deletion if audit trail is enabled
