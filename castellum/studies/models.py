@@ -139,6 +139,10 @@ class Study(TimeStampedModel):
         blank=True,
     )
 
+    pseudonyms_delete_date = DateField(
+        _('Date when pseudonym lists should be deleted'), blank=True, null=True
+    )
+
     members = models.ManyToManyField(User, through='StudyMembership')
     domains = GenericRelation(Domain)
     general_domains = models.ManyToManyField(
