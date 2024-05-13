@@ -389,8 +389,10 @@ class Study(TimeStampedModel):
             'contact_person': {
                 'name': self.contact_person,
                 'email': self.email,
+                'phone': str(self.phone),
             },
             'description': self.description,
+            'url': self.url,
             'status': status_map[self.status],
             'sessions_start': self.sessions_start,
             'sessions_end': self.sessions_end,
