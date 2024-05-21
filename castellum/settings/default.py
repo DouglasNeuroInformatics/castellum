@@ -109,9 +109,6 @@ CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 # a different study recruitment
 CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
-# what is considered "has recently participated in a study"
-CASTELLUM_RECENT_ACTIVITY_PERIOD = relativedelta(months=4)
-
 # timespan after which uncontacted subjects with consent will show up in
 # MaintenanceEstrangedSubjectsView
 CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD = relativedelta(months=18)
