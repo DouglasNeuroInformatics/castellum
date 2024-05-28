@@ -33,6 +33,8 @@ import json
 
 from django.conf import settings
 from django.db import models
+from django.db.models.functions import Coalesce
+from django.db.models.functions import Greatest
 
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
@@ -119,6 +121,46 @@ def study_disinterest(study):
 def study_max_privacy_level(study):
     """Exclude subjects who no study members can access."""
     return models.Q(privacy_level__lte=study.members_max_privacy_level)
+
+
+def last_study_participation(before=None, after=None):
+    """Exclude subjects based on last study activity.
+
+    -   The goal is to only include activity that has actually happend
+    -   If appointments are not available, look at completed participations
+    -   If those are also not available, use ``Subject.created_at``
+
+    Last study participation is distinct from last contact (``Subject.updated_at``).
+    """
+
+    if not before and not after:
+        return models.Q()
+
+    today = datetime.date.today()
+
+    qs = Subject.objects.alias(
+        last_appointment=models.Max('participation__appointment__start__date', filter=(
+            models.Q(participation__appointment__start__date__lt=today)
+        )),
+        last_participation=models.Max('participation__updated_at__date', filter=(
+            models.Q(participation__status=Participation.COMPLETED) | models.Q(
+                participation__status__in=Participation.INVITED_SET,
+                participation__study__status=Study.FINISHED,
+            )
+        )),
+    ).alias(
+        last_active=Greatest(
+            Coalesce('last_appointment', 'created_at'),
+            Coalesce('last_participation', 'created_at'),
+        )
+    )
+
+    if before:
+        qs = qs.filter(last_active__lte=before)
+    if after:
+        qs = qs.filter(last_active__gte=after)
+
+    return models.Q(pk__in=qs)
 
 
 def subjectfilters(subjectfiltergroup, include_unknown=None):
@@ -263,4 +305,8 @@ def study_recruitable(study, **kwargs):
         study_criteria(study, **kwargs)
         & has_consent()
         & study_max_privacy_level(study)
+        & last_study_participation(
+            before=study.recruitment_active_before,
+            after=study.recruitment_active_after,
+        )
     )

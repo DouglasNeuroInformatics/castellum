@@ -1,8 +1,14 @@
+import datetime
+
+import pytest
+from django.utils import timezone
 from freezegun import freeze_time
 from model_bakery import baker
 
+from castellum.appointments.models import Appointment
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
+from castellum.recruitment.models import Participation
 from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 
@@ -38,3 +44,92 @@ def test_has_consent_exclude_deprecated(subject):
     )
     assert has_match(filter_queries.has_consent())
     assert not has_match(filter_queries.has_consent(exclude_deprecated=True))
+
+
+@pytest.mark.parametrize('date', [
+    '1990-01-01',
+    '1991-01-01',
+    '1992-01-01',
+    pytest.param('1989-01-01', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('1989-12-31', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('1992-01-02', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('1993-01-01', marks=pytest.mark.xfail(strict=True)),
+])
+def test_last_study_participation_created_at(db, date):
+    with freeze_time(date):
+        baker.make(Contact)
+    assert has_match(filter_queries.last_study_participation(
+        after=datetime.date(1990, 1, 1),
+        before=datetime.date(1992, 1, 1),
+    ))
+
+
+@pytest.mark.parametrize('date', [
+    '1990-01-01',
+    '1991-01-01',
+    '1992-01-01',
+    pytest.param('1989-01-01', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('1989-12-31', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('1992-01-02', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('1993-01-01', marks=pytest.mark.xfail(strict=True)),
+])
+def test_last_study_participation_participation(db, date):
+    with freeze_time('1970-01-01'):
+        contact = baker.make(Contact)
+    with freeze_time(date):
+        baker.make(
+            Participation,
+            subject=contact.subject,
+            status=Participation.COMPLETED,
+        )
+    assert has_match(filter_queries.last_study_participation(
+        after=datetime.date(1990, 1, 1),
+        before=datetime.date(1992, 1, 1),
+    ))
+
+
+@pytest.mark.parametrize('date', [
+    '1990-01-01',
+    '1991-01-01',
+    '1992-01-01',
+    pytest.param('1989-01-01', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('1989-12-31', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('1992-01-02', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('1993-01-01', marks=pytest.mark.xfail(strict=True)),
+])
+def test_last_study_participation_appointment(db, date):
+    with freeze_time('1970-01-01'):
+        participation = baker.make(Participation)
+    with freeze_time(date):
+        baker.make(
+            Appointment,
+            participation=participation,
+            start=timezone.now(),
+        )
+    with freeze_time('2000-01-01'):
+        assert has_match(filter_queries.last_study_participation(
+            after=datetime.date(1990, 1, 1),
+            before=datetime.date(1992, 1, 1),
+        ))
+
+
+def test_last_study_participation_ignore_participation(db):
+    with freeze_time('1970-01-01'):
+        participation = baker.make(Participation)
+    with freeze_time('1991-01-01'):
+        baker.make(
+            Appointment,
+            participation=participation,
+            start=timezone.now(),
+        )
+    with freeze_time('1995-01-01'):
+        baker.make(Participation, subject=participation.subject)
+    with freeze_time('2000-01-01'):
+        assert has_match(filter_queries.last_study_participation(
+            after=datetime.date(1990, 1, 1),
+            before=datetime.date(1992, 1, 1),
+        ))
+        assert not has_match(filter_queries.last_study_participation(
+            after=datetime.date(1999, 1, 1),
+            before=datetime.date(2001, 1, 1),
+        ))

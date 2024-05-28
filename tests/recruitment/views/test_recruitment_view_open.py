@@ -1,14 +1,12 @@
 import pytest
 from django.conf import settings
 from django.contrib.messages import get_messages
-from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
-from castellum.studies.models import Study
 from castellum.subjects.models import Consent
 
 
@@ -93,29 +91,3 @@ def test_no_matching_subjects(client, member, study, attribute):
         'No potential participants could be found for this study.'
     )
     assert response.status_code == 200
-
-
-def test_post_urgent(client, member, study):
-    study.min_subject_count = 2
-    study.save()
-
-    subject1 = create_subject()
-    subject2 = create_subject()
-    other_study = baker.make(Study)
-    with freeze_time('1970-01-01'):
-        baker.make(
-            Participation,
-            status=Participation.PARTICIPATING,
-            study=other_study,
-            subject=subject1,
-        )
-
-    with freeze_time('1970-02-01'):
-        client.force_login(member)
-        url = f'/recruitment/{study.pk}/'
-        response = client.post(url, {'submit': 'urgent'})
-
-    assert response.status_code == 200
-    participations = study.participation_set
-    assert participations.filter(subject=subject1).exists()
-    assert not participations.filter(subject=subject2).exists()

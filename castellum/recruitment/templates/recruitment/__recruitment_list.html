@@ -30,8 +30,6 @@
                         {% endif %}
                         {% if recently_contacted %}
                             <span class="badge text-bg-dark my-1" title="{{ participation.TOOLTIPS.recently_contacted }}">{% translate 'contacted elsewhere' %}</span>
-                        {% elif participation.status in participation.RECRUITMENT_SET and participation.recent_participation_count > 0 %}
-                            <span class="badge text-bg-secondary my-1" title="{{ participation.TOOLTIPS.recently_active }}">{% translate 'recently active' %}</span>
                         {% endif %}
                         {% if participation.subject.blocked %}
                             <span class="badge text-bg-dark my-1" title="{{ participation.subject.TOOLTIPS.blocked }}">{{ participation.subject|verbose_name:'blocked' }}</span>
