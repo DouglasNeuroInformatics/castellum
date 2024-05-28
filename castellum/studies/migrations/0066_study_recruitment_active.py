@@ -4,7 +4,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("studies", "0064_study_created_at_study_updated_at"),
+        ("studies", "0065_study_pseudonyms_delete_date"),
     ]
 
     operations = [
