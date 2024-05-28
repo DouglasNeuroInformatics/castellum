@@ -27,8 +27,8 @@
     deceased.
 -   Consider some conditions (deceased, blocked, to be deleted, privacy
     level) only when deciding whether a subject should be added to the
-    recruitment list, not generally when when deciding whether a
-    subject matches the criteria for a study.
+    recruitment list, not generally when deciding whether a subject
+    matches the criteria for a study.
 -   Don't delete abuse reports when the subject is deleted.
 -   Hide form fields to select a study type if none is configured
 
