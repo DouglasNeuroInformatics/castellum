@@ -66,11 +66,31 @@ def test_excution_past(client, user):
     assert_subtab_for_study(study, client, 'execution-past')
 
 
-def test_finished_domains(client, user):
+def test_finished_domains_unknown(client, user):
     client.force_login(user)
     study = baker.make(Study, status=Study.FINISHED)
     study.domains.add(baker.make(Domain))
-    assert_subtab_for_study(study, client, 'finished-domains')
+    assert_subtab_for_study(study, client, 'finished-domains-unknown')
+
+
+@freeze_time('2024-01-02')
+def test_finished_domains_future(client, user):
+    client.force_login(user)
+    study = baker.make(
+        Study, status=Study.FINISHED, pseudonyms_delete_date='2024-01-03'
+    )
+    study.domains.add(baker.make(Domain))
+    assert_subtab_for_study(study, client, 'finished-domains-future')
+
+
+@freeze_time('2024-01-02')
+def test_finished_domains_past(client, user):
+    client.force_login(user)
+    study = baker.make(
+        Study, status=Study.FINISHED, pseudonyms_delete_date='2024-01-01'
+    )
+    study.domains.add(baker.make(Domain))
+    assert_subtab_for_study(study, client, 'finished-domains-past')
 
 
 def test_finished_anon(client, user):

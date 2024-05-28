@@ -139,6 +139,10 @@ class Study(TimeStampedModel):
         blank=True,
     )
 
+    pseudonyms_delete_date = DateField(
+        _('Date when pseudonym lists should be deleted'), blank=True, null=True
+    )
+
     members = models.ManyToManyField(User, through='StudyMembership')
     domains = GenericRelation(Domain)
     general_domains = models.ManyToManyField(
@@ -376,6 +380,15 @@ class Study(TimeStampedModel):
             if user.has_perm('recruitment.conduct_study', obj=self):
                 conductors.append(user)
         return conductors
+
+    @cached_property
+    def should_delete_domains(self):
+        today = datetime.date.today()
+        return (
+            self.pseudonyms_delete_date
+            and self.pseudonyms_delete_date < today
+            and self.domains.exists()
+        )
 
     def export(self):
         status_map = {

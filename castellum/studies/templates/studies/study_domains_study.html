@@ -4,7 +4,20 @@
 {% block title %}{% translate "Pseudonym lists" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if study.should_delete_domains %}
+        <div class="alert alert-danger" role="alert">
+            {% translate 'The pseudonym lists for this study should be deleted!' %}
+        </div>
+    {% endif %}
+
     <p>{% translate 'Pseudonyms allow you to store data about subjects without their names and other identifying data. Often it is sufficient to have one pseudonym per subject and study. However, if you need more than that you can create additional pseudonym lists. Note that a pseudonym is only meaningful if you know which list it is coming from.' %}</p>
+
+    <form method="post" class="mb-5">
+        {% csrf_token %}
+        {% bootstrap_field form.pseudonyms_delete_date %}
+        <button class="btn btn-primary">{% translate 'Save' %}</button>
+    </form>
+
     <ul class="p-0">
         {% for domain in study.domains.all %}
             <li class="d-block">
