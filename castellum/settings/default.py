@@ -109,6 +109,12 @@ CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 # a different study recruitment
 CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
+# Studies can filter for recent activity by date. Malicious study
+# coordinators could try to identify a specific subject by filtering on
+# that specific date. As a counter measure, you can set a minimum
+# timespan for recent activity filters.
+CASTELLUM_MINIMUM_ACTIVITY_PERIOD = datetime.timedelta(days=14)
+
 # timespan after which uncontacted subjects with consent will show up in
 # MaintenanceEstrangedSubjectsView
 CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD = relativedelta(months=18)

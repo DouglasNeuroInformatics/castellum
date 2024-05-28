@@ -19,7 +19,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from dateutil.relativedelta import relativedelta
-from django.conf import settings
 from django.contrib import messages
 from django.db import models
 from django.shortcuts import redirect
@@ -38,6 +37,7 @@ from castellum.utils.mail import MailContext
 
 from ..forms import MailSettingsForm
 from ..forms import OtherStudiesForm
+from ..forms import StudyRecruitmentSettingsForm
 from ..mixins import StudyMixin
 from ..models import Study
 
@@ -67,14 +67,7 @@ class StudyRecruitmentSettingsUpdateView(
 ):
     model = Study
     pk_url_kwarg = 'study_pk'
-    fields = [
-        'advanced_filtering',
-        'recruitment_text',
-        'is_exclusive',
-        'complete_matches_only',
-        'recruitment_active_after',
-        'recruitment_active_before',
-    ]
+    form_class = StudyRecruitmentSettingsForm
     permission_required = 'studies.change_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
     tab = 'recruitmentsettings'
@@ -84,11 +77,6 @@ class StudyRecruitmentSettingsUpdateView(
     def base_template(self):
         if self.study.is_filter_trial:
             return 'studies/study_filtertrial_base.html'
-
-    def get_form_class(self):
-        if 'castellum.geofilters' in settings.INSTALLED_APPS:
-            self.fields = [*self.fields, 'geo_filter']
-        return super().get_form_class()
 
     def get_success_url(self):
         return self.request.path

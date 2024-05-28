@@ -18,8 +18,11 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django import forms
 from django.conf import settings
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
 from castellum.castellum_auth.models import User
@@ -132,6 +135,45 @@ class SessionForm(forms.ModelForm):
                 ) from e
 
         return value
+
+
+class StudyRecruitmentSettingsForm(forms.ModelForm):
+    class Meta:
+        model = Study
+        fields = [
+            'advanced_filtering',
+            'recruitment_text',
+            'is_exclusive',
+            'complete_matches_only',
+            'recruitment_active_after',
+            'recruitment_active_before',
+            'geo_filter',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'castellum.geofilters' not in settings.INSTALLED_APPS:
+            self.fields.pop('geo_filter')
+
+    def clean(self):
+        cleaned_data = super().clean()
+        after = cleaned_data['recruitment_active_after']
+        before = cleaned_data['recruitment_active_before']
+
+        if after:
+            today = datetime.date.today()
+            if today < after + settings.CASTELLUM_MINIMUM_ACTIVITY_PERIOD:
+                self.add_error('recruitment_active_after', format_lazy(
+                    _('Must be at least {} days ago'),
+                    settings.CASTELLUM_MINIMUM_ACTIVITY_PERIOD.days,
+                ))
+            elif before and before < after + settings.CASTELLUM_MINIMUM_ACTIVITY_PERIOD:
+                self.add_error('recruitment_active_after', format_lazy(
+                    _('Before and after must be at least {} days apart'),
+                    settings.CASTELLUM_MINIMUM_ACTIVITY_PERIOD.days,
+                ))
+
+        return cleaned_data
 
 
 class OtherStudiesForm(forms.ModelForm):
