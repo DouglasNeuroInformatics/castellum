@@ -37,43 +37,37 @@ test-py38:
   image: buildpack-deps:focal
 
 docker:build:
-  stage: test
+  stage: push
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
-    - /kaniko/executor
-      --context "$CI_PROJECT_DIR"
-      --dockerfile "$CI_PROJECT_DIR/Dockerfile"
-      --destination "$CI_REGISTRY_IMAGE:latest"
-      --no-push
-      --cache
-      --cache-repo "$CI_REGISTRY_IMAGE/cache"
-      --tarPath image.tar
-  artifacts:
-    paths:
-    - image.tar
-    when: on_success
-    expire_in: 1 day
-
-docker:push:
-  stage: push
-  image:
-    name: gcr.io/go-containerregistry/crane:debug
-    entrypoint: [""]
-  before_script:
-    - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
     - >
-      if [ "$CI_COMMIT_REF_NAME" == "$CI_DEFAULT_BRANCH" ]; then
-        crane push image.tar "$CI_REGISTRY_IMAGE:latest"
+      if [ "$CI_COMMIT_REF_NAME" = "$CI_DEFAULT_BRANCH" ]; then
+        /kaniko/executor \
+          --context "$CI_PROJECT_DIR" \
+          --dockerfile "$CI_PROJECT_DIR/Dockerfile" \
+          --destination "$CI_REGISTRY_IMAGE:latest" \
+          --cache \
+          --cache-repo "$CI_REGISTRY_IMAGE/cache"
       fi
     - >
       if [ -n "$CI_COMMIT_TAG" ]; then
-        crane push image.tar "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
-        if ! echo "$CI_COMMIT_TAG" | grep -q "b"; then
-          crane push image.tar "$CI_REGISTRY_IMAGE:stable"
-        fi
+        /kaniko/executor \
+          --context "$CI_PROJECT_DIR" \
+          --dockerfile "$CI_PROJECT_DIR/Dockerfile" \
+          --destination "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG" \
+          --cache \
+          --cache-repo "$CI_REGISTRY_IMAGE/cache"
+      fi
+    - >
+      if [ -n "$CI_COMMIT_TAG" ] && ! echo "$CI_COMMIT_TAG" | grep -q "b"; then
+        /kaniko/executor \
+          --context "$CI_PROJECT_DIR" \
+          --dockerfile "$CI_PROJECT_DIR/Dockerfile" \
+          --destination "$CI_REGISTRY_IMAGE:stable" \
+          --cache \
+          --cache-repo "$CI_REGISTRY_IMAGE/cache"
       fi
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
