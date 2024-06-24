@@ -12,21 +12,25 @@ services:
   db_default:
     image: postgres
     restart: unless-stopped
+    security_opt: [no-new-privileges:true]
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
   db_contacts:
     image: postgis/postgis
     restart: unless-stopped
+    security_opt: [no-new-privileges:true]
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
   db_scheduler:
     image: postgres
     restart: unless-stopped
+    security_opt: [no-new-privileges:true]
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
   ldap:
     image: osixia/openldap
     restart: unless-stopped
+    security_opt: [no-new-privileges:true]
     command: [--copy-service]
     environment:
       LDAP_PORT: 3389
@@ -35,6 +39,7 @@ services:
   nominatim:
     image: mediagis/nominatim:3.4
     restart: unless-stopped
+    security_opt: [no-new-privileges:true]
     volumes:
       - ./nominatim:/data
       - ./nominatim/postgresdata:/var/lib/postgresql/11/main
@@ -43,6 +48,7 @@ services:
   scheduler:
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum_scheduler:latest
     restart: unless-stopped
+    security_opt: [no-new-privileges:true]
     ports:
       - "8001:8000"
     volumes:
@@ -56,6 +62,7 @@ services:
     ## use the local copy
     # build: ../../
     restart: unless-stopped
+    security_opt: [no-new-privileges:true]
     environment:
       CASTELLUM_SCHEDULER_URL:
     ports:
@@ -70,6 +77,7 @@ services:
   cron:
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
     restart: unless-stopped
+    security_opt: [no-new-privileges:true]
     command: crond -f -L /app/log/cron.log
     volumes:
       - ./settings.py:/app/django_settings.py:ro
