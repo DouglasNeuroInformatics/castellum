@@ -1,8 +1,10 @@
 import datetime
 
 import pytest
+from django.core import mail
 from django.utils.formats import date_format
 
+from castellum.utils.mail import MailContext
 from castellum.utils.mail import render_body_with_fallback
 
 
@@ -26,3 +28,10 @@ def test_render_body_with_fallback():
         '\n'
         'EN Jan. 1, 2000'
     )
+
+
+def test_mail_body(mailoutbox):
+    with MailContext() as ctx:
+        ctx.send_mail('subject', 'body', ['test@example.com'])
+
+    assert mail.outbox[0].extra_headers.get('Auto-Submitted') == 'auto-generated'
