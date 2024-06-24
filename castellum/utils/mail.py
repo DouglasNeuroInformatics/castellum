@@ -91,6 +91,7 @@ class MailContext:
             connection=self.connection,
             **kwargs,
         )
+        msg.extra_headers.setdefault('Auto-Submitted', 'auto-generated')
         return msg.send(fail_silently=True)
 
     def send_separate_mails(self, subject, body, recipients, **kwargs):
