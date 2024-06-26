@@ -694,7 +694,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
 
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     model = Participation
-    permission_required = ['studies.access_study', 'subjects.delete_subject']
+    permission_required = ['subjects.delete_subject']
     tab = 'delete'
 
     def get_object(self):
