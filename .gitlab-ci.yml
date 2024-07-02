@@ -79,7 +79,7 @@ deploy:
     entrypoint: [""]
   stage: deploy
   before_script:
-    - kubectl config set-cluster default --server=https://prod.rancher.gwdg.de/k8s/clusters/c-69w57
+    - kubectl config set-cluster default --server=https://mbbf-extern.api.rancher.gwdg.de
     - kubectl config set-credentials default --token="$K8S_TOKEN"
     - kubectl config set-context default --cluster=default --user=default --namespace=castellum
     - kubectl config use-context default
