@@ -384,7 +384,7 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         )
         audit(
             gettext_noop('study deleted'),
-            self.response.user.username,
+            self.request.user.username,
             study_pk=self.study.pk,
         )
         messages.success(self.request, _('Study has been deleted.'))
