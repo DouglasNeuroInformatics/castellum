@@ -123,12 +123,9 @@ def send_appointment_reminders(base_url):
 class Command(BaseCommand):
     help = 'Remind subjects of due appointments.'
 
-    def add_arguments(self, parser):
-        parser.add_argument('base_url')
-
     def handle(self, *args, **options):
         reached_count, not_reached_count = send_appointment_reminders(
-            options['base_url']
+            settings.CASTELLUM_EMAIL_BASE_URL
         )
         if options['verbosity'] > 0:
             self.stdout.write(f'Direct appointment reminders: {reached_count}')

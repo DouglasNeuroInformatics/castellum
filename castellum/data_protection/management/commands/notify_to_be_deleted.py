@@ -65,9 +65,6 @@ def subjects_reset(subjects):
 class Command(BaseCommand):
     help = 'Automatically notify about subjects that should be deleted.'
 
-    def add_arguments(self, parser):
-        parser.add_argument('base_url')
-
     def handle(self, *args, **options):
         if not settings.CASTELLUM_GDPR_NOTIFICATION_TO:
             raise CommandError('CASTELLUM_GDPR_NOTIFICATION_TO is not set')
@@ -78,7 +75,7 @@ class Command(BaseCommand):
             unreachable=False,
         )
 
-        count = subjects_notify(subjects, options['base_url'])
+        count = subjects_notify(subjects, settings.CASTELLUM_EMAIL_BASE_URL)
         if options['verbosity'] > 0:
             self.stdout.write(
                 'notify to be deleted: '

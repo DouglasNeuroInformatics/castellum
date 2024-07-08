@@ -56,6 +56,7 @@ DATABASES = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+CASTELLUM_EMAIL_BASE_URL = 'https://example.com'
 CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = 3
 CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']
 CASTELLUM_REPORT_NOTIFICATION_TO = ['report@example.com']

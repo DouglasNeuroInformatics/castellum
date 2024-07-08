@@ -280,6 +280,9 @@ CASTELLUM_MAIL = {
     },
 }
 
+# Base URL that is used when sending emails from cron jobs, e.g. "https://example.com"
+CASTELLUM_EMAIL_BASE_URL = None
+
 # Secondary language in emails for readers who do not understand the
 # primary language
 CASTELLUM_FALLBACK_LANGUAGE = 'en'

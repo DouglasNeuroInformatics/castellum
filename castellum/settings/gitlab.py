@@ -31,6 +31,8 @@ DATABASES = {
 
 CASTELLUM_API_ENABLED = True
 
+CASTELLUM_EMAIL_BASE_URL = 'https://example.com'
+
 # Setup geofilters
 INSTALLED_APPS.append('django.contrib.gis')
 INSTALLED_APPS.append('castellum.geofilters')
