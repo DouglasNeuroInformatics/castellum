@@ -19,9 +19,11 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+from urllib.parse import urljoin
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.urls import reverse
 
 from castellum.studies.models import Study
 from castellum.utils.mail import MailContext
@@ -41,7 +43,13 @@ class Command(BaseCommand):
                 ctx.send_mail(
                     settings.CASTELLUM_PSEUDONYMS_DELETE_MAIL_SUBJECT.format(study=study),
                     (
-                        lambda: {'study': study},
+                        lambda: {
+                            'study': study,
+                            'study_url': urljoin(
+                                settings.CASTELLUM_EMAIL_BASE_URL,
+                                reverse('studies:domains', args=[study.pk]),
+                            ),
+                        },
                         settings.CASTELLUM_PSEUDONYMS_DELETE_MAIL_BODY,
                         settings.CASTELLUM_PSEUDONYMS_DELETE_MAIL_BODY_EN,
                     ),
