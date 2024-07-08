@@ -13,11 +13,20 @@ EnvironmentFile=/etc/castellum/db_contacts.pw
 EnvironmentFile=/etc/castellum/ldap.pw
 Environment="DJANGO_SETTINGS_MODULE=castellum.settings.customizations"
 WorkingDirectory=/opt/castellum
+StateDirectory=castellum
+LogsDirectory=castellum
 ExecStart=gunicorn \
           --access-logfile - \
           --workers 4 \
           --bind unix:/run/castellum.sock \
           castellum.wsgi:application
+
+DynamicUser=true
+CapabilityBoundingSet=
+SystemCallFilter=@system-service
+RestrictAddressFamilies=AF_UNIX
+RestrictNamespaces=true
+MemoryDenyWriteExecute=true
 
 [Install]
 WantedBy=multi-user.target

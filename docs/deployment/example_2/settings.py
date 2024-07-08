@@ -30,6 +30,7 @@ DATABASES = {
 
 # Use nginx to serve uploaded files
 PROTECTED_MEDIA_SERVER = 'nginx'
+MEDIA_ROOT = '/var/lib/castellum/media'
 
 # Email settings
 DEFAULT_FROM_EMAIL = 'Subject Recruitment at Example <sr@example.com>'
@@ -61,7 +62,7 @@ LOGGING = {
         },
         'monitoring-file': {
             'class': 'logging.FileHandler',
-            'filename': '/var/log/castellum_monitoring.log',
+            'filename': '/var/log/castellum/monitoring.log',
             'formatter': 'verbose',
         },
     },
