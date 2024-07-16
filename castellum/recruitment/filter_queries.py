@@ -35,6 +35,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models.functions import Coalesce
 from django.db.models.functions import Greatest
+from django.utils import timezone
 
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
@@ -181,6 +182,13 @@ def to_be_deleted():
     return models.Q(to_be_deleted__isnull=True)
 
 
+def is_available():
+    return (
+        models.Q(not_available_until=None)
+        | models.Q(not_available_until__lte=timezone.localtime())
+    )
+
+
 def has_consent(
     include_waiting=False,
     exclude_deprecated=False,
@@ -304,6 +312,7 @@ def study_recruitable(study, **kwargs):
     return (
         study_criteria(study, **kwargs)
         & has_consent()
+        & is_available()
         & study_max_privacy_level(study)
         & last_study_participation(
             before=study.recruitment_active_before,
