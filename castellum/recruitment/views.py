@@ -370,7 +370,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     participations.append(Participation(
                         study=self.study,
                         subject=pick,
-                        status=Participation.AWAITING_RESPONSE,
+                        status=Participation.MAIL_SENT,
                         attempts=1,
                     ))
 
