@@ -1566,10 +1566,8 @@ msgid "awaiting response"
 msgstr "auf Antwort wartend"
 
 #: castellum/recruitment/models/participations.py:148
-#, fuzzy
-#| msgid "Recruitment filters set"
 msgid "recruitment mail sent"
-msgstr "Rekrutierungsfilter eingestellt"
+msgstr "Rekrutierungsmail versendet"
 
 #: castellum/recruitment/models/participations.py:150
 msgid "participating (dropped out)"
@@ -1616,7 +1614,7 @@ msgstr ""
 
 #: castellum/recruitment/models/participations.py:177
 msgid "The subject has not yet been contacted."
-msgstr "Die Proband*innen wurde noch nicht kontaktiert."
+msgstr "Die Proband*in wurde noch nicht kontaktiert."
 
 #: castellum/recruitment/models/participations.py:178
 msgid "The last contact attempt has failed."
@@ -1635,19 +1633,13 @@ msgid "The subject has agreed on a date and time for a follow-up."
 msgstr "Es wurde ein Wiedervorlagetermin mit der Proband*in vereinbart."
 
 #: castellum/recruitment/models/participations.py:185
-#, fuzzy
-#| msgid ""
-#| "The subject has been contacted (e.g. by email) but has not yet responded."
 msgid "The subject has been contacted and we are waiting for a response."
 msgstr ""
-"Die Proband*in wurde kontaktiert (z.B. per E-Mail) aber hat noch nicht "
-"geantwortet."
+"Die Proband*in wurde kontaktiert und wir warten auf eine Antwort."
 
 #: castellum/recruitment/models/participations.py:187
-#, fuzzy
-#| msgid "The subject has not yet been contacted."
 msgid "The subject has been contacted by mail."
-msgstr "Die Proband*innen wurde noch nicht kontaktiert."
+msgstr "Die Proband*in wurde per E-Mail kontaktiert."
 
 #: castellum/recruitment/models/participations.py:188
 #: castellum/recruitment/models/participations.py:189
@@ -2241,11 +2233,11 @@ msgstr "Eine Terminplanung mit dieser ID existiert nicht"
 
 #: castellum/studies/forms.py:167
 msgid "Must be at least {} days ago"
-msgstr ""
+msgstr "Muss mindestens {} Tage her sein"
 
 #: castellum/studies/forms.py:172
 msgid "The dates must be at least {} days apart"
-msgstr ""
+msgstr "Die Daten müssen mindestens {} Tage auseinander liegen"
 
 #: castellum/studies/forms.py:227
 #, python-brace-format
@@ -2363,10 +2355,8 @@ msgstr ""
 "bezogene Voraussetzungen auf."
 
 #: castellum/studies/models.py:143
-#, fuzzy
-#| msgid "All pseudonym lists have been deleted."
 msgid "Date when pseudonym lists should be deleted"
-msgstr "Alle Pseudonym-Listen wurden gelöscht"
+msgstr "Datum, an dem die Pseudonym-Listen gelöscht werden sollen"
 
 #: castellum/studies/models.py:150
 #: castellum/studies/templates/studies/study_domains_general.html:4
@@ -2470,14 +2460,12 @@ msgstr ""
 "gelöscht wurden."
 
 #: castellum/studies/models.py:222
-#, fuzzy
-#| msgid "Last contact attempt"
 msgid "Last activity after"
-msgstr "Letzter Kontaktversuch"
+msgstr "Letzter Aktivität nach"
 
 #: castellum/studies/models.py:225
 msgid "Last activity before"
-msgstr ""
+msgstr "Letzter Aktivität vor"
 
 #: castellum/studies/models.py:229
 msgid "Is a filter trial"
@@ -2947,10 +2935,8 @@ msgstr ""
 "Risiken für den Datenschutz verbunden."
 
 #: castellum/studies/templates/studies/study_domains_study.html:9
-#, fuzzy
-#| msgid "All pseudonym lists have been deleted."
 msgid "The pseudonym lists for this study should be deleted!"
-msgstr "Alle Pseudonym-Listen wurden gelöscht"
+msgstr "Die Pseudonym-Listen für diese Studie sollten gelöscht werden!"
 
 #: castellum/studies/templates/studies/study_domains_study.html:13
 msgid ""
@@ -3097,6 +3083,9 @@ msgid ""
 "Only subjects who have been added to the database or participated in a study "
 "during this time will be considered for recruitment."
 msgstr ""
+"Nur Proband*innen, die in diesem Zeitraum in die Datenbank aufgenommen "
+"wurden oder an einer Studie teilgenommen haben, werden für die Rekrutierung "
+"berücksichtigt."
 
 #: castellum/studies/templates/studies/study_sessions.html:9
 msgid ""
@@ -3203,22 +3192,16 @@ msgid "Finish the study"
 msgstr "Studie beenden"
 
 #: castellum/studies/views/studies.py:134
-#, fuzzy
-#| msgid "Provide an estimate for the end of sessions"
 msgid "Provide a deletion date for the pseudonym lists"
-msgstr "Eine Schätzung für das Ende der Sitzungen angeben"
+msgstr "Ein Löschdatum für Pseudonym-Listen angeben"
 
 #: castellum/studies/views/studies.py:136
-#, fuzzy
-#| msgid "Delete the pseudonym list"
 msgid "Keep the pseudonym lists"
-msgstr "Pseudonym-Liste löschen"
+msgstr "Pseudonym-Listen aufbewahren"
 
 #: castellum/studies/views/studies.py:137
-#, fuzzy
-#| msgid "Delete the pseudonym list"
 msgid "Delete the pseudonym lists"
-msgstr "Pseudonym-Liste löschen"
+msgstr "Pseudonym-Listen löschen"
 
 #: castellum/studies/views/studies.py:138
 msgid "Delete the study from Castellum"
@@ -3253,32 +3236,25 @@ msgstr ""
 "können, die kontaktiert wurden aber nicht an der Studie teilgenommen haben."
 
 #: castellum/studies/views/studies.py:157
-#, fuzzy
-#| msgid ""
-#| "These studies have started, but the end of sessions has not been set:"
 msgid ""
 "These studies have finished, but a date for the deletion of pseudonym lists "
 "has not been set:"
 msgstr ""
-"Diese Studien wurden gestartet, aber das Ende der Sitzungen wurde nicht "
-"gesetzt:"
+"Diese Studien wurden beendet, aber das Löschdatum für die Pseudonym-Listen "
+"wurde nicht gesetzt:"
 
 #: castellum/studies/views/studies.py:161
-#, fuzzy
-#| msgid "These studies have started, and the sessions are still ongoing:"
 msgid "These studies have finished, but the pseudonym lists are still needed:"
-msgstr "Diese Studien wurden gestartet und die Sitzungen laufen noch:"
+msgstr "Diese Studien wurden beendet, aber die Pseudonym-Listen werden noch "
+"benötigt:"
 
 #: castellum/studies/views/studies.py:164
-#, fuzzy
-#| msgid ""
-#| "These studies have started, but the end of sessions has not been set:"
 msgid ""
 "These studies have finished, but the pseudonym lists have not yet been "
 "deleted."
 msgstr ""
-"Diese Studien wurden gestartet, aber das Ende der Sitzungen wurde nicht "
-"gesetzt:"
+"Diese Studien wurden beendet, aber die Pseudonym-Listen wurde noch nicht "
+"gelöscht:"
 
 #: castellum/studies/views/studies.py:168
 msgid ""
@@ -4604,65 +4580,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "recently active"
-#~ msgstr "kürzlich aktiv"
-
-#~ msgid ""
-#~ "Add only subjects who have recently participated in studies and thus are "
-#~ "likely to participate spontaneously"
-#~ msgstr ""
-#~ "Nur solche Proband*innen hinzufügen, die kürzlich in Studien teilgenommen "
-#~ "haben und somit mit einer gewissen Wahrscheinlichkeit spontan teilnehmen "
-#~ "werden"
-
-#~ msgid "Add recently active"
-#~ msgstr "Kürzlich Aktive hinzufügen"
-
-#~ msgid "Recently active"
-#~ msgstr "Kürzlich aktiv"
-
-#~ msgid "urgent recruitment"
-#~ msgstr "Dringende Rekrutierung"
-
-#~ msgid ""
-#~ "These studies have finished, but the pseudonym lists have not yet been "
-#~ "deleted. The date when pseudonym lists must be deleted is usually defined "
-#~ "in the study consent."
-#~ msgstr ""
-#~ "Diese Studien wurden beendet, aber die Pseudonym-Listen sind noch nicht "
-#~ "gelöscht worden. Das Datum, an dem Pseudonym-Listen gelöscht werden "
-#~ "müssen, ist üblicherweise in der Studieneinwilligung definiert."
-
-#~ msgid "Domain key"
-#~ msgstr "Domänen-Schlüssel"
-
-#~ msgid "Domain name"
-#~ msgstr "Domänen-Name"
-
-#~ msgid "No domains"
-#~ msgstr "Keine Domänen"
-
-#~ msgid "Domain"
-#~ msgstr "Domäne"
-
-#~ msgid "General pseudonym domains"
-#~ msgstr "Allgemeine Pseudonym-Domänen"
-
-#~ msgid "Study domains"
-#~ msgstr "Studien-Domänen"
-
-#~ msgid "Pseudonym domains"
-#~ msgstr "Pseudonym-Domänen"
-
-#~ msgid "Add domain"
-#~ msgstr "Domäne hinzufügen"
-
-#, python-format
-#~ msgid "This subject has given consent for study \"%(study)s\""
-#~ msgstr ""
-#~ "Diese Proband*in hat ihre Einwilligung für die Studie \"%(study)s\" "
-#~ "gegeben"
-
-#~ msgid "Change study consent"
-#~ msgstr "Studieneinwilligung ändern"
