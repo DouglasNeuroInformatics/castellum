@@ -169,7 +169,7 @@ class StudyRecruitmentSettingsForm(forms.ModelForm):
                 ))
             elif before and before < after + settings.CASTELLUM_MINIMUM_ACTIVITY_PERIOD:
                 self.add_error('recruitment_active_after', format_lazy(
-                    _('Before and after must be at least {} days apart'),
+                    _('The dates must be at least {} days apart'),
                     settings.CASTELLUM_MINIMUM_ACTIVITY_PERIOD.days,
                 ))
 
