@@ -40,7 +40,7 @@
                     </div>
 
                     <div class="me-2">
-                        {% if participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE %}
+                        {% if participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE or participation.stat == participation.MAIL_SENT %}
                             <div class="d-inline-block my-1 me-2">
                                 {% blocktranslate count attempts=participation.attempts %}{{ attempts }} attempt{% plural %}{{ attempts }} attempts{% endblocktranslate %},
                                 {% translate 'last' %}: <time>{{ participation.updated_at|longdate }}</time>
