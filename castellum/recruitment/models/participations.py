@@ -90,14 +90,6 @@ class ExecutionTag(models.Model):
 class ParticipationQuerySet(models.QuerySet):
     def with_sort_properties(self):
         return self.annotate(
-            status_not_reached=models.Count(
-                'id',
-                filter=models.Q(status__in=[
-                    Participation.NOT_REACHED,
-                    Participation.AWAITING_RESPONSE,
-                ]),
-                distinct=True,
-            ),
             followup_urgent=models.Count(
                 'id', filter=models.Q(followup_date__lte=datetime.date.today())
             ),
@@ -136,11 +128,14 @@ class Participation(models.Model):
     PARTICIPATING_DROPPED_OUT = 7
     EXCLUDED_BY_CLEANUP = 8
     COMPLETED = 9
+    MAIL_SENT = 10
+
     RECRUITMENT_SET = [
         NOT_CONTACTED,
         NOT_REACHED,
         FOLLOWUP_APPOINTED,
         AWAITING_RESPONSE,
+        MAIL_SENT,
     ]
     INVITED_SET = [PARTICIPATING, PARTICIPATING_DROPPED_OUT, COMPLETED]
     EXCLUDED_SET = [EXCLUDED, EXCLUDED_DROPPED_OUT, EXCLUDED_BY_CLEANUP]
@@ -150,6 +145,7 @@ class Participation(models.Model):
         (NOT_REACHED, _('not reached')),
         (FOLLOWUP_APPOINTED, _('follow-up scheduled')),
         (AWAITING_RESPONSE, _('awaiting response')),
+        (MAIL_SENT, _('recruitment mail sent')),
         (PARTICIPATING, _('participating')),
         (PARTICIPATING_DROPPED_OUT, _('participating (dropped out)')),
         (EXCLUDED, _('excluded')),
@@ -186,9 +182,9 @@ class Participation(models.Model):
                 'The subject has agreed on a date and time for a follow-up.'
             ),
             AWAITING_RESPONSE: _(
-                'The subject has been contacted (e.g. by email) but has not yet '
-                'responded.'
+                'The subject has been contacted and we are waiting for a response.'
             ),
+            MAIL_SENT: _('The subject has been contacted by mail.'),
             EXCLUDED_DROPPED_OUT: _('The subject did not complete the study.'),
             PARTICIPATING_DROPPED_OUT: _('The subject did not complete the study.'),
             EXCLUDED_BY_CLEANUP: _(
@@ -292,7 +288,7 @@ class Participation(models.Model):
             )
 
     def save(self, *args, **kwargs):
-        if self.status in [self.NOT_REACHED, self.AWAITING_RESPONSE]:
+        if self.status in [self.NOT_REACHED, self.AWAITING_RESPONSE, self.MAIL_SENT]:
             if self.status == self._old_status:
                 self.attempts += 1
             else:

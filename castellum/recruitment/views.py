@@ -97,7 +97,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         elif self.sort == 'privacy-level':
             order_by = ['subject__privacy_level', '-updated_at']
         elif self.sort == 'last_contact_attempt':
-            order_by = ['-status_not_reached', '-updated_at']
+            order_by = ['-updated_at']
         elif self.sort == 'statistics':
             desc1 = get_attribute_by_statistics_rank('primary')
             desc2 = get_attribute_by_statistics_rank('secondary')
@@ -244,12 +244,9 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         context['excluded_count'] = (
             queryset.filter(status__in=Participation.EXCLUDED_SET).count()
         )
-        context['open_count'] = queryset.filter(status__in=[
-            Participation.NOT_CONTACTED,
-            Participation.NOT_REACHED,
-            Participation.FOLLOWUP_APPOINTED,
-            Participation.AWAITING_RESPONSE,
-        ]).count()
+        context['open_count'] = (
+            queryset.filter(status__in=Participation.RECRUITMENT_SET).count()
+        )
 
         context['session_count'] = self.study.studysession_set.count()
 
@@ -373,7 +370,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     participations.append(Participation(
                         study=self.study,
                         subject=pick,
-                        status=Participation.AWAITING_RESPONSE,
+                        status=Participation.MAIL_SENT,
                         attempts=1,
                     ))
 

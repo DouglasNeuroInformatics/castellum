@@ -198,6 +198,7 @@ class ContactForm(forms.ModelForm):
                 if choice in [
                     Participation.NOT_REACHED,
                     Participation.AWAITING_RESPONSE,
+                    Participation.MAIL_SENT,
                     Participation.FOLLOWUP_APPOINTED,
                     Participation.PARTICIPATING,
                     Participation.EXCLUDED,
