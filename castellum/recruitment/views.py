@@ -244,12 +244,9 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         context['excluded_count'] = (
             queryset.filter(status__in=Participation.EXCLUDED_SET).count()
         )
-        context['open_count'] = queryset.filter(status__in=[
-            Participation.NOT_CONTACTED,
-            Participation.NOT_REACHED,
-            Participation.FOLLOWUP_APPOINTED,
-            Participation.AWAITING_RESPONSE,
-        ]).count()
+        context['open_count'] = (
+            queryset.filter(status__in=Participation.RECRUITMENT_SET).count()
+        )
 
         context['session_count'] = self.study.studysession_set.count()
 
