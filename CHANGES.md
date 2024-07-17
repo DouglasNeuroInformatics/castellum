@@ -1,3 +1,46 @@
+# 0.98.0 (2024-07-17)
+
+## breaking changes
+
+-   The "Add recently active" feature in recruitment has been removed in
+    favor of a more flexible activity filter (see below).
+-   Commands no longer take a base URL as parameter. Instead, the
+    setting `CASTELLUM_EMAIL_BASE_URL` must be set.
+-   The setting `CASTELLUM_APPOINTMENT_REMINDER_PERIOD` has been
+    removed. It had already been deprecated in 0.92.0.
+
+## bug fixes
+
+-   Deleting a study no longer gives a 500 response.
+
+## new features
+
+-   Study managers can now provide the date when pseudonym lists should be
+    deleted.
+-   The recruitment status "awaiting response" gained a sibling:
+    "recruitment mail sent" allows to express that a mail was sent, but
+    recruiters might want to make a follow-up phone call. This new status is
+    now also used when adding subjects using mail recruitment.
+-   Study managers can now filter by last activity, e.g. finding
+    subjects that have (or have not) been active in the past year. The
+    setting `CASTELLUM_MINIMUM_ACTIVITY_PERIOD` can be used to define a
+    minimum granularity to keep k-anonymity. The definition of "activity"
+    has been changed to only consider actual participation in a study.
+
+## other changes
+
+-   The studies API has been extended to also contain the URL and phone
+    number of studies.
+-   Subjects who are currently not available ("Not available until")
+    will no longer be proposed for recruitment.
+-   For consistency, the `access_study` permission is no longer required
+    to delete a participation.
+-   The participation status no longer has an impact on the "last
+    contact attempt" sort order in recruitment.
+-   Mails now contain the `Auto-Submitted: auto-generated` header
+-   The internal settings files have been restructured.
+
+
 # 0.97.2 (2024-05-13)
 
 -   fix german translation
@@ -62,6 +105,7 @@
 -   Include assigned conductors in appointment feeds
 -   Display whether a subject is blocked in the data protection
     dashboard.
+-   Store create and update dates for studies.
 
 
 # 0.96.2 (2024-04-15)
