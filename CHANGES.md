@@ -8,6 +8,8 @@
     setting `CASTELLUM_EMAIL_BASE_URL` must be set.
 -   The setting `CASTELLUM_APPOINTMENT_REMINDER_PERIOD` has been
     removed. It had already been deprecated in 0.92.0.
+-   The command `notify_pseudonyms_delete` should be added to the
+    crontab.
 
 ## bug fixes
 
@@ -16,7 +18,8 @@
 ## new features
 
 -   Study managers can now provide the date when pseudonym lists should be
-    deleted.
+    deleted. The new command `notify_pseudonyms_delete` as well as a set
+    of setting `CASTELLUM_PSEUDONYMS_DELETE_MAIL_*` has been added.
 -   The recruitment status "awaiting response" gained a sibling:
     "recruitment mail sent" allows to express that a mail was sent, but
     recruiters might want to make a follow-up phone call. This new status is
@@ -39,6 +42,9 @@
     contact attempt" sort order in recruitment.
 -   Mails now contain the `Auto-Submitted: auto-generated` header
 -   The internal settings files have been restructured.
+-   The default value for `CASTELLUM_SESSIONS_END_MAIL_BODY` has been
+    updated to match `CASTELLUM_PSEUDONYMS_DELETE_MAIL_BODY`. It can now
+    also contain a `{study_url}` placeholder.
 
 
 # 0.97.2 (2024-05-13)
