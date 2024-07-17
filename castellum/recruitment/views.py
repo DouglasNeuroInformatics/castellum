@@ -97,7 +97,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         elif self.sort == 'privacy-level':
             order_by = ['subject__privacy_level', '-updated_at']
         elif self.sort == 'last_contact_attempt':
-            order_by = ['-status_not_reached', '-updated_at']
+            order_by = ['-updated_at']
         elif self.sort == 'statistics':
             desc1 = get_attribute_by_statistics_rank('primary')
             desc2 = get_attribute_by_statistics_rank('secondary')

@@ -90,14 +90,6 @@ class ExecutionTag(models.Model):
 class ParticipationQuerySet(models.QuerySet):
     def with_sort_properties(self):
         return self.annotate(
-            status_not_reached=models.Count(
-                'id',
-                filter=models.Q(status__in=[
-                    Participation.NOT_REACHED,
-                    Participation.AWAITING_RESPONSE,
-                ]),
-                distinct=True,
-            ),
             followup_urgent=models.Count(
                 'id', filter=models.Q(followup_date__lte=datetime.date.today())
             ),
