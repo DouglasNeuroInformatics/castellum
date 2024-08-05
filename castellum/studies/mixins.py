@@ -43,7 +43,7 @@ class StudyMixin:
     """
 
     study_status = []
-    is_filter_trial = None
+    is_filter_trial = False
     require_member = True
 
     def get_study(self):

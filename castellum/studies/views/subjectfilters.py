@@ -47,6 +47,7 @@ from ..mixins import StudyMixin
 class FilterMixin(StudyMixin, PermissionRequiredMixin):
     tab = 'recruitmentsettings'
     subtab = 'filters'
+    is_filter_trial = None
 
     @property
     def base_template(self):

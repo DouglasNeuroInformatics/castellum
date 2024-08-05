@@ -367,7 +367,6 @@ class StudyUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
 class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = Study
     permission_required = 'studies.delete_study'
-    is_filter_trial = False
     tab = 'detail'
 
     def get_success_url(self):
@@ -426,7 +425,6 @@ class StudyStartRecruitmentView(View):
 
 class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
-    is_filter_trial = False
 
     def post(self, request, study_pk):
         if self.study.status == self.study.FINISHED:
@@ -451,7 +449,6 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
 
 class StudyDomainsMixin(StudyMixin, PermissionRequiredMixin):
     permission_required = 'studies.change_study'
-    is_filter_trial = False
     tab = 'domains'
 
     def get_context_data(self, **kwargs):
