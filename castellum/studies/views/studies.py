@@ -542,7 +542,9 @@ class StudyAuditTrailView(PermissionRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        self.study = get_object_or_404(Study, pk=self.kwargs.get('study_pk'))
+        self.study = get_object_or_404(
+            Study, is_filter_trial=False, pk=self.kwargs.get('study_pk')
+        )
         audit(
             gettext_noop('audit trail accessed'),
             self.request.user.username,
