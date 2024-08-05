@@ -43,7 +43,8 @@ class StudyMixin:
     """
 
     study_status = []
-    is_filter_trial = None
+    is_filter_trial = False
+    require_member = True
 
     def get_study(self):
         qs = Study.objects.all()
@@ -62,8 +63,9 @@ class StudyMixin:
         return self.study
 
     def get_permission_required(self):
-        permission_required = {'studies.access_study'}
-        permission_required.update(super().get_permission_required())
+        permission_required = set(super().get_permission_required())
+        if self.require_member:
+            permission_required.add('studies.access_study')
         return permission_required
 
     def get_context_data(self, **kwargs):

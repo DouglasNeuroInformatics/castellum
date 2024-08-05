@@ -49,7 +49,6 @@ class StudyMembersView(
     pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
-    is_filter_trial = False
     tab = 'members'
 
     def dispatch(self, *args, **kwargs):
@@ -137,7 +136,6 @@ class StudyMembersView(
 class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = StudyMembership
     permission_required = 'studies.change_study'
-    is_filter_trial = False
     tab = 'members'
 
     def get_object(self):
