@@ -207,15 +207,11 @@ class StudyMaintenanceView(LoginRequiredMixin, ListView):
         return context
 
 
-class StudyDetailView(PermissionRequiredMixin, DetailView):
+class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'studies.view_study'
+    require_member = False
     tab = 'detail'
-
-    def get_permission_object(self):
-        # In other views this is handled by StudyMixin. We cannot use
-        # that here because this view should not require access_study.
-        return self.get_object()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -523,7 +519,7 @@ class StudyDomainDeleteView(StudyDomainsMixin, DeleteView):
         return reverse('studies:domains', args=[self.study.pk])
 
 
-class StudyConsentView(PermissionRequiredMixin, UpdateView):
+class StudyConsentView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     permission_required = 'studies.change_study'
     template_name = 'studies/study_consent.html'
