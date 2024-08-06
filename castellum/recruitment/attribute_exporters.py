@@ -66,20 +66,19 @@ class JSONExporter:
 
         for attribute in attributes:
             key = attribute.label
-            choices = list(attribute.attributechoice_set.all())
 
             data = {k: v for k, v in [
                 ('type', self.TYPES.get(attribute.field_type, 'string')),
                 ('format', self.FORMATS.get(attribute.field_type)),
-                ('enum', [c.label for c in choices]),
                 ('description', attribute.help_text),
             ] if v}
 
-            if data['type'] == 'array':
-                enum = data.pop('enum')
+            if attribute.field_type in ['ChoiceField', 'OrderedChoiceField']:
+                data['enum'] = [c.label for c in attribute.attributechoice_set.all()]
+            elif attribute.field_type == 'MultipleChoiceField':
                 data['items'] = {
                     'type': 'string',
-                    'enum': enum,
+                    'enum': [c.label for c in attribute.attributechoice_set.all()],
                 }
 
             schema['properties'][key] = data
@@ -94,20 +93,14 @@ class JSONExporter:
 
         for attribute in attributes:
             key = attribute.label
-            choices = list(attribute.attributechoice_set.all())
-
             value = subject.attributes.get(attribute.json_key)
             if value in ['', None, ANSWER_DECLINED]:
                 data[key] = None
-            elif choices:
-                if isinstance(value, list):
-                    data[key] = []
-                    for v in value:
-                        choice = attribute.attributechoice_set.get(pk=v)
-                        data[key].append(choice.label)
-                else:
-                    choice = attribute.attributechoice_set.get(pk=value)
-                    data[key] = choice.label
+            elif attribute.field_type in ['ChoiceField', 'OrderedChoiceField']:
+                data[key] = attribute.attributechoice_set.get(pk=value).label
+            elif attribute.field_type == 'MultipleChoiceField':
+                choices = {c.id: c.label for c in attribute.attributechoice_set.all()}
+                data[key] = [choices[v] for v in value]
             else:
                 data[key] = value
 
@@ -143,13 +136,17 @@ class BIDSExporter:
 
         for attribute in attributes:
             key = attribute.label.lower().replace(' ', '_')
-            choices = list(attribute.attributechoice_set.all())
 
             schema[key] = {k: v for k, v in [
-                ('Levels', {c.id: c.label for c in choices}),
                 ('Description', attribute.help_text),
                 ('TermURL', attribute.url),
             ] if v}
+
+            if attribute.field_type in [
+                'ChoiceField', 'MultipleChoiceField', 'OrderedChoiceField'
+            ]:
+                choices = {c.id: c.label for c in attribute.attributechoice_set.all()}
+                schema[key]['Levels'] = choices
 
         schema['privacy_level'] = {
             'Levels': {
