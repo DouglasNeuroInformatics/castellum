@@ -411,6 +411,15 @@ class Study(TimeStampedModel):
             and self.has_domains
         )
 
+    @property
+    def action_required(self):
+        return (
+            self.should_enter_sessions_end
+            or self.should_finish_study
+            or self.should_enter_pseudonyms_delete_date
+            or self.should_delete_domains
+        )
+
     def get_status_badge(self):
         s = self.get_status_display()
         if self.status == Study.FINISHED and self.has_domains:
