@@ -352,8 +352,12 @@ not integrate) new data from Castellum's official repository using
 cd /opt/castellum
 git fetch
 git checkout x.y.z
+
+pip3 install -e .
+npm install
+.misc/extract_fullcalendar_css.sh
+
 export DJANGO_SETTINGS_MODULE="castellum.settings.development"
-cd castellum/
 python3 -m django migrateall
 python3 -m django collectstatic
 ```
