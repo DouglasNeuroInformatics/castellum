@@ -31,8 +31,8 @@ from ..models import Study
 class APIStudyListView(APIAuthMixin, View):
     def get_queryset(self):
         qs = Study.objects.all()
-        if self.request.GET.get('status') == 'edit':
-            qs = qs.filter(status=Study.EDIT)
+        if self.request.GET.get('status') in ['edit', 'draft']:
+            qs = qs.filter(status=Study.DRAFT)
         elif self.request.GET.get('status') == 'execution':
             qs = qs.filter(status=Study.EXECUTION)
         elif self.request.GET.get('status') == 'finished':

@@ -96,7 +96,7 @@ def test_404_if_draft_study(client, user):
     client.force_login(user)
     study = baker.make(
         Study,
-        status=Study.EDIT,
+        status=Study.DRAFT,
         mail_subject='some subject',
         mail_body='some body',
     )

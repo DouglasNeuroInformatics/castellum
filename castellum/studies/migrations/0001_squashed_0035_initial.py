@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
                 (
                     'previous_status',
                     models.SmallIntegerField(
-                        choices=[(0, 'Edit'), (1, 'Execution'), (2, 'Finished')],
+                        choices=[(0, 'Draft'), (1, 'Execution'), (2, 'Finished')],
                         default=0,
                         verbose_name='Previous status',
                     ),
@@ -107,7 +107,7 @@ class Migration(migrations.Migration):
                 (
                     'status',
                     models.SmallIntegerField(
-                        choices=[(0, 'Edit'), (1, 'Execution'), (2, 'Finished')],
+                        choices=[(0, 'Draft'), (1, 'Execution'), (2, 'Finished')],
                         default=0,
                         verbose_name='Status',
                     ),

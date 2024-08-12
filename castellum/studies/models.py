@@ -82,12 +82,12 @@ class StudyType(TranslatableModel):
 
 
 class Study(TimeStampedModel):
-    EDIT = 0
+    DRAFT = 0
     EXECUTION = 1
     FINISHED = 2
 
     STATUS = [
-        (EDIT, _('Edit')),
+        (DRAFT, _('Draft')),
         (EXECUTION, _('Execution')),
         (FINISHED, _('Finished')),
     ]
@@ -110,9 +110,9 @@ class Study(TimeStampedModel):
     url = models.URLField(_('URL'), blank=True)
 
     previous_status = models.SmallIntegerField(
-        _('Previous status'), choices=STATUS, default=EDIT
+        _('Previous status'), choices=STATUS, default=DRAFT
     )
-    status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)
+    status = models.SmallIntegerField(_('Status'), choices=STATUS, default=DRAFT)
     min_subject_count = models.PositiveIntegerField(
         _('Required number of subjects'), default=0
     )
@@ -399,7 +399,7 @@ class Study(TimeStampedModel):
 
     def export(self):
         status_map = {
-            Study.EDIT: 'not_started',
+            Study.DRAFT: 'not_started',
             Study.EXECUTION: 'started',
             Study.FINISHED: 'finished',
         }
