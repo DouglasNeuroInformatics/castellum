@@ -1,14 +1,19 @@
-{% load i18n auth %}
+{% load i18n auth utils %}
 
 <div>
     <div class="h4 d-inline-block my-1 me-2">{{ study.name }}</div>
-    <div class="d-inline-block my-1 me-2">{{ study.contact_person }}</div>
-    {% for tag in study.tags.all %}
-        <span class="badge text-bg-info">{{ tag }}</span>
-    {% endfor %}
-    {% if study.status == study.FINISHED %}
-        <span class="badge text-bg-secondary" title="{% translate 'Recruitment and execution for this study have ended.' %}">{% translate 'Finished' %}</span>
-    {% endif %}
+    <div class="d-inline-block my-1 me-2">
+        {% for tag in study.tags.all %}
+            <span class="badge text-bg-info">{{ tag }}</span>
+        {% endfor %}
+        {% if study.status == study.FINISHED %}
+            <span class="badge text-bg-secondary" title="{% translate 'Recruitment and execution for this study have ended.' %}">{% translate 'Finished' %}</span>
+        {% endif %}
+    </div>
+    <div class="my-1">
+        {% icon 'user' label=study|verbose_name:'contact_person' %}
+        {{ study.contact_person }}
+    </div>
 </div>
 <div class="table-list-item-actions">
     {% has_perm 'studies.access_study' user study as can_access %}

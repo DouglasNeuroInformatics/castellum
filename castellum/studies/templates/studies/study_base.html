@@ -23,7 +23,10 @@
             {% endif %}
 
             <p class="text-body-secondary mt-2">
-                <span class="d-block">{% translate 'Contact' %}: {{ study.contact_person }}</span>
+                <span class="d-inline-block mx-2">
+                    {% icon 'user' label=study|verbose_name:'contact_person' %}
+                    {{ study.contact_person }}
+                </span>
                 <span class="d-inline-block mx-2">
                     {% icon 'envelope' label=study|verbose_name:'email' %}
                     <a href="mailto:{{ study.email }}" class="text-reset">{{ study.email }}</a>
