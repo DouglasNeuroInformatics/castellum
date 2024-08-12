@@ -66,7 +66,7 @@ monitoring_logger = logging.getLogger('monitoring.studies')
 
 class StudyIndexView(LoginRequiredMixin, ListView):
     model = Study
-    ordering = 'name'
+    ordering = ['-created_at', 'name']
     paginate_by = 15
 
     def get(self, request, *args, **kwargs):
