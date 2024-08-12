@@ -25,8 +25,6 @@
                 </form>
             {% endif %}
 
-            <a href="{% url 'studies:maintenance' 'edit' %}" class="btn btn-secondary mb-1">{% translate 'Overview by status' %}</a>
-
             {% if form.cleaned_data.member == "all" %}
                 <a class="btn btn-secondary mb-1" href="?member=my">{% translate "My studies" %}</a>
             {% else %}
