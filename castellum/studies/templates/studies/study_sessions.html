@@ -4,6 +4,16 @@
 {% block title %}{% translate "Sessions" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if study.should_enter_sessions_end %}
+        <div class="alert alert-danger" role="alert">
+            {% translate 'Please enter the expected start end end of test sessions!' %}
+        </div>
+    {% elif study.should_finish_study %}
+        <div class="alert alert-danger" role="alert">
+            {% translate 'Test sessions for this study have concluded. Please finish the study or adapt the end date!' %}
+        </div>
+    {% endif %}
+
     {% if study.status != study.DRAFT %}
         <p class="alert alert-warning">
             {% translate 'Please note that study recruitment has already been started. Therefore, editing session settings may lead to unexpected results for existing appointments.' %}
