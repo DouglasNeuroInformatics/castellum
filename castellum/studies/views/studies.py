@@ -81,6 +81,15 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         else:
             return super().get(request, *args, **kwargs)
 
+    def q_action_required(self):
+        today = datetime.date.today()
+        return (
+            (models.Q(sessions_end=None) & ~models.Q(status=Study.FINISHED))
+            | (models.Q(sessions_end__lt=today) & ~models.Q(status=Study.FINISHED))
+            | (models.Q(pseudonyms_delete_date=None) & ~models.Q(domains=None))
+            | (models.Q(pseudonyms_delete_date__lt=today) & ~models.Q(domains=None))
+        )
+
     def get_queryset(self):
         qs = super().get_queryset()
         q = self.form.cleaned_data.get('q')
@@ -96,7 +105,11 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         if self.form.cleaned_data['member'] == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
         if self.form.cleaned_data.get('status'):
-            qs = qs.filter(status=self.form.cleaned_data['status'])
+            status = self.form.cleaned_data['status']
+            if status == 'action_required':
+                qs = qs.filter(self.q_action_required())
+            else:
+                qs = qs.filter(status=status)
         if self.form.cleaned_data.get('start'):
             qs = qs.filter(sessions_end__gte=self.form.cleaned_data['start'].date())
         if self.form.cleaned_data.get('end'):

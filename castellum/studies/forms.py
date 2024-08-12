@@ -87,7 +87,13 @@ class StudyFilterForm(forms.Form):
         ('my', _('Mine')),
         ('all', _('All')),
     ])
-    status = forms.ChoiceField(label=_('Status'), choices=Study.STATUS)
+    status = forms.ChoiceField(
+        label=_('Status'),
+        choices=[
+            *Study.STATUS,
+            ('action_required', _('Action required')),
+        ],
+    )
     start = forms.DateTimeField()
     end = forms.DateTimeField()
 
