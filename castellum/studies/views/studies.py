@@ -75,7 +75,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         self.form.cleaned_data.setdefault('display', 'list')
         self.form.cleaned_data.setdefault('member', 'my')
         self.form.cleaned_data.setdefault('status', [
-            str(Study.DRAFT), str(Study.EXECUTION),
+            str(Study.DRAFT), str(Study.EXECUTION), 'action_required',
         ])
 
         if 'events' in request.GET:
@@ -83,6 +83,15 @@ class StudyIndexView(LoginRequiredMixin, ListView):
             return JsonResponse({'events': events})
         else:
             return super().get(request, *args, **kwargs)
+
+    def q_action_required(self):
+        today = datetime.date.today()
+        return (
+            (models.Q(sessions_end=None) & ~models.Q(status=Study.FINISHED))
+            | (models.Q(sessions_end__lt=today) & ~models.Q(status=Study.FINISHED))
+            | (models.Q(pseudonyms_delete_date=None) & ~models.Q(domains=None))
+            | (models.Q(pseudonyms_delete_date__lt=today) & ~models.Q(domains=None))
+        )
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -102,7 +111,10 @@ class StudyIndexView(LoginRequiredMixin, ListView):
 
         status_q = models.Q()
         for status in self.form.cleaned_data.get('status', []):
-            status_q |= models.Q(status=status)
+            if status == 'action_required':
+                status_q |= self.q_action_required()
+            else:
+                status_q |= models.Q(status=status)
         qs = qs.filter(status_q)
 
         if self.form.cleaned_data.get('type'):
