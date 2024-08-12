@@ -364,13 +364,6 @@ class Study(TimeStampedModel):
             status__in=Participation.INVITED_SET
         ).count()
 
-    @property
-    def is_started(self):
-        if self.status == Study.FINISHED:
-            return self.previous_status == Study.EXECUTION
-        else:
-            return self.status == Study.EXECUTION
-
     # NOTE: this might not be the same as the group of the same name!
     @cached_property
     def recruiters(self):
@@ -389,13 +382,23 @@ class Study(TimeStampedModel):
         return conductors
 
     @cached_property
+    def has_domains(self):
+        return self.domains.exists()
+
+    @property
     def should_delete_domains(self):
         today = datetime.date.today()
         return (
             self.pseudonyms_delete_date
             and self.pseudonyms_delete_date < today
-            and self.domains.exists()
+            and self.has_domains
         )
+
+    def get_status_badge(self):
+        s = self.get_status_display()
+        if self.status == Study.FINISHED and self.has_domains:
+            s += ' ' + _('(with pseudonyms)')
+        return s
 
     def export(self):
         status_map = {
