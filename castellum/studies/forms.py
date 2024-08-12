@@ -88,7 +88,7 @@ class StudyFilterForm(forms.Form):
         ('my', _('Mine')),
         ('all', _('All')),
     ])
-    status = forms.ChoiceField(label=_('Status'), choices=Study.STATUS)
+    status = forms.MultipleChoiceField(label=_('Status'), choices=Study.STATUS)
     type = forms.ModelChoiceField(
         label=_('Type'), queryset=StudyType.objects, empty_label=None
     )

@@ -74,6 +74,9 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         self.form.full_clean()
         self.form.cleaned_data.setdefault('display', 'list')
         self.form.cleaned_data.setdefault('member', 'my')
+        self.form.cleaned_data.setdefault('status', [
+            str(Study.DRAFT), str(Study.EXECUTION),
+        ])
 
         if 'events' in request.GET:
             events = [self.render_event(study) for study in self.get_queryset()]
@@ -83,6 +86,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+
         q = self.form.cleaned_data.get('q')
         if q:
             for part in q.split():
@@ -95,8 +99,12 @@ class StudyIndexView(LoginRequiredMixin, ListView):
                 )
         if self.form.cleaned_data['member'] == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
-        if self.form.cleaned_data.get('status'):
-            qs = qs.filter(status=self.form.cleaned_data['status'])
+
+        status_q = models.Q()
+        for status in self.form.cleaned_data.get('status', []):
+            status_q |= models.Q(status=status)
+        qs = qs.filter(status_q)
+
         if self.form.cleaned_data.get('type'):
             qs = qs.filter(studysession__type=self.form.cleaned_data['type'])
         if self.form.cleaned_data.get('start'):
