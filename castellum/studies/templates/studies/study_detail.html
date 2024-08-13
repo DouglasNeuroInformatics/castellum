@@ -31,6 +31,9 @@
         <dt class="col-sm-6">{% translate 'Deletion date' %}</dt>
         <dd class="col-sm-6">
             {{ object|display:'pseudonyms_delete_date' }}
+            {% if study.should_enter_sessions_end or study.should_finish_study %}
+                {% icon 'exclamation-triangle' label=_('Action required') %}
+            {% endif %}
         </dd>
     </dl>
 
@@ -50,6 +53,9 @@
                 {{ object.sessions_start }} - {% translate 'not defined' %}
             {% else %}
                 &mdash;
+            {% endif %}
+            {% if study.should_enter_pseudonyms_delete_date or study.should_delete_domains %}
+                {% icon 'exclamation-triangle' label=_('Action required') %}
             {% endif %}
         </dd>
     </dl>
