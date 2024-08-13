@@ -46,27 +46,20 @@
     {% else %}
         <div class="row">
             <div class="col-md-3">
-                <form method="get" class="bg-body-tertiary p-3 mb-2" aria-label="{% translate 'Filter' %}">
+                <form method="get" class="mb-3" aria-label="{% translate 'Search' %}">
                     <div class="input-group mb-4">
                         <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
                         <button class="btn btn-primary">{% translate 'Go' %}</button>
                     </div>
-                    <hr>
-                    <fieldset>
-                        <legend class="h6">{{ form.status.label }}</legend>
-                        <label class="form-check">
-                            <input type="radio" name="status" value="" class="form-check-input" {% if not form.status.value %}checked{% endif %}>
-                            <span class="form-check-label">{% translate 'All' %}</span>
-                        </label>
-                        {% for value, label in form.status.field.choices %}
-                            <label class="form-check">
-                                <input type="radio" name="status" value="{{ value }}" class="form-check-input" {% if form.cleaned_data.status == value|lower %}checked{% endif %}>
-                                <span class="form-check-label">{{ label }}</span>
-                            </label>
-                        {% endfor %}
-                    </fieldset>
-                    <button class="btn btn-primary mt-3">{% translate 'Apply' %}</button>
+                    {{ form.member.as_hidden }}
                 </form>
+
+                <nav class="list-group mb-3" aria-label="{{ form.status.label }}">
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.status.value %}active{% endif %}" href="{% url_replace_param status="" %}">{% translate "All" %}</a>
+                    {% for value, label in form.status.field.choices %}
+                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.status == value|lower %}active{% endif %}" href="{% url_replace_param status=value %}">{{ label }}</a>
+                    {% endfor %}
+                </nav>
             </div>
 
             <div class="col-md-9">
