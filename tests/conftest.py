@@ -167,7 +167,7 @@ def study(db):
 
 @pytest.fixture
 def draft_study(db):
-    return baker.make(Study, status=Study.EDIT)
+    return baker.make(Study, status=Study.DRAFT)
 
 
 @pytest.fixture

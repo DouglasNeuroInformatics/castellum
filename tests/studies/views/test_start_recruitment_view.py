@@ -14,7 +14,7 @@ def test_start(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
-    study.status = Study.EDIT
+    study.status = Study.DRAFT
     study.save()
 
     response = client.post(f'/studies/{study.pk}/start/')
@@ -42,4 +42,4 @@ def test_stop(request, client, user_fixture, study):
     assert response.status_code == 302
 
     study.refresh_from_db()
-    assert study.status is Study.EDIT
+    assert study.status is Study.DRAFT

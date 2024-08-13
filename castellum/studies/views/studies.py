@@ -182,7 +182,7 @@ class StudyMaintenanceView(LoginRequiredMixin, ListView):
         qs_domains = qs.filter(status=Study.FINISHED).exclude(domains=None)
         today = datetime.date.today()
         if self.subtab == 'edit':
-            qs = qs.filter(status=Study.EDIT)
+            qs = qs.filter(status=Study.DRAFT)
         elif self.subtab == 'execution-unknown':
             qs = qs.filter(status=Study.EXECUTION, sessions_end=None)
         elif self.subtab == 'execution-future':
@@ -398,7 +398,7 @@ class StudyStartRecruitmentView(View):
             return HttpResponseBadRequest()
 
         if study.status == study.EXECUTION:
-            study.set_status(study.EDIT)
+            study.set_status(study.DRAFT)
             monitoring_logger.info(
                 f'Study {study.name} stopped by {request.user.pk}'
             )

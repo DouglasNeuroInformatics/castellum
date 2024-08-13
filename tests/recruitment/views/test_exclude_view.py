@@ -13,7 +13,7 @@ def test_200(client, member, participation):
 
 
 def test_404_if_draft_study(client, member, participation):
-    participation.study.status = Study.EDIT
+    participation.study.status = Study.DRAFT
     participation.study.save()
 
     client.force_login(member)

@@ -30,7 +30,7 @@ def test_404_if_wrong_study_is_provided(client, member, participation, draft_stu
 
 
 def test_404_if_draft_study(client, member, participation):
-    participation.study.status = Study.EDIT
+    participation.study.status = Study.DRAFT
     participation.study.save()
 
     client.force_login(member)
