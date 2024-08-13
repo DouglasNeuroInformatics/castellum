@@ -110,12 +110,16 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static 'fullcalendar.js' %}"></script>
-    <script src="{% static '@fullcalendar/bootstrap/index.global.min.js' %}"></script>
-    <script src="{% static '@fullcalendar/core/locales/de.global.min.js' %}"></script>
-    <script type="module" src="{% static 'js/calendar.js' %}"></script>
+    {% if form.cleaned_data.display == 'calendar' %}
+        <script src="{% static 'fullcalendar.js' %}"></script>
+        <script src="{% static '@fullcalendar/bootstrap/index.global.min.js' %}"></script>
+        <script src="{% static '@fullcalendar/core/locales/de.global.min.js' %}"></script>
+        <script type="module" src="{% static 'js/calendar.js' %}"></script>
+    {% endif %}
 {% endblock %}
 
 {% block extra_styles %}
-    <link rel="stylesheet" href="{% static 'fullcalendar.css' %}">
+    {% if form.cleaned_data.display == 'calendar' %}
+        <link rel="stylesheet" href="{% static 'fullcalendar.css' %}">
+    {% endif %}
 {% endblock %}
