@@ -54,10 +54,13 @@
                     {{ form.member.as_hidden }}
                 </form>
 
+                {% has_perm 'studies.view_study' user as can_view_study %}
                 <nav class="list-group mb-3" aria-label="{{ form.status.label }}">
                     <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.status.value %}active{% endif %}" href="{% url_replace_param status="" %}">{% translate "All" %}</a>
                     {% for value, label in form.status.field.choices %}
-                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.status == value|lower %}active{% endif %}" href="{% url_replace_param status=value %}">{{ label }}</a>
+                        {% if value != "active_required" or can_view_study %}
+                            <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.status == value|lower %}active{% endif %}" href="{% url_replace_param status=value %}">{{ label }}</a>
+                        {% endif %}
                     {% endfor %}
                 </nav>
             </div>
