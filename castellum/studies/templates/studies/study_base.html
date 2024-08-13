@@ -124,14 +124,19 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'domains' %}active{% endif %}" href="{% url 'studies:domains' study.pk %}">
-                        {% if study.should_delete_domains %}
+                        {% if not study.pseudonyms_delete_date or study.should_delete_domains %}
                             {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
                         {% translate 'Pseudonym lists' %}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if view.tab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">{% translate 'Sessions' %}</a>
+                    <a class="nav-link {% if view.tab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">
+                        {% if not study.sessions_end or study.should_finish_study %}
+                            {% icon 'exclamation-triangle' label=_('Action required') %}
+                        {% endif %}
+                        {% translate 'Sessions' %}
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% translate 'Recruitment Settings' %}</a>

@@ -381,9 +381,26 @@ class Study(TimeStampedModel):
                 conductors.append(user)
         return conductors
 
+    @property
+    def should_enter_sessions_end(self):
+        return not self.sessions_end and self.status != Study.FINISHED
+
+    @property
+    def should_finish_study(self):
+        today = datetime.date.today()
+        return (
+            self.sessions_end
+            and self.sessions_end < today
+            and self.status != Study.FINISHED
+        )
+
     @cached_property
     def has_domains(self):
         return self.domains.exists()
+
+    @property
+    def should_enter_pseudonyms_delete_date(self):
+        return not self.pseudonyms_delete_date and self.has_domains
 
     @property
     def should_delete_domains(self):
@@ -392,6 +409,15 @@ class Study(TimeStampedModel):
             self.pseudonyms_delete_date
             and self.pseudonyms_delete_date < today
             and self.has_domains
+        )
+
+    @property
+    def action_required(self):
+        return (
+            self.should_enter_sessions_end
+            or self.should_finish_study
+            or self.should_enter_pseudonyms_delete_date
+            or self.should_delete_domains
         )
 
     def get_status_badge(self):
