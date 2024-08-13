@@ -6,6 +6,34 @@
 {% block container_class %}container-lg{% endblock %}
 
 {% block content %}
+    <div class="mb-4 d-flex justify-content-between flex-column flex-md-row">
+        <h1 class="mb-2">
+            {% if form.cleaned_data.member == "all" %}
+                {% translate "All studies" %}
+            {% else %}
+                {% translate "My studies" %}
+            {% endif %}
+        </h1>
+
+        <div class="d-print-none text-end mb-2">
+            {% has_perm 'studies.change_study' user as can_add_study %}
+            {% if can_add_study %}
+                <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
+                <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary mb-1">{% translate 'Try filters' %}</button>
+                </form>
+            {% endif %}
+
+            <a href="{% url 'studies:maintenance' 'edit' %}" class="btn btn-secondary mb-1">{% translate 'Overview by status' %}</a>
+
+            {% if form.cleaned_data.member == "all" %}
+                <a class="btn btn-secondary mb-1" href="?member=my">{% translate "My studies" %}</a>
+            {% else %}
+                <a class="btn btn-secondary mb-1" href="?member=all">{% translate "All studies" %}</a>
+            {% endif %}
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-3">
             <form method="get" class="bg-body-tertiary p-3 mb-2" aria-label="{% translate 'Filter' %}">
@@ -13,16 +41,6 @@
                     <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
                     <button class="btn btn-primary">{% translate 'Go' %}</button>
                 </div>
-                <hr>
-                <fieldset>
-                    <legend class="h6">{% translate 'Membership' %}</legend>
-                    {% for value, label in form.member.field.choices %}
-                        <label class="form-check">
-                            <input type="radio" name="member" value="{{ value }}" class="form-check-input" {% if form.cleaned_data.member == value|lower %}checked{% endif %}>
-                            <span class="form-check-label">{{ label }}</span>
-                        </label>
-                    {% endfor %}
-                </fieldset>
                 <hr>
                 <fieldset>
                     <legend class="h6">{{ form.status.label }}</legend>
@@ -56,17 +74,6 @@
         </div>
 
         <div class="col-md-9">
-            <div class="d-print-none text-end mb-3">
-                {% has_perm 'studies.change_study' user as can_add_study %}
-                {% if can_add_study %}
-                    <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
-                    <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-secondary mb-1">{% translate 'Try filters' %}</button>
-                    </form>
-                {% endif %}
-                <a href="{% url 'studies:maintenance' 'edit' %}" class="btn btn-secondary mb-1">{% translate 'Overview by status' %}</a>
-            </div>
 
             <ul class="nav nav-tabs mb-2">
                 {% for value, label in form.display.field.choices %}
