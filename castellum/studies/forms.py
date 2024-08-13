@@ -33,7 +33,6 @@ from .models import Study
 from .models import StudyMembership
 from .models import StudySession
 from .models import StudyTag
-from .models import StudyType
 
 
 class StudyForm(forms.ModelForm):
@@ -89,9 +88,6 @@ class StudyFilterForm(forms.Form):
         ('all', _('All')),
     ])
     status = forms.ChoiceField(label=_('Status'), choices=Study.STATUS)
-    type = forms.ModelChoiceField(
-        label=_('Type'), queryset=StudyType.objects, empty_label=None
-    )
     start = forms.DateTimeField()
     end = forms.DateTimeField()
 

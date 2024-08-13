@@ -65,20 +65,6 @@
                             </label>
                         {% endfor %}
                     </fieldset>
-                    <hr>
-                    <fieldset>
-                        <legend class="h6">{{ form.type.label }}</legend>
-                        <label class="form-check">
-                            <input type="radio" name="type" value="{{ value }}" class="form-check-input" {% if not form.type.value %}checked{% endif %}>
-                            <span class="form-check-label">{% translate 'All' %}</span>
-                        </label>
-                        {% for value, label in form.type.field.choices %}
-                            <label class="form-check">
-                                <input type="radio" name="type" value="{{ value }}" class="form-check-input" {% if form.type.value == value|lower %}checked{% endif %}>
-                                <span class="form-check-label">{{ label }}</span>
-                            </label>
-                        {% endfor %}
-                    </fieldset>
                     <button class="btn btn-primary mt-3">{% translate 'Apply' %}</button>
                 </form>
             </div>
