@@ -124,7 +124,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'domains' %}active{% endif %}" href="{% url 'studies:domains' study.pk %}">
-                        {% if not study.pseudonyms_delete_date or study.should_delete_domains %}
+                        {% if study.should_enter_pseudonyms_delete_date or study.should_delete_domains %}
                             {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
                         {% translate 'Pseudonym lists' %}
@@ -132,7 +132,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">
-                        {% if not study.sessions_end or study.should_finish_study %}
+                        {% if study.should_enter_sessions_end or study.should_finish_study %}
                             {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
                         {% translate 'Sessions' %}
