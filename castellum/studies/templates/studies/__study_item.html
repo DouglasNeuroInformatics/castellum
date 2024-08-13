@@ -9,9 +9,6 @@
         {% if study.status != study.EXECUTION %}
             <span class="badge text-bg-secondary">{{ study.get_status_badge }}</span>
         {% endif %}
-        {% if study.action_required %}
-            <span class="badge text-bg-warning">{% translate "Action required" %}</span>
-        {% endif %}
     </div>
     <div class="my-1">
         {% icon 'user' label=study|verbose_name:'contact_person' %}
@@ -34,6 +31,11 @@
 
     {% has_perm 'studies.view_study' user study as can_view_study %}
     {% if can_view_study %}
-        <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' study.pk %}">{% translate 'Details' %}</a>
+        <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' study.pk %}">
+            {% translate 'Details' %}
+            {% if study.action_required %}
+                {% icon 'exclamation-triangle' label=_('Action required') %}
+            {% endif %}
+        </a>
     {% endif %}
 </div>
