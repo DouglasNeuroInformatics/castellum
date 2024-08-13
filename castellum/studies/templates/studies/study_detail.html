@@ -23,6 +23,17 @@
         <dd class="col-sm-6">{% if object.consent %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
     </dl>
 
+    <h3 class="h5">{% translate "Pseudonym lists" %}</h3>
+    <dl class="row">
+        <dt class="col-sm-6">{% translate 'Count' %}</dt>
+        <dd class="col-sm-6">{{ object.domains.count }}</dd>
+
+        <dt class="col-sm-6">{% translate 'Deletion date' %}</dt>
+        <dd class="col-sm-6">
+            {{ object|display:'pseudonyms_delete_date' }}
+        </dd>
+    </dl>
+
     <h3 class="h5">{% translate "Sessions" %}</h3>
     <dl class="row">
         <dt class="col-sm-6">{% translate 'Count' %}</dt>
