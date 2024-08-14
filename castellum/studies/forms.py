@@ -91,7 +91,7 @@ class StudyFilterForm(forms.Form):
         label=_('Status'),
         choices=[
             *Study.STATUS,
-            ('action_required', _('Action required')),
+            ('action-required', _('Action required')),
         ],
     )
     start = forms.DateTimeField()

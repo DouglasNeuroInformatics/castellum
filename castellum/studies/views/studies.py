@@ -105,7 +105,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
             qs = qs.filter(studymembership__user=self.request.user)
         if self.form.cleaned_data.get('status'):
             status = self.form.cleaned_data['status']
-            if status == 'action_required':
+            if status == 'action-required':
                 qs = qs.filter(self.q_action_required())
             else:
                 qs = qs.filter(status=status)
