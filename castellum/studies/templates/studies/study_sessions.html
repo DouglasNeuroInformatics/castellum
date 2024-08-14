@@ -6,7 +6,7 @@
 {% block content %}
     {% if study.should_enter_sessions_end %}
         <div class="alert alert-danger" role="alert">
-            {% translate 'Please enter the expected start end end of test sessions!' %}
+            {% translate 'Please enter the expected start and end of test sessions!' %}
         </div>
     {% elif study.should_finish_study %}
         <div class="alert alert-danger" role="alert">
