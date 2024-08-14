@@ -16,6 +16,28 @@ def test_list_membership_my(client, user):
     assert response.content.count(b'class="table-list-item"') == 1
 
 
+def test_list_membership_other(client, user, receptionist):
+    client.force_login(receptionist)
+
+    studies = baker.make(Study, _quantity=3)
+    studies[0].members.add(user)
+
+    response = client.get(f'/studies/?member={user.username}')
+    assert response.status_code == 200
+    assert response.content.count(b'class="table-list-item"') == 0
+
+
+def test_list_membership_other_superuser(client, user, admin):
+    client.force_login(admin)
+
+    studies = baker.make(Study, _quantity=3)
+    studies[0].members.add(user)
+
+    response = client.get(f'/studies/?member={user.username}')
+    assert response.status_code == 200
+    assert response.content.count(b'class="table-list-item"') == 1
+
+
 def test_list_membership_all(client, user):
     client.force_login(user)
 

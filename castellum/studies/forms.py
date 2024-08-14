@@ -83,10 +83,7 @@ class StudyFilterForm(forms.Form):
         ('list', _('List')),
         ('calendar', _('Calendar')),
     ])
-    member = forms.ChoiceField(label=_('Membership'), choices=[
-        ('my', _('Mine')),
-        ('all', _('All')),
-    ])
+    member = forms.CharField(label=_('Membership'))
     status = forms.ChoiceField(
         label=_('Status'),
         choices=[

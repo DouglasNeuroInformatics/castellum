@@ -101,8 +101,12 @@ class StudyIndexView(LoginRequiredMixin, ListView):
                     | models.Q(description__icontains=part)
                     | models.Q(studytag__name__icontains=part)
                 )
-        if self.form.cleaned_data['member'] == 'my':
-            qs = qs.filter(studymembership__user=self.request.user)
+        if self.form.cleaned_data.get('member') != 'all':
+            member = self.form.cleaned_data['member']
+            if member != 'my' and self.request.user.is_superuser:
+                qs = qs.filter(studymembership__user__username=member)
+            else:
+                qs = qs.filter(studymembership__user=self.request.user)
         if self.form.cleaned_data.get('status'):
             status = self.form.cleaned_data['status']
             if status == 'action-required':
