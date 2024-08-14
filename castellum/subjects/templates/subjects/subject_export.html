@@ -82,9 +82,6 @@
             <dt class="col-sm-6" data-fieldname="contacts.Contact.date_of_birth">{{ subject.contact|verbose_name:'date_of_birth' }}</dt>
             <dd class="col-sm-6">{{ subject.contact|display:'date_of_birth' }}</dd>
 
-            <dt class="col-sm-6" data-fieldname="contacts.Contact.gender">{{ subject.contact|verbose_name:'gender' }}</dt>
-            <dd class="col-sm-6">{{ subject.contact|display:'gender' }}</dd>
-
             <dt class="col-sm-6" data-fieldname="contacts.Contact.address">{{ subject.contact|verbose_name:'address' }}</dt>
             <dd class="col-sm-6">{% if subject.contact.address %}{{ subject.contact|display:'address' }}{% endif %}</dd>
 

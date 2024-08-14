@@ -836,8 +836,6 @@ class MaintenanceContactView(BaseMaintenanceView):
             )\
             .filter(
                 models.Q(
-                    gender='',
-                ) | models.Q(
                     legal_representative_count=0,
                     address=None,
                     email='',

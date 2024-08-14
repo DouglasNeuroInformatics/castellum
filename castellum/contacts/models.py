@@ -130,17 +130,10 @@ class ContactQuerySet(models.QuerySet):
 
 
 class BaseContact(TimeStampedModel):
-    GENDER = [
-        ('f', _('female')),
-        ('m', _('male')),
-        ('*', _('diverse')),
-    ]
-
     first_name = models.CharField(_('First name'), max_length=64)
     last_name = models.CharField(_('Last name'), max_length=64)
     title = models.CharField(_('Title'), max_length=64, blank=True)
 
-    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, blank=True)
     date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
     phone_number = PhoneNumberField(_('Phone number'), max_length=32, blank=True)
 
@@ -208,7 +201,6 @@ class Contact(BaseContact):
         return (
             (self.is_legal_representative or self.date_of_birth)
             and self.is_reachable
-            and self.gender
         )
 
     @property
@@ -346,7 +338,6 @@ class ContactCreationRequest(BaseContact):
             first_name=self.first_name,
             last_name=self.last_name,
             title=self.title,
-            gender=self.gender,
             date_of_birth=self.date_of_birth,
             phone_number=self.phone_number,
             email=self.email,
