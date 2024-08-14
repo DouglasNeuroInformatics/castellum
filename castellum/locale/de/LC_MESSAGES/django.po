@@ -491,7 +491,7 @@ msgid "City"
 msgstr "Stadt"
 
 #: castellum/contacts/models.py:297
-msgid "Zip code"
+msgid "Postal code"
 msgstr "Postleitzahl"
 
 #: castellum/contacts/models.py:298

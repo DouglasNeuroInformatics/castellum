@@ -227,7 +227,7 @@ class Migration(migrations.Migration):
                 ),
                 ('country', models.CharField(max_length=64, verbose_name='Country')),
                 ('city', models.CharField(max_length=128, verbose_name='City')),
-                ('zip_code', models.CharField(max_length=5, verbose_name='Zip code')),
+                ('zip_code', models.CharField(max_length=5, verbose_name='Postal code')),
                 ('street', models.CharField(max_length=128, verbose_name='Street')),
                 (
                     'house_number',
