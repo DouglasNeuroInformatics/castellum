@@ -294,7 +294,7 @@ class Address(models.Model):
     contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
     country = models.CharField(_('Country'), max_length=64)
     city = models.CharField(_('City'), max_length=128)
-    zip_code = models.CharField(_('Postal code'), max_length=5)
+    zip_code = models.CharField(_('Postal code'), max_length=12)
     street = models.CharField(_('Street'), max_length=128)
     house_number = models.CharField(_('House number'), max_length=16)
     additional_information = models.CharField(
