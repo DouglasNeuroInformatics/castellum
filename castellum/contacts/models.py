@@ -298,7 +298,7 @@ class Address(models.Model):
     street = models.CharField(_('Street'), max_length=128)
     house_number = models.CharField(_('House number'), max_length=16)
     additional_information = models.CharField(
-        _('Additional information'), max_length=32, blank=True
+        _('Additional address information'), max_length=32, blank=True
     )
 
     def lines(self):
