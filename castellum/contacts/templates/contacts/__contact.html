@@ -12,6 +12,9 @@
 
     <dt class="col-sm-6">{% translate "Reliability" %}</dt>
     <dd class="col-sm-6">{{ subject|display:'reliability' }}</dd>
+
+    <dt class="col-sm-6">{{ subject.contact|verbose_name:'gender' }}</dt>
+    <dd class="col-sm-6">{{ subject.contact|display:'gender' }}</dd>
 </dl>
 
 {% include 'contacts/__contact_detail.html' with contact=subject.contact legal_representatives=subject.contact.get_legal_representatives_tree %}
