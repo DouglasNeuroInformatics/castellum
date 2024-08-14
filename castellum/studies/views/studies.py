@@ -27,7 +27,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.forms import modelform_factory
-from django.http import Http404
 from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -66,7 +65,7 @@ monitoring_logger = logging.getLogger('monitoring.studies')
 
 class StudyIndexView(LoginRequiredMixin, ListView):
     model = Study
-    ordering = 'name'
+    ordering = ['-created_at', 'name']
     paginate_by = 15
 
     def get(self, request, *args, **kwargs):
@@ -80,6 +79,15 @@ class StudyIndexView(LoginRequiredMixin, ListView):
             return JsonResponse({'events': events})
         else:
             return super().get(request, *args, **kwargs)
+
+    def q_action_required(self):
+        today = datetime.date.today()
+        return (
+            (models.Q(sessions_end=None) & ~models.Q(status=Study.FINISHED))
+            | (models.Q(sessions_end__lt=today) & ~models.Q(status=Study.FINISHED))
+            | (models.Q(pseudonyms_delete_date=None) & ~models.Q(domains=None))
+            | (models.Q(pseudonyms_delete_date__lt=today) & ~models.Q(domains=None))
+        )
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -96,9 +104,11 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         if self.form.cleaned_data['member'] == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
         if self.form.cleaned_data.get('status'):
-            qs = qs.filter(status=self.form.cleaned_data['status'])
-        if self.form.cleaned_data.get('type'):
-            qs = qs.filter(studysession__type=self.form.cleaned_data['type'])
+            status = self.form.cleaned_data['status']
+            if status == 'action_required':
+                qs = qs.filter(self.q_action_required())
+            else:
+                qs = qs.filter(status=status)
         if self.form.cleaned_data.get('start'):
             qs = qs.filter(sessions_end__gte=self.form.cleaned_data['start'].date())
         if self.form.cleaned_data.get('end'):
@@ -118,92 +128,6 @@ class StudyIndexView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form
-        return context
-
-
-class StudyMaintenanceView(LoginRequiredMixin, ListView):
-    model = Study
-    paginate_by = 15
-    template_name = 'studies/study_maintenance_list.html'
-    NEXT_STEPS = {
-        'edit': _('Start the study'),
-        'execution-unknown': _('Provide an estimate for the end of sessions'),
-        'execution-future': _('Conduct the study'),
-        'execution-past': _('Finish the study'),
-        'finished-domains-unknown': _(
-            'Provide a deletion date for the pseudonym lists'
-        ),
-        'finished-domains-future': _('Keep the pseudonym lists'),
-        'finished-domains-past': _('Delete the pseudonym lists'),
-        'finished-anon': _('Delete the study from Castellum'),
-    }
-    EXPLANATIONS = {
-        'edit': _('These studies have not yet started:'),
-        'execution-unknown': _(
-            'These studies have started, but the end of sessions has not been set:'
-        ),
-        'execution-future': _(
-            'These studies have started, and the sessions are still ongoing:'
-        ),
-        'execution-past': _(
-            'These studies have started, but the sessions have already concluded. '
-            'It can be helpful to keep these studies open for some more time in '
-            'order to access pseudonyms. '
-            'However, they should be finished as soon as this is no longer required '
-            'so that all data of subjects who were contacted but did not participate '
-            'can be deleted.'
-        ),
-        'finished-domains-unknown': _(
-            'These studies have finished, but a date for the deletion of pseudonym '
-            'lists has not been set:'
-        ),
-        'finished-domains-future': _(
-            'These studies have finished, but the pseudonym lists are still needed:'
-        ),
-        'finished-domains-past': _(
-            'These studies have finished, but the pseudonym lists have '
-            'not yet been deleted.'
-        ),
-        'finished-anon': _(
-            'These studies have finished, and the pseudonym lists have '
-            'already been deleted. This means that Castellum no longer knows '
-            'which data belongs to a subject, it just knows that the subject '
-            'has participated in the study. The only reason to keep these '
-            'studies is to exclude or include them in future recruitments.'
-        ),
-    }
-
-    @property
-    def subtab(self):
-        return self.kwargs['subtab']
-
-    def get_queryset(self):
-        qs = super().get_queryset().filter(is_filter_trial=False)
-        qs_domains = qs.filter(status=Study.FINISHED).exclude(domains=None)
-        today = datetime.date.today()
-        if self.subtab == 'edit':
-            qs = qs.filter(status=Study.DRAFT)
-        elif self.subtab == 'execution-unknown':
-            qs = qs.filter(status=Study.EXECUTION, sessions_end=None)
-        elif self.subtab == 'execution-future':
-            qs = qs.filter(status=Study.EXECUTION, sessions_end__gte=today)
-        elif self.subtab == 'execution-past':
-            qs = qs.filter(status=Study.EXECUTION, sessions_end__lt=today)
-        elif self.subtab == 'finished-domains-unknown':
-            qs = qs_domains.filter(pseudonyms_delete_date=None)
-        elif self.subtab == 'finished-domains-future':
-            qs = qs_domains.filter(pseudonyms_delete_date__gte=today)
-        elif self.subtab == 'finished-domains-past':
-            qs = qs_domains.filter(pseudonyms_delete_date__lt=today)
-        elif self.subtab == 'finished-anon':
-            qs = qs.filter(status=Study.FINISHED).filter(domains=None)
-        else:
-            raise Http404
-        return qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['explanation'] = self.EXPLANATIONS[self.subtab]
         return context
 
 
