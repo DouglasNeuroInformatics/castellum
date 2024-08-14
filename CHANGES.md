@@ -1,3 +1,11 @@
+# 0.98.1 (2024-08-14)
+
+-   make clear that "additional information" belongs to address
+-   ignore choices on non-choice attributes in attribute exporter
+-   block access to study audit trail for filter trails
+-   require `access_study` permission for StudyConsentView
+
+
 # 0.98.0 (2024-07-17)
 
 ## breaking changes
