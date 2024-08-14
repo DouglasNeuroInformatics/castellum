@@ -155,11 +155,9 @@ def fake_address(contact):
 
 def fake_contact(subject):
     if fake.random.random() < 0.5:
-        gender = 'f'
         first_name = fake.first_name_female()
         last_name = fake.last_name_female()
     else:
-        gender = 'm'
         first_name = fake.first_name_male()
         last_name = fake.last_name_male()
 
@@ -170,7 +168,6 @@ def fake_contact(subject):
         date_of_birth = fake_date_of_birth()
 
     contact = Contact(
-        gender=gender,
         first_name=first_name,
         first_name_phonetic=phonetic(first_name),
         last_name=last_name,

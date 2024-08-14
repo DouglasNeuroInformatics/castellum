@@ -84,7 +84,6 @@ class ContactForm(forms.ModelForm):
             'first_name',
             'last_name',
             'title',
-            'gender',
             'date_of_birth',
             'email',
             'phone_number',

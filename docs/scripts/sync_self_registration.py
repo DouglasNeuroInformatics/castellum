@@ -25,7 +25,7 @@ from castellum.subjects.models import SubjectCreationRequest
 
 SubjectForm = modelform_factory(SubjectCreationRequest, fields=['delete_url'])
 ContactForm = modelform_factory(ContactCreationRequest, fields=[
-    'first_name', 'last_name', 'title', 'gender', 'date_of_birth', 'email'
+    'first_name', 'last_name', 'title', 'date_of_birth', 'email'
 ])
 
 
