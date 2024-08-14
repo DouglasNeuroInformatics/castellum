@@ -236,7 +236,7 @@ class Migration(migrations.Migration):
                 (
                     'additional_information',
                     models.CharField(
-                        blank=True, max_length=32, verbose_name='Additional information'
+                        blank=True, max_length=32, verbose_name='Additional address information'
                     ),
                 ),
                 (

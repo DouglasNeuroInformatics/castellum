@@ -503,8 +503,8 @@ msgid "House number"
 msgstr "Hausnummer"
 
 #: castellum/contacts/models.py:301
-msgid "Additional information"
-msgstr "Zusätzliche Informationen"
+msgid "Additional address information"
+msgstr "Adresszusatz"
 
 #: castellum/contacts/models.py:323
 #: castellum/contacts/templates/contacts/__contact_detail.html:36
