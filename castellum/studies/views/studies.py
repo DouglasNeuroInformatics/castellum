@@ -207,7 +207,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         return response
 
     def get_success_url(self):
-        return reverse('studies:index')
+        return reverse('studies:detail', args=[self.object.pk])
 
     def post(self, request, *args, **kwargs):
         self.object = None
