@@ -68,15 +68,6 @@
         <dt class="col-sm-6">{% translate 'Potential subjects' %}</dt>
         <dd class="col-sm-6">{{ potential_count }}</dd>
 
-        <dt class="col-sm-6">{% translate 'Studies in which potential subjects have participated' %}</dt>
-        <dd class="col-sm-6">
-            {% for study in related_studies %}
-                {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
-            {% empty %}
-                &mdash;
-            {% endfor %}
-        </dd>
-
         <dt class="col-sm-6">{% translate 'Recruitment text provided' %}</dt>
         <dd class="col-sm-6">{% if object.recruitment_text %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
 
