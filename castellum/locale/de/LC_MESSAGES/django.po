@@ -572,15 +572,11 @@ msgid "Create new subject"
 msgstr "Neue Proband*in anlegen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:18
-#, fuzzy
-#| msgid ""
-#| "Gender and date of birth as well as at least one of email, phone number, "
-#| "address, or legal representative should be provided."
 msgid ""
 "Date of birth as well as at least one of email, phone number, address, or "
 "legal representative should be provided."
 msgstr ""
-"Geschlecht und Geburtsdatum sowie entweder E-Mail, Telefonnummer, Adresse "
+"Geburtsdatum sowie entweder E-Mail, Telefonnummer, Adresse "
 "oder gesetzliche Vertreter*in sollten angegeben werden."
 
 #: castellum/contacts/templates/contacts/contact_form.html:34
@@ -2220,7 +2216,7 @@ msgstr "Export key"
 
 #: castellum/studies/models.py:90
 msgid "Draft"
-msgstr ""
+msgstr "Entwurf"
 
 #: castellum/studies/models.py:91
 #: castellum/studies/templates/studies/__study_item.html:28
@@ -2470,10 +2466,8 @@ msgstr ""
 "Funktion nutzen wollen."
 
 #: castellum/studies/models.py:426
-#, fuzzy
-#| msgid "get pseudonym"
 msgid "(with pseudonyms)"
-msgstr "Pseudonym anzeigen"
+msgstr "(mit Pseudonymen)"
 
 #: castellum/studies/models.py:467
 msgid "name"
@@ -2829,8 +2823,6 @@ msgid "Count"
 msgstr "Anzahl"
 
 #: castellum/studies/templates/studies/study_detail.html:31
-#, fuzzy
-#| msgid "expiration date"
 msgid "Deletion date"
 msgstr "Ablaufdatum"
 
@@ -2888,10 +2880,8 @@ msgstr ""
 "Risiken für den Datenschutz verbunden."
 
 #: castellum/studies/templates/studies/study_domains_study.html:9
-#, fuzzy
-#| msgid "Date when pseudonym lists should be deleted"
 msgid "Please enter the date when pseudonym lists should be deleted!"
-msgstr "Datum, an dem die Pseudonym-Listen gelöscht werden sollen"
+msgstr "Bitte geben Sie das Datum, an dem die Pseudonym-Listen gelöscht werden sollen, ein!"
 
 #: castellum/studies/templates/studies/study_domains_study.html:13
 msgid "The pseudonym lists for this study should be deleted!"
@@ -2973,17 +2963,13 @@ msgstr "Studie importieren"
 
 #: castellum/studies/templates/studies/study_list.html:12
 #: castellum/studies/templates/studies/study_list.html:31
-#, fuzzy
-#| msgid "No studies"
 msgid "All studies"
-msgstr "Keine Studien"
+msgstr "Alle Studien"
 
 #: castellum/studies/templates/studies/study_list.html:14
 #: castellum/studies/templates/studies/study_list.html:29
-#, fuzzy
-#| msgid "No studies"
 msgid "My studies"
-msgstr "Keine Studien"
+msgstr "Meine Studien"
 
 #: castellum/studies/templates/studies/study_list.html:24
 msgid "Try filters"
@@ -2995,10 +2981,8 @@ msgid "Go"
 msgstr "Los"
 
 #: castellum/studies/templates/studies/study_list.html:57
-#, fuzzy
-#| msgid "Status"
 msgid "Any status"
-msgstr "Status"
+msgstr "Beliebiger Status"
 
 #: castellum/studies/templates/studies/study_list.html:75
 msgid "No results found."
@@ -3054,13 +3038,14 @@ msgstr ""
 
 #: castellum/studies/templates/studies/study_sessions.html:9
 msgid "Please enter the expected start and end of test sessions!"
-msgstr ""
+msgstr "Bitte geben Sie voraussichtlichen Beginn und Ende der Testsitzungen an!"
 
 #: castellum/studies/templates/studies/study_sessions.html:13
 msgid ""
 "Test sessions for this study have concluded. Please finish the study or "
 "adapt the end date!"
-msgstr ""
+msgstr "Die Testsitzungen für diese Studie sind abgeschlossen. Bitte "
+"schließen Sie die Studie ab oder passen Sie das Enddatum an!"
 
 #: castellum/studies/templates/studies/study_sessions.html:19
 msgid ""
@@ -4460,119 +4445,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "female"
-#~ msgstr "weiblich"
-
-#~ msgid "male"
-#~ msgstr "männlich"
-
-#~ msgid "diverse"
-#~ msgstr "divers"
-
-#~ msgid "Gender"
-#~ msgstr "Geschlecht"
-
-#~ msgid "Mine"
-#~ msgstr "Meine"
-
-#~ msgid "Recruitment and execution for this study have ended."
-#~ msgstr "Rekrutierung und Ausführung für diese Studie haben geendet."
-
-#~ msgid "Recruitment and execution for this study have started."
-#~ msgstr "Rekrutierung und Ausführung für diese Studie haben begonnen."
-
-#~ msgid "Started"
-#~ msgstr "Gestartet"
-
-#~ msgid "Filter"
-#~ msgstr "Filter"
-
-#~ msgid "Overview by status"
-#~ msgstr "Überblick nach Status"
-
-#~ msgid "Possible next step"
-#~ msgstr "Möglicher nächster Schritt"
-
-#~ msgid "Start the study"
-#~ msgstr "Studie starten"
-
-#~ msgid "Provide an estimate for the end of sessions"
-#~ msgstr "Eine Schätzung für das Ende der Sitzungen angeben"
-
-#~ msgid "Conduct the study"
-#~ msgstr "Studie durchführen"
-
-#~ msgid "Finish the study"
-#~ msgstr "Studie beenden"
-
-#~ msgid "Provide a deletion date for the pseudonym lists"
-#~ msgstr "Ein Löschdatum für Pseudonym-Listen angeben"
-
-#~ msgid "Keep the pseudonym lists"
-#~ msgstr "Pseudonym-Listen aufbewahren"
-
-#~ msgid "Delete the pseudonym lists"
-#~ msgstr "Pseudonym-Listen löschen"
-
-#~ msgid "Delete the study from Castellum"
-#~ msgstr "Studie aus Castellum löschen"
-
-#~ msgid "These studies have not yet started:"
-#~ msgstr "Diese Studien wurden noch nicht gestartet:"
-
-#~ msgid ""
-#~ "These studies have started, but the end of sessions has not been set:"
-#~ msgstr ""
-#~ "Diese Studien wurden gestartet, aber das Ende der Sitzungen wurde nicht "
-#~ "gesetzt:"
-
-#~ msgid "These studies have started, and the sessions are still ongoing:"
-#~ msgstr "Diese Studien wurden gestartet und die Sitzungen laufen noch:"
-
-#~ msgid ""
-#~ "These studies have started, but the sessions have already concluded. It "
-#~ "can be helpful to keep these studies open for some more time in order to "
-#~ "access pseudonyms. However, they should be finished as soon as this is no "
-#~ "longer required so that all data of subjects who were contacted but did "
-#~ "not participate can be deleted."
-#~ msgstr ""
-#~ "Diese Studien wurden gestartet, aber die Sitzungen sind bereits beendet. "
-#~ "Es kann hilfreich sein die Studien noch eine Weile offen zu lassen, um "
-#~ "auf Pseudonyme zuzugreifen. Sie sollten allerdings beendet werden sobald "
-#~ "dies nicht mehr notwendig ist, sodass alle Daten zu Proband*innen "
-#~ "gelöscht werden können, die kontaktiert wurden aber nicht an der Studie "
-#~ "teilgenommen haben."
-
-#~ msgid ""
-#~ "These studies have finished, but a date for the deletion of pseudonym "
-#~ "lists has not been set:"
-#~ msgstr ""
-#~ "Diese Studien wurden beendet, aber das Löschdatum für die Pseudonym-"
-#~ "Listen wurde nicht gesetzt:"
-
-#~ msgid ""
-#~ "These studies have finished, but the pseudonym lists are still needed:"
-#~ msgstr ""
-#~ "Diese Studien wurden beendet, aber die Pseudonym-Listen werden noch "
-#~ "benötigt:"
-
-#~ msgid ""
-#~ "These studies have finished, but the pseudonym lists have not yet been "
-#~ "deleted."
-#~ msgstr ""
-#~ "Diese Studien wurden beendet, aber die Pseudonym-Listen wurde noch nicht "
-#~ "gelöscht:"
-
-#~ msgid ""
-#~ "These studies have finished, and the pseudonym lists have already been "
-#~ "deleted. This means that Castellum no longer knows which data belongs to "
-#~ "a subject, it just knows that the subject has participated in the study. "
-#~ "The only reason to keep these studies is to exclude or include them in "
-#~ "future recruitments."
-#~ msgstr ""
-#~ "Diese Studien wurden beendet und die Pseudonym-Listen sind bereits "
-#~ "gelöscht worden. Das bedeutet, dass Castellum nicht mehr weiß, welche "
-#~ "Daten zu welcher Proband*in gehören. Es weiß nur, dass die Proband*in an "
-#~ "der Studie teilgenommen hat. Der einzige Grund diese Studien zu behalten "
-#~ "ist um sie in zukünftigen Rekrutierungen ein- oder auszuschließen."
