@@ -58,7 +58,6 @@ from ..forms import StudyForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
-from .recruitment import get_related_studies
 
 monitoring_logger = logging.getLogger('monitoring.studies')
 
@@ -147,7 +146,6 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
             filter_queries.study_recruitable(self.object),
             filter_queries.already_in_study(self.object, include_recruitment=False),
         ).count()
-        context['related_studies'] = list(get_related_studies(self.object))
         return context
 
 

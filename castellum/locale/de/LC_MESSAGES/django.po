@@ -2852,8 +2852,8 @@ msgstr "Potentielle Proband*innen"
 
 #: castellum/studies/templates/studies/study_detail.html:71
 #: castellum/studies/templates/studies/study_other_studies.html:22
-msgid "Studies in which potential subjects have participated"
-msgstr "Studien, in denen potentielle Proband*innen teilgenommen haben"
+msgid "Studies in which potential subjects have recently participated"
+msgstr "Studien, in denen potentielle Proband*innen kürzlich teilgenommen haben"
 
 #: castellum/studies/templates/studies/study_detail.html:80
 msgid "Recruitment text provided"
