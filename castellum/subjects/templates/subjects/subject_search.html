@@ -108,8 +108,11 @@
                                             <li class="table-list-item">
                                                 <div>
                                                     <span class="h5 d-inline-block my-1 me-2">{{ participation.study }}</span>
-                                                    <span class="d-inline-block my-1 me-2">{{ participation.study.contact_person }}</span>
                                                     <span class="badge text-bg-secondary my-1" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>
+                                                    <div class="my-1">
+                                                        {% icon 'user' label=participation.study|verbose_name:'contact_person' %}
+                                                        {{ participation.study.contact_person }}
+                                                    </div>
                                                 </div>
                                                 <div class="table-list-item-actions">
                                                     {% if can_recruit %}

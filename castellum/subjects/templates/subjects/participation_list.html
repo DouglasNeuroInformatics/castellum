@@ -1,5 +1,5 @@
 {% extends "subjects/participation_base.html" %}
-{% load i18n auth %}
+{% load i18n auth utils %}
 
 {% block title %}{% translate "Participating" %} &middot; {{ block.super }}{% endblock %}
 
@@ -7,8 +7,13 @@
     <ul class="table-list mb-3">
         {% for participation in object_list %}
             <li class="table-list-item">
-                <div class="h4 d-inline-block my-1 me-2">{{ participation.study }}</div>
-                <span class="d-inline-block my-1 me-2">{{ participation.study.contact_person }}</span>
+                <div>
+                    <div class="h4 d-inline-block my-1 me-2">{{ participation.study.name }}</div>
+                    <div class="my-1">
+                        {% icon 'user' label=participation.study|verbose_name:'contact_person' %}
+                        {{ participation.study.contact_person }}
+                    </div>
+                </div>
             </li>
         {% empty %}
             <li class="alert alert-warning">{% translate 'No participations found' %}</li>
