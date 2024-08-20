@@ -72,14 +72,14 @@ class AttributeQuerySet(TranslatableQuerySet):
 
 class Attribute(TranslatableModel):
     FIELD_TYPE_CHOICES = [
-        ('CharField', _('CharField')),
-        ('ChoiceField', _('ChoiceField')),
-        ('MultipleChoiceField', _('MultipleChoiceField')),
-        ('OrderedChoiceField', _('OrderedChoiceField')),
-        ('IntegerField', _('IntegerField')),
-        ('BooleanField', _('BooleanField')),
-        ('DateField', _('DateField')),
-        ('AgeField', _('AgeField')),
+        ('CharField', 'CharField'),
+        ('ChoiceField', 'ChoiceField'),
+        ('MultipleChoiceField', 'MultipleChoiceField'),
+        ('OrderedChoiceField', 'OrderedChoiceField'),
+        ('IntegerField', 'IntegerField'),
+        ('BooleanField', 'BooleanField'),
+        ('DateField', 'DateField'),
+        ('AgeField', 'AgeField'),
     ]
     STATISTICS_RANK_CHOICES = [
         ('primary', _('primary')),
