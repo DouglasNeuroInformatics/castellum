@@ -151,4 +151,4 @@ def test_cleanup_view_mismatch(client, recruiter, study, attribute):
     participation5.refresh_from_db()
     assert participation5.status == Participation.FOLLOWUP_APPOINTED
     participation6.refresh_from_db()
-    assert participation6.status == Participation.EXCLUDED_BY_CLEANUP
+    assert participation6.status == Participation.NOT_CONTACTED

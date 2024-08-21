@@ -591,7 +591,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
         return {
             'all': qs,
             'mismatch': qs.exclude(subject__in=Subject.objects.filter(
-                filter_queries.study_recruitable(self.study),
+                filter_queries.study_criteria(self.study),
             )),
             'awaiting_response': qs.filter(
                 status=Participation.AWAITING_RESPONSE,
