@@ -67,17 +67,17 @@ class AutoLogoutMiddleware:
         if request.user.is_authenticated and 'events' not in request.GET:
             now = timezone.now()
             login_time = request.user.last_login or now
-            idle_time = now - get_last_active(request)
+            last_active = get_last_active(request)
 
             if (
                 login_time.date() != now.date()
-                or idle_time > settings.CASTELLUM_LOGOUT_TIMEOUT
+                or now > last_active + settings.CASTELLUM_LOGOUT_TIMEOUT
             ):
                 logout(request)
                 messages.add_message(
                     request, messages.ERROR, _('Your session has expired')
                 )
-            elif idle_time > settings.CASTELLUM_LOGOUT_TIMEOUT / 10:
+            elif now > last_active + settings.CASTELLUM_LOGOUT_TIMEOUT / 10:
                 set_last_active(request)
 
         return self.get_response(request)

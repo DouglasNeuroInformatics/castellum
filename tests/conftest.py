@@ -1,6 +1,5 @@
-import datetime
-
 import pytest
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core.management import call_command
@@ -47,7 +46,7 @@ def pytest_collection_modifyitems(items):
 
 
 def create_user(group_name):
-    future = timezone.now() + datetime.timedelta(days=10000)
+    future = timezone.now() + relativedelta(days=10000)
     user = baker.make(User, expiration_date=future, email='test@example.com')
 
     if group_name == 'all':

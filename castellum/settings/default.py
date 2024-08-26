@@ -30,7 +30,7 @@ BOOTSTRAP_THEME_COLORS = None
 # Set to `None` to disable
 CASTELLUM_DOCUMENTATION_LINK = 'https://castellum.mpib.berlin/documentation/en/'
 
-CASTELLUM_LOGOUT_TIMEOUT = datetime.timedelta(seconds=15 * 60)
+CASTELLUM_LOGOUT_TIMEOUT = relativedelta(minutes=15)
 SESSION_COOKIE_AGE = 24 * 60 * 60
 
 CSRF_COOKIE_HTTPONLY = True

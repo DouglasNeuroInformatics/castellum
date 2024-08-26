@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from dateutil.relativedelta import relativedelta
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
@@ -37,7 +38,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('username')
-        default_date = timezone.now() + timezone.timedelta(days=7)
+        default_date = timezone.now() + relativedelta(weeks=1)
         parser.add_argument('date', type=parse_date, default=default_date, nargs='?')
 
     def handle(self, *args, **options):

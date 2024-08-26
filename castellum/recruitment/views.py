@@ -23,6 +23,7 @@ import logging
 import random
 from collections import defaultdict
 
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import messages
 from django.db import models
@@ -388,7 +389,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         # 6 instead of 7 days so that people can send mails e.g. every monday
         result = (
             self.study.mailbatch_set
-            .filter(datetime__gt=timezone.now() - datetime.timedelta(days=6))
+            .filter(datetime__gt=timezone.now() - relativedelta(days=6))
             .aggregate(models.Sum('contacted_size'))
         )
         return result['contacted_size__sum'] or 0
@@ -595,7 +596,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
             )),
             'awaiting_response': qs.filter(
                 status=Participation.AWAITING_RESPONSE,
-                updated_at__lt=timezone.now() - datetime.timedelta(days=10),
+                updated_at__lt=timezone.now() - relativedelta(days=10),
             ),
         }
 
