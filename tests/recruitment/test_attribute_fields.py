@@ -85,9 +85,8 @@ def test_multiple_choice_filter(db):
     baker.make(Subject, attributes={attribute.json_key: [choice1.pk]})
     baker.make(Subject, attributes={attribute.json_key: [choice1.pk, choice2.pk]})
 
-    count = Subject.objects.filter(
-        attribute.field.filter_to_q('contains', choice1.pk)
-    ).count()
+    f = baker.make(SubjectFilter, operator='contains', value=choice1.pk)
+    count = Subject.objects.filter(attribute.field.filter_to_q(f)).count()
     assert count == 2
 
 

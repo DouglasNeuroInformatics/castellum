@@ -60,17 +60,15 @@ class BaseAttributeField:
     def filter_formfield(self, **kwargs):
         return self.formfield(self.filter_form_class, **kwargs)
 
-    def _filter_to_q(self, operator, value):
+    def _filter_to_q(self, operator, value, f):
         field_name = f'attributes__{self.instance.json_key}'
         key = f'{field_name}__{operator}'
         return models.Q(**{key: value})
 
-    def filter_to_q(self, operator, value, include_unknown=True):
+    def filter_to_q(self, f, include_unknown=True):
         field_name = f'attributes__{self.instance.json_key}'
-        inverse = operator.startswith('!')
-        if inverse:
-            operator = operator[1:]
-        q = self._filter_to_q(operator, value)
+        inverse = f.operator.startswith('!')
+        q = self._filter_to_q(f.operator.lstrip('!'), f.value, f)
         q_unknown = (
             models.Q(**{field_name: ''})
             | models.Q(**{field_name: None})
@@ -235,7 +233,7 @@ class OrderedChoiceAttributeField(ChoiceAttributeField):
         ('lte', _('is at most')),
     ]
 
-    def _filter_to_q(self, operator, value):
+    def _filter_to_q(self, operator, value, f):
         if operator in ['gte', 'lte']:
             threshold = self.instance.attributechoice_set.get(pk=value)
             allowed_choices = self.instance.attributechoice_set.filter(**{
@@ -246,7 +244,7 @@ class OrderedChoiceAttributeField(ChoiceAttributeField):
             for choice in allowed_choices:
                 q |= models.Q(**{f'attributes__{self.instance.json_key}': choice.pk})
             return q
-        return super()._filter_to_q(operator, value)
+        return super()._filter_to_q(operator, value, f)
 
 
 class AgeAttributeField(DateAttributeField):
@@ -262,13 +260,13 @@ class AgeAttributeField(DateAttributeField):
         ('gt', _('younger than')),
     ]
 
-    def _filter_to_q(self, operator, value):
+    def _filter_to_q(self, operator, value, f):
         period, scale = value
         try:
             date = datetime.date.today() - relativedelta(**{scale: period})
         except (ValueError, OverflowError):
             date = datetime.date.min
-        return super()._filter_to_q(operator, date)
+        return super()._filter_to_q(operator, date, f)
 
     def get_filter_display(self, operator, value):
         period, scale = value

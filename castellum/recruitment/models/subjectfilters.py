@@ -73,6 +73,4 @@ class SubjectFilter(models.Model):
         return self.attribute.field.get_filter_display(self.operator, self.value)
 
     def to_q(self, include_unknown=True):
-        return self.attribute.field.filter_to_q(
-            self.operator, self.value, include_unknown
-        )
+        return self.attribute.field.filter_to_q(self, include_unknown)
