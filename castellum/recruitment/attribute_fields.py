@@ -262,10 +262,15 @@ class AgeAttributeField(DateAttributeField):
 
     def _filter_to_q(self, operator, value, f):
         period, scale = value
-        try:
-            date = datetime.date.today() - relativedelta(**{scale: period})
-        except (ValueError, OverflowError):
-            date = datetime.date.min
+        delta = relativedelta(**{scale: period})
+
+        if operator == 'lt' and f.study.sessions_end:
+            date = f.study.sessions_end - delta
+        elif operator == 'gt' and f.study.sessions_start:
+            date = f.study.sessions_start - delta
+        else:
+            date = datetime.date.today() - delta
+
         return super()._filter_to_q(operator, date, f)
 
     def get_filter_display(self, operator, value):

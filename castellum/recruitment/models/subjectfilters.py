@@ -20,6 +20,7 @@
 
 from django.db import models
 from django.urls import reverse
+from django.utils.functional import cached_property
 
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
@@ -71,6 +72,10 @@ class SubjectFilter(models.Model):
 
     def __str__(self):
         return self.attribute.field.get_filter_display(self.operator, self.value)
+
+    @cached_property
+    def study(self):
+        return self.group.study
 
     def to_q(self, include_unknown=True):
         return self.attribute.field.filter_to_q(self, include_unknown)
