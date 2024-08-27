@@ -263,13 +263,14 @@ class AgeAttributeField(DateAttributeField):
     def _filter_to_q(self, operator, value, f):
         period, scale = value
         delta = relativedelta(**{scale: period})
+        today = datetime.date.today()
 
         if operator == 'lt' and f.study.sessions_end:
             date = f.study.sessions_end - delta
         elif operator == 'gt' and f.study.sessions_start:
-            date = f.study.sessions_start - delta
+            date = max(f.study.sessions_start, today) - delta
         else:
-            date = datetime.date.today() - delta
+            date = today - delta
 
         return super()._filter_to_q(operator, date, f)
 
