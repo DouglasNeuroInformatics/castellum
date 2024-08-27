@@ -103,7 +103,7 @@ msgstr "Sitzung und Teilnahme gehören nicht zur selben Studie"
 
 #: castellum/appointments/templates/appointments/appointments_form.html:6
 msgid "Appointments only available for participating subjects"
-msgstr "Termine nur für teilnehmende Proband*innen verfügbar"
+msgstr "Termine sing nur für teilnehmende Proband*innen verfügbar"
 
 #: castellum/appointments/templates/appointments/appointments_form.html:35
 msgid "Error while contacting schedule"
