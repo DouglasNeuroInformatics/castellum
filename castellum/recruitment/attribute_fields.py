@@ -111,16 +111,12 @@ class DateAttributeField(BaseAttributeField):
         ('gt', _('after')),
     ]
 
-    def parse_date(self, value):
-        dt = datetime.datetime.strptime(value, '%Y-%m-%d')
-        return dt.date()
-
     def get_display(self, value):
         if not value:
             return super().get_display(None)
         if value == ANSWER_DECLINED:
             return super().get_display(value)
-        return self.parse_date(value)
+        return datetime.date.fromisoformat(value)
 
 
 class NumberAttributeField(BaseAttributeField):
@@ -337,7 +333,7 @@ class AgeAttributeField(DateAttributeField):
         def get_bucket(value):
             if not value or value == ANSWER_DECLINED:
                 return None
-            value = self.parse_date(value)
+            value = datetime.date.fromisoformat(value)
             today = datetime.date.today()
             for period, _label in buckets:
                 if (
