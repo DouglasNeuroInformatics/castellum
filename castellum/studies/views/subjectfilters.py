@@ -56,7 +56,7 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin):
         return None
 
     def get_permission_required(self):
-        permission_required = set(['studies.change_study'])
+        permission_required = {'studies.change_study'}
         permission_required.update(super().get_permission_required())
         return permission_required
 

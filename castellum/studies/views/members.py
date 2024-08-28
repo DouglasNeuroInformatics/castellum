@@ -91,9 +91,7 @@ class StudyMembersView(
         if 'membership' in self.request.POST:
             membership = StudyMembership.objects.get(pk=self.request.POST['membership'])
             old_groups = set(membership.groups.values_list('pk', flat=True))
-            new_groups = set(
-                int(group) for group in self.request.POST.getlist('groups')
-            )
+            new_groups = {int(group) for group in self.request.POST.getlist('groups')}
             if old_groups != new_groups:
                 monitoring_logger.info(
                     f'Membership changed: study {self.study.pk} '
