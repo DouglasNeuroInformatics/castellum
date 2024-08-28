@@ -4,7 +4,6 @@ from model_bakery import baker
 from castellum.studies.models import StudyMembership
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'member',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),

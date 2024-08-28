@@ -8,7 +8,6 @@ from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentDocument
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -23,7 +22,6 @@ def test_detail_200(request, client, user_fixture, subject):
     assert response.status_code == 200
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -81,7 +79,6 @@ def test_data_protection_post_invalid_to_be_deleted_consent(client, user, subjec
     assert msg in response.content
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -132,7 +129,6 @@ def test_additional_info_200(request, client, user_fixture, subject):
     assert response.status_code == 200
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -215,7 +211,6 @@ def test_sync_date_of_birth_no_consent(settings, client, user):
     assert subject.attributes['d3'] == date_of_birth
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -230,7 +225,6 @@ def test_partcipation_list_200(request, client, user_fixture, participation):
     assert response.status_code == 200
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -252,7 +246,6 @@ def test_delete_post(client, user, contact):
     assert not Contact.objects.filter(pk=contact.pk).exists()
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -270,7 +263,6 @@ def test_participation_delete_post(request, client, user_fixture, participation)
     assert response.status_code == 302
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -286,7 +278,6 @@ def test_pseudonyms_200(request, client, user_fixture, subject):
     assert response.status_code == 200
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),

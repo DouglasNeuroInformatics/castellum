@@ -1,9 +1,6 @@
-import pytest
-
 from castellum.recruitment.models import Participation
 
 
-@pytest.mark.smoketest
 def test_200(client, member, participation):
     participation.status = Participation.NOT_CONTACTED
     participation.save()

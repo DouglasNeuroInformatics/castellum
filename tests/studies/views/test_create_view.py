@@ -22,7 +22,6 @@ STUDY_FORM = {
 }
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'study_coordinator',
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),

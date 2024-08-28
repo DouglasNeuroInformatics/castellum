@@ -9,7 +9,6 @@ test_mail = {
 }
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'conductor',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),

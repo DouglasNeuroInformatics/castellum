@@ -7,7 +7,6 @@ from castellum.studies.models import Study
 from castellum.studies.models import StudySession
 
 
-@pytest.mark.smoketest
 def test_200(client, member, participation):
     client.force_login(member)
     url = f'/recruitment/{participation.study.pk}/{participation.pk}/'

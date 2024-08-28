@@ -1,4 +1,3 @@
-import pytest
 from django.core import mail
 from model_bakery import baker
 
@@ -6,7 +5,6 @@ from castellum.recruitment.models import MailBatch
 from castellum.subjects.models import Consent
 
 
-@pytest.mark.smoketest
 def test_mail_remind(client, member, study):
     study.mail_body = 'test'
     study.save()

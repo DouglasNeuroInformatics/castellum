@@ -1,11 +1,9 @@
-import pytest
 from model_bakery import baker
 
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.models import Domain
 
 
-@pytest.mark.smoketest
 def test_api_attributes_view(client, user, subject, attribute):
     domain = baker.make(Domain)
     domain.exportable_attributes.add(attribute)
