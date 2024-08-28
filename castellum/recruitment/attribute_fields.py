@@ -254,6 +254,7 @@ class AgeAttributeField(DateAttributeField):
         'years': _('years'),
         'months': _('months'),
         'days': _('days'),
+        'date': _('date of birth'),
     }
 
     filter_form_class = AgeField
@@ -264,10 +265,13 @@ class AgeAttributeField(DateAttributeField):
 
     def _filter_to_q(self, operator, value):
         period, scale = value
-        try:
-            date = datetime.date.today() - relativedelta(**{scale: period})
-        except (ValueError, OverflowError):
-            date = datetime.date.min
+        if scale == 'date':
+            date = datetime.date.fromisoformat(period)
+        else:
+            try:
+                date = datetime.date.today() - relativedelta(**{scale: period})
+            except (ValueError, OverflowError):
+                date = datetime.date.min
         return super()._filter_to_q(operator, date)
 
     def get_filter_display(self, operator, value):

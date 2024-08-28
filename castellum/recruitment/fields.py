@@ -19,16 +19,18 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 
 def _get_age_fields():
     return [
-        forms.IntegerField(error_messages={}, min_value=0, max_value=1000),
+        forms.CharField(),
         forms.ChoiceField(choices=[
             ('years', _('years')),
             ('months', _('months')),
             ('days', _('days')),
+            ('date', _('date of birth')),
         ]),
     ]
 
@@ -55,3 +57,17 @@ class AgeField(forms.MultiValueField):
 
     def compress(self, value):
         return tuple(value)
+
+    def clean(self, value):
+        period, scale = super().clean(value)
+        if scale == 'date':
+            field = forms.DateField()
+            try:
+                field.clean(period)
+            except ValidationError as e:
+                raise ValidationError(f'{e.message} (YYYY-MM-DD)') from e
+            return period, scale
+        else:
+            field = forms.IntegerField(min_value=0, max_value=1000)
+            i = field.clean(period)
+            return i, scale
