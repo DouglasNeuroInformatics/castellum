@@ -32,7 +32,9 @@ def test_get_no_legal_basis_study_consent_none(subject):
 def test_get_no_legal_basis_study_consent_ignored(subject):
     baker.make(Consent, subject=subject)
     study = baker.make(Study, status=Study.FINISHED)
-    baker.make(Participation, subject=subject, study=study)
+    baker.make(
+        Participation, subject=subject, study=study, status=Participation.PARTICIPATING
+    )
     assert helpers.get_no_legal_basis().count() == 1
 
 
@@ -40,14 +42,36 @@ def test_get_no_legal_basis_study_consent_pseudonym(subject):
     baker.make(Consent, subject=subject)
     study = baker.make(Study, status=Study.FINISHED)
     baker.make(Domain, context=study)
-    baker.make(Participation, subject=subject, study=study)
+    baker.make(
+        Participation, subject=subject, study=study, status=Participation.PARTICIPATING
+    )
     assert helpers.get_no_legal_basis().count() == 0
+
+
+def test_get_no_legal_basis_study_consent_status_recruitment(subject):
+    baker.make(Consent, subject=subject)
+    study = baker.make(Study, status=Study.EXECUTION)
+    baker.make(
+        Participation, subject=subject, study=study, status=Participation.NOT_CONTACTED
+    )
+    assert helpers.get_no_legal_basis().count() == 1
+
+
+def test_get_no_legal_basis_study_consent_status_excluded(subject):
+    baker.make(Consent, subject=subject)
+    study = baker.make(Study, status=Study.EXECUTION)
+    baker.make(
+        Participation, subject=subject, study=study, status=Participation.EXCLUDED
+    )
+    assert helpers.get_no_legal_basis().count() == 1
 
 
 def test_get_no_legal_basis_study_consent_study_status(subject):
     baker.make(Consent, subject=subject)
     study = baker.make(Study, status=Study.EXECUTION)
-    baker.make(Participation, subject=subject, study=study)
+    baker.make(
+        Participation, subject=subject, study=study, status=Participation.PARTICIPATING
+    )
     assert helpers.get_no_legal_basis().count() == 0
 
 
@@ -58,6 +82,7 @@ def test_get_no_legal_basis_study_consent_news_interest(subject):
         Participation,
         subject=subject,
         study=study,
+        status=Participation.PARTICIPATING,
         news_interest=Participation.VIA_EMAIL,
     )
     assert helpers.get_no_legal_basis().count() == 0

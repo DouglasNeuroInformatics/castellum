@@ -45,7 +45,7 @@ def get_no_legal_basis():
     # basis) and news_interest.
     participations = (
         Participation.objects
-        .exclude(status__in=Participation.EXCLUDED_SET)
+        .filter(status__in=Participation.INVITED_SET)
         .exclude(
             study__status=Study.FINISHED,
             study__domains=None,
