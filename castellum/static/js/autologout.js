@@ -16,7 +16,7 @@ setInterval(function() {
         });
     } else if (idleTime > warnTimeout) {
         // blocks until the alert is closed
-        alert(document.querySelector('#i18n-autologout').content.textContent);
+        alert($$.gettext('autologout'));
 
         if (new Date() - lastActivity <= logoutTimeout) {
             setActive();

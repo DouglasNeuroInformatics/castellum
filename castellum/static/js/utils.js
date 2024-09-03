@@ -33,6 +33,9 @@ window.$$ = {
         }
         return i;
     },
+    gettext: function(key) {
+        return document.querySelector(`#i18n-${key}`).content.textContent;
+    },
 };
 
 var preventDoubleClick = false;
