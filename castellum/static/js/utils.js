@@ -163,15 +163,24 @@ var ageDifference = function(a, b) {
     var days = b.getDate() - a.getDate();
     var totalMonths = years * 12 + months + (days < 0 ? -1 : 0);
 
-    if (totalMonths >= 24) {
-        var totalYears = Math.floor(totalMonths / 12);
-        return $$.gettext('years').replace('%i', totalYears);
-    } else if (totalMonths > 2) {
-        return $$.gettext('months').replace('%i', totalMonths);
-    } else {
-        var totalDays = Math.round((b - a) / 24 / 3600 / 1000);
-        return $$.gettext('days').replace('%i', totalDays);
+    if (totalMonths >= 12 * 6) {
+        return $$.gettext('years').replace('%i', Math.floor(totalMonths / 12));
+    } else if (totalMonths >= 12 * 2) {
+        return [
+            $$.gettext('years').replace('%i', Math.floor(totalMonths / 12)),
+            $$.gettext('months').replace('%i', totalMonths % 12),
+        ].join(', ');
     }
+
+    var tmp = new Date(a.getFullYear(), a.getMonth() + totalMonths, a.getDate());
+    // clip to last day of month
+    if (tmp.getMonth() !== (a.getMonth() + totalMonths) % 24) {
+        tmp.setDate(0);
+    }
+    return [
+        $$.gettext('months').replace('%i', totalMonths),
+        $$.gettext('days').replace('%i', Math.round((b - tmp) / 24 / 3600 / 1000)),
+    ].join(', ');
 };
 
 var updateAge = function(el) {
