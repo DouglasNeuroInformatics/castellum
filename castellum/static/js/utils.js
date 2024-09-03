@@ -152,3 +152,45 @@ if (firstErrorInTab) {
     var tab = document.getElementById(panel.getAttribute('aria-labelledby'));
     new bootstrap.Tab(tab).show();
 }
+
+var ageDifference = function(a, b) {
+    if (isNaN(a) || isNaN(b) || b < a) {
+        return '—';
+    }
+
+    var years = b.getFullYear() - a.getFullYear();
+    var months = b.getMonth() - a.getMonth();
+    var days = b.getDate() - a.getDate();
+    var totalMonths = years * 12 + months + (days < 0 ? -1 : 0);
+
+    if (totalMonths >= 24) {
+        var totalYears = Math.floor(totalMonths / 12);
+        return $$.gettext('years').replace('%i', totalYears);
+    } else if (totalMonths > 2) {
+        return $$.gettext('months').replace('%i', totalMonths);
+    } else {
+        var totalDays = Math.round((b - a) / 24 / 3600 / 1000);
+        return $$.gettext('days').replace('%i', totalDays);
+    }
+};
+
+var updateAge = function(el) {
+    var [a, b] = el.dataset.age.split(' ', 2).map(s => {
+        if (s.startsWith('#')) {
+            return new Date(document.querySelector(s).value);
+        } else {
+            return new Date(s);
+        }
+    });
+    el.textContent = ageDifference(a, b);
+};
+
+document.querySelectorAll('[data-age]').forEach(el => {
+    el.dataset.age.split(' ', 2).forEach(s => {
+        if (s.startsWith('#')) {
+            var target = document.querySelector(s);
+            target.addEventListener('change', () => updateAge(el));
+        }
+    });
+    updateAge(el);
+});

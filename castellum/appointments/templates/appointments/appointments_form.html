@@ -1,7 +1,9 @@
 {% extends view.base_template|default:"base.html" %}
-{% load i18n static django_bootstrap5 utils %}
+{% load i18n static django_bootstrap5 auth utils %}
 
 {% block content %}
+    {% has_perm 'subjects.change_subject' user study as can_change_subject %}
+
     {% if participation.status not in participation.INVITED_SET %}
         <p class="alert alert-warning">{% translate 'Appointments only available for participating subjects' %}</p>
     {% endif %}
@@ -38,6 +40,13 @@
                         <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" data-animation="success" title="{% translate 'Copy link' %}">
                             {% icon 'copy' label=_('Copy link') %}
                         </button>
+                    {% endif %}
+                    {% if can_change_subject and subject.date_of_birth %}
+                        <div class="form-text">
+                            {% translate 'Age at this date' %}:
+                            <span data-age="{{ subject.date_of_birth.isoformat }} #{{ entry.field.auto_id }}_0">&mdash;</span>
+                            ({{ subject.date_of_birth }})
+                        </div>
                     {% endif %}
                 </div>
                 <div data-js="d-select2-clear">
