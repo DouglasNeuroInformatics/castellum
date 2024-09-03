@@ -43,7 +43,7 @@ def test_statistics(attributes, study, participation):
         data = view._get_statistics()
 
     assert data == {
-        'legend': ['Right', 'Left', 'Ambidextrous', 'Other'],
+        'legend': ['Right (1)', 'Left (0)', 'Ambidextrous (0)', 'Other (0)'],
         'rows': [{
             'label': '<18',
             'values': [0, 0, 0, 0],

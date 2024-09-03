@@ -168,7 +168,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         }
 
         if len(buckets2) > 1:
-            data['legend'] = [str(label2) for key2, label2 in buckets2]
+            data['legend'] = []
+            for key2, label2 in buckets2:
+                count = sum(statistics[key1][key2] for key1, label1 in buckets1)
+                data['legend'].append(f'{label2} ({count})')
 
         return data
 
