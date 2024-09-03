@@ -33,6 +33,9 @@ window.$$ = {
         }
         return i;
     },
+    gettext: function(key) {
+        return document.querySelector(`#i18n-${key}`).content.textContent;
+    },
 };
 
 var preventDoubleClick = false;
@@ -149,3 +152,54 @@ if (firstErrorInTab) {
     var tab = document.getElementById(panel.getAttribute('aria-labelledby'));
     new bootstrap.Tab(tab).show();
 }
+
+var ageDifference = function(a, b) {
+    if (isNaN(a) || isNaN(b) || b < a) {
+        return '—';
+    }
+
+    var years = b.getFullYear() - a.getFullYear();
+    var months = b.getMonth() - a.getMonth();
+    var days = b.getDate() - a.getDate();
+    var totalMonths = years * 12 + months + (days < 0 ? -1 : 0);
+
+    if (totalMonths >= 12 * 6) {
+        return $$.gettext('years').replace('%i', Math.floor(totalMonths / 12));
+    } else if (totalMonths >= 12 * 2) {
+        return [
+            $$.gettext('years').replace('%i', Math.floor(totalMonths / 12)),
+            $$.gettext('months').replace('%i', totalMonths % 12),
+        ].join(', ');
+    }
+
+    var tmp = new Date(a.getFullYear(), a.getMonth() + totalMonths, a.getDate());
+    // clip to last day of month
+    if (tmp.getMonth() !== (a.getMonth() + totalMonths) % 24) {
+        tmp.setDate(0);
+    }
+    return [
+        $$.gettext('months').replace('%i', totalMonths),
+        $$.gettext('days').replace('%i', Math.round((b - tmp) / 24 / 3600 / 1000)),
+    ].join(', ');
+};
+
+var updateAge = function(el) {
+    var [a, b] = el.dataset.age.split(' ', 2).map(s => {
+        if (s.startsWith('#')) {
+            return new Date(document.querySelector(s).value);
+        } else {
+            return new Date(s);
+        }
+    });
+    el.textContent = ageDifference(a, b);
+};
+
+document.querySelectorAll('[data-age]').forEach(el => {
+    el.dataset.age.split(' ', 2).forEach(s => {
+        if (s.startsWith('#')) {
+            var target = document.querySelector(s);
+            target.addEventListener('change', () => updateAge(el));
+        }
+    });
+    updateAge(el);
+});
