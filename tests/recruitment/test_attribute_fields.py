@@ -91,6 +91,22 @@ def test_multiple_choice_filter(db):
     assert count == 2
 
 
+def test_filter_unknown(db):
+    attribute = baker.make(Attribute, field_type='BooleanField')
+
+    baker.make(Subject, attributes={attribute.json_key: True})
+    baker.make(Subject, attributes={})
+
+    def get_subjects(operator, *, include_unknown):
+        q = attribute.field.filter_to_q(operator, True, include_unknown)
+        return Subject.objects.filter(q).count()
+
+    assert get_subjects('exact', include_unknown=True) == 2
+    assert get_subjects('exact', include_unknown=False) == 1
+    assert get_subjects('!exact', include_unknown=True) == 1
+    assert get_subjects('!exact', include_unknown=False) == 0
+
+
 def test_age_display(attribute):
     field = attribute_fields.AgeAttributeField(attribute)
     assert field.get_display(None) == '—'

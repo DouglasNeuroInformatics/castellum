@@ -79,7 +79,7 @@ class BaseAttributeField:
 
         if inverse:
             if include_unknown:
-                return ~q
+                return ~q | q_unknown
             else:
                 return ~q & ~q_unknown
         else:
