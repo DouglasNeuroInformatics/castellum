@@ -28,6 +28,8 @@ from urllib.parse import urlunparse
 from django import template
 from django.urls import reverse
 from django.utils import formats
+from django.utils import timezone
+from django.utils.timesince import timeuntil
 from django.utils.translation import gettext_lazy as _
 
 from castellum.utils import get_parler_languages
@@ -88,8 +90,8 @@ def longdate(date):
 
 
 @register.filter
-def hours(delta):
-    return int(delta.total_seconds() // 3600)
+def timedelta(delta):
+    return timeuntil(timezone.now() + delta)
 
 
 @register.filter

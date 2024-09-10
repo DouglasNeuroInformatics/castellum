@@ -14,7 +14,7 @@
             <p>
                 {% translate "Contact an admin to unlock your account." %}
                 {% if cooloff_timedelta %}
-                    {% blocktranslate with hours=cooloff_timedelta|hours %}Or wait for {{ hours }} hours.{% endblocktranslate %}
+                    {% blocktranslate with delta=cooloff_timedelta|timedelta %}Or wait for {{ delta }}.{% endblocktranslate %}
                 {% endif %}
             </p>
             <a class="btn btn-primary" href="/">{% translate "Go to homepage" %}</a>
