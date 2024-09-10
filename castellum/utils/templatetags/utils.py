@@ -88,6 +88,11 @@ def longdate(date):
 
 
 @register.filter
+def hours(delta):
+    return int(delta.total_seconds() // 3600)
+
+
+@register.filter
 def basename(path):
     return os.path.basename(path)
 
