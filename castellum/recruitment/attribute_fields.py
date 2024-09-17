@@ -263,15 +263,17 @@ class AgeAttributeField(DateAttributeField):
         ('gt', _('younger than')),
     ]
 
-    def _filter_to_q(self, operator, value):
+    def _filter_to_date(self, value):
         period, scale = value
         if scale == 'date':
-            date = datetime.date.fromisoformat(period)
-        else:
-            try:
-                date = datetime.date.today() - relativedelta(**{scale: period})
-            except (ValueError, OverflowError):
-                date = datetime.date.min
+            return datetime.date.fromisoformat(period)
+        try:
+            return datetime.date.today() - relativedelta(**{scale: period})
+        except (ValueError, OverflowError):
+            return datetime.date.min
+
+    def _filter_to_q(self, operator, value):
+        date = self._filter_to_date(value)
         return super()._filter_to_q(operator, date)
 
     def get_filter_display(self, operator, value):
@@ -282,18 +284,13 @@ class AgeAttributeField(DateAttributeField):
     def _get_min_date(self, study):
         """Get minimum date of birth allowed by study filters."""
 
-        today = datetime.date.today()
-
         total = []
         for group in study.subjectfiltergroup_set.all():
             filters = list(group.subjectfilter_set.filter(
                 operator='gt', attribute=self.instance
             ))
             if filters:
-                dates = [
-                    today - relativedelta(**{f.value[1]: f.value[0]})
-                    for f in filters
-                ]
+                dates = [self._filter_to_date(f.value) for f in filters]
                 # Filters within a group are combined with AND.
                 total.append(max(dates))
             else:
