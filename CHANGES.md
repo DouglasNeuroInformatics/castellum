@@ -1,4 +1,4 @@
-# 0.99.0 (unreleased)
+# 0.99.0 (2024-10-08)
 
 ## breaking changes
 
