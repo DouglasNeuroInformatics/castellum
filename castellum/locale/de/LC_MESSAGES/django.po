@@ -120,7 +120,7 @@ msgstr "Link Kopieren"
 
 #: castellum/appointments/templates/appointments/appointments_form.html:46
 msgid "Age at this date"
-msgstr ""
+msgstr "Alter zu diesem Datum"
 
 #: castellum/appointments/templates/appointments/appointments_form.html:59
 #, python-format
@@ -1437,8 +1437,6 @@ msgstr "Tage"
 
 #: castellum/recruitment/attribute_fields.py:257
 #: castellum/recruitment/fields.py:36
-#, fuzzy
-#| msgid "Date of birth"
 msgid "date of birth"
 msgstr "Geburtsdatum"
 
@@ -1897,15 +1895,9 @@ msgid "Awaiting response"
 msgstr "Auf Antwort wartend"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:40
-#, fuzzy
-#| msgid ""
-#| "All subjects who do not match the current filter criteria, do not have "
-#| "recruitment consent, or who are blocked in other studies."
 msgid "All subjects who do not match the current filter criteria."
 msgstr ""
-"Alle Proband*innen, die nicht auf die aktuellen Filterkriterien passen, für "
-"die keine Rekrutierungseinwilligung vorliegt oder die durch andere Studien "
-"blockiert sind."
+"Alle Proband*innen, die nicht auf die aktuellen Filterkriterien passen."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:44
 msgid "Unsuitable"
@@ -4158,7 +4150,7 @@ msgstr "Kontaktieren Sie eine Administrator*in um ihr Konto zu entsperren."
 #: castellum/templates/axes-lockout.html:17
 #, python-format
 msgid "Or wait for %(delta)s."
-msgstr ""
+msgstr "Oder warten Sie für %(delta)s."
 
 #: castellum/templates/base.html:22
 msgid "There is no way to contact this subject. Are you sure you want to save?"
@@ -4183,22 +4175,19 @@ msgid "Participants"
 msgstr "Teilnehmer*innen"
 
 #: castellum/templates/base.html:26
-#, fuzzy, python-format
-#| msgid "years"
+#, python-format
 msgid "%%i years"
-msgstr "Jahre"
+msgstr "%%i Jahre"
 
 #: castellum/templates/base.html:27
-#, fuzzy, python-format
-#| msgid "months"
+#, python-format
 msgid "%%i months"
-msgstr "Monate"
+msgstr "%%i Monate"
 
 #: castellum/templates/base.html:28
-#, fuzzy, python-format
-#| msgid "days"
+#, python-format
 msgid "%%i days"
-msgstr "Tage"
+msgstr "%%i Tage"
 
 #: castellum/templates/base.html:32
 msgid "Set settings.PRODUCTION to remove this message."
@@ -4475,12 +4464,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid ""
-#~ "Please note that study recruitment has already been started. Therefore, "
-#~ "editing recruitment settings may result in inconsistent suggestions for "
-#~ "potential subjects."
-#~ msgstr ""
-#~ "Die Rekrutierung hat bereits begonnen. Veränderungen in den "
-#~ "Rekrutierungseinstellungen können zu inkonsistenten Vorschlägen von "
-#~ "potentiellen Proband*innen führen."
