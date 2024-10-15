@@ -1,6 +1,6 @@
 # Castellum
 
-The General Data Protection Regulation (GDPR) mandates that
+Data Protection Regulation (GDPR) mandates that
 organizations maintain a comprehensive inventory of the data they hold
 on individuals. This requirement poses challenges within research
 institutes, where researchers traditionally have a high degree of
