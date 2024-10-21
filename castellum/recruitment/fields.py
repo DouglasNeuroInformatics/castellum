@@ -71,11 +71,11 @@ class AgeField(forms.MultiValueField):
                 raise ValidationError('Enter a valid date (YYYY-MM-DD)') from e
 
             today = datetime.date.today()
-            if date + relativedelta(months=1000) < today and date.month != 1:
+            if date + relativedelta(years=15) < today and date.month != 1:
                 raise ValidationError(
                     'Please select january 1st for dates far in the past'
                 )
-            if date + relativedelta(days=1000) < today and date.day != 1:
+            if date + relativedelta(years=4) < today and date.day != 1:
                 raise ValidationError(
                     'Please select the first day of the month for dates far in the past'
                 )
