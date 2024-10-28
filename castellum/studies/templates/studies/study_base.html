@@ -79,7 +79,7 @@
                 {% if can_change_study %}
                     <form class="d-inline" method="post" action="{% url 'studies:finish' study.pk %}">
                         {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ request.path }}">
+                        <input type="hidden" name="next" value="{{ request.path }}">
 
                         {% if study.status == study.FINISHED %}
                             <button class="btn btn-outline-primary active mb-1" title="{% translate 'Resume recruitment and execution for this study' %}">
