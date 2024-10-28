@@ -21,17 +21,6 @@
 from django.conf import settings
 
 
-def delete_participation_pseudonyms(sender, instance, using, **kwargs):
-    from castellum.pseudonyms.models import Pseudonym
-
-    from .models import Participation
-
-    if sender is Participation:
-        Pseudonym.objects.filter(
-            domain__in=instance.study.domains.all(), subject=instance.subject
-        ).update(subject=None)
-
-
 def delete_attribute_data(sender, instance, using, **kwargs):
     from castellum.subjects.models import Subject
 

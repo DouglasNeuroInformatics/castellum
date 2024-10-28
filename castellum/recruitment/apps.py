@@ -29,6 +29,5 @@ class RecruitmentConfig(AppConfig):
     name = 'castellum.recruitment'
 
     def ready(self):
-        pre_delete.connect(signals.delete_participation_pseudonyms)
         pre_delete.connect(signals.delete_attribute_data)
         post_save.connect(signals.sync_date_of_birth)

@@ -46,6 +46,7 @@ from castellum.audit.helpers import audit
 from castellum.audit.models import AuditEvent
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
@@ -367,6 +368,15 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
                 request.user.username,
                 study_pk=study_pk,
             )
+
+            Pseudonym.objects.filter(
+                domain__in=self.study.domains.all(),
+                subject__in=(
+                    self.study.participation_set
+                    .exclude(status__in=Participation.INVITED_SET)
+                    .values('subject')
+                ),
+            ).update(subject=None)
             self.study.participation_set.exclude(status__in=Participation.INVITED_SET).delete()
         return redirect(
             get_next_url(request, reverse('studies:detail', args=[self.study.pk]))
