@@ -33,7 +33,7 @@ class DataProtectionView(PermissionRequiredMixin, ListView):
         'subjects.export_subject',
         'castellum_auth.privacy_level_2',
     ]
-    paginate_by = 15
+    paginate_by = 20
 
     def get_queryset(self):
         if self.request.user.has_perm('subjects.delete_subject'):
