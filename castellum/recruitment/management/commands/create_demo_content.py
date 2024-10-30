@@ -50,31 +50,7 @@ def get_highest_degree_choices():
 
 
 def fake_date_of_birth():
-    age_groups = [
-        # (start age, percentage)
-        (14, 0.06),
-        (20, 0.14),
-        (30, 0.14),
-        (40, 0.16),
-        (50, 0.19),
-        (60, 0.14),
-        (70, 0.16),
-    ]
-
-    r = fake.random.random()
-    percentage = 0
-
-    for i in range(len(age_groups) - 1):
-        percentage += age_groups[i][1]
-
-        if r < percentage:
-            start_date = f'-{age_groups[i + 1][0]}y'
-            end_date = f'-{age_groups[i][0]}y'
-            return fake.date_between(start_date=start_date, end_date=end_date)
-
-    start_date = f'-{100}y'
-    end_date = f'-{age_groups[-1][0]}y'
-    return fake.date_between(start_date=start_date, end_date=end_date)
+    return fake.date_between(start_date='-70y', end_date='-5d')
 
 
 def fake_phone_number():
