@@ -84,6 +84,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     study_status = [Study.EXECUTION]
     shown_status = []
     tab = 'recruitment'
+    paginate_by = 200
 
     def dispatch(self, request, *args, **kwargs):
         self.sort = self.request.GET.get(
@@ -199,7 +200,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         )
 
         participations = []
-        for participation in self.get_queryset():
+        for participation in context['object_list']:
             subject = participation.subject
             buckets = []
             if desc1:
