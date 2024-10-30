@@ -5,6 +5,8 @@ from django.contrib.auth.models import Permission
 from django.core.management import call_command
 from django.db.models import DateField
 from django.db.models import DateTimeField
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.test import TestCase
 from django.utils import timezone
 from model_bakery import baker
@@ -13,6 +15,7 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import ContactCreationRequest
+from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.management.commands import create_demo_content
 from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import Participation
@@ -38,6 +41,14 @@ baker.generators.add(
 # monkey patch to make test isolation work on both databases
 # See https://github.com/pytest-dev/pytest-django/pull/431
 TestCase.databases = ['default', 'contacts']
+
+
+@receiver(post_delete)
+def check_participation_pseudonyms(sender, instance, using, **kwargs):
+    if sender is Participation:
+        assert not Pseudonym.objects.filter(
+            domain__in=instance.study.domains.all(), subject=instance.subject
+        ).exists()
 
 
 def pytest_collection_modifyitems(items):
