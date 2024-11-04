@@ -143,7 +143,8 @@ class Study(TimeStampedModel):
         _('Date when pseudonym lists should be deleted'),
         help_text=_(
             'This date is usually defined in the ethics application and the study '
-            'consent form.'
+            'consent form. Entering it here is purely informational. The pseudonym '
+            'lists will not be deleted automatically.'
         ),
         blank=True,
         null=True,
