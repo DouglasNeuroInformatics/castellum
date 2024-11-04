@@ -1,3 +1,10 @@
+# 0.99.1 (2024-11-04)
+
+-   fix: reset page on status filter in study list
+-   fix performance issue when finishing studies
+-   tweak age filter validation granularity
+
+
 # 0.99.0 (2024-10-08)
 
 ## breaking changes
