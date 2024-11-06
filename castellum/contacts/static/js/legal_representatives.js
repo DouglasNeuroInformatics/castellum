@@ -22,7 +22,7 @@ $$.on(document, 'submit', '[data-js="contact-completeness"]', function(event) {
         );
     }
     if (!complete) {
-        if (!confirm(document.querySelector('#i18n-no-contact').content.textContent)) {
+        if (!confirm($$.gettext('no-contact'))) {
             event.preventDefault();
         }
     }

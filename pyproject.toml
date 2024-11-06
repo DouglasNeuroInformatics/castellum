@@ -24,10 +24,6 @@ addopts = [
     "--no-cov-on-fail",
     "--strict-markers",
 ]
-markers = [
-    "unittest: marks tests as fast. They test only one function and don't need access to the database",
-    "smoketest: simple tests that only check for 200 status code",
-]
 testpaths = ["tests"]
 
 [tool.coverage.report]

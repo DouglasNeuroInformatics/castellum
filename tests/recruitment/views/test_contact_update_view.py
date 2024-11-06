@@ -1,4 +1,3 @@
-import pytest
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
@@ -8,7 +7,6 @@ from castellum.recruitment.templatetags.recruitment import (
 )
 
 
-@pytest.mark.smoketest
 def test_200(client, member, participation):
     participation.status = Participation.NOT_CONTACTED
     participation.save()
@@ -19,7 +17,6 @@ def test_200(client, member, participation):
     assert response.status_code == 200
 
 
-@pytest.mark.smoketest
 def test_legal_representative_200(client, member, participation):
     participation.status = Participation.NOT_CONTACTED
     participation.save()

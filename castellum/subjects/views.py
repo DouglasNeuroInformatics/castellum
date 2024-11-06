@@ -708,6 +708,10 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
     def form_valid(self, form):
         response = super().form_valid(form)
 
+        self.subject.pseudonym_set.filter(
+            domain__in=self.object.study.domains.all(),
+        ).update(subject=None)
+
         study_name, user_pk = self.object.study.name, self.request.user.pk
         monitoring_logger.info(
             f'Participation in Study {study_name} deleted by {user_pk}'
@@ -836,8 +840,6 @@ class MaintenanceContactView(BaseMaintenanceView):
             )\
             .filter(
                 models.Q(
-                    gender='',
-                ) | models.Q(
                     legal_representative_count=0,
                     address=None,
                     email='',

@@ -1,10 +1,8 @@
-import pytest
 from model_bakery import baker
 
 from castellum.studies.models import StudyMembership
 
 
-@pytest.mark.smoketest
 def test_remove_member_200(client, admin, study):
     client.force_login(admin)
     membership = baker.make(StudyMembership, study=study)

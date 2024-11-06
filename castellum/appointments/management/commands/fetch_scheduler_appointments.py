@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from castellum.appointments.helpers import fetch_scheduler_appointments
@@ -28,16 +29,15 @@ from castellum.studies.models import StudySession
 class Command(BaseCommand):
     help = 'Fetch appointments from scheduler.'
 
-    def add_arguments(self, parser):
-        parser.add_argument('base_url')
-
     def handle(self, *args, **options):
         count = 0
         for study in Study.objects.filter(
             status=Study.EXECUTION,
             pk__in=StudySession.objects.exclude(schedule_id=None).values('study'),
         ):
-            count += fetch_scheduler_appointments(study, options['base_url'])
+            count += fetch_scheduler_appointments(
+                study, settings.CASTELLUM_EMAIL_BASE_URL
+            )
 
         if options['verbosity'] > 0:
             self.stdout.write(f'Updated {count} appointments')

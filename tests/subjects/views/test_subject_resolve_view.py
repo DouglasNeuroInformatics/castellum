@@ -5,7 +5,6 @@ from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.models import Domain
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),

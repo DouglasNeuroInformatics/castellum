@@ -35,7 +35,6 @@ def test_update_post(client, user, subject, attribute):
     assert subject.attributes['d2'] == 'de'
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),

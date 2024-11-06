@@ -1,6 +1,5 @@
 import datetime
 
-import pytest
 from django.core import mail
 from django.utils.formats import date_format
 
@@ -14,7 +13,6 @@ def get_mail_data():
     }
 
 
-@pytest.mark.unittest
 def test_render_body_with_fallback():
     assert render_body_with_fallback(get_mail_data, 'DE {date}', 'EN {date}', 'de') == (
         '++++ FOR INFORMATION IN ENGLISH SEE BELOW ++++\n'

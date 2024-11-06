@@ -19,7 +19,7 @@
                     {% bootstrap_field form.excluded_studies wrapper_class="" %}
                     {% if related_studies %}
                         <div class="form-text">
-                            {% translate 'Studies in which potential subjects have participated' %}:
+                            {% translate 'Studies in which potential subjects have recently participated' %}:
                             {% for study in related_studies %}
                                 {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
                             {% endfor %}

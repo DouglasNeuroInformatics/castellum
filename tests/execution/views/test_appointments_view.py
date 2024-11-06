@@ -1,6 +1,5 @@
-import datetime
-
 import pytest
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import Permission
 from django.contrib.messages import get_messages
 from django.utils import timezone
@@ -122,7 +121,7 @@ def test_appointment_resource_overlap(client, member, participation, time):
 
 
 def test_appointment_change_appointment_permission(client, member, participation):
-    future = timezone.now() + datetime.timedelta(days=10000)
+    future = timezone.now() + relativedelta(days=10000)
     user = baker.make(User, expiration_date=future, email='test@example.com')
     user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
     user.user_permissions.add(Permission.objects.get(codename='recruit'))

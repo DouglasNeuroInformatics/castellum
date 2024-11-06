@@ -1,9 +1,6 @@
-import pytest
-
 from castellum.recruitment.models import Participation
 
 
-@pytest.mark.smoketest
 def test_data_protection_200(client, member, participation):
     participation.status = Participation.NOT_CONTACTED
     participation.save()
@@ -17,7 +14,6 @@ def test_data_protection_200(client, member, participation):
     assert response.status_code == 200
 
 
-@pytest.mark.smoketest
 def test_additional_info_200(client, member, participation):
     participation.status = Participation.NOT_CONTACTED
     participation.save()

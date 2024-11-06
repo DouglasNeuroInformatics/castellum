@@ -1,7 +1,6 @@
 import pytest
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'receptionist',
     pytest.param('conductor', marks=pytest.mark.xfail(strict=True)),

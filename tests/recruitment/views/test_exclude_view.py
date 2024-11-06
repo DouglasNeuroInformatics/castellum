@@ -4,7 +4,6 @@ from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 
 
-@pytest.mark.smoketest
 def test_200(client, member, participation):
     client.force_login(member)
     url = f'/recruitment/{participation.study.pk}/{participation.pk}/exclude/'
@@ -13,7 +12,7 @@ def test_200(client, member, participation):
 
 
 def test_404_if_draft_study(client, member, participation):
-    participation.study.status = Study.EDIT
+    participation.study.status = Study.DRAFT
     participation.study.save()
 
     client.force_login(member)

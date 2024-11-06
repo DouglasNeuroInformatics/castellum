@@ -20,6 +20,7 @@
 
 import datetime
 
+from dateutil.relativedelta import relativedelta
 from django import forms
 from django.conf import settings
 from django.forms import ValidationError
@@ -84,7 +85,6 @@ class ContactForm(forms.ModelForm):
             'first_name',
             'last_name',
             'title',
-            'gender',
             'date_of_birth',
             'email',
             'phone_number',
@@ -166,10 +166,10 @@ class ContactForm(forms.ModelForm):
         # validate legal_representative required for underage subjects
         date_of_birth = cleaned_data.get('date_of_birth')
         if date_of_birth:
-            age = datetime.date.today() - date_of_birth
+            age = relativedelta(datetime.date.today(), date_of_birth)
             if (
                 cleaned_data.get('pane') != 'legal_representatives'
-                and age.days // 365 < settings.CASTELLUM_FULL_AGE
+                and age.years < settings.CASTELLUM_FULL_AGE
             ):
                 msg = _(
                     'Subjects under the age of {} need a legal representative.'

@@ -51,7 +51,7 @@ def get_related_studies(study):
     related_prs = Participation.objects.filter(
         updated_at__gte=dt,
         status__in=Participation.INVITED_SET,
-        subject__in=Subject.objects.filter(filter_queries.study_criteria(study)),
+        subject__in=Subject.objects.filter(filter_queries.study_recruitable(study)),
     )
     return (
         Study.objects
@@ -69,6 +69,7 @@ class StudyRecruitmentSettingsUpdateView(
     pk_url_kwarg = 'study_pk'
     form_class = StudyRecruitmentSettingsForm
     permission_required = 'studies.change_study'
+    is_filter_trial = None
     template_name = 'studies/study_recruitmentsettings_form.html'
     tab = 'recruitmentsettings'
     subtab = 'update'
@@ -92,6 +93,7 @@ class StudyOtherStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'studies/study_other_studies.html'
     form_class = OtherStudiesForm
     permission_required = 'studies.change_study'
+    is_filter_trial = None
     tab = 'recruitmentsettings'
     subtab = 'other-studies'
 
@@ -123,7 +125,6 @@ class StudyRecruitmentTestMailView(StudyMixin, PermissionRequiredMixin, View):
     model = Study
     pk_url_kwarg = 'study_pk'
     permission_required = 'studies.change_study'
-    is_filter_trial = False
 
     def post(self, request, **kwargs):
         with MailContext('recruitment') as ctx:
@@ -149,7 +150,6 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'studies/study_mailsettings.html'
     form_class = MailSettingsForm
     permission_required = 'studies.change_study'
-    is_filter_trial = False
     tab = 'recruitmentsettings'
     subtab = 'mailsettings'
 

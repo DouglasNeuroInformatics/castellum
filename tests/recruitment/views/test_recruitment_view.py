@@ -1,4 +1,3 @@
-import pytest
 from freezegun import freeze_time
 from model_bakery import baker
 
@@ -6,7 +5,6 @@ from castellum.recruitment.models import Participation
 from castellum.recruitment.views import RecruitmentView
 
 
-@pytest.mark.smoketest
 def test_200(client, member, study):
     client.force_login(member)
     url = f'/recruitment/{study.pk}/'
@@ -45,7 +43,7 @@ def test_statistics(attributes, study, participation):
         data = view._get_statistics()
 
     assert data == {
-        'legend': ['Right', 'Left', 'Ambidextrous', 'Other'],
+        'legend': ['Right (1)', 'Left (0)', 'Ambidextrous (0)', 'Other (0)'],
         'rows': [{
             'label': '<18',
             'values': [0, 0, 0, 0],

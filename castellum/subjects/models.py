@@ -18,6 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import math
 import uuid
 
@@ -224,7 +225,7 @@ class Subject(TimeStampedModel):
         from castellum.studies.models import Study
         return (
             self.participation_set
-            .exclude(status__in=Participation.EXCLUDED_SET)
+            .filter(status__in=Participation.INVITED_SET)
             .exclude(
                 study__status=Study.FINISHED,
                 study__domains=None,
@@ -284,6 +285,16 @@ class Subject(TimeStampedModel):
 
         qs = Attribute.objects.all()
         return {desc.json_key: self.attributes.get(desc.json_key) for desc in qs}
+
+    @property
+    def date_of_birth(self):
+        if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
+            key = f'd{settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID}'
+            value = self.attributes.get(key)
+            try:
+                return datetime.date.fromisoformat(value)
+            except ValueError:
+                return None
 
     def get_completeness(self):
         from castellum.recruitment.models import Attribute

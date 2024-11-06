@@ -12,14 +12,14 @@ class Migration(migrations.Migration):
             model_name="study",
             name="recruitment_active_after",
             field=castellum.utils.fields.DateField(
-                blank=True, null=True, verbose_name="Last subject activity after"
+                blank=True, null=True, verbose_name="Last activity after"
             ),
         ),
         migrations.AddField(
             model_name="study",
             name="recruitment_active_before",
             field=castellum.utils.fields.DateField(
-                blank=True, null=True, verbose_name="Last subject activity before"
+                blank=True, null=True, verbose_name="Last activity before"
             ),
         ),
     ]

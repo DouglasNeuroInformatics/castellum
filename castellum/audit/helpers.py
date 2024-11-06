@@ -18,15 +18,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
-
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.utils import timezone
 
 from .models import AuditEvent
 
 
-def cleanup(dt=datetime.timedelta(days=365)):
+def cleanup(dt=relativedelta(years=1)):
     threshold = timezone.now() - dt
     AuditEvent.objects.filter(created_at__lt=threshold).delete()
 

@@ -8,7 +8,7 @@ from castellum.settings.default import *
 SECRET_KEY = os.getenv('DJANGO_SECRET')
 
 # Define hosts than can connect
-ALLOWED_HOSTS = ['.example.com', '192.168.10.*']
+ALLOWED_HOSTS = ['castellum.example.com', '192.168.10.*']
 
 # Only postgres/postgis are officially supported for Castellum.
 DATABASES = {
@@ -106,7 +106,7 @@ AUTH_LDAP_USER_ATTR_MAP = {
 # AUTH_LDAP_FIND_GROUP_PERMS = True
 
 # See https://github.com/xi/django-mfa3
-MFA_DOMAIN = 'example.com'
+MFA_DOMAIN = 'castellum.example.com'
 MFA_SITE_TITLE = 'Castellum Demo'
 
 # Limit login attempts
@@ -116,5 +116,6 @@ AUTHENTICATION_BACKENDS.insert(0, 'axes.backends.AxesBackend')
 MIDDLEWARE.append('axes.middleware.AxesMiddleware')
 AXES_IPWARE_META_PRECEDENCE_ORDER = ['HTTP_X_REAL_IP']
 
+CASTELLUM_EMAIL_BASE_URL = 'https://castellum.example.com'
 CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']
 CASTELLUM_REPORT_NOTIFICATION_TO = ['report@example.com']

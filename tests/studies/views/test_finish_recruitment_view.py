@@ -16,7 +16,7 @@ def test_finish(request, client, user_fixture, study):
     baker.make(StudyMembership, user=user, study=study)
     client.force_login(user)
 
-    study.status = Study.EDIT
+    study.status = Study.DRAFT
     study.save()
 
     response = client.post(f'/studies/{study.pk}/finish/')
@@ -27,7 +27,7 @@ def test_finish(request, client, user_fixture, study):
 
 
 @pytest.mark.parametrize('initial_status', [
-    Study.EDIT,
+    Study.DRAFT,
     Study.EXECUTION,
 ])
 def test_resume(client, member, study, initial_status):

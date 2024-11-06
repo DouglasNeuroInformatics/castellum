@@ -1,11 +1,12 @@
-import datetime
-
 import pytest
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core.management import call_command
 from django.db.models import DateField
 from django.db.models import DateTimeField
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.test import TestCase
 from django.utils import timezone
 from model_bakery import baker
@@ -14,6 +15,7 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import ContactCreationRequest
+from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.management.commands import create_demo_content
 from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import Participation
@@ -41,13 +43,21 @@ baker.generators.add(
 TestCase.databases = ['default', 'contacts']
 
 
+@receiver(post_delete)
+def check_participation_pseudonyms(sender, instance, using, **kwargs):
+    if sender is Participation:
+        assert not Pseudonym.objects.filter(
+            domain__in=instance.study.domains.all(), subject=instance.subject
+        ).exists()
+
+
 def pytest_collection_modifyitems(items):
     # run migration tests last so they do not interfere with session scoped data
     items.sort(key=lambda item: 'migrator_factory' in getattr(item, 'fixturenames', []))
 
 
 def create_user(group_name):
-    future = timezone.now() + datetime.timedelta(days=10000)
+    future = timezone.now() + relativedelta(days=10000)
     user = baker.make(User, expiration_date=future, email='test@example.com')
 
     if group_name == 'all':
@@ -167,7 +177,7 @@ def study(db):
 
 @pytest.fixture
 def draft_study(db):
-    return baker.make(Study, status=Study.EDIT)
+    return baker.make(Study, status=Study.DRAFT)
 
 
 @pytest.fixture

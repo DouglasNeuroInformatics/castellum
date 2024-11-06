@@ -9,7 +9,6 @@ from castellum.recruitment.models import Participation
 from castellum.studies.models import StudySession
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'conductor',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
@@ -43,7 +42,6 @@ def test_participation_list_view_appointment_count(client, member, subject, stud
     assert b'1/2' in response.content
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'conductor',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
@@ -100,7 +98,6 @@ def test_participation_detail_view_tags(client, subject, conductor, study):
     assert b'test_tag' in response.content
 
 
-@pytest.mark.smoketest
 def test_resolve_view(client, member, study, subject):
     client.force_login(member)
 
@@ -155,7 +152,6 @@ def test_resolve_view_wrong_domain(client, member, study, subject):
     assert response.status_code == 200
 
 
-@pytest.mark.smoketest
 def test_update_contact_view(client, member, study, subject):
     client.force_login(member)
 
@@ -172,7 +168,6 @@ def test_update_contact_view(client, member, study, subject):
     assert response.status_code == 200
 
 
-@pytest.mark.smoketest
 def test_calendar_view(client, member, study):
     client.force_login(member)
     response = client.get(f'/execution/{study.pk}/calendar/')
@@ -205,7 +200,6 @@ def test_calendar_view_events(client, member, study, subject):
     assert data['events'][0]['url'] == expected_url
 
 
-@pytest.mark.smoketest
 def test_participation_update_view(client, member, study, subject):
     client.force_login(member)
 
@@ -220,7 +214,6 @@ def test_participation_update_view(client, member, study, subject):
     assert response.status_code == 200
 
 
-@pytest.mark.smoketest
 def test_participation_status_view(client, member, study, subject):
     client.force_login(member)
 
@@ -269,7 +262,6 @@ def test_participation_dropout_confirm_view_post(client, member, study, subject)
     assert participation.status == Participation.EXCLUDED_DROPPED_OUT
 
 
-@pytest.mark.smoketest
 def test_progress_view(client, member, study):
     client.force_login(member)
     url = f'/execution/{study.pk}/progress/'

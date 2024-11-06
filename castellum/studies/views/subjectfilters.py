@@ -47,6 +47,7 @@ from ..mixins import StudyMixin
 class FilterMixin(StudyMixin, PermissionRequiredMixin):
     tab = 'recruitmentsettings'
     subtab = 'filters'
+    is_filter_trial = None
 
     @property
     def base_template(self):
@@ -55,7 +56,7 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin):
         return None
 
     def get_permission_required(self):
-        permission_required = set(['studies.change_study'])
+        permission_required = {'studies.change_study'}
         permission_required.update(super().get_permission_required())
         return permission_required
 

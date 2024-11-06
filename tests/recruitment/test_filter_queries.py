@@ -46,6 +46,18 @@ def test_has_consent_exclude_deprecated(subject):
     assert not has_match(filter_queries.has_consent(exclude_deprecated=True))
 
 
+def test_is_available(subject):
+    with freeze_time('2000-01-02'):
+        subject.not_available_until = timezone.now()
+        subject.save()
+    with freeze_time('2000-01-01'):
+        assert not has_match(filter_queries.is_available())
+    with freeze_time('2000-01-02'):
+        assert has_match(filter_queries.is_available())
+    with freeze_time('2000-01-03'):
+        assert has_match(filter_queries.is_available())
+
+
 @pytest.mark.parametrize('date', [
     '1990-01-01',
     '1991-01-01',

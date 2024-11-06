@@ -33,7 +33,6 @@ from .models import Study
 from .models import StudyMembership
 from .models import StudySession
 from .models import StudyTag
-from .models import StudyType
 
 
 class StudyForm(forms.ModelForm):
@@ -84,13 +83,13 @@ class StudyFilterForm(forms.Form):
         ('list', _('List')),
         ('calendar', _('Calendar')),
     ])
-    member = forms.ChoiceField(label=_('Membership'), choices=[
-        ('my', _('Mine')),
-        ('all', _('All')),
-    ])
-    status = forms.ChoiceField(label=_('Status'), choices=Study.STATUS)
-    type = forms.ModelChoiceField(
-        label=_('Type'), queryset=StudyType.objects, empty_label=None
+    member = forms.CharField(label=_('Membership'))
+    status = forms.ChoiceField(
+        label=_('Status'),
+        choices=[
+            *Study.STATUS,
+            ('action-required', _('Action required')),
+        ],
     )
     start = forms.DateTimeField()
     end = forms.DateTimeField()
@@ -169,7 +168,7 @@ class StudyRecruitmentSettingsForm(forms.ModelForm):
                 ))
             elif before and before < after + settings.CASTELLUM_MINIMUM_ACTIVITY_PERIOD:
                 self.add_error('recruitment_active_after', format_lazy(
-                    _('Before and after must be at least {} days apart'),
+                    _('The dates must be at least {} days apart'),
                     settings.CASTELLUM_MINIMUM_ACTIVITY_PERIOD.days,
                 ))
 

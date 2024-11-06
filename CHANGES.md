@@ -1,3 +1,127 @@
+# 0.99.1 (2024-11-04)
+
+-   fix: reset page on status filter in study list
+-   fix performance issue when finishing studies
+-   tweak age filter validation granularity
+
+
+# 0.99.0 (2024-10-08)
+
+## breaking changes
+
+-   Being contacted during study recruitment no longer counts as a legal
+    basis. Note that this only makes a difference in very few cases
+    because subjects that end up in recruitment usually have a
+    recruitment consent.
+-   Remove the gender field that was part of contact data. It was not
+    used anywhere and frequently lead to confusion if there was a
+    recruitment attribute with similar semantics.
+-   The type filter was removed from the study list (see below for
+    details)
+
+## new features
+
+-   Study managers can now clearly see if the end of sessions or
+    pseudonym deletion date has been reached and they need to react in
+    some way.
+-   When making an appointment, display the age of a subject at the date
+    of the appointment (only if
+    `CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID` is set).
+-   Allow to filter by age by providing a minimum and maximum date of
+    birth. This gives more control compared to filters like "at least 5
+    months" because it does not depend on the current date.
+-   Include totals for the secondary attribute in recruitment statistics
+
+## bug fixes
+
+-   In some cases, negated filters wrongly excluded subjects with
+    unknown attributes.
+
+## other changes
+
+-   the study list was redesigned
+    -   Rarely used elements that cluttered the interface have been
+        removed
+    -   Studies are now sorted by last update instead of alphabetically
+    -   Superusers can now filter the list for study membership of users
+        other than themselves
+    -   There is a new "action required" filter
+    -   The features of the study maintenance view have been integrated,
+        so it has been removed
+-   If `AXES_COOLOFF_TIME` has been set, it is displayed as part of the
+    lock screen
+-   The warning that recruitment settings should not be changed once the
+    study has started has been removed.
+-   The study overview has been slightly changed: Related studies have
+    been removed, pseudonym lists have been added.
+-   To improve internationalization, ZIP codes have been renamed to
+    postal code and can now be up to 12 characters long.
+-   After creating a study, users are redirected to the study itself
+-   The subject counts for related studies no longer include subjects
+    who match the criteria, but are not recruitable.
+-   The study status "edit" has been renamed to "draft"
+-   When using the recruitment cleanup view, do not exclude subjects
+    without recruitment consent along with those who do not match the
+    study criteria.
+
+
+# 0.98.1 (2024-08-14)
+
+-   make clear that "additional information" belongs to address
+-   ignore choices on non-choice attributes in attribute exporter
+-   block access to study audit trail for filter trails
+-   require `access_study` permission for StudyConsentView
+
+
+# 0.98.0 (2024-07-17)
+
+## breaking changes
+
+-   The "Add recently active" feature in recruitment has been removed in
+    favor of a more flexible activity filter (see below).
+-   Commands no longer take a base URL as parameter. Instead, the
+    setting `CASTELLUM_EMAIL_BASE_URL` must be set.
+-   The setting `CASTELLUM_APPOINTMENT_REMINDER_PERIOD` has been
+    removed. It had already been deprecated in 0.92.0.
+-   The command `notify_pseudonyms_delete` should be added to the
+    crontab.
+
+## bug fixes
+
+-   Deleting a study no longer gives a 500 response.
+
+## new features
+
+-   Study managers can now provide the date when pseudonym lists should be
+    deleted. The new command `notify_pseudonyms_delete` as well as a set
+    of setting `CASTELLUM_PSEUDONYMS_DELETE_MAIL_*` has been added.
+-   The recruitment status "awaiting response" gained a sibling:
+    "recruitment mail sent" allows to express that a mail was sent, but
+    recruiters might want to make a follow-up phone call. This new status is
+    now also used when adding subjects using mail recruitment.
+-   Study managers can now filter by last activity, e.g. finding
+    subjects that have (or have not) been active in the past year. The
+    setting `CASTELLUM_MINIMUM_ACTIVITY_PERIOD` can be used to define a
+    minimum granularity to keep k-anonymity. The definition of "activity"
+    has been changed to only consider actual participation in a study.
+
+## other changes
+
+-   The studies API has been extended to also contain the URL and phone
+    number of studies.
+-   Subjects who are currently not available ("Not available until")
+    will no longer be proposed for recruitment.
+-   For consistency, the `access_study` permission is no longer required
+    to delete a participation.
+-   The participation status no longer has an impact on the "last
+    contact attempt" sort order in recruitment.
+-   Mails now contain the `Auto-Submitted: auto-generated` header
+-   The internal settings files have been restructured.
+-   The default value for `CASTELLUM_SESSIONS_END_MAIL_BODY` has been
+    updated to match `CASTELLUM_PSEUDONYMS_DELETE_MAIL_BODY`. It can now
+    also contain a `{study_url}` placeholder.
+
+
 # 0.97.2 (2024-05-13)
 
 -   fix german translation
@@ -62,6 +186,7 @@
 -   Include assigned conductors in appointment feeds
 -   Display whether a subject is blocked in the data protection
     dashboard.
+-   Store create and update dates for studies.
 
 
 # 0.96.2 (2024-04-15)

@@ -1,4 +1,3 @@
-import pytest
 from freezegun import freeze_time
 from model_bakery import baker
 
@@ -7,7 +6,6 @@ from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Consent
 
 
-@pytest.mark.smoketest
 def test_cleanup_view_200(client, recruiter, study):
     client.force_login(recruiter)
     response = client.get(f'/recruitment/{study.pk}/cleanup/')
@@ -151,4 +149,4 @@ def test_cleanup_view_mismatch(client, recruiter, study, attribute):
     participation5.refresh_from_db()
     assert participation5.status == Participation.FOLLOWUP_APPOINTED
     participation6.refresh_from_db()
-    assert participation6.status == Participation.EXCLUDED_BY_CLEANUP
+    assert participation6.status == Participation.NOT_CONTACTED

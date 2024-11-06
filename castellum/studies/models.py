@@ -82,12 +82,12 @@ class StudyType(TranslatableModel):
 
 
 class Study(TimeStampedModel):
-    EDIT = 0
+    DRAFT = 0
     EXECUTION = 1
     FINISHED = 2
 
     STATUS = [
-        (EDIT, _('Edit')),
+        (DRAFT, _('Draft')),
         (EXECUTION, _('Execution')),
         (FINISHED, _('Finished')),
     ]
@@ -110,9 +110,9 @@ class Study(TimeStampedModel):
     url = models.URLField(_('URL'), blank=True)
 
     previous_status = models.SmallIntegerField(
-        _('Previous status'), choices=STATUS, default=EDIT
+        _('Previous status'), choices=STATUS, default=DRAFT
     )
-    status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)
+    status = models.SmallIntegerField(_('Status'), choices=STATUS, default=DRAFT)
     min_subject_count = models.PositiveIntegerField(
         _('Required number of subjects'), default=0
     )
@@ -219,10 +219,10 @@ class Study(TimeStampedModel):
     )
 
     recruitment_active_after = DateField(
-        _('Last subject activity after'), null=True, blank=True
+        _('Last activity after'), null=True, blank=True
     )
     recruitment_active_before = DateField(
-        _('Last subject activity before'), null=True, blank=True
+        _('Last activity before'), null=True, blank=True
     )
 
     is_filter_trial = models.BooleanField(
@@ -364,13 +364,6 @@ class Study(TimeStampedModel):
             status__in=Participation.INVITED_SET
         ).count()
 
-    @property
-    def is_started(self):
-        if self.status == Study.FINISHED:
-            return self.previous_status == Study.EXECUTION
-        else:
-            return self.status == Study.EXECUTION
-
     # NOTE: this might not be the same as the group of the same name!
     @cached_property
     def recruiters(self):
@@ -388,18 +381,54 @@ class Study(TimeStampedModel):
                 conductors.append(user)
         return conductors
 
+    @property
+    def should_enter_sessions_end(self):
+        return not self.sessions_end and self.status != Study.FINISHED
+
+    @property
+    def should_finish_study(self):
+        today = datetime.date.today()
+        return (
+            self.sessions_end
+            and self.sessions_end < today
+            and self.status != Study.FINISHED
+        )
+
     @cached_property
+    def has_domains(self):
+        return self.domains.exists()
+
+    @property
+    def should_enter_pseudonyms_delete_date(self):
+        return not self.pseudonyms_delete_date and self.has_domains
+
+    @property
     def should_delete_domains(self):
         today = datetime.date.today()
         return (
             self.pseudonyms_delete_date
             and self.pseudonyms_delete_date < today
-            and self.domains.exists()
+            and self.has_domains
         )
+
+    @property
+    def action_required(self):
+        return (
+            self.should_enter_sessions_end
+            or self.should_finish_study
+            or self.should_enter_pseudonyms_delete_date
+            or self.should_delete_domains
+        )
+
+    def get_status_badge(self):
+        s = self.get_status_display()
+        if self.status == Study.FINISHED and self.has_domains:
+            s += ' ' + _('(with pseudonyms)')
+        return s
 
     def export(self):
         status_map = {
-            Study.EDIT: 'not_started',
+            Study.DRAFT: 'not_started',
             Study.EXECUTION: 'started',
             Study.FINISHED: 'finished',
         }

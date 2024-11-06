@@ -7,7 +7,6 @@ from castellum.studies.models import Study
 from castellum.studies.models import StudySession
 
 
-@pytest.mark.smoketest
 def test_200(client, member, participation):
     client.force_login(member)
     url = f'/recruitment/{participation.study.pk}/{participation.pk}/'
@@ -30,7 +29,7 @@ def test_404_if_wrong_study_is_provided(client, member, participation, draft_stu
 
 
 def test_404_if_draft_study(client, member, participation):
-    participation.study.status = Study.EDIT
+    participation.study.status = Study.DRAFT
     participation.study.save()
 
     client.force_login(member)

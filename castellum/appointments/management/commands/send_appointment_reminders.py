@@ -21,10 +21,10 @@
 import datetime
 from urllib.parse import urljoin
 
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.urls import reverse
-from django.utils import timezone
 
 from castellum.appointments.helpers import get_reminder_body
 from castellum.studies.models import Study
@@ -77,7 +77,7 @@ def send_mail_to_study_conductors(study, not_reachable, base_url, ctx):
 
 
 def send_appointment_reminders(base_url):
-    now = timezone.now()
+    today = datetime.date.today()
     state = {
         'reached_count': 0,
         'not_reached_count': 0,
@@ -90,9 +90,9 @@ def send_appointment_reminders(base_url):
             for session in study.studysession_set.all():
                 if session.second_reminder_days:
                     appointments = session.appointment_set.filter(
-                        start__gte=now,
-                        start__lte=(
-                            now + datetime.timedelta(days=session.second_reminder_days)
+                        start__date__gte=today,
+                        start__date__lte=(
+                            today + relativedelta(days=session.second_reminder_days)
                         ),
                         first_reminder_sent=True,
                         second_reminder_sent=False,
@@ -102,9 +102,9 @@ def send_appointment_reminders(base_url):
 
                 if session.first_reminder_days:
                     appointments = session.appointment_set.filter(
-                        start__gte=now,
-                        start__lte=(
-                            now + datetime.timedelta(days=session.first_reminder_days)
+                        start__date__gte=today,
+                        start__date__lte=(
+                            today + relativedelta(days=session.first_reminder_days)
                         ),
                         first_reminder_sent=False,
                     )
@@ -123,12 +123,9 @@ def send_appointment_reminders(base_url):
 class Command(BaseCommand):
     help = 'Remind subjects of due appointments.'
 
-    def add_arguments(self, parser):
-        parser.add_argument('base_url')
-
     def handle(self, *args, **options):
         reached_count, not_reached_count = send_appointment_reminders(
-            options['base_url']
+            settings.CASTELLUM_EMAIL_BASE_URL
         )
         if options['verbosity'] > 0:
             self.stdout.write(f'Direct appointment reminders: {reached_count}')

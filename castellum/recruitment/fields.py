@@ -18,17 +18,22 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
+from dateutil.relativedelta import relativedelta
 from django import forms
+from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 
 def _get_age_fields():
     return [
-        forms.IntegerField(error_messages={}, min_value=0, max_value=1000),
+        forms.CharField(),
         forms.ChoiceField(choices=[
             ('years', _('years')),
             ('months', _('months')),
             ('days', _('days')),
+            ('date', _('date of birth')),
         ]),
     ]
 
@@ -55,3 +60,28 @@ class AgeField(forms.MultiValueField):
 
     def compress(self, value):
         return tuple(value)
+
+    def clean(self, value):
+        period, scale = super().clean(value)
+        if scale == 'date':
+            field = forms.DateField()
+            try:
+                date = datetime.date.fromisoformat(period)
+            except ValueError as e:
+                raise ValidationError('Enter a valid date (YYYY-MM-DD)') from e
+
+            today = datetime.date.today()
+            if date + relativedelta(years=15) < today and date.month != 1:
+                raise ValidationError(
+                    'Please select january 1st for dates far in the past'
+                )
+            if date + relativedelta(years=4) < today and date.day != 1:
+                raise ValidationError(
+                    'Please select the first day of the month for dates far in the past'
+                )
+
+            return period, scale
+        else:
+            field = forms.IntegerField(min_value=0, max_value=1000)
+            i = field.clean(period)
+            return i, scale

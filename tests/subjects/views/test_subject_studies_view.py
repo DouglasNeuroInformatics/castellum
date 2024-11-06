@@ -1,6 +1,3 @@
-import pytest
-
-
 def test_200(client, user, subject):
     client.force_login(user)
     response = client.get(f'/subjects/{subject.pk}/participations/recruit/')
@@ -16,7 +13,6 @@ def test_200_with_study(client, member, subject, study):
     assert b'No matching studies found' not in response.content
 
 
-@pytest.mark.smoketest
 def test_finished_200(client, member, subject):
     client.force_login(member)
     response = client.get(f'/subjects/{subject.pk}/participations/add/')

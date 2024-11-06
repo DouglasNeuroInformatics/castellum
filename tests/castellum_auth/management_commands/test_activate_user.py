@@ -39,7 +39,6 @@ def test_set_unusable_password():
     assert user.has_usable_password()
 
 
-@pytest.mark.unittest
 def test_date_arg():
     cmd = Command()
     parser = cmd.create_parser('django-admin', 'activate_user')

@@ -30,7 +30,7 @@ BOOTSTRAP_THEME_COLORS = None
 # Set to `None` to disable
 CASTELLUM_DOCUMENTATION_LINK = 'https://castellum.mpib.berlin/documentation/en/'
 
-CASTELLUM_LOGOUT_TIMEOUT = datetime.timedelta(seconds=15 * 60)
+CASTELLUM_LOGOUT_TIMEOUT = relativedelta(minutes=15)
 SESSION_COOKIE_AGE = 24 * 60 * 60
 
 CSRF_COOKIE_HTTPONLY = True
@@ -280,6 +280,9 @@ CASTELLUM_MAIL = {
     },
 }
 
+# Base URL that is used when sending emails from cron jobs, e.g. "https://example.com"
+CASTELLUM_EMAIL_BASE_URL = None
+
 # Secondary language in emails for readers who do not understand the
 # primary language
 CASTELLUM_FALLBACK_LANGUAGE = 'en'
@@ -374,21 +377,27 @@ CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY_EN = None
 
 CASTELLUM_SESSIONS_END_MAIL_SUBJECT = '[{study}] Sessions ended'
 CASTELLUM_SESSIONS_END_MAIL_BODY = (
-    'This is a reminder that the data collection of study "{study}" ends today.\n\n'
-    'Please remember to mark the study as finished. To anonymize the data, also '
-    'remember to delete the pseudonym lists once they are no longer needed. If the '
-    'data collection has been extended, please adapt the information in Castellum '
-    'accordingly.\n\n'
-    'Be aware that complete and correct tracking of participations in Castellum is '
-    'essential as Castellum is the central starting point to carry out requests in '
-    'respect to GDPR data subjects rights.'
+    'This is a reminder that, according to the information you entered in '
+    'Castellum, the data collection for study "{study}" ends today: '
+    '{study_url}\n\n'
+    'Please mark the study as finished or adapt the end date in Castellum '
+    'if the data collection has been extended.\n\n'
+    'Remember that correct and complete tracking of this information is '
+    'neccessary so we can responsibly handle the personal data of the study '
+    'participants and delete the data when it is no longer needed.'
 )
 CASTELLUM_SESSIONS_END_MAIL_BODY_EN = None
 
 CASTELLUM_PSEUDONYMS_DELETE_MAIL_SUBJECT = '[{study}] Pseudonyms should be deleted'
 CASTELLUM_PSEUDONYMS_DELETE_MAIL_BODY = (
-    'This is a reminder that the pseudonyms for study "{study}" should be deleted '
-    'today.'
+    'This is a reminder that, according to the information you entered in '
+    'Castellum, the pseudonyms for study "{study}" should be '
+    'deleted today: {study_url}\n\n'
+    'Please make sure that all data has been anonymized and then delete the '
+    'pseudonym lists from Castellum.\n\n'
+    'Remember that correct and complete tracking of this information is '
+    'neccessary so we can responsibly handle the personal data of the study '
+    'participants and delete the data when it is no longer needed.'
 )
 CASTELLUM_PSEUDONYMS_DELETE_MAIL_BODY_EN = None
 

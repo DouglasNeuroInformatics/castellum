@@ -79,7 +79,7 @@ class BaseAttributeField:
 
         if inverse:
             if include_unknown:
-                return ~q
+                return ~q | q_unknown
             else:
                 return ~q & ~q_unknown
         else:
@@ -111,16 +111,12 @@ class DateAttributeField(BaseAttributeField):
         ('gt', _('after')),
     ]
 
-    def parse_date(self, value):
-        dt = datetime.datetime.strptime(value, '%Y-%m-%d')
-        return dt.date()
-
     def get_display(self, value):
         if not value:
             return super().get_display(None)
         if value == ANSWER_DECLINED:
             return super().get_display(value)
-        return self.parse_date(value)
+        return datetime.date.fromisoformat(value)
 
 
 class NumberAttributeField(BaseAttributeField):
@@ -258,6 +254,7 @@ class AgeAttributeField(DateAttributeField):
         'years': _('years'),
         'months': _('months'),
         'days': _('days'),
+        'date': _('date of birth'),
     }
 
     filter_form_class = AgeField
@@ -266,12 +263,17 @@ class AgeAttributeField(DateAttributeField):
         ('gt', _('younger than')),
     ]
 
-    def _filter_to_q(self, operator, value):
+    def _filter_to_date(self, value):
         period, scale = value
+        if scale == 'date':
+            return datetime.date.fromisoformat(period)
         try:
-            date = datetime.date.today() - relativedelta(**{scale: period})
+            return datetime.date.today() - relativedelta(**{scale: period})
         except (ValueError, OverflowError):
-            date = datetime.date.min
+            return datetime.date.min
+
+    def _filter_to_q(self, operator, value):
+        date = self._filter_to_date(value)
         return super()._filter_to_q(operator, date)
 
     def get_filter_display(self, operator, value):
@@ -282,18 +284,13 @@ class AgeAttributeField(DateAttributeField):
     def _get_min_date(self, study):
         """Get minimum date of birth allowed by study filters."""
 
-        today = datetime.date.today()
-
         total = []
         for group in study.subjectfiltergroup_set.all():
             filters = list(group.subjectfilter_set.filter(
                 operator='gt', attribute=self.instance
             ))
             if filters:
-                dates = [
-                    today - relativedelta(**{f.value[1]: f.value[0]})
-                    for f in filters
-                ]
+                dates = [self._filter_to_date(f.value) for f in filters]
                 # Filters within a group are combined with AND.
                 total.append(max(dates))
             else:
@@ -337,7 +334,7 @@ class AgeAttributeField(DateAttributeField):
         def get_bucket(value):
             if not value or value == ANSWER_DECLINED:
                 return None
-            value = self.parse_date(value)
+            value = datetime.date.fromisoformat(value)
             today = datetime.date.today()
             for period, _label in buckets:
                 if (

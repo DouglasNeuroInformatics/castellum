@@ -103,7 +103,7 @@ class Appointment(models.Model):
         if appointment:
             old = AppointmentState(
                 appointment.start,
-                set(c.user for c in appointment.assigned_conductors.all()),
+                {c.user for c in appointment.assigned_conductors.all()},
             )
             if not start:
                 appointment.delete()
@@ -129,7 +129,7 @@ class Appointment(models.Model):
 
         new = AppointmentState(
             start,
-            set(c.user for c in appointment.assigned_conductors.all()),
+            {c.user for c in appointment.assigned_conductors.all()},
         )
         if old != new:
             return (old, new)

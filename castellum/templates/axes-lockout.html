@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n static %}
+{% load i18n static utils %}
 
 {% block title %}{% translate "Account Locked" %} &middot; {{ block.super }}{% endblock %}
 
@@ -11,7 +11,12 @@
         <div class="col-sm-9 mb-5">
             <h1 class="h3">{% translate "Account Locked" %}</h1>
             <p>{% translate "Too many login attempts." %}</p>
-            <p>{% translate "Contact an admin to unlock your account." %}</p>
+            <p>
+                {% translate "Contact an admin to unlock your account." %}
+                {% if cooloff_timedelta %}
+                    {% blocktranslate with delta=cooloff_timedelta|timedelta %}Or wait for {{ delta }}.{% endblocktranslate %}
+                {% endif %}
+            </p>
             <a class="btn btn-primary" href="/">{% translate "Go to homepage" %}</a>
         </div>
     </div>

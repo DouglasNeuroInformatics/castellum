@@ -12,7 +12,6 @@ from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -76,7 +75,6 @@ def test_maintenance_contact_not_empty(client, user):
     assert response.content.count(b'<li class="table-list-item">') == 1
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -158,7 +156,6 @@ def test_maintenance_duplicates_to_be_deleted(client, user):
     assert response.content.count(b'<li class="table-list-item">') == 0
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -194,7 +191,6 @@ def test_maintenance_consent_from_before_full_age(client, user):
     assert response.content.count(b'<li class="table-list-item">') == 1
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -220,7 +216,6 @@ def test_maintenance_reliability(client, user, subject):
     assert response.content.count(b'"table-list-item"') == 1
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -250,7 +245,6 @@ def test_maintenance_delete_subjectcreationrequest(
     assert not ContactCreationRequest.objects.exists()
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),

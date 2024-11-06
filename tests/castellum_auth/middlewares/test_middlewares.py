@@ -1,6 +1,5 @@
-import datetime
-
 import pytest
+from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 from freezegun import freeze_time
 
@@ -10,8 +9,8 @@ from castellum.castellum_auth.models import User
 @pytest.mark.django_db
 @pytest.mark.parametrize('expiration_date,expected', (
     (None, False),
-    (timezone.now() - datetime.timedelta(days=10), False),
-    (timezone.now() + datetime.timedelta(days=10), True),
+    (timezone.now() - relativedelta(days=10), False),
+    (timezone.now() + relativedelta(days=10), True),
 ))
 def test_user_expiration_date(client, expiration_date, expected):
     user = User.objects.create(expiration_date=expiration_date)

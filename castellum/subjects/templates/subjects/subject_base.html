@@ -21,10 +21,10 @@
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
                 <a href="{% url 'subjects:detail' subject.pk %}" class="nav-link {% if view.tab == 'detail' %}active{% endif %}">
+                    {% translate 'Overview' %}
                     {% if not subject.has_legal_basis %}
                         {% icon 'exclamation-triangle' label=_('Action required') %}
                     {% endif %}
-                    {% translate 'Overview' %}
                 </a>
             </li>
 
@@ -32,26 +32,26 @@
             {% if can_change_subject %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:contact' subject.pk %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">
+                        {% translate 'Contact' %}
                         {% if not subject.contact.is_complete %}
                             {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
-                        {% translate 'Contact' %}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'subjects:attributes' subject.pk %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">
+                        {% translate "Recruitment attributes" %}
                         {% if subject.has_unnecessary_recruitment_data %}
                             {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
-                        {% translate "Recruitment attributes" %}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'subjects:data-protection' subject.pk %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
+                        {% translate 'Data protection' %}
                         {% if subject.consent_action_required %}
                             {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
-                        {% translate 'Data protection' %}
                     </a>
                 </li>
                 <li class="nav-item">
@@ -78,10 +78,10 @@
             {% if can_export_subject %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:export' subject.pk %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">
+                        {% translate 'Export' %}
                         {% if subject.export_requested %}
                             {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
-                        {% translate 'Export' %}
                     </a>
                 </li>
             {% endif %}
@@ -90,10 +90,10 @@
             {% if can_delete_subject %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:delete' subject.pk %}" class="nav-link {% if view.tab == 'delete' %}active{% endif %}">
+                        {% translate 'Delete' %}
                         {% if subject.to_be_deleted %}
                             {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
-                        {% translate 'Delete' %}
                     </a>
                 </li>
             {% endif %}

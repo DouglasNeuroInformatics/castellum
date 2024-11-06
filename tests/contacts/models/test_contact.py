@@ -4,7 +4,6 @@ from model_bakery import baker
 from castellum.contacts.models import Contact
 
 
-@pytest.mark.unittest
 @pytest.mark.parametrize('title,expected', (
     ('Dr.', 'Dr. Max Planck'),
     (None, 'Max Planck'),

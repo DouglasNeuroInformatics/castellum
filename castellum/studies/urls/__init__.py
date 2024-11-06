@@ -35,7 +35,6 @@ from ..views.studies import StudyDomainsGeneralView
 from ..views.studies import StudyDomainsView
 from ..views.studies import StudyFinishRecruitmentView
 from ..views.studies import StudyIndexView
-from ..views.studies import StudyMaintenanceView
 from ..views.studies import StudyStartRecruitmentView
 from ..views.studies import StudyUpdateView
 from . import members as members_urls
@@ -45,7 +44,6 @@ from . import sessions as sessions_urls
 app_name = 'studies'
 urlpatterns = [
     path('', StudyIndexView.as_view(), name='index'),
-    path('maintenance/<subtab>/', StudyMaintenanceView.as_view(), name='maintenance'),
     path('create/', StudyCreateView.as_view(), name='create'),
     path(
         'create/filtertrial/',

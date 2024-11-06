@@ -1,10 +1,8 @@
-import pytest
 from model_bakery import baker
 
 from castellum.pseudonyms.models import Domain
 
 
-@pytest.mark.smoketest
 def test_200(client, study, member):
     client.force_login(member)
     response = client.get(f'/studies/{study.pk}/domains/')

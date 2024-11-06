@@ -4,7 +4,11 @@
 {% block title %}{% translate "Pseudonym lists" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    {% if study.should_delete_domains %}
+    {% if study.should_enter_pseudonyms_delete_date %}
+        <div class="alert alert-danger" role="alert">
+            {% translate 'Please enter the date when pseudonym lists should be deleted!' %}
+        </div>
+    {% elif study.should_delete_domains %}
         <div class="alert alert-danger" role="alert">
             {% translate 'The pseudonym lists for this study should be deleted!' %}
         </div>

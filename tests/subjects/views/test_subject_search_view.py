@@ -7,7 +7,6 @@ from castellum.recruitment.models import Participation
 from castellum.subjects.models import SubjectCreationRequest
 
 
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'study_coordinator',
     'recruiter',

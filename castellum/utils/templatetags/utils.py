@@ -28,6 +28,8 @@ from urllib.parse import urlunparse
 from django import template
 from django.urls import reverse
 from django.utils import formats
+from django.utils import timezone
+from django.utils.timesince import timeuntil
 from django.utils.translation import gettext_lazy as _
 
 from castellum.utils import get_parler_languages
@@ -85,6 +87,11 @@ def is_today(date):
 @register.filter
 def longdate(date):
     return formats.date_format(date, 'l, ') + formats.date_format(date, 'DATE_FORMAT')
+
+
+@register.filter
+def timedelta(delta):
+    return timeuntil(timezone.now() + delta)
 
 
 @register.filter

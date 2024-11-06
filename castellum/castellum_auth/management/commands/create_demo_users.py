@@ -18,8 +18,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
-
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
@@ -61,7 +60,7 @@ class Command(BaseCommand):
                 'Creating demo users in production environment is insecure.'
             )
 
-        expiration_date = timezone.now() + datetime.timedelta(days=1000)
+        expiration_date = timezone.now() + relativedelta(days=1000)
 
         if not User.objects.filter(username='admin').exists():
             User.objects.create_superuser(

@@ -15,15 +15,15 @@
             {% for tag in study.tags.all %}
                 <span class="badge text-bg-info">{{ tag }}</span>
             {% endfor %}
-            {% if study.is_started %}
-                <span class="badge text-bg-secondary" title="{% translate 'Recruitment and execution for this study have started.' %}">{% translate 'Started' %}</span>
-            {% endif %}
-            {% if study.status == study.FINISHED %}
-                <span class="badge text-bg-secondary" title="{% translate 'Recruitment and execution for this study have ended.' %}">{% translate 'Finished' %}</span>
+            {% if study.status != study.EXECUTION %}
+                <span class="badge text-bg-secondary">{{ study.get_status_badge }}</span>
             {% endif %}
 
             <p class="text-body-secondary mt-2">
-                <span class="d-block">{% translate 'Contact' %}: {{ study.contact_person }}</span>
+                <span class="d-inline-block mx-2">
+                    {% icon 'user' label=study|verbose_name:'contact_person' %}
+                    {{ study.contact_person }}
+                </span>
                 <span class="d-inline-block mx-2">
                     {% icon 'envelope' label=study|verbose_name:'email' %}
                     <a href="mailto:{{ study.email }}" class="text-reset">{{ study.email }}</a>
@@ -79,7 +79,7 @@
                 {% if can_change_study %}
                     <form class="d-inline" method="post" action="{% url 'studies:finish' study.pk %}">
                         {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ request.path }}">
+                        <input type="hidden" name="next" value="{{ request.path }}">
 
                         {% if study.status == study.FINISHED %}
                             <button class="btn btn-outline-primary active mb-1" title="{% translate 'Resume recruitment and execution for this study' %}">
@@ -124,14 +124,19 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'domains' %}active{% endif %}" href="{% url 'studies:domains' study.pk %}">
-                        {% if study.should_delete_domains %}
+                        {% translate 'Pseudonym lists' %}
+                        {% if study.should_enter_pseudonyms_delete_date or study.should_delete_domains %}
                             {% icon 'exclamation-triangle' label=_('Action required') %}
                         {% endif %}
-                        {% translate 'Pseudonym lists' %}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if view.tab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">{% translate 'Sessions' %}</a>
+                    <a class="nav-link {% if view.tab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">
+                        {% translate 'Sessions' %}
+                        {% if study.should_enter_sessions_end or study.should_finish_study %}
+                            {% icon 'exclamation-triangle' label=_('Action required') %}
+                        {% endif %}
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% translate 'Recruitment Settings' %}</a>

@@ -23,6 +23,7 @@ import logging
 import random
 from collections import defaultdict
 
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import messages
 from django.db import models
@@ -83,6 +84,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     study_status = [Study.EXECUTION]
     shown_status = []
     tab = 'recruitment'
+    paginate_by = 200
 
     def dispatch(self, request, *args, **kwargs):
         self.sort = self.request.GET.get(
@@ -97,7 +99,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         elif self.sort == 'privacy-level':
             order_by = ['subject__privacy_level', '-updated_at']
         elif self.sort == 'last_contact_attempt':
-            order_by = ['-status_not_reached', '-updated_at']
+            order_by = ['-updated_at']
         elif self.sort == 'statistics':
             desc1 = get_attribute_by_statistics_rank('primary')
             desc2 = get_attribute_by_statistics_rank('secondary')
@@ -167,7 +169,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         }
 
         if len(buckets2) > 1:
-            data['legend'] = [str(label2) for key2, label2 in buckets2]
+            data['legend'] = []
+            for key2, label2 in buckets2:
+                count = sum(statistics[key1][key2] for key1, label1 in buckets1)
+                data['legend'].append(f'{label2} ({count})')
 
         return data
 
@@ -195,7 +200,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         )
 
         participations = []
-        for participation in self.get_queryset():
+        for participation in context['object_list']:
             subject = participation.subject
             buckets = []
             if desc1:
@@ -244,12 +249,9 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         context['excluded_count'] = (
             queryset.filter(status__in=Participation.EXCLUDED_SET).count()
         )
-        context['open_count'] = queryset.filter(status__in=[
-            Participation.NOT_CONTACTED,
-            Participation.NOT_REACHED,
-            Participation.FOLLOWUP_APPOINTED,
-            Participation.AWAITING_RESPONSE,
-        ]).count()
+        context['open_count'] = (
+            queryset.filter(status__in=Participation.RECRUITMENT_SET).count()
+        )
 
         context['session_count'] = self.study.studysession_set.count()
 
@@ -373,7 +375,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     participations.append(Participation(
                         study=self.study,
                         subject=pick,
-                        status=Participation.AWAITING_RESPONSE,
+                        status=Participation.MAIL_SENT,
                         attempts=1,
                     ))
 
@@ -391,7 +393,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         # 6 instead of 7 days so that people can send mails e.g. every monday
         result = (
             self.study.mailbatch_set
-            .filter(datetime__gt=timezone.now() - datetime.timedelta(days=6))
+            .filter(datetime__gt=timezone.now() - relativedelta(days=6))
             .aggregate(models.Sum('contacted_size'))
         )
         return result['contacted_size__sum'] or 0
@@ -594,11 +596,11 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
         return {
             'all': qs,
             'mismatch': qs.exclude(subject__in=Subject.objects.filter(
-                filter_queries.study_recruitable(self.study),
+                filter_queries.study_criteria(self.study),
             )),
             'awaiting_response': qs.filter(
                 status=Participation.AWAITING_RESPONSE,
-                updated_at__lt=timezone.now() - datetime.timedelta(days=10),
+                updated_at__lt=timezone.now() - relativedelta(days=10),
             ),
         }
 

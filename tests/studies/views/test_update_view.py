@@ -1,5 +1,3 @@
-import pytest
-
 FORM_DEFAULTS = {
     'name': 'name',
     'contact_person': 'contact_person',
@@ -9,7 +7,6 @@ FORM_DEFAULTS = {
 }
 
 
-@pytest.mark.smoketest
 def test_200(client, member, study):
     client.force_login(member)
     response = client.get(f'/studies/{study.pk}/update/')

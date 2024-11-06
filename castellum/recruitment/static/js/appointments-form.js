@@ -15,7 +15,7 @@ $$.on(document, 'submit', 'form', function(event) {
             }
         }
     });
-    if (warn && !confirm(document.querySelector('#i18n-appointments').content.textContent)) {
+    if (warn && !confirm($$.gettext('appointments'))) {
         event.preventDefault();
     }
 });
