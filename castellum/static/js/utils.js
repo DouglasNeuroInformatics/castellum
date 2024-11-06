@@ -174,7 +174,7 @@ var ageDifference = function(a, b) {
 
     var tmp = new Date(a.getFullYear(), a.getMonth() + totalMonths, a.getDate());
     // clip to last day of month
-    if (tmp.getMonth() !== (a.getMonth() + totalMonths) % 24) {
+    if (tmp.getMonth() !== (a.getMonth() + totalMonths) % 12) {
         tmp.setDate(0);
     }
     return [
