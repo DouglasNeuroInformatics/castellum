@@ -1,12 +1,11 @@
 # Example 2: Manual Deployment
 
-This guide walks you through all the steps to set up a production-ready
+This guide walks you through all required steps to set up a production-ready
 deployment of Castellum. Familiarity with web servers and databases in
 general, and Django and PostgreSQL specifically, is beneficial.
 
 This guide illustrates how to manually install Castellum. If you prefer
-a containerized setup, please refer to [Example
-1](../example_1/).
+a containerized setup, please refer to [Example 1](../example_1/).
 
 ## Before You Start
 
@@ -200,14 +199,31 @@ Generate a secret for the setting `SECRET_KEY`. Similarly, set the
 bind password of your LDAP server in the setting
 `AUTH_LDAP_BIND_PASSWORD`. You also need to enter the passwords for both
 databases. See `castellum/settings/default/` for the full list of
-available settings.
+available settings. The provided systemd unit for Castellum assumes these 
+credentials to be stored in a dedicated text file under `/etc/castellum`. 
+Thus, create the directory and corresponding file:
+
+``` bash
+mkdir /etc/castellum
+touch /etc/castellum/credentials.secret
+```
+
+with `credentials.secret` containing the respective environment variables:
+
+``` bash
+SECRET_KEY=...
+AUTH_LDAP_BIND_PASSWORD=...
+```
 
 When you are done, let Django run some automated checks on your
 settings:
 
 ```bash
-cd /opt/castellum/
+set -a 
+source /etc/castellum/credentials.secret
+set +a
 export DJANGO_SETTINGS_MODULE="castellum.settings.deployment"
+cd /opt/castellum/
 python3 -m django check --deploy
 ```
 
@@ -264,8 +280,7 @@ handle the communication between gunicorn and ngnix:
 ```bash
 cp castellum.socket /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable castellum.socket
-systemctl start castellum.socket
+systemctl enable --now castellum.socket
 systemctl status castellum.socket
 ```
 
@@ -283,8 +298,7 @@ unit for gunicorn and test if the socket connection works:
 ```bash
 cp castellum.service /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable castellum
-systemctl start castellum
+systemctl enable --now castellum
 systemctl status castellum
 curl --unix-socket /run/castellum.sock localhost
 journalctl -u castellum
@@ -311,10 +325,21 @@ ln -s /etc/nginx/sites-available/castellum.conf /etc/nginx/sites-enabled/castell
 nginx -t
 ```
 
-If nginx does not complain, apply the changes:
+If nginx does not complain, ensure nginx is able to serve media files 
+for Castelllum by amending its systemd unit and creating the corresponding 
+directory:
+
+``` bash
+mkdir -p /etc/systemd/system/nginx.service.d/
+cp nginx.override.conf /etc/systemd/system/nginx.service.d/override.conf
+mkdir /var/lib/castellum/media/
+```
+
+Apply the changes:
 
 ```bash
-systemctl reload nginx
+systemctl daemon-reload
+systemctl restart nginx
 ```
 
 Congratulations, your Castellum instance is now ready to use!
@@ -357,6 +382,9 @@ pip3 install -e .
 npm install
 .misc/extract_fullcalendar_css.sh
 
+set -a 
+source /etc/castellum/credentials.secret
+set +a
 export DJANGO_SETTINGS_MODULE="castellum.settings.development"
 python3 -m django migrateall
 python3 -m django collectstatic
