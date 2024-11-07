@@ -5,10 +5,7 @@ After=castellum.socket
 After=network.target
 
 [Service]
-EnvironmentFile=/etc/castellum/secret.pw
-EnvironmentFile=/etc/castellum/db_default.pw
-EnvironmentFile=/etc/castellum/db_contacts.pw
-EnvironmentFile=/etc/castellum/ldap.pw
+EnvironmentFile=/etc/castellum/credentials.secret
 Environment="DJANGO_SETTINGS_MODULE=castellum.settings.customizations"
 WorkingDirectory=/opt/castellum
 StateDirectory=castellum
