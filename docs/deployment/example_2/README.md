@@ -1,12 +1,11 @@
 # Example 2: Manual Deployment
 
-This guide walks you through all the steps to set up a production-ready
+This guide walks you through all required steps to set up a production-ready
 deployment of Castellum. Familiarity with web servers and databases in
 general, and Django and PostgreSQL specifically, is beneficial.
 
 This guide illustrates how to manually install Castellum. If you prefer
-a containerized setup, please refer to [Example
-1](../example_1/).
+a containerized setup, please refer to [Example 1](../example_1/).
 
 ## Before You Start
 
@@ -212,7 +211,7 @@ python3 -m django check --deploy
 ```
 
 If Django does not complain, run all initial database migrations, load
-recommended data and create an admin user::
+recommended data and create an admin user:
 
 ```bash
 python3 -m django migrateall
@@ -264,8 +263,7 @@ handle the communication between gunicorn and ngnix:
 ```bash
 cp castellum.socket /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable castellum.socket
-systemctl start castellum.socket
+systemctl enable --now castellum.socket
 systemctl status castellum.socket
 ```
 
@@ -283,8 +281,7 @@ unit for gunicorn and test if the socket connection works:
 ```bash
 cp castellum.service /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable castellum
-systemctl start castellum
+systemctl enable --now castellum
 systemctl status castellum
 curl --unix-socket /run/castellum.sock localhost
 journalctl -u castellum
