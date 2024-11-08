@@ -320,9 +320,8 @@ Next copy the provided nginx configuration file and test it:
 
 ```bash
 mkdir -p /etc/nginx/sites-available/
-mkdir -p /etc/nginx/sites-enabled/
 cp castellum.nginx.conf /etc/nginx/sites-available/castellum.conf
-ln -s /etc/nginx/sites-available/castellum.conf /etc/nginx/sites-enabled/castellum.conf
+ln -s /etc/nginx/sites-available/castellum.conf /etc/nginx/conf.d/castellum.conf
 nginx -t
 ```
 
