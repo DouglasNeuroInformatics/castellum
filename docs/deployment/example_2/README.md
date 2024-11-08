@@ -274,13 +274,15 @@ systemd.
 
 To make gunicorn start automatically, we will create a system service.
 
-First, install the provided service unit that creates a Unix socket to
-handle the communication between gunicorn and ngnix:
+First, install the provided service units that create a Unix socket to
+handle the communication between gunicorn and ngnix and control gunicorn
+itself:
 
 ```bash
 cp castellum.socket /etc/systemd/system/
+cp castellum.service /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable --now castellum.socket
+systemctl start castellum.socket
 systemctl status castellum.socket
 ```
 
@@ -292,17 +294,16 @@ journalctl -u castellum.socket
 # ---> a file access should show up in the log
 ```
 
-After the socket has been set up correctly, install the provided service
+After the socket has been set up correctly, activate the provided service
 unit for gunicorn and test if the socket connection works:
 
 ```bash
-cp castellum.service /etc/systemd/system/
-systemctl daemon-reload
 systemctl enable --now castellum
 systemctl status castellum
 curl --unix-socket /run/castellum.sock localhost
 journalctl -u castellum
 # ---> an HTTP access should show up in the log
+systemctl enable castellum.socket
 ```
 
 ## nginx
