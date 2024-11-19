@@ -93,29 +93,30 @@
                                     {% endif %}
                                     <div class="flex-grow-1">
                                         {% if not revision.document %}
-                                        <div>{% translate 'This subject has declined recruitment consent' %}</div>
-                                        <small>{% translate 'on' %} {{ revision.created_at|date }}</small>
-                                    {% else %}
-                                        <div>{% translate 'This subject has given recruitment consent' %}</div>
-                                        <small>
-                                            {% translate 'on' %} {{ revision.created_at|date }}
-                                            &middot;
-                                            {% if revision.document.file %}
-                                                <a href="{{ revision.document.file.url }}">{{ revision.document }}</a>
-                                            {% else %}
-                                                {{ revision.document }}
-                                            {% endif %}
-                                            {% if not revision.document.is_valid %}
-                                                <span class="badge text-bg-danger">{% translate "invalid" %}</span>
-                                            {% elif revision.document.is_deprecated %}
-                                                <span class="badge text-bg-warning">{% translate "deprecated" %}</span>
-                                            {% endif %}
-                                            {% if revision.file %}
+                                            <div>{% translate 'This subject has declined recruitment consent' %}</div>
+                                            <small>{% translate 'on' %} {{ revision.created_at|date }}</small>
+                                        {% else %}
+                                            <div>{% translate 'This subject has given recruitment consent' %}</div>
+                                            <small>
+                                                {% translate 'on' %} {{ revision.created_at|date }}
                                                 &middot;
-                                                <a href="{% subject_media_url revision.file.url %}">{% translate 'Download signed document' %}</a>
-                                            {% endif %}
-                                        </small>
-                                    {% endif %}
+                                                {% if revision.document.file %}
+                                                    <a href="{{ revision.document.file.url }}">{{ revision.document }}</a>
+                                                {% else %}
+                                                    {{ revision.document }}
+                                                {% endif %}
+                                                {% if not revision.document.is_valid %}
+                                                    <span class="badge text-bg-danger">{% translate "invalid" %}</span>
+                                                {% elif revision.document.is_deprecated %}
+                                                    <span class="badge text-bg-warning">{% translate "deprecated" %}</span>
+                                                {% endif %}
+                                                {% if revision.file %}
+                                                    &middot;
+                                                    <a href="{% subject_media_url revision.file.url %}">{% translate 'Download signed document' %}</a>
+                                                {% endif %}
+                                            </small>
+                                        {% endif %}
+                                    </div>
                                 </li>
                             {% endfor %}
                         </ul>
