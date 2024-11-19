@@ -161,6 +161,9 @@
                 <dt class="col-sm-6" data-fieldname="subjects.Consent.updated_at">{{ subject.consent|verbose_name:'updated_at' }}</dt>
                 <dd class="col-sm-6">{{ subject.consent|display:'updated_at' }}</dd>
 
+                <dt class="col-sm-6" data-fieldname="subjects.Consent.excluded_by_us">{{ subject.consent|verbose_name:'excluded_by_us' }}</dt>
+                <dd class="col-sm-6">{{ subject.consent|display:'excluded_by_us' }}</dd>
+
                 <dt class="col-sm-6" data-fieldname="subjects.Consent.underage_when_given">{{ subject.consent|verbose_name:'underage_when_given' }}</dt>
                 <dd class="col-sm-6">{{ subject.consent|display:'underage_when_given' }}</dd>
 
@@ -184,6 +187,9 @@
 
                     <dt class="col-sm-6" data-fieldname="subjects.ConsentRevision.created_at">{{ revision|verbose_name:'created_at' }}</dt>
                     <dd class="col-sm-6">{{ revision|display:'created_at' }}</dd>
+
+                <dt class="col-sm-6" data-fieldname="subjects.ConsentRevision.excluded_by_us">{{ revision|verbose_name:'excluded_by_us' }}</dt>
+                <dd class="col-sm-6">{{ revision|display:'excluded_by_us' }}</dd>
 
                     <dt class="col-sm-6" data-fieldname="subjects.ConsentRevision.underage_when_given">{{ revision|verbose_name:'underage_when_given' }}</dt>
                     <dd class="col-sm-6">{{ revision|display:'underage_when_given' }}</dd>

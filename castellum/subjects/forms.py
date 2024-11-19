@@ -27,6 +27,8 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.utils.forms import DatalistWidget
 
+from .models import Consent
+from .models import ConsentDocument
 from .models import Subject
 
 
@@ -145,3 +147,43 @@ class AdditionalInfoForm(forms.ModelForm):
                 .distinct
             )),
         }
+
+
+class ConsentChangeForm(forms.ModelForm):
+    document = forms.ChoiceField()
+
+    class Meta:
+        model = Consent
+        fields = ['document', 'file', 'excluded_by_us']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if not ConsentDocument.objects.filter(is_valid=True).exists():
+            ConsentDocument.objects.create()
+
+        valid_documents = ConsentDocument.objects.filter(is_valid=True)
+        self.fields['document'].choices = [
+            ('excluded', _(
+                'Excluded by us (e.g. because they were unreliable or inactive)'
+            )),
+            ('withdrawn', _('Consent declined/withdrawn ')),
+            *[(doc.id, str(doc)) for doc in valid_documents],
+        ]
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if cleaned_data['document'] == 'excluded':
+            cleaned_data['excluded_by_us'] = True
+            cleaned_data['document'] = None
+        elif cleaned_data['document'] == 'withdrawn':
+            cleaned_data['excluded_by_us'] = False
+            cleaned_data['document'] = None
+        else:
+            cleaned_data['excluded_by_us'] = False
+            cleaned_data['document'] = ConsentDocument.objects.get(
+                pk=cleaned_data['document']
+            )
+
+        return cleaned_data

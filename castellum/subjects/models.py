@@ -346,6 +346,9 @@ class BaseConsent(models.Model):
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
+    # only relevant if document=None
+    excluded_by_us = models.BooleanField(_('Excluded by us'), default=False)
+
     class Meta:
         abstract = True
 
@@ -370,6 +373,7 @@ class Consent(BaseConsent):
         ConsentRevision.objects.create(
             subject=self.subject,
             underage_when_given=self.underage_when_given,
+            excluded_by_us=self.excluded_by_us,
             document=self.document,
             file=self.file,
         )
