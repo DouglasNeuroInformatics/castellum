@@ -12,11 +12,11 @@
 
         <div class="card mb-3">
             <div class="card-body">
-                <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-1">
                     {% if object.consent.document %}
-                        <i class="fa fa-check text-success fs-5" aria-hidden="true"></i>
+                        <i class="fa fa-check text-success fs-5 fa-fw" aria-hidden="true"></i>
                     {% else %}
-                        <i class="fa fa-xmark text-danger fs-5" aria-hidden="true"></i>
+                        <i class="fa fa-xmark text-danger fs-5 fa-fw" aria-hidden="true"></i>
                     {% endif %}
                     <div class="flex-grow-1">
                         {% if object.unknown_consent %}
@@ -85,11 +85,11 @@
                         <summary>{% translate 'History' %}</summary>
                         <ul>
                             {% for revision in subject.consentrevision_set.all reversed %}
-                                <li class="d-flex align-items-center gap-2 mb-2">
+                                <li class="d-flex align-items-center gap-1 mb-2">
                                     {% if revision.document %}
-                                        <i class="fa fa-check text-success fs-5" aria-hidden="true"></i>
+                                        <i class="fa fa-check text-success fs-5 fa-fw" aria-hidden="true"></i>
                                     {% else %}
-                                        <i class="fa fa-xmark text-danger fs-5" aria-hidden="true"></i>
+                                        <i class="fa fa-xmark text-danger fs-5 fa-fw" aria-hidden="true"></i>
                                     {% endif %}
                                     <div class="flex-grow-1">
                                         {% if not revision.document %}
