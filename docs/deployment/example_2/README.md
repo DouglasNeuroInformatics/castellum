@@ -325,17 +325,7 @@ ln -s /etc/nginx/sites-available/castellum.conf /etc/nginx/conf.d/castellum.conf
 nginx -t
 ```
 
-If nginx does not complain, ensure nginx is able to serve media files 
-for Castelllum by amending its systemd unit and creating the corresponding 
-directory:
-
-``` bash
-mkdir -p /etc/systemd/system/nginx.service.d/
-cp nginx.override.conf /etc/systemd/system/nginx.service.d/override.conf
-mkdir /var/lib/castellum/media/
-```
-
-Apply the changes:
+If nginx does not complain, apply the changes:
 
 ```bash
 systemctl daemon-reload

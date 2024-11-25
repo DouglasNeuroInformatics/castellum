@@ -8,8 +8,11 @@ After=network.target
 EnvironmentFile=/etc/castellum/credentials.secret
 Environment="DJANGO_SETTINGS_MODULE=castellum.settings.customizations"
 WorkingDirectory=/opt/castellum
-StateDirectory=castellum
 LogsDirectory=castellum
+ExecStartPre=+mkdir -p /opt/castellum/media
+ExecStartPre=+chown -R castellum:nginx /opt/castellum/media
+ExecStartPre=+chmod -R 750 /opt/castellum/media
+ReadWritePaths=/opt/castellum/media
 ExecStart=gunicorn \
           --access-logfile - \
           --workers 4 \
