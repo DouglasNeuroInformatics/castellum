@@ -832,7 +832,7 @@ msgstr "Löschen"
 #, python-format
 msgid "This subject has no study consent for \"%(study)s\" yet"
 msgstr ""
-"Diese Proband*innen hat noch keine Einwilligung für die Studie \"%(study)s\""
+"Diese Proband*in hat noch keine Einwilligung für die Studie \"%(study)s\""
 
 #: castellum/execution/templates/execution/participation_consent.html:26
 #: castellum/recruitment/templates/recruitment/recruitment.html:65
@@ -3702,7 +3702,7 @@ msgstr "Einwilligung abgelehnt/widerrufen"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:23
 msgid "This subject has no recruitment consent yet"
-msgstr "Diese Proband*innen hat noch keine Rekrutierungseinwilligung"
+msgstr "Diese Proband*in hat noch keine Rekrutierungseinwilligung"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:24
 msgid "Subject created on"
