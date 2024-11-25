@@ -1,3 +1,8 @@
+# 0.99.2 (2024-11-25)
+
+-   fix age calculation for one year olds
+
+
 # 0.99.1 (2024-11-04)
 
 -   fix: reset page on status filter in study list

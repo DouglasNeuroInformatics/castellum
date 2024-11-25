@@ -18,5 +18,5 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-__version__ = '0.99.1'
-__release_date__ = '2024-11-04'
+__version__ = '0.99.2'
+__release_date__ = '2024-11-25'
