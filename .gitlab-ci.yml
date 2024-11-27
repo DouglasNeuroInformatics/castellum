@@ -24,7 +24,7 @@ test:
   before_script:
     - apt-get update -q && apt-get install -y -qq python3-pip python3-venv hunspell hunspell-de-de gdal-bin python3-psycopg2
     - python3 -m venv .venv --system-site-packages
-    - .venv/bin/pip install -U setuptools
+    - .venv/bin/pip install -U pip setuptools wheel
     - .venv/bin/pip install -e .[test]
   script:
     - .venv/bin/ruff check castellum tests
