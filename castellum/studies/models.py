@@ -140,7 +140,14 @@ class Study(TimeStampedModel):
     )
 
     pseudonyms_delete_date = DateField(
-        _('Date when pseudonym lists should be deleted'), blank=True, null=True
+        _('Date when pseudonym lists should be deleted'),
+        help_text=_(
+            'This date is usually defined in the ethics application and the study '
+            'consent form. Entering it here is purely informational. The pseudonym '
+            'lists will not be deleted automatically.'
+        ),
+        blank=True,
+        null=True,
     )
 
     members = models.ManyToManyField(User, through='StudyMembership')

@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 null=True,
                 verbose_name="Date when pseudonym lists should be deleted",
+                help_text='This date is usually defined in the ethics application and the study consent form. Entering it here is purely informational. The pseudonym lists will not be deleted automatically.',
             ),
         ),
     ]
