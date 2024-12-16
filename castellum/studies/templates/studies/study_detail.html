@@ -2,12 +2,20 @@
 {% load i18n auth utils %}
 
 {% block content %}
-    <h3 class="h5">{% translate "General" %}</h3>
-
     <dl class="row">
         {% if 'principal_investigator' in CASTELLUM_ENABLE_STUDY_METADATA %}
             <dt class="col-sm-6">{{ object|verbose_name:'principal_investigator' }}</dt>
             <dd class="col-sm-6">{{ object|display:'principal_investigator' }}</dd>
+        {% endif %}
+
+        {% if 'affiliated_scientists' in CASTELLUM_ENABLE_STUDY_METADATA %}
+            <dt class="col-sm-6">{{ object|verbose_name:'affiliated_scientists' }}</dt>
+            <dd class="col-sm-6">{{ object|display:'affiliated_scientists' }}</dd>
+        {% endif %}
+
+        {% if 'affiliated_research_assistants' in CASTELLUM_ENABLE_STUDY_METADATA %}
+            <dt class="col-sm-6">{{ object|verbose_name:'affiliated_research_assistants' }}</dt>
+            <dd class="col-sm-6">{{ object|display:'affiliated_research_assistants' }}</dd>
         {% endif %}
 
         <dt class="col-sm-6">{% translate 'Members' %}</dt>
@@ -19,31 +27,8 @@
             {% endfor %}
         </dd>
 
-        <dt class="col-sm-6">{% translate 'Consent document uploaded' %}</dt>
-        <dd class="col-sm-6">{% if object.consent %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
-    </dl>
-
-    <h3 class="h5">{% translate "Pseudonym lists" %}</h3>
-    <dl class="row">
-        <dt class="col-sm-6">{% translate 'Count' %}</dt>
-        <dd class="col-sm-6">{{ object.domains.count }}</dd>
-
-        <dt class="col-sm-6">{% translate 'Deletion date' %}</dt>
-        <dd class="col-sm-6">
-            {{ object|display:'pseudonyms_delete_date' }}
-            {% if study.should_enter_pseudonyms_delete_date or study.should_delete_domains %}
-                {% icon 'exclamation-triangle' label=_('Action required') %}
-            {% endif %}
-        </dd>
-    </dl>
-
-    <h3 class="h5">{% translate "Sessions" %}</h3>
-    <dl class="row">
-        <dt class="col-sm-6">{% translate 'Count' %}</dt>
-        <dd class="col-sm-6">{{ object.studysession_set.count }}</dd>
-
-        <dt class="col-sm-6">{% translate 'Types of sessions' %}</dt>
-        <dd class="col-sm-6">{{ object|display:'study_type' }}</dd>
+        <dt class="col-sm-6">{{ study|verbose_name:'created_at' }}</dt>
+        <dd class="col-sm-6">{{ study|display:'created_at' }}</dd>
 
         <dt class="col-sm-6">{% translate 'Scheduled runtime' %}</dt>
         <dd class="col-sm-6">
@@ -58,25 +43,23 @@
                 {% icon 'exclamation-triangle' label=_('Action required') %}
             {% endif %}
         </dd>
-    </dl>
 
-    <h3 class="h5">{% translate "Recruitment settings" %}</h3>
-    <dl class="row">
+        <dt class="col-sm-6">{{ object|verbose_name:'pseudonyms_delete_date' }}</dt>
+        <dd class="col-sm-6">
+           {{ object|display:'pseudonyms_delete_date' }}
+            {% if study.should_enter_pseudonyms_delete_date or study.should_delete_domains %}
+                {% icon 'exclamation-triangle' label=_('Action required') %}
+            {% endif %}
+        </dd>
+
         <dt class="col-sm-6">{% translate 'Participating subjects' %}</dt>
         <dd class="col-sm-6">{{ object.invited_count }}/{{ object.min_subject_count }}</dd>
 
-        <dt class="col-sm-6">{% translate 'Potential subjects' %}</dt>
-        <dd class="col-sm-6">{{ potential_count }}</dd>
-
-        <dt class="col-sm-6">{% translate 'Recruitment text provided' %}</dt>
-        <dd class="col-sm-6">{% if object.recruitment_text %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
-
-        <dt class="col-sm-6">{% translate 'Recruitment filters set' %}</dt>
-        <dd class="col-sm-6">{% if study.has_filters %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
+        <dt class="col-sm-6">{% translate 'Sessions' %}</dt>
+        <dd class="col-sm-6">{{ object.studysession_set.count }} {% if object.study_type %}({{ object|display:'study_type' }}){% endif %}</dd>
     </dl>
 
-    {% if 'description' in CASTELLUM_ENABLE_STUDY_METADATA %}
-        <h3 class="h5">{% translate "Description" %}</h3>
-        {{ study.description|default:'—'|urlize|linebreaks }}
+    {% if 'description' in CASTELLUM_ENABLE_STUDY_METADATA and study.description %}
+        {{ study.description|urlize|linebreaks }}
     {% endif %}
 {% endblock %}
