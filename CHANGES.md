@@ -1,3 +1,27 @@
+# 25.1.0 (unreleased)
+
+## breaking changes
+
+-   The versioning scheme was changed to reflect the time based release
+    schedule. The versions now follow the scheme `year.month.patch`.
+-   Drop support for python 3.9
+-   The optional dependency django-axes has been updated to 7.x. If you
+    are using the `AXES_COOLOFF_TIME` setting, you may be affected by a
+    breaking change. See
+    [the release notes](https://django-axes.readthedocs.io/en/latest/2_installation.html)
+    for details.
+-   The optional dependency django-auth-ldap has been updated to 5.x.
+    If experience issues with the LDAP connection, you may be affected
+    by a breaking change. See
+    [the release notes](https://github.com/django-auth-ldap/django-auth-ldap/releases/tag/5.0.0)
+    for details.
+
+## other changes
+
+-   redesign the study detail page to be more compact
+-   restructure the information on pseudonym lists
+
+
 # 0.99.2 (2024-11-25)
 
 -   fix age calculation for one year olds
