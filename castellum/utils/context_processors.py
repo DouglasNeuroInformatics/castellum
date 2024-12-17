@@ -26,7 +26,6 @@ import castellum
 def get_settings(request):
     return {
         'CASTELLUM_VERSION': castellum.__version__,
-        'CASTELLUM_RELEASE_DATE': castellum.__release_date__,
         'CASTELLUM_SITE_TITLE': settings.CASTELLUM_SITE_TITLE,
         'CASTELLUM_SITE_LOGO': settings.CASTELLUM_SITE_LOGO,
         'BOOTSTRAP_THEME_COLORS': settings.BOOTSTRAP_THEME_COLORS,
