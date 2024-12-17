@@ -2882,8 +2882,8 @@ msgstr ""
 #: castellum/studies/templates/studies/study_domains_study.html:9
 msgid "Please enter the date when pseudonym lists should be deleted!"
 msgstr ""
-"Bitte geben Sie das Datum, an dem die Pseudonym-Listen gelöscht werden "
-"sollen, ein!"
+"Bitte geben Sie das Datum ein, an dem die Pseudonym-Listen gelöscht werden "
+"sollen!"
 
 #: castellum/studies/templates/studies/study_domains_study.html:13
 msgid "The pseudonym lists for this study should be deleted!"
