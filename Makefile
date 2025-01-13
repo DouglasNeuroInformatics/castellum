@@ -38,3 +38,7 @@ test:
 .PHONY: makemessages
 makemessages:
 	$(MANAGEPY) makemessages -l de -d django
+
+.PHONY: docs
+docs:
+	$(VIRTUAL_ENV)/bin/sphinx-build -W -b html docs/usage/ docs_html

@@ -73,3 +73,28 @@ docker:build:
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_TAG
+
+docs:test:
+  stage: test
+  before_script:
+  - apk --no-cache add python3 py3-pip
+  - python3 -m venv .venv
+  - .venv/bin/pip install sphinx sphinx-rtd-theme
+  script:
+  - .venv/bin/sphinx-build -W -b html docs/usage/ docs_html
+
+pages:
+  stage: push
+  before_script:
+  - apk --no-cache add python3 py3-pip
+  - python3 -m venv .venv
+  - .venv/bin/pip install sphinx sphinx-rtd-theme
+  script:
+  - .venv/bin/sphinx-build -b html docs/usage/ docs_html
+  - mkdir public
+  - mv docs_html public/docs
+  artifacts:
+    paths:
+    - public
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
