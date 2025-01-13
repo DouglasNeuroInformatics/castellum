@@ -66,9 +66,7 @@ class SubjectFilterForm(forms.ModelForm):
             label=_('Comparison'), choices=self.attribute.field.available_operators
         )
 
-    def _get_selected_attribute(
-        self, instance=None, data=None, prefix=None, **kwargs
-    ):
+    def _get_selected_attribute(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
             return instance.attribute
 

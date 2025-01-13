@@ -712,27 +712,29 @@ class ProgressView(
         context['dropped_out'] = self.study.participation_set.filter(
             status=Participation.PARTICIPATING_DROPPED_OUT,
         ).count()
-        context['participating_acc'] = (
-            context['completed'] + context['participating']
-        )
+        context['participating_acc'] = context['completed'] + context['participating']
         context['dropped_out_acc'] = (
             context['completed'] + context['participating'] + context['dropped_out']
         )
         context['total'] = max(self.study.min_subject_count, context['dropped_out_acc'])
-        context['sessions'] = self.study.studysession_set.annotate(
-            took_place=models.Count(
-                'appointment',
-                filter=models.Q(appointment__start__lte=timezone.now()),
-                distinct=True,
-            ),
-            scheduled_for_future=models.Count(
-                'appointment',
-                filter=models.Q(appointment__start__gt=timezone.now()),
-                distinct=True,
-            ),
-        ).annotate(
-            scheduled=models.F('took_place') + models.F('scheduled_for_future')
-        ).order_by('pk')
+        context['sessions'] = (
+            self.study.studysession_set.annotate(
+                took_place=models.Count(
+                    'appointment',
+                    filter=models.Q(appointment__start__lte=timezone.now()),
+                    distinct=True,
+                ),
+                scheduled_for_future=models.Count(
+                    'appointment',
+                    filter=models.Q(appointment__start__gt=timezone.now()),
+                    distinct=True,
+                ),
+            )
+            .annotate(
+                scheduled=models.F('took_place') + models.F('scheduled_for_future')
+            )
+            .order_by('pk')
+        )
 
         return context
 

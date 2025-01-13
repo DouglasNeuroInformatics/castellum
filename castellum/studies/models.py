@@ -339,6 +339,7 @@ class Study(TimeStampedModel):
     @cached_property
     def has_filters(self):
         from castellum.recruitment.models import SubjectFilter
+
         return SubjectFilter.objects.filter(group__study=self).exists()
 
     @cached_property
@@ -352,6 +353,7 @@ class Study(TimeStampedModel):
     @cached_property
     def invited_count(self):
         from castellum.recruitment.models import Participation
+
         return self.participation_set.filter(
             status__in=Participation.INVITED_SET
         ).count()

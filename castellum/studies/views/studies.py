@@ -311,9 +311,7 @@ class StudyStartRecruitmentView(View):
 
         if study.status == study.EXECUTION:
             study.set_status(study.DRAFT)
-            monitoring_logger.info(
-                f'Study {study.name} stopped by {request.user.pk}'
-            )
+            monitoring_logger.info(f'Study {study.name} stopped by {request.user.pk}')
             audit(
                 gettext_noop('study stopped'),
                 request.user.username,
@@ -321,9 +319,7 @@ class StudyStartRecruitmentView(View):
             )
         else:
             study.set_status(study.EXECUTION)
-            monitoring_logger.info(
-                f'Study {study.name} started by {request.user.pk}'
-            )
+            monitoring_logger.info(f'Study {study.name} started by {request.user.pk}')
             audit(
                 gettext_noop('study started'),
                 request.user.username,

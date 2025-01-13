@@ -223,9 +223,9 @@ class OrderedChoiceAttributeField(ChoiceAttributeField):
     def _filter_to_q(self, operator, value):
         if operator in ['gte', 'lte']:
             threshold = self.instance.attributechoice_set.get(pk=value)
-            allowed_choices = self.instance.attributechoice_set.filter(**{
-                f'order__{operator}': threshold.order
-            })
+            allowed_choices = self.instance.attributechoice_set.filter(
+                **{f'order__{operator}': threshold.order}
+            )
             # JSONField cannot use `in` lookups
             q = models.Q()
             for choice in allowed_choices:

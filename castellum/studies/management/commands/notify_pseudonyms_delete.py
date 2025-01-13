@@ -39,7 +39,8 @@ class Command(BaseCommand):
                         settings.CASTELLUM_PSEUDONYMS_DELETE_MAIL_BODY_EN,
                     ),
                     [
-                        user.email for user in study.members.all()
+                        user.email
+                        for user in study.members.all()
                         if user.has_perm('studies.change_study', obj=study)
                     ],
                 )

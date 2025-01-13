@@ -228,15 +228,15 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         queryset = Participation.objects.filter(study=self.study)
         context['all_count'] = queryset.count()
-        context['invited_count'] = (
-            queryset.filter(status__in=Participation.INVITED_SET).count()
-        )
-        context['excluded_count'] = (
-            queryset.filter(status__in=Participation.EXCLUDED_SET).count()
-        )
-        context['open_count'] = (
-            queryset.filter(status__in=Participation.RECRUITMENT_SET).count()
-        )
+        context['invited_count'] = queryset.filter(
+            status__in=Participation.INVITED_SET
+        ).count()
+        context['excluded_count'] = queryset.filter(
+            status__in=Participation.EXCLUDED_SET
+        ).count()
+        context['open_count'] = queryset.filter(
+            status__in=Participation.RECRUITMENT_SET
+        ).count()
 
         context['session_count'] = self.study.studysession_set.count()
 
@@ -326,9 +326,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['batches'] = list(
-            self.study.mailbatch_set
-            .order_by('datetime')
-            .annotate(
+            self.study.mailbatch_set.order_by('datetime').annotate(
                 # PERF: not exactly the same as no_response_set.count(), but much faster
                 no_response_size=models.Count('participation', distinct=True),
             )
@@ -602,9 +600,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
             return HttpResponseBadRequest()
 
         # needs to be update() in order not to set Subject.updated_at
-        querysets[action].update(
-            status=Participation.EXCLUDED_BY_CLEANUP, batch=None
-        )
+        querysets[action].update(status=Participation.EXCLUDED_BY_CLEANUP, batch=None)
 
         return redirect('recruitment:recruitment-open', self.study.pk)
 
