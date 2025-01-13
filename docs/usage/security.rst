@@ -117,21 +117,15 @@ Audit Trail
 -----------
 
 In order to allow analysing suspicious behavior, critical actions such as
-search, deletion, or login attempts can be recorded.
+search, deletion, or login attempts can be recorded by enabling the
+``CASTELLUM_AUDIT_TRAIL_ENABLED`` setting.
 
-At the time of writing, two mechanisms are available:
+Users can have limited access to the audit
+trail if they have either the ``subjects.view_audit_trail`` or the
+``studies.view_audit_trail`` permission.
 
--  The ``monitoring`` logger can be configured to log these events to a separate
-   log file.
--  The setting ``CASTELLUM_AUDIT_TRAIL_ENABLED`` can be enabled to store these
-   events in the database.
-
-With both mechanisms, the setting ``CASTELLUM_MONITORING_INCLUDE_SEARCH`` can be
+Additionally, the setting ``CASTELLUM_MONITORING_INCLUDE_SEARCH`` can be
 used to control whether the audit trail records subject searches. This allows
 to detect users who abuse this feature. On the other hand, the search text
 usually contains personal information such as names and email addresses. It
 depends on the specific threat model whether it should be enabled or not.
-
-With the database-based approach, users can have limited access to the audit
-trail if they have either the ``subjects.view_audit_trail`` or the
-``studies.view_audit_trail`` permission.
