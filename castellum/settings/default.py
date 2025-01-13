@@ -54,11 +54,9 @@ TIME_ZONE = 'Europe/Berlin'
 PHONENUMBER_DEFAULT_REGION = 'DE'
 
 # By default, Castellum does not serve media (aka "uploaded") files.
-# You have 3 options here:
+# You have 2 options here:
 #
 # - Set PROTECTED_MEDIA_SERVER to "django" (only for development)
-# - Set PROTECTED_MEDIA_SERVER to None and let a proxy serve the files
-#   instead. This is insecure because it bypasses Castellum login.
 # - Set PROTECTED_MEDIA_SERVER to the proxy server you use (e.g.
 #   'nginx', 'uwsgi') to use X-Sendfile. You will have to configure
 #   the proxy accordingly. This option is strongly recommended.
@@ -67,7 +65,7 @@ PHONENUMBER_DEFAULT_REGION = 'DE'
 # - https://docs.djangoproject.com/en/3.2/ref/contrib/staticfiles/#django.contrib.staticfiles.views.serve
 # - https://www.nginx.com/resources/wiki/start/topics/examples/xsendfile/
 # - https://uwsgi-docs.readthedocs.io/en/latest/Snippets.html#x-sendfile-emulation
-PROTECTED_MEDIA_SERVER = None
+PROTECTED_MEDIA_SERVER = 'nginx'
 PROTECTED_MEDIA_URL = '/protected/'
 
 # Two factor authentication

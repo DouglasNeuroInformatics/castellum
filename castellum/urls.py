@@ -95,33 +95,30 @@ urlpatterns = [
         include('castellum.data_protection.urls', namespace='data_protection'),
     ),
     path('mfa/', include('mfa.urls', namespace='mfa')),
-]
 
-if settings.PROTECTED_MEDIA_SERVER:
-    urlpatterns += [
-        path('media/studies/<int:pk>/<path:path>', StudyProtectedMediaView.as_view()),
-        path(
-            'media/recruitment/<int:study_pk>/<int:pk>/<path:path>',
-            RecruitmentProtectedMediaView.as_view(),
-            name='recruitment-media',
-        ),
-        path(
-            'media/execution/<int:study_pk>/<int:pk>/<path:path>',
-            ExecutionProtectedMediaView.as_view(),
-            name='execution-media',
-        ),
-        path(
-            'media/studyconsents/<int:study_pk>/<int:pk>/<filename>',
-            StudyConsentProtectedMediaView.as_view(),
-            name='studyconsent-media',
-        ),
-        path(
-            'media/subjects/<uuid:uuid>/<path:path>',
-            SubjectProtectedMediaView.as_view(),
-            name='subject-media',
-        ),
-        path('media/consent/<path:path>', ProtectedMediaView.as_view(prefix='consent')),
-    ]
+    path('media/studies/<int:pk>/<path:path>', StudyProtectedMediaView.as_view()),
+    path(
+        'media/recruitment/<int:study_pk>/<int:pk>/<path:path>',
+        RecruitmentProtectedMediaView.as_view(),
+        name='recruitment-media',
+    ),
+    path(
+        'media/execution/<int:study_pk>/<int:pk>/<path:path>',
+        ExecutionProtectedMediaView.as_view(),
+        name='execution-media',
+    ),
+    path(
+        'media/studyconsents/<int:study_pk>/<int:pk>/<filename>',
+        StudyConsentProtectedMediaView.as_view(),
+        name='studyconsent-media',
+    ),
+    path(
+        'media/subjects/<uuid:uuid>/<path:path>',
+        SubjectProtectedMediaView.as_view(),
+        name='subject-media',
+    ),
+    path('media/consent/<path:path>', ProtectedMediaView.as_view(prefix='consent')),
+]
 
 if 'model_stats' in settings.INSTALLED_APPS:
     urlpatterns = [
