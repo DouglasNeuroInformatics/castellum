@@ -3,7 +3,6 @@
 # SPDX-FileCopyrightText: 2018-2019 MPIP <http://www.psych.mpg.de/>
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-import logging
 import zipfile
 
 from django import forms
@@ -64,8 +63,6 @@ from castellum.utils.mail import MailContext
 from castellum.utils.views import BaseProtectedMediaView
 
 from .forms import NewsMailForm
-
-monitoring_logger = logging.getLogger('monitoring.execution')
 
 
 class ParticipationListView(
@@ -172,9 +169,6 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         with zresponse.open(filename, 'w') as fh:
             fh.write(content.encode('UTF-8'))
 
-        monitoring_logger.info(
-            f'Attribute export: study {self.study.pk} by {self.request.user.pk}'
-        )
         audit(
             gettext_noop('attributes exported'),
             self.request.user.username,
@@ -266,9 +260,6 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
         domain = get_object_or_404(qs, key=kwargs['domain'])
         pseudonym = get_pseudonym(self.subject, domain.key)
 
-        monitoring_logger.info(
-            f'Pseudonym access: domain {domain.key} by {self.request.user.pk}'
-        )
         audit(
             gettext_noop('pseudonym accessed'),
             self.request.user.username,
@@ -436,10 +427,6 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
                 subject=subject,
                 status__in=Participation.INVITED_SET,
             ).get()
-            monitoring_logger.info(
-                f'Pseudonym resolved: '
-                f'domain {form.cleaned_data["domain"]} by {self.request.user.pk}'
-            )
             audit(
                 gettext_noop('pseudonym resolved'),
                 self.request.user.username,

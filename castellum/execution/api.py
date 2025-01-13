@@ -3,7 +3,6 @@
 # SPDX-FileCopyrightText: 2018-2019 MPIP <http://www.psych.mpg.de/>
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-import logging
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
@@ -25,8 +24,6 @@ from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
-
-monitoring_logger = logging.getLogger('monitoring.execution')
 
 
 class BaseAPIView(APIAuthMixin, StudyMixin, PermissionRequiredMixin, View):
@@ -109,9 +106,6 @@ class APIResolveView(BaseAPIView):
         target_domain = get_object_or_404(domains, key=self.kwargs['target_domain'])
         pseudonym = get_pseudonym(subject, target_domain.key)
 
-        monitoring_logger.info(
-            f'Pseudonym access: domain {target_domain.key} by {self.request.user.pk}'
-        )
         audit(
             gettext_noop('pseudonym accessed'),
             self.request.user.username,
@@ -149,10 +143,6 @@ class APIAttributesView(BaseAPIView):
 
         data = exporter.get_subject_attributes(attributes, subject)
 
-        monitoring_logger.info(
-            f'Attribute export: '
-            f'study {self.study.pk} subject {subject.pk} by {request.user.pk}'
-        )
         audit(
             gettext_noop('attributes exported'),
             request.user.username,

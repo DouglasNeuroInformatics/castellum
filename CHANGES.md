@@ -15,6 +15,8 @@
     by a breaking change. See
     [the release notes](https://github.com/django-auth-ldap/django-auth-ldap/releases/tag/5.0.0)
     for details.
+-   The monitoring log that has been deprecated in 0.97.0 has been
+    removed. You can use the new audit trail instead.
 
 ## other changes
 

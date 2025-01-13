@@ -4,7 +4,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import datetime
-import logging
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -62,8 +61,6 @@ from .models import ExportAnswer
 from .models import Report
 from .models import Subject
 from .models import SubjectCreationRequest
-
-monitoring_logger = logging.getLogger('monitoring.subjects')
 
 
 @method_decorator(sensitive_post_parameters(), 'dispatch')
@@ -156,10 +153,6 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         if settings.CASTELLUM_MONITORING_INCLUDE_SEARCH:
-            monitoring_logger.info(
-                f'Subject search: search term: "{form.cleaned_data["search"]}" '
-                f'by {self.request.user.pk}'
-            )
             audit(
                 gettext_noop('subject searched'),
                 self.request.user.username,
@@ -197,9 +190,6 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
                 subject.save()
 
-                monitoring_logger.info(
-                    f'SubjectData update: {subject.pk} by {self.request.user.pk}'
-                )
                 audit(
                     gettext_noop('subject created'),
                     self.request.user.username,
@@ -231,10 +221,6 @@ class SubjectResolveView(PermissionRequiredMixin, FormView):
         try:
             subject = get_subject(
                 form.cleaned_data['domain'], form.cleaned_data['pseudonym']
-            )
-            monitoring_logger.info(
-                f'Pseudonym resolved: domain {form.cleaned_data["domain"]} '
-                f'by {self.request.user.pk}'
             )
             audit(
                 gettext_noop('pseudonym resolved'),
@@ -307,9 +293,6 @@ class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
         domain = get_object_or_404(Domain, key=kwargs['domain'], object_id=None)
         pseudonym = get_pseudonym_if_exists(self.subject, domain.key)
 
-        monitoring_logger.info(
-            f'Pseudonym access: domain {domain.key} by {self.request.user.pk}'
-        )
         audit(
             gettext_noop('pseudonym accessed'),
             self.request.user.username,
@@ -346,13 +329,6 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         if self.object.participation_set.exists():
             return self.get(self.request, **self.kwargs)
         response = super().form_valid(form)
-        if self.object.to_be_deleted:
-            monitoring_logger.info(
-                f'Subject deleted by {self.request.user.pk} '
-                f'as requested on {self.object.to_be_deleted}'
-            )
-        else:
-            monitoring_logger.info(f'Subject deleted by {self.request.user.pk}')
         audit_extra = {}
         if self.object.to_be_deleted:
             audit_extra['to_be_deleted'] = self.object.to_be_deleted.isoformat()
@@ -391,9 +367,6 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
                     attribute.label, attribute.field.get_display(value)
                 ))
 
-            monitoring_logger.info(
-                f'GDPR-Request export: {self.object.pk} by {self.request.user.pk}'
-            )
             audit(
                 gettext_noop('subject exported'),
                 self.request.user.username,
@@ -697,10 +670,6 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
             domain__in=self.object.study.domains.all(),
         ).update(subject=None)
 
-        study_name, user_pk = self.object.study.name, self.request.user.pk
-        monitoring_logger.info(
-            f'Participation in Study {study_name} deleted by {user_pk}'
-        )
         audit(
             gettext_noop('participation deleted'),
             self.request.user.username,
@@ -754,9 +723,6 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
             )
             contact.subject.save()
 
-            monitoring_logger.info(
-                f'SubjectData update: {contact.subject.pk} by {self.request.user.pk}'
-            )
             audit(
                 gettext_noop('subject created'),
                 self.request.user.username,

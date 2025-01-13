@@ -3,7 +3,6 @@
 # SPDX-FileCopyrightText: 2018-2019 MPIP <http://www.psych.mpg.de/>
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-import logging
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
@@ -20,8 +19,6 @@ from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.attribute_exporters import JSONExporter
 
 from .models import Subject
-
-monitoring_logger = logging.getLogger('monitoring.subjects')
 
 
 class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
@@ -50,10 +47,6 @@ class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
 
         data = exporter.get_subject_attributes(attributes, subject)
 
-        monitoring_logger.info(
-            f'Attribute export: '
-            f'domain {domain.key} subject {subject.pk} by {request.user.pk}'
-        )
         audit(
             gettext_noop('attributes exported'),
             request.user.username,

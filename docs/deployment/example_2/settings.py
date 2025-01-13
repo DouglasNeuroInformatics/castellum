@@ -44,43 +44,6 @@ ADMINS = [
     ('admin2', 'admin2@example.com'),
 ]
 
-# See https://docs.djangoproject.com/en/stable/topics/logging/
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '[%(asctime)s] %(levelname)s %(name)s %(message)s'
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-            'level': 'INFO',
-        },
-        'monitoring-file': {
-            'class': 'logging.FileHandler',
-            'filename': '/var/log/castellum_monitoring.log',
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        # 'monitoring' is our custom logger namespace to identify and
-        # retrace suspicious user behavior. It contains potentially
-        # sensitive information (e.g. subject search terms). Monitoring
-        # logs will not be created unless configured.
-        'monitoring': {
-            'handlers': ['monitoring-file'],
-            'propagate': False,
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'NOTSET',
-    },
-}
-
 # LDAP
 # See https://django-auth-ldap.readthedocs.io/
 AUTHENTICATION_BACKENDS.append('django_auth_ldap.backend.LDAPBackend')

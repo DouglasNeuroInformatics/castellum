@@ -3,7 +3,6 @@
 # SPDX-FileCopyrightText: 2018-2019 MPIP <http://www.psych.mpg.de/>
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-import logging
 
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
@@ -23,8 +22,6 @@ from ..forms import MultiMemberForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
-
-monitoring_logger = logging.getLogger('monitoring.studies')
 
 
 class StudyMembersView(
@@ -78,11 +75,6 @@ class StudyMembersView(
             old_groups = set(membership.groups.values_list('pk', flat=True))
             new_groups = {int(group) for group in self.request.POST.getlist('groups')}
             if old_groups != new_groups:
-                monitoring_logger.info(
-                    f'Membership changed: study {self.study.pk} '
-                    f'user {membership.user.pk} groups {format_list(new_groups)} '
-                    f'by {self.request.user.pk}'
-                )
                 audit(
                     gettext_noop('member changed'),
                     self.request.user.username,
@@ -93,14 +85,6 @@ class StudyMembersView(
                     },
                 )
         else:
-            monitoring_logger.info(
-                'Membership created: study {} users {} groups {} by {}'.format(
-                    self.study.pk,
-                    format_list(self.request.POST.getlist('users')),
-                    format_list(self.request.POST.getlist('groups')),
-                    self.request.user.pk,
-                )
-            )
             for member in form.cleaned_data['users']:
                 audit(
                     gettext_noop('member added'),
@@ -133,10 +117,6 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
         if self.object.user.pk == self.request.user.pk:
             return HttpResponseBadRequest()
 
-        monitoring_logger.info(
-            f'Membership removed: study {self.object.study.pk} '
-            f'user {self.object.user.pk} by {self.request.user.pk}'
-        )
         audit(
             gettext_noop('member removed'),
             self.request.user.username,

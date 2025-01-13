@@ -4,7 +4,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import datetime
-import logging
 
 from django.conf import settings
 from django.contrib import messages
@@ -44,8 +43,6 @@ from ..forms import StudyForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
-
-monitoring_logger = logging.getLogger('monitoring.studies')
 
 
 class StudyIndexView(LoginRequiredMixin, ListView):
@@ -286,9 +283,6 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        monitoring_logger.info(
-            f'Study {self.study.name} deleted by {self.request.user.pk}'
-        )
         audit(
             gettext_noop('study deleted'),
             self.request.user.username,
@@ -311,7 +305,6 @@ class StudyStartRecruitmentView(View):
 
         if study.status == study.EXECUTION:
             study.set_status(study.DRAFT)
-            monitoring_logger.info(f'Study {study.name} stopped by {request.user.pk}')
             audit(
                 gettext_noop('study stopped'),
                 request.user.username,
@@ -319,7 +312,6 @@ class StudyStartRecruitmentView(View):
             )
         else:
             study.set_status(study.EXECUTION)
-            monitoring_logger.info(f'Study {study.name} started by {request.user.pk}')
             audit(
                 gettext_noop('study started'),
                 request.user.username,

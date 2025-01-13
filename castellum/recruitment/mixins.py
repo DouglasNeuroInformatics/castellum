@@ -30,7 +30,6 @@ from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
 
 logger = logging.getLogger(__name__)
-monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
 def get_recruitable(study):
@@ -99,9 +98,6 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info(
-            f'Attributes update: {self.object.pk} by {self.request.user.pk}'
-        )
         audit(
             gettext_noop('subject updated'),
             self.request.user.username,
