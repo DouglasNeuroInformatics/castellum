@@ -1,7 +1,7 @@
-# Copyright (C) 2018 Max Planck Society
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# SPDX-FileCopyrightText: 2018-2024 MPIB <https://www.mpib-berlin.mpg.de/>
+# SPDX-FileCopyrightText: 2018-2019 MPI-CBS <https://www.cbs.mpg.de/>
+# SPDX-FileCopyrightText: 2018-2019 MPIP <http://www.psych.mpg.de/>
+# SPDX-License-Identifier: AGPL-3.0-or-later
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
