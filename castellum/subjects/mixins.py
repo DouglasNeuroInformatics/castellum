@@ -34,9 +34,9 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.utils.mail import MailContext
 
 from .forms import AdditionalInfoForm
+from .forms import ConsentChangeForm
 from .forms import DataProtectionForm
 from .models import Consent
-from .models import ConsentDocument
 from .models import Report
 from .models import Subject
 
@@ -132,19 +132,14 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
 
 class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
     model = Consent
-    fields = ['document', 'file']
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_consent_form.html'
+    form_class = ConsentChangeForm
 
     def get_object(self):
         # weird because model = Consent, but this is only used in
         # SubjectMixin, not in CreateView
         return get_object_or_404(Subject, pk=self.kwargs['pk'], to_be_deleted=None)
-
-    def get_form(self):
-        if not ConsentDocument.objects.filter(is_valid=True).exists():
-            ConsentDocument.objects.create()
-        return super().get_form()
 
     def form_valid(self, form):
         Consent.objects.filter(subject=self.subject).delete()
