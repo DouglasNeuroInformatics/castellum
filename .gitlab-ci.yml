@@ -1,7 +1,6 @@
 stages:
   - test
   - push
-  - deploy
 
 workflow:
   rules:
@@ -37,7 +36,7 @@ test-py39:
   extends: test
   image: buildpack-deps:bullseye
 
-docker:build:
+docker:
   stage: push
   image:
     name: gcr.io/kaniko-project/executor:debug
@@ -83,16 +82,14 @@ docs:test:
   script:
   - .venv/bin/sphinx-build -W -b html docs/usage/ docs_html
 
-pages:
+docs:deploy:
   stage: push
   before_script:
   - apk --no-cache add python3 py3-pip
   - python3 -m venv .venv
   - .venv/bin/pip install sphinx sphinx-rtd-theme
   script:
-  - .venv/bin/sphinx-build -b html docs/usage/ docs_html
-  - mkdir public
-  - mv docs_html public/docs
+  - .venv/bin/sphinx-build -b html docs/usage/ public/docs/
   artifacts:
     paths:
     - public
