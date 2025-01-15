@@ -18,6 +18,11 @@
 -   The monitoring log that has been deprecated in 0.97.0 has been
     removed. You can use the new audit trail instead.
 
+## bug fixes
+
+-   show a date for the "recruitment mail sent" status in the
+    recruitment list
+
 ## other changes
 
 -   redesign the study detail page to be more compact
