@@ -6,6 +6,7 @@
 from django.conf import settings
 from django.urls import include
 from django.urls import path
+from django.views.generic import RedirectView
 
 from ..views.api import APIStudyDetailView
 from ..views.api import APIStudyListView
@@ -38,18 +39,24 @@ urlpatterns = [
     path('<int:pk>/', StudyDetailView.as_view(), name='detail'),
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
-    path('<int:pk>/domains/', StudyDomainsView.as_view(), name='domains'),
+    path('<int:pk>/pseudonyms/', StudyDomainsView.as_view(), name='domains'),
+    path('<int:pk>/domains/', RedirectView.as_view(
+        url='/studies/%(pk)s/pseudonyms/', permanent=True  # temporary compat
+    )),
     path(
-        '<int:pk>/domains/general/',
+        '<int:pk>/pseudonyms/general/',
         StudyDomainsGeneralView.as_view(),
         name='domains-general',
     ),
-    path('<int:pk>/consent/', StudyConsentView.as_view(), name='consent'),
+    path('<int:pk>/domains/general/', RedirectView.as_view(
+        url='/studies/%(pk)s/pseudonyms/general/', permanent=True  # temporary compat
+    )),
     path(
-        '<int:study_pk>/domains/<uuid:key>/',
+        '<int:study_pk>/pseudonyms/<uuid:key>/',
         StudyDomainDeleteView.as_view(),
         name='domain-delete',
     ),
+    path('<int:pk>/consent/', StudyConsentView.as_view(), name='consent'),
     path('<int:study_pk>/start/', StudyStartRecruitmentView.as_view(), name='start'),
     path('<int:study_pk>/finish/', StudyFinishRecruitmentView.as_view(), name='finish'),
     path('<int:study_pk>/members/', include(members_urls)),

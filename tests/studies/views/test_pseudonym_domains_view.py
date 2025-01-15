@@ -5,13 +5,13 @@ from castellum.pseudonyms.models import Domain
 
 def test_200(client, study, member):
     client.force_login(member)
-    response = client.get(f'/studies/{study.pk}/domains/')
+    response = client.get(f'/studies/{study.pk}/pseudonyms/')
     assert response.status_code == 200
 
 
 def test_add(client, study, member):
     client.force_login(member)
-    response = client.post(f'/studies/{study.pk}/domains/', {
+    response = client.post(f'/studies/{study.pk}/pseudonyms/', {
         'action': 'add',
     })
     assert response.status_code == 302
@@ -21,7 +21,7 @@ def test_add(client, study, member):
 def test_name(client, study, member):
     client.force_login(member)
     domain = baker.make(Domain, context=study)
-    response = client.post(f'/studies/{study.pk}/domains/', {
+    response = client.post(f'/studies/{study.pk}/pseudonyms/', {
         'action': 'name',
         'domain': domain.key,
         'name': 'foo',
@@ -34,6 +34,6 @@ def test_name(client, study, member):
 def test_delete(client, study, member):
     client.force_login(member)
     domain = study.domains.create()
-    response = client.post(f'/studies/{study.pk}/domains/{domain.key}/')
+    response = client.post(f'/studies/{study.pk}/pseudonyms/{domain.key}/')
     assert response.status_code == 302
     assert study.domains.count() == 0
