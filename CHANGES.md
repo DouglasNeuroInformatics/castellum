@@ -17,6 +17,9 @@
     for details.
 -   The monitoring log that has been deprecated in 0.97.0 has been
     removed. You can use the new audit trail instead.
+-   API authentication now uses standard RFC 6750 "Bearer" tokens. The
+    old, non-standard "Token" prefix for the Authorization header is
+    still supported, but deprecated.
 
 ## bug fixes
 
