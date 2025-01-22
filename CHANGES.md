@@ -22,6 +22,7 @@
 
 -   show a date for the "recruitment mail sent" status in the
     recruitment list
+-   when a datetime input is disabled, also disable its "clear" button
 
 ## other changes
 
