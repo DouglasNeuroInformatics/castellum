@@ -23,26 +23,21 @@ Search for a subject
 3.  Confirm by clicking **Search**
 
 4.  Under the **Matches** tab all matching subjects or their legal
-    representatives are listed
+    representatives are listed. Next to their name the date of birth
+    and, if provided, also their email address is displayed.
 
-    -   Next to their name the date of birth is listed and, if provided, also
-        their email address
-    -   If either parts of their name or their email address are matched
-        exactly by your search terms, this part is highlighted in yellow
-    -   **Details** will take you to the subject overview page
-    -   If a subject has any study participations, they are listed below in
-        this order: name of the study, the name of the responsible contact
-        person and the participation status. The buttons **Recruitment** and
-        **Execution** (if the study is still in execution) lead to recruitment
-        and execution for this study. Note that whether you can see study
-        participations is dependent on your permissions
-
-5.  If there is a **Match** found, confirm that this is the correct person by
-    asking for a second feature (e.g. date of birth).
+    Confirm that you found the correct person by asking for a second feature
+    (e.g. date of birth).
 
     .. warning::
         Only ask for a second feature, do not disclose any information
         yourself. This is to avoid leaking personal information to imposters.
+
+5.  Depending on your permissions, you know have different options:
+
+    -   **Details** will allow you to access global information about the subject
+    -   **Recruitment** will allow you to access the recruitment information for this subject in a specific study
+    -   **Execution** will allow you to access the execution information for this subject in a specific study
 
 
 .. _subject-create:
@@ -50,190 +45,55 @@ Search for a subject
 Create a subject
 ----------------
 
-Subject data is split up into subsets that include at least the following
-information:
+In order to prevent duplicates, please :ref:`search for the subject
+<subject-search>` first. If the subject already exists in the database, you may
+update their information by clicking on **Details** button. Otherwise, you can
+switch to the **Create** tab (automatically selected if no matches could be
+found), select a privacy level, and click **Create new subject**.
 
--   **First name** and **Last name**
--   **Date of birth**
--   Information on whether the person is **Full of age** or **has legal
-    representative**. If the subject has a legal representative, you will need
-    to **Add legal representative** (see instructions in
-    :ref:`subject-contact-tab`)
--   **E-mail** address and/or **Phone number** and/or full postal address
-    and/or contacting details of the legal representative
--   **Recruitment attributes**
--   **Interest in study types**
--   **Privacy level**
--   **Recruitment Consent** given
--   **GDPR requests**
--   **Study Participations**
+A subject is initially created with **very basic** information on name and
+privacy level. A lot more information can and should be added after the subject
+has been created (see next section).
 
-In order to create a potential subject in Castellum, please proceed as follows:
-
-1.  :ref:`subject-search`
-
-    1.  If there is a **Match** found, the subject is already created in the
-        database. You may edit or add information to this subject by clicking
-        on **Details** next to the subject. If it turns out that a **Match** is
-        a different person with the same name you are free to create a new
-        subject.
-
-    2.  If **No matches can be found**, click on **Create**. If you notice that
-        you made a spelling mistake with the names, please do not go back and
-        create the person again, but change the name in the following process.
-
-2.  Define the **Privacy level**
-
-    -   0 (regular) describes adults without extraordinary features
-    -   1 (increased) indicates children or adults with a legal representative
-    -   2 (high) represents adults (and their children/wards) who for example
-        are public figures
-
-3.  Click on **Create new subject**
-
-.. warning::
-
-    Recruiters often find themselves in fast paced situations when talking to
-    new potential subjects. Hence, we decided to support a quick creation of
-    subjects. Therefore, a subject is initially created with **very basic**
-    information on name and privacy level. To assure a *viable* data set there
-    is much more information you should enter (see :ref:`subject-edit`).
 
 .. _subject-edit:
 
 Edit Subject Data
 -----------------
 
-Subject data consists of several subsets represented as tabs. Tabs that lack
-some important information are highlighted by an icon with an exclamation mark.
-Below, you'll find a short description for each tab. Please note that tabs need
-to be saved upon changes individually.
-
 .. figure:: /_images/subject-tabs.png
    :alt: Screenshot of the subject detail view
    :figclass: screenshot
 
-.. _subject-overview-tab:
+You can edit subject data in the subject management, recruitment, and execution
+areas with similar features and functionality. Which area you use mostly
+depends on your permissions, as you may not have access to all of them.
 
-Overview Tab
-~~~~~~~~~~~~
+Subject data is split into subsections:
 
-This tab gives you a quick overview of the subject data. Importantly, it offers
-different :ref:`legal bases <legal-basis>` for storing the subject data in
-Castellum. You can check, add or rather edit the basis that applies.
+-   **Contact data** for information that is needed to get in contact
+    with a subject, e.g. name, email, and address. This is also where you set
+    up legal representatives that should be contacted in place of the subject
+    (e.g. for children).
+-   **Recruitment attributes** are used to decide whether the subject is
+    suitable for a study. Which attributes are available can be configured
+    :ref:`by administrators <admin-attributes>`.
+-   **Data protection** should be used for to document recruitment consent
+    and GDPR requests (right of access and erasure).
+-   **Additional Info** contains some fields that do not fit into other the
+    categories, e.g. availability or data source.
 
-.. _subject-contact-tab:
-
-Contact Tab
-~~~~~~~~~~~
-
-This tab allows you to set up common information needed to get into contact
-with a subject.
-
--   Optionally you can enter the **Title** here
--   You can edit the **First name** and **Last name**
--   Fill in the **Date of birth**
-
-1.  If the person is an adult, select **Full of age** and continue with
-    the following steps:
-
-    -   Define at least one of the following contact details: **Email**, **Phone
-        number** and/or **Postal address**
-    -   You may want to add **Additional information** for postal address, such
-        as c/o details
-
-2.  If the person is not of an adult age or has a legal representative for
-    example due to a disability or illness, select **Has legal representative**
-    > **Add legal representative**
-
-    -   A new window will open
-    -   Fill in the first and last name of the subject's legal representative >
-        **Search**
-    -   If a **Match** is found, select it
-    -   If **No matches found** applies, click **Create** > Enter necessary
-        information in the fields provided > **Create new subject**
-
-    .. note::
-        The legal representative is now added. You can also create several
-        legal representatives. By clicking on **Remove** next to the legal
-        representative's name, you can delete them as the legal representative
-        of the subject.
-
-.. _subject-attributes-tab:
-
-Recruitment Attributes Tab
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The recruitment attributes tab lists all attributes and interests in study types.
-Recruitment attributes are features that are used to decide on suitability for a
-study. It is expected that they only provide *indications* on suitability as
-there are usually additional criteria that need to be checked for a study
-match.
-
--   Fill in the recruitment attribute fields used at your institute
--   If the person **Does not want to participate in the following study types**,
-    select one or more
-
-.. admonition:: Example
-
-    Recruitment attributes may be **Mother Tongue**, **Highest Educational Degree**,
-    **Age**, **Handedness** and so on.
 
 .. _subject-unnecessary-recruitment-data:
 
 Clear unnecessary recruitment data
-``````````````````````````````````
+----------------------------------
 
 If the subject does not have recruitment consent there is no legal basis for
 storing any recruitment data. In that case there will be a warning about the
 unnecessary recruitment data. You can either clear all data manually or use the
 **Delete all** button that is included in the warning.
 
-.. _subject-data-protection-tab:
-
-Data Protection Tab
-~~~~~~~~~~~~~~~~~~~
-
-At the data protection tab should be used for to document recruitment consent
-and GDPR requests.
-
--   redefine the **Privacy level**
--   indicate whether the subject has consented to the recruitment (for details
-    see :ref:`subject-consent`)
--   initiate an **Export request**
--   specify whether the subject is **To be deleted**
-
-.. _subject-info-tab:
-
-Additional Info Tab
-~~~~~~~~~~~~~~~~~~~
-
-This tab mainly focusses on when to best reach out to subjects.
-
--   define the **Availability** of the subject
-
-    .. admonition:: Example
-
-        The person is abroad for 6 months.
-
-        -   Select **Not available until** today in 6 months
-
--   define which **Data source** the data comes from
-
-.. _subject-participations-tab:
-
-Study Participations Tab
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-The participations tab is offering to check existing participation or add the
-current subject to a study
-
--   **Participating**: Lists the study participations of this subject
--   **Matching Studies**: A list of currently active studies with matching
-    filters is displayed. You can add the subject to one or more study
-    recruitments.
--   **Add to study**: Search for a study and add the subject
-    directly as *participating* to it.
 
 .. _subject-to-be-deleted:
 
@@ -377,27 +237,26 @@ Add a subject to a study
 
 .. NOTE::
 
-    Please note that these are instructions on how to add a specific subject to a study.
-    If you have a study and are looking for subjects, please use the recruitment process
-    (:ref:`recruitment`)
+    Please note that these are instructions on how to add a specific subject to
+    a study. If you have a study and are looking for subjects, please use the
+    :ref:`recruitment guide <recruitment>` instead.
 
 There are two similar but different ways to add a subject to a study.
 
-To add a subject to an active study whose filters match the attributes of the subject,
-proceed as follows:
+To add a subject to an active study whose filters match the attributes of the subject:
 
 1.  In the subject details, go to the **Study participations** tab
 
-2.  Clicking on **Matching studies** will show a list of studies whose filters match on
+2.  Clicking on **Matching studies** will show a list of studies whose filters match
     this subject's attributes.
 
 3.  Clicking on the button named **Contact** will take you to this subject's contact page
     in the recruitment for the selected study.
     For further information on how to proceed from there, please see the please see the
-    :ref:`recruitment guide <recruitment>` (starting with point 4).
+    :ref:`recruitment guide <recruitment>`.
 
 
-To add a subject to any study, proceed as follows:
+To add a subject to any study:
 
 1.  In the subject details, go to the **Study participations** tab
 

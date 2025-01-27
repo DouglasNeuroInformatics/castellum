@@ -135,6 +135,7 @@ process.
 Relevant guides:
 
 -   :ref:`subject-search`
+-   :ref:`subject-edit`
 -   :ref:`subject-report`
 -   :ref:`recruitment`
 -   :ref:`recruitment-mail`
@@ -152,6 +153,7 @@ pseudonyms of the respective subjects in the database.
 Relevant guides:
 
 -   :ref:`subject-search`
+-   :ref:`subject-edit`
 -   :ref:`subject-report`
 -   :ref:`subject-get-pseudonym`
 -   :ref:`recruitment-appointments`
