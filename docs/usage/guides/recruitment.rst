@@ -1,7 +1,6 @@
 Study recruitment
 =================
 
-
 .. _recruitment:
 
 Recruit subjects via phone
@@ -59,7 +58,7 @@ Recruit subjects via phone
 .. _recruitment-mail:
 
 Recruit subjects via mail
-=========================
+-------------------------
 
 .. note::
 
@@ -86,10 +85,11 @@ Recruit subjects via mail
     current invitation mail text with a prefixed e-mail subject indicating it as
     "Reminder/Erinnerung".
 
+
 .. _recruitment-appointments:
 
 Make appointments for sessions
-==============================
+------------------------------
 
 .. note::
 
@@ -129,10 +129,11 @@ you to set up appointments for the participants:
     overlapping appointments. You have to make sure that the required staff and
     resources are available yourself.
 
+
 .. _recruitment-cleanup:
 
 Cleanup open list in recruitment
-================================
+--------------------------------
 
 The open list in study recruitment can become quite large and noisy if you are
 waiting for many responses and/or failed to reach many potential participants.
