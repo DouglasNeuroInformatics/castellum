@@ -11,11 +11,10 @@ consent, the legal basis is deduced from available information.
 -   **Recruitment consent**: The subject has given explicit consent for being
     contacted for future studies. See :ref:`subject-consent`.
 
--   **Study consent**: This applies if the subject either participates in a
-    study or is currently in the process of being recruited for one. This is
-    valid until all pseudonym lists for the study have been deleted or (for
-    subjects who are interested in news about the study) until the study is
-    deleted.
+-   **Study consent**: This applies if the subject currently participates in a
+    study. This is valid until all pseudonym lists for the study have been
+    deleted or (for subjects who are interested in news about the study) until
+    the study is deleted.
 
 -   **Legal representative**: As long as a subject is the legal representative
     for another subject it is assumed that the legal basis for the other
