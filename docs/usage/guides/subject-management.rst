@@ -237,7 +237,7 @@ Add a subject to a study
 
 .. NOTE::
 
-    Please note that these are instructions on how to add a specific subject to
+    These are instructions on how to add a specific subject to
     a study. If you have a study and are looking for subjects, please use the
     :ref:`recruitment guide <recruitment>` instead.
 
