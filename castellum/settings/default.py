@@ -28,7 +28,7 @@ BOOTSTRAP_THEME_COLORS = None
 
 # Will be included on the front page
 # Set to `None` to disable
-CASTELLUM_DOCUMENTATION_LINK = 'https://castellum.mpib.berlin/documentation/en/'
+CASTELLUM_DOCUMENTATION_LINK = 'https://castellum.mpib.berlin/castellum/docs/'
 
 CASTELLUM_LOGOUT_TIMEOUT = relativedelta(minutes=15)
 SESSION_COOKIE_AGE = 24 * 60 * 60
