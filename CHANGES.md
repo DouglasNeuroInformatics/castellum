@@ -21,6 +21,13 @@
     old, non-standard "Token" prefix for the Authorization header is
     still supported, but deprecated.
 
+## new features
+
+-   It is now possible to change recruitment consent to "excluded by
+    us", indicating that the subject will not be recruited, even if they
+    have given consent. In contrast to blocking subjects, this does not
+    count as a legal basis for keeping the entry.
+
 ## bug fixes
 
 -   show a date for the "recruitment mail sent" status in the
