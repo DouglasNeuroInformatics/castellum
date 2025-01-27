@@ -38,6 +38,7 @@
 
 -   redesign the study detail page to be more compact
 -   restructure the information on pseudonym lists
+-   tweak maintenance wording
 
 
 # 0.99.2 (2024-11-25)

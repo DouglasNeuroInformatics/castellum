@@ -1,10 +1,10 @@
 {% extends "subjects/maintenance_base.html" %}
 {% load i18n django_bootstrap5 auth %}
 
-{% block title %}{% translate "Consent" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Outdated consent" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% translate 'The following subjects have an outdated consent:' %}</p>
+    <p>{% translate 'The following subjects have given consent to a deprecated document or before they came of age:' %}</p>
 
     <ul class="table-list">
         {% for subject in object_list %}
