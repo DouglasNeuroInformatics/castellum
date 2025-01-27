@@ -152,7 +152,7 @@ class ConsentChangeForm(forms.ModelForm):
             ('excluded', _(
                 'Excluded by us (e.g. because they were unreliable or inactive)'
             )),
-            ('withdrawn', _('Consent declined/withdrawn ')),
+            ('withdrawn', _('Consent declined/withdrawn')),
             *[(doc.id, str(doc)) for doc in valid_documents],
         ]
 
