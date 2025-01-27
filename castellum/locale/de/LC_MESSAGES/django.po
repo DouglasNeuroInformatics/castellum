@@ -2301,6 +2301,9 @@ msgid ""
 "form. Entering it here is purely informational. The pseudonym lists will not "
 "be deleted automatically."
 msgstr ""
+"Dieses Datum wird in der Regel im Ethikantrag und in der "
+"Einverständniserklärung zur Studie festgelegt. Die Angabe hier ist rein "
+"informativ. Die Pseudonymlisten werden nicht automatisch gelöscht."
 
 #: castellum/studies/models.py:142
 #: castellum/studies/templates/studies/study_domains_general.html:4
@@ -2566,32 +2569,29 @@ msgstr ""
 "Pseudonyme <strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:11
-#, fuzzy
-#| msgid ""
-#| "Once a pseudonym is deleted, it is no longer possible to find the "
-#| "corresponding contact information. Note, however, that additional steps "
-#| "might be necessary for full anonymization of scientific data (e.g. image "
-#| "data)."
 msgid ""
 "Once a pseudonym is deleted, it is no longer possible to find the "
 "corresponding contact information."
 msgstr ""
 "Sobald ein Pseudonym gelöscht wurde ist es nicht mehr möglich die dazu "
-"gehörenden Kontaktdaten zu finden. Für die vollständige Anonymisieren "
-"wissenschaftlicher Daten (z.B. Bilddaten) sind allerdings ggf. zusätzliche "
-"Schritte notwendig."
+"gehörenden Kontaktdaten zu finden."
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:12
 msgid ""
 "Deleting this list also indicates that the corresponding research data is "
 "either fully anonymous or has already been deleted."
 msgstr ""
+"Die Löschung dieser Liste weist auch darauf hin, dass die entsprechenden "
+"Forschungsdaten entweder vollständig anonymisiert sind oder bereits gelöscht "
+"wurden."
 
 #: castellum/studies/templates/studies/domain_confirm_delete.html:17
 msgid ""
 "I confirm that the research data can and should no longer be linked to "
 "individual participants."
 msgstr ""
+"Ich bestätige, dass die Forschungsdaten nicht mehr mit einzelnen "
+"Teilnehmenden in Verbindung gebracht werden können und sollen."
 
 #: castellum/studies/templates/studies/filtergroup.html:4
 #: castellum/studies/templates/studies/study_filtertrial_base.html:26
@@ -3166,7 +3166,7 @@ msgstr ""
 
 #: castellum/subjects/forms.py:153
 msgid "Excluded by us (e.g. because they were unreliable or inactive)"
-msgstr ""
+msgstr "Von uns ausgeschlossen (z.B. weil sie unzuverlässig oder inaktiv waren)"
 
 #: castellum/subjects/forms.py:155
 #: castellum/subjects/templates/subjects/subject_consent_form.html:26
@@ -3344,10 +3344,8 @@ msgid "Signed file"
 msgstr "Unterschriebene Datei"
 
 #: castellum/subjects/models.py:335
-#, fuzzy
-#| msgid "Excluded studies"
 msgid "Excluded by us"
-msgstr "Ausgeschlossene Studien"
+msgstr "Von uns ausgeschlossen"
 
 #: castellum/subjects/models.py:345
 msgid "First expiration notification sent"
@@ -3686,10 +3684,8 @@ msgstr "Proband*in erstellt am"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:28
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:103
-#, fuzzy
-#| msgid "The subject has been contacted by mail."
 msgid "This subject has been excluded by us"
-msgstr "Die Proband*in wurde per E-Mail kontaktiert."
+msgstr "Diese Proband*in wurde von uns ausgeschlossen"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:29
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:32
@@ -4449,41 +4445,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid ""
-#~ "The date when a pseudonym list should be deleted is usually defined in "
-#~ "the ethics application and the study consent form."
-#~ msgstr ""
-#~ "Das Datum an dem eine Pseudonym-Liste gelöscht werden sollte ist "
-#~ "üblicherweise im Ethikantrag und in der Studieneinwilligung definiert."
-
-#~ msgid ""
-#~ "I understand that I will no longer be able to find subjects based this "
-#~ "pseudonym list."
-#~ msgstr ""
-#~ "Ich verstehe, dass es nicht mehr möglich sein wird, die Proband*innen zu "
-#~ "den Pseudonymen aus dieser Liste zu finden."
-
-#~ msgid "Consent document uploaded"
-#~ msgstr "Einwilligungserklärung hochgeladen"
-
-#~ msgid "Count"
-#~ msgstr "Anzahl"
-
-#~ msgid "Deletion date"
-#~ msgstr "Ablaufdatum"
-
-#~ msgid "Types of sessions"
-#~ msgstr "Sitzungstypen"
-
-#~ msgid "Recruitment settings"
-#~ msgstr "Rekrutierungseinstellungen"
-
-#~ msgid "Potential subjects"
-#~ msgstr "Potentielle Proband*innen"
-
-#~ msgid "Recruitment text provided"
-#~ msgstr "Rekrutierungstext vorhanden"
-
-#~ msgid "Recruitment filters set"
-#~ msgstr "Rekrutierungsfilter eingestellt"
