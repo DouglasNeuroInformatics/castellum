@@ -1,5 +1,5 @@
-Data protection: workflows
-==========================
+Data protection workflows
+=========================
 
 .. _data-protection-dashboard:
 
