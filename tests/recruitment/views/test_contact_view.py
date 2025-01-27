@@ -1,4 +1,4 @@
-import pytest
+from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.appointments.models import Appointment
@@ -38,11 +38,11 @@ def test_404_if_draft_study(client, member, participation):
     assert response.status_code == 404
 
 
-@pytest.mark.freeze_time('2018-01-01')
 def test_post_updated_at(client, member, participation):
-    client.force_login(member)
     url = f'/recruitment/{participation.study.pk}/{participation.pk}/'
-    client.post(url, {'status': Participation.EXCLUDED})
+    with freeze_time('2018-01-01'):
+        client.force_login(member)
+        client.post(url, {'status': Participation.EXCLUDED})
     participation = Participation.objects.get()
     assert participation.updated_at.strftime('%Y-%m-%d') == '2018-01-01'
 
