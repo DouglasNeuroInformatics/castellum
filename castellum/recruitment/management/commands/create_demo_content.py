@@ -81,6 +81,7 @@ def fake_study():
         recruitment_text=recruitment_text,
         sessions_start=fake.past_date(start_date='-30d'),
         sessions_end=fake.future_date(end_date='+30d'),
+        pseudonyms_delete_date=fake.future_date(end_date='+60d'),
     )
     return study
 
