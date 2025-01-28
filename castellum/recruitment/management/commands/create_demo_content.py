@@ -49,26 +49,10 @@ def fake_phone_number():
 
 
 def fake_language():
-    groups = [
-        # (language, percentage)
-        ('de', 0.70),
-        ('en', 0.10),
-        ('tr', 0.06),
-        ('fr', 0.06),
-        ('es', 0.06),
-        ('it', 0.02),
-    ]
-
-    r = fake.random.random()
-    percentage = 0
-
-    for lang, p in groups:
-        percentage += p
-
-        if r < percentage:
-            return lang
-
-    return groups[-1][0]
+    return fake.random.choices(
+        ['de', 'en', 'tr', 'fr', 'es', 'it'],
+        [0.7, 0.1, 0.06, 0.06, 0.06, 0.02],
+    )[0]
 
 
 def fake_subject():
