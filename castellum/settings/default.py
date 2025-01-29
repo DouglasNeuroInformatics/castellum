@@ -135,6 +135,10 @@ CASTELLUM_GDPR_NOTIFICATION_TO = []
 # actually access the report.
 CASTELLUM_REPORT_NOTIFICATION_TO = []
 
+# Emails that should be CCed when a study is notified of some deadline.
+# This could be someone who keeps an overview of all studies at an organization.
+CASTELLUM_STUDY_END_NOTIFICATION_CC = ['foo@example.com']
+
 # Text that is shown to users who file a report.
 #
 # You can include details about the review process or links for specific

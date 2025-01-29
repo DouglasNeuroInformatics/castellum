@@ -37,4 +37,5 @@ class Command(BaseCommand):
                         user.has_perm('recruitment.conduct_study', obj=study)
                         or user.has_perm('studies.change_study', obj=study)
                     )],
+                    cc=settings.CASTELLUM_STUDY_END_NOTIFICATION_CC,
                 )

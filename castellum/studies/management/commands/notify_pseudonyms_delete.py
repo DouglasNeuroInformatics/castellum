@@ -43,4 +43,5 @@ class Command(BaseCommand):
                         for user in study.members.all()
                         if user.has_perm('studies.change_study', obj=study)
                     ],
+                    cc=settings.CASTELLUM_STUDY_END_NOTIFICATION_CC,
                 )
