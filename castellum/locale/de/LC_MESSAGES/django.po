@@ -2907,6 +2907,35 @@ msgstr ""
 msgid "Convert"
 msgstr "Umwandeln"
 
+#: castellum/studies/templates/studies/study_finish.html:5
+msgid ""
+"Are you sure you want to finish this study? This has the following effects:"
+msgstr ""
+"Sind Sie sicher, dass Sie diese Studie beenden wollen? Dies hat die folgenden "
+"Auswirkungen:"
+
+#: castellum/studies/templates/studies/study_finish.html:7
+msgid ""
+"Information about participants is still stored, but is no longer accessible."
+msgstr ""
+"Informationen über die Teilnehmenden werden weiterhin gespeichert, sind aber "
+"nicht mehr zugänglich."
+
+#: castellum/studies/templates/studies/study_finish.html:8
+msgid ""
+"Information about which subjects were contacted during the recruitment for "
+"this study will be deleted."
+msgstr ""
+"Informationen darüber, welche Personen während der Rekrutierung für diese "
+"Studie kontaktiert wurden, werden gelöscht."
+
+#: castellum/studies/templates/studies/study_finish.html:10
+msgid ""
+"You will still be able to resume the study to regain access to participants."
+msgstr ""
+"Es wird weiterhin möglich sein, die Studie wiederaufzunehmen, um wieder "
+"Zugang zu den Teilnehmenden zu erhalten."
+
 #: castellum/studies/templates/studies/study_form.html:8
 #: castellum/studies/templates/studies/study_list.html:21
 msgid "Create new study"

@@ -11,6 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.forms import modelform_factory
+from django.http import Http404
 from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -323,8 +324,16 @@ class StudyStartRecruitmentView(View):
         )
 
 
-class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
+class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, DetailView):
+    model = Study
     permission_required = 'studies.change_study'
+    template_name = 'studies/study_finish.html'
+    tab = 'detail'
+
+    def get_object(self):
+        if self.study.status == self.study.FINISHED:
+            raise Http404
+        return self.study
 
     def post(self, request, study_pk):
         if self.study.status == self.study.FINISHED:
