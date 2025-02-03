@@ -14,7 +14,6 @@ from django.utils.translation import gettext_lazy as _
 from castellum.studies.models import StudyGroup
 
 from .forms import UserChangeAdminForm
-from .forms import UserCreationAdminForm
 from .models import User
 
 
@@ -41,7 +40,6 @@ expiration_date_repr.short_description = _('expiration date')
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    add_form = UserCreationAdminForm
     form = UserChangeAdminForm
     list_display = [
         'username',
