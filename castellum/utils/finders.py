@@ -20,7 +20,7 @@ class NpmFinder(BaseFinder):
     def __init__(self, apps=None, *args, **kwargs):
         self.storage = FileSystemStorage(location=settings.NPM_PATH)
 
-    def find(self, path, all=False):
+    def find(self, path, find_all=False):
         full_path = self.storage.path(path)
         return [full_path] if all else full_path
 
