@@ -1,0 +1,17 @@
+{% extends "studies/study_base.html" %}
+{% load i18n auth utils %}
+
+{% block content %}
+    <p>{% translate "Are you sure you want to finish this study? This has the following effects:" %}</p>
+    <ul>
+        <li>{% translate "Information about participants is still stored, but is no longer accessible." %}</li>
+        <li>{% translate "Information about which subjects were contacted during the recruitment for this study will be deleted." %}</li>
+    </ul>
+    <p>{% translate "You will still be able to resume the study to regain access to participants." %}</p>
+
+    <form method="POST" class="d-print-none mb-3">
+        {% csrf_token %}
+        <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
+        <button class="btn btn-primary">{% translate 'Confirm' %}</button>
+    </form>
+{% endblock %}

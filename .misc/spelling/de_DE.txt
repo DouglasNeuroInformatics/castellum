@@ -17,6 +17,7 @@ Teilnahmestatus
 Vertraulichkeitsstufe
 Volljährigkeit
 Vorgangsbezogene
+wiederaufzunehmen
 Wiedervorlagetermin
 Wiedervorlagezeit
 Zuverlässigkeitseintrag
