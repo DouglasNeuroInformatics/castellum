@@ -3035,8 +3035,8 @@ msgid ""
 "Test sessions for this study have concluded. Please finish the study or "
 "adapt the end date!"
 msgstr ""
-"Die Testsitzungen für diese Studie sind abgeschlossen. Bitte schließen Sie "
-"die Studie ab oder passen Sie das Enddatum an!"
+"Die Testsitzungen für diese Studie sind abgeschlossen. Bitte beenden Sie "
+"die Studie oder passen Sie das Enddatum an!"
 
 #: castellum/studies/templates/studies/study_sessions.html:19
 msgid ""
