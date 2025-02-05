@@ -159,53 +159,35 @@ MEDIA_URL = 'media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 
-NPM_ROOT_PATH = BASE_DIR.parent
+NPM_PATH = BASE_DIR.parent / 'node_modules'
 
-NPM_FILE_PATTERNS = {
-    'bootstrap': [
-        Path('dist', 'css', 'bootstrap.min.css'),
-        Path('dist', 'css', 'bootstrap.min.css.map'),
-        Path('dist', 'js', 'bootstrap.min.js'),
-        Path('dist', 'js', 'bootstrap.min.js.map'),
-    ],
-    'jdenticon': [
-        Path('dist', 'jdenticon.min.js'),
-        Path('dist', 'jdenticon.min.js.map'),
-    ],
-    'jquery': [
-        Path('dist', 'jquery.min.js'),
-    ],
-    '@popperjs': [
-        Path('core', 'dist', 'umd', 'popper-lite.min.js'),
-        Path('core', 'dist', 'umd', 'popper-lite.min.js.map'),
-    ],
-    Path('@fortawesome', 'fontawesome-free'): [
-        Path('css', 'all.min.css'),
-        Path('webfonts', 'fa-regular-400.woff2'),
-        Path('webfonts', 'fa-regular-400.ttf'),
-        Path('webfonts', 'fa-brands-400.woff2'),
-        Path('webfonts', 'fa-brands-400.ttf'),
-        Path('webfonts', 'fa-solid-900.woff2'),
-        Path('webfonts', 'fa-solid-900.ttf'),
-        Path('webfonts', 'fa-v4compatibility.woff2'),
-        Path('webfonts', 'fa-v4compatibility.ttf'),
-    ],
-    'select2': [
-        Path('dist', 'css', 'select2.min.css'),
-        Path('dist', 'js', 'select2.min.js'),
-        Path('dist', 'js', 'i18n', 'de.js'),
-    ],
-    Path('@ttskch', 'select2-bootstrap4-theme'): [
-        Path('dist', 'select2-bootstrap4.min.css'),
-    ],
-    '@fullcalendar': [
-        Path('core', 'locales', 'de.global.min.js'),
-        Path('bootstrap', 'index.global.min.js'),
-    ],
-    'cbor-js': [
-        'cbor.js',
-    ],
-}
+NPM_FILES = [
+    Path('bootstrap', 'dist', 'css', 'bootstrap.min.css'),
+    Path('bootstrap', 'dist', 'css', 'bootstrap.min.css.map'),
+    Path('bootstrap', 'dist', 'js', 'bootstrap.min.js'),
+    Path('bootstrap', 'dist', 'js', 'bootstrap.min.js.map'),
+    Path('jdenticon', 'dist', 'jdenticon.min.js'),
+    Path('jdenticon', 'dist', 'jdenticon.min.js.map'),
+    Path('jquery', 'dist', 'jquery.min.js'),
+    Path('@popperjs', 'core', 'dist', 'umd', 'popper-lite.min.js'),
+    Path('@popperjs', 'core', 'dist', 'umd', 'popper-lite.min.js.map'),
+    Path('@fortawesome', 'fontawesome-free', 'css', 'all.min.css'),
+    Path('@fortawesome', 'fontawesome-free', 'webfonts', 'fa-regular-400.woff2'),
+    Path('@fortawesome', 'fontawesome-free', 'webfonts', 'fa-regular-400.ttf'),
+    Path('@fortawesome', 'fontawesome-free', 'webfonts', 'fa-brands-400.woff2'),
+    Path('@fortawesome', 'fontawesome-free', 'webfonts', 'fa-brands-400.ttf'),
+    Path('@fortawesome', 'fontawesome-free', 'webfonts', 'fa-solid-900.woff2'),
+    Path('@fortawesome', 'fontawesome-free', 'webfonts', 'fa-solid-900.ttf'),
+    Path('@fortawesome', 'fontawesome-free', 'webfonts', 'fa-v4compatibility.woff2'),
+    Path('@fortawesome', 'fontawesome-free', 'webfonts', 'fa-v4compatibility.ttf'),
+    Path('select2', 'dist', 'css', 'select2.min.css'),
+    Path('select2', 'dist', 'js', 'select2.min.js'),
+    Path('select2', 'dist', 'js', 'i18n', 'de.js'),
+    Path('@ttskch', 'select2-bootstrap4-theme', 'dist', 'select2-bootstrap4.min.css'),
+    Path('@fullcalendar', 'core', 'locales', 'de.global.min.js'),
+    Path('@fullcalendar', 'bootstrap', 'index.global.min.js'),
+    Path('cbor-js', 'cbor.js'),
+]
 
 BOOTSTRAP5 = {
     'set_placeholder': False,
