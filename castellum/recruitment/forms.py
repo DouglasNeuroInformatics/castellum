@@ -57,13 +57,13 @@ class SubjectFilterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.attribute = self._get_selected_attribute(**kwargs)
+        self.attr = self._get_selected_attribute(**kwargs)
 
-        self.fields['value'] = self.attribute.field.filter_formfield(
+        self.fields['value'] = self.attr.field.filter_formfield(
             label=_('Filter value'), required=True
         )
         self.fields['operator'] = forms.ChoiceField(
-            label=_('Comparison'), choices=self.attribute.field.available_operators
+            label=_('Comparison'), choices=self.attr.field.available_operators
         )
 
     def _get_selected_attribute(self, instance=None, data=None, prefix=None, **kwargs):

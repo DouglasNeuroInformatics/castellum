@@ -13,7 +13,7 @@
             {{ form.attribute.as_hidden }}
 
             <legend class="col-sm-12 h6">
-                {{ form.desc.filter_label }}
+                {{ form.attr.filter_label }}
             </legend>
 
             {% if form.operator.field.choices|length > 1 %}
@@ -60,7 +60,7 @@
                             {{ form.attribute.as_hidden }}
 
                             <legend class="col-sm-12 h6">
-                                {{ form.desc.filter_label }}
+                                {{ form.attr.filter_label }}
                             </legend>
 
                             {% if form.operator.field.choices|length > 1 %}
