@@ -7,8 +7,8 @@
                 <div {% if participation.status == participation.PARTICIPATING_DROPPED_OUT or recently_contacted or participation.subject.blocked or participation.subject.deceased %}class="text-body-secondary"{% endif %}>
                     <div>
                         <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-hidden="true"></svg>
-                        {% for desc, bucket in buckets %}
-                            <span class="d-inline-block my-1 me-2" title="{{ desc.label }}">{{ bucket }}</span>
+                        {% for attribute, bucket in buckets %}
+                            <span class="d-inline-block my-1 me-2" title="{{ attribute.label }}">{{ bucket }}</span>
                         {% endfor %}
                         {% if participation.subject.privacy_level > 0 %}
                             <span class="badge {% if participation.subject.privacy_level > study.members_min_privacy_level %}text-bg-warning{% else %}text-bg-secondary{% endif %}">

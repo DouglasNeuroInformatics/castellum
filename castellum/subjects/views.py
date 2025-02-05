@@ -440,11 +440,11 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
     def post(self, request, *args, **kwargs):
         attributes = {}
         if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
-            desc = Attribute.objects.get(
+            attr = Attribute.objects.get(
                 pk=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
             )
-            if desc.json_key in self.subject.attributes:
-                attributes[desc.json_key] = self.subject.attributes[desc.json_key]
+            if attr.json_key in self.subject.attributes:
+                attributes[attr.json_key] = self.subject.attributes[attr.json_key]
 
         self.subject.attributes = attributes
         self.subject.save()

@@ -269,7 +269,7 @@ class Subject(TimeStampedModel):
         from castellum.recruitment.models import Attribute
 
         qs = Attribute.objects.all()
-        return {desc.json_key: self.attributes.get(desc.json_key) for desc in qs}
+        return {attr.json_key: self.attributes.get(attr.json_key) for attr in qs}
 
     @property
     def date_of_birth(self):
