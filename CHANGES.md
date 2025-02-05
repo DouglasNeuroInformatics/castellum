@@ -1,3 +1,9 @@
+# 25.1.1 (2025-02-05)
+
+-   update default documentation link
+-   fix displaying labels in filter form
+
+
 # 25.1.0 (2025-01-27)
 
 ## breaking changes
