@@ -41,22 +41,22 @@ class BaseProtectedMediaView(LoginRequiredMixin, View):
 
     def get(self, request, **kwargs):
         path = self.get_path()
-
         if settings.PROTECTED_MEDIA_SERVER == 'django':
             return serve(request, path, document_root=settings.MEDIA_ROOT)
-        elif settings.PROTECTED_MEDIA_SERVER == 'nginx':
-            response = HttpResponse()
-            response['X-Accel-Redirect'] = settings.PROTECTED_MEDIA_URL + path
-            return response
+
+        file_path = os.path.join(settings.MEDIA_ROOT, unquote(path))
+        mimetype, encoding = mimetypes.guess_type(file_path)
+        response = HttpResponse()
+        response['Content-Type'] = mimetype
+        if encoding:
+            response['Content-Encoding'] = encoding
+
+        if settings.PROTECTED_MEDIA_SERVER == 'nginx':
+            response['X-Accel-Redirect'] = settings.PROTECTED_MEDIA_URL + quote(path)
         else:
-            file_path = settings.MEDIA_ROOT / unquote(path)
-            mimetype, encoding = mimetypes.guess_type(file_path)
-            response = HttpResponse()
-            response['Content-Type'] = mimetype
-            if encoding:
-                response['Content-Encoding'] = encoding
             response['X-Sendfile'] = os.fsencode(file_path)
-            return response
+
+        return response
 
 
 class ProtectedMediaView(BaseProtectedMediaView):
