@@ -5,7 +5,7 @@
 
 import mimetypes
 import os
-from urllib.parse import unquote
+from urllib.parse import quote, unquote
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
