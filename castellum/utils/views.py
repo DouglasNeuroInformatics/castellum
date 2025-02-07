@@ -5,6 +5,7 @@
 
 import mimetypes
 import os
+from urllib.parse import quote
 from urllib.parse import unquote
 
 from django.conf import settings
@@ -46,7 +47,7 @@ class BaseProtectedMediaView(LoginRequiredMixin, View):
             return serve(request, path, document_root=settings.MEDIA_ROOT)
         elif settings.PROTECTED_MEDIA_SERVER == 'nginx':
             response = HttpResponse()
-            response['X-Accel-Redirect'] = settings.PROTECTED_MEDIA_URL + path
+            response['X-Accel-Redirect'] = settings.PROTECTED_MEDIA_URL + quote(path)
             return response
         else:
             file_path = settings.MEDIA_ROOT / unquote(path)
