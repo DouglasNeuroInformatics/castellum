@@ -192,8 +192,8 @@ input:checked + .checkbox-opacity {
     border: 0;
 }
 .fc .table-bordered,
-.fc  td,
-.fc  th {
+.fc td,
+.fc th {
     border: 1px solid var(--bs-gray-300);
 }
 
