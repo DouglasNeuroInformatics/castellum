@@ -185,6 +185,10 @@ input:checked + .checkbox-opacity {
 }
 
 /* adapt full calendar to bootstrap 5 */
+:root {
+    --fc-event-bg-color: var(--bs-primary);
+    --fc-event-border-color: var(--bs-primary);
+}
 .fc-theme-bootstrap a:not([href]) {
     text-decoration: none;
 }
