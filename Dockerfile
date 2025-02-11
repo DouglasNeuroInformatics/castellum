@@ -24,7 +24,7 @@ RUN apk update && apk add \
     python3 \
     py3-pip \
     py3-wheel \
-    py3-psycopg2 \
+    py3-psycopg-c \
     py3-pyldap \
     py3-cryptography \
     libspatialite-dev \
