@@ -3855,8 +3855,8 @@ msgid ""
 "Currently there is no legal basis for storing this subject. This subject "
 "will be deleted unless you provide at least one of these options."
 msgstr ""
-"Aktuell gibt es keine gültige Rechtsgrundlage um die Daten dieser Proband*in "
-"zu speichern. Die Proband*in wird gelöscht werden wenn Sie nicht mindestens "
+"Aktuell gibt es keine gültige Rechtsgrundlage, um die Daten dieser Proband*in "
+"zu speichern. Die Proband*in wird gelöscht werden, wenn Sie nicht mindestens "
 "eine dieser Optionen auswählen."
 
 #: castellum/subjects/templates/subjects/subject_detail.html:74
