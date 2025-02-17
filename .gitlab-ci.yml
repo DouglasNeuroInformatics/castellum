@@ -1,6 +1,7 @@
 stages:
   - test
   - push
+  - deploy
 
 workflow:
   rules:
@@ -96,3 +97,11 @@ pages:
     expire_in: 1 month
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+
+deploy:demo:
+  image: buildpack-deps:bookworm
+  stage: deploy
+  script:
+    - 'curl https://castellum-demo.mpib-berlin.mpg.de/d4f66ab1-75f6-48cc-8a67-c9b031330f22 -X POST -H "Authorization: Bearer $DEMO_TOKEN"'
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $DEMO_TOKEN
