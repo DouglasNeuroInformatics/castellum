@@ -4,9 +4,6 @@ set -e
 
 docker compose up --pull always --detach
 
-# wait for databases
-docker compose run --rm db_wait
-
 docker compose exec web python3 -m django migrateall
 docker compose exec scheduler python3 -m django migrate
 
