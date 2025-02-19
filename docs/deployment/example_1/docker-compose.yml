@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
     healthcheck:
-      test: ["CMD", "pg_isready"]
+      test: ["CMD", "pg_isready", "-U", "postgres"]
       start_interval: 1s
   db_contacts:
     image: postgis/postgis
@@ -13,7 +13,7 @@ services:
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
     healthcheck:
-      test: ["CMD", "pg_isready"]
+      test: ["CMD", "pg_isready", "-U", "postgres"]
       start_interval: 1s
   db_scheduler:
     image: postgres
@@ -21,7 +21,7 @@ services:
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
     healthcheck:
-      test: ["CMD", "pg_isready"]
+      test: ["CMD", "pg_isready", "-U", "postgres"]
       start_interval: 1s
   ldap:
     image: osixia/openldap
