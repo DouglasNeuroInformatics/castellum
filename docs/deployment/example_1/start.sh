@@ -2,7 +2,7 @@
 
 set -e
 
-docker compose up --pull always --detach
+docker compose up --pull always --quiet-pull --detach
 
 docker compose exec web python3 -m django migrateall
 docker compose exec scheduler python3 -m django migrate
