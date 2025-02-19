@@ -6,6 +6,7 @@ services:
       POSTGRES_PASSWORD: "CHANGEME"
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
+      start_period: 30s
       start_interval: 1s
   db_contacts:
     image: postgis/postgis
@@ -14,6 +15,7 @@ services:
       POSTGRES_PASSWORD: "CHANGEME"
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
+      start_period: 30s
       start_interval: 1s
   db_scheduler:
     image: postgres
@@ -22,6 +24,7 @@ services:
       POSTGRES_PASSWORD: "CHANGEME"
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
+      start_period: 30s
       start_interval: 1s
   ldap:
     image: osixia/openldap
