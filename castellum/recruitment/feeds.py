@@ -61,7 +61,7 @@ class AppointmentFeedForStudy(
         return super().items().filter(session__study=self.study)
 
     def item_title(self, item):
-        return ''
+        return item.session.name
 
 
 class AppointmentFeedForResource(ParamAuthMixin, BaseAppointmentFeed):
