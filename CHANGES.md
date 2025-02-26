@@ -1,3 +1,10 @@
+# 25.1.2 (2025-02-26)
+
+-   use session name as title in study calendar feed for clients that do
+    not display events with empty titles
+-   fix displaying of metadata when selecting a recruitment consent
+
+
 # 25.1.1 (2025-02-05)
 
 -   update default documentation link
