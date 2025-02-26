@@ -135,8 +135,6 @@ class AdditionalInfoForm(forms.ModelForm):
 
 
 class ConsentChangeForm(forms.ModelForm):
-    document = forms.ChoiceField()
-
     class Meta:
         model = Consent
         fields = ['document', 'file', 'excluded_by_us']
@@ -147,28 +145,18 @@ class ConsentChangeForm(forms.ModelForm):
         if not ConsentDocument.objects.filter(is_valid=True).exists():
             ConsentDocument.objects.create()
 
-        valid_documents = ConsentDocument.objects.filter(is_valid=True)
+        self.fields['document'].queryset = ConsentDocument.objects.filter(is_valid=True)
+        self.fields['document'].empty_label = None
+        self.fields['document'].empty_values = ['excluded', 'withdrawn']
         self.fields['document'].choices = [
             ('excluded', _(
                 'Excluded by us (e.g. because they were unreliable or inactive)'
             )),
             ('withdrawn', _('Consent declined/withdrawn')),
-            *[(doc.id, str(doc)) for doc in valid_documents],
+            *self.fields['document'].choices,
         ]
 
     def clean(self):
         cleaned_data = super().clean()
-
-        if cleaned_data['document'] == 'excluded':
-            cleaned_data['excluded_by_us'] = True
-            cleaned_data['document'] = None
-        elif cleaned_data['document'] == 'withdrawn':
-            cleaned_data['excluded_by_us'] = False
-            cleaned_data['document'] = None
-        else:
-            cleaned_data['excluded_by_us'] = False
-            cleaned_data['document'] = ConsentDocument.objects.get(
-                pk=cleaned_data['document']
-            )
-
+        cleaned_data['excluded_by_us'] = self.data.get('document') == 'excluded'
         return cleaned_data
