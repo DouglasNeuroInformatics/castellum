@@ -15,5 +15,15 @@ ExecStart=gunicorn \
           --bind unix:/run/castellum.sock \
           castellum.wsgi:application
 
+ProtectSystem=strict
+ReadWritePaths=/opt/castellum/media
+PrivateTmp=true
+NoNewPrivileges=true
+CapabilityBoundingSet=
+SystemCallFilter=@system-service
+RestrictAddressFamilies=AF_UNIX
+RestrictNamespaces=true
+MemoryDenyWriteExecute=true
+
 [Install]
 WantedBy=multi-user.target
