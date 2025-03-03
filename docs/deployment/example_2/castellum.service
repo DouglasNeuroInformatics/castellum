@@ -11,7 +11,7 @@ EnvironmentFile=/etc/castellum/secret.pw
 EnvironmentFile=/etc/castellum/db_default.pw
 EnvironmentFile=/etc/castellum/db_contacts.pw
 EnvironmentFile=/etc/castellum/ldap.pw
-Environment="DJANGO_SETTINGS_MODULE=castellum.settings.customizations"
+Environment="DJANGO_SETTINGS_MODULE=castellum.settings.deployment"
 WorkingDirectory=/opt/castellum
 ExecStart=gunicorn \
           --access-logfile - \
