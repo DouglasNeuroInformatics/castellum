@@ -47,6 +47,7 @@ class BaseProtectedMediaView(LoginRequiredMixin, View):
             return serve(request, path, document_root=settings.MEDIA_ROOT)
         elif settings.PROTECTED_MEDIA_SERVER == 'nginx':
             response = HttpResponse()
+            response['Content-Type'] = ''  # let nginx determine that
             response['X-Accel-Redirect'] = settings.PROTECTED_MEDIA_URL + quote(path)
             return response
         else:
