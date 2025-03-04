@@ -87,3 +87,9 @@ services:
         condition: service_healthy
       db_contacts:
         condition: service_healthy
+  static:
+    # /var/www/castellum/static must be writeable by the docker container
+    image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
+    command: sh -c 'rm -rf host_static/* && cp -r static/* host_static/'
+    volumes:
+      - /var/www/castellum/static:/app/host_static
