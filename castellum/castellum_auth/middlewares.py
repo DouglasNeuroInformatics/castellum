@@ -10,16 +10,14 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.utils import timezone
 from django.utils import translation
+from django.utils.deprecation import MiddlewareMixin
 from django.utils.translation import gettext_lazy as _
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
 
 
-class UserExpirationMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
+class UserExpirationMiddleware(MiddlewareMixin):
+    def process_request(self, request):
         if request.user.is_authenticated:
             error = None
             if not request.user.expiration_date:
@@ -30,8 +28,6 @@ class UserExpirationMiddleware:
             if error is not None:
                 logout(request)
                 messages.add_message(request, messages.ERROR, error)
-
-        return self.get_response(request)
 
 
 def get_last_active(request):
@@ -44,11 +40,8 @@ def set_last_active(request):
     request.session['_last_active'] = now.strftime(DATETIME_FORMAT)
 
 
-class AutoLogoutMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
+class AutoLogoutMiddleware(MiddlewareMixin):
+    def process_request(self, request):
         if request.user.is_authenticated and 'events' not in request.GET:
             now = timezone.now()
             login_time = request.user.last_login or now
@@ -65,14 +58,8 @@ class AutoLogoutMiddleware:
             elif now > last_active + settings.CASTELLUM_LOGOUT_TIMEOUT / 10:
                 set_last_active(request)
 
-        return self.get_response(request)
 
-
-class UserLanguageMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
+class UserLanguageMiddleware(MiddlewareMixin):
+    def process_request(self, request):
         if request.user.is_authenticated and request.user.language:
             translation.activate(request.user.language)
-        return self.get_response(request)
