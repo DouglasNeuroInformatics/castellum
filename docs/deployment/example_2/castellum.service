@@ -7,17 +7,23 @@ After=network.target
 [Service]
 # CHANGEME: Group setting below must match nginx default group, see /etc/nginx/nginx.conf
 Group=nginx
-EnvironmentFile=/etc/castellum/secret.pw
-EnvironmentFile=/etc/castellum/db_default.pw
-EnvironmentFile=/etc/castellum/db_contacts.pw
-EnvironmentFile=/etc/castellum/ldap.pw
-Environment="DJANGO_SETTINGS_MODULE=castellum.settings.customizations"
+Environment="DJANGO_SETTINGS_MODULE=castellum.settings.deployment"
 WorkingDirectory=/opt/castellum
 ExecStart=gunicorn \
           --access-logfile - \
           --workers 4 \
           --bind unix:/run/castellum.sock \
           castellum.wsgi:application
+
+ProtectSystem=strict
+ReadWritePaths=/opt/castellum/media
+PrivateTmp=true
+NoNewPrivileges=true
+CapabilityBoundingSet=
+SystemCallFilter=@system-service
+RestrictAddressFamilies=AF_UNIX
+RestrictNamespaces=true
+MemoryDenyWriteExecute=true
 
 [Install]
 WantedBy=multi-user.target
