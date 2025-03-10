@@ -82,13 +82,13 @@ def study_exclusion(study):
         # All other studies still exclude exclusive studies.
         pr_q |= _reverse_exclusive_studies()
 
-    prs = Participation._base_manager.filter(pr_q)
+    prs = Participation.objects.filter(pr_q)
 
     q = ~models.Q(pk__in=prs.values('subject'))
 
     # Included studies
     if study.included_studies.exists():
-        q &= models.Q(pk__in=Participation._base_manager.filter(
+        q &= models.Q(pk__in=Participation.objects.filter(
             status__in=[
                 Participation.PARTICIPATING,
                 Participation.COMPLETED,

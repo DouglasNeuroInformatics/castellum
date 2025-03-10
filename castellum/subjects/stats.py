@@ -53,7 +53,7 @@ def get_participated_in_study():
 def get_recruitable():
     return _('Currently recruitable'), Subject.objects.filter(
         filter_queries.has_consent() & ~models.Q(
-            pk__in=Participation._base_manager.filter(
+            pk__in=Participation.objects.filter(
                 filter_queries._reverse_exclusive_studies()
             ).values('subject')
         ),

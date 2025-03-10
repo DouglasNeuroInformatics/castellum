@@ -625,7 +625,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     @with_study_lock
     def create_participation(self):
-        Participation._base_manager.update_or_create(
+        Participation.objects.update_or_create(
             subject=self.subject, study=self.study, defaults={
                 'status': Participation.PARTICIPATING,
             }
