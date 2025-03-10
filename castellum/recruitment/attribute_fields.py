@@ -8,6 +8,7 @@ import math
 
 from dateutil.relativedelta import relativedelta
 from django import forms
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -303,20 +304,7 @@ class AgeAttributeField(DateAttributeField):
             buckets = [(i, str(i)) for i in range(0, 18)]
         else:
             scale = 'years'
-            buckets = [
-                (17, '<18'),
-                (25, '18-25'),
-                (30, '26-30'),
-                (35, '31-35'),
-                (40, '36-40'),
-                (45, '41-45'),
-                (50, '46-50'),
-                (55, '51-55'),
-                (60, '56-60'),
-                (65, '61-65'),
-                (70, '66-70'),
-                (math.inf, '>70'),
-            ]
+            buckets = settings.CASTELLUM_AGE_BUCKETS
 
         def get_bucket(value):
             if not value or value == ANSWER_DECLINED:

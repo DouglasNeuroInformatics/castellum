@@ -414,3 +414,19 @@ CASTELLUM_REPORT_NOTIFICATION_BODY_EN = None
 # used by the notify_on_full_age command
 CASTELLUM_FULL_AGE_MAIL_SUBJECT = None
 CASTELLUM_FULL_AGE_MAIL_BODY = None
+
+# Grouping used for age statistics
+CASTELLUM_AGE_BUCKETS = [
+    (17, '<18'),
+    (25, '18-25'),
+    (30, '26-30'),
+    (35, '31-35'),
+    (40, '36-40'),
+    (45, '41-45'),
+    (50, '46-50'),
+    (55, '51-55'),
+    (60, '56-60'),
+    (65, '61-65'),
+    (70, '66-70'),
+    (math.inf, '>70'),
+]
