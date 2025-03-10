@@ -11,9 +11,20 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
+from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import Participation
 
 from .models import Subject
+
+
+def get_attribute_filter(pk, operator, value, **kwargs):
+    attr = Attribute.objects.get(pk=pk)
+    return (
+        attr.field.get_filter_display(operator, value),
+        Subject.objects.filter(
+            attr.field.filter_to_q(operator, value, **kwargs)
+        ).count(),
+    )
 
 
 def get_contact_updated():
