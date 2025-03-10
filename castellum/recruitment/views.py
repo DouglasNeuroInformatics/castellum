@@ -6,7 +6,6 @@
 import datetime
 import logging
 import random
-from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -24,7 +23,6 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
-from simplecharts import StackedColumnRenderer
 
 from castellum.appointments.helpers import get_external_resource_events
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
@@ -54,6 +52,7 @@ from .mixins import get_recruitable
 from .models import MailBatch
 from .models import Participation
 from .models.attributes import get_attribute_by_statistics_rank
+from .statistics import render_statistics
 from .templatetags.recruitment import study_legal_representative_hash
 
 FULLCALENDAR_DEFAULT_COLOR = '#3788d8'
@@ -113,60 +112,6 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             .order_by(*order_by)
         )
 
-    def _get_statistics(self):
-        participations = Participation.objects.filter(
-            study=self.study, status__in=Participation.INVITED_SET
-        ).prefetch_related('subject')
-
-        desc1 = get_attribute_by_statistics_rank('primary')
-        if desc1:
-            buckets1, get_bucket1 = desc1.field.get_statistics_grouping(self.study)
-        else:
-            return None
-
-        desc2 = get_attribute_by_statistics_rank('secondary')
-        if desc2:
-            buckets2, get_bucket2 = desc2.field.get_statistics_grouping(self.study)
-        else:
-            buckets2, get_bucket2 = [(None, None)], lambda x: None
-
-        statistics = defaultdict(lambda: defaultdict(lambda: 0))
-        for participation in participations:
-            subject = participation.subject
-
-            value1 = subject.attributes.get(desc1.json_key)
-            key1 = get_bucket1(value1)
-
-            if desc2:
-                value2 = subject.attributes.get(desc2.json_key)
-                key2 = get_bucket2(value2)
-            else:
-                key2 = None
-
-            statistics[key1][key2] += 1
-
-        data = {
-            'rows': [{
-                'label': str(label1),
-                'values': [statistics[key1][key2] for key2, label2 in buckets2]
-            } for key1, label1 in buckets1],
-        }
-
-        if len(buckets2) > 1:
-            data['legend'] = []
-            for key2, label2 in buckets2:
-                count = sum(statistics[key1][key2] for key1, label1 in buckets1)
-                data['legend'].append(f'{label2} ({count})')
-
-        return data
-
-    def get_statistics(self):
-        data = self._get_statistics()
-        if not data:
-            return None
-        renderer = StackedColumnRenderer(width=760, height=320)
-        return renderer.render(data)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -223,7 +168,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         sort_options = dict(context['sort_options'])
         context['sort_label'] = sort_options.get(self.sort, _('Relevance'))
 
-        context['statistics'] = self.get_statistics()
+        context['statistics'] = render_statistics(Subject.objects.filter(
+            participation__study=self.study,
+            participation__status__in=Participation.INVITED_SET,
+        ), self.study)
 
         queryset = Participation.objects.filter(study=self.study)
         context['all_count'] = queryset.count()

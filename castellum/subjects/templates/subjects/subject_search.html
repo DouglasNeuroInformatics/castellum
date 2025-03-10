@@ -209,5 +209,12 @@
                 </dd>
             {% endfor %}
         </dl>
+
+        {% if statistics %}
+            <details class="mb-4">
+                <summary class="mb-2">{% translate 'Statistics' %}</summary>
+                {{ statistics|safe }}
+            </details>
+        {% endif %}
     </aside>
 {% endblock %}
