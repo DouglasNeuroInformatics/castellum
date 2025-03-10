@@ -225,5 +225,12 @@
                 <meter class="w-100" max="{{ count_total }}" value="{{ count_recruitable }}"></meter>
             </dd>
         </dl>
+
+        {% if statistics %}
+            <details class="mb-4">
+                <summary class="mb-2">{% translate 'Statistics' %}</summary>
+                {{ statistics|safe }}
+            </details>
+        {% endif %}
     </aside>
 {% endblock %}

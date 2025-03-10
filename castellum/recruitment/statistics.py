@@ -10,7 +10,7 @@ from simplecharts import StackedColumnRenderer
 from castellum.recruitment.models.attributes import get_attribute_by_statistics_rank
 
 
-def get_statistics(subjects, study):
+def get_statistics(subjects, study=None):
     desc1 = get_attribute_by_statistics_rank('primary')
     if desc1:
         buckets1, get_bucket1 = desc1.field.get_statistics_grouping(study)
@@ -52,7 +52,7 @@ def get_statistics(subjects, study):
     return data
 
 
-def render_statistics(subjects, study):
+def render_statistics(subjects, study=None):
     data = get_statistics(subjects, study)
     if not data:
         return None

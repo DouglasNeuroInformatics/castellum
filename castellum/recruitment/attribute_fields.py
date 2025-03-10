@@ -85,7 +85,7 @@ class BaseAttributeField:
         operator = dict(self.available_operators)[operator]
         return f'{self.instance.filter_label} {operator} {value}'
 
-    def get_statistics_grouping(self, study):
+    def get_statistics_grouping(self, study=None):
         raise NotImplementedError
 
 
@@ -122,7 +122,7 @@ class BooleanAttributeField(BaseAttributeField):
         ('exact', _('is')),
     ]
 
-    def get_statistics_grouping(self, study):
+    def get_statistics_grouping(self, study=None):
         buckets = [
             (True, _('Yes')),
             (False, _('No')),
@@ -166,7 +166,7 @@ class BaseChoiceAttributeField(BaseAttributeField):
         value = self.get_display(value)
         return super().get_filter_display(operator, value)
 
-    def get_statistics_grouping(self, study):
+    def get_statistics_grouping(self, study=None):
         buckets = [
             (choice.pk, choice.label)
             for choice in self.instance.attributechoice_set.all()
@@ -268,6 +268,8 @@ class AgeAttributeField(DateAttributeField):
 
     def _get_min_date(self, study):
         """Get minimum date of birth allowed by study filters."""
+        if not study:
+            return None
 
         total = []
         for group in study.subjectfiltergroup_set.all():
@@ -289,7 +291,7 @@ class AgeAttributeField(DateAttributeField):
             # If there are no filters, there is no restriction.
             return None
 
-    def get_statistics_grouping(self, study):
+    def get_statistics_grouping(self, study=None):
         today = datetime.date.today()
         min_date = self._get_min_date(study)
 

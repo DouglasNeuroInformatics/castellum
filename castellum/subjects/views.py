@@ -44,6 +44,7 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import Participation
+from castellum.recruitment.statistics import render_statistics
 from castellum.studies.forms import StudyFilterForm
 from castellum.studies.mixins import with_study_lock
 from castellum.studies.models import Study
@@ -138,6 +139,10 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 filter_queries._reverse_exclusive_studies()
             ).values('subject')
         ).count()
+
+        context['statistics'] = render_statistics(
+            Subject.objects.filter(filter_queries.has_consent())
+        )
 
         context['subjectcreationrequest'] = self.subjectcreationrequest
 
