@@ -19,6 +19,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
+from django.utils.module_loading import import_string
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext_noop
 from django.views.decorators.debug import sensitive_post_parameters
@@ -116,28 +117,10 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
 
         context['count_total'] = Contact.objects.count()
 
-        start = datetime.date.today() - relativedelta(months=6)
-        context['count_updated'] = Contact.objects.filter(updated_at__gte=start).count()
-
-        context['count_participated'] = Subject.objects.filter(
-            participation__status__in=Participation.INVITED_SET
-        ).distinct().count()
-
-        completeness, total = filter_queries.completeness_expr()
-        context['count_complete'] = (
-            Subject.objects
-            .alias(completeness=completeness)
-            .filter(completeness=total, deceased=False, blocked=False)
-            .count()
-        )
-
-        context['count_recruitable'] = Subject.objects.filter(
-            filter_queries.has_consent(),
-        ).exclude(
-            pk__in=Participation._base_manager.filter(
-                filter_queries._reverse_exclusive_studies()
-            ).values('subject')
-        ).count()
+        context['stats'] = [
+            import_string(stat)() if isinstance(stat, str) else stat()
+            for stat in settings.CASTELLUM_SUBJECT_STATS
+        ]
 
         context['subjectcreationrequest'] = self.subjectcreationrequest
 

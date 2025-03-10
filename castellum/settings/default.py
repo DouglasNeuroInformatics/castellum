@@ -414,3 +414,21 @@ CASTELLUM_REPORT_NOTIFICATION_BODY_EN = None
 # used by the notify_on_full_age command
 CASTELLUM_FULL_AGE_MAIL_SUBJECT = None
 CASTELLUM_FULL_AGE_MAIL_BODY = None
+
+# Statistics that should be displayed on the subject search view
+#
+# Each entry must be a callable (or a string identifying a callable) that
+# returns ``(label: str, count: int)``.
+# Ideally, the label should be translatable.
+#
+# Example::
+#
+#     def get_right_handed():
+#         from castellum.subjects.stats import get_attribute_filter
+#         return get_attribute_filter(1, 'exact', 1)
+CASTELLUM_SUBJECT_STATS = [
+    'castellum.subjects.stats.get_contact_updated',
+    'castellum.subjects.stats.get_attributes_complete',
+    'castellum.subjects.stats.get_participated_in_study',
+    'castellum.subjects.stats.get_recruitable',
+]
