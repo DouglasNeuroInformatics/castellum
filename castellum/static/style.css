@@ -184,13 +184,10 @@ input:checked + .checkbox-opacity {
     opacity: 0.5;
 }
 
-/* adapt full calendar to bootstrap 5 */
+/* workaround for https://github.com/fullcalendar/fullcalendar/issues/7465 */
 .fc {
-    --fc-event-bg-color: var(--bs-primary);
-    --fc-event-border-color: var(--bs-primary);
     --fc-list-event-hover-bg-color: var(--bs-tertiary-bg);
 }
-/* workaround for https://github.com/fullcalendar/fullcalendar/issues/7465 */
 .fc .fc-list,
 .fc .fc-scrollgrid,
 .fc td,

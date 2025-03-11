@@ -23,6 +23,7 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
         eventSourceSuccess: function(raw) {
             return raw.events;
         },
+        eventColor: 'var(--bs-primary)',
         headerToolbar: {
             left: layout === 'year' ? 'timelineMonth,timelineYear' : 'timeGridWeek,dayGridMonth,listMonth',
             center: 'title',
