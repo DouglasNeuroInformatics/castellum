@@ -14,6 +14,9 @@ force-single-line = true
 [tool.ruff.lint.flake8-quotes]
 inline-quotes = "single"
 
+[tool.ruff.format]
+quote-style="single"
+
 [tool.pytest.ini_options]
 addopts = [
     "--ds=castellum.settings.development",
