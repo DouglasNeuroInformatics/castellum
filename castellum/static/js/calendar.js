@@ -16,7 +16,7 @@ FullCalendar.Bootstrap5.Internal.BootstrapTheme.prototype.rtlIconClasses = {
 document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
     var layout = el.dataset.layout;
     var calendar = new FullCalendar.Calendar(el, {
-        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+        schedulerLicenseKey: 'AGPL-My-Frontend-And-Backend-Are-Open-Source',
         themeSystem: 'bootstrap5',
         locale: document.documentElement.lang,
         events: location.search ? (location.search + '&events') : '?events',

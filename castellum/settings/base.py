@@ -182,8 +182,12 @@ NPM_FILES = [
     Path('select2', 'dist', 'js', 'select2.min.js'),
     Path('select2', 'dist', 'js', 'i18n', 'de.js'),
     Path('@ttskch', 'select2-bootstrap4-theme', 'dist', 'select2-bootstrap4.min.css'),
-    Path('@fullcalendar', 'core', 'locales', 'de.global.min.js'),
-    Path('@fullcalendar', 'bootstrap5', 'index.global.min.js'),
+    Path('fullcalendar', 'all', 'global.js'),
+    Path('fullcalendar', 'locales', 'de/global.js'),
+    Path('fullcalendar', 'skeleton.css'),
+    Path('fullcalendar-scheduler', 'all', 'global.js'),
+    Path('@fullcalendar', 'bootstrap5', 'global.js'),
+    Path('@fullcalendar', 'bootstrap5', 'theme.css'),
 ]
 
 BOOTSTRAP5 = {
