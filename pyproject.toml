@@ -49,7 +49,7 @@ test = [
     "django-test-migrations",
     "model-bakery",
     "lxml",
-    "ruff == 0.9.3",
+    "ruff",
     "pospell",
 ]
 dev = [
