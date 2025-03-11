@@ -1,3 +1,67 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "castellum"
+license = {text = "AGPL-3.0-or-later"}
+dependencies = [
+    "castellum-pseudonyms == 0.0.3",
+    "cologne-phonetics == 2.0.0",
+    "Django == 4.2.19",
+    "django-bootstrap5 == 25.1",
+    "django-bootstrap-colors == 5.3.0",
+    "django-mfa3 == 0.15.0",
+    "django-parler == 2.3",
+    "django-phonenumber-field == 8.0.0",
+    "django-stronghold == 0.4.0",
+    "Faker == 35.0.0",
+    "geopy == 2.4.1",
+    "icalendar == 6.1.1",
+    "icalevents == 0.2.0",
+    "jsonschema == 4.23.0",
+    "phonenumberslite == 8.13.53",
+    "python-dateutil == 2.9.0.post0",
+    "requests == 2.32.3",
+    "simplecharts == 0.0.2",
+]
+authors = [
+    {name = "Max-Planck-Gesellschaft", email = "castellum@mpib-berlin.mpg.de"},
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://git.mpib-berlin.mpg.de/castellum/castellum"
+
+[tool.setuptools]
+packages = ["castellum"]
+
+[project.optional-dependencies]
+ldap = ["django-auth-ldap == 5.1.0"]
+axes = ["django-axes[ipware] == 7.0.1"]
+model-stats = ["django-model-stats == 0.0.2"]
+storage-timestamps = ["django-storage-timestamps == 0.1.1"]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-django",
+    "freezegun",
+    "django-test-migrations",
+    "model-bakery",
+    "lxml",
+    "ruff == 0.9.3",
+    "pospell",
+]
+dev = [
+    "ipdb",
+    "django-debug-toolbar",
+    "sphinx",
+    "sphinx-rtd-theme",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "castellum.__version__"}
+
 [tool.ruff]
 extend-exclude = [
     "migrations",
