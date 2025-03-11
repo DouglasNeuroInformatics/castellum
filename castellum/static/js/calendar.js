@@ -2,7 +2,7 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
     var layout = el.dataset.layout;
     var calendar = new FullCalendar.Calendar(el, {
         schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-        themeSystem: 'bootstrap',
+        themeSystem: 'bootstrap5',
         locale: document.documentElement.lang,
         events: location.search ? (location.search + '&events') : '?events',
         eventSourceSuccess: function(raw) {
