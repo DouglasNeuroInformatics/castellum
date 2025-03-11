@@ -1,13 +1,29 @@
+FullCalendar.Bootstrap5.Internal.BootstrapTheme.prototype.baseIconClass = 'fa';
+FullCalendar.Bootstrap5.Internal.BootstrapTheme.prototype.iconClasses = {
+    close: 'fa-times',
+    prev: 'fa-chevron-left',
+    next: 'fa-chevron-right',
+    prevYear: 'fa-angle-double-left',
+    nextYear: 'fa-angle-double-right',
+};
+FullCalendar.Bootstrap5.Internal.BootstrapTheme.prototype.rtlIconClasses = {
+    prev: 'fa-chevron-right',
+    next: 'fa-chevron-left',
+    prevYear: 'fa-angle-double-right',
+    nextYear: 'fa-angle-double-left',
+};
+
 document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
     var layout = el.dataset.layout;
     var calendar = new FullCalendar.Calendar(el, {
         schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-        themeSystem: 'bootstrap',
+        themeSystem: 'bootstrap5',
         locale: document.documentElement.lang,
         events: location.search ? (location.search + '&events') : '?events',
         eventSourceSuccess: function(raw) {
             return raw.events;
         },
+        eventColor: 'var(--bs-primary)',
         headerToolbar: {
             left: layout === 'year' ? 'timelineMonth,timelineYear' : 'timeGridWeek,dayGridMonth,listMonth',
             center: 'title',

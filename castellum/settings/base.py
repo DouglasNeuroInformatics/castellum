@@ -185,7 +185,7 @@ NPM_FILES = [
     Path('select2', 'dist', 'js', 'i18n', 'de.js'),
     Path('@ttskch', 'select2-bootstrap4-theme', 'dist', 'select2-bootstrap4.min.css'),
     Path('@fullcalendar', 'core', 'locales', 'de.global.min.js'),
-    Path('@fullcalendar', 'bootstrap', 'index.global.min.js'),
+    Path('@fullcalendar', 'bootstrap5', 'index.global.min.js'),
     Path('cbor-js', 'cbor.js'),
 ]
 

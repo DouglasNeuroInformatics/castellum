@@ -184,21 +184,18 @@ input:checked + .checkbox-opacity {
     opacity: 0.5;
 }
 
-/* adapt full calendar to bootstrap 5 */
-:root {
-    --fc-event-bg-color: var(--bs-primary);
-    --fc-event-border-color: var(--bs-primary);
+/* workaround for https://github.com/fullcalendar/fullcalendar/issues/7465 */
+.fc {
+    --fc-list-event-hover-bg-color: var(--bs-tertiary-bg);
 }
-.fc-theme-bootstrap a:not([href]) {
-    text-decoration: none;
-}
-.fc .table-bordered tr {
-    border: 0;
-}
-.fc .table-bordered,
+.fc .fc-list,
+.fc .fc-scrollgrid,
 .fc td,
 .fc th {
     border: 1px solid var(--bs-border-color);
+}
+.fc-theme-bootstrap5-shaded {
+    background-color: var(--bs-secondary-bg);
 }
 
 .select2-container--bootstrap4 .select2-results__option--highlighted,
