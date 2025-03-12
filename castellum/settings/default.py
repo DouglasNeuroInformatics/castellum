@@ -137,7 +137,7 @@ CASTELLUM_REPORT_NOTIFICATION_TO = []
 
 # Emails that should be CCed when a study is notified of some deadline.
 # This could be someone who keeps an overview of all studies at an organization.
-CASTELLUM_STUDY_END_NOTIFICATION_CC = ['foo@example.com']
+CASTELLUM_STUDY_END_NOTIFICATION_CC = []
 
 # Text that is shown to users who file a report.
 #
