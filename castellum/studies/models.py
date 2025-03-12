@@ -110,8 +110,8 @@ class Study(TimeStampedModel):
         ),
         blank=True,
     )
-    sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
-    sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
+    sessions_start = DateField(_('Start of data collection'), blank=True, null=True)
+    sessions_end = DateField(_('End of data collection'), blank=True, null=True)
     recruitment_text = models.TextField(
         _('Recruitment text'),
         help_text=_(

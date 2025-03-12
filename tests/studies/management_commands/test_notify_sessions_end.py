@@ -16,5 +16,5 @@ def test_notify_sessions_end(study, conductor):
         cmd.handle()
 
     assert len(mail.outbox) == 1
-    assert mail.outbox[0].subject == '[Castellum] [test] Sessions ended'
+    assert mail.outbox[0].subject == '[Castellum] [test] End of data collection'
     assert mail.outbox[0].to == [conductor.email]

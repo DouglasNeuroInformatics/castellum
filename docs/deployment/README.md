@@ -100,7 +100,7 @@ user requests. We provide the following management commands for that:
 -   `notify_to_be_deleted`: Automatically notify about content that
     should be deleted.
 -   `notify_sessions_end`: Remind study members to finish a study when
-    sessions end.
+    data collection ends.
 -   `notify_pseudonyms_delete`: Notify study coordinators when pseudonym
     lists should be deleted.
 -   `notify_on_full_age`: Contact subjects who recently came off age to

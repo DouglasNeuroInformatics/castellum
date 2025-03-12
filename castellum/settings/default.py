@@ -377,7 +377,7 @@ CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY = (
 )
 CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY_EN = None
 
-CASTELLUM_SESSIONS_END_MAIL_SUBJECT = '[{study}] Sessions ended'
+CASTELLUM_SESSIONS_END_MAIL_SUBJECT = '[{study}] End of data collection'
 CASTELLUM_SESSIONS_END_MAIL_BODY = (
     'This is a reminder that, according to the information you entered in '
     'Castellum, the data collection for study "{study}" ends today: '

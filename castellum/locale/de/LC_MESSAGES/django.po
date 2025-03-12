@@ -2265,12 +2265,12 @@ msgstr ""
 "welche für die Terminbuchung beachtet werden müssen."
 
 #: castellum/studies/models.py:113
-msgid "Start of test sessions"
-msgstr "Beginn der Testsitzungen"
+msgid "Start of data collection"
+msgstr "Beginn der Erhebung"
 
 #: castellum/studies/models.py:114
-msgid "End of test sessions"
-msgstr "Ende der Testsitzungen"
+msgid "End of data collection"
+msgstr "Ende der Erhebung"
 
 #: castellum/studies/models.py:116
 msgid "Recruitment text"

@@ -135,13 +135,13 @@ class Migration(migrations.Migration):
                 (
                     'sessions_start',
                     castellum.utils.fields.DateField(
-                        blank=True, null=True, verbose_name='Start of test sessions'
+                        blank=True, null=True, verbose_name='Start of data collection'
                     ),
                 ),
                 (
                     'sessions_end',
                     castellum.utils.fields.DateField(
-                        blank=True, null=True, verbose_name='End of test sessions'
+                        blank=True, null=True, verbose_name='End of data collection'
                     ),
                 ),
                 (
