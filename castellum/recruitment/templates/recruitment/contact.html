@@ -6,12 +6,13 @@
 {% block content %}
     {% if not object.is_match %}
         <div class="alert alert-danger" role="alert">
-            {% translate 'Subject is unsuitable or blocked in another study.' %}
+            {% translate 'This subject does not match the current filter criteria.' %}
+            {% translate 'Please change the participation status to "excluded".' %}
         </div>
     {% else %}
         {% if object.is_match == 'incomplete' %}
             <div class="alert alert-warning" role="alert">
-                {% translate 'Subject has missing recruitment attributes. Please contact to check if they are suitable.' %}
+                {% translate 'This subject has missing recruitment attributes. Please contact to check if they are suitable.' %}
             </div>
         {% endif %}
         {% if subject.contact.has_legal_representative and study.geo_filter %}
@@ -22,7 +23,7 @@
     {% endif %}
     {% if not subject.has_consent_with_ineffective %}
         <div class="alert alert-warning" role="alert">
-            {% translate 'Subject does not want to be contacted for recruitment. Answering a request when approached by the subject is permitted, but initiating contact is not.' %}
+            {% translate 'This subject does not want to be contacted for recruitment. Answering a request when approached by the subject is permitted, but initiating contact is not.' %}
         </div>
     {% endif %}
 
