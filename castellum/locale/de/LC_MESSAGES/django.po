@@ -1916,7 +1916,11 @@ msgstr ""
 "Alternativ könnten Sie eine andere Rekrutierer*in mit einer höheren "
 "Vertraulichkeitsstufe bitten die Proband*in zu kontaktieren."
 
-#: castellum/recruitment/templates/recruitment/contact.html:14
+#: castellum/recruitment/templates/recruitment/contact.html:10
+msgid "Please change the participation status to \"excluded\"."
+msgstr "Bitte ändern Sie den Teilnahmestatus zu \"ausgeschlossen\"."
+
+#: castellum/recruitment/templates/recruitment/contact.html:15
 msgid ""
 "Subject has missing recruitment attributes. Please contact to check if they "
 "are suitable."

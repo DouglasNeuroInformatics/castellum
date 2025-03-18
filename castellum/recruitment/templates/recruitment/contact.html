@@ -7,6 +7,7 @@
     {% if not object.is_match %}
         <div class="alert alert-danger" role="alert">
             {% translate 'This subject does not match the current filter criteria.' %}
+            {% translate 'Please change the participation status to "excluded".' %}
         </div>
     {% else %}
         {% if object.is_match == 'incomplete' %}
