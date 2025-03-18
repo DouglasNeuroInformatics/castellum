@@ -990,8 +990,9 @@ msgstr "Keine Pseudonym-Listen"
 
 #: castellum/execution/templates/execution/participation_status.html:9
 #: castellum/recruitment/templates/recruitment/contact.html:9
-msgid "Subject is unsuitable or blocked in another study."
-msgstr "Proband*in ist nicht geeignet oder in einer anderen Studie blockiert."
+msgid "This subject does not match the current filter criteria."
+msgstr ""
+"Diese Proband*in passt nicht auf die aktuellen Filterkriterien."
 
 #: castellum/execution/templates/execution/participation_status.html:15
 msgid ""

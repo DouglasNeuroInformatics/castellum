@@ -6,7 +6,7 @@
 {% block content %}
     {% if object.is_match != 'complete' %}
         <div class="alert alert-warning" role="alert">
-            {% translate 'Subject is unsuitable or blocked in another study.' %}
+            {% translate 'This subject does not match the current filter criteria.' %}
         </div>
     {% endif %}
 
