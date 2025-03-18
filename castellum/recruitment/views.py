@@ -454,14 +454,6 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     study_status = [Study.EXECUTION]
     tab = 'contact'
 
-    def get_initial(self):
-        initial = super().get_initial()
-        if not self.object.is_match:
-            initial['status'] = Participation.EXCLUDED
-            initial['followup_date'] = None
-            initial['followup_time'] = None
-        return initial
-
     def get_object(self):
         return self.participation
 
