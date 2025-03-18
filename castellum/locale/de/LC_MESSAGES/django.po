@@ -1922,10 +1922,10 @@ msgstr "Bitte ändern Sie den Teilnahmestatus zu \"ausgeschlossen\"."
 
 #: castellum/recruitment/templates/recruitment/contact.html:15
 msgid ""
-"Subject has missing recruitment attributes. Please contact to check if they "
-"are suitable."
+"This subject has missing recruitment attributes. Please contact to check if "
+"they are suitable."
 msgstr ""
-"Einige Rekrutierungsmerkmale der Proband*in fehlen. Bitte kontaktieren Sie "
+"Einige Rekrutierungsmerkmale dieser Proband*in fehlen. Bitte kontaktieren Sie "
 "sie um herauszufinden, ob sie geeignet ist."
 
 #: castellum/recruitment/templates/recruitment/contact.html:19
@@ -1939,10 +1939,11 @@ msgstr ""
 
 #: castellum/recruitment/templates/recruitment/contact.html:25
 msgid ""
-"Subject does not want to be contacted for recruitment. Answering a request "
-"when approached by the subject is permitted, but initiating contact is not."
+"This subject does not want to be contacted for recruitment. Answering a "
+"request when approached by the subject is permitted, but initiating contact "
+"is not."
 msgstr ""
-"Die Proband*in möchte nicht für Rekrutierungen kontaktiert werden. Auf "
+"Diese Proband*in möchte nicht für Rekrutierungen kontaktiert werden. Auf "
 "Anfragen der Proband*in zu antworten ist erlaubt. Selbst auf die Proband*in "
 "zuzugehen ist nicht erlaubt."
 
