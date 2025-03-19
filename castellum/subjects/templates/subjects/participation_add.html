@@ -7,10 +7,10 @@
     <form class="mb-3" method="get" aria-label="{{ form.q.label }}">
         <label class="form-label" for="{{ form.q.id_for_label }}">{% translate 'Add to any study without checking filter criteria' %}</label>
         <div class="input-group">
-            <input type="search" class="form-control" id="{{ form.q.id_for_label }}" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}" autofocus>
+            <input type="search" class="form-control" id="{{ form.q.id_for_label }}" aria-describedby="{{ form.q.auto_id }}_helptext" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}" autofocus>
             <button class="btn btn-outline-primary">{% translate 'Go' %}</button>
         </div>
-        <div class="form-text">{% translate 'This feature is intended to support migrating from other tools that previously tracked study participations. There is no easy way to undo these actions.' %}</div>
+        <div class="form-text" id="{{ form.q.auto_id }}_helptext">{% translate 'This feature is intended to support migrating from other tools that previously tracked study participations. There is no easy way to undo these actions.' %}</div>
     </form>
 
     {% if form.cleaned_data.q %}
