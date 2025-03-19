@@ -247,8 +247,7 @@ To add a subject to an active study whose filters match the attributes of the su
 
 1.  In the subject details, go to the **Study participations** tab
 
-2.  Clicking on **Matching studies** will show a list of studies whose filters match
-    this subject's attributes.
+2.  Search for your study.
 
 3.  Clicking on the button named **Contact** will take you to this subject's contact page
     in the recruitment for the selected study.
@@ -256,11 +255,11 @@ To add a subject to an active study whose filters match the attributes of the su
     :ref:`recruitment guide <recruitment>`.
 
 
-To add a subject to any study:
+To add a subject to any study (only available with the ``subjects.add_to_study`` permission):
 
 1.  In the subject details, go to the **Study participations** tab
 
-2.  Under **Add to study**, enter the name of the study you want to add the subject to.
+2.  Under **Add to study**, search for your study.
 
 3.  Clicking on the button named **Add to study** will set this subject as participating
     in the study.
