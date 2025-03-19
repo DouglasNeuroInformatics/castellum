@@ -31,7 +31,13 @@
                     <form class="table-list-item-actions" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="study" value="{{ study.pk }}">
-                        <button class="btn btn-outline-primary my-1 ">{% translate 'Contact' context 'verb' %}</button>
+                        <button class="btn btn-outline-primary my-1 ">
+                            {% if participation.status in participation.RECRUITMENT_SET %}
+                                {% translate 'Contact' context 'verb' %}
+                            {% else %}
+                                {% translate 'Review' %}
+                            {% endif %}
+                        </button>
                     </form>
                 </li>
             {% empty %}

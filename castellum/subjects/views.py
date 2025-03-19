@@ -563,14 +563,7 @@ class ParticipationRecruitView(BaseParticipationAddView):
 
     def get_queryset(self):
         perms = ['recruitment.recruit', 'studies.access_study']
-        studies = (
-            super().get_queryset()
-            .filter(status=Study.EXECUTION)
-            .exclude(pk__in=Study.objects.filter(
-                participation__subject=self.subject,
-                participation__status__in=Participation.INVITED_SET,
-            ))
-        )
+        studies = super().get_queryset().filter(status=Study.EXECUTION)
 
         return studies.filter(pk__in=[
             study.pk for study in studies if (
