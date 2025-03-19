@@ -105,10 +105,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                         'recruitment.conduct_study', obj=participation.study
                     )
                 )
-                can_search = invited and user.has_perm(
-                    'recruitment.search_participations'
-                )
-                if can_recruit or can_conduct or can_search:
+                if can_recruit or can_conduct:
                     participations.append((participation, can_recruit, can_conduct))
             if participations or can_view_subject:
                 yield subject, subject.contact, participations, has_privacy_level

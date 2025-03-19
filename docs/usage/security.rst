@@ -35,7 +35,6 @@ permissions. Only a few of them are actually used. The full list is:
 -  ``subjects.view_report``
 -  ``recruitment.recruit``
 -  ``recruitment.conduct_study``
--  ``recruitment.search_participations``
 -  ``recruitment.change_appointments``
 -  ``appointments.view_current_appointments``
 -  ``castellum_auth.privacy_level_1``

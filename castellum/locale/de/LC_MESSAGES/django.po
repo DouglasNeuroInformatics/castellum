@@ -1674,10 +1674,6 @@ msgid "Can conduct studies"
 msgstr "Darf Studien durchführen"
 
 #: castellum/recruitment/models/participations.py:232
-msgid "Can search for any participation"
-msgstr "Darf nach jeder Teilnahme suchen"
-
-#: castellum/recruitment/models/participations.py:233
 msgid "Can recruit"
 msgstr "Darf rekrutieren"
 
