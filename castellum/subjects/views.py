@@ -523,8 +523,23 @@ class BaseParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     def get_subject(self):
         return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
+    def get(self, request, *args, **kwargs):
+        self.form = StudyFilterForm(self.request.GET)
+        self.form.full_clean()
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
+        q = self.form.cleaned_data.get('q', '')
+        if not q:
+            return Study.objects.none()
+
         qs = super().get_queryset().filter(is_filter_trial=False)
+
+        for part in q.split():
+            qs = qs.filter(
+                models.Q(name__icontains=part)
+                | models.Q(contact_person__icontains=part)
+            )
 
         # study.p is the list that contains the particiaption (if it exists)
         # or nothing.
@@ -534,6 +549,11 @@ class BaseParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
             queryset=self.subject.participation_set.all(),
             to_attr='p',
         ))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form
+        return context
 
 
 class ParticipationRecruitView(BaseParticipationAddView):
@@ -586,29 +606,6 @@ class ParticipationAddView(BaseParticipationAddView):
     template_name = 'subjects/participation_add.html'
     permission_required = 'subjects.change_subject'
     subtab = 'add'
-
-    def get(self, request, *args, **kwargs):
-        self.form = StudyFilterForm(self.request.GET)
-        self.form.full_clean()
-        return super().get(request, *args, **kwargs)
-
-    def get_queryset(self):
-        q = self.form.cleaned_data.get('q', '')
-        if not q:
-            return Study.objects.none()
-
-        qs = super().get_queryset()
-        for part in q.split():
-            qs = qs.filter(
-                models.Q(name__icontains=part)
-                | models.Q(contact_person__icontains=part)
-            )
-        return qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.form
-        return context
 
     @with_study_lock
     def create_participation(self):

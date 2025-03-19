@@ -3596,7 +3596,10 @@ msgstr "Studienteilnahmen"
 msgid "Matching studies"
 msgstr "Passende Studien"
 
-#: castellum/subjects/templates/subjects/participation_recruit.html:31
+#: castellum/subjects/templates/subjects/participation_recruit.html:8
+msgid "Find matching studies"
+msgstr "Passende Studien finden"
+
 msgid "This person does not meet the filters of the currently active studies."
 msgstr ""
 "Diese Person erfüllt die Filterbedingungen der gegenwärtig aktiven Studien "

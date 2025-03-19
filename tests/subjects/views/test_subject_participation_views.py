@@ -17,14 +17,15 @@ def test_list_200(request, client, user_fixture, invited):
 
 def test_recruit_200(client, user, subject):
     client.force_login(user)
-    response = client.get(f'/subjects/{subject.pk}/participations/recruit/')
+    response = client.get(f'/subjects/{subject.pk}/participations/recruit/?q=test')
     assert response.status_code == 200
     assert b'No matching studies found' in response.content
 
 
 def test_recruit_200_with_study(client, member, subject, study):
     client.force_login(member)
-    response = client.get(f'/subjects/{subject.pk}/participations/recruit/')
+    url = f'/subjects/{subject.pk}/participations/recruit/?q={study.name}'
+    response = client.get(url)
     assert response.status_code == 200
     assert b'No matching studies found' not in response.content
 
