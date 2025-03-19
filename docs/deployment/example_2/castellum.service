@@ -9,7 +9,6 @@ After=network.target
 Group=nginx
 Environment="DJANGO_SETTINGS_MODULE=castellum.settings.deployment"
 WorkingDirectory=/opt/castellum
-LogsDirectory=castellum
 ExecStartPre=+mkdir -p /opt/castellum/media
 ExecStartPre=+chown -R castellum:nginx /opt/castellum/media
 ExecStartPre=+chmod -R 750 /opt/castellum/media
