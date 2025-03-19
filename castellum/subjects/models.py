@@ -140,6 +140,8 @@ class Subject(TimeStampedModel):
         permissions = [
             ('export_subject', _('Can export all data related to a subject')),
             ('view_audit_trail', _('Can view audit trail')),
+            ('add_to_study', _('Can add subject to a study without checking filters')),
+            ('list_participations', _('Can list all study participations')),
         ]
 
     def delete(self):

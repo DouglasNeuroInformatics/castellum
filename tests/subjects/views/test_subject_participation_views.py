@@ -4,8 +4,9 @@ import pytest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
-    'subject_manager',
-    'data_protection_officer',
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
+    'super_subject_manager',
 ])
 def test_list_200(request, client, user_fixture, invited):
     user = request.getfixturevalue(user_fixture)

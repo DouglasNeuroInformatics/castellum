@@ -3340,7 +3340,15 @@ msgstr "nicht erreichbar bis"
 msgid "Can export all data related to a subject"
 msgstr "Darf alle Daten zu einer Proband*in exportieren"
 
-#: castellum/subjects/models.py:253
+#: castellum/subjects/models.py:143
+msgid "Can add subject to a study without checking filters"
+msgstr "Darf Proband*innen zu Studien hinzufügen, ohne die Filter zu prüfen"
+
+#: castellum/subjects/models.py:144
+msgid "Can list all study participations"
+msgstr "Darf alle Studienteilnahmen auflisten"
+
+#: castellum/subjects/models.py:255
 msgid "no data so far"
 msgstr "bisher keine Daten"
 

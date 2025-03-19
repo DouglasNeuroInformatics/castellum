@@ -30,6 +30,8 @@ permissions. Only a few of them are actually used. The full list is:
 -  ``subjects.view_subject``
 -  ``subjects.change_subject``
 -  ``subjects.delete_subject``
+-  ``subjects.add_to_study``
+-  ``subjects.list_participations``
 -  ``subjects.export_subject``
 -  ``subjects.view_audit_trail``
 -  ``subjects.view_report``

@@ -501,7 +501,7 @@ class ReportDetailView(PermissionRequiredMixin, DetailView):
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = Participation
     template_name = 'subjects/participation_list.html'
-    permission_required = 'subjects.view_subject'
+    permission_required = 'subjects.list_participations'
     tab = 'participations'
     subtab = 'list'
 
@@ -597,7 +597,7 @@ class ParticipationRecruitView(BaseParticipationAddView):
 
 class ParticipationAddView(BaseParticipationAddView):
     template_name = 'subjects/participation_add.html'
-    permission_required = 'subjects.change_subject'
+    permission_required = 'subjects.add_to_study'
     subtab = 'add'
 
     @with_study_lock

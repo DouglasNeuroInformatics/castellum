@@ -134,6 +134,14 @@ def subject_manager(db):
 
 
 @pytest.fixture
+def super_subject_manager(db):
+    user = create_user('Subject manager')
+    user.user_permissions.add(Permission.objects.get(codename='list_participations'))
+    user.user_permissions.add(Permission.objects.get(codename='add_to_study'))
+    return user
+
+
+@pytest.fixture
 def data_protection_officer(db):
     return create_user('Data protection officer')
 
