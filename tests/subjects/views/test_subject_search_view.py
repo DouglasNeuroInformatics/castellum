@@ -64,7 +64,7 @@ def test_only_members(request, client, user_fixture, study):
     client.force_login(user)
     response = client.post('/subjects/', {'search': 'foo bar'})
 
-    assert response.content.count(b'<li class="table-list-item">') == 1
+    assert response.content.count(b'<li class="table-list-item') == 1
 
 
 def test_matches(client, member, study, draft_study):
@@ -105,7 +105,7 @@ def test_matches(client, member, study, draft_study):
     response = client.post('/subjects/', {'search': 'foo bar'})
 
     assert response.content.count(b'<div class="table-list-item">') == 3
-    assert response.content.count(b'<li class="table-list-item">') == 2
+    assert response.content.count(b'<li class="table-list-item') == 2
     assert response.content.count(b'>Recruitment</a>') == 2
     assert response.content.count(b'>Execution</a>') == 1
 

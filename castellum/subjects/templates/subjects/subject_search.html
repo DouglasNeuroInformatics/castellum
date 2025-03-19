@@ -105,7 +105,7 @@
                                 {% if can_access %}
                                     <ul class="table-list">
                                         {% for participation, can_recruit, can_conduct in participations %}
-                                            <li class="table-list-item">
+                                            <li class="table-list-item py-1 ps-5">
                                                 <div>
                                                     <span class="h5 d-inline-block my-1 me-2">{{ participation.study }}</span>
                                                     <span class="badge text-bg-secondary my-1" title="{{ participation.get_status_tooltip }}">{{ participation|display:'status' }}</span>

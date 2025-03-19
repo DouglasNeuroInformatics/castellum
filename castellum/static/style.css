@@ -21,10 +21,6 @@
     }
 }
 
-.table-list .table-list .table-list-item {
-    padding: 0.1rem 0 0.1rem 3rem;
-}
-
 /* work around https://github.com/twbs/bootstrap/issues/25394 */
 .navbar-dark .navbar-toggler-icon {
     background-image: url("images/bootstrap/hamburger.svg");
