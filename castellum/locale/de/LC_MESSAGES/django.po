@@ -3028,16 +3028,16 @@ msgstr ""
 "berücksichtigt."
 
 #: castellum/studies/templates/studies/study_sessions.html:9
-msgid "Please enter the expected start and end of test sessions!"
+msgid "Please enter the expected start and end of data collection!"
 msgstr ""
-"Bitte geben Sie voraussichtlichen Beginn und Ende der Testsitzungen an!"
+"Bitte geben Sie voraussichtlichen Beginn und Ende der Erhebung an!"
 
 #: castellum/studies/templates/studies/study_sessions.html:13
 msgid ""
-"Test sessions for this study have concluded. Please finish the study or "
+"Data collection for this study has concluded. Please finish the study or "
 "adapt the end date!"
 msgstr ""
-"Die Testsitzungen für diese Studie sind abgeschlossen. Bitte beenden Sie "
+"Die Erhebung für diese Studie ist abgeschlossen. Bitte beenden Sie "
 "die Studie oder passen Sie das Enddatum an!"
 
 #: castellum/studies/templates/studies/study_sessions.html:19

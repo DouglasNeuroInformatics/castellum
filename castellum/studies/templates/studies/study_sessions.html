@@ -6,11 +6,11 @@
 {% block content %}
     {% if study.should_enter_sessions_end %}
         <div class="alert alert-danger" role="alert">
-            {% translate 'Please enter the expected start and end of test sessions!' %}
+            {% translate 'Please enter the expected start and end of data collection!' %}
         </div>
     {% elif study.should_finish_study %}
         <div class="alert alert-danger" role="alert">
-            {% translate 'Test sessions for this study have concluded. Please finish the study or adapt the end date!' %}
+            {% translate 'Data collection for this study has concluded. Please finish the study or adapt the end date!' %}
         </div>
     {% endif %}
 
