@@ -2254,7 +2254,7 @@ msgstr "Benötigte Anzahl von Proband*innen"
 
 #: castellum/studies/models.py:105
 msgid "Session instructions"
-msgstr "Sitzungshinweise"
+msgstr "Hinweise zu den Sitzung"
 
 #: castellum/studies/models.py:107
 msgid ""
