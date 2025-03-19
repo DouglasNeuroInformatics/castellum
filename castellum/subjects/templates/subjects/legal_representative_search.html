@@ -42,45 +42,47 @@
                             {% with contact=subject.contact %}
                                 {% has_privacy_level subject.privacy_level user as can_access %}
                                 <li class="table-list-item">
-                                    {% if can_access %}
-                                        <svg class="identicon my-1 me-2" data-jdenticon-value="{{ subject.pk }}" aria-hidden="true"></svg>
-                                    {% endif %}
-                                    <div>
+                                    <div class="d-flex align-items-center">
                                         {% if can_access %}
-                                            <div class="h4 d-inline-block my-1 me-2">
-                                                {% if contact.title %}{{ contact.title }}{% endif %}
-                                                {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
-                                                    <mark>{{ contact.first_name }}</mark>
-                                                {% else %}
-                                                    {{ contact.first_name }}
-                                                {% endif %}
-                                                {% if contact.last_name|lower == form.cleaned_data.last_name|lower %}
-                                                    <mark>{{ contact.last_name }}</mark>
-                                                {% else %}
-                                                    {{ contact.last_name }}
-                                                {% endif %}
-                                            </div>
-                                            <div class="d-inline-block">
-                                                {% if contact.date_of_birth %}
-                                                    <div class="d-inline-block my-1 me-2">{{ contact.date_of_birth }}</div>
-                                                {% endif %}
-                                                {% if contact.email %}
-                                                    <div class="d-inline-block my-1 me-2">
-                                                        {% if contact.email|lower == form.cleaned_data.email|lower %}
-                                                            <mark>{{ contact.email }}</mark>
-                                                        {% else %}
-                                                            {{ contact.email }}
-                                                        {% endif %}
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                            {% if subject.blocked %}
-                                                <span class="badge text-bg-dark my-1 me-2" title="{{ subject.TOOLTIPS.blocked }}">{{ subject|verbose_name:'blocked' }}</span>
-                                            {% endif %}
-                                        {% else %}
-                                            <h3 class="h4 d-inline-block text-body-secondary my-1 me-2">{{ contact.full_name }}</h3>
-                                            <div class="d-inline-block text-body-secondary my-1 me-2">{% translate 'insufficient privacy level' %}</div>
+                                            <svg class="identicon my-1 me-2 flex-shrink-0" data-jdenticon-value="{{ subject.pk }}" aria-hidden="true"></svg>
                                         {% endif %}
+                                        <div>
+                                            {% if can_access %}
+                                                <div class="h4 d-inline-block my-1 me-2">
+                                                    {% if contact.title %}{{ contact.title }}{% endif %}
+                                                    {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
+                                                        <mark>{{ contact.first_name }}</mark>
+                                                    {% else %}
+                                                        {{ contact.first_name }}
+                                                    {% endif %}
+                                                    {% if contact.last_name|lower == form.cleaned_data.last_name|lower %}
+                                                        <mark>{{ contact.last_name }}</mark>
+                                                    {% else %}
+                                                        {{ contact.last_name }}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="d-inline-block">
+                                                    {% if contact.date_of_birth %}
+                                                        <div class="d-inline-block my-1 me-2">{{ contact.date_of_birth }}</div>
+                                                    {% endif %}
+                                                    {% if contact.email %}
+                                                        <div class="d-inline-block my-1 me-2">
+                                                            {% if contact.email|lower == form.cleaned_data.email|lower %}
+                                                                <mark>{{ contact.email }}</mark>
+                                                            {% else %}
+                                                                {{ contact.email }}
+                                                            {% endif %}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                                {% if subject.blocked %}
+                                                    <span class="badge text-bg-dark my-1 me-2" title="{{ subject.TOOLTIPS.blocked }}">{{ subject|verbose_name:'blocked' }}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <h3 class="h4 d-inline-block text-body-secondary my-1 me-2">{{ contact.full_name }}</h3>
+                                                <div class="d-inline-block text-body-secondary my-1 me-2">{% translate 'insufficient privacy level' %}</div>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                     <div class="table-list-item-actions">
                                         {% if can_access %}
