@@ -1674,10 +1674,6 @@ msgid "Can conduct studies"
 msgstr "Darf Studien durchführen"
 
 #: castellum/recruitment/models/participations.py:232
-msgid "Can search for any participation"
-msgstr "Darf nach jeder Teilnahme suchen"
-
-#: castellum/recruitment/models/participations.py:233
 msgid "Can recruit"
 msgstr "Darf rekrutieren"
 
@@ -3344,7 +3340,15 @@ msgstr "nicht erreichbar bis"
 msgid "Can export all data related to a subject"
 msgstr "Darf alle Daten zu einer Proband*in exportieren"
 
-#: castellum/subjects/models.py:253
+#: castellum/subjects/models.py:143
+msgid "Can add subject to a study without checking filters"
+msgstr "Darf Proband*innen zu Studien hinzufügen, ohne die Filter zu prüfen"
+
+#: castellum/subjects/models.py:144
+msgid "Can list all study participations"
+msgstr "Darf alle Studienteilnahmen auflisten"
+
+#: castellum/subjects/models.py:255
 msgid "no data so far"
 msgstr "bisher keine Daten"
 
@@ -3566,7 +3570,12 @@ msgstr "Anfrage bearbeiten"
 msgid "Add to study"
 msgstr "Zu Studie hinzufügen"
 
-#: castellum/subjects/templates/subjects/participation_add.html:7
+#: castellum/subjects/templates/subjects/participation_add.html:8
+msgid "Add to any study without checking filter criteria"
+msgstr ""
+"Zu beliebiger Studie hinzufügen, ohne die Filterkriterien zu überprüfen"
+
+#: castellum/subjects/templates/subjects/participation_add.html:13
 msgid ""
 "This feature is intended to support migrating from other tools that "
 "previously tracked study participations. There is no easy way to undo these "
@@ -3595,7 +3604,10 @@ msgstr "Studienteilnahmen"
 msgid "Matching studies"
 msgstr "Passende Studien"
 
-#: castellum/subjects/templates/subjects/participation_recruit.html:31
+#: castellum/subjects/templates/subjects/participation_recruit.html:8
+msgid "Find matching studies"
+msgstr "Passende Studien finden"
+
 msgid "This person does not meet the filters of the currently active studies."
 msgstr ""
 "Diese Person erfüllt die Filterbedingungen der gegenwärtig aktiven Studien "

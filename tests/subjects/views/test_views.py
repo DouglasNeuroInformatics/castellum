@@ -214,20 +214,6 @@ def test_sync_date_of_birth_no_consent(settings, client, user):
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
-    'subject_manager',
-    'data_protection_officer',
-])
-def test_partcipation_list_200(request, client, user_fixture, participation):
-    user = request.getfixturevalue(user_fixture)
-    client.force_login(user)
-    url = f'/subjects/{participation.subject.pk}/participations/'
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.parametrize('user_fixture', [
-    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
     'data_protection_officer',
 ])

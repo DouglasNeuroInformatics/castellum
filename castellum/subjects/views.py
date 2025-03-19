@@ -105,10 +105,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                         'recruitment.conduct_study', obj=participation.study
                     )
                 )
-                can_search = invited and user.has_perm(
-                    'recruitment.search_participations'
-                )
-                if can_recruit or can_conduct or can_search:
+                if can_recruit or can_conduct:
                     participations.append((participation, can_recruit, can_conduct))
             if participations or can_view_subject:
                 yield subject, subject.contact, participations, has_privacy_level
@@ -504,7 +501,7 @@ class ReportDetailView(PermissionRequiredMixin, DetailView):
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = Participation
     template_name = 'subjects/participation_list.html'
-    permission_required = 'subjects.view_subject'
+    permission_required = 'subjects.list_participations'
     tab = 'participations'
     subtab = 'list'
 
@@ -519,47 +516,63 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
         )
 
 
-class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
+class BaseParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = Study
-    template_name = 'subjects/participation_recruit.html'
-    permission_required = 'subjects.view_subject'
     tab = 'participations'
-    subtab = 'recruit'
 
     def get_subject(self):
         return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
+    def get(self, request, *args, **kwargs):
+        self.form = StudyFilterForm(self.request.GET)
+        self.form.full_clean()
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        q = self.form.cleaned_data.get('q', '')
+        if not q:
+            return Study.objects.none()
+
+        qs = super().get_queryset().filter(is_filter_trial=False)
+
+        for part in q.split():
+            qs = qs.filter(
+                models.Q(name__icontains=part)
+                | models.Q(contact_person__icontains=part)
+            )
+
+        # study.p is the list that contains the particiaption (if it exists)
+        # or nothing.
+        # I did not find a better way to do this.
+        return qs.prefetch_related(models.Prefetch(
+            'participation_set',
+            queryset=self.subject.participation_set.all(),
+            to_attr='p',
+        ))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form
+        return context
+
+
+class ParticipationRecruitView(BaseParticipationAddView):
+    template_name = 'subjects/participation_recruit.html'
+    permission_required = 'subjects.view_subject'
+    subtab = 'recruit'
+
     def get_queryset(self):
         perms = ['recruitment.recruit', 'studies.access_study']
-        studies = (
-            Study.objects
-            .filter(status=Study.EXECUTION)
-            .exclude(pk__in=Study.objects.filter(
-                participation__subject=self.subject,
-                participation__status__in=Participation.INVITED_SET,
-            ))
-        )
+        studies = super().get_queryset().filter(status=Study.EXECUTION)
 
-        pks = []
-        for study in studies:
-            if (
+        return studies.filter(pk__in=[
+            study.pk for study in studies if (
                 self.request.user.has_perms(perms, obj=study)
                 and Subject.objects.filter(
                     filter_queries.study_criteria(study), pk=self.subject.pk
                 ).exists()
-            ):
-                pks.append(study.pk)
-        return (
-            studies.filter(pk__in=pks)
-            # study.p is the list that contains the particiaption (if it exists)
-            # or nothing.
-            # I did not find a better way to do this.
-            .prefetch_related(models.Prefetch(
-                'participation_set',
-                queryset=self.subject.participation_set.all(),
-                to_attr='p',
-            ))
-        )
+            )
+        ])
 
     @with_study_lock
     def create_participation(self):
@@ -582,46 +595,10 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
         return self.create_participation()
 
 
-class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
-    model = Study
+class ParticipationAddView(BaseParticipationAddView):
     template_name = 'subjects/participation_add.html'
-    permission_required = 'subjects.change_subject'
-    tab = 'participations'
+    permission_required = 'subjects.add_to_study'
     subtab = 'add'
-
-    def get_subject(self):
-        return get_object_or_404(Subject, pk=self.kwargs['pk'])
-
-    def get(self, request, *args, **kwargs):
-        self.form = StudyFilterForm(self.request.GET)
-        self.form.full_clean()
-        return super().get(request, *args, **kwargs)
-
-    def get_queryset(self):
-        q = self.form.cleaned_data.get('q', '')
-        if q:
-            # study.p is the list that contains the particiaption (if it exists)
-            # or nothing.
-            # I did not find a better way to do this.
-            qs = Study.objects.prefetch_related(models.Prefetch(
-                'participation_set',
-                queryset=self.subject.participation_set.all(),
-                to_attr='p',
-            ))
-            for part in q.split():
-                qs = qs.filter(
-                    models.Q(name__icontains=part)
-                    | models.Q(contact_person__icontains=part)
-                )
-            qs = qs.filter(is_filter_trial=False)
-            return qs
-        else:
-            return Study.objects.none()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.form
-        return context
 
     @with_study_lock
     def create_participation(self):

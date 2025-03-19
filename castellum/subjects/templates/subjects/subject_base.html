@@ -62,7 +62,7 @@
             {% endif %}
 
             <li class="nav-item">
-                <a href="{% url 'subjects:participation-list' subject.pk %}" class="nav-link {% if view.tab == 'participations' %}active{% endif %}">{% translate "Study Participations" %}</a>
+                <a href="{% url 'subjects:participation-recruit' subject.pk %}" class="nav-link {% if view.tab == 'participations' %}active{% endif %}">{% translate "Study Participations" %}</a>
             </li>
 
             {% has_perm 'subjects.view_audit_trail' user as can_view_audit_trail %}

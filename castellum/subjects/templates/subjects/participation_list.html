@@ -4,6 +4,8 @@
 {% block title %}{% translate "Participating" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% has_perm 'studies.view_study' user as can_view_study %}
+
     <ul class="table-list mb-3">
         {% for participation in object_list %}
             <li class="table-list-item">
@@ -14,6 +16,11 @@
                         {{ participation.study.contact_person }}
                     </div>
                 </div>
+                {% if can_view_study %}
+                    <div class="table-list-item-actions">
+                        <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' participation.study.pk %}">{% translate 'Study details' %}</a>
+                    </div>
+                {% endif %}
             </li>
         {% empty %}
             <li class="alert alert-warning">{% translate 'No participations found' %}</li>

@@ -69,9 +69,6 @@ def create_user(group_name):
     user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
     user.user_permissions.remove(Permission.objects.get(codename='privacy_level_2'))
     user.user_permissions.remove(Permission.objects.get(codename='access_study'))
-    user.user_permissions.remove(
-        Permission.objects.get(codename='search_participations')
-    )
 
     return user
 
@@ -134,6 +131,14 @@ def study_coordinator(db):
 @pytest.fixture
 def subject_manager(db):
     return create_user('Subject manager')
+
+
+@pytest.fixture
+def super_subject_manager(db):
+    user = create_user('Subject manager')
+    user.user_permissions.add(Permission.objects.get(codename='list_participations'))
+    user.user_permissions.add(Permission.objects.get(codename='add_to_study'))
+    return user
 
 
 @pytest.fixture
