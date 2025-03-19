@@ -3562,7 +3562,12 @@ msgstr "Anfrage bearbeiten"
 msgid "Add to study"
 msgstr "Zu Studie hinzufügen"
 
-#: castellum/subjects/templates/subjects/participation_add.html:7
+#: castellum/subjects/templates/subjects/participation_add.html:8
+msgid "Add to any study without checking filter criteria"
+msgstr ""
+"Zu beliebiger Studie hinzufügen, ohne die Filterkriterien zu überprüfen"
+
+#: castellum/subjects/templates/subjects/participation_add.html:13
 msgid ""
 "This feature is intended to support migrating from other tools that "
 "previously tracked study participations. There is no easy way to undo these "
