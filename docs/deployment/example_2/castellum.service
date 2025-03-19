@@ -9,16 +9,17 @@ After=network.target
 Group=nginx
 Environment="DJANGO_SETTINGS_MODULE=castellum.settings.deployment"
 WorkingDirectory=/opt/castellum
+ExecStartPre=+mkdir -p /opt/castellum/media
+ExecStartPre=+chown -R castellum:nginx /opt/castellum/media
+ExecStartPre=+chmod -R 750 /opt/castellum/media
 ExecStart=gunicorn \
           --access-logfile - \
           --workers 4 \
           --bind unix:/run/castellum.sock \
           castellum.wsgi:application
 
-ProtectSystem=strict
+DynamicUser=true
 ReadWritePaths=/opt/castellum/media
-PrivateTmp=true
-NoNewPrivileges=true
 CapabilityBoundingSet=
 SystemCallFilter=@system-service
 RestrictAddressFamilies=AF_UNIX
