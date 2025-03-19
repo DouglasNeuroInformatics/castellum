@@ -112,7 +112,7 @@
                         {% icon 'xmark text-danger' label=_('No') %}
                     {% endif %}
                 {% else %}
-                    {% url 'subjects:participation-list' subject.pk as url %}
+                    {% url 'subjects:participation-recruit' subject.pk as url %}
                     {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktranslate %}
                 {% endif %}
             </div>
