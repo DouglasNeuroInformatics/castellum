@@ -1,3 +1,56 @@
+# 25.4.0 (unreleased)
+
+## breaking changes
+
+-   Migrate to pyproject.toml for packaging
+-   The docker image upgraded from psycopg to psycopg3 for postgres support
+-   Adding subjects to a study without checking filter criteria now
+    requires the `subjects.add_to_study` permission
+-   Listing all of a subjects study participation now requires the
+    `subjects.list_participations` permission
+-   The `recruitment.search_participations` permission and related
+    functionality has been removed. It was left over from a prior
+    iteration of the reception group which had been removed in 0.80.0.
+
+## new features
+
+-   The new setting `CASTELLUM_STUDY_END_NOTIFICATION_CC` allows to CC
+    someone who keeps an overview of all studies at an organization when
+    a study is notified of some deadline.
+-   The new setting `CASTELLUM_SUBJECT_STATS` allows to customize the
+    statistics that are displayed on the subject search view.
+-   A database-wide version of the recruitment statistics chart is now
+    displayed on the subject search page
+-   The new setting `CASTELLUM_AGE_BUCKETS` allows to customize the
+    buckets for age statistics.
+
+## bug fixes
+
+-   The `Content-Type` header is now set correctly when using
+    `PROTECTED_MEDIA_SERVER` with nginx.
+-   Special characters are now handled correctly when using
+    `PROTECTED_MEDIA_SERVER` with nginx (thanks to Stefan Fürtinger).
+
+## other changes
+
+-   Calendars are now better integrated by using the same colors as the
+    rest of the UI
+-   The systemd example in the deployment documentation gained some
+    hardening options.
+-   When finishing a study, there is now an intermediate page that
+    explains what that actually means.
+-   "start/end of sessions" was renamed to "start/end of data collection"
+-   The warning that is shown in recruitment when a subject does not
+    match filter criteria was improved based on user feedback (thanks to
+    Kathi Schmalen).
+-   The UI of the participation tab in subject management has been
+    reworked.
+-   The view to find matching studies in subject management now has
+    search functionality. This makes it easier to find relevant studies
+    and should also improve performance because less studies have to be
+    rendered.
+
+
 # 25.1.2 (2025-02-26)
 
 -   use session name as title in study calendar feed for clients that do
