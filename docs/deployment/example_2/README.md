@@ -199,12 +199,29 @@ Generate a secret for the setting `SECRET_KEY`. Similarly, set the
 bind password of your LDAP server in the setting
 `AUTH_LDAP_BIND_PASSWORD`. You also need to enter the passwords for both
 databases. See `castellum/settings/default/` for the full list of
-available settings.
+available settings. The provided systemd unit for Castellum assumes these
+credentials to be stored in a dedicated text file under `/etc/castellum`.
+Thus, create the directory and corresponding file:
+
+```bash
+mkdir /etc/castellum
+touch /etc/castellum/credentials.secret
+```
+
+with `credentials.secret` containing the respective environment variables:
+
+```bash
+SECRET_KEY=...
+AUTH_LDAP_BIND_PASSWORD=...
+```
 
 When you are done, let Django run some automated checks on your
 settings:
 
 ```bash
+set -a
+. /etc/castellum/credentials.secret
+set +a
 cd /opt/castellum/
 export DJANGO_SETTINGS_MODULE="castellum.settings.deployment"
 python3 -m django check --deploy
@@ -354,6 +371,9 @@ pip3 install -e .
 npm install
 .misc/extract_fullcalendar_css.sh
 
+set -a
+. /etc/castellum/credentials.secret
+set +a
 export DJANGO_SETTINGS_MODULE="castellum.settings.development"
 python3 -m django migrateall
 python3 -m django collectstatic
