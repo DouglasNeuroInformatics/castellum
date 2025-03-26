@@ -13,9 +13,10 @@ from castellum.geofilters.geocode import geocode_address
 from castellum.geofilters.models import Geolocation
 
 
-def fetch_missing_geolocations():
+def fetch_missing_geolocations(limit=None):
     geolocations = []
-    for address in Address.objects.filter(contact__geolocation=None):
+    addresses = Address.objects.filter(contact__geolocation=None)
+    for address in addresses[:limit]:
         geocoded = geocode_address(address)
         if geocoded:
             geolocations.append(Geolocation(
@@ -30,9 +31,12 @@ def fetch_missing_geolocations():
 class Command(BaseCommand):
     help = 'Fetch missing geolocations.'
 
+    def add_arguments(self, parser):
+        parser.add_argument('--limit', type=int, default=None)
+
     def handle(self, *args, **options):
         if not hasattr(settings, 'NOMINATIM'):
             raise CommandError('NOMINATIM not configured')
-        count = fetch_missing_geolocations()
+        count = fetch_missing_geolocations(options['limit'])
         if options['verbosity'] > 0:
             self.stdout.write(f'Created {count} geolocations')
