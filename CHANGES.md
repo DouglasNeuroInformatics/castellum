@@ -36,7 +36,7 @@
 -   Calendars are now better integrated by using the same colors as the
     rest of the UI
 -   The systemd example in the deployment documentation gained some
-    hardening options.
+    hardening options. (thanks to Stefan Fürtinger).
 -   When finishing a study, there is now an intermediate page that
     explains what that actually means.
 -   "start/end of sessions" was renamed to "start/end of data collection"
