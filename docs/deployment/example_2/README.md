@@ -68,37 +68,43 @@ dnf install @postgresql
 apt install postgresql
 ```
 
-Next, ensure PostgreSQL is started at boot and launch the corresponding
-service:
+Initialize a new database and start the PostgreSQL service (and ensure it is 
+enabled to launch at boot):
 
 ```bash
-systemctl enable postgresql
-systemctl start postgresql
+postgresql-setup initdb
+systemctl enable --now postgresql
 ```
+
 
 ### On Host `castellum-sv`
 
 Create a database and a corresponding user:
 
 ```bash
+su - postgres
+set +o history # do not save the following commands in shell history
 psql -c "CREATE DATABASE castellum_default;"
 psql -c "CREATE USER castellum_default_user WITH ENCRYPTED PASSWORD 'CHANGEME';"
 psql -c "GRANT ALL PRIVILEGES ON DATABASE castellum_default TO castellum_default_user;"
+psql -d castellum_default "GRANT pg_read_all_data TO castellum_default_user;"
+psql -d castellum_default "GRANT pg_write_all_data TO castellum_default_user;"
+psql -d castellum_default "GRANT ALL ON SCHEMA public TO castellum_default_user;"
+set -o history # turn on shell history logging again
 ```
 
 Modify PostgreSQL's access policy configuration file `pg_hba.conf` to
 ensure local connections are allowed to access the `default` database:
 
 ```text
-# Red Hat/Fedora/CentOS: /var/lib/pgsql/data/pg_hba.conf
+# Red Hat/Fedora/CentOS: /var/lib/pgsql/XY/data/pg_hba.conf
 # Debian/Ubuntu:         /etc/postgresql/XY/main/pg_hba.conf
 #                        (XY denotes the installed PostgreSQL version)
 ...
 # "local" is for Unix domain socket connections only
-local   all             all                                     md5
+local   all             postgres                                trust
 # IPv4 local connections:
-host    all             all             127.0.0.1/32            md5
-host    all             all             localhost               md5
+host    all             all             localhost               scram-sha-256
 ...
 ```
 
@@ -106,7 +112,7 @@ Restart the `postgresql` service and test the connection:
 
 ```bash
 systemctl restart postgresql
-psql --dbname=castellum_default --username=castellum_default_user --password
+psql --host=localhost --dbname=castellum_default --username=castellum_default_user --password
 ```
 
 ### On Host `castellum-db`
@@ -114,21 +120,31 @@ psql --dbname=castellum_default --username=castellum_default_user --password
 Again, create a database and a corresponding user:
 
 ```bash
+su - postgres
+set +o history 
 psql -c "CREATE DATABASE castellum_contacts;"
 psql -c "CREATE USER castellum_contacts_user WITH ENCRYPTED PASSWORD 'CHANGEME';"
 psql -c "GRANT ALL PRIVILEGES ON DATABASE castellum_contacts TO castellum_contacts_user;"
+psql -d castellum_contacts "GRANT pg_read_all_data TO castellum_contacts_user;"
+psql -d castellum_contacts "GRANT pg_write_all_data TO castellum_contacts_user;"
+psql -d castellum_contacts "GRANT ALL ON SCHEMA public TO castellum_contacts_user;"
+set -o history
 ```
 
 Modify PostgreSQL's access policy configuration file `pg_hba.conf` to
 permit remote connections only from the `castellum-sv` host:
 
 ```text
-# Red Hat/Fedora/CentOS: /var/lib/pgsql/data/pg_hba.conf
+# Red Hat/Fedora/CentOS: /var/lib/pgsql/XY/data/pg_hba.conf
 # Debian/Ubuntu:         /etc/postgresql/XY/main/pg_hba.conf
 #                        (XY denotes the installed PostgreSQL version)
 ...
+# "local" is for Unix domain socket connections only
+local   all             postgres                                  trust
+
 # IPv4 local connections:
-host    all             all             192.168.10.1/16           md5
+host    all             all             localhost                 scram-sha-256
+host    all             all             192.168.10.1/16           scram-sha-256
 ...
 ```
 
@@ -136,7 +152,7 @@ Additionally, ensure the database host answers on any active IP assigned
 to one of its interfaces:
 
 ```text
-# Red Hat/Fedora/CentOS: /var/lib/pgsql/data/postgresql.conf
+# Red Hat/Fedora/CentOS: /var/lib/pgsql/XY/data/postgresql.conf
 # Debian/Ubuntu:         /etc/postgresql/XY/main/postgresql.conf
 #                        (XY denotes the installed PostgreSQL version)
 ...
