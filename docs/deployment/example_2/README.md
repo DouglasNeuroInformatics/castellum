@@ -68,7 +68,7 @@ dnf install @postgresql
 apt install postgresql
 ```
 
-Initialize a new database and start the PostgreSQL service (and ensure it is 
+Initialize a new database and start the PostgreSQL service (and ensure it is
 enabled to launch at boot):
 
 ```bash
@@ -121,7 +121,7 @@ Again, create a database and a corresponding user:
 
 ```bash
 su - postgres
-set +o history 
+set +o history
 psql -c "CREATE DATABASE castellum_contacts;"
 psql -c "CREATE USER castellum_contacts_user WITH ENCRYPTED PASSWORD 'CHANGEME';"
 psql -c "GRANT ALL PRIVILEGES ON DATABASE castellum_contacts TO castellum_contacts_user;"
