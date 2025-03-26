@@ -73,9 +73,10 @@ security](https://docs.djangoproject.com/en/2.2/topics/security/).
 
 ## Backups
 
-As with any other database application, having a database backup
-strategy in place is important. We recommend using PostgreSQL, which
-permits employing existing backup solutions.
+As with any other application, having a backup strategy in place is
+important. We recommend using PostgreSQL as a database, which permits
+employing existing backup solutions. You should also remember to backup
+the uploaded files in the `media` folder.
 
 However, you should coordinate with your local data protection officer
 to discuss the implications for data protection, e.g. [deletion of
