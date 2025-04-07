@@ -150,6 +150,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             self.object.is_exclusive = self.duplicate.is_exclusive
             self.object.complete_matches_only = self.duplicate.complete_matches_only
             self.object.excluded_studies.set(self.duplicate.excluded_studies.all())
+            self.object.included_studies.set(self.duplicate.included_studies.all())
             self.object.mail_subject = self.duplicate.mail_subject
             self.object.mail_body = self.duplicate.mail_body
             self.object.save()
@@ -207,6 +208,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             initial['phone'] = self.duplicate.phone
             initial['email'] = self.duplicate.email
             initial['description'] = self.duplicate.description
+            initial['url'] = self.duplicate.url
             initial['tags'] = list(self.duplicate.tags)
             initial['min_subject_count'] = self.duplicate.min_subject_count
             initial['exportable_attributes'] = list(
