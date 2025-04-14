@@ -44,7 +44,7 @@ storage-timestamps = ["django-storage-timestamps == 0.1.1"]
 test = [
     "pytest",
     "pytest-cov",
-    "pytest-django",
+    "pytest-django == 4.10.0",
     "freezegun",
     "django-test-migrations",
     "model-bakery",
