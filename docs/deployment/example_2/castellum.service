@@ -5,14 +5,13 @@ After=castellum.socket
 After=network.target
 
 [Service]
-# CHANGEME: Group setting below must match nginx default group, see /etc/nginx/nginx.conf
-Group=nginx
 EnvironmentFile=/etc/castellum/credentials.secret
 Environment="DJANGO_SETTINGS_MODULE=castellum.settings.deployment"
 WorkingDirectory=/opt/castellum
-ExecStartPre=+mkdir -p /opt/castellum/media
-ExecStartPre=+chown -R castellum:nginx /opt/castellum/media
-ExecStartPre=+chmod -R 750 /opt/castellum/media
+ExecStartPre=+mkdir -p -m 750 /opt/castellum/media
+# CHANGEME: Group setting below must match nginx default group, see /etc/nginx/nginx.conf
+ExecStartPre=+chgrp nginx /opt/castellum/media
+ExecStartPre=+chown -R castellum /opt/castellum/media
 ExecStart=gunicorn \
           --access-logfile - \
           --workers 4 \
