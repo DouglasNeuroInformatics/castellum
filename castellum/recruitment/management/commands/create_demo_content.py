@@ -18,6 +18,7 @@ from castellum.contacts.models import Street
 from castellum.contacts.models import phonetic
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import AttributeChoice
+from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
 from castellum.subjects.models import Consent
@@ -155,6 +156,9 @@ def generate_geolocations(contacts):
 def generate_studies(count, stdout):
     stdout.write('Generating studies')
     i = 0
+
+    subjects = list(Subject.objects.all())
+
     while i < count:
         study = fake_study()
         try:
@@ -172,6 +176,14 @@ def generate_studies(count, stdout):
         session.save()
         for name, color in settings.CASTELLUM_DEFAULT_EXECUTION_TAGS:
             study.executiontag_set.create(name=name, color=color)
+
+        k = min(study.min_subject_count, len(subjects))
+        for subject in fake.random.sample(subjects, k):
+            Participation.objects.create(
+                subject=subject,
+                study=study,
+                status=Participation.PARTICIPATING,
+            )
 
 
 def generate_subjects(count, stdout):
@@ -225,9 +237,9 @@ class Command(BaseCommand):
         if settings.PRODUCTION:
             raise CommandError('Demo content not created in production environment.')
 
-        if not Study.objects.exists():
-            generate_studies(options['study_count'], self.stdout)
         if not Subject.objects.exists():
             generate_subjects(options['subject_count'], self.stdout)
+        if not Study.objects.exists():
+            generate_studies(options['study_count'], self.stdout)
         if not Street.objects.exists():
             generate_streets(options['street_count'], self.stdout)
