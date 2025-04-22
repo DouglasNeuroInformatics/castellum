@@ -53,13 +53,17 @@ def fake_phone_number():
 def fake_language():
     return fake.random.choices(
         ['de', 'en', 'tr', 'fr', 'es', 'it'],
-        [0.7, 0.1, 0.06, 0.06, 0.06, 0.02],
+        [70, 10, 6, 6, 6, 2],
     )[0]
+
+
+def fake_privacy_level():
+    return fake.random.choices([0, 1, 2], [79, 20, 1])[0]
 
 
 def fake_subject():
     return Subject(
-        privacy_level=fake.random.randint(0, 2), attributes=fake_attributes()
+        privacy_level=fake_privacy_level(), attributes=fake_attributes()
     )
 
 
