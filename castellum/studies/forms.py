@@ -100,16 +100,6 @@ class SessionForm(forms.ModelForm):
     def clean_schedule_id(self):
         value = self.cleaned_data['schedule_id']
 
-        if (
-            self.instance.pk
-            and self.instance.schedule_id != value
-            and self.instance.appointment_set.exists()
-        ):
-            raise forms.ValidationError(_(
-                'Schedule ID can no longer be changed once appointments have '
-                'been scheduled'
-            ))
-
         if settings.SCHEDULER_URL and value:
             try:
                 scheduler.get_bulk(value)

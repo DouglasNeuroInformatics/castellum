@@ -1,5 +1,5 @@
 {% extends "studies/study_base.html" %}
-{% load static i18n django_bootstrap5 %}
+{% load static i18n django_bootstrap5 utils %}
 
 {% block title %}{% translate "Sessions" %} &middot; {{ block.super }}{% endblock %}
 
@@ -53,6 +53,13 @@
         {% if SCHEDULER_URL and object %}
             <div class="mb-3">
                 {% bootstrap_field form.schedule_id wrapper_class="" required_css_class='castellum-required' %}
+                {% if object.appointment_set.exists %}
+                    <div class="form-text">
+                        {% icon 'warning' %}
+                        {% translate 'Changing the Schedule ID may cause conflicts with existing appointments or break invitation links.' %}
+                        {% translate 'Change at your own risk!' %}
+                    </div>
+                {% endif %}
                 {% if object.schedule_id %}
                     <a href="{{ schedule_url }}" target="_blank">{% translate 'Go to schedule' %}</a>
                 {% else %}

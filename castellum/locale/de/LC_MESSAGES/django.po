@@ -2164,13 +2164,6 @@ msgstr "Termine für diese Teilnahme wurden gelöscht."
 msgid "Membership"
 msgstr "Mitgliedschaft"
 
-#: castellum/studies/forms.py:109
-msgid ""
-"Schedule ID can no longer be changed once appointments have been scheduled"
-msgstr ""
-"Die Terminplanungs-ID kann nicht mehr verändert werden sobald Termine "
-"geplant wurden"
-
 #: castellum/studies/forms.py:118
 msgid "A schedule with this ID does not exist"
 msgstr "Eine Terminplanung mit dieser ID existiert nicht"
@@ -3108,7 +3101,18 @@ msgid "Leave empty to send no reminders."
 msgstr ""
 "Sie können die Felder leer lassen, um keine Erinnerungen zu verschicken."
 
-#: castellum/studies/templates/studies/studysession_form.html:57
+#: castellum/studies/templates/studies/studysession_form.html:59
+msgid ""
+"Changing the Schedule ID may cause conflicts with existing appointments or "
+"break invitation links."
+msgstr ""
+"Änderungen an der Terminplan-ID können zu Konflikten mit bestehenden Terminen "
+"oder defekten Einladungs-Links führen."
+
+#: castellum/studies/templates/studies/studysession_form.html:60
+msgid "Change at your own risk!"
+msgstr "Ändern auf eigene Gefahr!"
+
 msgid "Go to schedule"
 msgstr "Zum Terminplan"
 
