@@ -91,7 +91,8 @@ class StudyOtherStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['count'] = (
             Subject.objects.filter(
-                filter_queries.study_recruitable(self.object),
+                filter_queries.study_recruitable(self.study),
+                filter_queries.already_in_study(self.study, include_recruitment=False),
             ).count()
         )
         context['total_count'] = Subject.objects.count()
