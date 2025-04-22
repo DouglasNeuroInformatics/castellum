@@ -121,6 +121,7 @@ class StudyRecruitmentSettingsForm(forms.ModelForm):
             'complete_matches_only',
             'recruitment_active_after',
             'recruitment_active_before',
+            'max_reliability_issues',
             'geo_filter',
         ]
 

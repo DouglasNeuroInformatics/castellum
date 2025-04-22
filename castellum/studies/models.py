@@ -210,6 +210,11 @@ class Study(TimeStampedModel):
         blank=True,
     )
 
+    max_reliability_issues = models.PositiveIntegerField(
+        _('Maximum number of reliability issues'),
+        null=True,
+        blank=True,
+    )
     recruitment_active_after = DateField(
         _('Last activity after'), null=True, blank=True
     )

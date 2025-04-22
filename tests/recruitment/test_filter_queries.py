@@ -9,6 +9,7 @@ from castellum.appointments.models import Appointment
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
+from castellum.recruitment.models import ReliabilityEntry
 from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 
@@ -145,3 +146,18 @@ def test_last_study_participation_ignore_participation(db):
             after=datetime.date(1999, 1, 1),
             before=datetime.date(2001, 1, 1),
         ))
+
+
+def test_reliability(subject, study):
+    baker.make(ReliabilityEntry, subject=subject, was_reliable=False, _quantity=2)
+
+    assert has_match(filter_queries.reliability(study))
+
+    study.max_reliability_issues = 0
+    assert not has_match(filter_queries.reliability(study))
+
+    study.max_reliability_issues = 1
+    assert not has_match(filter_queries.reliability(study))
+
+    study.max_reliability_issues = 2
+    assert has_match(filter_queries.reliability(study))

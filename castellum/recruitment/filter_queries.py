@@ -263,6 +263,18 @@ def geofilter(study):
     return uuid_filter(Contact.objects.filter(q))
 
 
+def reliability(study):
+    if study.max_reliability_issues is None:
+        return models.Q()
+
+    return models.Q(pk__in=(
+        Subject.objects
+        .annotate_reliability()
+        .filter(reliability_issues__lte=study.max_reliability_issues)
+        .order_by()
+    ))
+
+
 def completeness_expr():
     """Expression that can be used to annotate a queryset."""
     # Needs to match ``Subject.get_completeness()``.
@@ -299,6 +311,7 @@ def study_recruitable(study, **kwargs):
         & has_consent()
         & is_available()
         & study_max_privacy_level(study)
+        & reliability(study)
         & last_study_participation(
             before=study.recruitment_active_before,
             after=study.recruitment_active_after,
