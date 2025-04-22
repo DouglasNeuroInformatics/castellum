@@ -154,6 +154,12 @@ class RestrictedFileField(forms.FileField):
         if self.max_upload_size and f.size > self.max_upload_size:
             raise forms.ValidationError(_('File is too big.'), code='size')
 
+        if self.content_types == ['application/pdf']:
+            magic = f.read(4)
+            f.seek(0)
+            if magic != b'%PDF':
+                raise forms.ValidationError(_('Invalid file'))
+
         return f
 
     def widget_attrs(self, widget):

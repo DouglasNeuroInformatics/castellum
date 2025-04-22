@@ -22,7 +22,7 @@ def test_create_post(client, member, invited):
     client.force_login(member)
     url = f'/execution/{invited.study.pk}/{invited.pk}/consent/add/'
     response = client.post(url, {
-        'file': SimpleUploadedFile('foo.pdf', b'dummy'),
+        'file': SimpleUploadedFile('foo.pdf', b'%PDF-dummy'),
     })
     assert response.status_code == 302
     assert invited.participationconsent_set.exists()
