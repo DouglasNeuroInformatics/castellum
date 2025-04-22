@@ -12,6 +12,7 @@ from django.core.management.base import CommandError
 from django.db import IntegrityError
 from faker import Faker
 
+from castellum.castellum_auth.models import User
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import Street
@@ -184,6 +185,8 @@ def generate_studies(count, stdout):
                 study=study,
                 status=Participation.PARTICIPATING,
             )
+
+        study.members.set(User.objects.all())
 
 
 def generate_subjects(count, stdout):
