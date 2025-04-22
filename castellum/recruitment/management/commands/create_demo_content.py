@@ -98,12 +98,8 @@ def fake_address(contact):
 
 
 def fake_contact(subject):
-    if fake.random.random() < 0.5:
-        first_name = fake.first_name_female()
-        last_name = fake.last_name_female()
-    else:
-        first_name = fake.first_name_male()
-        last_name = fake.last_name_male()
+    first_name = fake.first_name()
+    last_name = fake.last_name()
 
     if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
         key = f'd{settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID}'
@@ -122,8 +118,8 @@ def fake_contact(subject):
 
     if fake.random.random() < 0.67:
         contact.email = fake.email()
-        if fake.random.random() < 0.75:
-            contact.phone_number = fake_phone_number()
+    if fake.random.random() < 0.5:
+        contact.phone_number = fake_phone_number()
 
     return contact
 
