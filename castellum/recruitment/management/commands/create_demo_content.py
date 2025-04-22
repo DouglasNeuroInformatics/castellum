@@ -71,6 +71,7 @@ def fake_study():
     description = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
     recruitment_text = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
     study = Study(
+        status=Study.EXECUTION,
         name=fake.word().upper(),
         contact_person=fake.name(),
         email=fake.email(),
