@@ -5,26 +5,10 @@
 
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm as BaseAuthenticationForm
-from django.contrib.auth.forms import BaseUserCreationForm
 from django.contrib.auth.forms import UserChangeForm
 
 from .models import User
 from .models import generate_token
-
-
-class UserCreationAdminForm(BaseUserCreationForm):
-    class Meta(BaseUserCreationForm.Meta):
-        model = User
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['password1'].required = False
-        self.fields['password2'].required = False
-
-    def save(self, *args, **kwargs):
-        if not self.cleaned_data['password1']:
-            self.cleaned_data['password1'] = None
-        return super().save(*args, **kwargs)
 
 
 class UserChangeAdminForm(UserChangeForm):

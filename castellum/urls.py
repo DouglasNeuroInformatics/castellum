@@ -6,6 +6,7 @@
 from bootstrap_colors.views import BootstrapColorsView
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth.decorators import login_not_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
 from django.http import HttpResponse
@@ -16,7 +17,6 @@ from django.views.generic import RedirectView
 from django.views.generic import TemplateView
 from mfa.decorators import public as mfa_public
 from mfa.views import LoginView
-from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
 from castellum.castellum_auth.views import set_language
@@ -55,10 +55,10 @@ urlpatterns = [
         authentication_form=AuthenticationForm,
     ), name='login'),
     path('logout/', mfa_public(LogoutView.as_view()), name='logout'),
-    path('favicon.ico', mfa_public(public(
+    path('favicon.ico', mfa_public(login_not_required(
         RedirectView.as_view(url='/static/images/favicon.ico')
     ))),
-    path('colors.css', mfa_public(public(cache_control(max_age=86400)(
+    path('colors.css', mfa_public(login_not_required(cache_control(max_age=86400)(
         BootstrapColorsView.as_view()
     ))), name='colors'),
     path('ping/', dummy, name='ping'),

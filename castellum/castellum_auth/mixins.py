@@ -8,7 +8,7 @@ from django.contrib.auth import user_login_failed
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 
-from castellum.utils.views import StrongholdPublicMixin
+from castellum.utils.views import LoginNotRequiredMixin
 
 from .models import User
 
@@ -35,7 +35,7 @@ class PermissionRequiredMixin(auth_mixins.PermissionRequiredMixin):
         )
 
 
-class APIAuthMixin(StrongholdPublicMixin):
+class APIAuthMixin(LoginNotRequiredMixin):
     """Authenticate with token header instead of login.
 
     This should be the first mixin so that authentication is checked

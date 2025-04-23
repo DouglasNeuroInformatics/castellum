@@ -59,12 +59,12 @@ packages, but e.g. with pyenv you will have to enable it yourself.
 -   The Makefile contains many useful shortcuts for development, e.g.
     `make test` or `make lint`.
 
--   We use [django-stronghold][3] as an additional security layer to
+-   We use [`LoginRequiredMiddleware`][3] as an additional security layer to
     make sure every view requires authentication. You should not rely on
     that and add the appropriate checks to the view anyway. If you need
     to create a view that should not require authentication, you can use
-    the `@public` decorator.
+    the `@login_not_required` decorator.
 
 [1]: http://ccbv.co.uk/
 [2]: https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#handling-object-permissions
-[3]: https://github.com/mgrouchy/django-stronghold
+[3]: https://docs.djangoproject.com/en/5.2/ref/middleware/#django.contrib.auth.middleware.LoginRequiredMiddleware
