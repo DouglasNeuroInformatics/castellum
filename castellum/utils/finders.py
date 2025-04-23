@@ -22,7 +22,7 @@ class NpmFinder(BaseFinder):
 
     def find(self, path, find_all=False):
         full_path = self.storage.path(path)
-        return [full_path] if all else full_path
+        return [full_path] if find_all else full_path
 
     def list(self, ignore_patterns):
         return [(str(p), self.storage) for p in settings.NPM_FILES]
