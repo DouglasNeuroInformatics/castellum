@@ -14,7 +14,6 @@ dependencies = [
     "django-mfa3 == 0.15.1",
     "django-parler == 2.3",
     "django-phonenumber-field == 8.1.0",
-    "django-stronghold == 0.4.0",
     "Faker == 37.1.0",
     "geopy == 2.4.1",
     "icalendar == 6.1.3",
