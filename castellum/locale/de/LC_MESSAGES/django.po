@@ -2401,7 +2401,7 @@ msgstr ""
 
 #: castellum/studies/models.py:214
 msgid "Maximum number of reliability issues"
-msgstr ""
+msgstr "Maximale Anzahl von Problemen bei der Zuverlässigkeit"
 
 #: castellum/studies/models.py:219
 msgid "Last activity after"
@@ -4492,10 +4492,8 @@ msgid "File is too big."
 msgstr "Datei ist zu groß."
 
 #: castellum/utils/forms.py:161
-#, fuzzy
-#| msgid "invalid"
 msgid "Invalid file"
-msgstr "ungültig"
+msgstr "Ungültige Datei"
 
 #: castellum/utils/forms.py:191
 msgid "Uploaded file does not contain valid JSON."
@@ -4512,7 +4510,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#, python-format
-#~ msgid "… and %(missing)s further entries"
-#~ msgstr "… und %(missing)s weitere Einträge"
