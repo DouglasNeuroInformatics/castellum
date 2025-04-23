@@ -320,12 +320,7 @@ Finish a study
 2.  You can find the button **Finish study** next to the study name near to
     other buttons.
 
-.. note::
-
-    All information related to potential subjects who were **not participating** in
-    the study will be deleted when the study is finished. Hence, if you finish
-    and then resume a study, it is possible that subjects that were already
-    found to be unsuitable are suggested again as potential subjects.
+3.  Read the text and confirm
 
 .. _study-delete-pseudonym-lists:
 
