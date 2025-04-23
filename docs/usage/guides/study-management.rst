@@ -110,6 +110,8 @@ your study:
         It is recommended to leave this off and try to complete the missing
         attributes, both to improve the database and to increase the pool of
         potential subjects.
+    -   You can restrict subjects based on a **maximum number of reliability
+        issues** to filter out unreliable subjects.
     -   You can restrict subjects based on **last activity**, e.g. to
         prioritize subjects who have recent experience with your organization.
 
