@@ -93,24 +93,25 @@ your study:
 
 1.  Go to the **Recruitment Settings** tab
 
-2.  By clicking on **General** the **Recruitment text** will be shown to you.
-    You can:
+2.  By default you will see the **General** recruiment settings:
 
-    -   edit the **Recruitment text** (this text will be shown to recruiters
-        and will be used by them to recruit subjects for your study). Use this
-        for text based inclusion and exclusion criteria when there is no data
-        available in Castellum that you could use for an attribute filter
-    -   decide whether you wish to set up the **Advanced filtering** (this
-        allows you to create multiple filtergroups that are not linked to each
-        other),
-    -   set the function **Exclusive subjects** (If you select this feature,
-        potential subjects for your study cannot be recruited for other
-        studies. Please note that this may prevent other researchers from
-        finding enough participants.) and
-    -   decide whether **Complete filter matches only** will be shown to the
-        recruiters of your study or if there will be some subjects displayed,
-        in which certain characteristics still have to be queried
-    -   You can also restrict subjects by **last activity**.
+    -   The **Recruitment text** will be shown to recruiters and will be used
+        by them to recruit subjects for your study. Use this for any criteria
+        that have to be checked manually.
+    -   Decide whether you want to use **advanced filtering**. This
+        allows you to set up multiple filter groups. Subjects will be
+        considered for the study if they match any of those groups.
+    -   Decide whether you want to use **exclusive subjects**. If you enable
+        this option, potential subjects for your study cannot be recruited for
+        other studies. Please note that this may prevent other researchers from
+        finding enough participants.
+    -   Decide whether you want to restrict your recruitment to **complete
+        filter matches only**. This excludes subjects with unknown attributes.
+        It is recommended to leave this off and try to complete the missing
+        attributes, both to improve the database and to increase the pool of
+        potential subjects.
+    -   You can restrict subjects based on **last activity**, e.g. to
+        prioritize subjects who have recent experience with your organization.
 
     .. note::
         Session types may come with specific criteria that have to be checked
@@ -129,24 +130,9 @@ your study:
 
     You may set as many filters as you like.
 
-    .. note::
-        Please note that **all filter criteria** set up within this filter
-        group have to be **fulfilled**. This also means that opposing filters
-        would result in an empty set.
-
-    Sometimes you need to define more than one mutually exclusive group of
-    suitable subjects. For this, you have to set up **advanced filtering** in
-    general recruitment settings to create various filter groups.
-
-    Subsequently, when you click on **Add new** in **Filters**, you are able to
-    set another filter group with specific filters. Alternatively, you could
-    duplicate an existing filter group and edit it afterwards.
-
-    .. admonition:: Example
-
-        This is necessary if you need subjects both at the age between 20-30
-        and 50-60. Again, note the distinction between **Any of these** and
-        **All of these**.
+    Sometimes you need to define more than one group of suitable subjects (e.g.
+    age 20-30 and age 50-60). For this, you have to activate **advanced
+    filtering** in the general recruitment settings (see above).
 
 4.  In **Other studies** you can select certain studies in which your
     subjects must or must not have participated
