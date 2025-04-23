@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-23 14:04+0200\n"
+"POT-Creation-Date: 2025-04-23 14:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3638,9 +3638,9 @@ msgid "Find matching studies"
 msgstr "Passende Studien finden"
 
 #: castellum/subjects/templates/subjects/participation_recruit.html:46
-msgid "This person does not meet the filters of the currently active studies."
+msgid "This person does not meet the filters of your currently active studies."
 msgstr ""
-"Diese Person erfüllt die Filterbedingungen der gegenwärtig aktiven Studien "
+"Diese Person erfüllt die Filterbedingungen Ihrer gegenwärtig aktiven Studien "
 "nicht."
 
 #: castellum/subjects/templates/subjects/report_detail.html:4
