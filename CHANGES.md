@@ -23,6 +23,9 @@
     displayed on the subject search page
 -   The new setting `CASTELLUM_AGE_BUCKETS` allows to customize the
     buckets for age statistics.
+-   Studies can now filter by the amount of reliability issues
+-   The `geocode_all` command gained a `--limit` argument to limit the
+    number of addresses that will be geocoded.
 
 ## bug fixes
 
@@ -30,13 +33,17 @@
     `PROTECTED_MEDIA_SERVER` with nginx.
 -   Special characters are now handled correctly when using
     `PROTECTED_MEDIA_SERVER` with nginx (thanks to Stefan Fürtinger).
+-   Include URL and included studies when duplicating a study
+-   Validate that uploaded PDFs start with the magic number `%PDF`
+-   Align the number of potential subjects that is displayed in the
+    "other studies" tab with other tabs
 
 ## other changes
 
 -   Calendars are now better integrated by using the same colors as the
     rest of the UI
 -   The systemd example in the deployment documentation gained some
-    hardening options. (thanks to Stefan Fürtinger).
+    hardening options (thanks to Stefan Fürtinger).
 -   When finishing a study, there is now an intermediate page that
     explains what that actually means.
 -   "start/end of sessions" was renamed to "start/end of data collection"
@@ -49,6 +56,11 @@
     search functionality. This makes it easier to find relevant studies
     and should also improve performance because less studies have to be
     rendered.
+-   It is now possible to change a schedule ID after appointments have
+    been made. The error has been downgraded to a warning.
+-   The `create_demo_content` script has been modified to produce more
+    useful content, e.g. studies are started and already have members
+    and participants.
 
 
 # 25.1.2 (2025-02-26)
