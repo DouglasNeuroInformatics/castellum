@@ -1,3 +1,9 @@
+# 25.4.1 (2025-04-28)
+
+-   improve performance of subject statistics
+-   wrap long legends in subject statistics
+
+
 # 25.4.0 (2025-04-23)
 
 ## breaking changes

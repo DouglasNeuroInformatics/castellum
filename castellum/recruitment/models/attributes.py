@@ -8,6 +8,7 @@ from collections import OrderedDict
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from parler.managers import TranslatableQuerySet
 from parler.models import TranslatableModel
@@ -113,8 +114,9 @@ class Attribute(TranslatableModel):
                 'field types: %(field_types)s',
             ), code='invalid', params={'field_types': ', '.join(self.STATISTICS_TYPES)})
 
-    @property
+    @cached_property
     def json_key(self):
+        # perf: not expensive, but called a lot (e.g. by statistics)
         # can not be a number because then queries like `data__8` would expect an array.
         return f'd{self.pk}'
 
