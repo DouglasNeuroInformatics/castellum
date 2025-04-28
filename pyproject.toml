@@ -23,7 +23,7 @@ dependencies = [
     "phonenumberslite == 9.0.3",
     "python-dateutil == 2.9.0.post0",
     "requests == 2.32.3",
-    "simplecharts == 0.0.2",
+    "simplecharts == 0.1.1",
 ]
 authors = [
     {name = "Max-Planck-Gesellschaft", email = "castellum@mpib-berlin.mpg.de"},
