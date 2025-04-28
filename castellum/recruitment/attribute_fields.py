@@ -306,16 +306,21 @@ class AgeAttributeField(DateAttributeField):
             scale = 'years'
             buckets = settings.CASTELLUM_AGE_BUCKETS
 
+        today = datetime.date.today()
+        precomputed = [
+            (today - relativedelta(**{scale: period + 1}), period)
+            for period, _label in buckets[:-1]
+            if period is not math.inf
+        ]
+
         def get_bucket(value):
             if not value or value == ANSWER_DECLINED:
                 return None
             value = datetime.date.fromisoformat(value)
-            today = datetime.date.today()
-            for period, _label in buckets:
-                if (
-                    period is math.inf
-                    or today - relativedelta(**{scale: period + 1}) < value
-                ):
+            for date, period in precomputed:
+                if date < value:
                     return period
+            if buckets[-1][0] is math.inf:
+                return math.inf
 
         return [*buckets, (None, _('Other'))], get_bucket
