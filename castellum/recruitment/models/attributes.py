@@ -107,6 +107,10 @@ class Attribute(TranslatableModel):
             return f'{self.category}:{self.label}'
         return self.label
 
+    def save(self, *args, **kwargs):
+        get_attribute_by_statistics_rank.cache_clear()
+        return super().save(*args, **kwargs)
+
     def clean(self):
         if self.statistics_rank and self.field_type not in self.STATISTICS_TYPES:
             raise ValidationError(_(
