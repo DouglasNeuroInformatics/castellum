@@ -21,7 +21,6 @@ from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
-from castellum.studies.models import StudySession
 from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentDocument
 from castellum.subjects.models import Subject
@@ -64,12 +63,6 @@ def fake_privacy_level():
 def fake_subject():
     return Subject(
         privacy_level=fake_privacy_level(), attributes=fake_attributes()
-    )
-
-
-def fake_studysession(study):
-    return StudySession(
-        study=study, name=fake.word(), duration=fake.random.randrange(10, 120, 10)
     )
 
 
@@ -180,8 +173,21 @@ def generate_studies(count, stdout):
             context=study,
         )
 
-        session = fake_studysession(study)
-        session.save()
+        session1 = study.studysession_set.create(
+            name='MRI',
+            duration=90,
+        )
+        session1.type.add(3)
+        session1.resources.add(1)
+
+        session2 = study.studysession_set.create(
+            name='EEG',
+            duration=45,
+            first_reminder_days=4,
+            second_reminder_days=2,
+        )
+        session2.type.add(5)
+
         for name, color in settings.CASTELLUM_DEFAULT_EXECUTION_TAGS:
             study.executiontag_set.create(name=name, color=color)
 
