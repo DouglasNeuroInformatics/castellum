@@ -74,11 +74,12 @@ def fake_studysession(study):
 
 
 def fake_study():
+    name = fake.word().upper()
     description = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
     recruitment_text = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
     study = Study(
         status=Study.EXECUTION,
-        name=fake.word().upper(),
+        name=name,
         contact_person=fake.name(),
         email=fake.email(),
         phone=fake_phone_number(),
@@ -89,6 +90,8 @@ def fake_study():
         sessions_start=fake.past_date(start_date='-30d'),
         sessions_end=fake.future_date(end_date='+30d'),
         pseudonyms_delete_date=fake.future_date(end_date='+60d'),
+        mail_subject=f'Invitation to study {name}',
+        mail_body=f'Dear {{name}},\n\n{fake.paragraph()}',
     )
     return study
 
