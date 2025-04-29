@@ -21,6 +21,7 @@ from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
+from castellum.studies.models import StudyGroup
 from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentDocument
 from castellum.subjects.models import Subject
@@ -154,6 +155,17 @@ def generate_geolocations(contacts):
     ) for contact in contacts)
 
 
+def add_study_members(study, usernames, groupnames):
+    groups = StudyGroup.objects.filter(name__in=groupnames)
+    users = list(User.objects.filter(username__in=usernames))
+    if not users:
+        return
+    k = fake.random.randint(1, len(users))
+    for user in fake.random.sample(users, k):
+        membership, _created = study.studymembership_set.get_or_create(user=user)
+        membership.groups.add(*groups)
+
+
 def generate_studies(count, stdout):
     stdout.write('Generating studies')
     i = 0
@@ -199,7 +211,12 @@ def generate_studies(count, stdout):
                 status=Participation.PARTICIPATING,
             )
 
-        study.members.set(User.objects.all())
+        study_coordinators = ['vera', 'anna', 'claus', 'hans']
+        subject_managers = ['arne', 'max', 'flora', 'nina', 'andreas']
+        add_study_members(study, ['admin'], [])
+        add_study_members(study, study_coordinators, [])
+        add_study_members(study, subject_managers, ['Recruiter'])
+        add_study_members(study, subject_managers, ['Conductor'])
 
 
 def generate_subjects(count, stdout):

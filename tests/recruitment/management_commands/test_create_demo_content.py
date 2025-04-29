@@ -13,7 +13,7 @@ from castellum.subjects.models import Subject
 
 
 @pytest.mark.django_db
-def test_generate_studies(resources):
+def test_generate_studies(study_groups, resources):
     generate_studies(3, sys.stdout)
     assert Study.objects.count() == 3
 
