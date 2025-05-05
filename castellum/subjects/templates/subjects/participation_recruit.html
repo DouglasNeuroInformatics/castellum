@@ -32,10 +32,10 @@
                         {% csrf_token %}
                         <input type="hidden" name="study" value="{{ study.pk }}">
                         <button class="btn btn-outline-primary my-1 ">
-                            {% if participation.status in participation.RECRUITMENT_SET %}
-                                {% translate 'Contact' context 'verb' %}
-                            {% else %}
+                            {% if study.p %}
                                 {% translate 'Review' %}
+                            {% else %}
+                                {% translate 'Add to study' %}
                             {% endif %}
                         </button>
                     </form>
