@@ -159,6 +159,9 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
             pseudonym = get_pseudonym(participation.subject, domain.key)
             subjects.append((pseudonym, participation.subject))
 
+        # prevent de-pseudonymization by position
+        subjects.sort()
+
         filename = exporter.get_schema_filename()
         content = exporter.get_schema(attributes)
         with zresponse.open(filename, 'w') as fh:
