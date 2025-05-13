@@ -9,21 +9,19 @@
         {% bootstrap_field form.news_interest %}
         {% bootstrap_field form.was_reliable %}
 
-        {% if study.executiontag_set.exists %}
-            <div class="mb-3">
-                {{ form.execution_tags.label }}
+        <fieldset class="mb-3">
+            <legend class="form-label fs-6 text">{{ form.execution_tags.label }}</legend>
 
-                {% for value, label in form.execution_tags.field.choices %}
-                    <label class="form-check mb-0">
-                        <input type="checkbox" class="form-check-input" name="execution_tags" value="{{ value }}" {% if value.instance.id in form.execution_tags.value %}checked{% endif %}>
-                        <span class="form-check-label">
-                            <span class="badge text-bg-{{ value.instance.color }}">{{ label }}</span>
-                        </span>
-                    </label>
-                {% endfor %}
-                <small><a href="{% url 'execution:execution-tags' study.pk %}">{% translate 'Manage tags' %}</a></small>
-            </div>
-        {% endif %}
+            {% for value, label in form.execution_tags.field.choices %}
+                <label class="form-check mb-0">
+                    <input type="checkbox" class="form-check-input" name="execution_tags" value="{{ value }}" {% if value.instance.id in form.execution_tags.value %}checked{% endif %}>
+                    <span class="form-check-label">
+                        <span class="badge text-bg-{{ value.instance.color }}">{{ label }}</span>
+                    </span>
+                </label>
+            {% endfor %}
+            <small><a href="{% url 'execution:execution-tags' study.pk %}">{% translate 'Manage tags' %}</a></small>
+        </fieldset>
 
         <button class="btn btn-primary">{% translate 'Save' %}</button>
     </form>
