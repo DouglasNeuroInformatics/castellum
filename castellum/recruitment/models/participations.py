@@ -53,8 +53,8 @@ class MailBatch(BaseMailBatch):
 
 class NewsMailBatch(BaseMailBatch):
     other_size = models.PositiveIntegerField()
-    mail_subject = models.CharField(_('E-mail subject'), max_length=128)
-    mail_body = models.TextField(_('E-mail body'))
+    mail_subject = models.CharField(_('Email subject'), max_length=128)
+    mail_body = models.TextField(_('Email body'))
 
 
 class ExecutionTag(models.Model):

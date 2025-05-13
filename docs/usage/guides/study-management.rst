@@ -15,7 +15,7 @@ Create a study
     -   **Principal Investigator** is the lead researcher
     -   **Responsible contact person** is the person who can be contacted if
         any questions regarding the study occur
-    -   **Phone number** and **E-mail-address** are the contact information at
+    -   **Phone number** and **Email-address** are the contact information at
         which the contact person can be reached
     -   **Required number of subjects** is the number of people you need to
         recruit for this study
@@ -139,20 +139,20 @@ your study:
 4.  In **Other studies** you can select certain studies in which your
     subjects must or must not have participated
 
-5.  To allow recruiters to send batch invitations via e-mail, proceed as
+5.  To allow recruiters to send batch invitations via email, proceed as
     follows:
 
     -   click on **Mail Settings**
-    -   define an **E-mail subject**
-    -   add an **E-mail body**
+    -   define an **Email subject**
+    -   add an **Email body**
 
-    This e-mail will be sent by recruiters at study recruitment by specifying
+    This email will be sent by recruiters at study recruitment by specifying
     the amount of recipients. Yet, you can check the appearance of the set up
     mail by sending a test mail to yourself with corresponding button.
 
     .. note::
 
-        It is not intended to send e-mail attachments via Castellum. Instead,
+        It is not intended to send email attachments via Castellum. Instead,
         links can be inserted as standard text.
 
 Create a geo filter

@@ -293,9 +293,9 @@ class Migration(migrations.Migration):
                 ('other_size', models.PositiveIntegerField()),
                 (
                     'mail_subject',
-                    models.CharField(max_length=128, verbose_name='E-mail subject'),
+                    models.CharField(max_length=128, verbose_name='Email subject'),
                 ),
-                ('mail_body', models.TextField(verbose_name='E-mail body')),
+                ('mail_body', models.TextField(verbose_name='Email body')),
             ],
             options={
                 'abstract': False,

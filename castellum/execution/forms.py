@@ -8,11 +8,11 @@ from django.utils.translation import gettext_lazy as _
 
 
 class NewsMailForm(forms.Form):
-    subject = forms.CharField(label=_('E-mail subject'), required=True)
+    subject = forms.CharField(label=_('Email subject'), required=True)
     body = forms.CharField(
-        label=_('E-mail body'),
+        label=_('Email body'),
         help_text=_(
-            'Any "{name}"-tags included in the e-mail-body will '
+            'Any "{name}"-tags included in the email-body will '
             'automatically be replaced with the full name of the subject.'
         ),
         widget=forms.Textarea,

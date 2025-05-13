@@ -314,20 +314,20 @@ class Migration(migrations.Migration):
                 (
                     'mail_subject',
                     models.CharField(
-                        blank=True, max_length=254, verbose_name='E-mail subject'
+                        blank=True, max_length=254, verbose_name='Email subject'
                     ),
                 ),
                 (
                     'mail_body',
                     models.TextField(
                         blank=True,
-                        help_text='Any "{name}"-tags included in the e-mail-body will automatically be replaced with the full name of the subject.',
-                        verbose_name='E-mail body',
+                        help_text='Any "{name}"-tags included in the email-body will automatically be replaced with the full name of the subject.',
+                        verbose_name='Email body',
                     ),
                 ),
                 (
                     'email',
-                    models.EmailField(max_length=128, verbose_name='E-mail-address'),
+                    models.EmailField(max_length=128, verbose_name='Email-address'),
                 ),
                 (
                     'phone',

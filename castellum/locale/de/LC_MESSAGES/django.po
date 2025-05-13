@@ -688,7 +688,7 @@ msgstr "Merkmale exportiert"
 #: castellum/execution/forms.py:11
 #: castellum/recruitment/models/participations.py:56
 #: castellum/studies/models.py:257
-msgid "E-mail subject"
+msgid "Email subject"
 msgstr "E-Mail Betreff"
 
 #: castellum/execution/forms.py:13

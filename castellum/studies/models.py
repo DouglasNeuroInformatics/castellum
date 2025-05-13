@@ -79,7 +79,7 @@ class Study(TimeStampedModel):
 
     name = models.CharField(_('Name'), max_length=254, unique=True)
     contact_person = models.CharField(_('Contact person'), max_length=254)
-    email = models.EmailField(_('E-mail-address'), max_length=128)
+    email = models.EmailField(_('Email-address'), max_length=128)
     phone = PhoneNumberField(_('Phone number'), max_length=32)
 
     principal_investigator = models.CharField(
@@ -254,11 +254,11 @@ class Study(TimeStampedModel):
         blank=True,
     )
 
-    mail_subject = models.CharField(_('E-mail subject'), max_length=254, blank=True)
+    mail_subject = models.CharField(_('Email subject'), max_length=254, blank=True)
     mail_body = models.TextField(
-        _('E-mail body'),
+        _('Email body'),
         help_text=_(
-            'Any "{name}"-tags included in the e-mail-body will '
+            'Any "{name}"-tags included in the email-body will '
             'automatically be replaced with the full name of the subject.'
         ),
         blank=True,

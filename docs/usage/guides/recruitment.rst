@@ -42,7 +42,7 @@ Recruit subjects via phone
             (Determine the date and time of the recall appointment below)
         -   **awaiting response**
             (This may apply if you left a message on the answering machine or if you
-            sent an e-mail, and want to wait for a response.)
+            sent an email, and want to wait for a response.)
         -   **recruitment mail sent**
             (This may apply if you sent a mail, but might want to make a follow-up phone call)
         -   **participating**
@@ -82,7 +82,7 @@ Recruit subjects via mail
     batch of mails. It lists all contacted groups allowing you to remind those
     potential participants of a group who did not respond yet. Please note, that
     this reminder can only be triggered once per group. It will send out the
-    current invitation mail text with a prefixed e-mail subject indicating it as
+    current invitation mail text with a prefixed email subject indicating it as
     "Reminder/Erinnerung".
 
 
