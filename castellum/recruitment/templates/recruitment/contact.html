@@ -38,6 +38,11 @@
                 <div id="contact-pane" class="accordion-collapse collapse show" aria-labelledby="contact-heading" data-bs-parent="#accordion">
                     <div class="accordion-body">
                         {% include 'contacts/__contact.html' with subject=subject %}
+
+                        <dl class="row">
+                            <dt class="col-sm-6">{{ participation|verbose_name:'updated_at' }}</dt>
+                            <dd class="col-sm-6"><time>{{ participation.updated_at|longdate }}</time></dd>
+                        </dl>
                     </div>
                 </div>
             </div>
