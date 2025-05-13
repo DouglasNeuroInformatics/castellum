@@ -325,9 +325,7 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
-        form.fields['execution_tags'].queryset = ExecutionTag.objects.filter(
-            study=self.study
-        )
+        form.fields['execution_tags'].queryset = self.study.executiontag_set.all()
         form.fields['was_reliable'] = forms.TypedChoiceField(
             label=_('Reliability'),
             help_text=_('Give other recruiters a hint about this subject!'),
