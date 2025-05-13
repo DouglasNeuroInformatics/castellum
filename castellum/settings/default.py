@@ -118,11 +118,12 @@ CASTELLUM_MINIMUM_ACTIVITY_PERIOD = datetime.timedelta(days=14)
 CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD = relativedelta(months=18)
 
 # default execution tags which are automatically created for each new study
-CASTELLUM_DEFAULT_EXECUTION_TAGS = [
-    ('ready', 'info'),
-    ('done', 'success'),
-    ('contact required', 'warning'),
-]
+# CASTELLUM_DEFAULT_EXECUTION_TAGS = [
+#     ('ready', 'info'),
+#     ('done', 'success'),
+#     ('contact required', 'warning'),
+# ]
+CASTELLUM_DEFAULT_EXECUTION_TAGS = []
 
 # Email for announcing new GDPR requests
 # make sure to setup a cron-job for ``notify_to_be_deleted``
