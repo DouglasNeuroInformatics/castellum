@@ -80,6 +80,7 @@ class ParticipationListView(
             .with_appointment_count()
             .with_appointment_today()
             .filter(status__in=Participation.INVITED_SET)
+            .prefetch_related('execution_tags')
             .prefetch_related(
                 models.Prefetch(
                     'subject', queryset=Subject.objects.annotate_reliability()
