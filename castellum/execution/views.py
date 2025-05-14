@@ -78,6 +78,7 @@ class ParticipationListView(
         qs = (
             self.study.participation_set
             .with_appointment_count()
+            .with_appointment_today()
             .filter(status__in=Participation.INVITED_SET)
             .prefetch_related(
                 models.Prefetch(

@@ -94,6 +94,13 @@ class ParticipationQuerySet(models.QuerySet):
             appointment_count=models.Count('appointment', distinct=True)
         )
 
+    def with_appointment_today(self):
+        return self.annotate(
+            appointment_today=models.Count('appointment', filter=models.Q(
+                appointment__start__date=datetime.date.today()
+            ))
+        )
+
     def with_assigned_to_me(self, user):
         return self.annotate(
             assigned_to_me=models.Count(
@@ -238,10 +245,6 @@ class Participation(models.Model):
 
     def get_status_tooltip(self):
         return self.TOOLTIPS['status'][self.status]
-
-    @cached_property
-    def appointment_today(self):
-        return self.appointment_set.filter(start__date=datetime.date.today()).exists()
 
     @cached_property
     def is_match(self):
