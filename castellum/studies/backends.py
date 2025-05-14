@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 from django.contrib.auth.backends import BaseBackend
+from django.contrib.auth.models import Permission
 
 from .models import Study
 from .models import StudyMembership
@@ -26,9 +27,10 @@ class StudyPermissionBackend(BaseBackend):
                 )
                 if membership:
                     perms.add('studies.access_study')
-                    for group in membership.groups.all():
-                        permissions = group.permissions.all()
-                        perms.update(self._permissions_to_strings(permissions))
+                    permissions = Permission.objects.filter(
+                        studygroup__in=membership.groups.all()
+                    )
+                    perms.update(self._permissions_to_strings(permissions))
                 setattr(user, perm_cache_name, perms)
             return getattr(user, perm_cache_name)
         return set()
