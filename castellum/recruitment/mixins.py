@@ -105,6 +105,9 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
         )
         return result
 
+    def get_contact_url(self):
+        raise NotImplementedError
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         form = context['form']
@@ -123,6 +126,8 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
             category: get_bound_fields(attributes)
             for category, attributes in categories.items()
         }
+
+        context['contact_url'] = self.get_contact_url()
 
         return context
 

@@ -576,6 +576,11 @@ class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
     def get_object(self):
         return self.participation.subject
 
+    def get_contact_url(self):
+        return reverse(
+            'recruitment:contact-update', args=[self.study.pk, self.participation.pk]
+        )
+
 
 class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):
     subtab = 'data-protection'
