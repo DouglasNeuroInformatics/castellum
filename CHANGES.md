@@ -1,3 +1,9 @@
+# 25.4.2 (2025-05-19)
+
+-   fix link to contact form in attributes form when using
+    `CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID`
+
+
 # 25.4.1 (2025-04-28)
 
 -   improve performance of subject statistics
