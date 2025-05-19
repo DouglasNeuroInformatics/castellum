@@ -600,6 +600,11 @@ class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
     def get_object(self):
         return self.participation.subject
 
+    def get_contact_url(self):
+        return reverse(
+            'execution:contact-update', args=[self.study.pk, self.participation.pk]
+        )
+
 
 class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateView):
     subtab = 'data-protection'

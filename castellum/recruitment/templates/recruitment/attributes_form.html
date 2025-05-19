@@ -22,7 +22,6 @@
             <div class="mb-3">
                 {% bootstrap_field field wrapper_class="" %}
                 {% if field.field.disabled %}
-                    {% url 'subjects:contact' subject.pk as contact_url %}
                     <span class="text-muted">{% blocktranslate %}This attribute can only be changed in the <a href='{{ contact_url }}'>Contact</a> tab.{% endblocktranslate %}</span>
                 {% else %}
                     <div class="form-check">
@@ -40,7 +39,6 @@
                     <div class="mb-3">
                         {% bootstrap_field field wrapper_class="" %}
                         {% if field.field.disabled %}
-                            {% url 'subjects:contact' subject.pk as contact_url %}
                             <span class="text-muted">{% blocktranslate %}This attribute can only be changed in the <a href='{{ contact_url }}'>Contact</a> tab.{% endblocktranslate %}</span>
                         {% else %}
                             <div class="form-check">

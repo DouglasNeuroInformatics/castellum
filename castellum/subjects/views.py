@@ -415,6 +415,11 @@ class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
 class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
     tab = 'attributes'
 
+    def get_contact_url(self):
+        return reverse(
+            'subjects:contact', args=[self.subject.pk]
+        )
+
 
 class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
