@@ -235,6 +235,13 @@ class Subject(TimeStampedModel):
         from castellum.data_protection.helpers import get_unnecessary_recruitment_data
         return get_unnecessary_recruitment_data().filter(pk=self.pk).exists()
 
+    @cached_property
+    def has_missing_attributes(self):
+        from castellum.recruitment import filter_queries
+        qs = Subject.objects.filter(pk=self.pk)
+        qs = filter_queries.get_has_missing_attributes(qs)
+        return qs.exists()
+
     @property
     def is_available(self):
         now = timezone.localtime()
