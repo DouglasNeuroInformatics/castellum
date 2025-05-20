@@ -277,7 +277,6 @@ def reliability(study):
 
 def completeness_expr(exclude_auto_fields=False):
     """Expression that can be used to annotate a queryset."""
-    # Needs to match ``Subject.get_completeness()``.
     total = 0
     completeness = models.Value(0, output_field=models.IntegerField())
     attrs = Attribute.objects.all()

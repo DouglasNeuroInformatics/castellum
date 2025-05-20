@@ -278,14 +278,6 @@ class Subject(TimeStampedModel):
             except ValueError:
                 return None
 
-    def get_completeness(self):
-        from castellum.recruitment.models import Attribute
-
-        # Needs to match ``filter_queries.completeness_expr()``
-        completed = len([k for k, v in self.attributes.items() if v not in [None, '']])
-        total = Attribute.objects.count()
-        return completed, total
-
     def get_effective_privacy_level(self):
         return math.ceil(self.privacy_level)
 
