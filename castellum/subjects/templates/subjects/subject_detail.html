@@ -45,9 +45,6 @@
         <dt class="col-sm-6">{% translate 'Last contacted' %}</dt>
         <dd class="col-sm-6">{{ subject.updated_at }}</dd>
 
-        <dt class="col-sm-6">{% translate 'Recruitment attribute completeness' %}</dt>
-        <dd class="col-sm-6">{{ attribute_completeness|default:'—' }}</dd>
-
         <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
         <dd class="col-sm-6">
             {% icon 'user-shield' %}
