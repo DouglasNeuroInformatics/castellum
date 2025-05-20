@@ -275,12 +275,15 @@ def reliability(study):
     ))
 
 
-def completeness_expr():
+def completeness_expr(exclude_auto_fields=False):
     """Expression that can be used to annotate a queryset."""
     # Needs to match ``Subject.get_completeness()``.
     total = 0
     completeness = models.Value(0, output_field=models.IntegerField())
-    for attribute in Attribute.objects.all():
+    attrs = Attribute.objects.all()
+    if exclude_auto_fields:
+        attrs = attrs.exclude(pk=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
+    for attribute in attrs:
         total += 1
         field_name = f'attributes__{attribute.json_key}'
         completeness += models.Case(
