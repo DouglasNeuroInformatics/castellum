@@ -13,9 +13,7 @@
                 <svg class="identicon my-1 me-2" data-jdenticon-value="{{ subject.pk }}" aria-hidden="true"></svg>
                 <div>
                     <div>
-                        {% with completeness=subject.get_completeness %}
-                            {% translate 'Recruitment attribute completeness' %}: {{ completeness.0 }}/{{ completeness.1 }}
-                        {% endwith %}
+                        {% translate 'Recruitment attribute completeness' %}: {{ subject.completeness }}/{{ subject.total }}
                     </div>
                     <div>{% translate 'Last contacted on' %}: {{ subject.updated_at|date }}</div>
                 </div>

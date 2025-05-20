@@ -739,7 +739,10 @@ class MaintenanceAttributesView(BaseMaintenanceView):
         )
         return (
             super().get_queryset()
-            .annotate(completeness=completeness)
+            .annotate(
+                completeness=completeness,
+                total=models.Value(total, output_field=models.IntegerField()),
+            )
             .filter(
                 filter_queries.has_consent(),
                 filter_queries.uuid_filter(full_age),
