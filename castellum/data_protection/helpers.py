@@ -82,6 +82,14 @@ def get_unnecessary_recruitment_data():
         Subject.objects
         .alias(completeness=completeness)
         .exclude(filter_queries.has_consent(include_waiting=True))
+        .exclude(pk__in=(
+            Participation.objects
+            .filter(
+                status__in=Participation.RECRUITMENT_SET + Participation.INVITED_SET
+            )
+            .exclude(study__status=Study.FINISHED)
+            .values('subject')
+        ))
         .filter(
             models.Q(completeness__gt=0)
             | ~models.Q(study_type_disinterest=None)
