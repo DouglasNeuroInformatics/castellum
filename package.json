@@ -8,7 +8,6 @@
         "@popperjs/core": "2.11.8",
         "@ttskch/select2-bootstrap4-theme": "1.5.2",
         "bootstrap": "5.3.6",
-        "cbor-js": "0.1.0",
         "fullcalendar-scheduler": "6.1.17",
         "jdenticon": "3.3.0",
         "jquery": "3.7.1",
