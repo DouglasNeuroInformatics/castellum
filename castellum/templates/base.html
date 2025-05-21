@@ -78,7 +78,11 @@
                         {% if user.is_authenticated %}
                             <div>
                                 <span class="navbar-text">{{ user.get_full_name }}</span>
-                                <a href="{% url 'logout' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-secondary">{% translate 'Logout' %}</a>
+                                <form class="d-inline" method="POST" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{{ request.get_full_path|iriencode }}">
+                                    <button class="btn btn-secondary">{% translate 'Logout' %}</button>
+                                </form>
                             </div>
                         {% else %}
                             <a href="{% url 'login' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-primary">{% translate 'Login' %}</a>
