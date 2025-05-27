@@ -4,12 +4,6 @@
 {% block title %}{% translate "Overview" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    {% if not subject.contact.is_complete or not subject.has_legal_basis or subject.consent_action_required %}
-        <p class="alert alert-danger" role="alert">
-            <strong>{% translate 'Action required' %}.</strong> {% translate 'Please edit data sets marked with' %} {% icon 'exclamation-triangle' label=_('Action required') %}
-        </p>
-    {% endif %}
-
     <dl class="row">
         {% if subject.contact.has_legal_representative %}
             <dt class="col-sm-6">{{ subject.contact|verbose_name:'legal_representatives' }}</dt>
