@@ -16,6 +16,7 @@ which can be passed to ``Subjects.objects.filter()``.
 import datetime
 import json
 
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db import models
 from django.db.models.functions import Coalesce
@@ -275,12 +276,14 @@ def reliability(study):
     ))
 
 
-def completeness_expr():
+def completeness_expr(exclude_auto_fields=False):
     """Expression that can be used to annotate a queryset."""
-    # Needs to match ``Subject.get_completeness()``.
     total = 0
     completeness = models.Value(0, output_field=models.IntegerField())
-    for attribute in Attribute.objects.all():
+    attrs = Attribute.objects.all()
+    if exclude_auto_fields:
+        attrs = attrs.exclude(pk=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
+    for attribute in attrs:
         total += 1
         field_name = f'attributes__{attribute.json_key}'
         completeness += models.Case(
@@ -317,3 +320,29 @@ def study_recruitable(study, **kwargs):
             after=study.recruitment_active_after,
         )
     )
+
+
+def get_has_missing_attributes(qs):
+    # see also `data_protection.helpers.get_unnecessary_recruitment_data()`
+
+    completeness, total = completeness_expr()
+    qs = qs.annotate(
+        completeness=completeness,
+        total=models.Value(total, output_field=models.IntegerField()),
+    ).filter(completeness__lt=total)
+
+    # We only consider attributes missing if there is explicit consent.
+    # If there is a study participation or a waiting time, subjects may
+    # or may not have attributes. We do not warn in either direction in
+    # those cases.
+    qs = qs.filter(has_consent())
+
+    # some attributes may still develop for children, so we don't warn
+    # about them either.
+    today = datetime.date.today()
+    full_age = Contact.objects.exclude(
+        date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
+    )
+    qs = qs.filter(uuid_filter(full_age))
+
+    return qs

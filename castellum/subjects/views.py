@@ -227,9 +227,6 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        completed, total = self.object.get_completeness()
-        context['attribute_completeness'] = f'{completed / (total or 1):.0%}'
-
         dropout_count = self.object.participation_set.filter(status__in=[
             Participation.PARTICIPATING_DROPPED_OUT,
             Participation.EXCLUDED_DROPPED_OUT,
@@ -731,22 +728,9 @@ class MaintenanceAttributesView(BaseMaintenanceView):
     tab = 'attributes'
 
     def get_queryset(self):
-        today = datetime.date.today()
-
-        completeness, total = filter_queries.completeness_expr()
-        full_age = Contact.objects.exclude(
-            date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
-        )
-        return (
-            super().get_queryset()
-            .annotate(completeness=completeness)
-            .filter(
-                filter_queries.has_consent(),
-                filter_queries.uuid_filter(full_age),
-                completeness__lt=total,
-            )
-            .order_by('completeness')
-        )
+        qs = super().get_queryset()
+        qs = filter_queries.get_has_missing_attributes(qs)
+        return qs.order_by('completeness')
 
 
 class MaintenanceContactView(BaseMaintenanceView):

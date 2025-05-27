@@ -232,13 +232,15 @@ class Subject(TimeStampedModel):
 
     @cached_property
     def has_unnecessary_recruitment_data(self):
-        # Needs to match ``data_protection.helpers.get_unnecessary_recruitment_data()``
-        completed, _total = self.get_completeness()
-        min_completenes = 1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0
-        return not self.has_consent_or_waiting and (
-            completed > min_completenes
-            or self.study_type_disinterest.exists()
-        )
+        from castellum.data_protection.helpers import get_unnecessary_recruitment_data
+        return get_unnecessary_recruitment_data().filter(pk=self.pk).exists()
+
+    @cached_property
+    def has_missing_attributes(self):
+        from castellum.recruitment import filter_queries
+        qs = Subject.objects.filter(pk=self.pk)
+        qs = filter_queries.get_has_missing_attributes(qs)
+        return qs.exists()
 
     @property
     def is_available(self):
@@ -282,14 +284,6 @@ class Subject(TimeStampedModel):
                 return datetime.date.fromisoformat(value)
             except ValueError:
                 return None
-
-    def get_completeness(self):
-        from castellum.recruitment.models import Attribute
-
-        # Needs to match ``filter_queries.completeness_expr()``
-        completed = len([k for k, v in self.attributes.items() if v not in [None, '']])
-        total = Attribute.objects.count()
-        return completed, total
 
     def get_effective_privacy_level(self):
         return math.ceil(self.privacy_level)

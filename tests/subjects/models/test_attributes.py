@@ -4,32 +4,6 @@ from model_bakery import baker
 from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import AttributeCategory
 from castellum.recruitment.models.attributes import UNCATEGORIZED
-from castellum.subjects.models import Subject
-
-
-@pytest.mark.django_db
-def test_attributes_get_completeness_empty():
-    subject = Subject(attributes={})
-    completed, total = subject.get_completeness()
-    assert completed == 0
-
-
-def test_attributes_get_completeness_empty_value(attribute):
-    subject = Subject()
-    subject.attributes = {
-        attribute.json_key: None,
-    }
-    completed, total = subject.get_completeness()
-    assert completed == 0
-
-
-def test_attributes_get_completeness_non_empty(attribute):
-    subject = Subject()
-    subject.attributes = {
-        attribute.json_key: 1,
-    }
-    completed, total = subject.get_completeness()
-    assert completed == 1
 
 
 @pytest.mark.django_db

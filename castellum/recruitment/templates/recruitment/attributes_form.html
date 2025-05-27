@@ -12,6 +12,10 @@
             </p>
             <a href="{% url 'subjects:delete-recruitment-data' subject.pk %}" class="btn btn-warning">{% translate 'Delete all' %}</a>
         </div>
+    {% elif subject.has_missing_attributes %}
+        <div class="alert alert-warning">
+            {% translate 'Attributes are incomplete' %}
+        </div>
     {% endif %}
 
     <form method="post">
