@@ -6,7 +6,6 @@
 from django.urls import include
 from django.urls import path
 
-from ..views.recruitment import FilterTrialConvertView
 from ..views.recruitment import StudyMailSettingsView
 from ..views.recruitment import StudyOtherStudiesView
 from ..views.recruitment import StudyRecruitmentSettingsUpdateView
@@ -22,6 +21,5 @@ urlpatterns = [
         name='testmail-recruitment',
     ),
     path('other-studies/', StudyOtherStudiesView.as_view(), name='other-studies'),
-    path('convert/', FilterTrialConvertView.as_view(), name='filtertrial-convert'),
     path('filters/', include(subjectfilters_urls)),
 ]

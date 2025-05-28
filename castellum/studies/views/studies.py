@@ -35,7 +35,6 @@ from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
-from castellum.utils import uuid_str
 from castellum.utils.views import BaseProtectedMediaView
 from castellum.utils.views import get_next_url
 
@@ -100,7 +99,6 @@ class StudyIndexView(LoginRequiredMixin, ListView):
             qs = qs.filter(sessions_end__gte=self.form.cleaned_data['start'].date())
         if self.form.cleaned_data.get('end'):
             qs = qs.filter(sessions_start__lte=self.form.cleaned_data['end'].date())
-        qs = qs.filter(is_filter_trial=False)
         return qs.distinct()
 
     def render_event(self, study):
@@ -239,39 +237,16 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         return study
 
 
-class FilterTrialCreateView(PermissionRequiredMixin, View):
-    permission_required = 'studies.change_study'
-
-    def post(self, request, *args, **kwargs):
-        study = Study.objects.create(
-            name=uuid_str(),
-            contact_person='study_trial',
-            phone='03000000000',
-            email='study_trial@example.com',
-            is_filter_trial=True,
-        )
-        StudyMembership.objects.get_or_create(user=self.request.user, study=study)
-        return redirect('studies:recruitmentsettings', study.pk)
-
-
 class StudyUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     form_class = StudyForm
     permission_required = 'studies.change_study'
     tab = 'update'
 
-    @property
-    def base_template(self):
-        if self.study.is_filter_trial:
-            return 'studies/study_filtertrial_base.html'
-        else:
-            return 'studies/study_base.html'
-
     def get_success_url(self):
         return self.request.path
 
     def form_valid(self, form):
-        form.instance.is_filter_trial = False
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
 
@@ -302,7 +277,7 @@ class StudyStartRecruitmentView(View):
         if not self.request.user.has_perm('studies.approve_study'):
             raise PermissionDenied
 
-        study = get_object_or_404(Study, pk=study_pk, is_filter_trial=False)
+        study = get_object_or_404(Study, pk=study_pk)
         if study.status == study.FINISHED:
             return HttpResponseBadRequest()
 
@@ -419,7 +394,6 @@ class StudyDomainsGeneralView(StudyDomainsMixin, UpdateView):
         return self.request.path
 
     def form_valid(self, form):
-        form.instance.is_filter_trial = False
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
 
@@ -459,9 +433,7 @@ class StudyAuditTrailView(PermissionRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        self.study = get_object_or_404(
-            Study, is_filter_trial=False, pk=self.kwargs.get('study_pk')
-        )
+        self.study = get_object_or_404(Study, pk=self.kwargs.get('study_pk'))
         audit(
             gettext_noop('audit trail accessed'),
             self.request.user.username,
