@@ -211,7 +211,11 @@ class Study(TimeStampedModel):
     )
 
     max_reliability_issues = models.PositiveIntegerField(
-        _('Maximum number of reliability issues'),
+        _('Maximum number of issues in previous studies'),
+        help_text=_(
+            'This refers to the number of studies that would not '
+            'invite this subject again because they were unreliable.'
+        ),
         null=True,
         blank=True,
     )
