@@ -1,17 +1,15 @@
 Overview
 ========
 
-The General Data Protection Regulation (GDPR) mandates that
-organizations maintain a comprehensive inventory of the data they hold
-on individuals. This requirement poses challenges within research
-institutes, where researchers traditionally have a high degree of
-autonomy in organizing their work.
+The General Data Protection Regulation (GDPR) requires organizations to
+keep a detailed inventory of the data they collect from individuals.
+This can be tricky for research institutes, where researchers often
+organize their work with a high degree of autonomy.
 
-Castellum addresses this by serving as a centralized repository,
-enabling researchers to disclose the individuals from whom they have
-gathered data. Additionally, Castellum allows to track recruitment
-consent for those individuals, thereby creating a recruitment pool for
-future research projects.
+Castellum addresses this by acting as a centralized repository where
+researchers share information about the individuals from whom they’ve
+collected data. It also tracks recruitment consent, helping you to build
+a valuable pool of participants for future research projects.
 
 .. figure:: /_images/home.png
    :alt: Screenshot of the castellum start page
@@ -22,19 +20,20 @@ Features
 
 GDPR Compliance
     Castellum is a central place where researchers
-    disclose the individuals from whom they have gathered data, so that
-    requests for access or erasure can be handled efficiently.
+    share details about the individuals they’ve collected data from,
+    making it easy to handle requests for access or erasure.
 
 Pseudonym service
-    Contact details are stored in Castellum so all other databases can work
-    with pseudonyms instead.
+    Contact details are stored in Castellum so
+    research data can be stored with pseudonyms instead.
 
 Recruitment
-    Castellum allows you to find potential participants from an existing pool
+    Find potential participants from an existing pool
     using study specific filters.
 
 Appointments
-    You can manage appointments for test sessions.
+    Manage appointments for test sessions or let
+    participants pick themselves.
 
 What Castellum is not
 ---------------------
