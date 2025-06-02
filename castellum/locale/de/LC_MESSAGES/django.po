@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-02 14:44+0200\n"
+"POT-Creation-Date: 2025-06-02 14:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -530,10 +530,8 @@ msgstr ""
 "ebenfalls für diese Studien passen könnten."
 
 #: castellum/contacts/templates/contacts/__contact_detail.html:40
-#, fuzzy
-#| msgid "Reliability"
 msgid "Availability"
-msgstr "Zuverlässigkeit"
+msgstr "Erreichbarkeit"
 
 #: castellum/contacts/templates/contacts/__contact_detail.html:43
 #, python-format
@@ -554,10 +552,8 @@ msgstr "Vertraulichkeitsstufe nicht ausreichend"
 #: castellum/contacts/templates/contacts/contact_form.html:65
 #: castellum/contacts/templates/contacts/contact_form.html:68
 #: castellum/contacts/templates/contacts/contact_form.html:71
-#, fuzzy
-#| msgid "Updated at"
 msgid "Update"
-msgstr "Aktualisiert am"
+msgstr "Aktualisieren"
 
 #: castellum/contacts/templates/contacts/__legal_representative_item.html:25
 #: castellum/studies/templates/studies/study_members.html:42
@@ -703,16 +699,11 @@ msgstr "E-Mail Betreff"
 #: castellum/execution/forms.py:13
 #: castellum/recruitment/models/participations.py:57
 #: castellum/studies/models.py:254
-#, fuzzy
-#| msgid "E-mail body"
 msgid "Email body"
 msgstr "E-Mail Inhalt"
 
 #: castellum/execution/forms.py:15 castellum/studies/models.py:256
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Any \"{name}\"-tags included in the e-mail-body will automatically be "
-#| "replaced with the full name of the subject."
+#, python-brace-format
 msgid ""
 "Any \"{name}\"-tags included in the email-body will automatically be "
 "replaced with the full name of the subject."
@@ -1201,20 +1192,14 @@ msgstr "Vorherige E-Mails"
 #: castellum/execution/templates/execution/study_news_mail.html:27
 #, python-format
 msgid "%(counter)s mail sent on %(datetime)s:"
-msgstr ""
+msgstr "%(counter)s E-Mail versendet am %(datetime)s:"
 
 #: castellum/execution/templates/execution/study_news_mail.html:32
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            %(contacted_size)s subjects contacted, "
-#| "%(other_size)s had to be contacted via postal mail\n"
-#| "                        "
+#, python-format
 msgid ""
 "%(contacted_size)s subjects contacted, %(other_size)s had to be contacted "
 "via postal mail"
 msgstr ""
-"\n"
 "%(contacted_size)s potentielle Proband*innen kontaktiert, %(other_size)s "
 "mussten auf dem Postweg kontaktiert werden"
 
@@ -1738,18 +1723,17 @@ msgstr "zuletzt"
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:52
 #, python-format
 msgid "today at %(time)s"
-msgstr ""
+msgstr "heute um %(time)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:59
-#, fuzzy, python-format
-#| msgid "important dates"
+#, python-format
 msgid "on %(date)s"
-msgstr "Wichtige Daten"
+msgstr "am %(date)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:63
 #, python-format
 msgid "at %(time)s"
-msgstr ""
+msgstr "um %(time)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:70
 msgid "follow-up urgent"
@@ -1790,16 +1774,9 @@ msgstr ""
 "Schaltfläche hinzu."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:118
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                    You are still in search for %(subjectcount)s "
-#| "participants.\n"
-#| "                "
+#, python-format
 msgid "You are still in search for %(subjectcount)s participants."
-msgstr ""
-"\n"
-"Es werden noch %(subjectcount)s Teilnehmer*innen benötigt."
+msgstr "Es werden noch %(subjectcount)s Teilnehmer*innen benötigt."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:122
 msgid "List is empty"
@@ -1810,10 +1787,8 @@ msgid "Delete all"
 msgstr "Alles löschen"
 
 #: castellum/recruitment/templates/recruitment/attributes_form.html:17
-#, fuzzy
-#| msgid "attributes exported"
 msgid "Attributes are incomplete"
-msgstr "Merkmale exportiert"
+msgstr "Merkmale sind unvollständig"
 
 #: castellum/recruitment/templates/recruitment/attributes_form.html:29
 #: castellum/recruitment/templates/recruitment/attributes_form.html:46
@@ -1978,34 +1953,21 @@ msgid "Mail recruitment has not been set up!"
 msgstr "E-Mail Rekrutierung ist nicht eingerichtet!"
 
 #: castellum/recruitment/templates/recruitment/mail.html:43
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            %(counter)s group contacted on %(datetime)s\n"
-#| "                        "
+#, python-format
 msgid "%(counter)s group contacted on %(datetime)s"
-msgstr ""
-"\n"
-"%(counter)s Gruppe kontaktiert am %(datetime)s: "
+msgstr "%(counter)s Gruppe kontaktiert am %(datetime)s: "
 
 #: castellum/recruitment/templates/recruitment/mail.html:47
-#, fuzzy, python-format
-#| msgid "Export requested on %(date)s"
+#, python-format
 msgid "and reminded on %(datetime)s"
-msgstr "Auskunft beantragt am %(date)s"
+msgstr "und erinnert am %(datetime)s"
 
 #: castellum/recruitment/templates/recruitment/mail.html:53
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            still awaiting response for "
-#| "%(no_response_size)s/%(contacted_size)s potential subjects\n"
-#| "                        "
+#, python-format
 msgid ""
 "still awaiting response for %(no_response_size)s/%(contacted_size)s "
 "potential subjects"
 msgstr ""
-"\n"
 "Noch keine Antwort von %(no_response_size)s/%(contacted_size)s potenziellen "
 "Proband*innen"
 
@@ -2030,16 +1992,10 @@ msgstr ""
 "möchten?"
 
 #: castellum/recruitment/templates/recruitment/mail_remind.html:11
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                Send reminder to %(no_response_size)s/%(contacted_size)s "
-#| "potential subjects.\n"
-#| "            "
+#, python-format
 msgid ""
 "Send reminder to %(no_response_size)s/%(contacted_size)s potential subjects."
 msgstr ""
-"\n"
 "Erinnerung an %(no_response_size)s/%(contacted_size)s potenzielle "
 "Proband*innen schicken"
 
@@ -2226,8 +2182,6 @@ msgid "Finished"
 msgstr "Beendet"
 
 #: castellum/studies/models.py:82
-#, fuzzy
-#| msgid "E-mail-address"
 msgid "Email-address"
 msgstr "E-Mail-Adresse"
 
@@ -2408,16 +2362,16 @@ msgstr ""
 "gelöscht wurden."
 
 #: castellum/studies/models.py:214
-#, fuzzy
-#| msgid "Maximum number of reliability issues"
 msgid "Maximum number of issues in previous studies"
-msgstr "Maximale Anzahl von Problemen bei der Zuverlässigkeit"
+msgstr "Maximale Anzahl von Problemen in vorherigen Studien"
 
 #: castellum/studies/models.py:216
 msgid ""
 "This refers to the number of studies that would not invite this subject "
 "again because they were unreliable."
 msgstr ""
+"Dieses Feld bezieht sich auf die Anzahl von Studien, die diese Proband*in "
+"nicht wieder einladen würden, weil sie unzuverlässig war."
 
 #: castellum/studies/models.py:223
 msgid "Last activity after"
@@ -2535,24 +2489,13 @@ msgstr ""
 "Proband*innen an."
 
 #: castellum/studies/templates/studies/__filtergroup_common.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                For a smooth recruitment process, your institution "
-#| "recommends at least\n"
-#| "                %(expected_subject_factor)s× more potential than required "
-#| "subjects\n"
-#| "                (i.e. %(expected_subject_count)s for this study). Current "
-#| "amount of potential\n"
-#| "                subjects: %(count)s\n"
-#| "            "
+#, python-format
 msgid ""
 "For a smooth recruitment process, your institution recommends at least "
 "%(expected_subject_factor)s× more potential than required subjects (i.e. "
 "%(expected_subject_count)s for this study). Current amount of potential "
 "subjects: %(count)s"
 msgstr ""
-"\n"
 "Für einen reibungslosen Rekrutierungsablauf empfiehlt Ihre Einrichtung "
 "mindestens %(expected_subject_factor)sx mehr potentielle als benötige "
 "Proband*innen (d.h. %(expected_subject_count)s für diese Studie). "
@@ -2661,8 +2604,8 @@ msgstr "insgesamt %(count)s potentielle Proband*innen"
 #, python-format
 msgid "%(count)s filter"
 msgid_plural "%(count)s filters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(count)s Filter"
+msgstr[1] "%(count)s Filter"
 
 #: castellum/studies/templates/studies/filtergroup_advanced.html:49
 #: castellum/studies/templates/studies/study_base.html:95
@@ -3766,83 +3709,41 @@ msgid "Change"
 msgstr "Ändern"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:59
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            The current consent refers to an outdated "
-#| "document and will soon expire, thus rendering the recruitment consent "
-#| "invalid.\n"
-#| "                            Please contact the subject to confirm the "
-#| "latest document.\n"
-#| "                        "
 msgid ""
 "The current consent refers to an outdated document and will soon expire, "
 "thus rendering the recruitment consent invalid. Please contact the subject "
 "to confirm the latest document."
 msgstr ""
-"\n"
-"                            Die gegenwärtige Einwilligung bezieht sich auf "
-"ein veraltetes Dokument und wird demnächst ablaufen und die "
-"Rekrutierungseinwilligung somit ungültig machen.\n"
-"                            Bitte kontaktieren Sie die Proband*in um die "
-"Einwilligung in die aktuellste Erklärung einzuholen.\n"
-"                        "
+"Die gegenwärtige Einwilligung bezieht sich auf ein veraltetes Dokument und "
+"wird demnächst ablaufen und die Rekrutierungseinwilligung somit ungültig "
+"machen.Bitte kontaktieren Sie die Proband*in um die Einwilligung in die "
+"aktuellste Erklärung einzuholen."
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:67
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            The subject has recently come of age.\n"
-#| "                            Please contact the parents to get the child's "
-#| "contact information and recruitment consent.\n"
-#| "                        "
 msgid ""
 "The subject has recently come of age. Please contact the parents to get the "
 "child's contact information and recruitment consent."
 msgstr ""
-"\n"
-"                            Die Proband*in ist kürzlich volljährig geworden. "
-"Bitte kontaktieren Sie die Eltern, um die Kontaktdaten und "
-"Rekrutierungseinwilligung von dem Kind zu erhalten.                        "
+"Die Proband*in ist kürzlich volljährig geworden. Bitte kontaktieren Sie die "
+"Eltern, um die Kontaktdaten und Rekrutierungseinwilligung von dem Kind zu "
+"erhalten."
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:75
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            The subject has not told us their position on "
-#| "recruitment consent yet.\n"
-#| "                            Please contact and ask them to either "
-#| "explicitly give or decline consent to be recruited for future studies.\n"
-#| "                        "
 msgid ""
 "The subject has not told us their position on recruitment consent yet. "
 "Please contact and ask them to either explicitly give or decline consent to "
 "be recruited for future studies."
 msgstr ""
-"\n"
-"                        Die Proband*in hat uns ihre Position zur "
-"Rekrutierungseinwilligung noch nicht mitgeteilt.\n"
-"                        Bitte klären Sie mit der Proband*in, ob sie für "
-"zukünftige Studien kontaktiert werden möchte oder dies explizit ablehnt.\n"
-"                    "
+"Die Proband*in hat uns ihre Position zur Rekrutierungseinwilligung noch "
+"nicht mitgeteilt.Bitte klären Sie mit der Proband*in, ob sie für zukünftige "
+"Studien kontaktiert werden möchte oder dies explizit ablehnt."
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:82
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                        Without recruitment consent, this subject will "
-#| "not be taken into account for future\n"
-#| "                        recruitment. Withdrawing recruitment consent has "
-#| "no effect on study consent.\n"
-#| "                        Therefore no data related to existing studies is "
-#| "deleted.\n"
-#| "                    "
 msgid ""
 "Without recruitment consent, this subject will not be taken into account for "
 "future recruitment. Withdrawing recruitment consent has no effect on study "
 "consent. Therefore no data related to existing studies is deleted."
 msgstr ""
-"\n"
 "Ohne Einwilligung zur Rekrutierung wird diese Proband*in nicht für "
 "zukünftige Rekrutierungen berücksichtigt. Der Widerruf der "
 "Rekrutierungseinwilligung hat keine Auswirkungen auf die "
@@ -4495,95 +4396,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#, python-format
-#~ msgid ""
-#~ "\n"
-#~ "                            %(counter)s mail sent on %(datetime)s:\n"
-#~ "                        "
-#~ msgstr ""
-#~ "\n"
-#~ "%(counter)s E-Mail versendet am %(datetime)s: "
-
-#, python-format
-#~ msgid ""
-#~ "\n"
-#~ "                                            today at %(time)s\n"
-#~ "                                        "
-#~ msgstr ""
-#~ "\n"
-#~ "heute um %(time)s"
-
-#, python-format
-#~ msgid ""
-#~ "\n"
-#~ "                                        on %(date)s\n"
-#~ "                                    "
-#~ msgstr ""
-#~ "\n"
-#~ "am %(date)s"
-
-#, python-format
-#~ msgid ""
-#~ "\n"
-#~ "                                            at %(time)s\n"
-#~ "                                        "
-#~ msgstr ""
-#~ "\n"
-#~ "um %(time)s"
-
-#, python-format
-#~ msgid ""
-#~ "\n"
-#~ "                                and reminded on %(datetime)s\n"
-#~ "                            "
-#~ msgstr ""
-#~ "\n"
-#~ "und erinnert am %(datetime)s"
-
-#~ msgid "Is a filter trial"
-#~ msgstr "Ist ein Probelauf für Filter"
-
-#~ msgid ""
-#~ "Use this if you only want to see how many subjects would match a specific "
-#~ "study and filter configuration without actually intending to recruit."
-#~ msgstr ""
-#~ "Diese Option erlaubt es, ohne tatsächliche Rekrutierungsabsicht "
-#~ "herauszufinden, wie viele Proband*innen auf eine bestimmte Studien- und "
-#~ "Filterkombination passen würden"
-
-#, python-format
-#~ msgid ""
-#~ "\n"
-#~ "                                            %(count)s filter\n"
-#~ "                                        "
-#~ msgid_plural ""
-#~ "\n"
-#~ "                                            %(count)s filters\n"
-#~ "                                        "
-#~ msgstr[0] ""
-#~ "\n"
-#~ "%(count)s Filter"
-#~ msgstr[1] ""
-#~ "\n"
-#~ "%(count)s Filter"
-
-#~ msgid "Filter trial"
-#~ msgstr "Probelauf für Filter"
-
-#~ msgid "Convert to study"
-#~ msgstr "In Studie umwandeln"
-
-#~ msgid "Do you want to create a full study with the current set of filters?"
-#~ msgstr ""
-#~ "Möchten Sie eine vollwertige Studie mit der gegenwärtigen Filterauswahl "
-#~ "erstellen?"
-
-#~ msgid "Convert"
-#~ msgstr "Umwandeln"
-
-#~ msgid "Try filters"
-#~ msgstr "Filter ausprobieren"
-
-#~ msgid "Please edit data sets marked with"
-#~ msgstr "Bitte editieren Sie die Datensätze mit dem folgenden Symbol:"
