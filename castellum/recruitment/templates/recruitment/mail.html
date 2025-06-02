@@ -40,17 +40,17 @@
             <li class="table-list-item">
                 <div>
                     <small class="text-body-secondary">
-                        {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.revcounter|ordinal %}
+                        {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.revcounter|ordinal trimmed %}
                             {{ counter }} group contacted on {{ datetime }}
                         {% endblocktranslate %}
                         {% if batch.reminded %}
-                            {% blocktranslate with datetime=batch.reminded|longdate %}
+                            {% blocktranslate with datetime=batch.reminded|longdate trimmed %}
                                 and reminded on {{ datetime }}
                             {% endblocktranslate %}
                         {% endif %}
                     </small>
                     <div>
-                        {% blocktranslate with contacted_size=batch.contacted_size no_response_size=batch.no_response_size %}
+                        {% blocktranslate with contacted_size=batch.contacted_size no_response_size=batch.no_response_size trimmed %}
                             still awaiting response for {{ no_response_size }}/{{ contacted_size }} potential subjects
                         {% endblocktranslate %}
                     </div>

@@ -31,7 +31,9 @@
         <div id="contact-legal_representatives" class="mb-3" aria-live="polite" {% if form.pane.value != 'legal_representatives' %}hidden{% endif %}>
             {% if form.legal_representatives_blocked > 0 %}
                 <p class="text-body-secondary" data-js="legal-representatives-blocked">
-                    {% blocktranslate with count=form.legal_representatives_blocked %}{{ count }} legal representatives not listed because of insufficient privacy level.{% endblocktranslate %}
+                    {% blocktranslate with count=form.legal_representatives_blocked trimmed %}
+                        {{ count }} legal representatives not listed because of insufficient privacy level.
+                    {% endblocktranslate %}
                 </p>
             {% endif %}
 

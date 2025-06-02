@@ -29,7 +29,7 @@
                             {% with filters=group.subjectfilter_set.all|list %}
                                 <details>
                                     <summary>
-                                        {% blocktranslate count count=filters|length %}
+                                        {% blocktranslate count count=filters|length trimmed %}
                                             {{ count }} filter
                                         {% plural %}
                                             {{ count }} filters

@@ -39,7 +39,8 @@
         {% if not contact.subject.is_available %}
             <dt class="col-sm-6">{% translate 'Availability' %}</dt>
             <dd class="col-sm-6">
-                {% icon 'phone-slash list-icon text-bg-warning' %} {% blocktranslate with next_available=contact.subject.not_available_until %}not available until {{ next_available }}{% endblocktranslate %}
+                {% icon 'phone-slash list-icon text-bg-warning' %}
+                {% blocktranslate with next_available=contact.subject.not_available_until %}not available until {{ next_available }}{% endblocktranslate %}
             </dd>
         {% endif %}
     </dl>

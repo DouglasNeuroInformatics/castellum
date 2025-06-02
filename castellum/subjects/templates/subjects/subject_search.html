@@ -9,7 +9,11 @@
 
     {% if subjectcreationrequest %}
         {% url 'subjects:maintenance-subjectcreationrequest-delete' subjectcreationrequest.pk as discard_url %}
-        <p class="alert alert-info mb-5">{% blocktranslate with name=subjectcreationrequest.contact.full_name discard_url=discard_url %}Please make sure that {{ name }} does not yet exist in the database. If you find duplicates, you can also <a href="{{ discard_url }}">discard this request</a>.{% endblocktranslate %}</p>
+        <p class="alert alert-info mb-5">
+            {% blocktranslate with name=subjectcreationrequest.contact.full_name discard_url=discard_url trimmed %}
+                Please make sure that {{ name }} does not yet exist in the database. If you find duplicates, you can also <a href="{{ discard_url }}">discard this request</a>.
+            {% endblocktranslate %}
+        </p>
     {% endif %}
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}

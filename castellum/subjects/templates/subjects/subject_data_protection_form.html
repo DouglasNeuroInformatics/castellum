@@ -56,7 +56,7 @@
                 </div>
                 {% if object.consent.document.is_deprecated %}
                     <div class="form-text text-bg-warning p-2 mb-2">
-                        {% blocktranslate %}
+                        {% blocktranslate trimmed %}
                             The current consent refers to an outdated document and will soon expire, thus rendering the recruitment consent invalid.
                             Please contact the subject to confirm the latest document.
                         {% endblocktranslate %}
@@ -64,7 +64,7 @@
                 {% endif %}
                 {% if object.has_consent_from_before_full_age %}
                     <div class="form-text text-bg-warning p-2 mb-2">
-                        {% blocktranslate %}
+                        {% blocktranslate trimmed %}
                             The subject has recently come of age.
                             Please contact the parents to get the child's contact information and recruitment consent.
                         {% endblocktranslate %}
@@ -72,14 +72,14 @@
                 {% endif %}
                 {% if object.unknown_consent %}
                     <div class="form-text text-bg-warning p-2 mb-2">
-                        {% blocktranslate %}
+                        {% blocktranslate trimmed %}
                             The subject has not told us their position on recruitment consent yet.
                             Please contact and ask them to either explicitly give or decline consent to be recruited for future studies.
                         {% endblocktranslate %}
                     </div>
                 {% endif %}
                 <div class="form-text">
-                    {% blocktranslate %}
+                    {% blocktranslate trimmed %}
                         Without recruitment consent, this subject will not be taken into account for future
                         recruitment. Withdrawing recruitment consent has no effect on study consent.
                         Therefore no data related to existing studies is deleted.

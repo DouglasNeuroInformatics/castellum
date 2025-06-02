@@ -49,18 +49,18 @@
                             <div class="d-inline-block my-1 me-2">
                                 {% if participation.followup_date|is_today %}
                                     {% if participation.followup_time %}
-                                        {% blocktranslate with time=participation.followup_time|time %}
+                                        {% blocktranslate with time=participation.followup_time|time trimmed %}
                                             today at {{ time }}
                                         {% endblocktranslate %}
                                     {% else %}
                                         {% translate 'today' %}
                                     {% endif %}
                                 {% else %}
-                                    {% blocktranslate with date=participation.followup_date|longdate %}
+                                    {% blocktranslate with date=participation.followup_date|longdate trimmed %}
                                         on {{ date }}
                                     {% endblocktranslate %}
                                     {% if participation.followup_time %}
-                                        {% blocktranslate with time=participation.followup_time|time %}
+                                        {% blocktranslate with time=participation.followup_time|time trimmed %}
                                             at {{ time }}
                                         {% endblocktranslate %}
                                     {% endif %}
@@ -115,7 +115,7 @@
                     {% translate 'Please add a set of potential subjects using the Add button.' %}
                 {% endif %}
             {% elif view.subtab == 'invited' %}
-                {% blocktranslate with subjectcount=study.min_subject_count %}
+                {% blocktranslate with subjectcount=study.min_subject_count trimmed %}
                     You are still in search for {{ subjectcount }} participants.
                 {% endblocktranslate %}
             {% else %}

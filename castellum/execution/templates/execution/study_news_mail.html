@@ -24,12 +24,12 @@
             <li class="table-list-item">
                 <div>
                     <small class="text-body-secondary">
-                        {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.revcounter|ordinal %}
+                        {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.revcounter|ordinal trimmed %}
                             {{ counter }} mail sent on {{ datetime }}:
                         {% endblocktranslate %}
                     </small>
                     <div>
-                        {% blocktranslate with contacted_size=batch.contacted_size other_size=batch.other_size %}
+                        {% blocktranslate with contacted_size=batch.contacted_size other_size=batch.other_size trimmed %}
                             {{ contacted_size }} subjects contacted, {{ other_size }} had to be contacted via postal mail
                         {% endblocktranslate %}
                     </div>
