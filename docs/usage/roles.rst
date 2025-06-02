@@ -50,7 +50,6 @@ Relevant guides:
 -   :ref:`study-delete-pseudonym-lists`
 -   :ref:`study-delete`
 -   :ref:`set-up-external-scheduler`
--   :ref:`study-filter-trial`
 
 Study Approver
 ~~~~~~~~~~~~~~

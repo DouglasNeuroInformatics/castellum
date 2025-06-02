@@ -9,7 +9,6 @@ from django.db import models
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 from django.views.generic import View
 
@@ -54,15 +53,9 @@ class StudyRecruitmentSettingsUpdateView(
     pk_url_kwarg = 'study_pk'
     form_class = StudyRecruitmentSettingsForm
     permission_required = 'studies.change_study'
-    is_filter_trial = None
     template_name = 'studies/study_recruitmentsettings_form.html'
     tab = 'recruitmentsettings'
     subtab = 'update'
-
-    @property
-    def base_template(self):
-        if self.study.is_filter_trial:
-            return 'studies/study_filtertrial_base.html'
 
     def get_success_url(self):
         return self.request.path
@@ -78,14 +71,8 @@ class StudyOtherStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'studies/study_other_studies.html'
     form_class = OtherStudiesForm
     permission_required = 'studies.change_study'
-    is_filter_trial = None
     tab = 'recruitmentsettings'
     subtab = 'other-studies'
-
-    @property
-    def base_template(self):
-        if self.study.is_filter_trial:
-            return 'studies/study_filtertrial_base.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -145,11 +132,3 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
-
-
-class FilterTrialConvertView(StudyMixin, PermissionRequiredMixin, TemplateView):
-    template_name = 'studies/study_filtertrial_convert.html'
-    permission_required = 'studies.change_study'
-    is_filter_trial = True
-    tab = 'recruitmentsettings'
-    subtab = 'convert'

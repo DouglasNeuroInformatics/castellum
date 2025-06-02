@@ -19,10 +19,6 @@
             {% has_perm 'studies.change_study' user as can_add_study %}
             {% if can_add_study %}
                 <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
-                <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-secondary mb-1">{% translate 'Try filters' %}</button>
-                </form>
             {% endif %}
 
             {% if form.cleaned_data.member == "all" %}

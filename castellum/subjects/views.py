@@ -535,7 +535,7 @@ class BaseParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
         if not q:
             return Study.objects.none()
 
-        qs = super().get_queryset().filter(is_filter_trial=False)
+        qs = super().get_queryset()
 
         for part in q.split():
             qs = qs.filter(

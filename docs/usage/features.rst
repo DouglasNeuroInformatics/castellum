@@ -48,7 +48,6 @@ Relevant guides:
 -   :ref:`recruitment`
 -   :ref:`recruitment-mail`
 -   :ref:`study-recruitment-settings`
--   :ref:`study-filter-trial`
 -   :ref:`admin-attributes`
 
 Appointments
