@@ -29,15 +29,13 @@ def invalidate_geolocation(address, update=False):
 
 
 def delete_geolocation_on_address_change(sender, instance=None, **kwargs):
-    if sender is Address:
-        invalidate_geolocation(instance)
+    invalidate_geolocation(instance)
 
 
 def geocode_on_address_change(sender, instance=None, **kwargs):
-    if sender is Address:
-        invalidate_geolocation(instance, update=True)
+    invalidate_geolocation(instance, update=True)
 
 
 def register_signal_handlers():
-    pre_delete.connect(delete_geolocation_on_address_change)
-    post_save.connect(geocode_on_address_change)
+    pre_delete.connect(delete_geolocation_on_address_change, sender=Address)
+    post_save.connect(geocode_on_address_change, sender=Address)

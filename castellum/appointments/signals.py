@@ -15,14 +15,14 @@ from .models import Appointment
 
 
 def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
-    if sender is Participation and settings.SCHEDULER_URL:
+    if settings.SCHEDULER_URL:
         for session in instance.study.studysession_set.exclude(schedule_id=None):
             pseudonym = get_pseudonym(instance.subject, session.domain)
             scheduler.delete(session.schedule_id, pseudonym)
 
 
 def delete_appointments_on_save(sender, instance, using, **kwargs):
-    if sender is Participation and instance.status not in Participation.INVITED_SET:
+    if instance.status not in Participation.INVITED_SET:
         # PERF: ignore if instance has not been saved to the database yet
         if not instance.pk:
             return
@@ -32,5 +32,5 @@ def delete_appointments_on_save(sender, instance, using, **kwargs):
 
 
 def register_signal_handlers():
-    pre_delete.connect(delete_scheduler_appointments_on_delete)
-    pre_save.connect(delete_appointments_on_save)
+    pre_delete.connect(delete_scheduler_appointments_on_delete, sender=Participation)
+    pre_save.connect(delete_appointments_on_save, sender=Participation)

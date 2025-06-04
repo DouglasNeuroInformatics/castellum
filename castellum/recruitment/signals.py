@@ -14,24 +14,19 @@ from .models import Attribute
 
 
 def delete_attribute_data(sender, instance, using, **kwargs):
-    if sender is Attribute:
-        objs = list(Subject.objects.filter(attributes__has_key=instance.json_key))
-        for subject in objs:
-            del subject.attributes[instance.json_key]
-        Subject.objects.bulk_update(objs, ['attributes'])
+    objs = list(Subject.objects.filter(attributes__has_key=instance.json_key))
+    for subject in objs:
+        del subject.attributes[instance.json_key]
+    Subject.objects.bulk_update(objs, ['attributes'])
 
 
 def sync_date_of_birth(sender, instance, using, **kwargs):
-    if (
-        settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
-        and sender is Contact
-        and instance.subject_uuid
-    ):
+    if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID and instance.subject_uuid:
         key = f'd{settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID}'
         instance.subject.attributes[key] = instance.date_of_birth
         instance.subject.save()
 
 
 def register_signal_handlers():
-    pre_delete.connect(delete_attribute_data)
-    post_save.connect(sync_date_of_birth)
+    pre_delete.connect(delete_attribute_data, sender=Attribute)
+    post_save.connect(sync_date_of_birth, sender=Contact)
