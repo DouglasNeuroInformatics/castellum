@@ -4,17 +4,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 from django.apps import AppConfig
-from django.db.models.signals import post_save
-from django.db.models.signals import pre_delete
-
-from . import signals
 
 
 class StudiesConfig(AppConfig):
     name = 'castellum.studies'
 
     def ready(self):
-        pre_delete.connect(signals.delete_study_domain)
+        from .signals import register_signal_handlers
 
-        post_save.connect(signals.create_session_domain)
-        pre_delete.connect(signals.delete_session_domain)
+        register_signal_handlers()

@@ -4,15 +4,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 from django.apps import AppConfig
-from django.db.models.signals import post_save
-from django.db.models.signals import pre_delete
-
-from . import signals
 
 
 class RecruitmentConfig(AppConfig):
     name = 'castellum.recruitment'
 
     def ready(self):
-        pre_delete.connect(signals.delete_attribute_data)
-        post_save.connect(signals.sync_date_of_birth)
+        from .signals import register_signal_handlers
+
+        register_signal_handlers()

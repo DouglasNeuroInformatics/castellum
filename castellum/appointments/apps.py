@@ -4,15 +4,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 from django.apps import AppConfig
-from django.db.models.signals import pre_delete
-from django.db.models.signals import pre_save
-
-from . import signals
 
 
 class AppointmentsConfig(AppConfig):
     name = 'castellum.appointments'
 
     def ready(self):
-        pre_delete.connect(signals.delete_scheduler_appointments_on_delete)
-        pre_save.connect(signals.delete_appointments_on_save)
+        from .signals import register_signal_handlers
+
+        register_signal_handlers()

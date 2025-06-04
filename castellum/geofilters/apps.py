@@ -4,15 +4,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 from django.apps import AppConfig
-from django.db.models.signals import post_save
-from django.db.models.signals import pre_delete
-
-from . import signals
 
 
 class GeofiltersConfig(AppConfig):
     name = 'castellum.geofilters'
 
     def ready(self):
-        pre_delete.connect(signals.delete_geolocation_on_address_change)
-        post_save.connect(signals.geocode_on_address_change)
+        from .signals import register_signal_handlers
+
+        register_signal_handlers()

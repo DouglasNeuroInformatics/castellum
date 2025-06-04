@@ -5,13 +5,16 @@
 
 from django.conf import settings
 from django.contrib.gis.geos import Point
+from django.db.models.signals import post_save
+from django.db.models.signals import pre_delete
+
+from castellum.contacts.models import Address
 
 from . import geocode
+from .models import Geolocation
 
 
 def invalidate_geolocation(address, update=False):
-    from .models import Geolocation
-
     # The geocoding might fail, so we should delete the outdated
     # data in any case.
     Geolocation.objects.filter(contact=address.contact).delete()
@@ -26,14 +29,15 @@ def invalidate_geolocation(address, update=False):
 
 
 def delete_geolocation_on_address_change(sender, instance=None, **kwargs):
-    from castellum.contacts.models import Address
-
     if sender is Address:
         invalidate_geolocation(instance)
 
 
 def geocode_on_address_change(sender, instance=None, **kwargs):
-    from castellum.contacts.models import Address
-
     if sender is Address:
         invalidate_geolocation(instance, update=True)
+
+
+def register_signal_handlers():
+    pre_delete.connect(delete_geolocation_on_address_change)
+    post_save.connect(geocode_on_address_change)

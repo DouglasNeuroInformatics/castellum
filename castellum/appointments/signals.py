@@ -4,13 +4,17 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 from django.conf import settings
+from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_save
+
+from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.recruitment.models import Participation
+from castellum.utils import scheduler
+
+from .models import Appointment
 
 
 def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
-    from castellum.pseudonyms.helpers import get_pseudonym
-    from castellum.recruitment.models import Participation
-    from castellum.utils import scheduler
-
     if sender is Participation and settings.SCHEDULER_URL:
         for session in instance.study.studysession_set.exclude(schedule_id=None):
             pseudonym = get_pseudonym(instance.subject, session.domain)
@@ -18,10 +22,6 @@ def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
 
 
 def delete_appointments_on_save(sender, instance, using, **kwargs):
-    from castellum.recruitment.models import Participation
-
-    from .models import Appointment
-
     if sender is Participation and instance.status not in Participation.INVITED_SET:
         # PERF: ignore if instance has not been saved to the database yet
         if not instance.pk:
@@ -29,3 +29,8 @@ def delete_appointments_on_save(sender, instance, using, **kwargs):
 
         delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs)
         Appointment.objects.filter(participation=instance).delete()
+
+
+def register_signal_handlers():
+    pre_delete.connect(delete_scheduler_appointments_on_delete)
+    pre_save.connect(delete_appointments_on_save)
