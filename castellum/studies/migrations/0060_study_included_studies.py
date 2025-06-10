@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(
                 blank=True,
                 help_text="If selected, only participants from included studies will be considered in the recruitment for this study. Note that reusing data from those studies is not always possible, e.g. because the study consent does not allow data reuse or because the pseudonyms have already been deleted.",
-                related_name="+",
+                related_name="included_by",
                 to="studies.study",
                 verbose_name="Included studies",
             ),
@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(
                 blank=True,
                 help_text="Participants from excluded studies will be excluded from recruitment for this study.",
-                related_name="+",
+                related_name="excluded_by",
                 to="studies.study",
                 verbose_name="Excluded studies",
             ),

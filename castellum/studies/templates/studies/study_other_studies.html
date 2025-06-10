@@ -25,9 +25,25 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                    {% if object.excluded_by.exists %}
+                        <div class="form-text">
+                            {% translate 'This study is excluded by:' %}
+                            {% for study in study.excluded_by.all %}
+                                {{ study }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
                 <div data-js="d-select2-clear">
                     {% bootstrap_field form.included_studies %}
+                    {% if object.included_by.exists %}
+                        <div class="form-text">
+                            {% translate 'This study is included by:' %}
+                            {% for study in study.included_by.all %}
+                                {{ study }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -193,7 +193,7 @@ class Study(TimeStampedModel):
             'Participants from excluded studies will be '
             'excluded from recruitment for this study.'
         ),
-        related_name='+',
+        related_name='excluded_by',
         blank=True,
     )
     included_studies = models.ManyToManyField(
@@ -206,7 +206,7 @@ class Study(TimeStampedModel):
             'consent does not allow data reuse or because the pseudonyms have '
             'already been deleted.'
         ),
-        related_name='+',
+        related_name='included_by',
         blank=True,
     )
 
