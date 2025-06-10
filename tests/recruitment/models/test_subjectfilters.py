@@ -54,6 +54,20 @@ def test_to_q_reverse_excluded_study(subject):
     assert not Subject.objects.filter(filter_queries.study_criteria(study)).exists()
 
 
+def test_to_q_reverse_excluded_study_completed(subject):
+    participation = create_participation(subject, status=Participation.COMPLETED)
+    study = baker.make(Study)
+    participation.study.excluded_studies.add(study)
+    assert Subject.objects.filter(filter_queries.study_criteria(study)).exists()
+
+
+def test_to_q_reverse_excluded_study_finished(subject):
+    participation = create_participation(subject, is_finished=True)
+    study = baker.make(Study)
+    participation.study.excluded_studies.add(study)
+    assert Subject.objects.filter(filter_queries.study_criteria(study)).exists()
+
+
 def test_to_q_exclusive_study(subject):
     assert has_match(is_exclusive=True)
 

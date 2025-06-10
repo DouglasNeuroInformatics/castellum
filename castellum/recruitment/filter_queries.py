@@ -57,8 +57,10 @@ def study_exclusion(study):
     )
 
     # Reverse excluded studies:
-    # Exclude studies which exclude this study.
+    # Exclude active studies which exclude this study.
     pr_q |= models.Q(
+        ~models.Q(study__status=Study.FINISHED),
+        ~models.Q(status=Participation.COMPLETED),
         study__excluded_studies=study,
         status__in=[
             *Participation.INVITED_SET,
