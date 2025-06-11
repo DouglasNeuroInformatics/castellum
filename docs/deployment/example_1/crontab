@@ -10,3 +10,4 @@
 8	1	*	*	*	python3 -m django fetch_scheduler_appointments
 9	1	*	*	*	python3 -m django send_appointment_reminders
 10	1	*	*	1	python3 -m django geocode_all
+11	1	*	*	*	python3 -m django axes_reset_logs

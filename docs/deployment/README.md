@@ -107,6 +107,8 @@ user requests. We provide the following management commands for that:
 -   `send_appointment_reminders`: Send email reminders to subjects with
     upcoming appointments. If the subjects have no email address, a note
     is sent to the respective study coordinators instead.
+-   `axes_reset_logs` to delete old access logs. See
+    [django-axes](https://django-axes.readthedocs.io/en/latest/3_usage.html#resetting-attempts-and-lockouts).
 
 ## Initial setup
 
