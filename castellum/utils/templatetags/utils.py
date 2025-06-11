@@ -5,7 +5,6 @@
 
 import datetime
 import os
-from urllib.parse import parse_qs
 from urllib.parse import urlencode
 from urllib.parse import urlparse
 from urllib.parse import urlunparse
@@ -101,30 +100,6 @@ def webcal_url(context, view_name, *args, **kwargs):
         p.path,
         p.params,
         urlencode({'token': user.token}),
-        p.fragment,
-    ])
-
-
-@register.simple_tag(takes_context=True)
-def url_replace_param(context, url=None, **kwargs):
-    if not url:
-        url = context['request'].get_full_path()
-
-    p = urlparse(url)
-    params = parse_qs(p.query)
-
-    for key, value in kwargs.items():
-        if value is not None:
-            params[key] = value
-        elif key in params:
-            del params[key]
-
-    return urlunparse([
-        p.scheme,
-        p.netloc,
-        p.path,
-        p.params,
-        urlencode(params, doseq=True),
         p.fragment,
     ])
 

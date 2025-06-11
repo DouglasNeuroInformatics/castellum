@@ -50,10 +50,10 @@
 
                 {% has_perm 'studies.view_study' user as can_view_study %}
                 <nav class="list-group mb-3" aria-label="{{ form.status.label }}">
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.status.value %}active{% endif %}" href="{% url_replace_param status="" page=None %}">{% translate "Any status" %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.status.value %}active{% endif %}" href="{% querystring status="" page=None %}">{% translate "Any status" %}</a>
                     {% for value, label in form.status.field.choices %}
                         {% if value != "active_required" or can_view_study %}
-                            <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.status == value|lower %}active{% endif %}" href="{% url_replace_param status=value page=None %}">{{ label }}</a>
+                            <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.status == value|lower %}active{% endif %}" href="{% querystring status=value page=None %}">{{ label }}</a>
                         {% endif %}
                     {% endfor %}
                 </nav>
