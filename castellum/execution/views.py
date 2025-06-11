@@ -83,7 +83,11 @@ class ParticipationListView(
             .prefetch_related('execution_tags')
             .prefetch_related(
                 models.Prefetch(
-                    'subject', queryset=Subject.objects.annotate_reliability()
+                    'subject', queryset=(
+                        Subject.objects
+                        .annotate_reliability()
+                        .prefetch_contacts()
+                    )
                 )
             )
         )

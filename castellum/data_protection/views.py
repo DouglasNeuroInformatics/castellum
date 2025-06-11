@@ -22,9 +22,10 @@ class DataProtectionView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.has_perm('subjects.delete_subject'):
-            return helpers.get_subjects()
+            qs = helpers.get_subjects()
         else:
-            return helpers.get_export_requested()
+            qs = helpers.get_export_requested()
+        return qs.prefetch_contacts()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

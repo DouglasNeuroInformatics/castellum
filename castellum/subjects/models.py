@@ -21,7 +21,38 @@ from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
 
 
-class SubjectQuerySet(models.QuerySet):
+class PrefetchContactsMixin:
+    """Since Contacts are stored in a separate db,
+    prefetch_related() is not available."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._prefetch_contacts = False
+        self._prefetch_contacts_done = False
+
+    def _clone(self):
+        clone = super()._clone()
+        clone._prefetch_contacts = self._prefetch_contacts
+        return clone
+
+    def prefetch_contacts(self):
+        clone = self._chain()
+        clone._prefetch_contacts = True
+        return clone
+
+    def _fetch_all(self):
+        super()._fetch_all()
+        if self._prefetch_contacts and not self._prefetch_contacts_done:
+            from castellum.contacts.models import Contact
+            uuids = [subject.uuid for subject in self._result_cache]
+            contacts = Contact.objects.filter(subject_uuid__in=uuids)
+            cache = {contact.subject_uuid: contact for contact in contacts}
+            for subject in self._result_cache:
+                subject.contact = cache[subject.uuid]
+            self._prefetch_contacts_done = True
+
+
+class SubjectQuerySet(PrefetchContactsMixin, models.QuerySet):
     def annotate_reliability(self):
         return self.annotate(
             reliability_total=models.Count('reliabilityentry'),
