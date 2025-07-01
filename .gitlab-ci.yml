@@ -22,7 +22,7 @@ test:
     - name: postgis/postgis:latest
       alias: db_contacts
   before_script:
-    - apt-get update -q && apt-get install -y -qq hunspell hunspell-de-de gdal-bin
+    - apt-get update -q && apt-get install -y --no-install-recommends -qq hunspell hunspell-de-de gdal-bin
     - uv venv .venv
     - uv pip install -e .[test] psycopg2-binary
   script:
