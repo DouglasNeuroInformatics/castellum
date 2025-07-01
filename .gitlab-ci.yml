@@ -11,7 +11,7 @@ workflow:
 
 test:
   stage: test
-  image: buildpack-deps:bookworm
+  image: ghcr.io/astral-sh/uv:bookworm-slim
   variables:
     DEBIAN_FRONTEND: noninteractive
     DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
@@ -22,10 +22,9 @@ test:
     - name: postgis/postgis:latest
       alias: db_contacts
   before_script:
-    - apt-get update -q && apt-get install -y -qq python3-pip python3-venv hunspell hunspell-de-de gdal-bin python3-psycopg2
-    - python3 -m venv .venv --system-site-packages
-    - .venv/bin/pip install -U pip setuptools wheel
-    - .venv/bin/pip install -e .[test]
+    - apt-get update -q && apt-get install -y --no-install-recommends -qq hunspell hunspell-de-de gdal-bin
+    - uv venv .venv
+    - uv pip install -e .[test] psycopg2-binary
   script:
     - .venv/bin/ruff check castellum tests
     - .venv/bin/pospell -l de_DE -p .misc/spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
@@ -35,7 +34,8 @@ test:
 
 test-py310:
   extends: test
-  image: buildpack-deps:jammy
+  variables:
+    UV_PYTHON: '3.10'
 
 docker:
   stage: push
@@ -76,19 +76,19 @@ docker:
 
 docs:test:
   stage: test
+  image: ghcr.io/astral-sh/uv:bookworm-slim
   before_script:
-  - apk --no-cache add python3 py3-pip
-  - python3 -m venv .venv
-  - .venv/bin/pip install sphinx sphinx-rtd-theme
+  - uv venv .venv
+  - uv pip install sphinx sphinx-rtd-theme
   script:
   - .venv/bin/sphinx-build -W -b html docs/usage/ docs_html
 
 pages:
   stage: push
+  image: ghcr.io/astral-sh/uv:bookworm-slim
   before_script:
-  - apk --no-cache add python3 py3-pip
-  - python3 -m venv .venv
-  - .venv/bin/pip install sphinx sphinx-rtd-theme
+  - uv venv .venv
+  - uv pip install sphinx sphinx-rtd-theme
   script:
   - .venv/bin/sphinx-build -b html docs/usage/ public/docs/
   artifacts:
