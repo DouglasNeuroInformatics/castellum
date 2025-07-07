@@ -888,6 +888,9 @@ class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse('subjects:maintenance-subjectcreationrequest')
 
+    def get_queryset(self):
+        return super().get_queryset().filter(data_is_deleted=False)
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.mark_as_deleted()
