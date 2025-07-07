@@ -427,6 +427,7 @@ class SubjectCreationRequest(TimeStampedModel):
         return ContactCreationRequest.objects.get(subject_id=self.pk)
 
     def mark_as_deleted(self):
+        # We keep the source/delete_url so import scripts can ignore duplicates.
         self.contact.delete()
         self.data_is_deleted = True
         self.save()
