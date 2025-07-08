@@ -94,7 +94,7 @@
 
 -   The versioning scheme was changed to reflect the time based release
     schedule. The versions now follow the scheme `year.month.patch`.
--   Drop support for python 3.9
+-   Drop support for python 3.8
 -   The optional dependency django-axes has been updated to 7.x. If you
     are using the `AXES_COOLOFF_TIME` setting, you may be affected by a
     breaking change. See
