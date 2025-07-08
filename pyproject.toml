@@ -8,20 +8,20 @@ license = {text = "AGPL-3.0-or-later"}
 dependencies = [
     "castellum-pseudonyms == 0.0.3",
     "cologne-phonetics == 2.0.0",
-    "Django == 5.2.1",
+    "Django == 5.2.4",
     "django-bootstrap5 == 25.1",
     "django-bootstrap-colors == 5.3.0",
     "django-mfa3 == 1.0.0",
     "django-parler == 2.3",
     "django-phonenumber-field == 8.1.0",
-    "Faker == 37.3.0",
+    "Faker == 37.4.0",
     "geopy == 2.4.1",
-    "icalendar == 6.3.0",
+    "icalendar == 6.3.1",
     "icalevents == 0.2.1",
-    "jsonschema == 4.23.0",
-    "phonenumberslite == 9.0.5",
+    "jsonschema == 4.24.0",
+    "phonenumberslite == 9.0.9",
     "python-dateutil == 2.9.0.post0",
-    "requests == 2.32.3",
+    "requests == 2.32.4",
     "simplecharts == 0.1.1",
 ]
 authors = [
@@ -37,7 +37,7 @@ packages = ["castellum"]
 
 [project.optional-dependencies]
 ldap = ["django-auth-ldap == 5.2.0"]
-axes = ["django-axes[ipware] == 7.0.2"]
+axes = ["django-axes[ipware] == 8.0.0"]
 model-stats = ["django-model-stats == 0.0.2"]
 storage-timestamps = ["django-storage-timestamps == 0.1.1"]
 test = [
