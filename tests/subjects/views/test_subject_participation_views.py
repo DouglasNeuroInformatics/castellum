@@ -1,4 +1,8 @@
 import pytest
+from model_bakery import baker
+
+from castellum.recruitment.models import MailBatch
+from castellum.recruitment.models import Participation
 
 
 @pytest.mark.parametrize('user_fixture', [
@@ -36,3 +40,17 @@ def test_add_200(client, user, subject):
     response = client.get(f'/subjects/{subject.pk}/participations/add/?q=test')
     assert response.status_code == 200
     assert b'No matching studies found' in response.content
+
+
+def test_add_rm_batch(client, user, subject, study):
+    batch = baker.make(MailBatch, study=study)
+    baker.make(Participation, study=study, subject=subject, batch=batch)
+
+    client.force_login(user)
+    response = client.post(f'/subjects/{subject.pk}/participations/add/', {
+        'study': study.pk,
+    })
+    assert response.status_code == 200
+
+    participation = Participation.objects.get(study=study, subject=subject)
+    assert participation.batch is None

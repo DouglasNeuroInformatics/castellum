@@ -607,6 +607,7 @@ class ParticipationAddView(BaseParticipationAddView):
         Participation.objects.update_or_create(
             subject=self.subject, study=self.study, defaults={
                 'status': Participation.PARTICIPATING,
+                'batch': None,
             }
         )
 

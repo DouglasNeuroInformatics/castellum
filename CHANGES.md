@@ -34,6 +34,8 @@
     de-pseudonymization by using the order of entries.
 -   Fix a caching issue when changing the attributes that are used for
     statistics at runtime.
+-   Do not send mail reminders to participants who have already been
+    added via the add-to-study view.
 
 ## other changes
 
