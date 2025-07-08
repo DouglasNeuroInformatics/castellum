@@ -1,3 +1,50 @@
+# 25.7.0 (unreleased)
+
+## breaking changes
+
+-   Django has been updated to 5.2
+-   Python 3.9 is no longer supported
+-   Castellum Scheduler 25.1.0 is no longer supported
+-   Filter trials have been removed. If you want to test filters, create
+    a regular study instead and delete it once you are done.
+-   Data protection officers will no longer be prompted to delete
+    recruitment data when a subject is currently participating in or
+    being recruited for a study.
+-   The default value of `CASTELLUM_DEFAULT_EXECUTION_TAGS` has been
+    changed to not create any tags for new studies.
+
+## new features
+
+-   Subject managers will now be asked to add missing recruitment data
+    for adults who have recruitment consent.
+-   When study A excludes study B, but study B does not exclude study A,
+    study B is now allowed to recruit participants from study A as soon
+    as they are done (either study A is finished as a whole or the
+    individual participation is marked as completed).
+-   Study managers can now see which other studies include/exclude their
+    study.
+
+## bug fixes
+
+-   Improve error handling when trying to delete an already deleted
+    subject creation request.
+-   Correctly calculate attribute completeness when using
+    `CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID`.
+-   Attribute exports are now sorted by pseudonym to prevent
+    de-pseudonymization by using the order of entries.
+-   Fix a caching issue when changing the attributes that are used for
+    statistics at runtime.
+
+## other changes
+
+-   The documentation now recommends to add a cronjob for `axes_reset_logs`
+-   The recruitment UI now displays when a participation was last
+    updated
+-   The `create_demo_content` has been expanded further.
+-   The information that a subject is currently not available has been
+    moved from the page header to the contact data.
+
+
 # 25.4.2 (2025-05-19)
 
 -   fix link to contact form in attributes form when using
