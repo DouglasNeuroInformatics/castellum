@@ -15,6 +15,8 @@ from .models import MailBatch
 from .models import NewsMailBatch
 from .models import Participation
 from .models import ParticipationConsent
+from .models import Relation
+from .models import RelationType
 from .models import ReliabilityEntry
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
@@ -40,6 +42,7 @@ class AttributeAdmin(TranslatableAdmin):
 
 admin.site.register(AttributeCategory, TranslatableAdmin)
 admin.site.register(AttributeChoice, AttributeChoiceAdmin)
+admin.site.register(RelationType, TranslatableAdmin)
 admin.site.register(Attribute, AttributeAdmin)
 
 if settings.CASTELLUM_ADVANCED_ADMIN_UI:
@@ -51,3 +54,4 @@ if settings.CASTELLUM_ADVANCED_ADMIN_UI:
     admin.site.register(SubjectFilter)
     admin.site.register(SubjectFilterGroup)
     admin.site.register(ExecutionTag)
+    admin.site.register(Relation)
