@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div data-js="popup-select-auto" data-name="{{ name }}" data-uuid="{{ uuid }}"></div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script type="module" src="{% static 'js/subject-search-popup.js' %}"></script>
+{% endblock %}

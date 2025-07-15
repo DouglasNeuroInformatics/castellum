@@ -13,7 +13,6 @@ from .views import ConsentChangeView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
 from .views import DeleteRecruitmentDataView
-from .views import LegalRepresentativeSearchView
 from .views import MaintenanceAttributesView
 from .views import MaintenanceConsentView
 from .views import MaintenanceContactView
@@ -35,6 +34,7 @@ from .views import SubjectExportView
 from .views import SubjectPseudonymsView
 from .views import SubjectPseudonymView
 from .views import SubjectResolveView
+from .views import SubjectSearchPopup
 from .views import SubjectSearchView
 
 app_name = 'subjects'
@@ -42,9 +42,9 @@ urlpatterns = [
     path('', SubjectSearchView.as_view(), name='index'),
     path('resolve/', SubjectResolveView.as_view(), name='resolve'),
     path(
-        'representatives/',
-        LegalRepresentativeSearchView.as_view(),
-        name='legal-representative-search',
+        'search-popup/',
+        SubjectSearchPopup.as_view(),
+        name='subject-search-popup',
     ),
     path(
         'maintenance/attributes/',

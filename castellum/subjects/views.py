@@ -649,7 +649,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
 
 @method_decorator(sensitive_post_parameters(), 'dispatch')
-class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
+class SubjectSearchPopup(PermissionRequiredMixin, SubjectSearchView):
     template_name = 'subjects/legal_representative_search.html'
     permission_required = 'subjects.view_subject'
     nochrome = True
@@ -698,7 +698,7 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
             )
             return TemplateResponse(
                 self.request,
-                'subjects/legal_representative_success.html',
+                'subjects/subject_search_popup_success.html',
                 {
                     'name': contact.full_name,
                     'uuid': contact.subject.pk,
