@@ -35,6 +35,7 @@ from .views import ParticipationStatusView
 from .views import ParticipationUpdateView
 from .views import ProgressView
 from .views import RelationCreateView
+from .views import RelationDeleteView
 from .views import ReportView
 from .views import ResolveView
 from .views import TagView
@@ -114,6 +115,11 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/relations/create/',
         RelationCreateView.as_view(),
         name='relation-create',
+    ),
+    path(
+        '<int:study_pk>/<int:participation_pk>/relations/<int:pk>/delete/',
+        RelationDeleteView.as_view(),
+        name='relation-delete',
     ),
     path(
         '<int:study_pk>/<int:pk>/update-data-protection/',

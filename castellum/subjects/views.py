@@ -44,6 +44,7 @@ from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.mixins import BaseRelationCreateView
+from castellum.recruitment.mixins import BaseRelationDeleteView
 from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import Participation
 from castellum.recruitment.statistics import render_statistics
@@ -413,6 +414,19 @@ class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
 
 
 class RelationCreateView(SubjectMixin, BaseRelationCreateView):
+    tab = 'attributes'
+    base_template = 'subjects/subject_base.html'
+
+    def get_subject(self):
+        return get_object_or_404(Subject, pk=self.kwargs['subject_uuid'])
+
+    def get_success_url(self):
+        return reverse(
+            'subjects:attributes', args=[self.subject.pk]
+        )
+
+
+class RelationDeleteView(SubjectMixin, BaseRelationDeleteView):
     tab = 'attributes'
     base_template = 'subjects/subject_base.html'
 

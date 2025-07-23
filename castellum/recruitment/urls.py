@@ -27,6 +27,7 @@ from .views import RecruitmentViewExcluded
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RelationCreateView
+from .views import RelationDeleteView
 from .views import ReportView
 
 app_name = 'recruitment'
@@ -93,6 +94,11 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/relations/create/',
         RelationCreateView.as_view(),
         name='relation-create',
+    ),
+    path(
+        '<int:study_pk>/<int:participation_pk>/relations/<int:pk>/delete/',
+        RelationDeleteView.as_view(),
+        name='relation-delete',
     ),
     path(
         '<int:study_pk>/<int:pk>/update-data-protection/',

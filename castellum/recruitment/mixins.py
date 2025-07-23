@@ -7,6 +7,7 @@ import datetime
 import logging
 
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -14,6 +15,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_noop
 from django.views.generic import CreateView
+from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 
 from castellum.audit.helpers import audit
@@ -183,3 +185,29 @@ class BaseRelationCreateView(PermissionRequiredMixin, CreateView):
             form.instance.subject = form.instance.other
             form.instance.other = self.subject
         return super().form_valid(form)
+
+
+class BaseRelationDeleteView(PermissionRequiredMixin, DeleteView):
+    model = Relation
+    permission_required = []
+
+    def check_auth_conditions(self):
+        if not super().check_auth_conditions():
+            return False
+        # always check this without study context object
+        return self.request.user.has_perm('subjects.change_subject')
+
+    def get_object(self):
+        any_subject = models.Q(subject=self.subject) | models.Q(other=self.subject)
+        relation = get_object_or_404(Relation, any_subject, pk=self.kwargs['pk'])
+        data = relation.relative_to(self.subject)
+        if not self.request.user.has_privacy_level(data['other'].privacy_level):
+            raise PermissionDenied
+        return relation
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        relation_data = self.object.relative_to(self.subject)
+        context['other'] = relation_data['other']
+        context['label'] = relation_data['label']
+        return context
