@@ -205,6 +205,18 @@
             {% endfor %}
         </dl>
 
+        {% if subject.relation_set.exists or subject.reverse_relation_set.exists %}
+            <h2>{% translate 'Relations' %}</h2>
+            <ul data-fieldname="subjects.Subject.relation">
+                {% for rel in subject.relation_set.all %}
+                    <li>{{ rel.type.label }} {{ rel.other.contact }}</li>
+                {% endfor %}
+                {% for rel in subject.reverse_relation_set.all %}
+                    <li>{{ rel.type.reverse_label }} {{ rel.subject.contact }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         {% if subject.participation_set.exists %}
             <h2>{{ subject|verbose_name:'participation' }}</h2>
             {% for participation in subject.participation_set.all %}

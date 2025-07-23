@@ -7,6 +7,7 @@ from model_bakery import baker
 
 from castellum.appointments.models import Appointment
 from castellum.contacts.models import Address
+from castellum.recruitment.models import Relation
 from castellum.recruitment.models import ReliabilityEntry
 from castellum.studies.models import StudySession
 from castellum.subjects.models import Consent
@@ -63,11 +64,15 @@ EXCLUDED = [
 
     # already covered by other fields (e.g. backrefs)
     'subjects.Subject.consent',
+    'subjects.Subject.reverse_relation',
     'subjects.ExportAnswer.',
     'contacts.Address.',
     'recruitment.Participation.appointment',
     'recruitment.Participation.participationconsent',
     'recruitment.ExecutionTag.',
+    'recruitment.Relation.',
+    'recruitment.RelationType.',
+    'recruitment.RelationTypeTranslation.',
     'subjects.Subject.participation',
     'subjects.Subject.reliabilityentry',
     'subjects.Report.',
@@ -100,6 +105,7 @@ def test_subject_export_complete(client, user, participation):
     participation.study.studysession_set.add(session)
     baker.make(Appointment, participation=participation, session=session)
     baker.make(ReliabilityEntry, subject=subject)
+    baker.make(Relation, subject=subject)
     subject.save()
 
     response = client.get(f'/subjects/{subject.pk}/export/')
