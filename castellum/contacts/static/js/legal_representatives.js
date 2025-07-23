@@ -65,10 +65,7 @@ var addLegalRepresentative = function(name, uuid) {
 };
 
 $$.on(document, 'click', '[data-js="legal-representative-add"]', function() {
-    // copied from django
-    var config = 'height=500,width=800,resizable=yes,scrollbars=yes';
-    var win = window.open('/subjects/search-popup/', 'legal-representative-add', config);
-    win.focus();
+    $$.popup('/subjects/search-popup/', 'legal-representative-add');
 });
 
 window.closeSubjectPopup = function(win, data) {

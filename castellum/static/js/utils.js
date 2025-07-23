@@ -36,6 +36,11 @@ window.$$ = {
     gettext: function(key) {
         return document.querySelector(`#i18n-${key}`).content.textContent;
     },
+    popup: function(url, target) {
+        var config = 'height=500,width=800,resizable=yes,scrollbars=yes';
+        var win = window.open(url, target, config);
+        win.focus();
+    },
 };
 
 var preventDoubleClick = false;
