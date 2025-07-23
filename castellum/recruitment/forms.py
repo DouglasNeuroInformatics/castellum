@@ -12,6 +12,8 @@ from castellum.utils.forms import DisabledChoiceField
 
 from .models import Attribute
 from .models import Participation
+from .models import Relation
+from .models import RelationType
 from .models import SubjectFilter
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
@@ -203,6 +205,25 @@ class ContactForm(forms.ModelForm):
         self.fields['assigned_recruiter'].queryset = (
             self.instance.study.studymembership_set.filter(user_id__in=recruiter_pks)
         )
+
+
+class RelationForm(forms.ModelForm):
+    key = forms.ChoiceField(initial=None)
+
+    class Meta:
+        model = Relation
+        fields = ['other']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['key'].label = Relation._meta.get_field('type').verbose_name
+        keys = [(None, '----')]
+        for t in RelationType.objects.all():
+            keys.append((t.key, t.label))
+            if t.reverse_key != t.key:
+                keys.append((t.reverse_key, t.reverse_label))
+        self.fields['key'].choices = keys
 
 
 class SendMailForm(forms.Form):

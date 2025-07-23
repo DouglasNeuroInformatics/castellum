@@ -24,6 +24,7 @@ from .views import ParticipationAddView
 from .views import ParticipationDeleteView
 from .views import ParticipationListView
 from .views import ParticipationRecruitView
+from .views import RelationCreateView
 from .views import ReportDetailView
 from .views import ReportView
 from .views import SubjectAuditTrailView
@@ -101,6 +102,11 @@ urlpatterns = [
         '<uuid:pk>/attributes/delete/',
         DeleteRecruitmentDataView.as_view(),
         name='delete-recruitment-data',
+    ),
+    path(
+        '<uuid:subject_uuid>/relations/create/',
+        RelationCreateView.as_view(),
+        name='relation-create',
     ),
     path(
         '<uuid:pk>/data-protection/',

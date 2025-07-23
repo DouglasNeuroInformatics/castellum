@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_noop
+from django.views.generic import CreateView
 from django.views.generic import UpdateView
 
 from castellum.audit.helpers import audit
@@ -24,8 +25,11 @@ from castellum.utils.feeds import BaseCalendarFeed
 
 from . import filter_queries
 from .forms import AttributesForm
+from .forms import RelationForm
 from .models import Attribute
 from .models import Participation
+from .models import Relation
+from .models import RelationType
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
 
@@ -156,3 +160,26 @@ class BaseFollowUpFeed(BaseCalendarFeed):
 
     def item_uid(self, item):
         return f'followup-{item.pk}@{self.request.get_host()}'
+
+
+class BaseRelationCreateView(PermissionRequiredMixin, CreateView):
+    model = Relation
+    form_class = RelationForm
+    permission_required = []
+
+    def check_auth_conditions(self):
+        if not super().check_auth_conditions():
+            return False
+        # always check this without study context object
+        return self.request.user.has_perm('subjects.change_subject')
+
+    def form_valid(self, form):
+        key = form.cleaned_data['key']
+        try:
+            form.instance.type = RelationType.objects.get(key=key)
+            form.instance.subject = self.subject
+        except RelationType.DoesNotExist:
+            form.instance.type = RelationType.objects.get(reverse_key=key)
+            form.instance.subject = form.instance.other
+            form.instance.other = self.subject
+        return super().form_valid(form)
