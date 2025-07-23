@@ -1,5 +1,5 @@
 {% extends view.base_template %}
-{% load static i18n django_bootstrap5 %}
+{% load static i18n django_bootstrap5 auth %}
 
 {% block title %}{% translate "Recruitment attributes" %} &middot; {{ block.super }}{% endblock %}
 
@@ -59,6 +59,27 @@
             {% bootstrap_field form.study_type_disinterest %}
         {% else %}
             {{ form.study_type_disinterest.as_hidden }}
+        {% endif %}
+
+        {% has_perm 'subjects.change_subject' user as can_change_all_subjects %}
+        {% if can_change_all_subjects %}
+            <fieldset class="mb-3">
+                <legend>{% translate 'Relations' %}</legend>
+                <div class="card">
+                    {% if relations %}
+                        <ul class="list-group list-group-flush border-bottom-0">
+                            {% for relation_data in relations %}
+                                <li class="list-group-item">
+                                    {% include 'recruitment/__relation_item.html' %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="list-group list-group-flush">
+                        <a href="../relations/create/" class="list-group-item list-group-item-action text-body-secondary">+ {% translate "Add" %}</a>
+                    </div>
+                </div>
+            </fieldset>
         {% endif %}
 
         <div class="d-print-none mb-3">

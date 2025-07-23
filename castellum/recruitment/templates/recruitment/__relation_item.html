@@ -1,0 +1,21 @@
+{% load i18n auth utils %}
+
+{% has_privacy_level relation_data.other.privacy_level user as can_access %}
+
+{% if can_access %}
+    <div class="d-flex gap-1 justify-content-between align-items-center">
+        <div>
+            {{ relation_data.label }}
+            <a href="{% url 'subjects:detail' relation_data.other.pk %}">{{ relation_data.other.contact }}</a>
+        </div>
+        <div>
+            {# HACK: use a relative link that works the same in subject management, recruitment and execution #}
+            <a class="btn btn-sm btn-outline-danger" href="../relations/{{ relation_data.pk }}/delete/">{% translate 'Delete' %}</a>
+        </div>
+    </div>
+{% else %}
+    <div>
+        {{ relation_data.label }}
+        <span class="text-body-secondary">[{% translate 'insufficient privacy level' %}]</span>
+    </div>
+{% endif %}
