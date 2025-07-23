@@ -458,6 +458,8 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
         self.subject.save()
 
         self.subject.study_type_disinterest.clear()
+        self.subject.relation_set.all().delete()
+        self.subject.reverse_relation_set.all().delete()
 
         audit(
             gettext_noop('subject updated'),
