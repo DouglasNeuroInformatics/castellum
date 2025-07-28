@@ -7,6 +7,8 @@
 -   Castellum Scheduler 25.1.0 is no longer supported
 -   Filter trials have been removed. If you want to test filters, create
     a regular study instead and delete it once you are done.
+    The `cleanup_filter_trials` cron job is consequently no longer
+    available.
 -   Data protection officers will no longer be prompted to delete
     recruitment data when a subject is currently participating in or
     being recruited for a study.
