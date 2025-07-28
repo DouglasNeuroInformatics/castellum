@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-02 14:51+0200\n"
+"POT-Creation-Date: 2025-07-28 11:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,7 +151,7 @@ msgstr "Kalender"
 #: castellum/studies/templates/studies/study_form.html:54
 #: castellum/studies/templates/studies/study_mailsettings.html:17
 #: castellum/studies/templates/studies/study_members.html:41
-#: castellum/studies/templates/studies/study_other_studies.html:36
+#: castellum/studies/templates/studies/study_other_studies.html:52
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:51
 #: castellum/studies/templates/studies/study_sessions.html:74
 #: castellum/studies/templates/studies/studysession_form.html:75
@@ -338,15 +338,15 @@ msgstr "Hat Zugriff auf Vertraulichkeitsstufe 1"
 msgid "Can access privacy level 2"
 msgstr "Hat Zugriff auf Vertraulichkeitsstufe 2"
 
-#: castellum/castellum_auth/signals.py:18
+#: castellum/castellum_auth/signals.py:21
 msgid "login"
 msgstr "Anmeldung"
 
-#: castellum/castellum_auth/signals.py:23
+#: castellum/castellum_auth/signals.py:25
 msgid "login failed"
 msgstr "Anmeldung fehlgeschlagen"
 
-#: castellum/castellum_auth/signals.py:29
+#: castellum/castellum_auth/signals.py:30
 msgid "logout"
 msgstr "Abmeldung"
 
@@ -455,7 +455,6 @@ msgid "Phone number alternative"
 msgstr "Alternative Telefonnummer"
 
 #: castellum/contacts/models.py:160
-#: castellum/subjects/templates/subjects/legal_representative_search.html:4
 msgid "Legal representatives"
 msgstr "Gesetzliche Vertreter*innen"
 
@@ -1362,7 +1361,7 @@ msgstr "ist"
 #: castellum/subjects/templates/subjects/subject_detail.html:125
 #: castellum/subjects/templates/subjects/subject_detail.html:151
 #: castellum/subjects/templates/subjects/subject_detail.html:153
-#: castellum/utils/templatetags/utils.py:44
+#: castellum/utils/templatetags/utils.py:43
 msgid "Yes"
 msgstr "Ja"
 
@@ -1371,7 +1370,7 @@ msgstr "Ja"
 #: castellum/subjects/templates/subjects/subject_detail.html:103
 #: castellum/subjects/templates/subjects/subject_detail.html:127
 #: castellum/subjects/templates/subjects/subject_detail.html:149
-#: castellum/utils/templatetags/utils.py:46
+#: castellum/utils/templatetags/utils.py:45
 msgid "No"
 msgstr "Nein"
 
@@ -2923,6 +2922,18 @@ msgid "Studies in which potential subjects have recently participated"
 msgstr ""
 "Studien, in denen potentielle Proband*innen kürzlich teilgenommen haben"
 
+#: castellum/studies/templates/studies/study_other_studies.html:30
+#, fuzzy
+#| msgid "This subject has been excluded by us"
+msgid "This study is excluded by:"
+msgstr "Diese Proband*in wurde von uns ausgeschlossen"
+
+#: castellum/studies/templates/studies/study_other_studies.html:41
+#, fuzzy
+#| msgid "This subject has been excluded by us"
+msgid "This study is included by:"
+msgstr "Diese Proband*in wurde von uns ausgeschlossen"
+
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:5
 msgid "General recruitment settings"
 msgstr "Allgemeine Rekrutierungseinstellungen"
@@ -3370,6 +3381,7 @@ msgid "Currently recruitable"
 msgstr "Aktuell rekrutierbar"
 
 #: castellum/subjects/templates/subjects/base.html:6
+#: castellum/subjects/templates/subjects/legal_representative_search.html:4
 #: castellum/subjects/templates/subjects/subject_search.html:4
 #: castellum/templates/index.html:25
 msgid "Subjects"
@@ -3404,8 +3416,10 @@ msgstr "Treffer"
 
 #: castellum/subjects/templates/subjects/legal_representative_search.html:89
 #: castellum/subjects/templates/subjects/legal_representative_search.html:91
-msgid "Set up as legal representative"
-msgstr "Als gesetzliche Vertreter*in auswählen"
+#, fuzzy
+#| msgid "Select timeslot for this subject"
+msgid "Select this subject"
+msgstr "Einen Termin für diese Proband*in auswählen"
 
 #: castellum/subjects/templates/subjects/legal_representative_search.html:97
 #: castellum/subjects/templates/subjects/subject_search.html:137
@@ -3991,7 +4005,7 @@ msgstr ""
 msgid "subject searched"
 msgstr "Proband*in gesucht"
 
-#: castellum/subjects/views.py:179 castellum/subjects/views.py:694
+#: castellum/subjects/views.py:179 castellum/subjects/views.py:695
 msgid "subject created"
 msgstr "Proband*in erstellt"
 
@@ -4021,7 +4035,7 @@ msgstr "Proband*in bleibt gesperrt"
 msgid "Report has been discarded. The subject has been un-blocked."
 msgstr "Die Meldung wurde verworfen. Die Sperrung wurde aufgehoben."
 
-#: castellum/subjects/views.py:641
+#: castellum/subjects/views.py:642
 msgid "participation deleted"
 msgstr "Teilnahme gelöscht"
 
@@ -4396,3 +4410,6 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
+
+#~ msgid "Set up as legal representative"
+#~ msgstr "Als gesetzliche Vertreter*in auswählen"
