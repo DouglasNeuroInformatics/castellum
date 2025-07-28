@@ -26,6 +26,7 @@ EXCLUDED = [
     'contacts.ContactCreationRequest.',
     'contacts.Street.',
     'contenttypes.',
+    'debug_toolbar.',
     'geofilters.Geolocation.',
     'gis.',
     'mfa.MFAKey.',
