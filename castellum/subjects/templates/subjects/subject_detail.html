@@ -59,7 +59,7 @@
     {% endif %}
 
     <div class="d-flex align-items-center gap-2 mb-3">
-        <div class="p-2 {% if not subject.has_consent %}opacity-25{% endif %}">{% icon 'address-book fa-fw fa-xl' %}</div>
+        <div class="p-2 {% if not subject.has_consent %}opacity-25{% endif %}">{% icon 'address-book fa-xl' %}</div>
         <div class="row flex-grow-1 align-items-center">
             <div class="col-sm-8">
                 <strong>{% translate 'Recruitment consent' %}</strong>
@@ -87,7 +87,7 @@
     </div>
 
     <div class="d-flex align-items-center gap-2 mb-3">
-        <div class="p-2 {% if not subject.has_study_consent %}opacity-25{% endif %}">{% icon 'file-signature fa-fw fa-xl' %}</div>
+        <div class="p-2 {% if not subject.has_study_consent %}opacity-25{% endif %}">{% icon 'file-signature fa-xl' %}</div>
         <div class="row flex-grow-1 align-items-center">
             <div class="col-sm-8">
                 <strong>{% translate 'Study consent' %}</strong>
@@ -111,7 +111,7 @@
     </div>
 
     <div class="d-flex align-items-center gap-2 mb-3">
-        <div class="p-2 {% if not subject.contact.is_legal_representative %}opacity-25{% endif %}">{% icon 'user-group fa-fw fa-xl' %}</div>
+        <div class="p-2 {% if not subject.contact.is_legal_representative %}opacity-25{% endif %}">{% icon 'user-group fa-xl' %}</div>
         <div class="row flex-grow-1 align-items-center">
             <div class="col-sm-8">
                 <strong>{% translate 'Legal representative' %}</strong>
@@ -135,7 +135,7 @@
     </div>
 
     <div class="d-flex align-items-center gap-2 mb-3">
-        <div class="p-2 {% if not subject.blocked or subject.deceased %}opacity-25{% endif %}">{% icon 'flag fa-fw fa-xl' %}</div>
+        <div class="p-2 {% if not subject.blocked or subject.deceased %}opacity-25{% endif %}">{% icon 'flag fa-xl' %}</div>
         <div class="row flex-grow-1 align-items-center">
             <div class="col-sm-8">
                 <strong>{{ subject|verbose_name:'blocked' }}</strong>
