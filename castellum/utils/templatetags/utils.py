@@ -105,8 +105,8 @@ def webcal_url(context, view_name, *args, **kwargs):
 
 
 @register.inclusion_tag('utils/icon.html')
-def icon(name, style='solid', *, label=''):
-    return {'name': name, 'section': f'fa{style[0]}', 'label': label}
+def icon(name, *, label=''):
+    return {'name': name, 'section': 'fa-solid', 'label': label}
 
 
 register.simple_tag(get_parler_languages)

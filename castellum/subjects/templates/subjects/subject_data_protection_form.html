@@ -14,11 +14,11 @@
             <div class="card-body">
                 <div class="d-flex align-items-center gap-1">
                     {% if object.consent.document %}
-                        <i class="fa fa-check text-success fs-5 fa-fw" aria-hidden="true"></i>
+                        {% icon 'check text-success fs-5' %}
                     {% elif object.consent.excluded_by_us %}
-                        <i class="fa fa-exclamation text-danger fs-5 fa-fw" aria-hidden="true"></i>
+                        {% icon 'exclamation text-danger fs-5' %}
                     {% else %}
-                        <i class="fa fa-xmark text-danger fs-5 fa-fw" aria-hidden="true"></i>
+                        {% icon 'xmark text-danger fs-5' %}
                     {% endif %}
                     <div class="flex-grow-1">
                         {% if object.unknown_consent %}
@@ -92,11 +92,11 @@
                             {% for revision in subject.consentrevision_set.all reversed %}
                                 <li class="d-flex align-items-center gap-1 mb-2">
                                     {% if revision.document %}
-                                        <i class="fa fa-check text-success fs-5 fa-fw" aria-hidden="true"></i>
+                                        {% icon 'check text-success fs-5' %}
                                     {% elif revision.excluded_by_us %}
-                                        <i class="fa fa-exclamation text-danger fs-5 fa-fw" aria-hidden="true"></i>
+                                        {% icon 'exclamation text-danger fs-5' %}
                                     {% else %}
-                                        <i class="fa fa-xmark text-danger fs-5 fa-fw" aria-hidden="true"></i>
+                                        {% icon 'xmark text-danger fs-5' %}
                                     {% endif %}
                                     <div class="flex-grow-1">
                                         {% if not revision.document and revision.excluded_by_us %}

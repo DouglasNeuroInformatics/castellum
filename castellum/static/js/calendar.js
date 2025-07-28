@@ -53,7 +53,7 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
                 var container = arg.el.querySelector('.fc-event-title');
                 var span = document.createElement('span');
                 var iconLabel = $$.gettext('participants');
-                span.append('(', $$.icon('fas fa-users', iconLabel), ' ', arg.event.extendedProps.min_subject_count, ')');
+                span.append('(', $$.icon('fa-solid fa-users', iconLabel), ' ', arg.event.extendedProps.min_subject_count, ')');
                 container.append(' ', span);
             }
         },
