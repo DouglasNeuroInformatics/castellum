@@ -79,9 +79,7 @@ class StudySessionCreateView(StudySessionFormMixin, CreateView):
 
 class StudySessionUpdateView(StudySessionFormMixin, UpdateView):
     def get_object(self):
-        return get_object_or_404(
-            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
-        )
+        return get_object_or_404(StudySession, pk=self.kwargs['pk'], study=self.study)
 
 
 class StudySessionDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
@@ -93,9 +91,7 @@ class StudySessionDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         return reverse('studies:sessions', args=[self.study.pk])
 
     def get_object(self):
-        return get_object_or_404(
-            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
-        )
+        return get_object_or_404(StudySession, pk=self.kwargs['pk'], study=self.study)
 
 
 class StudyReminderTestMailView(StudyMixin, PermissionRequiredMixin, View):
@@ -103,9 +99,7 @@ class StudyReminderTestMailView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
     def get_object(self):
-        return get_object_or_404(
-            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
-        )
+        return get_object_or_404(StudySession, pk=self.kwargs['pk'], study=self.study)
 
     def post(self, request, **kwargs):
         self.object = self.get_object()
