@@ -634,7 +634,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
 @method_decorator(sensitive_post_parameters(), 'dispatch')
 class SubjectSearchPopup(PermissionRequiredMixin, SubjectSearchView):
-    template_name = 'subjects/legal_representative_search.html'
+    template_name = 'subjects/subject_search_popup.html'
     permission_required = 'subjects.view_subject'
     nochrome = True
 
