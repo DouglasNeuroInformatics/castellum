@@ -567,9 +567,6 @@ class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
     subtab = 'contact'
     context = 'recruitment'
 
-    def get_object(self):
-        return self.participation.subject.contact
-
 
 class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
     subtab = 'attributes'

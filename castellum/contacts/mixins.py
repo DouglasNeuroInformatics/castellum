@@ -21,6 +21,9 @@ class BaseContactUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = ContactForm
     permission_required = 'subjects.change_subject'
 
+    def get_object(self):
+        return self.subject.contact
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user

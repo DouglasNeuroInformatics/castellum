@@ -593,9 +593,6 @@ class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
     subtab = 'contact'
     context = 'execution'
 
-    def get_object(self):
-        return self.participation.subject.contact
-
 
 class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
     subtab = 'attributes'

@@ -401,9 +401,6 @@ class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
     tab = 'contact'
     context = 'subject_management'
 
-    def get_object(self):
-        return self.subject.contact
-
 
 class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
     tab = 'attributes'
