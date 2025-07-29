@@ -29,7 +29,6 @@ from ..models import StudySession
 
 class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
-    pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_sessions.html'
     fields = [
         'session_instructions',

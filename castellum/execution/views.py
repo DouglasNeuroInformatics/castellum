@@ -205,9 +205,6 @@ class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
     study_status = [Study.EXECUTION]
     participation_status = Participation.INVITED_SET
 
-    def get_object(self, queryset=None):
-        return self.participation
-
 
 class ParticipationDetailView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_detail.html'
@@ -597,9 +594,6 @@ class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
 class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
     subtab = 'attributes'
 
-    def get_object(self):
-        return self.participation.subject
-
     def get_contact_url(self):
         return reverse(
             'execution:contact-update', args=[self.study.pk, self.participation.pk]
@@ -608,9 +602,6 @@ class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
 
 class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateView):
     subtab = 'data-protection'
-
-    def get_object(self):
-        return self.participation.subject
 
     def get_subject_media_url(self, path):
         return reverse(
@@ -639,9 +630,6 @@ class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
 
 class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateView):
     subtab = 'additional-info'
-
-    def get_object(self):
-        return self.participation.subject
 
 
 class CalendarView(

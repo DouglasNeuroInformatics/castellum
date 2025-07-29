@@ -50,6 +50,11 @@ class StudyMixin:
             permission_required.add('studies.access_study')
         return permission_required
 
+    def get_object(self):
+        if self.model is Study:
+            return self.study
+        return super().get_object()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['study'] = self.study

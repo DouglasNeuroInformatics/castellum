@@ -455,9 +455,6 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     study_status = [Study.EXECUTION]
     tab = 'contact'
 
-    def get_object(self):
-        return self.participation
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sessions'] = self.study.studysession_set.order_by('pk')
@@ -571,9 +568,6 @@ class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
 class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
     subtab = 'attributes'
 
-    def get_object(self):
-        return self.participation.subject
-
     def get_contact_url(self):
         return reverse(
             'recruitment:contact-update', args=[self.study.pk, self.participation.pk]
@@ -582,9 +576,6 @@ class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
 
 class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):
     subtab = 'data-protection'
-
-    def get_object(self):
-        return self.participation.subject
 
     def get_subject_media_url(self, path):
         return reverse(
@@ -612,9 +603,6 @@ class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
 
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
     subtab = 'additional-info'
-
-    def get_object(self):
-        return self.participation.subject
 
 
 class LegalRepresentativeContactUpdateView(

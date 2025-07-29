@@ -83,6 +83,11 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
     def get_subject(self):
         return self.participation.subject
 
+    def get_object(self):
+        if self.model is Participation:
+            return self.participation
+        return super().get_object()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['participation'] = self.participation

@@ -47,6 +47,11 @@ class SubjectMixin:
         self.subject = self.get_subject()
         return self.request.user.has_privacy_level(self.subject.privacy_level)
 
+    def get_object(self):
+        if self.model is Subject:
+            return self.subject
+        return super().get_object()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subject'] = self.subject
