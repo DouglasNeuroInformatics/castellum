@@ -74,7 +74,7 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
     def participation(self):
         # this is guaranteed to be called because get_subject() is
         # guaranteed to be called
-        qs = Participation.objects.all()
+        qs = Participation.objects.select_related('subject')
         if self.participation_status:
             qs = qs.filter(status__in=self.participation_status)
         key = 'participation_pk' if 'participation_pk' in self.kwargs else 'pk'
