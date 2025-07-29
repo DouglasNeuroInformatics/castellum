@@ -808,7 +808,7 @@ class LegalRepresentativeContactUpdateView(
         permission_required.update(super().get_permission_required())
         return permission_required
 
-    def get_object(self):
+    def get_subject(self):
         # we cannot use ParticipationMixin here because subject is
         # not a participant, but a legal representative
         participation = get_object_or_404(
@@ -827,9 +827,12 @@ class LegalRepresentativeContactUpdateView(
                 self.study, legal_representative.subject
             )
             if h == self.kwargs['hash']:
-                return legal_representative
+                return legal_representative.subject
 
         raise Http404
+
+    def get_object(self):
+        return self.subject.contact
 
 
 class ReportView(ParticipationMixin, BaseReportView):

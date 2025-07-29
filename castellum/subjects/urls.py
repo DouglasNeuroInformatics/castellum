@@ -133,7 +133,7 @@ urlpatterns = [
         name='participation-add',
     ),
     path(
-        '<uuid:subject_uuid>/participations/<int:pk>/delete/',
+        '<uuid:subject_pk>/participations/<int:pk>/delete/',
         ParticipationDeleteView.as_view(),
         name='participation-delete',
     ),
