@@ -72,6 +72,8 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
 
     @cached_property
     def participation(self):
+        # this is guaranteed to be called because get_subject() is
+        # guaranteed to be called
         qs = Participation.objects.all()
         if self.participation_status:
             qs = qs.filter(status__in=self.participation_status)

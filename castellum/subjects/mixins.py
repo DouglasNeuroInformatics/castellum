@@ -43,6 +43,8 @@ class SubjectMixin:
             return obj.subject
 
     def check_auth_conditions(self):
+        # check subject privacy level *after* regular permissions to
+        # avoid leaking information
         if not super().check_auth_conditions():
             return False
         self.subject = self.get_subject()

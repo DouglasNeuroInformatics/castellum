@@ -809,6 +809,8 @@ class LegalRepresentativeContactUpdateView(
         return permission_required
 
     def get_object(self):
+        # we cannot use ParticipationMixin here because subject is
+        # not a participant, but a legal representative
         participation = get_object_or_404(
             Participation,
             pk=self.kwargs['participation_pk'],
