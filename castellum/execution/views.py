@@ -68,8 +68,8 @@ from .forms import NewsMailForm
 class ParticipationListView(
     SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, ListView
 ):
-    template_name = 'execution/participation_list.html'
     model = Study
+    template_name = 'execution/participation_list.html'
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'list'
@@ -135,8 +135,8 @@ class ParticipationListView(
 
 
 class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
-    template_name = 'execution/study_export.html'
     model = Study
+    template_name = 'execution/study_export.html'
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'list'
