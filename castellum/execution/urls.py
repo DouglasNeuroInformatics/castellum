@@ -90,7 +90,7 @@ urlpatterns = [
         name='participation-consent-create',
     ),
     path(
-        '<int:study_pk>/<int:pk>/consent/<int:consent_pk>/delete/',
+        '<int:study_pk>/<int:participation_pk>/consent/<int:pk>/delete/',
         ParticipationConsentDeleteView.as_view(),
         name='participation-consent-delete',
     ),

@@ -387,7 +387,7 @@ class ParticipationConsentDeleteView(ParticipationDetailMixin, DeleteView):
         return get_object_or_404(
             ParticipationConsent,
             participation=self.participation,
-            pk=self.kwargs['consent_pk'],
+            pk=self.kwargs['pk'],
         )
 
     def get_success_url(self):
