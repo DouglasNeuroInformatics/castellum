@@ -37,6 +37,7 @@ class StudyMixin:
         return get_object_or_404(qs, pk=self.kwargs.get(key))
 
     def check_auth_conditions(self):
+        # establish study context *before* checking permissions
         self.study = self.get_study()
         return super().check_auth_conditions()
 
@@ -48,6 +49,11 @@ class StudyMixin:
         if self.require_member:
             permission_required.add('studies.access_study')
         return permission_required
+
+    def get_object(self):
+        if self.model is Study:
+            return self.study
+        return super().get_object()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

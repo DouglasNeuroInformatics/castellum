@@ -68,8 +68,8 @@ from .forms import NewsMailForm
 class ParticipationListView(
     SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, ListView
 ):
-    template_name = 'execution/participation_list.html'
     model = Study
+    template_name = 'execution/participation_list.html'
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'list'
@@ -135,8 +135,8 @@ class ParticipationListView(
 
 
 class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
-    template_name = 'execution/study_export.html'
     model = Study
+    template_name = 'execution/study_export.html'
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'list'
@@ -204,9 +204,6 @@ class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
     permission_required = ['recruitment.conduct_study']
     study_status = [Study.EXECUTION]
     participation_status = Participation.INVITED_SET
-
-    def get_object(self, queryset=None):
-        return self.participation
 
 
 class ParticipationDetailView(ParticipationDetailMixin, DetailView):
@@ -356,7 +353,7 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
 
 
 class ParticipationConsentView(ParticipationDetailMixin, DetailView):
-    model = ParticipationConsent
+    model = Participation
     template_name = 'execution/participation_consent.html'
     tab = 'consent'
 
@@ -387,7 +384,7 @@ class ParticipationConsentDeleteView(ParticipationDetailMixin, DeleteView):
         return get_object_or_404(
             ParticipationConsent,
             participation=self.participation,
-            pk=self.kwargs['consent_pk'],
+            pk=self.kwargs['pk'],
         )
 
     def get_success_url(self):
@@ -593,15 +590,9 @@ class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
     subtab = 'contact'
     context = 'execution'
 
-    def get_object(self):
-        return self.participation.subject.contact
-
 
 class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
     subtab = 'attributes'
-
-    def get_object(self):
-        return self.participation.subject
 
     def get_contact_url(self):
         return reverse(
@@ -611,9 +602,6 @@ class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
 
 class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateView):
     subtab = 'data-protection'
-
-    def get_object(self):
-        return self.participation.subject
 
     def get_subject_media_url(self, path):
         return reverse(
@@ -642,9 +630,6 @@ class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
 
 class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateView):
     subtab = 'additional-info'
-
-    def get_object(self):
-        return self.participation.subject
 
 
 class CalendarView(
@@ -808,7 +793,9 @@ class LegalRepresentativeContactUpdateView(
         permission_required.update(super().get_permission_required())
         return permission_required
 
-    def get_object(self):
+    def get_subject(self):
+        # we cannot use ParticipationMixin here because subject is
+        # not a participant, but a legal representative
         participation = get_object_or_404(
             Participation,
             pk=self.kwargs['participation_pk'],
@@ -816,7 +803,7 @@ class LegalRepresentativeContactUpdateView(
             status__in=Participation.INVITED_SET,
         )
         if not self.request.user.has_privacy_level(participation.subject.privacy_level):
-            return self.handle_no_permission()
+            raise PermissionDenied
 
         for legal_representative in (
             participation.subject.contact.legal_representatives.all()
@@ -825,9 +812,12 @@ class LegalRepresentativeContactUpdateView(
                 self.study, legal_representative.subject
             )
             if h == self.kwargs['hash']:
-                return legal_representative
+                return legal_representative.subject
 
         raise Http404
+
+    def get_object(self):
+        return self.subject.contact
 
 
 class ReportView(ParticipationMixin, BaseReportView):

@@ -10,6 +10,7 @@ import random
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.http import Http404
 from django.http import HttpResponseBadRequest
@@ -454,9 +455,6 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     study_status = [Study.EXECUTION]
     tab = 'contact'
 
-    def get_object(self):
-        return self.participation
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sessions'] = self.study.studysession_set.order_by('pk')
@@ -566,15 +564,9 @@ class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
     subtab = 'contact'
     context = 'recruitment'
 
-    def get_object(self):
-        return self.participation.subject.contact
-
 
 class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
     subtab = 'attributes'
-
-    def get_object(self):
-        return self.participation.subject
 
     def get_contact_url(self):
         return reverse(
@@ -584,9 +576,6 @@ class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
 
 class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):
     subtab = 'data-protection'
-
-    def get_object(self):
-        return self.participation.subject
 
     def get_subject_media_url(self, path):
         return reverse(
@@ -615,9 +604,6 @@ class ConsentChangeView(ParticipationMixin, BaseConsentChangeView):
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
     subtab = 'additional-info'
 
-    def get_object(self):
-        return self.participation.subject
-
 
 class LegalRepresentativeContactUpdateView(
     StudyMixin, SubjectMixin, BaseContactUpdateView
@@ -637,12 +623,14 @@ class LegalRepresentativeContactUpdateView(
         permission_required.update(super().get_permission_required())
         return permission_required
 
-    def get_object(self):
+    def get_subject(self):
+        # we cannot use ParticipationMixin here because subject is
+        # not a participant, but a legal representative
         participation = get_object_or_404(
             Participation, pk=self.kwargs['participation_pk'], study=self.study
         )
         if not self.request.user.has_privacy_level(participation.subject.privacy_level):
-            return self.handle_no_permission()
+            raise PermissionDenied
 
         for legal_representative in (
             participation.subject.contact.legal_representatives.all()
@@ -651,9 +639,12 @@ class LegalRepresentativeContactUpdateView(
                 self.study, legal_representative.subject
             )
             if h == self.kwargs['hash']:
-                return legal_representative
+                return legal_representative.subject
 
         raise Http404
+
+    def get_object(self):
+        return self.subject.contact
 
 
 class ReportView(ParticipationMixin, BaseReportView):

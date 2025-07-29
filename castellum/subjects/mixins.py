@@ -36,17 +36,21 @@ class SubjectMixin:
     """
 
     def get_subject(self):
-        obj = self.get_object()
-        if isinstance(obj, Subject):
-            return obj
-        else:
-            return obj.subject
+        key = 'subject_pk' if 'subject_pk' in self.kwargs else 'pk'
+        return get_object_or_404(Subject, pk=self.kwargs[key])
 
     def check_auth_conditions(self):
+        # check subject privacy level *after* regular permissions to
+        # avoid leaking information
         if not super().check_auth_conditions():
             return False
         self.subject = self.get_subject()
         return self.request.user.has_privacy_level(self.subject.privacy_level)
+
+    def get_object(self):
+        if self.model is Subject:
+            return self.subject
+        return super().get_object()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -121,9 +125,7 @@ class BaseConsentChangeView(PermissionRequiredMixin, CreateView):
     template_name = 'subjects/subject_consent_form.html'
     form_class = ConsentChangeForm
 
-    def get_object(self):
-        # weird because model = Consent, but this is only used in
-        # SubjectMixin, not in CreateView
+    def get_subject(self):
         return get_object_or_404(Subject, pk=self.kwargs['pk'], to_be_deleted=None)
 
     def form_valid(self, form):

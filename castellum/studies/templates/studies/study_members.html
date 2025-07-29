@@ -39,7 +39,7 @@
                     {% endfor %}
                     <td class="align-middle">
                         <button class="btn btn-primary" form="membership-form-{{ form.instance.pk }}">{% translate 'Save' %}</button>
-                        <a href="{% url 'studies:delete-member' object.pk form.instance.pk %}" class="btn btn-outline-danger my-1 {% if form.instance.user == user %}disabled{% endif %}">{% translate 'Remove' %}</a>
+                        <a href="{% url 'studies:delete-member' study.pk form.instance.pk %}" class="btn btn-outline-danger my-1 {% if form.instance.user == user %}disabled{% endif %}">{% translate 'Remove' %}</a>
                     </td>
                 </tr>
             {% endfor %}

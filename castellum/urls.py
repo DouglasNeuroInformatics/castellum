@@ -98,7 +98,7 @@ urlpatterns = [
         name='studyconsent-media',
     ),
     path(
-        'media/subjects/<uuid:uuid>/<path:path>',
+        'media/subjects/<uuid:subject_pk>/<path:path>',
         SubjectProtectedMediaView.as_view(),
         name='subject-media',
     ),

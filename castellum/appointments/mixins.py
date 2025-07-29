@@ -79,9 +79,6 @@ class BaseAppointmentsUpdateView(
     template_name = 'appointments/appointments_form.html'
     permission_required = 'appointments.change_appointment'
 
-    def get_object(self, queryset=None):
-        return self.participation
-
     def get_success_url(self):
         return self.request.path
 

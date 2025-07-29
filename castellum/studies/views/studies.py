@@ -307,10 +307,10 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, DetailView
     template_name = 'studies/study_finish.html'
     tab = 'detail'
 
-    def get_object(self):
+    def get(self, request, **kwargs):
         if self.study.status == self.study.FINISHED:
             raise Http404
-        return self.study
+        return super().get(request, **kwargs)
 
     def post(self, request, study_pk):
         if self.study.status == self.study.FINISHED:

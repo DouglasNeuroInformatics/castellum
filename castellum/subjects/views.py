@@ -262,9 +262,6 @@ class SubjectPseudonymsView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
 
 class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
-    def get_object(self):
-        return get_object_or_404(Subject, pk=self.kwargs['pk'])
-
     def has_permission(self):
         return (
             self.request.user.has_perm('subjects.export_subject')
@@ -404,10 +401,6 @@ class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
     tab = 'contact'
     context = 'subject_management'
 
-    def get_object(self):
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
-        return subject.contact
-
 
 class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
     tab = 'attributes'
@@ -454,9 +447,6 @@ class SubjectAuditTrailView(SubjectMixin, PermissionRequiredMixin, ListView):
     tab = 'audit-trail'
     paginate_by = 20
 
-    def get_subject(self):
-        return get_object_or_404(Subject, pk=self.kwargs['pk'])
-
     def get_queryset(self):
         audit(
             gettext_noop('audit trail accessed'),
@@ -475,9 +465,6 @@ class SubjectAuditTrailView(SubjectMixin, PermissionRequiredMixin, ListView):
 class ReportView(SubjectMixin, BaseReportView):
     permission_required = ['subjects.view_subject']
 
-    def get_subject(self):
-        return get_object_or_404(Subject, pk=self.kwargs['pk'])
-
     def get_success_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
 
@@ -485,6 +472,9 @@ class ReportView(SubjectMixin, BaseReportView):
 class ReportDetailView(PermissionRequiredMixin, DetailView):
     model = Report
     permission_required = ['subjects.view_report']
+
+    def get_object(self):
+        return get_object_or_404(Report, pk=self.kwargs['pk'], subject=self.subject)
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
@@ -507,9 +497,6 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     tab = 'participations'
     subtab = 'list'
 
-    def get_subject(self):
-        return get_object_or_404(Subject, pk=self.kwargs['pk'])
-
     def get_queryset(self):
         return (
             self.subject.participation_set
@@ -521,9 +508,6 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 class BaseParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = Study
     tab = 'participations'
-
-    def get_subject(self):
-        return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
     def get(self, request, *args, **kwargs):
         self.form = StudyFilterForm(self.request.GET)
@@ -625,7 +609,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def get_object(self):
         return get_object_or_404(
-            Participation, pk=self.kwargs['pk'], subject=self.kwargs['subject_uuid']
+            Participation, pk=self.kwargs['pk'], subject=self.subject
         )
 
     def get_success_url(self):
@@ -902,9 +886,6 @@ class SubjectProtectedMediaView(
     SubjectMixin, PermissionRequiredMixin, BaseProtectedMediaView
 ):
     permission_required = ['subjects.view_subject']
-
-    def get_object(self):
-        return get_object_or_404(Subject, pk=self.kwargs['uuid'])
 
     def get_path(self):
         return f'subjects/{self.kwargs["path"]}'
