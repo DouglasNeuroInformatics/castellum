@@ -1704,6 +1704,14 @@ msgstr "War zuverlässig"
 msgid "Reliability entry"
 msgstr "Zuverlässigkeitseintrag"
 
+#: castellum/recruitment/models/relations.py:31
+msgid "Other person"
+msgstr "Andere Person"
+
+#: castellum/recruitment/models/relations.py:37
+msgid "Type of relation"
+msgstr "Art der Beziehung"
+
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:32
 msgid "contacted elsewhere"
 msgstr "woanders kontaktiert"
@@ -1798,6 +1806,11 @@ msgid ""
 msgstr ""
 "Dieses Attribut kann nur im <a href='%(contact_url)s'>Kontakt-Reiter</a> "
 "geändert werden."
+
+#: castellum/recruitment/templates/recruitment/attributes_form.html:67
+#: castellum/subjects/templates/subjects/subject_export.html:209
+msgid "Relations"
+msgstr "Beziehungen"
 
 #: castellum/recruitment/templates/recruitment/base.html:8
 msgid "Recruitment for"
@@ -2047,7 +2060,28 @@ msgstr "Gesamt"
 msgid "Mail"
 msgstr "E-Mail"
 
-#: castellum/recruitment/views.py:161 castellum/recruitment/views.py:169
+#: castellum/recruitment/templates/recruitment/relation_confirm_delete.html:4
+msgid "Delete relation"
+msgstr "Beziehung löschen"
+
+#: castellum/recruitment/templates/recruitment/relation_confirm_delete.html:9
+#, python-format
+msgid ""
+"Are you sure you want to <strong>permanently delete</strong> the "
+"\"%(label)s\" relation between %(subject)s and %(other)s?"
+msgstr ""
+"Sind Sie sicher, dass Sie die \"%(label)s\" Beziehung zwischen %(subject)s "
+"und %(other)s <strong>unwiederbringlich</strong> löschen möchten?"
+
+#: castellum/recruitment/templates/recruitment/relation_form.html:4
+msgid "Create relation"
+msgstr "Beziehung erstellen"
+
+#: castellum/recruitment/templates/recruitment/relation_form.html:15
+msgid "Select…"
+msgstr "Auswählen…"
+
+#: castellum/recruitment/views.py:164 castellum/recruitment/views.py:172
 msgid "Relevance"
 msgstr "Relevanz"
 
