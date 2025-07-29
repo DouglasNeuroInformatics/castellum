@@ -10,6 +10,7 @@ import random
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.http import Http404
 from django.http import HttpResponseBadRequest
@@ -644,7 +645,7 @@ class LegalRepresentativeContactUpdateView(
             Participation, pk=self.kwargs['participation_pk'], study=self.study
         )
         if not self.request.user.has_privacy_level(participation.subject.privacy_level):
-            return self.handle_no_permission()
+            raise PermissionDenied
 
         for legal_representative in (
             participation.subject.contact.legal_representatives.all()

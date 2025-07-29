@@ -818,7 +818,7 @@ class LegalRepresentativeContactUpdateView(
             status__in=Participation.INVITED_SET,
         )
         if not self.request.user.has_privacy_level(participation.subject.privacy_level):
-            return self.handle_no_permission()
+            raise PermissionDenied
 
         for legal_representative in (
             participation.subject.contact.legal_representatives.all()
