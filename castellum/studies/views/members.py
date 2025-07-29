@@ -11,7 +11,6 @@ from django.urls import reverse
 from django.utils.translation import gettext_noop
 from django.views.generic import DeleteView
 from django.views.generic import FormView
-from django.views.generic.detail import SingleObjectMixin
 
 from castellum.audit.helpers import audit
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -24,18 +23,11 @@ from ..models import Study
 from ..models import StudyMembership
 
 
-class StudyMembersView(
-    StudyMixin, PermissionRequiredMixin, SingleObjectMixin, FormView
-):
+class StudyMembersView(StudyMixin, PermissionRequiredMixin, FormView):
     model = Study
-    pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
     tab = 'members'
-
-    def dispatch(self, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -56,16 +48,16 @@ class StudyMembersView(
             form = MemberForm(**kwargs)
         else:
             form = MultiMemberForm(**kwargs)
-            form.instance.study = self.object
+            form.instance.study = self.study
             form.fields['users'].choices = [
                 (user.pk, str(user))
-                for user in User.objects.exclude(pk__in=self.object.members.all())
+                for user in User.objects.exclude(pk__in=self.study.members.all())
             ]
 
         return form
 
     def form_valid(self, form):
-        form.instance.study = self.object
+        form.instance.study = self.study
 
         def format_list(a):
             return [int(pk) for pk in sorted(a)]
@@ -97,7 +89,7 @@ class StudyMembersView(
                 )
 
         form.save()
-        return redirect('studies:members', self.object.pk)
+        return redirect('studies:members', self.study.pk)
 
 
 class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView):
