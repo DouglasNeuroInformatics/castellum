@@ -356,7 +356,7 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
 
 
 class ParticipationConsentView(ParticipationDetailMixin, DetailView):
-    model = ParticipationConsent
+    model = Participation
     template_name = 'execution/participation_consent.html'
     tab = 'consent'
 
