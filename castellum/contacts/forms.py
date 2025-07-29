@@ -198,6 +198,7 @@ class SearchForm(forms.Form):
     search = forms.CharField(
         label=_('Search for name, phone number or email address'),
         required=True,
+        widget=forms.TextInput(attrs={'autofocus': True}),
     )
 
     def clean(self):
