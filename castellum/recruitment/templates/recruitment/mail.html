@@ -1,4 +1,4 @@
-{% extends view.base_template|default:"recruitment/recruitment_base.html" %}
+{% extends "recruitment/recruitment_base.html" %}
 {% load i18n auth django_bootstrap5 humanize utils %}
 
 {% block title %}{% translate "Mail recruitment" %} &middot; {{ block.super }}{% endblock %}

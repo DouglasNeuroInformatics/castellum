@@ -662,6 +662,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
     permission_required = 'appointments.change_appointment'
     study_status = [Study.EXECUTION]
+    base_template = 'recruitment/base.html'
     nochrome = True
 
     def get_appointments(self):

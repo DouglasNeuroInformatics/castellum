@@ -464,6 +464,7 @@ class SubjectAuditTrailView(SubjectMixin, PermissionRequiredMixin, ListView):
 
 class ReportView(SubjectMixin, BaseReportView):
     permission_required = ['subjects.view_subject']
+    base_template = 'subjects/subject_base.html'
 
     def get_success_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
