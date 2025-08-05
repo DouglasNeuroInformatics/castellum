@@ -7,6 +7,7 @@ SESSION_COOKIE_SECURE = False
 
 DEBUG = True
 
+MEDIA_ROOT = BASE_DIR.parent / 'media'
 PROTECTED_MEDIA_SERVER = 'django'
 
 # disable cache busting (necessary for testing)

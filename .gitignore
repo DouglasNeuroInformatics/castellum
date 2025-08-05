@@ -3,7 +3,7 @@ node_modules/
 castellum.egg-info/
 /static/
 /docs_html/
-media/
+/media/
 htmlcov/
 .coverage
 *.mo
