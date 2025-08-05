@@ -1,4 +1,4 @@
-{% extends "studies/base.html" %}
+{% extends object|yesno:'studies/study_base.html,studies/base.html' %}
 {% load static i18n django_bootstrap5 utils %}
 
 {% block title %}
