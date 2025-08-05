@@ -46,7 +46,7 @@ class APIAuthMixin(LoginNotRequiredMixin):
 
     def get_token(self):
         auth = self.request.headers.get('Authorization', '').split()
-        if len(auth) != 2 or auth[0].lower() not in ['token', 'bearer']:
+        if len(auth) != 2 or auth[0].lower() != 'bearer':
             raise PermissionDenied
         return auth[1]
 
