@@ -128,9 +128,7 @@ def test_consent_media(client, user, subject):
         'file': SimpleUploadedFile('foo.pdf', b'%PDF-dummy'),
     })
 
-    response = client.get(subject.consent.file.url.replace(
-        '/subjects/', f'/subjects/{subject.pk}/'
-    ))
+    response = client.get(subject.consent.file.url)
     assert response.status_code == 200
 
 
@@ -147,7 +145,7 @@ def test_consent_media_other_subject(client, user, subject):
 
     other = baker.make(Contact)
     response = client.get(subject.consent.file.url.replace(
-        '/subjects/', f'/subjects/{other.subject.pk}/'
+        f'/subjects/{subject.pk}/', f'/subjects/{other.subject.pk}/'
     ))
     assert response.status_code == 404
 

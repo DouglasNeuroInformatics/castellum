@@ -841,10 +841,7 @@ class ExecutionProtectedMediaView(
     participation_status = Participation.INVITED_SET
 
     def get_path(self):
-        path = f'subjects/{self.kwargs["path"]}'
-        if not self.subject.owns_media_path(path):
-            raise Http404
-        return path
+        return f'subjects/{self.subject.pk}/{self.kwargs["path"]}'
 
 
 class StudyConsentProtectedMediaView(
