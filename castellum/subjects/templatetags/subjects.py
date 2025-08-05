@@ -78,7 +78,7 @@ def subject_media_url(context, url):
 
     The public URLs point to subclasses of
     ``castellum.utils.views.ProtectedMediaView`` that do all relevant
-    security checks and then convert the URL back an internal URL to
+    security checks and then convert the URL back to an internal URL to
     deliver the actual media file.
     """
     url_prefix = f'/{settings.MEDIA_URL.strip("/")}/subjects/'
