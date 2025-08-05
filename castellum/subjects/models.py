@@ -288,6 +288,12 @@ class Subject(TimeStampedModel):
     def get_effective_privacy_level(self):
         return math.ceil(self.privacy_level)
 
+    def owns_media_path(self, path):
+        return (
+            Consent.objects.filter(subject=self, file__exact=path).exists()
+            or ConsentRevision.objects.filter(subject=self, file__exact=path).exists()
+        )
+
 
 class ConsentDocument(models.Model):
     name = models.CharField(_('Name'), max_length=254, blank=True)
