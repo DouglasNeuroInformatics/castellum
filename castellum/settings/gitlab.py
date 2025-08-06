@@ -2,6 +2,8 @@ from .default import *
 
 SECRET_KEY = 'CHANGEME'
 
+PROTECTED_MEDIA_SERVER = 'django'
+
 # disable cache busting (necessary for testing)
 STORAGES = {
     'default': {

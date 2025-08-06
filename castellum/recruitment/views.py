@@ -700,4 +700,7 @@ class RecruitmentProtectedMediaView(
     study_status = [Study.EXECUTION]
 
     def get_path(self):
-        return f'subjects/{self.kwargs["path"]}'
+        path = f'subjects/{self.kwargs["path"]}'
+        if not self.subject.owns_media_path(path):
+            raise Http404
+        return path

@@ -1,3 +1,18 @@
+# 25.7.1 (2025-08-06)
+
+## security
+
+-   For recruitment consent, we did not check that the accessed
+    file belongs to the same subject for which we checked permissions. So any
+    user that had access to any subject could get access to other subjects'
+    consent files, simply by guessing the filename. This includes users who
+    only have access to subjects in the context of a single study.
+
+## bug fixes
+
+-   fix template inheritance when editing a study
+
+
 # 25.7.0 (2025-07-28)
 
 ## breaking changes

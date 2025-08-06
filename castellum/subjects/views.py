@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import models
+from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -889,4 +890,7 @@ class SubjectProtectedMediaView(
     permission_required = ['subjects.view_subject']
 
     def get_path(self):
-        return f'subjects/{self.kwargs["path"]}'
+        path = f'subjects/{self.kwargs["path"]}'
+        if not self.subject.owns_media_path(path):
+            raise Http404
+        return path
