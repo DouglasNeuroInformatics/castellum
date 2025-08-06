@@ -149,4 +149,7 @@ class AttributeChoice(TranslatableModel):
     translations = TranslatedFields(label=models.CharField(max_length=64))
 
     class Meta:
-        ordering = ['order']
+        ordering = ['attribute', 'order']
+
+    def __str__(self):
+        return self.label

@@ -25,6 +25,11 @@ class AttributeChoiceInline(TranslatableTabularInline):
     model = AttributeChoice
 
 
+class AttributeChoiceAdmin(TranslatableAdmin):
+    list_display = ['__str__', 'attribute', 'order']
+    list_filter = ['attribute']
+
+
 class AttributeAdmin(TranslatableAdmin):
     inlines = [
         AttributeChoiceInline,
@@ -32,6 +37,7 @@ class AttributeAdmin(TranslatableAdmin):
 
 
 admin.site.register(AttributeCategory, TranslatableAdmin)
+admin.site.register(AttributeChoice, AttributeChoiceAdmin)
 admin.site.register(Attribute, AttributeAdmin)
 
 if settings.CASTELLUM_ADVANCED_ADMIN_UI:
