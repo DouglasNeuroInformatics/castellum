@@ -16,7 +16,7 @@ from django.utils import timezone
 from django.utils.timesince import timeuntil
 from django.utils.translation import gettext_lazy as _
 
-from castellum.utils import get_parler_languages
+from castellum.utils import get_languages
 
 register = template.Library()
 
@@ -109,4 +109,4 @@ def icon(name, *, label=''):
     return {'name': name, 'section': 'fa-solid', 'label': label}
 
 
-register.simple_tag(get_parler_languages)
+register.simple_tag(get_languages)
