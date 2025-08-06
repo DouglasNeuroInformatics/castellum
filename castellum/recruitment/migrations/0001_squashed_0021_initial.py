@@ -4,7 +4,6 @@ import castellum.recruitment.models.attributes
 import castellum.utils.fields
 import django.core.validators
 from django.db import migrations, models
-import parler.models
 
 
 class Migration(migrations.Migration):
@@ -35,7 +34,6 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Attribute categories',
                 'ordering': ['order'],
             },
-            bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeCategoryTranslation',
@@ -64,7 +62,6 @@ class Migration(migrations.Migration):
                 'managed': True,
                 'default_permissions': (),
             },
-            bases=(parler.models.TranslatedFieldsModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeChoice',
@@ -83,7 +80,6 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['order'],
             },
-            bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeChoiceTranslation',
@@ -112,7 +108,6 @@ class Migration(migrations.Migration):
                 'managed': True,
                 'default_permissions': (),
             },
-            bases=(parler.models.TranslatedFieldsModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeDescription',
@@ -179,7 +174,6 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['order'],
             },
-            bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeDescriptionTranslation',
@@ -213,7 +207,6 @@ class Migration(migrations.Migration):
                 'managed': True,
                 'default_permissions': (),
             },
-            bases=(parler.models.TranslatedFieldsModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='ExecutionTag',
