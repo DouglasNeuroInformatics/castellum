@@ -1,4 +1,5 @@
 import pytest
+from django.core.files.uploadedfile import SimpleUploadedFile
 from freezegun import freeze_time
 from model_bakery import baker
 
@@ -93,7 +94,7 @@ def test_consent_200(request, client, user_fixture, subject):
     assert response.status_code == 200
 
 
-def test_consent_post(request, client, user, subject):
+def test_consent_post(client, user, subject):
     client.force_login(user)
 
     document = baker.make(ConsentDocument)
@@ -101,18 +102,54 @@ def test_consent_post(request, client, user, subject):
     url = f'/subjects/{subject.pk}/data-protection/consent/'
     response = client.post(url, {
         'document': document.pk,
+        'file': SimpleUploadedFile('foo.pdf', b'%PDF-dummy'),
     })
     assert response.status_code == 302
     assert subject.consent.document == document
 
 
-def test_consent_create_document(request, client, user, subject):
+def test_consent_create_document(client, user, subject):
     client.force_login(user)
 
     assert not ConsentDocument.objects.exists()
     url = f'/subjects/{subject.pk}/data-protection/consent/'
     client.get(url)
     assert ConsentDocument.objects.exists()
+
+
+def test_consent_media(client, user, subject):
+    client.force_login(user)
+
+    document = baker.make(ConsentDocument)
+
+    url = f'/subjects/{subject.pk}/data-protection/consent/'
+    response = client.post(url, {
+        'document': document.pk,
+        'file': SimpleUploadedFile('foo.pdf', b'%PDF-dummy'),
+    })
+
+    response = client.get(subject.consent.file.url.replace(
+        '/subjects/', f'/subjects/{subject.pk}/'
+    ))
+    assert response.status_code == 200
+
+
+def test_consent_media_other_subject(client, user, subject):
+    client.force_login(user)
+
+    document = baker.make(ConsentDocument)
+
+    url = f'/subjects/{subject.pk}/data-protection/consent/'
+    response = client.post(url, {
+        'document': document.pk,
+        'file': SimpleUploadedFile('foo.pdf', b'%PDF-dummy'),
+    })
+
+    other = baker.make(Contact)
+    response = client.get(subject.consent.file.url.replace(
+        '/subjects/', f'/subjects/{other.subject.pk}/'
+    ))
+    assert response.status_code == 404
 
 
 @pytest.mark.parametrize('user_fixture', [
