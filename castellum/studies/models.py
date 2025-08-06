@@ -15,8 +15,7 @@ from django.forms import ValidationError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from parler.models import TranslatableModel
-from parler.models import TranslatedFields
+from parlor.models import TranslatableModel
 
 from castellum.castellum_auth.models import User
 from castellum.pseudonyms.models import Domain
@@ -45,9 +44,6 @@ def consent_upload_to(instance, filename):
 class StudyType(TranslatableModel):
     EXPORT_KEYS = 'Online', 'Behavioral lab', 'MRI', 'Simulation', 'EEG'
 
-    translations = TranslatedFields(
-        label=models.CharField(_('Label'), max_length=64),
-    )
     exclusion_criteria = models.TextField(
         _(
             'Additional subject characteristics that should be verified during '
@@ -64,6 +60,16 @@ class StudyType(TranslatableModel):
 
     def __str__(self):
         return self.label
+
+
+class StudyTypeTranslation(models.Model):
+    master = StudyType.get_parent_field()
+    language_code = StudyType.get_language_field()
+    label = models.CharField(_('Label'), max_length=64)
+
+    class Meta:
+        unique_together = [('language_code', 'master')]
+        db_table = 'studies_studytype_translation'
 
 
 class Study(TimeStampedModel):

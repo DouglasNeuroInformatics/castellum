@@ -10,9 +10,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from parler.managers import TranslatableQuerySet
-from parler.models import TranslatableModel
-from parler.models import TranslatedFields
+from parlor.models import TranslatableModel
 
 from .. import attribute_fields
 from ..attribute_fields import ANSWER_DECLINED  # noqa
@@ -31,8 +29,6 @@ def get_attribute_by_statistics_rank(rank):
 class AttributeCategory(TranslatableModel):
     order = models.IntegerField(default=0)
 
-    translations = TranslatedFields(label=models.CharField(max_length=64))
-
     class Meta:
         ordering = ['order']
         verbose_name = _('Attribute category')
@@ -42,7 +38,17 @@ class AttributeCategory(TranslatableModel):
         return self.label
 
 
-class AttributeQuerySet(TranslatableQuerySet):
+class AttributeCategoryTranslation(models.Model):
+    master = AttributeCategory.get_parent_field()
+    language_code = AttributeCategory.get_language_field()
+    label = models.CharField(max_length=64)
+
+    class Meta:
+        unique_together = [('language_code', 'master')]
+        db_table = 'recruitment_attributecategory_translation'
+
+
+class AttributeQuerySet(models.QuerySet):
     def by_category(self, qs=None):
         qs = qs or self.all()
         qs = qs.select_related('category').order_by('category__order', 'order')
@@ -72,12 +78,6 @@ class Attribute(TranslatableModel):
         ('secondary', _('secondary')),
     ]
     STATISTICS_TYPES = ['ChoiceField', 'OrderedChoiceField', 'BooleanField', 'AgeField']
-
-    translations = TranslatedFields(
-        label=models.CharField(max_length=64),
-        _filter_label=models.CharField(max_length=64, blank=True, default=''),
-        help_text=models.TextField(blank=True, default=''),
-    )
 
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
     url = models.URLField(
@@ -143,13 +143,34 @@ class Attribute(TranslatableModel):
         return mapping[self.field_type](self)
 
 
+class AttributeTranslation(models.Model):
+    master = Attribute.get_parent_field()
+    language_code = Attribute.get_language_field()
+    label = models.CharField(max_length=64)
+    _filter_label = models.CharField(max_length=64, blank=True, default='')
+    help_text = models.TextField(blank=True, default='')
+
+    class Meta:
+        unique_together = [('language_code', 'master')]
+        db_table = 'recruitment_attribute_translation'
+
+
 class AttributeChoice(TranslatableModel):
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
     order = models.IntegerField(default=0)
-    translations = TranslatedFields(label=models.CharField(max_length=64))
 
     class Meta:
         ordering = ['attribute', 'order']
 
     def __str__(self):
         return self.label
+
+
+class AttributeChoiceTranslation(models.Model):
+    master = AttributeChoice.get_parent_field()
+    language_code = AttributeChoice.get_language_field()
+    label = models.CharField(max_length=64)
+
+    class Meta:
+        unique_together = [('language_code', 'master')]
+        db_table = 'recruitment_attributechoice_translation'
