@@ -25,7 +25,7 @@ You are free to change `settings.PARLER_LANGUAGES` and
     included. If you want to add another language you should create the
     relevant translation file yourself. See
     <https://docs.djangoproject.com/en/stable/ref/django-admin/#makemessages>.
--   If you change `settinge.PARLER_LANGUAGES` django will warn you that
+-   If you change `settings.PARLER_LANGUAGES` django will warn you that
     some model changes are not reflected in the migrations. It is
     usually safe to ignore that warning because this specific migration
     would not actually change the database. Of course you can also
