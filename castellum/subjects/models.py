@@ -288,12 +288,6 @@ class Subject(TimeStampedModel):
     def get_effective_privacy_level(self):
         return math.ceil(self.privacy_level)
 
-    def owns_media_path(self, path):
-        return (
-            Consent.objects.filter(subject=self, file__exact=path).exists()
-            or ConsentRevision.objects.filter(subject=self, file__exact=path).exists()
-        )
-
 
 class ConsentDocument(models.Model):
     name = models.CharField(_('Name'), max_length=254, blank=True)
@@ -315,6 +309,12 @@ class ConsentDocument(models.Model):
         return self.name or _('Version {}').format(self.pk)
 
 
+def consent_upload_to(instance, filename):
+    subject = instance.subject
+    assert subject.pk
+    return f'subjects/{subject.pk}/consents/{filename}'
+
+
 class BaseConsent(models.Model):
     underage_when_given = models.BooleanField(_('Underage when given'), null=True)
     document = models.ForeignKey(
@@ -328,7 +328,7 @@ class BaseConsent(models.Model):
     file = RestrictedFileField(
         _('Signed file'),
         blank=True,
-        upload_to='subjects/consents/',
+        upload_to=consent_upload_to,
         content_types=['application/pdf'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
