@@ -65,6 +65,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      - /app/media
       - ./settings.py:/app/django_settings.py:ro
     depends_on:
       db_default:
