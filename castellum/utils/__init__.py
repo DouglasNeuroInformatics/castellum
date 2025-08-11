@@ -37,10 +37,9 @@ def contrast_color(color: str) -> str:
     return '#ffffff' if lightness < 0.18 else '#000000'
 
 
-def get_parler_languages(site_id=None):
+def get_languages():
     names = dict(settings.LANGUAGES)
-    codes = [lang['code'] for lang in settings.PARLER_LANGUAGES.get(site_id, [])]
-    return [(code, names[code]) for code in codes]
+    return [(code, names[code]) for code in settings.CASTELLUM_LANGUAGES]
 
 
 class Exclusion:

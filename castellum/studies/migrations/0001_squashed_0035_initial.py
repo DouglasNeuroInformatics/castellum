@@ -5,8 +5,6 @@ import castellum.utils.forms
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import parler.fields
-import parler.models
 
 
 class Migration(migrations.Migration):
@@ -439,7 +437,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='StudyTypeEventFeed',
@@ -615,7 +612,7 @@ class Migration(migrations.Migration):
                 ('label', models.CharField(max_length=64, verbose_name='Label')),
                 (
                     'master',
-                    parler.fields.TranslationsForeignKey(
+                    models.ForeignKey(
                         editable=False,
                         null=True,
                         on_delete=django.db.models.deletion.CASCADE,
@@ -632,6 +629,5 @@ class Migration(migrations.Migration):
                 'default_permissions': (),
                 'unique_together': {('language_code', 'master')},
             },
-            bases=(parler.models.TranslatedFieldsModelMixin, models.Model),
         ),
     ]

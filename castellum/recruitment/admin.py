@@ -5,8 +5,7 @@
 
 from django.conf import settings
 from django.contrib import admin
-from parler.admin import TranslatableAdmin
-from parler.admin import TranslatableTabularInline
+from parlor.admin import TranslatableAdmin
 
 from .models import Attribute
 from .models import AttributeCategory
@@ -21,17 +20,26 @@ from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
 
-class AttributeChoiceInline(TranslatableTabularInline):
+class AttributeChoiceInline(admin.StackedInline):
     model = AttributeChoice
+    extra = 0
+    show_change_link = True
+
+
+class AttributeChoiceAdmin(TranslatableAdmin):
+    list_display = ['__str__', 'attribute', 'order']
+    list_filter = ['attribute']
 
 
 class AttributeAdmin(TranslatableAdmin):
+    translation_inline_class = admin.StackedInline
     inlines = [
         AttributeChoiceInline,
     ]
 
 
 admin.site.register(AttributeCategory, TranslatableAdmin)
+admin.site.register(AttributeChoice, AttributeChoiceAdmin)
 admin.site.register(Attribute, AttributeAdmin)
 
 if settings.CASTELLUM_ADVANCED_ADMIN_UI:

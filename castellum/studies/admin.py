@@ -5,7 +5,7 @@
 
 from django.conf import settings
 from django.contrib import admin
-from parler.admin import TranslatableAdmin
+from parlor.admin import TranslatableAdmin
 
 from . import models
 

@@ -41,15 +41,7 @@ SESSION_COOKIE_SECURE = True
 
 # Internationalization
 LANGUAGE_CODE = 'en'
-PARLER_LANGUAGES = {
-    None: (
-        {'code': 'de'},
-        {'code': 'en'},
-    ),
-    'default': {
-        'fallback': LANGUAGE_CODE,
-    },
-}
+CASTELLUM_LANGUAGES = ['de', 'en']
 TIME_ZONE = 'Europe/Berlin'
 PHONENUMBER_DEFAULT_REGION = 'DE'
 

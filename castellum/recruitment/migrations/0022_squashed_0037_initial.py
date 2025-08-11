@@ -2,7 +2,6 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import parler.fields
 
 
 class Migration(migrations.Migration):
@@ -164,7 +163,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='attributedescriptiontranslation',
             name='master',
-            field=parler.fields.TranslationsForeignKey(
+            field=models.ForeignKey(
                 editable=False,
                 null=True,
                 on_delete=django.db.models.deletion.CASCADE,
@@ -185,7 +184,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='attributechoicetranslation',
             name='master',
-            field=parler.fields.TranslationsForeignKey(
+            field=models.ForeignKey(
                 editable=False,
                 null=True,
                 on_delete=django.db.models.deletion.CASCADE,
@@ -204,7 +203,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='attributecategorytranslation',
             name='master',
-            field=parler.fields.TranslationsForeignKey(
+            field=models.ForeignKey(
                 editable=False,
                 null=True,
                 on_delete=django.db.models.deletion.CASCADE,

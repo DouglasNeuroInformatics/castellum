@@ -17,7 +17,6 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'bootstrap_colors',
     'phonenumber_field',
-    'parler',
     'mfa',
 
     'castellum.utils',
