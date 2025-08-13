@@ -17,8 +17,8 @@ class Migration(migrations.Migration):
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('pseudonyms', '0001_initial'),
-        ('recruitment', '0001_initial'),
+        ('pseudonyms', '0001_squashed_initial'),
+        ('recruitment', '0001_squashed_0021_initial'),
     ]
 
     operations = [

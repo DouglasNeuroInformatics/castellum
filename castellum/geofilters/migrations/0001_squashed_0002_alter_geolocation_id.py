@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('contacts', '0001_initial'),
+        ('contacts', '0001_squashed_0019_remove_contact_gender_and_more'),
     ]
 
     operations = [

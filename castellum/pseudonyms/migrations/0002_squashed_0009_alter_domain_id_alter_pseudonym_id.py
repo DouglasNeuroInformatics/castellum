@@ -9,9 +9,9 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('subjects', '0001_initial'),
-        ('pseudonyms', '0001_initial'),
-        ('recruitment', '0002_initial'),
+        ('subjects', '0001_squashed_0059_consent_excluded_by_us'),
+        ('pseudonyms', '0001_squashed_initial'),
+        ('recruitment', '0022_squashed_0049_alter_participation_status'),
         ('contenttypes', '0002_remove_content_type_name'),
     ]
 
