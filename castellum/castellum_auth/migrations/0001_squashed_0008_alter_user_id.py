@@ -11,6 +11,17 @@ import castellum.utils.fields
 class Migration(migrations.Migration):
     initial = True
 
+    replaces = [
+        ('castellum_auth', '0001_initial'),
+        ('castellum_auth', '0002_user_token'),
+        ('castellum_auth', '0003_first_name_length'),
+        ('castellum_auth', '0004_user_general_domains'),
+        ('castellum_auth', '0005_remove_user_logout_timeout'),
+        ('castellum_auth', '0006_remove_user_general_domains'),
+        ('castellum_auth', '0007_user_description'),
+        ('castellum_auth', '0008_alter_user_id'),
+    ]
+
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
     ]

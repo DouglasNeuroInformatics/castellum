@@ -7,6 +7,11 @@ from django.db import models
 class Migration(migrations.Migration):
     initial = True
 
+    replaces = [
+        ('geofilters', '0001_initial'),
+        ('geofilters', '0002_alter_geolocation_id'),
+    ]
+
     dependencies = [
         ('contacts', '0001_squashed_0019_remove_contact_gender_and_more'),
     ]

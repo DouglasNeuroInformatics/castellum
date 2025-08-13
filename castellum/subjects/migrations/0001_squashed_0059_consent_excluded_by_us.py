@@ -12,6 +12,41 @@ import castellum.utils.fields
 class Migration(migrations.Migration):
     initial = True
 
+    replaces = [
+        ('subjects', '0001_squashed_0028_initial'),
+        ('subjects', '0029_subjectcreationrequest_data_is_deleted'),
+        ('subjects', '0030_subject_uuid'),
+        ('subjects', '0031_subject_uuid_primary_key'),
+        ('subjects', '0032_subject_uuid_foreign_key'),
+        ('subjects', '0033_subject_updated_at'),
+        ('subjects', '0034_help_texts'),
+        ('subjects', '0035_consent_underage_when_given'),
+        ('subjects', '0036_rename_subject_onetime_invitation_disinterest'),
+        ('subjects', '0037_alter_subject_privacy_level'),
+        ('subjects', '0038_delete_invalid_consentdocuments'),
+        ('subjects', '0039_remove_consentdocument_is_valid'),
+        ('subjects', '0040_consentdocument_name'),
+        ('subjects', '0041_alter_consent_document'),
+        ('subjects', '0042_alter_consent'),
+        ('subjects', '0043_consent_file'),
+        ('subjects', '0044_remove_subject_anonymous_invitation_disinterest'),
+        ('subjects', '0045_delete_subjectnote'),
+        ('subjects', '0046_remove_subject_consent_waiting_since'),
+        ('subjects', '0047_alter_consentdocument_options'),
+        ('subjects', '0048_remove_subject_additional_suitability_document'),
+        ('subjects', '0049_report'),
+        ('subjects', '0050_report_additional_wishes'),
+        ('subjects', '0051_fix_consent_underage_when_given'),
+        ('subjects', '0052_alter_report_user'),
+        ('subjects', '0053_alter_report_subject'),
+        ('subjects', '0054_alter_subject_options'),
+        ('subjects', '0055_alter_consent_id_alter_consentdocument_id_and_more'),
+        ('subjects', '0056_consent_full_age_notified'),
+        ('subjects', '0057_consentdocument_is_valid'),
+        ('subjects', '0058_consentrevision'),
+        ('subjects', '0059_consent_excluded_by_us'),
+    ]
+
     dependencies = [
         ('studies', '0001_squashed_0066_study_recruitment_active'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),

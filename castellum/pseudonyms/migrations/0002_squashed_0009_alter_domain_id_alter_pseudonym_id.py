@@ -7,6 +7,15 @@ from django.db import models
 class Migration(migrations.Migration):
     initial = True
 
+    replaces = [
+        ('pseudonyms', '0002_squashed_0004_initial'),
+        ('pseudonyms', '0005_subject_uuid'),
+        ('pseudonyms', '0006_subject_uuid_foreign_key'),
+        ('pseudonyms', '0007_domain_exportable_attributes'),
+        ('pseudonyms', '0008_domain_managers'),
+        ('pseudonyms', '0009_alter_domain_id_alter_pseudonym_id'),
+    ]
+
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('subjects', '0001_squashed_0059_consent_excluded_by_us'),

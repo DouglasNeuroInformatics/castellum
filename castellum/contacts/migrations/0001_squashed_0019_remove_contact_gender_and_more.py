@@ -8,6 +8,17 @@ import castellum.utils.fields
 class Migration(migrations.Migration):
     initial = True
 
+    replaces = [
+        ('contacts', '0001_squashed_0012_initial'),
+        ('contacts', '0013_contact_subject_uuid'),
+        ('contacts', '0014_contactcreationrequest_phone_number'),
+        ('contacts', '0015_contactcreationrequest_message'),
+        ('contacts', '0016_remove_contact_preferred_contact_method'),
+        ('contacts', '0017_alter_address_id_alter_contact_id_and_more'),
+        ('contacts', '0018_alter_address_zip_code'),
+        ('contacts', '0019_remove_contact_gender_and_more'),
+    ]
+
     dependencies = []
 
     operations = [

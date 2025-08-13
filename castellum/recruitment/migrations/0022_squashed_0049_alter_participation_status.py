@@ -7,6 +7,22 @@ from django.db import models
 class Migration(migrations.Migration):
     initial = True
 
+    replaces = [
+        ('recruitment', '0022_squashed_0037_initial'),
+        ('recruitment', '0038_subject_uuid'),
+        ('recruitment', '0039_subject_uuid_foreign_key'),
+        ('recruitment', '0040_change_anonymous_invitation_participation_status'),
+        ('recruitment', '0041_remove_participation_assigned_conductor'),
+        ('recruitment', '0042_rm_privacy_level'),
+        ('recruitment', '0043_participation_consent'),
+        ('recruitment', '0044_rename_attributedescription_attribute'),
+        ('recruitment', '0045_alter_participation_status'),
+        ('recruitment', '0046_remove_participation_dropped_out'),
+        ('recruitment', '0047_participationconsent'),
+        ('recruitment', '0048_alter_attribute_id_alter_attributecategory_id_and_more'),
+        ('recruitment', '0049_alter_participation_status'),
+    ]
+
     dependencies = [
         ('studies', '0001_squashed_0066_study_recruitment_active'),
         ('recruitment', '0001_squashed_0021_initial'),

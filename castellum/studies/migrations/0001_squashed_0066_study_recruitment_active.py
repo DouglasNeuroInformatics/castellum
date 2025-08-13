@@ -14,6 +14,41 @@ import castellum.utils.forms
 class Migration(migrations.Migration):
     initial = True
 
+    replaces = [
+        ('studies', '0001_squashed_0035_initial'),
+        ('studies', '0036_resource_managers'),
+        ('studies', '0037_resource_url'),
+        ('studies', '0038_delete_studytypeeventfeed'),
+        ('studies', '0039_rm_data_sensitivity'),
+        ('studies', '0040_remove_study_custom_filter'),
+        ('studies', '0041_alter_study_consent'),
+        ('studies', '0042_alter_resource_url'),
+        ('studies', '0043_studysession_schedule_updated_at'),
+        ('studies', '0044_alter_studysession_resource'),
+        ('studies', '0045_help_texts'),
+        ('studies', '0046_rename_study_is_onetime_invitation'),
+        ('studies', '0047_change_upload_to'),
+        ('studies', '0048_alter_study_geo_filter'),
+        ('studies', '0049_remove_study_announce_status_changes'),
+        ('studies', '0050_remove_study_exclusion_criteria'),
+        ('studies', '0051_remove_study_is_anonymous_invitation_data'),
+        ('studies', '0052_remove_study_is_anonymous_invitation'),
+        ('studies', '0053_remove_study_snapshot'),
+        ('studies', '0054_studysession_reminders_enabled'),
+        ('studies', '0055_alter_study_principal_investigator'),
+        ('studies', '0056_study_url'),
+        ('studies', '0057_alter_study_contact_person'),
+        ('studies', '0058_studylock'),
+        ('studies', '0059_remove_studysession_reminders_enabled_and_more'),
+        ('studies', '0060_study_included_studies'),
+        ('studies', '0061_alter_study_is_exclusive'),
+        ('studies', '0062_alter_study_options'),
+        ('studies', '0063_alter_resource_id_alter_study_id_alter_studygroup_id_and_more'),
+        ('studies', '0064_study_created_at_study_updated_at'),
+        ('studies', '0065_study_pseudonyms_delete_date'),
+        ('studies', '0066_study_recruitment_active'),
+    ]
+
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),

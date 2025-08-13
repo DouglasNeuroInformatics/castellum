@@ -5,6 +5,11 @@ from django.db import models
 class Migration(migrations.Migration):
     initial = True
 
+    replaces = [
+        ('broadcast_messages', '0001_initial'),
+        ('broadcast_messages', '0002_alter_message_id'),
+    ]
+
     dependencies = []
 
     operations = [

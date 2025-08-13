@@ -5,6 +5,11 @@ from django.db import models
 class Migration(migrations.Migration):
     initial = True
 
+    replaces = [
+        ('audit', '0001_initial'),
+        ('audit', '0002_alter_auditevent_id'),
+    ]
+
     dependencies = []
 
     operations = [
