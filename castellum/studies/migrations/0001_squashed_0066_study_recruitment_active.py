@@ -1,7 +1,5 @@
 import django.db.models.deletion
 import django.utils.timezone
-import parler.fields
-import parler.models
 from django.conf import settings
 from django.db import migrations
 from django.db import models
@@ -75,7 +73,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateField(auto_now=True, verbose_name='Updated at')),
                 ('name', models.CharField(max_length=254, unique=True, verbose_name='Name')),
                 ('contact_person', models.CharField(max_length=254, verbose_name='Contact person')),
-                ('email', models.EmailField(max_length=128, verbose_name='E-mail-address')),
+                ('email', models.EmailField(max_length=128, verbose_name='Email-address')),
                 ('phone', castellum.utils.fields.PhoneNumberField(max_length=32, region=None, verbose_name='Phone number')),
                 ('principal_investigator', models.CharField(blank=True, max_length=254, verbose_name='Principal Investigator')),
                 ('affiliated_scientists', models.CharField(blank=True, max_length=254, verbose_name='Affiliated Scientists')),
@@ -86,8 +84,8 @@ class Migration(migrations.Migration):
                 ('status', models.SmallIntegerField(choices=[(0, 'Draft'), (1, 'Execution'), (2, 'Finished')], default=0, verbose_name='Status')),
                 ('min_subject_count', models.PositiveIntegerField(default=0, verbose_name='Required number of subjects')),
                 ('session_instructions', models.TextField(blank=True, help_text='Please describe any requirements for carrying out the sessions listed below. For example, specify time intervals between sessions that need to be considered for booking appointments.', verbose_name='Session instructions')),
-                ('sessions_start', castellum.utils.fields.DateField(blank=True, null=True, verbose_name='Start of test sessions')),
-                ('sessions_end', castellum.utils.fields.DateField(blank=True, null=True, verbose_name='End of test sessions')),
+                ('sessions_start', castellum.utils.fields.DateField(blank=True, null=True, verbose_name='Start of data collection')),
+                ('sessions_end', castellum.utils.fields.DateField(blank=True, null=True, verbose_name='End of data collection')),
                 ('recruitment_text', models.TextField(blank=True, help_text='This text will be used during recruitment dialogue. Thus, please describe the study from the perspective of recruiters and potential participants: What is it about? How long will it take? Are there any potential benefits or risks for participants? If applicable, also present the amount of expense allowance and related requirements.', verbose_name='Recruitment text')),
                 ('pseudonyms_delete_date', castellum.utils.fields.DateField(blank=True, help_text='This date is usually defined in the ethics application and the study consent form. Entering it here is purely informational. The pseudonym lists will not be deleted automatically.', null=True, verbose_name='Date when pseudonym lists should be deleted')),
                 ('advanced_filtering', models.BooleanField(default=False, help_text='By default you can create only one filtergroup in which all the filters are joined by AND operator. Advanced filtering allows you to create multiple filtergroups which are joined by OR operator.', verbose_name='Advanced filtering')),
@@ -98,12 +96,12 @@ class Migration(migrations.Migration):
                 ('recruitment_active_before', castellum.utils.fields.DateField(blank=True, null=True, verbose_name='Last activity before')),
                 ('is_filter_trial', models.BooleanField(default=False, help_text='Use this if you only want to see how many subjects would match a specific study and filter configuration without actually intending to recruit.', verbose_name='Is a filter trial')),
                 ('consent', castellum.utils.fields.RestrictedFileField(blank=True, help_text='A blueprint of the study consent. This file can be obtained (and printed) later by recruiters or conductors.', upload_to=castellum.studies.models.consent_upload_to, verbose_name='Study consent')),
-                ('mail_subject', models.CharField(blank=True, max_length=254, verbose_name='E-mail subject')),
-                ('mail_body', models.TextField(blank=True, help_text='Any "{name}"-tags included in the e-mail-body will automatically be replaced with the full name of the subject.', verbose_name='E-mail body')),
-                ('excluded_studies', models.ManyToManyField(blank=True, help_text='Participants from excluded studies will be excluded from recruitment for this study.', related_name='+', to='studies.study', verbose_name='Excluded studies')),
+                ('mail_subject', models.CharField(blank=True, max_length=254, verbose_name='Email subject')),
+                ('mail_body', models.TextField(blank=True, help_text='Any "{name}"-tags included in the email-body will automatically be replaced with the full name of the subject.', verbose_name='Email body')),
+                ('excluded_studies', models.ManyToManyField(blank=True, help_text='Participants from excluded studies will be excluded from recruitment for this study.', related_name='excluded_by', to='studies.study', verbose_name='Excluded studies')),
                 ('exportable_attributes', models.ManyToManyField(blank=True, help_text='This allows to download these attributes as a data file in study execution, e.g. to use a specific attribute for the analysis.', related_name='+', to='recruitment.attribute', verbose_name='Exportable recruitment attributes')),
                 ('general_domains', models.ManyToManyField(blank=True, limit_choices_to={'object_id': None}, to='pseudonyms.domain', verbose_name='General pseudonym lists')),
-                ('included_studies', models.ManyToManyField(blank=True, help_text='If selected, only participants from included studies will be considered in the recruitment for this study. Note that reusing data from those studies is not always possible, e.g. because the study consent does not allow data reuse or because the pseudonyms have already been deleted.', related_name='+', to='studies.study', verbose_name='Included studies')),
+                ('included_studies', models.ManyToManyField(blank=True, help_text='If selected, only participants from included studies will be considered in the recruitment for this study. Note that reusing data from those studies is not always possible, e.g. because the study consent does not allow data reuse or because the pseudonyms have already been deleted.', related_name='included_by', to='studies.study', verbose_name='Included studies')),
             ],
             options={
                 'ordering': ['name'],
@@ -128,7 +126,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='StudyTag',
@@ -184,7 +181,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('language_code', models.CharField(db_index=True, max_length=15, verbose_name='Language')),
                 ('label', models.CharField(max_length=64, verbose_name='Label')),
-                ('master', parler.fields.TranslationsForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='translations', to='studies.studytype')),
+                ('master', models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='translations', to='studies.studytype')),
             ],
             options={
                 'verbose_name': 'study type Translation',
@@ -194,6 +191,5 @@ class Migration(migrations.Migration):
                 'default_permissions': (),
                 'unique_together': {('language_code', 'master')},
             },
-            bases=(parler.models.TranslatedFieldsModelMixin, models.Model),
         ),
     ]

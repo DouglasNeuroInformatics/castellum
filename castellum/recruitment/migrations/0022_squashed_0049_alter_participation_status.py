@@ -1,5 +1,4 @@
 import django.db.models.deletion
-import parler.fields
 from django.db import migrations
 from django.db import models
 
@@ -103,12 +102,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='attributetranslation',
             name='master',
-            field=parler.fields.TranslationsForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='translations', to='recruitment.attribute'),
+            field=models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='translations', to='recruitment.attribute'),
         ),
         migrations.AddField(
             model_name='attributechoicetranslation',
             name='master',
-            field=parler.fields.TranslationsForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='translations', to='recruitment.attributechoice'),
+            field=models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='translations', to='recruitment.attributechoice'),
         ),
         migrations.AddField(
             model_name='attributechoice',
@@ -118,7 +117,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='attributecategorytranslation',
             name='master',
-            field=parler.fields.TranslationsForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='translations', to='recruitment.attributecategory'),
+            field=models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='translations', to='recruitment.attributecategory'),
         ),
         migrations.AddField(
             model_name='attribute',

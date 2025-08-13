@@ -1,4 +1,3 @@
-import parler.models
 from django.db import migrations
 from django.db import models
 
@@ -24,7 +23,6 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['order'],
             },
-            bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeCategory',
@@ -37,7 +35,6 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Attribute categories',
                 'ordering': ['order'],
             },
-            bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeCategoryTranslation',
@@ -53,7 +50,6 @@ class Migration(migrations.Migration):
                 'managed': True,
                 'default_permissions': (),
             },
-            bases=(parler.models.TranslatedFieldsModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeChoice',
@@ -64,7 +60,6 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['order'],
             },
-            bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeChoiceTranslation',
@@ -80,7 +75,6 @@ class Migration(migrations.Migration):
                 'managed': True,
                 'default_permissions': (),
             },
-            bases=(parler.models.TranslatedFieldsModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='AttributeTranslation',
@@ -98,7 +92,6 @@ class Migration(migrations.Migration):
                 'managed': True,
                 'default_permissions': (),
             },
-            bases=(parler.models.TranslatedFieldsModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='ExecutionTag',
@@ -127,8 +120,8 @@ class Migration(migrations.Migration):
                 ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Sent date')),
                 ('contacted_size', models.PositiveIntegerField()),
                 ('other_size', models.PositiveIntegerField()),
-                ('mail_subject', models.CharField(max_length=128, verbose_name='E-mail subject')),
-                ('mail_body', models.TextField(verbose_name='E-mail body')),
+                ('mail_subject', models.CharField(max_length=128, verbose_name='Email subject')),
+                ('mail_body', models.TextField(verbose_name='Email body')),
             ],
             options={
                 'abstract': False,
