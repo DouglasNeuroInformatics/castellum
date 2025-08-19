@@ -11,6 +11,7 @@
         "fullcalendar-scheduler": "6.1.19",
         "jdenticon": "3.3.0",
         "jquery": "3.7.1",
+        "qr": "^0.4.2",
         "select2": "4.0.13"
     }
 }

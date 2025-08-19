@@ -164,6 +164,7 @@ NPM_FILES = [
     Path('jdenticon', 'dist', 'jdenticon.min.js'),
     Path('jdenticon', 'dist', 'jdenticon.min.js.map'),
     Path('jquery', 'dist', 'jquery.min.js'),
+    Path('qr', 'esm', 'index.js'),
     Path('@popperjs', 'core', 'dist', 'umd', 'popper-lite.min.js'),
     Path('@popperjs', 'core', 'dist', 'umd', 'popper-lite.min.js.map'),
     Path('@fortawesome', 'fontawesome-free', 'css', 'fontawesome.min.css'),
