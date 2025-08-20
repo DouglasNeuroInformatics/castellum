@@ -139,12 +139,6 @@ class BaseContact(TimeStampedModel):
 
 
 class Contact(BaseContact):
-    CONTACT_METHODS = [
-        ('phone', _('phone')),
-        ('email', _('email')),
-        ('postal', _('postal')),
-    ]
-
     subject_uuid = models.UUIDField(unique=True, editable=False, default=None)
 
     first_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
