@@ -4,7 +4,7 @@
 {% block title %}{% translate "Report" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" autocomplete="off">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 

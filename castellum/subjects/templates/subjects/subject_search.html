@@ -15,7 +15,7 @@
             {% endblocktranslate %}
         </p>
     {% endif %}
-    <form method="post">
+    <form method="post" autocomplete="off">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 

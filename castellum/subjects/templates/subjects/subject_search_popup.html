@@ -6,7 +6,7 @@
 {% block content %}
     <p>{% translate 'Total number of subjects' %}: {{ count_total }}</p>
 
-    <form method="post">
+    <form method="post" autocomplete="off">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
