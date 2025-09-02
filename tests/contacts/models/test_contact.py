@@ -43,3 +43,12 @@ def test_get_legal_representatives_tree_circle():
     contact.legal_representatives.add(contact)
 
     assert contact.get_legal_representatives_tree() == []
+
+
+@pytest.mark.django_db
+def test_own_or_legal_representative_emails():
+    contact1 = baker.make(Contact, email='foo@example.com')
+    contact2 = baker.make(Contact, email='foo@example.com')
+    contact3 = baker.make(Contact, legal_representatives=[contact1, contact2])
+
+    assert contact3.own_or_legal_representative_emails == ['foo@example.com']

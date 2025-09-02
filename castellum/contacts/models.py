@@ -245,7 +245,7 @@ class Contact(BaseContact):
 
     @cached_property
     def own_or_legal_representative_emails(self):
-        return [c.email for c in self.email_recipients]
+        return list(set(c.email for c in self.email_recipients))
 
     @cached_property
     def email_recipients_string(self):
