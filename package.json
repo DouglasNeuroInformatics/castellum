@@ -3,12 +3,12 @@
     "license": "AGPL-3.0-or-later",
     "private": true,
     "dependencies": {
-        "@fortawesome/fontawesome-free": "7.0.0",
+        "@fortawesome/fontawesome-free": "7.0.1",
         "@fullcalendar/bootstrap5": "6.1.18",
         "@popperjs/core": "2.11.8",
         "@ttskch/select2-bootstrap4-theme": "1.5.2",
-        "bootstrap": "5.3.7",
-        "fullcalendar-scheduler": "6.1.18",
+        "bootstrap": "5.3.8",
+        "fullcalendar-scheduler": "6.1.19",
         "jdenticon": "3.3.0",
         "jquery": "3.7.1",
         "select2": "4.0.13"
