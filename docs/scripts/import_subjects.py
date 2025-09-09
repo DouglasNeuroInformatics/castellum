@@ -51,8 +51,14 @@ class Command(BaseCommand):
                     contact_data = {key: row[i] for key, i in CONTACT_MAP.items() if row[i]}
                     address_data = {key: row[i] for key, i in ADDRESS_MAP.items() if row[i]}
 
-                    if Contact.objects.filter(**contact_data).exists():
-                        raise ValueError('potential duplicate')
+                    # may rise PotentialDuplicateError
+                    existing = Contact.objects.fuzzy_find(
+                        contact_data['first_name'],
+                        contact_data['last_name'],
+                        contact_data['date_of_birth'],
+                    )
+                    if existing:
+                        continue
 
                     with transaction.atomic():
                         with transaction.atomic(using='contacts'):

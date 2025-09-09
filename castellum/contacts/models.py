@@ -20,6 +20,11 @@ from .utils import is_phone_number
 from .utils import phonetic
 
 
+class PotentialDuplicateError(Exception):
+    def __init__(self, duplicates):
+        self.duplicates = duplicates
+
+
 class ContactQuerySet(models.QuerySet):
     def q_match_name(self, name, prefix):
         lookup = f'{prefix}_name_phonetic__contains'
@@ -33,6 +38,74 @@ class ContactQuerySet(models.QuerySet):
         for name in names:
             q |= self.q_match_name(name, prefix)
         return q
+
+    def q_fuzzy_date_of_birth(self, date):
+        return (
+            models.Q(date_of_birth=None)
+            | models.Q(date_of_birth__year=date.year, date_of_birth__month=date.month)
+            | models.Q(date_of_birth__year=date.year, date_of_birth__day=date.day)
+            | models.Q(date_of_birth__month=date.month, date_of_birth__day=date.day)
+        )
+
+    def fuzzy_find(
+        self,
+        first_name,
+        last_name,
+        date_of_birth=None,
+        emails=[],
+        phone_numbers=[],
+        legal_representative_of=[],
+    ):
+        """Heuristics for import scripts.
+
+        -   If an exact match can be found, return the contact instance.
+            The import script can then update it.
+        -   If no potential matches can be found, return None.
+            The import script can then continue and create a new subject.
+        -   If potential matches can be found, raise PotentialDuplicateError.
+            The import script should then notify a user:
+            -   If the entry turns out to be new, the user should
+                create a new subject with matching first name,
+                last name, and date of birth. The script will then find and
+                update this subject on the next run.
+            -   If the entry turns out to be a duplicate, the user
+                should update either the entry in the import data or in
+                Castellum so that first_name, last_name, and date of
+                birth match. Again, the entry will be found and updated
+                on the next run.
+        """
+
+        # these properties are likey to be shared in a family,
+        # but unlikely to be shared beyond that
+        q_family = models.Q()
+        for email in emails:
+            q_family |= models.Q(email=email)
+        for phone_number in phone_numbers:
+            q_family |= models.Q(phone_number=phone_number)
+            q_family |= models.Q(phone_number_alternative=phone_number)
+        for child in legal_representative_of:
+            q_family |= models.Q(legal_representative_of=child)
+
+        q_certain = models.Q(first_name=first_name, last_name=last_name)
+        if date_of_birth:
+            q_certain &= models.Q(date_of_birth=date_of_birth) | q_family
+            q_certain &= self.q_fuzzy_date_of_birth(date_of_birth)
+        else:
+            q_certain &= q_family
+
+        certain = self.filter(q_certain).first()
+        if certain:
+            return certain
+
+        # last name can change (e.g. because of marriage), so we do
+        # not rely on it
+        q_uncertain = self.q_name_is_matched(first_name.split(), 'first') | q_family
+        if date_of_birth:
+            q_uncertain &= self.q_fuzzy_date_of_birth(date_of_birth)
+
+        uncertain = self.filter(q_uncertain).all()
+        if uncertain:
+            raise PotentialDuplicateError(uncertain)
 
     def search(self, query):
         # It is common that parents contact us about their children,
