@@ -73,7 +73,15 @@ def get_unreachable():
         .order_by()
     )
 
-    return Subject.objects.filter(filter_queries.uuid_filter(contacts))
+    return (
+        Subject.objects
+        .filter(filter_queries.uuid_filter(contacts))
+        .exclude(
+            participation__status__in=Participation.INVITED_SET,
+            participation__study__status=Study.EXECUTION,
+        )
+        .distinct()
+    )
 
 
 def get_unnecessary_recruitment_data():

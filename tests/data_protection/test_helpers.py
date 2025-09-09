@@ -105,3 +105,26 @@ def test_get_no_legal_basis_consent_deceased(subject):
     actual = helpers.get_no_legal_basis()
 
     assert subject in actual
+
+
+def test_get_unreachable(subject):
+    # we rely on the fact that baker.make() leaves optional fields empty
+    assert helpers.get_unreachable().count() == 1
+
+
+def test_get_unreachable_email(subject):
+    subject.contact.email = 'test@example.com'
+    subject.contact.save()
+
+    assert helpers.get_unreachable().count() == 0
+
+
+def test_get_unreachable_phone(subject):
+    subject.contact.phone_number = '030 123456'
+    subject.contact.save()
+
+    assert helpers.get_unreachable().count() == 0
+
+
+def test_get_unreachable_participating(invited):
+    assert helpers.get_unreachable().count() == 0
