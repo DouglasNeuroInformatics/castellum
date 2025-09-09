@@ -46,7 +46,7 @@ from castellum.contacts.models import Contact
 ))
 def test_phonetic_matching(right, wrong, expected):
     baker.make(Contact, first_name='Eve', last_name=right)
-    matches = Contact.objects.fuzzy_filter(f'Eve {wrong}').exists()
+    matches = Contact.objects.search(f'Eve {wrong}').exists()
     assert matches == expected
 
 
@@ -73,38 +73,38 @@ def test_phonetic_matching(right, wrong, expected):
 ])
 def test_double_names(first, last, query):
     baker.make(Contact, first_name=first, last_name=last)
-    qs = Contact.objects.fuzzy_filter(query)
+    qs = Contact.objects.search(query)
     assert qs.exists()
 
 
 @pytest.mark.django_db
 def test_only_phone():
-    search = '030123456789'
+    query = '030123456789'
     baker.make(
         Contact, first_name='Eve', last_name='Meier', phone_number='030123456789'
     )
-    assert Contact.objects.fuzzy_filter(search).exists()
+    assert Contact.objects.search(query).exists()
 
 
 @pytest.mark.django_db
 def test_only_phone_different_formatting():
-    search = '+4930-123456789'
+    query = '+4930-123456789'
     baker.make(
         Contact, first_name='Eve', last_name='Meier', phone_number='030123456789'
     )
-    assert Contact.objects.fuzzy_filter(search).exists()
+    assert Contact.objects.search(query).exists()
 
 
 @pytest.mark.django_db
 def test_only_mail():
-    search = 'test@example.com'
+    query = 'test@example.com'
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    assert Contact.objects.fuzzy_filter(search).exists()
+    assert Contact.objects.search(query).exists()
 
 
 @pytest.mark.django_db
 def test_one_component_wrong():
-    search = 'test@example.com Shenavar Meier 030123456789'
+    query = 'test@example.com Shenavar Meier 030123456789'
     baker.make(
         Contact,
         first_name='Eve',
@@ -126,48 +126,48 @@ def test_one_component_wrong():
         email='test@example.com',
         phone_number='030777777777'
     )
-    assert not Contact.objects.fuzzy_filter(search).exists()
+    assert not Contact.objects.search(query).exists()
 
 
 @pytest.mark.django_db
 def test_right_mail_right_namepart():
-    search = 'test@example.com Eve'
+    query = 'test@example.com Eve'
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    assert Contact.objects.fuzzy_filter(search).exists()
+    assert Contact.objects.search(query).exists()
 
 
 @pytest.mark.django_db
 def test_only_first_name():
-    search = 'Eve'
+    query = 'Eve'
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    assert not Contact.objects.fuzzy_filter(search).exists()
+    assert not Contact.objects.search(query).exists()
 
 
 @pytest.mark.django_db
 def test_excessive_whitespace():
-    search = 'Eve        Meier  '
+    query = 'Eve        Meier  '
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    assert Contact.objects.fuzzy_filter(search).exists()
+    assert Contact.objects.search(query).exists()
 
 
 @pytest.mark.django_db
 def test_every_input_must_match():
-    search = 'test@example.com second@example.com'
+    query = 'test@example.com second@example.com'
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    assert not Contact.objects.fuzzy_filter(search).exists()
+    assert not Contact.objects.search(query).exists()
 
 
 @pytest.mark.django_db
 def test_legal_representative_email():
-    search = 'test@example.com'
+    query = 'test@example.com'
     legal_representative = baker.make(Contact, email='test@example.com')
     baker.make(Contact, legal_representatives=[legal_representative])
-    assert Contact.objects.fuzzy_filter(search).count() == 2
+    assert Contact.objects.search(query).count() == 2
 
 
 @pytest.mark.django_db
 def test_legal_representative_phone():
-    search = '030123456789'
+    query = '030123456789'
     legal_representative = baker.make(Contact, phone_number='030123456789')
     baker.make(Contact, legal_representatives=[legal_representative])
-    assert Contact.objects.fuzzy_filter(search).count() == 2
+    assert Contact.objects.search(query).count() == 2

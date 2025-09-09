@@ -21,97 +21,72 @@ from .utils import phonetic
 
 
 class ContactQuerySet(models.QuerySet):
-    def fuzzy_filter(self, search):
-        parts = search.split()
-        q = self.all_parts_match(parts) & (
-            self.full_name_is_matched(parts)
-            | self.phone_number_is_matched(parts)
-            | self.email_is_matched(parts)
-            | self.legal_representative_full_name_is_matched(parts)
-            | self.legal_representative_phone_number_is_matched(parts)
-            | self.legal_representative_email_is_matched(parts)
-        )
-        return self.filter(q).distinct()
-
-    def match_name(self, part, prefix):
+    def q_match_name(self, name, prefix):
         lookup = f'{prefix}_name_phonetic__contains'
         q = models.Q()
-        for code in phonetic(part, encode=False):
+        for code in phonetic(name, encode=False):
             q &= models.Q(**{lookup: f':{code}:'})
         return q
 
-    def name_is_matched(self, parts, prefix):
+    def q_name_is_matched(self, names, prefix):
         q = models.Q()
-        for part in parts:
-            if '@' not in part:
-                q |= self.match_name(part, prefix)
+        for name in names:
+            q |= self.q_match_name(name, prefix)
         return q
 
-    def full_name_is_matched(self, parts):
-        return (
-            self.name_is_matched(parts, 'first')
-            & self.name_is_matched(parts, 'last')
-        )
+    def search(self, query):
+        # It is common that parents contact us about their children,
+        # so it is useful to be able to find children by their parent's
+        # contact data.
 
-    def phone_number_is_matched(self, parts):
-        q = models.Q()
-        for part in parts:
-            if '@' not in part and is_phone_number(part):
-                q |= models.Q(phone_number=part)
-                q |= models.Q(phone_number_alternative=part)
-        return q
-
-    def email_is_matched(self, parts):
-        q = models.Q()
-        for part in parts:
+        emails = []
+        phone_numbers = []
+        names = []
+        for part in query.split():
             if '@' in part:
-                q |= models.Q(email__iexact=part)
-        return q
-
-    def legal_representative_full_name_is_matched(self, parts):
-        return (
-            self.name_is_matched(parts, 'legal_representatives__first')
-            & self.name_is_matched(parts, 'legal_representatives__last')
-        )
-
-    def legal_representative_phone_number_is_matched(self, parts):
-        q = models.Q()
-        for part in parts:
-            if '@' not in part and is_phone_number(part):
-                q |= models.Q(legal_representatives__phone_number=part)
-                q |= models.Q(legal_representatives__phone_number_alternative=part)
-        return q
-
-    def legal_representative_email_is_matched(self, parts):
-        q = models.Q()
-        for part in parts:
-            if '@' in part:
-                q |= models.Q(legal_representatives__email__iexact=part)
-        return q
-
-    def all_parts_match(self, parts):
-        q = models.Q()
-        for part in parts:
-            if '@' in part:
-                q &= (
-                    models.Q(email__iexact=part)
-                    | models.Q(legal_representatives__email__iexact=part)
-                )
+                emails.append(part)
             elif is_phone_number(part):
-                q &= (
-                    models.Q(phone_number=part)
-                    | models.Q(phone_number_alternative=part)
-                    | models.Q(legal_representatives__phone_number=part)
-                    | models.Q(legal_representatives__phone_number_alternative=part)
-                )
+                phone_numbers.append(part)
             else:
-                q &= (
-                    self.match_name(part, 'first')
-                    | self.match_name(part, 'last')
-                    | self.match_name(part, 'legal_representatives__first')
-                    | self.match_name(part, 'legal_representatives__last')
-                )
-        return q
+                names.append(part)
+
+        q = models.Q()
+
+        for email in emails:
+            q &= (
+                models.Q(email__iexact=email)
+                | models.Q(legal_representatives__email__iexact=email)
+            )
+
+        for phone_number in phone_numbers:
+            q &= (
+                models.Q(phone_number=phone_number)
+                | models.Q(phone_number_alternative=phone_number)
+                | models.Q(legal_representatives__phone_number=phone_number)
+                | models.Q(legal_representatives__phone_number_alternative=phone_number)
+            )
+
+        for name in names:
+            q &= (
+                self.q_match_name(name, 'first')
+                | self.q_match_name(name, 'last')
+                | self.q_match_name(name, 'legal_representatives__first')
+                | self.q_match_name(name, 'legal_representatives__last')
+            )
+
+        # We do not want to allow overly generic queries. So if neither
+        # an email nor a phone number have been included, a full name must
+        # match.
+        if not emails and not phone_numbers:
+            q &= (
+                self.q_name_is_matched(names, 'first')
+                & self.q_name_is_matched(names, 'last')
+            ) | (
+                self.q_name_is_matched(names, 'legal_representatives__first')
+                & self.q_name_is_matched(names, 'legal_representatives__last')
+            )
+
+        return self.filter(q).distinct()
 
 
 class BaseContact(TimeStampedModel):
