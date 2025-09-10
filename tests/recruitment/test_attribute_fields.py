@@ -124,7 +124,7 @@ def test_age_filter_display(attribute):
 def test_age_statistics_bucket(attribute, study):
     field = attribute_fields.AgeAttributeField(attribute)
     with freeze_time('1970-01-01'):
-        buckets, get_bucket = field.get_statistics_grouping(study)
+        _buckets, get_bucket = field.get_statistics_grouping(study)
         assert get_bucket('1971-01-01') == 17
         assert get_bucket('1970-01-01') == 17
         assert get_bucket('1969-01-01') == 17
@@ -143,7 +143,7 @@ def test_age_statistics_bucket_children(attribute, study):
 
     field = attribute_fields.AgeAttributeField(attribute)
     with freeze_time('1970-01-01'):
-        buckets, get_bucket = field.get_statistics_grouping(study)
+        _buckets, get_bucket = field.get_statistics_grouping(study)
         assert get_bucket('1969-01-01') == 12
         assert get_bucket('1969-01-02') == 11
         assert get_bucket('1970-01-01') == 0

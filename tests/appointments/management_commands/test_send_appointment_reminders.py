@@ -29,7 +29,7 @@ def test_send_appointment_reminders_first(contact, study):
             participation=participation,
             start=timezone.now(),
         )
-        reached_count, not_reached_count = (
+        reached_count, _not_reached_count = (
             send_appointment_reminders('https://example.com')
         )
 
@@ -59,7 +59,7 @@ def test_send_appointment_reminders_second(contact, study):
             start=timezone.now(),
             first_reminder_sent=True,
         )
-        reached_count, not_reached_count = (
+        reached_count, _not_reached_count = (
             send_appointment_reminders('https://example.com')
         )
 
