@@ -41,8 +41,7 @@ class ContactQuerySet(models.QuerySet):
 
     def q_fuzzy_date_of_birth(self, date):
         return (
-            models.Q(date_of_birth=None)
-            | models.Q(date_of_birth__year=date.year, date_of_birth__month=date.month)
+            models.Q(date_of_birth__year=date.year, date_of_birth__month=date.month)
             | models.Q(date_of_birth__year=date.year, date_of_birth__day=date.day)
             | models.Q(date_of_birth__month=date.month, date_of_birth__day=date.day)
         )
@@ -89,7 +88,10 @@ class ContactQuerySet(models.QuerySet):
         q_certain = models.Q(first_name=first_name, last_name=last_name)
         if date_of_birth:
             q_certain &= models.Q(date_of_birth=date_of_birth) | q_family
-            q_certain &= self.q_fuzzy_date_of_birth(date_of_birth)
+            q_certain &= (
+                models.Q(date_of_birth=None)
+                | self.q_fuzzy_date_of_birth(date_of_birth)
+            )
         else:
             q_certain &= q_family
 
@@ -97,13 +99,19 @@ class ContactQuerySet(models.QuerySet):
         if certain:
             return certain
 
-        # last name can change (e.g. because of marriage), so we do
-        # not rely on it
-        q_uncertain = self.q_name_is_matched(first_name.split(), 'first') | q_family
+        # If we can compare date_of_birth, it and one of the others must match.
+        # Otherwise, first name and one of the others must match.
+        q_uncertain = self.q_name_is_matched(first_name.split(), 'first')
+        q_uncertain &= self.q_name_is_matched(last_name.split(), 'last') | q_family
         if date_of_birth:
-            q_uncertain &= self.q_fuzzy_date_of_birth(date_of_birth)
+            q_uncertain &= models.Q(date_of_birth=None)
+            q_uncertain |= self.q_fuzzy_date_of_birth(date_of_birth) & (
+                self.q_name_is_matched(first_name.split(), 'first')
+                | self.q_name_is_matched(last_name.split(), 'last')
+                | q_family
+            )
 
-        uncertain = self.filter(q_uncertain).all()
+        uncertain = self.filter(q_uncertain).distinct()
         if uncertain:
             raise PotentialDuplicateError(uncertain)
 

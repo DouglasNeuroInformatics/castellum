@@ -225,9 +225,10 @@ def test_fuzzy_find_potential_first_name_missing():
 
 @pytest.mark.django_db
 def test_fuzzy_find_potential_first_name_title():
-    baker.make(Contact, first_name='Dr.', last_name='bar', email='test@example.com')
+    date = datetime.date(1970, 1, 1)
+    baker.make(Contact, first_name='Dr.', last_name='bar', date_of_birth=date)
     with pytest.raises(PotentialDuplicateError):
-        Contact.objects.fuzzy_find('foo', 'bar', emails=['test@example.com'])
+        Contact.objects.fuzzy_find('foo', 'bar', date_of_birth=date)
 
 
 @pytest.mark.django_db
