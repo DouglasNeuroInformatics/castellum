@@ -78,9 +78,9 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 SubjectCreationRequest, data_is_deleted=False, pk=pk
             )
 
-    def get_matches(self, search):
+    def get_matches(self, query):
         user = self.request.user
-        contacts = Contact.objects.fuzzy_filter(search)
+        contacts = Contact.objects.search(query)
         can_view_subject = user.has_perm('subjects.view_subject')
         for subject in Subject.objects.filter(filter_queries.uuid_filter(contacts)):
             has_privacy_level = user.has_privacy_level(subject.privacy_level)
@@ -639,8 +639,8 @@ class SubjectSearchPopup(PermissionRequiredMixin, SubjectSearchView):
     permission_required = 'subjects.view_subject'
     nochrome = True
 
-    def get_matches(self, search):
-        contacts = Contact.objects.fuzzy_filter(search)
+    def get_matches(self, query):
+        contacts = Contact.objects.search(query)
         return Subject.objects.filter(filter_queries.uuid_filter(contacts))
 
     def get_context_data(self, **kwargs):
