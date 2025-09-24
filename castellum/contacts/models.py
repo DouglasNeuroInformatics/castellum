@@ -78,7 +78,7 @@ class ContactQuerySet(models.QuerySet):
         # but unlikely to be shared beyond that
         q_family = models.Q()
         for email in emails:
-            q_family |= models.Q(email=email)
+            q_family |= models.Q(email__iexact=email)
         for phone_number in phone_numbers:
             q_family |= models.Q(phone_number=phone_number)
             q_family |= models.Q(phone_number_alternative=phone_number)
