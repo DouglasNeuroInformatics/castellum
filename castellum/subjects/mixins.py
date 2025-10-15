@@ -5,7 +5,7 @@
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.exceptions import SuspiciousOperation
+from django.core.exceptions import BadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -162,7 +162,7 @@ class BaseReportView(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         if self.subject.blocked:
-            raise SuspiciousOperation
+            raise BadRequest
 
         form.instance.subject = self.subject
         form.instance.user = self.request.user
