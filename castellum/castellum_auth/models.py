@@ -35,11 +35,14 @@ class User(AbstractUser):
         ]
 
     def get_privacy_level(self):
-        for level in range(2, 0, -1):
+        privacy_level = 0
+        for level in range(1, 3):
             perm = f'castellum_auth.privacy_level_{level}'
             if self.has_perm(perm):
-                return level
-        return 0
+                privacy_level = level
+            else:
+                break
+        return privacy_level
 
     def has_privacy_level(self, level):
         return self.get_privacy_level() >= level
