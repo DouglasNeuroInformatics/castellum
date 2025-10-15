@@ -1,3 +1,5 @@
+import { default as qr } from '../qr/esm/index.js';
+
 window.$$ = {
     on: function(el, eventName, selector, fn) {
         el.addEventListener(eventName, function(event) {
@@ -93,7 +95,7 @@ $$.on(document, 'click', '[data-animation="success"]', function() {
     }, 800);
 });
 
-$$.on(document, 'click', '[data-js="replace-me"]', function(event) {
+$$.on(document, 'click', '[data-js="get-pseudonym"]', function(event) {
     event.preventDefault();
 
     if (this.querySelector('.fa-spinner')) {
@@ -105,14 +107,14 @@ $$.on(document, 'click', '[data-js="replace-me"]', function(event) {
     this.append(spinner);
 
     fetch(this.href, {credentials: 'same-origin'})
-        .then(response => {
-            if (response.ok) {
-                return response.text();
-            } else {
-                throw response;
-            }
+        .then(response => response.text())
+        .then(pseudonym => {
+            var wrapper = document.createElement('div');
+            wrapper.innerHTML = qr(pseudonym, 'svg');
+            wrapper.append(pseudonym);
+            wrapper.className = 'pseudonym';
+            this.replaceWith(wrapper);
         })
-        .then(pseudonym => this.parentElement.textContent = pseudonym)
         .catch(() => spinner.remove());
 });
 

@@ -198,3 +198,12 @@ input:checked + .checkbox-opacity {
 .select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected="true"] {
     background-color: var(--bs-primary);
 }
+
+.pseudonym {
+    max-width: 10em;
+    text-align: center;
+}
+
+.pseudonym svg {
+    display: block;
+}
