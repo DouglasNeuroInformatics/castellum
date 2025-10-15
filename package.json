@@ -3,8 +3,8 @@
     "license": "AGPL-3.0-or-later",
     "private": true,
     "dependencies": {
-        "@fortawesome/fontawesome-free": "7.0.1",
-        "@fullcalendar/bootstrap5": "6.1.18",
+        "@fortawesome/fontawesome-free": "7.1.0",
+        "@fullcalendar/bootstrap5": "6.1.19",
         "@popperjs/core": "2.11.8",
         "@ttskch/select2-bootstrap4-theme": "1.5.2",
         "bootstrap": "5.3.8",
