@@ -16,7 +16,8 @@ class SubjectAdmin(NoCreateModelAdmin):
 
 
 class ConsentDocumentAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'created_at', 'is_valid']
+    list_display = ['__str__', 'created_at', 'is_valid', 'is_deprecated']
+    list_filter = ['is_valid', 'is_deprecated']
 
 
 admin.site.register(models.ConsentDocument, ConsentDocumentAdmin)
