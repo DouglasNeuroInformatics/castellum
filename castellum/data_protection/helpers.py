@@ -101,6 +101,8 @@ def get_unnecessary_recruitment_data():
         .filter(
             models.Q(completeness__gt=0)
             | ~models.Q(study_type_disinterest=None)
+            | ~models.Q(relation=None)
+            | ~models.Q(reverse_relation=None)
         )
     )
 

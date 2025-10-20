@@ -31,6 +31,8 @@ from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.recruitment.mixins import BaseRelationCreateView
+from castellum.recruitment.mixins import BaseRelationDeleteView
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.mixins import with_study_lock
 from castellum.studies.models import Resource
@@ -572,6 +574,24 @@ class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
         return reverse(
             'recruitment:contact-update', args=[self.study.pk, self.participation.pk]
         )
+
+
+class RelationCreateView(RecruitmentUpdateMixin, BaseRelationCreateView):
+    subtab = 'attributes'
+
+    def get_success_url(self):
+        return reverse('recruitment:attributes-update', args=[
+            self.study.pk, self.participation.pk
+        ])
+
+
+class RelationDeleteView(RecruitmentUpdateMixin, BaseRelationDeleteView):
+    subtab = 'attributes'
+
+    def get_success_url(self):
+        return reverse('recruitment:attributes-update', args=[
+            self.study.pk, self.participation.pk
+        ])
 
 
 class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):

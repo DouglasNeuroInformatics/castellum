@@ -16,3 +16,5 @@ from .participations import ParticipationConsent
 from .participations import ReliabilityEntry
 from .subjectfilters import SubjectFilter
 from .subjectfilters import SubjectFilterGroup
+from .relations import RelationType
+from .relations import Relation

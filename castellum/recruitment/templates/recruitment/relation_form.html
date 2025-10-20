@@ -1,0 +1,31 @@
+{% extends view.base_template %}
+{% load static i18n django_bootstrap5 utils %}
+
+{% block title %}{% translate "Create relation" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% include 'utils/form_errors.html' with form=form %}
+        {% csrf_token %}
+
+        {% bootstrap_field form.key required_css_class='castellum-required' addon="select" %}
+        <div class="mb-3 castellum-required">
+            <label class="form-label" for="{{ form.other.id_for_label }}">{{ form.other.label }}</label>
+            <div class="input-group">
+                <button class="btn btn-secondary" type="button" data-js="subject-select">{% translate 'Select…' %}</button>
+                <select class="form-control" id="{{ form.other.id_for_label }}" name="{{ form.other.name }}" required tabindex="-1">
+                    <option value>---</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="d-print-none mb-3">
+            <a href="{{ view.get_success_url }}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
+            <button class="btn btn-primary">{% translate 'Save' %}</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script type="module" src="{% static 'js/relations.js' %}"></script>
+{% endblock %}

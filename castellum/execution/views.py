@@ -42,6 +42,8 @@ from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment.attribute_exporters import get_exporter
 from castellum.recruitment.mixins import BaseAttributesUpdateView
+from castellum.recruitment.mixins import BaseRelationCreateView
+from castellum.recruitment.mixins import BaseRelationDeleteView
 from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import NewsMailBatch
@@ -597,6 +599,24 @@ class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
     def get_contact_url(self):
         return reverse(
             'execution:contact-update', args=[self.study.pk, self.participation.pk]
+        )
+
+
+class RelationCreateView(ExecutionUpdateMixin, BaseRelationCreateView):
+    subtab = 'attributes'
+
+    def get_success_url(self):
+        return reverse(
+            'execution:attributes-update', args=[self.study.pk, self.participation.pk]
+        )
+
+
+class RelationDeleteView(ExecutionUpdateMixin, BaseRelationDeleteView):
+    subtab = 'attributes'
+
+    def get_success_url(self):
+        return reverse(
+            'execution:attributes-update', args=[self.study.pk, self.participation.pk]
         )
 
 

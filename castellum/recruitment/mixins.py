@@ -7,12 +7,15 @@ import datetime
 import logging
 
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_noop
+from django.views.generic import CreateView
+from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 
 from castellum.audit.helpers import audit
@@ -24,8 +27,11 @@ from castellum.utils.feeds import BaseCalendarFeed
 
 from . import filter_queries
 from .forms import AttributesForm
+from .forms import RelationForm
 from .models import Attribute
 from .models import Participation
+from .models import Relation
+from .models import RelationType
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
 
@@ -135,6 +141,14 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
 
         context['contact_url'] = self.get_contact_url()
 
+        context['relations'] = [
+            relation.relative_to(self.subject)
+            for relation in Relation.objects.filter(
+                models.Q(subject=self.subject)
+                | models.Q(other=self.subject)
+            ).select_related('type').order_by('type')
+        ]
+
         return context
 
 
@@ -156,3 +170,52 @@ class BaseFollowUpFeed(BaseCalendarFeed):
 
     def item_uid(self, item):
         return f'followup-{item.pk}@{self.request.get_host()}'
+
+
+class BaseRelationCreateView(PermissionRequiredMixin, CreateView):
+    model = Relation
+    form_class = RelationForm
+    permission_required = []
+
+    def check_auth_conditions(self):
+        if not super().check_auth_conditions():
+            return False
+        # always check this without study context object
+        return self.request.user.has_perm('subjects.change_subject')
+
+    def form_valid(self, form):
+        key = form.cleaned_data['key']
+        try:
+            form.instance.type = RelationType.objects.get(key=key)
+            form.instance.subject = self.subject
+        except RelationType.DoesNotExist:
+            form.instance.type = RelationType.objects.get(reverse_key=key)
+            form.instance.subject = form.instance.other
+            form.instance.other = self.subject
+        return super().form_valid(form)
+
+
+class BaseRelationDeleteView(PermissionRequiredMixin, DeleteView):
+    model = Relation
+    permission_required = []
+
+    def check_auth_conditions(self):
+        if not super().check_auth_conditions():
+            return False
+        # always check this without study context object
+        return self.request.user.has_perm('subjects.change_subject')
+
+    def get_object(self):
+        any_subject = models.Q(subject=self.subject) | models.Q(other=self.subject)
+        relation = get_object_or_404(Relation, any_subject, pk=self.kwargs['pk'])
+        data = relation.relative_to(self.subject)
+        if not self.request.user.has_privacy_level(data['other'].privacy_level):
+            raise PermissionDenied
+        return relation
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        relation_data = self.object.relative_to(self.subject)
+        context['other'] = relation_data['other']
+        context['label'] = relation_data['label']
+        return context
