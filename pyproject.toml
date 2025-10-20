@@ -12,7 +12,7 @@ dependencies = [
     "django-bootstrap5 == 25.2",
     "django-bootstrap-colors == 5.4.1",
     "django-mfa3 == 1.0.0",
-    "django-parlor == 0.0.2",
+    "django-parlor == 0.0.3",
     "django-phonenumber-field == 8.3.0",
     "Faker == 37.11.0",
     "geopy == 2.4.1",
