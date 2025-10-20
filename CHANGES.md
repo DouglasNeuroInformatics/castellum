@@ -1,3 +1,52 @@
+# 25.10.0 (unreleased)
+
+## breaking changes
+
+-   To provide a more robust fix for the security issue fixed in 25.7.1,
+    the storage location for study consent files has changed. The files
+    will automatically be moved as part of the migration. Still, we
+    strongly recommend to check your backups before doing the migration.
+-   Migrations from before 25.1.2 have been squashed. If you need to
+    upgrade from an earlier version, please first update to 25.1.2 and
+    then to the current version.
+-   In order to have an effective privacy level of 2, a user now needs
+    the `privacy_level_1` permissions in addition to `privacy_level_2`.
+-   The `MEDIA_ROOT` setting is no longer defined in the default
+    settings. Please make sure to set it explicitly.
+-   The "Token" prefix for API authentication has been removed. It had
+    been deprecated since 25.1.0.
+
+## new features
+
+-   It is now possible to create relations between subjects in addition
+    to attributes. This feature is experimental and may be subject to
+    significant changes in future releases. It is not yet possible to
+    use relations in study filters yet. The data could however already
+    be used in scripts.
+-   Pseudonyms are now rendered as QR codes to facilitate data exchange
+    with other systems.
+-   The new helper function `Contact.objects.fuzzy_find()` may be used
+    in import scripts to check for potential duplicates.
+-   The documentation on security has been extended significantly. See
+    <https://castellum.mpib.berlin/castellum/docs/security.html>
+
+## bug fixes
+
+-   In subject management, the link to edit a legal representative now
+    points to the contact form instead of the overview page.
+
+## other changes
+
+-   Autocompletion has been disabled in subject-related forms to avoid
+    storing sensitive information in the browser.
+-   The input field in the subject search popup is now focused
+    automatically.
+-   Subjects with missing contact information are no longer treated as
+    unreachable if they are currently participating in a study.
+*   The admin UI for managing translatable models (e.g. `Attribute`) has
+    changed because we switched to a different library.
+
+
 # 25.7.1 (2025-08-06)
 
 ## security
