@@ -62,7 +62,7 @@
         {% endif %}
 
         {% has_perm 'subjects.change_subject' user as can_change_all_subjects %}
-        {% if can_change_all_subjects %}
+        {% if can_change_all_subjects and relation_type_exists %}
             <fieldset class="mb-3">
                 <legend>{% translate 'Relations' %}</legend>
                 <div class="card">

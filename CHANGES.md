@@ -1,3 +1,8 @@
+# 25.10.2 (2025-10-21)
+
+-   Hide relations UI if no RelationType exists
+
+
 # 25.10.1 (2025-10-21)
 
 -   fix migration `0061_alter_consent_file` for long file names

@@ -141,6 +141,7 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
 
         context['contact_url'] = self.get_contact_url()
 
+        context['relation_type_exists'] = RelationType.objects.exists()
         context['relations'] = [
             relation.relative_to(self.subject)
             for relation in Relation.objects.filter(
