@@ -154,6 +154,8 @@ STATIC_ROOT = BASE_DIR.parent / 'static'
 
 MEDIA_URL = 'media/'
 
+MEDIA_ROOT = BASE_DIR / 'media'
+
 NPM_PATH = BASE_DIR.parent / 'node_modules'
 
 NPM_FILES = [

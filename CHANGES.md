@@ -11,8 +11,6 @@
     then to the current version.
 -   In order to have an effective privacy level of 2, a user now needs
     the `privacy_level_1` permissions in addition to `privacy_level_2`.
--   The `MEDIA_ROOT` setting is no longer defined in the default
-    settings. Please make sure to set it explicitly.
 -   The "Token" prefix for API authentication has been removed. It had
     been deprecated since 25.1.0.
 
