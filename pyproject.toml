@@ -9,7 +9,7 @@ dependencies = [
     "castellum-pseudonyms == 0.0.3",
     "cologne-phonetics == 2.0.0",
     "Django == 5.2.7",
-    "django-bootstrap5 == 25.2",
+    "django-bootstrap5 == 25.1",  # https://github.com/zostera/django-bootstrap5/issues/763
     "django-bootstrap-colors == 5.4.1",
     "django-mfa3 == 1.1.0",
     "django-parlor == 0.0.3",
