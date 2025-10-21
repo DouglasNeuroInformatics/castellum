@@ -329,6 +329,7 @@ class BaseConsent(models.Model):
         _('Signed file'),
         blank=True,
         upload_to=consent_upload_to,
+        max_length=140,
         content_types=['application/pdf'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
