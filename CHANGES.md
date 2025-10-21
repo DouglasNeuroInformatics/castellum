@@ -1,4 +1,11 @@
+# 25.10.1 (2025-10-21)
+
+-   fix migration `0061_alter_consent_file` for long file names
+
+
 # 25.10.0 (2025-10-21)
+
+Please do not install this version and skip to 25.10.1 directly.
 
 ## breaking changes
 

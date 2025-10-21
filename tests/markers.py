@@ -1,7 +1,10 @@
 import pytest
-from pkg_resources import parse_version
 
 import castellum
+
+
+def parse_version(s):
+    return [int(p, 10) for p in s.split('.')]
 
 
 def skip_old_migration(next_version):

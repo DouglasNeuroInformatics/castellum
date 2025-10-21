@@ -39,12 +39,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='consent',
             name='file',
-            field=castellum.utils.fields.RestrictedFileField(blank=True, upload_to=castellum.subjects.models.consent_upload_to, verbose_name='Signed file'),
+            field=castellum.utils.fields.RestrictedFileField(blank=True, max_length=140, upload_to=castellum.subjects.models.consent_upload_to, verbose_name='Signed file'),
         ),
         migrations.AlterField(
             model_name='consentrevision',
             name='file',
-            field=castellum.utils.fields.RestrictedFileField(blank=True, upload_to=castellum.subjects.models.consent_upload_to, verbose_name='Signed file'),
+            field=castellum.utils.fields.RestrictedFileField(blank=True, max_length=140, upload_to=castellum.subjects.models.consent_upload_to, verbose_name='Signed file'),
         ),
         migrations.RunPython(move_files),
     ]
