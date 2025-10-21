@@ -3,9 +3,10 @@
 ## breaking changes
 
 -   To provide a more robust fix for the security issue fixed in 25.7.1,
-    the storage location for study consent files has changed. The files
-    will automatically be moved as part of the migration. Still, we
-    strongly recommend to check your backups before doing the migration.
+    the storage location for recruitment consent files has changed. The
+    files will automatically be moved as part of the migration. Still,
+    we strongly recommend to check your backups before doing the
+    migration.
 -   Migrations from before 25.1.2 have been squashed. If you need to
     upgrade from an earlier version, please first update to 25.1.2 and
     then to the current version.
