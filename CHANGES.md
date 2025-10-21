@@ -1,4 +1,4 @@
-# 25.10.0 (unreleased)
+# 25.10.0 (2025-10-21)
 
 ## breaking changes
 
