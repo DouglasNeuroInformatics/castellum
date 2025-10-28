@@ -23,7 +23,7 @@ While we are a rather small project, we would be happy to hear about
 your ideas!
 
 However, Please understand that our mission is first and foremost to
-serve the Max Planck Gesellschaft and its institutes. While we try to
+serve the Max Planck Society and its institutes. While we try to
 build a reusable product, we cannot implement every potentially useful
 feature request.
 
