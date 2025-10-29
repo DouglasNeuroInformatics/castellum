@@ -2,7 +2,6 @@
 
 import csv
 import datetime
-import sys
 
 from django import forms
 from django.core.management.base import BaseCommand
@@ -10,6 +9,7 @@ from django.db import transaction
 
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.contacts.models import PotentialDuplicateError
 from castellum.subjects.models import Subject
 
 SOURCE = f'import {datetime.date.today()}'
@@ -38,6 +38,14 @@ def create(model, data, **extra):
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('path')
+        parser.add_argument('-i', '--interactive', action='store_true')
+
+    def ask(self, data, error):
+        self.stdout.write(str(data))
+        self.stdout.write(str(error.duplicates))
+        s = input('ignore potential duplicates? [yN] ')
+        self.stdout.write('\n')
+        return s == 'y'
 
     def handle(self, *args, **options):
         with open(options['path']) as fh:
@@ -51,12 +59,18 @@ class Command(BaseCommand):
                     contact_data = {key: row[i] for key, i in CONTACT_MAP.items() if row[i]}
                     address_data = {key: row[i] for key, i in ADDRESS_MAP.items() if row[i]}
 
-                    # may rise PotentialDuplicateError
-                    existing = Contact.objects.fuzzy_find(
-                        contact_data['first_name'],
-                        contact_data['last_name'],
-                        contact_data['date_of_birth'],
-                    )
+                    try:
+                        existing = Contact.objects.fuzzy_find(
+                            contact_data['first_name'],
+                            contact_data['last_name'],
+                            contact_data['date_of_birth'],
+                        )
+                    except PotentialDuplicateError as error:
+                        if options['interactive'] and self.ask(contact_data, error):
+                            existing = None
+                        else:
+                            raise
+
                     if existing:
                         continue
 
