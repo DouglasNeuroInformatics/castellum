@@ -39,6 +39,12 @@ class ContactQuerySet(models.QuerySet):
             q |= self.q_match_name(name, prefix)
         return q
 
+    def q_sub_name(self, name, prefix):
+        q = models.Q(**{f'{prefix}_name': name})
+        for sub in name.split():
+            q |= models.Q(**{f'{prefix}_name': sub})
+        return q
+
     def q_fuzzy_date_of_birth(self, date):
         return (
             models.Q(date_of_birth__year=date.year, date_of_birth__month=date.month)
@@ -86,7 +92,8 @@ class ContactQuerySet(models.QuerySet):
             q_family |= models.Q(legal_representative_of=child)
 
         if emails or phone_numbers or legal_representative_of or date_of_birth:
-            q_certain = models.Q(first_name=first_name, last_name=last_name)
+            q_certain = self.q_sub_name(first_name, 'first')
+            q_certain &= self.q_sub_name(last_name, 'last')
             if date_of_birth:
                 q_certain &= models.Q(date_of_birth=date_of_birth) | q_family
                 q_certain &= (
