@@ -118,6 +118,11 @@ class ContactQuerySet(models.QuerySet):
                 | self.q_name_is_matched(last_name.split(), 'last')
                 | q_family
             )
+        q_uncertain &= (
+            self.q_sub_name(first_name, 'first')
+            | self.q_sub_name(last_name, 'last')
+            | q_family
+        )
 
         uncertain = self.filter(q_uncertain).distinct()
         if uncertain:
