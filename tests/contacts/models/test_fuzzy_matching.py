@@ -215,6 +215,12 @@ def test_fuzzy_find_exact_first_name_missing():
 
 
 @pytest.mark.django_db
+def test_fuzzy_find_exact_email_last_name():
+    baker.make(Contact, first_name='foo', last_name='bar', email='foo@example.com')
+    assert Contact.objects.fuzzy_find('foo', 'asd', emails=['foo@example.com'])
+
+
+@pytest.mark.django_db
 def test_fuzzy_find_potential_name_only():
     baker.make(Contact, first_name='foo', last_name='bar')
     with pytest.raises(PotentialDuplicateError):

@@ -93,9 +93,12 @@ class ContactQuerySet(models.QuerySet):
 
         if emails or phone_numbers or legal_representative_of or date_of_birth:
             q_certain = self.q_sub_name(first_name, 'first')
-            q_certain &= self.q_sub_name(last_name, 'last')
+
             if date_of_birth:
-                q_certain &= models.Q(date_of_birth=date_of_birth) | q_family
+                q_certain &= (
+                    self.q_sub_name(last_name, 'last')
+                    & models.Q(date_of_birth=date_of_birth)
+                ) | q_family
                 q_certain &= (
                     models.Q(date_of_birth=None)
                     | self.q_fuzzy_date_of_birth(date_of_birth)
