@@ -208,6 +208,13 @@ def test_fuzzy_find_exact_legal_representative_of(contact):
 
 
 @pytest.mark.django_db
+def test_fuzzy_find_potential_name_only():
+    baker.make(Contact, first_name='foo', last_name='bar')
+    with pytest.raises(PotentialDuplicateError):
+        Contact.objects.fuzzy_find('foo', 'bar')
+
+
+@pytest.mark.django_db
 def test_fuzzy_find_potential_first_name_extra():
     date = datetime.date(1970, 1, 1)
     baker.make(Contact, first_name='foo baz', last_name='bar', date_of_birth=date)

@@ -85,19 +85,20 @@ class ContactQuerySet(models.QuerySet):
         for child in legal_representative_of:
             q_family |= models.Q(legal_representative_of=child)
 
-        q_certain = models.Q(first_name=first_name, last_name=last_name)
-        if date_of_birth:
-            q_certain &= models.Q(date_of_birth=date_of_birth) | q_family
-            q_certain &= (
-                models.Q(date_of_birth=None)
-                | self.q_fuzzy_date_of_birth(date_of_birth)
-            )
-        else:
-            q_certain &= q_family
+        if emails or phone_numbers or legal_representative_of or date_of_birth:
+            q_certain = models.Q(first_name=first_name, last_name=last_name)
+            if date_of_birth:
+                q_certain &= models.Q(date_of_birth=date_of_birth) | q_family
+                q_certain &= (
+                    models.Q(date_of_birth=None)
+                    | self.q_fuzzy_date_of_birth(date_of_birth)
+                )
+            else:
+                q_certain &= q_family
 
-        certain = self.filter(q_certain).first()
-        if certain:
-            return certain
+            certain = self.filter(q_certain).first()
+            if certain:
+                return certain
 
         # If we can compare date_of_birth, it and one of the others must match.
         # Otherwise, first name and one of the others must match.
