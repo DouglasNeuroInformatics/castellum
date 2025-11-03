@@ -39,6 +39,12 @@ class ContactQuerySet(models.QuerySet):
             q |= self.q_match_name(name, prefix)
         return q
 
+    def q_sub_name(self, name, prefix):
+        q = models.Q(**{f'{prefix}_name': name})
+        for sub in name.split():
+            q |= models.Q(**{f'{prefix}_name': sub})
+        return q
+
     def q_fuzzy_date_of_birth(self, date):
         return (
             models.Q(date_of_birth__year=date.year, date_of_birth__month=date.month)
@@ -85,19 +91,24 @@ class ContactQuerySet(models.QuerySet):
         for child in legal_representative_of:
             q_family |= models.Q(legal_representative_of=child)
 
-        q_certain = models.Q(first_name=first_name, last_name=last_name)
-        if date_of_birth:
-            q_certain &= models.Q(date_of_birth=date_of_birth) | q_family
-            q_certain &= (
-                models.Q(date_of_birth=None)
-                | self.q_fuzzy_date_of_birth(date_of_birth)
-            )
-        else:
-            q_certain &= q_family
+        if emails or phone_numbers or legal_representative_of or date_of_birth:
+            q_certain = self.q_sub_name(first_name, 'first')
 
-        certain = self.filter(q_certain).first()
-        if certain:
-            return certain
+            if date_of_birth:
+                q_certain &= (
+                    self.q_sub_name(last_name, 'last')
+                    & models.Q(date_of_birth=date_of_birth)
+                ) | q_family
+                q_certain &= (
+                    models.Q(date_of_birth=None)
+                    | self.q_fuzzy_date_of_birth(date_of_birth)
+                )
+            else:
+                q_certain &= q_family
+
+            certain = self.filter(q_certain).first()
+            if certain:
+                return certain
 
         # If we can compare date_of_birth, it and one of the others must match.
         # Otherwise, first name and one of the others must match.
@@ -110,6 +121,11 @@ class ContactQuerySet(models.QuerySet):
                 | self.q_name_is_matched(last_name.split(), 'last')
                 | q_family
             )
+        q_uncertain &= (
+            self.q_sub_name(first_name, 'first')
+            | self.q_sub_name(last_name, 'last')
+            | q_family
+        )
 
         uncertain = self.filter(q_uncertain).distinct()
         if uncertain:

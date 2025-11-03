@@ -208,6 +208,26 @@ def test_fuzzy_find_exact_legal_representative_of(contact):
 
 
 @pytest.mark.django_db
+def test_fuzzy_find_exact_first_name_missing():
+    date = datetime.date(1970, 1, 1)
+    baker.make(Contact, first_name='foo', last_name='bar', date_of_birth=date)
+    assert Contact.objects.fuzzy_find('foo baz', 'bar', date)
+
+
+@pytest.mark.django_db
+def test_fuzzy_find_exact_email_last_name():
+    baker.make(Contact, first_name='foo', last_name='bar', email='foo@example.com')
+    assert Contact.objects.fuzzy_find('foo', 'asd', emails=['foo@example.com'])
+
+
+@pytest.mark.django_db
+def test_fuzzy_find_potential_name_only():
+    baker.make(Contact, first_name='foo', last_name='bar')
+    with pytest.raises(PotentialDuplicateError):
+        Contact.objects.fuzzy_find('foo', 'bar')
+
+
+@pytest.mark.django_db
 def test_fuzzy_find_potential_first_name_extra():
     date = datetime.date(1970, 1, 1)
     baker.make(Contact, first_name='foo baz', last_name='bar', date_of_birth=date)
@@ -216,11 +236,11 @@ def test_fuzzy_find_potential_first_name_extra():
 
 
 @pytest.mark.django_db
-def test_fuzzy_find_potential_first_name_missing():
+def test_fuzzy_find_potential_extra_name_different():
     date = datetime.date(1970, 1, 1)
-    baker.make(Contact, first_name='foo', last_name='bar', date_of_birth=date)
+    baker.make(Contact, first_name='foo baz', last_name='bar', date_of_birth=date)
     with pytest.raises(PotentialDuplicateError):
-        Contact.objects.fuzzy_find('foo baz', 'bar', date)
+        Contact.objects.fuzzy_find('foo asd', 'bar', date)
 
 
 @pytest.mark.django_db
@@ -272,3 +292,8 @@ def test_fuzzy_find_none_date_of_birth():
     baker.make(Contact, first_name='foo', last_name='bar', date_of_birth=datetime.date(1970, 1, 1))  # noqa
     assert Contact.objects.fuzzy_find('foo', 'bar', datetime.date(2003, 12, 13)) is None
 
+
+@pytest.mark.django_db
+def test_fuzzy_find_none_everything_fuzzy():
+    baker.make(Contact, first_name='Kristin', last_name='Heiner', date_of_birth=datetime.date(1970, 1, 1))  # noqa
+    assert Contact.objects.fuzzy_find('Christin', 'Haina', datetime.date(1970, 5, 1)) is None  # noqa
