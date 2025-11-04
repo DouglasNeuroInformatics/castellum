@@ -22,6 +22,7 @@ RUN apk update && apk add \
     uwsgi-python \
     uwsgi-router_static \
     python3 \
+    py3-gunicorn \
     py3-pip \
     py3-wheel \
     py3-psycopg-c \
