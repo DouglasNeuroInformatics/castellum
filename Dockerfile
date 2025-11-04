@@ -5,14 +5,14 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH=/app/
 ENV DJANGO_SETTINGS_MODULE=django_settings
 
-RUN adduser -D -g '' uwsgi
+RUN adduser -D -g '' user
 
 RUN mkdir -p /app/log
-RUN chown uwsgi /app/log
+RUN chown user /app/log
 VOLUME /app/log
 
 RUN mkdir -p /app/media
-RUN chown uwsgi /app/media
+RUN chown user /app/media
 VOLUME /app/media
 
 EXPOSE 8000/tcp
@@ -55,5 +55,5 @@ RUN python3 -m django collectstatic --no-input --settings=castellum.settings.bar
 
 FROM base AS final
 COPY --from=static /app/static/ static
-USER uwsgi
+USER user
 CMD ["uwsgi", "uwsgi.ini"]
