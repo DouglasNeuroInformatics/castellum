@@ -1700,7 +1700,15 @@ msgstr "War zuverlässig"
 msgid "Reliability entry"
 msgstr "Zuverlässigkeitseintrag"
 
-#: castellum/recruitment/models/relations.py:35
+#: castellum/recruitment/models/relations.py:20
+msgid "Relation type"
+msgstr "Beziehungstyp"
+
+#: castellum/recruitment/models/relations.py:21
+msgid "Relation types"
+msgstr "Beziehungstypen"
+
+#: castellum/recruitment/models/relations.py:41
 msgid "Other person"
 msgstr "Andere Person"
 

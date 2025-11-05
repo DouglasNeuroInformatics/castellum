@@ -13,6 +13,12 @@ from castellum.subjects.models import Subject
 class RelationType(TranslatableModel):
     key = models.CharField(max_length=16, unique=True)
     reverse_key = models.CharField(max_length=16, unique=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = _('Relation type')
+        verbose_name_plural = _('Relation types')
 
     def __str__(self):
         return self.label
