@@ -2412,11 +2412,11 @@ msgstr ""
 
 #: castellum/studies/models.py:229
 msgid "Last activity after"
-msgstr "Letzter Aktivität nach"
+msgstr "Letzte Aktivität nach"
 
 #: castellum/studies/models.py:232
 msgid "Last activity before"
-msgstr "Letzter Aktivität vor"
+msgstr "Letzte Aktivität vor"
 
 #: castellum/studies/models.py:238
 msgid ""
