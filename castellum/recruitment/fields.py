@@ -10,6 +10,12 @@ from django import forms
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+MAX_VALUES = {
+    'years': 200,
+    'months': 180,
+    'days': 1460,
+}
+
 
 def _get_age_fields():
     return [
@@ -67,6 +73,6 @@ class AgeField(forms.MultiValueField):
 
             return period, scale
         else:
-            field = forms.IntegerField(min_value=0, max_value=1000)
+            field = forms.IntegerField(min_value=0, max_value=MAX_VALUES[scale])
             i = field.clean(period)
             return i, scale
