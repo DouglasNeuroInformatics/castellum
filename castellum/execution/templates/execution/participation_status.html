@@ -42,7 +42,8 @@
                 <input class="form-check-input" id="status-excluded" type="radio" name="status" value="{{ object.EXCLUDED_DROPPED_OUT }}">
                 <label class="form-check-label" for="status-excluded">
                     <strong>{% translate 'Excluded' %}</strong>:
-                    {% translate 'The subject will no longer participate in this study, and the data collected so far will not be used.' %}
+                    {% translate 'The subject will no longer participate in this study.' %}
+                    {% translate 'If any data has already been collected, it will not be used.' %}
                     {% translate 'Appointments will be deleted automatically.' %}
                 </label>
             </div>

@@ -1054,14 +1054,14 @@ msgid "Excluded"
 msgstr "Ausgeschlossen"
 
 #: castellum/execution/templates/execution/participation_status.html:45
-msgid ""
-"The subject will no longer participate in this study, and the data collected "
-"so far will not be used."
-msgstr ""
-"Die Proband*in wird nicht mehr an der Studie teilnehmen. Die bereits "
-"erhobenen Daten werden nicht benutzt."
+msgid "The subject will no longer participate in this study."
+msgstr "Die Proband*in wird nicht mehr an der Studie teilnehmen."
 
 #: castellum/execution/templates/execution/participation_status.html:46
+msgid "If any data has already been collected, it will not be used."
+msgstr "Falls schon Daten erhoben wurden werden diese nicht verwendet."
+
+#: castellum/execution/templates/execution/participation_status.html:47
 msgid "Appointments will be deleted automatically."
 msgstr "Die Termine werden automatisch gelöscht."
 
