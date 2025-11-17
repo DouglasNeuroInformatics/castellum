@@ -236,8 +236,9 @@ class RecruitmentViewOpen(RecruitmentView):
 
         if not_contacted_count >= hard_limit:
             messages.error(request, _(
-                'Application privacy does not allow you to add more subjects. '
-                'Please contact provided subjects before adding new ones.'
+                'You are not allowed to add more subjects. '
+                'Please contact the subjects who are already in the list '
+                'before adding new ones.'
             ))
             return self.get(request, *args, **kwargs)
 

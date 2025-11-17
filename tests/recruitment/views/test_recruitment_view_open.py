@@ -59,8 +59,9 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, member, study, subject
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
     assert str(messages[0]) == (
-        'Application privacy does not allow you to add more subjects. '
-        'Please contact provided subjects before adding new ones.'
+        'You are not allowed to add more subjects. '
+        'Please contact the subjects who are already in the list '
+        'before adding new ones.'
     )
     assert response.status_code == 200
 

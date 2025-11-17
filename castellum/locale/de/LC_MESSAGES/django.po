@@ -2107,11 +2107,11 @@ msgstr ""
 
 #: castellum/recruitment/views.py:239
 msgid ""
-"Application privacy does not allow you to add more subjects. Please contact "
-"provided subjects before adding new ones."
+"You are not allowed to add more subjects. Please contact the subjects who "
+"are already in the list before adding new ones."
 msgstr ""
-"Aus Datenschutzgründen ist es nicht erlaubt, weitere Proband*innen "
-"hinzuzufügen. Bitte kontaktieren Sie die existierenden Proband*innen bevor "
+"Es ist nicht erlaubt, weitere Proband*innen hinzuzufügen. Bitte "
+"kontaktieren Sie die Proband*innen, die bereits in der Liste sind, bevor "
 "Sie weitere hinzuzufügen."
 
 #: castellum/recruitment/views.py:255
