@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import datetime
+import math
 import os
 from urllib.parse import urlencode
 from urllib.parse import urlparse
@@ -13,6 +14,7 @@ from django import template
 from django.urls import reverse
 from django.utils import formats
 from django.utils import timezone
+from django.utils.formats import number_format
 from django.utils.timesince import timeuntil
 from django.utils.translation import gettext_lazy as _
 
@@ -76,6 +78,18 @@ def longdate(date):
 @register.filter
 def timedelta(delta):
     return timeuntil(timezone.now() + delta)
+
+
+@register.filter
+def loground(n):
+    if n < 10:
+        return '<10'
+    elif n < 100:
+        rounded = round(n / 10) * 10
+        return '~' + number_format(rounded)
+    base = 10 ** round(math.log10(n) - 1)
+    rounded = round(n / base) * base
+    return '~' + number_format(rounded)
 
 
 @register.filter
