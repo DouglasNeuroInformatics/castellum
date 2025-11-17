@@ -6,6 +6,9 @@
     <ul>
         <li>{% translate "Information about participants is still stored, but is no longer accessible." %}</li>
         <li>{% translate "Information about which subjects were contacted during the recruitment for this study will be deleted." %}</li>
+        {% if SCHEDULER_URL %}
+            <li>{% translate "Any external schedules associated with this study will be removed." %}</li>
+        {% endif %}
     </ul>
     <p>{% translate "You will still be able to resume the study to regain access to participants." %}</p>
 

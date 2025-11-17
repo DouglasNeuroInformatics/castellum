@@ -328,6 +328,11 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, DetailView
                 study_pk=study_pk,
             )
 
+            for session in self.study.studysession_set.all():
+                if session.schedule_id:
+                    session.schedule_id = None
+                    session.save()
+
             Pseudonym.objects.filter(
                 domain__in=self.study.domains.all(),
                 subject__in=(
