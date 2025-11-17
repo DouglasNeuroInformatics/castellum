@@ -3,6 +3,7 @@ from model_bakery import baker
 
 from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
+from castellum.studies.models import StudySession
 
 
 @pytest.mark.parametrize('user_fixture', [
@@ -24,6 +25,18 @@ def test_finish(request, client, user_fixture, study):
 
     study.refresh_from_db()
     assert study.status is Study.FINISHED
+
+
+def test_finish_session_domain(client, member, study):
+    client.force_login(member)
+
+    session = baker.make(StudySession, study=study)
+    assert not session.domains.exists()
+    session.domain
+    assert session.domains.exists()
+
+    client.post(f'/studies/{study.pk}/finish/')
+    assert not session.domains.exists()
 
 
 @pytest.mark.parametrize('initial_status', [

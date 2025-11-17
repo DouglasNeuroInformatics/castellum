@@ -329,6 +329,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, DetailView
             )
 
             for session in self.study.studysession_set.all():
+                session.domains.all().delete()
                 if session.schedule_id:
                     session.schedule_id = None
                     session.save()
