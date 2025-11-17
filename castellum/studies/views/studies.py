@@ -35,6 +35,7 @@ from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
+from castellum.utils import scheduler
 from castellum.utils.views import BaseProtectedMediaView
 from castellum.utils.views import get_next_url
 
@@ -331,6 +332,8 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, DetailView
             for session in self.study.studysession_set.all():
                 session.domains.all().delete()
                 if session.schedule_id:
+                    if settings.SCHEDULER_URL:
+                        scheduler.delete_schedule(session.schedule_id)
                     session.schedule_id = None
                     session.save()
 
