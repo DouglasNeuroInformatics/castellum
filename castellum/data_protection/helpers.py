@@ -3,6 +3,8 @@
 # SPDX-FileCopyrightText: 2018-2019 MPIP <http://www.psych.mpg.de/>
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+import datetime
+
 from django.conf import settings
 from django.db import models
 
@@ -28,13 +30,19 @@ def get_no_legal_basis():
     # If pseudonym domains have been deleted the only legal reasons to
     # keep a participation are recruitment (which is a spearate legal
     # basis) and news_interest.
+    q_news_interest = (
+        models.Q(news_interest=Participation.NOT_INTERESTED)
+        | models.Q(study__updated_at__lt=(
+            datetime.date.today() - settings.CASTELLUM_STUDY_NEWS_PERIOD
+        ))
+    )
     participations = (
         Participation.objects
         .filter(status__in=Participation.INVITED_SET)
         .exclude(
+            q_news_interest,
             study__status=Study.FINISHED,
             study__domains=None,
-            news_interest=Participation.NOT_INTERESTED,
         )
     )
 
