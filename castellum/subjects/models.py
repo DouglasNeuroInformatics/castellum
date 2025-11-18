@@ -216,7 +216,6 @@ class Subject(TimeStampedModel):
             .exclude(
                 study__status=Study.FINISHED,
                 study__domains=None,
-                news_interest=Participation.NOT_INTERESTED,
             )
             .exists()
         )

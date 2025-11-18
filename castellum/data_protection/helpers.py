@@ -25,16 +25,12 @@ def get_export_requested():
 
 
 def get_no_legal_basis():
-    # If pseudonym domains have been deleted the only legal reasons to
-    # keep a participation are recruitment (which is a spearate legal
-    # basis) and news_interest.
     participations = (
         Participation.objects
         .filter(status__in=Participation.INVITED_SET)
         .exclude(
             study__status=Study.FINISHED,
             study__domains=None,
-            news_interest=Participation.NOT_INTERESTED,
         )
     )
 

@@ -85,7 +85,7 @@ def test_get_no_legal_basis_study_consent_news_interest(subject):
         status=Participation.PARTICIPATING,
         news_interest=Participation.VIA_EMAIL,
     )
-    assert helpers.get_no_legal_basis().count() == 0
+    assert helpers.get_no_legal_basis().count() == 1
 
 
 def test_get_no_legal_basis_consent(subject):
