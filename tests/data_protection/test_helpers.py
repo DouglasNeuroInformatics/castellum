@@ -1,3 +1,5 @@
+import pytest
+from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
@@ -75,17 +77,23 @@ def test_get_no_legal_basis_study_consent_study_status(subject):
     assert helpers.get_no_legal_basis().count() == 0
 
 
-def test_get_no_legal_basis_study_consent_news_interest(subject):
-    baker.make(Consent, subject=subject)
-    study = baker.make(Study, status=Study.FINISHED)
-    baker.make(
-        Participation,
-        subject=subject,
-        study=study,
-        status=Participation.PARTICIPATING,
-        news_interest=Participation.VIA_EMAIL,
-    )
-    assert helpers.get_no_legal_basis().count() == 0
+@pytest.mark.parametrize('date,count', [
+    ('1973-01-01', 0),
+    ('1973-01-02', 1),
+])
+def test_get_no_legal_basis_study_consent_news_interest(subject, date, count):
+    with freeze_time('1970-01-01'):
+        baker.make(Consent, subject=subject)
+        study = baker.make(Study, status=Study.FINISHED)
+        baker.make(
+            Participation,
+            subject=subject,
+            study=study,
+            status=Participation.PARTICIPATING,
+            news_interest=Participation.VIA_EMAIL,
+        )
+    with freeze_time(date):
+        assert helpers.get_no_legal_basis().count() == count
 
 
 def test_get_no_legal_basis_consent(subject):

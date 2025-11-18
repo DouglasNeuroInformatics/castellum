@@ -210,13 +210,19 @@ class Subject(TimeStampedModel):
     def has_study_consent(self):
         from castellum.recruitment.models import Participation
         from castellum.studies.models import Study
+        q_news_interest = (
+            models.Q(news_interest=Participation.NOT_INTERESTED)
+            | models.Q(study__updated_at__lt=(
+                datetime.date.today() - settings.CASTELLUM_STUDY_NEWS_PERIOD
+            ))
+        )
         return (
             self.participation_set
             .filter(status__in=Participation.INVITED_SET)
             .exclude(
+                q_news_interest,
                 study__status=Study.FINISHED,
                 study__domains=None,
-                news_interest=Participation.NOT_INTERESTED,
             )
             .exists()
         )

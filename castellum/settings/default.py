@@ -82,6 +82,10 @@ CASTELLUM_CONSENT_REVIEW_PERIOD = relativedelta(weeks=2)
 # after requesting to be deleted
 CASTELLUM_SUBJECT_DELETION_PERIOD = datetime.timedelta(days=30)
 
+# timespan after the last update to a study that interest in study news
+# should count as a legal basis
+CASTELLUM_STUDY_NEWS_PERIOD = relativedelta(years=3)
+
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 
