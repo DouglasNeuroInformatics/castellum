@@ -11,6 +11,19 @@ def value_set(qs, key):
     return set(qs.values_list(key, flat=True).order_by())
 
 
+def q_any(qs):
+    if not qs:
+        return models.Q(pk__in=[])
+    total = models.Q()
+    for q in qs:
+        total |= q
+    return total
+
+
+def q_all(qs):
+    return ~q_any([~q for q in qs])
+
+
 class TimeStampedModel(models.Model):
     created_at = models.DateField(_('Created at'), auto_now_add=True)
     updated_at = models.DateField(_('Updated at'), auto_now=True)

@@ -25,6 +25,7 @@ from django.utils import timezone
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
+from castellum.utils.models import q_all
 from castellum.utils.models import value_set
 
 from .models import Attribute
@@ -157,11 +158,10 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
     if include_unknown is None:
         include_unknown = not subjectfiltergroup.study.complete_matches_only
 
-    q = models.Q()
-    for f in subjectfiltergroup.subjectfilter_set.all():
-        q &= f.to_q(include_unknown=include_unknown)
-
-    return q
+    return q_all([
+        f.to_q(include_unknown=include_unknown)
+        for f in subjectfiltergroup.subjectfilter_set.all()
+    ])
 
 
 def to_be_deleted():
@@ -221,7 +221,6 @@ def study_filters(study, include_unknown=None):
     q = models.Q()
     for group in study.subjectfiltergroup_set.all():
         q |= subjectfilters(group, include_unknown=include_unknown)
-
     return q
 
 
@@ -299,8 +298,7 @@ def completeness_expr(exclude_auto_fields=False):
 
 
 def study_criteria(study, *, enable_filters=True, include_unknown=None):
-    q = models.Q()
-    q &= study_exclusion(study)
+    q = study_exclusion(study)
     q &= study_disinterest(study)
     if 'castellum.geofilters' in settings.INSTALLED_APPS and study.geo_filter:
         q &= geofilter(study)

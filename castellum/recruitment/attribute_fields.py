@@ -17,6 +17,7 @@ from castellum.utils.forms import DateField
 from castellum.utils.forms import IntegerChoiceField
 from castellum.utils.forms import IntegerMultipleChoiceField
 from castellum.utils.forms import Select2Mixin
+from castellum.utils.models import q_any
 
 from .fields import AgeField
 
@@ -228,10 +229,10 @@ class OrderedChoiceAttributeField(ChoiceAttributeField):
                 **{f'order__{operator}': threshold.order}
             )
             # JSONField cannot use `in` lookups
-            q = models.Q()
-            for choice in allowed_choices:
-                q |= models.Q(**{f'attributes__{self.instance.json_key}': choice.pk})
-            return q
+            return q_any([
+                models.Q(**{f'attributes__{self.instance.json_key}': choice.pk})
+                for choice in allowed_choices
+            ])
         return super()._filter_to_q(operator, value)
 
 

@@ -15,6 +15,8 @@ from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
 from castellum.utils.models import TimeStampedModel
+from castellum.utils.models import q_all
+from castellum.utils.models import q_any
 
 from .utils import is_phone_number
 from .utils import phonetic
@@ -28,22 +30,20 @@ class PotentialDuplicateError(Exception):
 class ContactQuerySet(models.QuerySet):
     def q_match_name(self, name, prefix):
         lookup = f'{prefix}_name_phonetic__contains'
-        q = models.Q()
-        for code in phonetic(name, encode=False):
-            q &= models.Q(**{lookup: f':{code}:'})
-        return q
+        return q_all([
+            models.Q(**{lookup: f':{code}:'})
+            for code in phonetic(name, encode=False)
+
+        ])
 
     def q_name_is_matched(self, names, prefix):
-        q = models.Q()
-        for name in names:
-            q |= self.q_match_name(name, prefix)
-        return q
+        return q_any([self.q_match_name(name, prefix) for name in names])
 
     def q_sub_name(self, name, prefix):
-        q = models.Q(**{f'{prefix}_name': name})
-        for sub in name.split():
-            q |= models.Q(**{f'{prefix}_name': sub})
-        return q
+        return models.Q(**{f'{prefix}_name': name}) | q_any([
+            models.Q(**{f'{prefix}_name': sub})
+            for sub in name.split()
+        ])
 
     def q_fuzzy_date_of_birth(self, date):
         return (
@@ -82,14 +82,12 @@ class ContactQuerySet(models.QuerySet):
 
         # these properties are likey to be shared in a family,
         # but unlikely to be shared beyond that
-        q_family = models.Q()
-        for email in emails:
-            q_family |= models.Q(email__iexact=email)
-        for phone_number in phone_numbers:
-            q_family |= models.Q(phone_number=phone_number)
-            q_family |= models.Q(phone_number_alternative=phone_number)
-        for child in legal_representative_of:
-            q_family |= models.Q(legal_representative_of=child)
+        q_family = q_any(
+            [models.Q(email__iexact=email) for email in emails]
+            + [models.Q(phone_number=n) for n in phone_numbers]
+            + [models.Q(phone_number_alternative=n) for n in phone_numbers]
+            + [models.Q(legal_representative_of=c) for c in legal_representative_of]
+        )
 
         if emails or phone_numbers or legal_representative_of or date_of_birth:
             q_certain = self.q_sub_name(first_name, 'first')
