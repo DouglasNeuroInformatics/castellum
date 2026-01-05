@@ -1,4 +1,4 @@
-import { default as qr } from '../qr/esm/index.js';
+import { default as qr } from '../qr/index.js';
 
 window.$$ = {
     on: function(el, eventName, selector, fn) {
