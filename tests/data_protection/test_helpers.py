@@ -47,7 +47,7 @@ def test_get_no_legal_basis_study_consent_pseudonym(subject):
     baker.make(
         Participation, subject=subject, study=study, status=Participation.PARTICIPATING
     )
-    assert helpers.get_no_legal_basis().count() == 0
+    assert helpers.get_no_legal_basis().count() == 1
 
 
 def test_get_no_legal_basis_study_consent_status_recruitment(subject):

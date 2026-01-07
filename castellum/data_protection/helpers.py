@@ -43,7 +43,6 @@ def get_no_legal_basis():
         .exclude(
             q_news_interest,
             study__status=Study.FINISHED,
-            study__domains=None,
         )
     )
 
