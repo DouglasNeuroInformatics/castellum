@@ -137,10 +137,9 @@ restriction cannot be enforced effectively:
     a filter that only matches a single subject, they can deduce the
     values for all other attributes.
 
-    To mitigate this risk, age filters have limited granularity (so that
-    study coordinators can not restrict them down to a single date of
-    birth). It is crucial to consider similar restrictions whenever
-    adding a new attribute.
+    To mitigate this risk, the preview has limited granularity (e.g.
+    "<10"). Also, age filters cannot be restricted to a single date of
+    birth.
 
 -   **Adding new subjects**: When adding new subjects to the database,
     users must first check whether the subjects already exist. As a
