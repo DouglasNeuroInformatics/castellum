@@ -12,9 +12,13 @@ consent, the legal basis is deduced from available information.
     contacted for future studies. See :ref:`subject-consent`.
 
 -   **Study consent**: This applies if the subject currently participates in a
-    study. This is valid until all pseudonym lists for the study have been
-    deleted or (for subjects who are interested in news about the study) until
-    the study is deleted.
+    study.
+
+    -   This is valid until all pseudonym lists for the study have been
+        deleted.
+    -   For subjects who have expressed interest in news about the study, this
+        is valid for three years after the study has finished (see
+        ``CASTELLUM_STUDY_NEWS_PERIOD``)
 
 -   **Legal representative**: As long as a subject is the legal representative
     for another subject it is assumed that the legal basis for the other
