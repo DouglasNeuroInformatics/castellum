@@ -212,22 +212,21 @@ handle.
 Block a subject
 ---------------
 
-If a subject has been reported for inappropriate behavior, then an email will
-be sent to the email addresses of the reviewers that are listed in
-``CASTELLUM_REPORT_NOTIFICATION_TO``. For privacy reasons, no information
-except for the link to the report is included in the mail.
+When a subject gets reported for inappropriate behavior, they will be blocked
+temporarily. A link to the report will be sent to the reviewers who are listed
+in ``CASTELLUM_REPORT_NOTIFICATION_TO``. The report contains:
 
-After opening the link to the report, a reviewer will be shown:
-
-    - The **name of the subject** that was reported
-    - The **name of the user** that made the report
-    - The **additional wishes** of the user, if they have provided any
+    -   The **name of the subject** who was reported
+    -   The **name of the user** who made the report
+    -   The **additional wishes** of the user (if provided)
 
 Reviewers can then decide what to do with the report:
 
-    - If they want to block the subject, reviewers can click on **Block subject**
-    - If they don't want to block the subject, reviewers can click on **Discard report**
-    - In both cases, the report is deleted, for privacy reasons.
+    -   They can **confirm** the block, in which case the subject will no
+        longer be invited to studies. In order to enforce that block, their
+        contact information will be stored even against their will.
+    -   They can **discard** this report and un-block the subject.
+    -   In both cases, the report is deleted for privacy reasons.
 
 
 .. _subject-add-to-study:
