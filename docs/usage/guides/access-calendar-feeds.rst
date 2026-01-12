@@ -16,13 +16,7 @@ castellum start page.
 
 2.  Under "Per Study", find all appointments for each study where you are a member.
 
-3.  Under "Per Resource" find all occupied slots for all resources.
-
-    -   The list of resources is configurable by your institution
-
-    .. TODO::
-
-        - link to resources guide
+3.  Under "Per Resource" find all occupied slots for all :ref:`resources <admin-resources>`.
 
 .. admonition:: Example
 

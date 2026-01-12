@@ -168,3 +168,29 @@ Manage general pseudonym lists
 4.  Enter a name
 5.  Leave the ``object_id`` and ``content_type`` fields empty
 6.  Click on one of the saving options
+
+
+.. _admin-resources:
+
+Manage resources
+----------------
+
+A resource is something that is needed in an appoitnemnt, e.g. a room or a
+device. If you set up resources, study coordinators can select which of those
+resources are required for their sessions. The main benefit is that you can
+then get a calendar with all appointments that are associated with this
+resource.
+
+To set up a resource:
+
+1.  Click on **Admin** on the front page
+2.  Go to **Resources**
+3.  Click on **Add Resouce** (oval with grey background)
+4.  Enter a **name**
+5.  Select which users should have **access** to the resource calendar
+6.  If relevant, you can include an **external calendar** (ics) that contains
+    additional events, e.g. if the resource can be blocked for reasons other
+    than participant appointments.
+7.  The last option allows you to select a **color** for the external calendar
+    events.
+8.  Click on one of the saving options

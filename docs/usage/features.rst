@@ -55,7 +55,7 @@ Appointments
 
 Castellum can be used to manage appointments for test session. It will send
 reminder mails to subjects automatically. You can also define resources such as
-rooms or machines.
+rooms or devices.
 
 Relevant guides:
 
@@ -65,10 +65,7 @@ Relevant guides:
 -   :ref:`scheduler-setup`
 -   :ref:`scheduler-appointment`
 -   :ref:`access-calendar-feeds`
-
-.. TODO::
-
-    -   manage resources
+-   :ref:`admin-resources`
 
 Misc
 ----

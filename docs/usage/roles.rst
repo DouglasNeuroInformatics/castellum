@@ -105,10 +105,7 @@ Relevant guides:
 -   :ref:`admin-roles`
 -   :ref:`admin-attributes`
 -   :ref:`admin-consent-document`
-
-.. TODO::
-
-    -   manage resources
+-   :ref:`admin-resources`
 
 
 .. _study-roles:
