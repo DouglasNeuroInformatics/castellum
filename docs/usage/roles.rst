@@ -49,7 +49,7 @@ Relevant guides:
 -   :ref:`study-finish`
 -   :ref:`study-delete-pseudonym-lists`
 -   :ref:`study-delete`
--   :ref:`set-up-external-scheduler`
+-   :ref:`scheduler-setup`
 
 Study Approver
 ~~~~~~~~~~~~~~
@@ -139,7 +139,7 @@ Relevant guides:
 -   :ref:`recruitment`
 -   :ref:`recruitment-mail`
 -   :ref:`recruitment-appointments`
--   :ref:`make-appointments-with-external-scheduler`
+-   :ref:`scheduler-appointment`
 
 Study Conductor
 ~~~~~~~~~~~~~~~
@@ -156,7 +156,7 @@ Relevant guides:
 -   :ref:`subject-report`
 -   :ref:`subject-get-pseudonym`
 -   :ref:`recruitment-appointments`
--   :ref:`make-appointments-with-external-scheduler`
+-   :ref:`scheduler-appointment`
 
 .. TODO::
 

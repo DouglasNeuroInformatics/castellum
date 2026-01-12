@@ -96,7 +96,7 @@ Make appointments for sessions
     This describes setting up appointments **for** the participants manually by
     Castellum users. There is also a guide on how to use the optional external
     scheduler feature in Castellum that offers potential participants to select
-    appointments by themselves: :ref:`make-appointments-with-external-scheduler`.
+    appointments by themselves: :ref:`scheduler-appointment`.
 
 If you are recruiting for a study that has at least one session Castellum allows
 you to set up appointments for the participants:

@@ -62,8 +62,8 @@ Relevant guides:
 -   :ref:`study-sessions`
 -   :ref:`recruitment-appointments`
 -   :ref:`reception`
--   :ref:`set-up-external-scheduler`
--   :ref:`make-appointments-with-external-scheduler`
+-   :ref:`scheduler-setup`
+-   :ref:`scheduler-appointment`
 -   :ref:`access-calendar-feeds`
 
 .. TODO::

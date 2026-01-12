@@ -73,7 +73,7 @@ When adding a test session:
     mail to check the appearance of session reminders by using the
     corresponding button
 -   If your institute uses the external scheduler to schedule appointments, you
-    can enable it here  (see :ref:`set-up-external-scheduler`)
+    can enable it here (see :ref:`scheduler-setup`)
 
 For existing sessions a **Delete** button allows you to delete any test session
 you created. Click on **Update** to review or edit session details.

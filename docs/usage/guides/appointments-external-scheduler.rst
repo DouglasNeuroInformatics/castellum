@@ -6,7 +6,7 @@ Appointments: External scheduling
    :figclass: screenshot
 
 
-.. _set-up-external-scheduler:
+.. _scheduler-setup:
 
 Set up an external scheduler for appointments
 ---------------------------------------------
@@ -67,7 +67,7 @@ the dates for appointments for study sessions themselves.
     -   Confirm with **Save**.
     -   The scheduler can now be used in recruitment.
 
-.. _make-appointments-with-external-scheduler:
+.. _scheduler-appointment:
 
 Make appointments with the external scheduler
 ---------------------------------------------
