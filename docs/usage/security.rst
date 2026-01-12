@@ -203,8 +203,6 @@ deletion requests.
     study participants into Castellum.
 -   **Not using Pseudonyms**: Researchers might keep a redundant list of
     contact data instead of using the pseudonyms provided by Castellum.
--   **Inadequate Anonymization**: Researchers may neglect to fully
-    anonymize research data prior to deleting pseudonym lists.
 -   **Inadequate Deletion**: Data protection coordinators may neglect to
     delete data that no longer have a legal basis.
 
