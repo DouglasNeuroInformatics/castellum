@@ -61,12 +61,13 @@ Threats From Participants
     participants do not have contraindications, such as a pacemaker.
 -   **Reliability**: Participants may make multiple appointments and fail
     to show up, wasting valuable resources. Castellum includes a feature
-    to track participant reliability, allowing staff to identify and
-    exclude individuals who frequently miss appointments.
+    to :ref:`track participant reliability <execution-annotations>`,
+    allowing staff to identify and exclude individuals who frequently miss
+    appointments.
 -   **Threat to Staff**: Participants may be aggressive or even violent
-    towards staff members. Castellum provides functionality to block
-    participants in such cases, even against their will, based on
-    legitimate interests.
+    towards staff members. Castellum provides functionality to :ref:`block
+    participants <subject-block>` in such cases, even against their will,
+    based on legitimate interests.
 
 Threats From Users
 ------------------
