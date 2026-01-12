@@ -164,11 +164,9 @@ class Subject(TimeStampedModel):
 
     @cached_property
     def unknown_consent(self):
-        return not (
-            Consent.objects
-            .exclude(document__is_valid=False)
-            .filter(subject=self)
-            .exists()
+        return (
+            not self.has_consent
+            and not Consent.objects.filter(subject=self, document=None).exists()
         )
 
     @cached_property

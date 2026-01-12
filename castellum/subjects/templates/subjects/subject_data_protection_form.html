@@ -13,7 +13,7 @@
         <div class="card mb-3">
             <div class="card-body">
                 <div class="d-flex align-items-center gap-1">
-                    {% if object.consent.document %}
+                    {% if object.has_consent %}
                         {% icon 'check text-success fs-5' %}
                     {% elif object.consent.excluded_by_us %}
                         {% icon 'exclamation text-danger fs-5' %}
@@ -21,16 +21,7 @@
                         {% icon 'xmark text-danger fs-5' %}
                     {% endif %}
                     <div class="flex-grow-1">
-                        {% if object.unknown_consent %}
-                            <div>{% translate 'This subject has no recruitment consent yet' %}</div>
-                            <small>{% translate 'Subject created on' %} {{ subject.created_at|date }}</small>
-                        {% elif not object.consent.document and object.consent.excluded_by_us %}
-                            <div>{% translate 'This subject has been excluded by us' %}</div>
-                            <small>{% translate 'on' %} {{ object.consent.updated_at|date }}</small>
-                        {% elif not object.consent.document %}
-                            <div>{% translate 'This subject has declined recruitment consent' %}</div>
-                            <small>{% translate 'on' %} {{ object.consent.updated_at|date }}</small>
-                        {% else %}
+                        {% if object.has_consent %}
                             <div>{% translate 'This subject has given recruitment consent' %}</div>
                             <small>
                                 {% translate 'on' %} {{ object.consent.updated_at|date }}
@@ -48,6 +39,15 @@
                                     <a href="{% subject_media_url object.consent.file.url %}">{% translate 'Download signed document' %}</a>
                                 {% endif %}
                             </small>
+                        {% elif not object.consent.document and object.consent.excluded_by_us %}
+                            <div>{% translate 'This subject has been excluded by us' %}</div>
+                            <small>{% translate 'on' %} {{ object.consent.updated_at|date }}</small>
+                        {% elif not object.consent.document %}
+                            <div>{% translate 'This subject has declined recruitment consent' %}</div>
+                            <small>{% translate 'on' %} {{ object.consent.updated_at|date }}</small>
+                        {% else %}
+                            <div>{% translate 'This subject has no recruitment consent yet' %}</div>
+                            <small>{% translate 'Subject created on' %} {{ subject.created_at|date }}</small>
                         {% endif %}
                     </div>
                     {% if not subject.to_be_deleted %}
@@ -99,13 +99,7 @@
                                         {% icon 'xmark text-danger fs-5' %}
                                     {% endif %}
                                     <div class="flex-grow-1">
-                                        {% if not revision.document and revision.excluded_by_us %}
-                                            <div>{% translate 'This subject has been excluded by us' %}</div>
-                                            <small>{% translate 'on' %} {{ revision.created_at|date }}</small>
-                                        {% elif not revision.document %}
-                                            <div>{% translate 'This subject has declined recruitment consent' %}</div>
-                                            <small>{% translate 'on' %} {{ revision.created_at|date }}</small>
-                                        {% else %}
+                                        {% if revision.document %}
                                             <div>{% translate 'This subject has given recruitment consent' %}</div>
                                             <small>
                                                 {% translate 'on' %} {{ revision.created_at|date }}
@@ -125,6 +119,12 @@
                                                     <a href="{% subject_media_url revision.file.url %}">{% translate 'Download signed document' %}</a>
                                                 {% endif %}
                                             </small>
+                                        {% elif revision.excluded_by_us %}
+                                            <div>{% translate 'This subject has been excluded by us' %}</div>
+                                            <small>{% translate 'on' %} {{ revision.created_at|date }}</small>
+                                        {% else %}
+                                            <div>{% translate 'This subject has declined recruitment consent' %}</div>
+                                            <small>{% translate 'on' %} {{ revision.created_at|date }}</small>
                                         {% endif %}
                                     </div>
                                 </li>
