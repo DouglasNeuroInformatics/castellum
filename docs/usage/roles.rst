@@ -154,10 +154,7 @@ Relevant guides:
 -   :ref:`subject-get-pseudonym`
 -   :ref:`recruitment-appointments`
 -   :ref:`scheduler-appointment`
-
-.. TODO::
-
-    -   attribute export
+-   :ref:`execution-attribute-export`
 
 Overview
 --------

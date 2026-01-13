@@ -40,9 +40,7 @@ Relevant guides:
 -   :ref:`subject-by-pseudonym`
 -   :ref:`subject-by-general-pseudonym`
 -   :ref:`subject-get-pseudonym`
-
-.. TODO::
-    -   attribute export
+-   :ref:`execution-attribute-export`
 
 .. _general-pseudonym-lists:
 
