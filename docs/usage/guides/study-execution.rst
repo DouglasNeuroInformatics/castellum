@@ -73,28 +73,3 @@ participant. The **Hints** tab offers you
 -  mark the participant as unreliable. This information will be used for future
    study recruitments or study executions allowing other Castellum users to
    assess a potential subject and take precautions if necessary.
-
-
-.. _reception:
-
-Get a list of today's appointments
-----------------------------------
-
-On the front page, receptionists can click on and open the
-**Today's appointments** page. There they will see a table whose rows represent
-each appointment of the same day, ordered in chronological order, with the
-following information on each column:
-
--   **Time:** This column shows at which time each appointment starts.
--   **Name:** This column contains the name of each subject.
--   **Study:** This column contains the name of the study the subject is
-    participating in.
--   **Session:** This column contains the name of the session of the
-    study the subject is attending at.
--   **Contact person:** This column contains the name and telephone number
-    of the person(s) responsible for this study, who are to be contacted
-    if the receptionist needs additional information, e.g. the name and
-    location of the room the appointment will be held on, in order to
-    direct the subject accordingly.
--   **Assigned conductors:** This column contains the names of the
-    assigned conductors for this session of the study.
