@@ -157,8 +157,7 @@ Relevant guides:
 
 .. TODO::
 
-    -   attribute download
-    -   make appointments
+    -   attribute export
 
 Overview
 --------

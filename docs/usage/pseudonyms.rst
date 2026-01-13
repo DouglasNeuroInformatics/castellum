@@ -41,7 +41,7 @@ Relevant guides:
 -   :ref:`subject-by-general-pseudonym`
 -   :ref:`subject-get-pseudonym`
 
-.. todo::
+.. TODO::
     -   attribute export
 
 .. _general-pseudonym-lists:

@@ -72,5 +72,4 @@ Misc
 
 .. TODO::
 
-    -   custom groups
     -   news
