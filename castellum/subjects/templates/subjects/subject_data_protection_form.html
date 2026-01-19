@@ -34,6 +34,9 @@
                                 {% if object.consent.document.is_deprecated %}
                                     <span class="badge text-bg-warning">{% translate "deprecated" %}</span>
                                 {% endif %}
+                                {% if object.consent.expire_at %}
+                                    &middot; {% translate 'expires at' %} {{ object.consent.expire_at|date }}
+                                {% endif %}
                                 {% if object.consent.file %}
                                     &middot;
                                     <a href="{% subject_media_url object.consent.file.url %}">{% translate 'Download signed document' %}</a>
@@ -113,6 +116,9 @@
                                                     <span class="badge text-bg-danger">{% translate "invalid" %}</span>
                                                 {% elif revision.document.is_deprecated %}
                                                     <span class="badge text-bg-warning">{% translate "deprecated" %}</span>
+                                                {% endif %}
+                                                {% if revision.expire_at %}
+                                                    &middot; {% translate 'expires at' %} {{ revision.expire_at|date }}
                                                 {% endif %}
                                                 {% if revision.file %}
                                                     &middot;

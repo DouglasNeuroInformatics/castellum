@@ -298,6 +298,7 @@ class ConsentDocument(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     is_valid = models.BooleanField(_('Is valid'), default=True)
     is_deprecated = models.BooleanField(_('Is deprecated'), default=False)
+    expire_after = models.DurationField(_('Expire after'), blank=True, null=True)
     file = RestrictedFileField(
         _('File'),
         blank=True,
@@ -349,14 +350,22 @@ class Consent(BaseConsent):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     full_age_notified_1 = models.BooleanField(
-        _('First expiration notification sent'), default=False
+        _('First full age expiration notification sent'), default=False
     )
     full_age_notified_2 = models.BooleanField(
-        _('Second expiration notification sent'), default=False
+        _('Second full age expiration notification sent'), default=False
+    )
+    expire_at_notified = models.BooleanField(
+        _('Expiration notification sent'), default=False
     )
 
     class Meta:
         verbose_name = _('Consent')
+
+    @property
+    def expire_at(self):
+        if self.document and self.document.expire_after:
+            return self.updated_at + self.document.expire_after
 
     def save(self, *args, **kwargs):
         # updates Subject.updated_at
@@ -376,6 +385,11 @@ class Consent(BaseConsent):
 class ConsentRevision(BaseConsent):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
+
+    @property
+    def expire_at(self):
+        if self.document and self.document.expire_after:
+            return self.created_at + self.document.expire_after
 
     class Meta:
         verbose_name = _('Consent revision')

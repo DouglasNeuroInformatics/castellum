@@ -183,7 +183,12 @@ def has_consent(
 ):
     """Exclude subjects who do not want to be contacted for recruitment."""
 
-    q = models.Q(consent__document__is_valid=True)
+    q = models.Q(consent__document__is_valid=True) & (
+        models.Q(consent__document__expire_after=None)
+        | models.Q(consent__updated_at__gte=(
+            timezone.now() - models.F('consent__document__expire_after')
+        ))
+    )
 
     if exclude_deprecated:
         q &= models.Q(consent__document__is_deprecated=False)
