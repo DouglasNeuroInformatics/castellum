@@ -7,7 +7,7 @@ from django.conf import settings
 from django.db.models.signals import pre_delete
 from django.db.models.signals import pre_save
 
-from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.pseudonyms.helpers import get_pseudonym_if_exists
 from castellum.recruitment.models import Participation
 from castellum.utils import scheduler
 
@@ -17,8 +17,9 @@ from .models import Appointment
 def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
     if settings.SCHEDULER_URL:
         for session in instance.study.studysession_set.exclude(schedule_id=None):
-            pseudonym = get_pseudonym(instance.subject, session.domain)
-            scheduler.delete(session.schedule_id, pseudonym)
+            pseudonym = get_pseudonym_if_exists(instance.subject, session.domain)
+            if pseudonym:
+                scheduler.delete(session.schedule_id, pseudonym)
 
 
 def delete_appointments_on_save(sender, instance, using, **kwargs):
