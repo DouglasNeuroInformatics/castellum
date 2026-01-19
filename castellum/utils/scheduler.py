@@ -54,6 +54,16 @@ def get_bulk(id):
     }
 
 
+def delete_schedule(id):
+    url = f'{settings.SCHEDULER_URL}/api/'
+    r = requests.delete(url, headers={
+        'Authorization': f'Bearer {settings.SCHEDULER_TOKEN}',
+    })
+    if r.status_code not in [404]:
+        r.raise_for_status()
+    return r
+
+
 def create_invitation_url(id, token):
     put(id, token)  # make sure token exists
     return f'{settings.SCHEDULER_URL}/invitations/{id}/{token}/'

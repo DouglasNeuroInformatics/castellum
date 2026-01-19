@@ -53,10 +53,14 @@
         {% if SCHEDULER_URL and object %}
             <div class="mb-3">
                 {% bootstrap_field form.schedule_id wrapper_class="" required_css_class='castellum-required' %}
-                {% if object.appointment_set.exists %}
+                {% if object.schedule_id or object.appointment_set.exists %}
                     <div class="form-text">
                         {% icon 'warning' %}
-                        {% translate 'Changing the Schedule ID may cause conflicts with existing appointments or break invitation links.' %}
+                        {% if object.schedule_id %}
+                            {% translate 'Changing the Schedule ID will delete existing appointments and break invitation links.' %}
+                        {% else %}
+                            {% translate 'Adding a Schedule ID will delete existing appointments.' %}
+                        {% endif %}
                         {% translate 'Change at your own risk!' %}
                     </div>
                 {% endif %}

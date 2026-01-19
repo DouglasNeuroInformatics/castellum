@@ -3,6 +3,7 @@
 1	1	*	*	*	python3 -m django cleanup_media
 2	1	*	*	*	python3 -m django cleanup_availability
 3	1	*	*	*	python3 -m django cleanup_underage_consents
+4	1	*	*	*	python3 -m django cleanup_scheduler
 5	1	*	*	*	python3 -m django notify_to_be_deleted
 6	1	*	*	*	python3 -m django notify_sessions_end
 6	1	*	*	*	python3 -m django notify_pseudonyms_delete

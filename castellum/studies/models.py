@@ -536,9 +536,10 @@ class StudySession(models.Model):
 
     @property
     def domain(self):
-        domain = self.domains.first()
-        if domain:
-            return domain.key
+        domain, _created = self.domains.get_or_create(defaults={
+            'bits': settings.CASTELLUM_SESSION_DOMAIN_BITS,
+        })
+        return domain.key
 
 
 class StudyTag(models.Model):
