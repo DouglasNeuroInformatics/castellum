@@ -350,10 +350,13 @@ class Consent(BaseConsent):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     full_age_notified_1 = models.BooleanField(
-        _('First expiration notification sent'), default=False
+        _('First full age expiration notification sent'), default=False
     )
     full_age_notified_2 = models.BooleanField(
-        _('Second expiration notification sent'), default=False
+        _('Second full age expiration notification sent'), default=False
+    )
+    expire_at_notified = models.BooleanField(
+        _('Expiration notification sent'), default=False
     )
 
     class Meta:
