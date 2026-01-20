@@ -37,6 +37,7 @@ from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
+from castellum.data_protection.helpers import delete_recruitment_data
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_pseudonym_if_exists
 from castellum.pseudonyms.helpers import get_subject
@@ -446,27 +447,12 @@ class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailVie
     tab = 'attributes'
 
     def post(self, request, *args, **kwargs):
-        attributes = {}
-        if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
-            attr = Attribute.objects.get(
-                pk=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
-            )
-            if attr.json_key in self.subject.attributes:
-                attributes[attr.json_key] = self.subject.attributes[attr.json_key]
-
-        self.subject.attributes = attributes
-        self.subject.save()
-
-        self.subject.study_type_disinterest.clear()
-        self.subject.relation_set.all().delete()
-        self.subject.reverse_relation_set.all().delete()
-
+        delete_recruitment_data(self.subject)
         audit(
             gettext_noop('subject updated'),
             request.user.username,
             subject_pk=self.subject.pk,
         )
-
         return redirect('subjects:attributes', pk=self.subject.pk)
 
 
