@@ -10,6 +10,7 @@ from django.db import models
 
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
+from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
@@ -148,3 +149,20 @@ def get_subjects():
         )
         .order_by(models.F('due').asc(nulls_last=True))
     )
+
+
+def delete_recruitment_data(subject):
+    attributes = {}
+    if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
+        attr = Attribute.objects.get(
+            pk=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
+        )
+        if attr.json_key in subject.attributes:
+            attributes[attr.json_key] = subject.attributes[attr.json_key]
+
+    subject.attributes = attributes
+    subject.save()
+
+    subject.study_type_disinterest.clear()
+    subject.relation_set.all().delete()
+    subject.reverse_relation_set.all().delete()

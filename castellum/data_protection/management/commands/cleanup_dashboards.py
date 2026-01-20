@@ -35,6 +35,17 @@ def delete_unreachable(**kwargs):
     return _delete(qs, **kwargs)
 
 
+def delete_recruitment_data(created_before=None, dry_run=False):
+    qs = helpers.get_subjects().filter(unnecessary_recruitment_data=True)
+    if created_before:
+        qs = qs.filter(created_at__lt=created_before)
+    n = qs.count()
+    if not dry_run:
+        for subject in qs:
+            helpers.delete_recruitment_data(subject)
+    return n
+
+
 class Command(BaseCommand):
     help = 'Automatically clear dashboards by deleting subjects.'
 
@@ -42,6 +53,7 @@ class Command(BaseCommand):
         parser.add_argument('--to-be-deleted', action='store_true')
         parser.add_argument('--no-legal-basis', action='store_true')
         parser.add_argument('--unreachable', action='store_true')
+        parser.add_argument('--recruitment-data', action='store_true')
         parser.add_argument('-m', '--created-before-months', type=int)
         parser.add_argument('-n', '--dry-run', action='store_true')
 
@@ -71,4 +83,12 @@ class Command(BaseCommand):
             if options['verbosity'] > 0:
                 self.stdout.write(
                     f'Automatically deleted {deleted} unreachable subjects'
+                )
+
+        if options['recruitment_data']:
+            deleted = delete_recruitment_data(**kwargs)
+            if options['verbosity'] > 0:
+                self.stdout.write(
+                    'Automatically deleted unnecessary recruitment data '
+                    f'for {deleted} subjects'
                 )
