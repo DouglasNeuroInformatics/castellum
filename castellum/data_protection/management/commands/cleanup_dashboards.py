@@ -24,8 +24,8 @@ class Command(BaseCommand):
     help = 'Automatically clear dashboards by deleting subjects.'
 
     def add_arguments(self, parser):
-        parser.add_argument('--to_be_deleted', action='store_true')
-        parser.add_argument('--no_legal_basis', action='store_true')
+        parser.add_argument('--to-be-deleted', action='store_true')
+        parser.add_argument('--no-legal-basis', action='store_true')
         parser.add_argument('--unreachable', action='store_true')
 
     def handle(self, *args, **options):
