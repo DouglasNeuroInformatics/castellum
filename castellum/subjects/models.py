@@ -176,13 +176,6 @@ class Subject(TimeStampedModel):
             filter_queries.has_consent(include_ineffective=True), pk=self.pk,
         ).exists()
 
-    @cached_property
-    def has_consent_or_waiting(self):
-        from castellum.recruitment import filter_queries
-        return Subject.objects.filter(
-            filter_queries.has_consent(include_waiting=True), pk=self.pk,
-        ).exists()
-
     @property
     def has_consent_from_before_full_age(self):
         return (
@@ -273,11 +266,8 @@ class Subject(TimeStampedModel):
         ]
         return dict(options).get(self.privacy_level)
 
-    def get_attributes(self):
-        from castellum.recruitment.models import Attribute
-
-        qs = Attribute.objects.all()
-        return {attr.json_key: self.attributes.get(attr.json_key) for attr in qs}
+    def get_effective_privacy_level(self):
+        return math.ceil(self.privacy_level)
 
     @property
     def date_of_birth(self):
@@ -288,9 +278,6 @@ class Subject(TimeStampedModel):
                 return datetime.date.fromisoformat(value)
             except ValueError:
                 return None
-
-    def get_effective_privacy_level(self):
-        return math.ceil(self.privacy_level)
 
 
 class ConsentDocument(models.Model):
