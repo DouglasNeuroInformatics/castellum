@@ -16,9 +16,17 @@ from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 
 
+def make_subject(**kwargs):
+    contact = baker.make(Contact)
+    for key, value in kwargs.items():
+        setattr(contact.subject, key, value)
+    contact.subject.save()
+    return contact.subject
+
+
 @pytest.mark.django_db
 def test_cleanup_dashboards_to_be_deleted(subject):
-    subject_to_be_deleted = baker.make(Subject, to_be_deleted=timezone.now())
+    subject_to_be_deleted = make_subject(to_be_deleted=timezone.now())
 
     delete_to_be_deleted()
 
@@ -28,7 +36,7 @@ def test_cleanup_dashboards_to_be_deleted(subject):
 
 @pytest.mark.django_db
 def test_cleanup_dashboards_dry_run(subject):
-    subject_to_be_deleted = baker.make(Subject, to_be_deleted=timezone.now())
+    subject_to_be_deleted = make_subject(to_be_deleted=timezone.now())
 
     delete_to_be_deleted(dry_run=True)
 
@@ -39,21 +47,19 @@ def test_cleanup_dashboards_dry_run(subject):
 @pytest.mark.django_db
 def test_cleanup_dashboards_unreachable(subject):
     other_contact = baker.make(Contact, email='test@example.com')
-    other_subject = other_contact.subject
-    other_subject.save()
 
     delete_unreachable()
 
     assert not Subject.objects.filter(pk=subject.pk).exists()
-    assert Subject.objects.filter(pk=other_subject.pk).exists()
+    assert Subject.objects.filter(pk=other_contact.subject.pk).exists()
 
 
 @pytest.mark.django_db
 def test_cleanup_dashboards_no_legal_basis(subject, participation):
     contact_no_legal_basis = baker.make(Contact)
-    subject_no_legal_basis = contact_no_legal_basis.subject
-    baker.make(Consent, subject=subject_no_legal_basis)
+    baker.make(Consent, subject=contact_no_legal_basis.subject)
+
     delete_no_legal_basis()
 
-    assert not Subject.objects.filter(pk=subject_no_legal_basis.pk).exists()
+    assert not Subject.objects.filter(pk=contact_no_legal_basis.subject.pk).exists()
     assert Subject.objects.filter(pk=subject.pk).exists()

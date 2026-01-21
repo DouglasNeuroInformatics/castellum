@@ -14,10 +14,11 @@ from castellum.data_protection import helpers
 def _delete(qs, created_before=None, dry_run=False):
     if created_before:
         qs = qs.filter(created_at__lt=created_before)
-    if dry_run:
-        return qs.count()
-    else:
-        return qs.delete()[0]
+    n = qs.count()
+    if not dry_run:
+        for subject in qs:
+            subject.delete()
+    return n
 
 
 def delete_to_be_deleted(**kwargs):
