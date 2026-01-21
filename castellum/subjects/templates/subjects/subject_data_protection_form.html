@@ -35,7 +35,7 @@
                                     <span class="badge text-bg-warning">{% translate "deprecated" %}</span>
                                 {% endif %}
                                 {% if object.consent.expire_at %}
-                                    &middot; {% translate 'expires at' %} {{ object.consent.expire_at|date }}
+                                    &middot; <span {% if object.consent.expire_soon %}class="badge text-bg-warning"{% endif %}>{% translate 'expires at' %} {{ object.consent.expire_at|date }}</span>
                                 {% endif %}
                                 {% if object.consent.file %}
                                     &middot;

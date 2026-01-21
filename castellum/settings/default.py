@@ -413,8 +413,8 @@ CASTELLUM_FULL_AGE_MAIL_SUBJECT = None
 CASTELLUM_FULL_AGE_MAIL_BODY = None
 
 # used by the notify_on_consent_expire command
+CASTELLUM_EXPIRE_AT_WARN_BEFORE = relativedelta(weeks=2)
 CASTELLUM_EXPIRE_AT_MAIL_TO = []
-CASTELLUM_EXPIRE_AT_MAIL_BEFORE = relativedelta(weeks=2)
 CASTELLUM_EXPIRE_AT_MAIL_SUBJECT = 'Consents about to expire'
 CASTELLUM_EXPIRE_AT_MAIL_BODY = (
     'Some recruitment consents will expire soon:\n\n{subject_urls}'

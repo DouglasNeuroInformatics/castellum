@@ -186,15 +186,11 @@ class Subject(TimeStampedModel):
 
     @cached_property
     def consent_action_required(self):
-        try:
-            deprecated = self.consent.document.is_deprecated
-        except AttributeError:
-            deprecated = False
-
         return (
             self.has_consent_from_before_full_age
             or self.unknown_consent
-            or deprecated
+            or (self.has_consent and self.consent.expire_soon)
+            or (self.has_consent and self.consent.document.is_deprecated)
         )
 
     @cached_property
@@ -353,6 +349,11 @@ class Consent(BaseConsent):
     def expire_at(self):
         if self.document and self.document.expire_after:
             return self.updated_at + self.document.expire_after
+
+    @property
+    def expire_soon(self):
+        threshold = timezone.now() - settings.CASTELLUM_EXPIRE_AT_WARN_BEFORE
+        return self.expire_at and self.expire_at > threshold
 
     def save(self, *args, **kwargs):
         # updates Subject.updated_at
