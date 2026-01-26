@@ -4,7 +4,7 @@ Pseudonyms
 Scientific data should never be stored with a subject's name. Instead,
 Castellum provides pseudonyms that can be used to link the data back to the
 subject. Anyone who wants to get in contact with a subject should have to go
-through castellum.
+through Castellum.
 
 .. warning::
     Traces of contact data can also exist in the systems that are used for

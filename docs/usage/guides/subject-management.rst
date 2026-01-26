@@ -1,7 +1,7 @@
 Subject management
 ==================
 
-At its core, castellum can be used to record which subjects have participated
+At its core, Castellum can be used to record which subjects have participated
 in which studies. This allows to keep track of all data related to a subject,
 e.g. to export or delete all of it on request.
 
@@ -302,8 +302,8 @@ Export all data related to a subject
 According to GDPR, subjects have the right to get an export of all their data.
 This is especially important for scientific measurements that need to be
 provided in a common file format. Compared to that, the data stored in
-castellum is rather simple (e.g. name and address). Still, it is possible to
-generate a complete list of all the information that is stored in castellum on
+Castellum is rather simple (e.g. name and address). Still, it is possible to
+generate a complete list of all the information that is stored in Castellum on
 a single subject.
 
 1.  In the subject details, go to the **Export** tab

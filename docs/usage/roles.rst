@@ -5,7 +5,7 @@ Roles
 
 .. note::
 
-    This section lists the roles that castellum ships by default. Administrators
+    This section lists the roles that Castellum ships by default. Administrators
     can customize these roles for their organization.
 
 Study specific roles, in contrast to global ones, only take effect in the

@@ -40,7 +40,7 @@ Important steps when a user account has been compromised
 
 -   **Check the audit trail**: Castellum can be configured to create an
     :ref:`audit-trail` that sometimes allows to retrace suspicous behavior.
--   **Reset user tokens**: Besides login, some features of castellum can also
+-   **Reset user tokens**: Besides login, some features of Castellum can also
     be accessed by using a user token. An administrator can delete the token in
     the admin UI. A new one will be generated automatically.
 

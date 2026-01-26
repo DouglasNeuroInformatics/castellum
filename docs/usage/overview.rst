@@ -12,7 +12,7 @@ collected data. It also tracks recruitment consent, helping you to build
 a valuable pool of participants for future research projects.
 
 .. figure:: /_images/home.png
-   :alt: Screenshot of the castellum start page
+   :alt: Screenshot of the Castellum start page
    :figclass: screenshot
 
 Features

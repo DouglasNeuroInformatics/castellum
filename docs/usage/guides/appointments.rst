@@ -82,7 +82,7 @@ you to set up appointments for the participants:
 .. warning::
 
     There are cases in which for example two subjects will be tested at the
-    same time. For that reason castellum does not prevent you from booking
+    same time. For that reason Castellum does not prevent you from booking
     overlapping appointments. You have to make sure that the required staff and
     resources are available yourself.
 
@@ -158,9 +158,9 @@ the dates for appointments for study sessions themselves.
    Note that this is an optional feature which may not be activated in your setup.
    If the links referenced in this guide are missing from the user interface, the
    feature is not installed. If you would like to use it, please talk to the
-   administrator of your castellum instance.
+   administrator of your Castellum instance.
 
-1.  Find the scheduler link in castellum
+1.  Find the scheduler link in Castellum
 
     -   On the startpage, click **Studies**.
     -   In the studies list, select a study by clicking **Details**.
@@ -198,9 +198,9 @@ the dates for appointments for study sessions themselves.
         **Schedule ID**. Click on **Copy**, to have it ready on your clipboard,
         as you will need it in the next step.
 
-3.  Enter the schedule id in castellum
+3.  Enter the schedule id in Castellum
 
-    -   Return to the editing page of your session in castellum. If you have
+    -   Return to the editing page of your session in Castellum. If you have
         closed the corresponding tab on your browser, then repeat the first
         step of this guide, without clicking on the **New schedule** link.
     -   Under **External schedule ID**, paste the schedule ID.
@@ -251,7 +251,7 @@ Find the available calendar feeds
 `````````````````````````````````
 
 To access the calendar feeds overview page, add "/feeds/" to the URL of the
-castellum start page.
+Castellum start page.
 
 1.  Under "Per User" find user-specific feeds:
 
@@ -284,7 +284,7 @@ Each calendar feed URL contains a token that uniquely identifies you so you can
 access feeds that would not be available to other users.
 
 If another person gains access to that token they can consequently access
-confidential information from castellum. So in that case the token needs to be
+confidential information from Castellum. So in that case the token needs to be
 reset.
 
 An administrator can delete the token in the admin UI. A new one will be
