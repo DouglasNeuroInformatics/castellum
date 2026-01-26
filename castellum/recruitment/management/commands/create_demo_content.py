@@ -24,6 +24,7 @@ from castellum.studies.models import Study
 from castellum.studies.models import StudyGroup
 from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentDocument
+from castellum.subjects.models import ConsentRevision
 from castellum.subjects.models import Subject
 
 fake = Faker('de_DE')
@@ -250,6 +251,8 @@ def generate_subjects(count, stdout):
     document, _ = ConsentDocument.objects.filter(is_valid=True).get_or_create()
     consents = [Consent(subject=s, document=document) for s in subjects]
     Consent.objects.bulk_create(consents)
+    revisions = [ConsentRevision(subject=s, document=document) for s in subjects]
+    ConsentRevision.objects.bulk_create(revisions)
 
 
 def generate_streets(count, stdout):
