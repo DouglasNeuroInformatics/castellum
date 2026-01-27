@@ -1,3 +1,53 @@
+# 26.1.0
+
+## breaking changes
+
+-   The sole existence of pseudonyms is no longer treated as a legal
+    basis for keeping subject data in Castellum (see Art. 11 GDPR)
+-   Interest in study now expires as a legal basis. You can customize
+    the duration using ``CASTELLUM_STUDY_NEWS_PERIOD`` (default: 3
+    years).
+-   The number of potential matches in the filter UI is now rounded to
+    prevent data leaks
+-   ``MEDIA_ROOT`` is no longer defined in the default settings. Please
+    make sure to set it yourself.
+-   The user used in the docker image was renamed from "uwsgi" to "user"
+-   The documentation has been restructured, so that some links no
+    longer work
+-   The command line arguments for the `cleanup_dashboards` command now
+    use hyphens instead of underscores
+
+## new features
+
+-   Consent documents can now automatically expire after a given
+    duration. The duration can be defined in the Admin UI in the
+    "Expire after" field. Also see the `CASTELLUM_CONSENT_EXPIRE_AT_*`
+    settings and the `notify_on_consent_expire` command.
+-   The new `cleanup_scheduler` command can be used to delete schedules
+    and session domains for studies that have been finished for a while.
+-   The `cleanup_dashboards` command gained the command line arguments
+    `--recruitment-data` `--created-before-months`, and `--dry-run`.
+-   Relations can now be sorted using the `RelationType.order` field
+
+## bug fixes
+
+-   Fixed a performance issue when finishing studies which use the
+    scheduler
+-   Do not leave orphaned contact objects when using the
+    `cleanup_dashboards` command
+
+## other changes
+
+-   The  `Contact.objects.fuzzy_find()` helper function was further
+    refined
+-   The docker images still uses uwsgi by default, but now comes with
+    gunicorn as an alternative pre-installed. This is the first step in
+    a longer migration process.
+-   Granularity limits for age filters have been refined
+-   The `create_demo_content` now creates a consent revision for each
+    consent
+
+
 # 25.10.2 (2025-10-21)
 
 -   Hide relations UI if no RelationType exists
