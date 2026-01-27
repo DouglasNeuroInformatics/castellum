@@ -351,7 +351,7 @@ class Consent(BaseConsent):
 
     @property
     def expire_soon(self):
-        threshold = timezone.now() - settings.CASTELLUM_EXPIRE_AT_WARN_BEFORE
+        threshold = timezone.now() - settings.CASTELLUM_CONSENT_EXPIRE_AT_WARN_BEFORE
         return self.expire_at and self.expire_at > threshold
 
     def save(self, *args, **kwargs):

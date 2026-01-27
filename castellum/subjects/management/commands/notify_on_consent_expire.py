@@ -20,11 +20,11 @@ class Command(BaseCommand):
     help = 'Notify staff about consents that will soon expire'
 
     def handle(self, *args, **options):
-        if not settings.CASTELLUM_EXPIRE_AT_MAIL_TO:
-            raise CommandError('CASTELLUM_EXPIRE_AT_MAIL_TO not set')
+        if not settings.CASTELLUM_CONSENT_EXPIRE_AT_MAIL_TO:
+            raise CommandError('CASTELLUM_CONSENT_EXPIRE_AT_MAIL_TO not set')
 
         now = timezone.now()
-        threshold = now + settings.CASTELLUM_EXPIRE_AT_MAIL_BEFORE
+        threshold = now + settings.CASTELLUM_CONSENT_EXPIRE_AT_MAIL_BEFORE
 
         consents = Consent.objects.filter(
             expire_at_notified=False,
@@ -43,11 +43,11 @@ class Command(BaseCommand):
         if subject_urls:
             with MailContext('internal') as ctx:
                 success = ctx.send_mail(
-                    settings.CASTELLUM_EXPIRE_AT_MAIL_SUBJECT,
-                    settings.CASTELLUM_EXPIRE_AT_MAIL_BODY.format(
+                    settings.CASTELLUM_CONSENT_EXPIRE_AT_MAIL_SUBJECT,
+                    settings.CASTELLUM_CONSENT_EXPIRE_AT_MAIL_BODY.format(
                         subject_urls='\n'.join(subject_urls)
                     ),
-                    settings.CASTELLUM_EXPIRE_AT_MAIL_TO,
+                    settings.CASTELLUM_CONSENT_EXPIRE_AT_MAIL_TO,
                 )
 
             if success:
