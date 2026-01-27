@@ -2,7 +2,7 @@ Overview
 ========
 
 The General Data Protection Regulation (GDPR) requires organizations to
-keep a detailed inventory of the data they collect from individuals.
+quickly react to access and deletion request from individuals.
 This can be tricky for research institutes, where researchers often
 organize their work with a high degree of autonomy.
 

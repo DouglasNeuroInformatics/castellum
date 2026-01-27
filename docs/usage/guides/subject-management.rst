@@ -323,6 +323,19 @@ a single subject.
     the requester. Furthermore, secure transfer of exported data needs to be
     set up.
 
+.. note::
+
+    There can be cases where you have already deleted all information about a
+    subject in Castellum because there was no legal basis to keep it, but you
+    still have data stored about that subject elsewhere.
+    (`Art. 11 GDPR <https://gdpr-info.eu/art-11-gdpr/>`__ says that personal
+    data must not be stored solely for the purpose of responding to access
+    requests.)
+
+    In these cases, you should inform the subjects that you are not able to
+    identify which data you have stored about them without further information
+    (e.g. which studies they have participated in).
+
 
 .. _subject-unnecessary-recruitment-data:
 

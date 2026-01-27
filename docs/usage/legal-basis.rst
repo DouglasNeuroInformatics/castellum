@@ -14,8 +14,7 @@ consent, the legal basis is deduced from available information.
 -   **Study consent**: This applies if the subject currently participates in a
     study.
 
-    -   This is valid until all pseudonym lists for the study have been
-        deleted.
+    -   This is valid until the study has finished.
     -   For subjects who have expressed interest in news about the study, this
         is valid for three years after the study has finished (see
         ``CASTELLUM_STUDY_NEWS_PERIOD``)
