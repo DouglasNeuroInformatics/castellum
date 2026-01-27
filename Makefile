@@ -36,7 +36,7 @@ test:
 
 .PHONY: makemessages
 makemessages:
-	$(MANAGEPY) makemessages -l de -d django
+	$(MANAGEPY) makemessages --no-location -l de -d django
 
 .PHONY: docs
 docs:
