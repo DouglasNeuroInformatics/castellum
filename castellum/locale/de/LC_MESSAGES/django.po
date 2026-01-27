@@ -2091,19 +2091,15 @@ msgid "Leave empty to send no reminders."
 msgstr ""
 "Sie können die Felder leer lassen, um keine Erinnerungen zu verschicken."
 
-#, fuzzy
-#| msgid ""
-#| "Changing the Schedule ID may cause conflicts with existing appointments "
-#| "or break invitation links."
 msgid ""
 "Changing the Schedule ID will delete existing appointments and break "
 "invitation links."
 msgstr ""
-"Änderungen an der Terminplan-ID können zu Konflikten mit bestehenden "
-"Terminen oder defekten Einladungs-Links führen."
+"Bei Änderungen an der Terminplan-ID werden bestehenden "
+"Terminen gelöscht und Einladungs-Links werden ungültig."
 
 msgid "Adding a Schedule ID will delete existing appointments."
-msgstr ""
+msgstr "Beim Hinzufügen einer Terminplan-ID werden bestehende Termine gelöscht."
 
 msgid "Change at your own risk!"
 msgstr "Ändern auf eigene Gefahr!"
@@ -2311,10 +2307,8 @@ msgstr "Ist gültig"
 msgid "Is deprecated"
 msgstr "Ist überholt"
 
-#, fuzzy
-#| msgid "Expiration date"
 msgid "Expire after"
-msgstr "Ablaufdatum"
+msgstr "Läuft ab nach"
 
 msgid "Version {}"
 msgstr "Version {}"
@@ -2331,20 +2325,14 @@ msgstr "Unterschriebene Datei"
 msgid "Excluded by us"
 msgstr "Von uns ausgeschlossen"
 
-#, fuzzy
-#| msgid "First expiration notification sent"
 msgid "First full age expiration notification sent"
-msgstr "Erste Ablauf-Erinnerung gesendet"
+msgstr "Erste Volljährigkeits-Ablauf-Erinnerung gesendet"
 
-#, fuzzy
-#| msgid "Second expiration notification sent"
 msgid "Second full age expiration notification sent"
-msgstr "Zweite Ablauf-Erinnerung gesendet"
+msgstr "Zweite Volljährigkeits-Ablauf-Erinnerung gesendet"
 
-#, fuzzy
-#| msgid "First expiration notification sent"
 msgid "Expiration notification sent"
-msgstr "Erste Ablauf-Erinnerung gesendet"
+msgstr "Ablauf-Erinnerung gesendet"
 
 msgid "Consent revision"
 msgstr "Einwilligung-Revision"
@@ -2593,10 +2581,8 @@ msgstr "Diese Proband*in hat eine Rekrutierungseinwilligung gegeben"
 msgid "on"
 msgstr "am"
 
-#, fuzzy
-#| msgid "expired"
 msgid "expires at"
-msgstr "abgelaufen"
+msgstr "läuft ab am"
 
 msgid "Download signed document"
 msgstr "Unterschriebenes Dokument herunterladen"
