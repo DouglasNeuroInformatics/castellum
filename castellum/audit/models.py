@@ -7,7 +7,7 @@ from django.db import models
 
 
 class AuditEvent(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     action = models.CharField(max_length=32)
     username = models.CharField(max_length=150)
     study_pk = models.BigIntegerField(null=True)

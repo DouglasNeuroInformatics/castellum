@@ -186,8 +186,8 @@ class Participation(models.Model):
         },
     }
 
-    created_at = DateTimeField(_('Created at'), auto_now_add=True)
-    updated_at = DateTimeField(_('Updated at'), auto_now=True)
+    created_at = DateTimeField(_('Created at'), auto_now_add=True, db_index=True)
+    updated_at = DateTimeField(_('Updated at'), auto_now=True, db_index=True)
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
@@ -199,8 +199,11 @@ class Participation(models.Model):
         on_delete=models.SET_NULL,
     )
 
-    status = models.IntegerField(
-        _('Status of participation'), choices=STATUS_OPTIONS, default=NOT_CONTACTED
+    status = models.SmallIntegerField(
+        _('Status of participation'),
+        choices=STATUS_OPTIONS,
+        default=NOT_CONTACTED,
+        db_index=True,
     )
     exclusion_criteria_checked = models.BooleanField(
         _('Subject may be suitable'), default=False

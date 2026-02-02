@@ -211,10 +211,14 @@ class BaseContact(TimeStampedModel):
 class Contact(BaseContact):
     subject_uuid = models.UUIDField(unique=True, editable=False, default=None)
 
-    first_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
-    last_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
+    first_name_phonetic = models.CharField(
+        max_length=128, editable=False, default=None, db_index=True
+    )
+    last_name_phonetic = models.CharField(
+        max_length=128, editable=False, default=None, db_index=True
+    )
 
-    email = models.EmailField(_('Email'), max_length=128, blank=True)
+    email = models.EmailField(_('Email'), max_length=128, blank=True, db_index=True)
     phone_number_alternative = PhoneNumberField(
         _('Phone number alternative'), max_length=32, blank=True
     )
