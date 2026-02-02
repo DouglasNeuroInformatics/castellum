@@ -55,7 +55,7 @@ def get_bulk(id):
 
 
 def delete_schedule(id):
-    url = f'{settings.SCHEDULER_URL}/api/'
+    url = f'{settings.SCHEDULER_URL}/api/{id}/'
     r = requests.delete(url, headers={
         'Authorization': f'Bearer {settings.SCHEDULER_TOKEN}',
     })

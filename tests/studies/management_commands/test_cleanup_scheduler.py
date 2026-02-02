@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from freezegun import freeze_time
 from model_bakery import baker
 
@@ -16,7 +18,9 @@ def test_cleanup_scheduler(participation):
         assert session.domain  # create domain
 
     with freeze_time('1972-01-01'):
-        cmd.handle(dry_run=False, months=12, verbosity=0)
+        with patch('castellum.utils.scheduler.delete_schedule') as mock:
+            cmd.handle(dry_run=False, months=12, verbosity=0)
+            assert mock.called
 
     session.refresh_from_db()
     assert session.schedule_id is None
@@ -33,7 +37,9 @@ def test_too_new(participation):
         assert session.domain  # create domain
 
     with freeze_time('1970-02-01'):
-        cmd.handle(dry_run=False, months=12, verbosity=0)
+        with patch('castellum.utils.scheduler.delete_schedule') as mock:
+            cmd.handle(dry_run=False, months=12, verbosity=0)
+            assert not mock.called
 
     session.refresh_from_db()
     assert session.schedule_id == 'abc'

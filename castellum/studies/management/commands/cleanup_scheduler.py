@@ -4,7 +4,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 from dateutil.relativedelta import relativedelta
-from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import models
 from django.utils import timezone
@@ -21,10 +20,28 @@ class Command(BaseCommand):
         parser.add_argument('-n', '--dry-run', action='store_true')
         parser.add_argument('-m', '--months', type=int, default=12)
 
+    def clear_domains(self, qs, dry_run=False):
+        qs = qs.exclude(domains=None)
+        n = qs.count()
+        if not dry_run:
+            for session in qs:
+                session.domains.all().delete()
+        return n
+
+    def clear_schedules(self, qs, dry_run=False):
+        qs = qs.exclude(schedule_id=None)
+        n = qs.count()
+        if not dry_run:
+            for session in qs:
+                scheduler.delete_schedule(session.schedule_id)
+                session.schedule_id = None
+                session.save()
+        return n
+
     def handle(self, *args, **options):
         threshold = timezone.now() - relativedelta(months=options['months'])
 
-        qs = StudySession.objects.annotate(
+        qs = StudySession.objects.alias(
             a=models.Max('appointment__start')
         ).filter(
             models.Q(a__isnull=True) | models.Q(a__lt=threshold),
@@ -32,18 +49,10 @@ class Command(BaseCommand):
             study__updated_at__lt=threshold.date(),
         )
 
-        if options['dry_run']:
-            for session in qs:
-                self.stdout.write(session.pk)
-        else:
-            n = qs.count()
-            for session in qs:
-                session.domains.all().delete()
-                if session.schedule_id:
-                    if settings.SCHEDULER_URL:
-                        scheduler.delete_schedule(session.schedule_id)
-                    session.schedule_id = None
-                    session.save()
+        n = self.clear_schedules(qs, options['dry_run'])
+        if n > 0 and options['verbosity'] > 0:
+            self.stdout.write(f'deleted {n} schedules')
 
-            if options['verbosity'] > 0:
-                self.stdout.write(f'cleaned {n} sessions')
+        n = self.clear_domains(qs, options['dry_run'])
+        if n > 0 and options['verbosity'] > 0:
+            self.stdout.write(f'cleaned {n} session domains')
