@@ -332,6 +332,7 @@ class ReliabilityEntry(models.Model):
     class Meta:
         verbose_name = _('Reliability entry')
         verbose_name_plural = _('Reliability entry')
+        unique_together = ['study', 'subject']
 
     def save(self, *args, **kwargs):
         # updates Subject.updated_at
