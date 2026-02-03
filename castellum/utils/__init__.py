@@ -28,6 +28,15 @@ def cached_request(url: str, timeout=300):
     return value
 
 
+def cached_function(**kwargs):
+    def decorator(fn):
+        key = f'cached_function:{fn.__qualname__}'
+        def wrapper():
+            return cache.get_or_set(key, fn, **kwargs)
+        return wrapper
+    return decorator
+
+
 def contrast_color(color: str) -> str:
     # https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio
     r = (int(color[1:3], 16) / 255) ** 2.4

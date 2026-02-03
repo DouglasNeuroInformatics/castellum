@@ -52,6 +52,7 @@ from castellum.recruitment.statistics import render_statistics
 from castellum.studies.forms import StudyFilterForm
 from castellum.studies.mixins import with_study_lock
 from castellum.studies.models import Study
+from castellum.utils import cached_function
 from castellum.utils.expressions import exists
 from castellum.utils.models import value_set
 from castellum.utils.views import BaseProtectedMediaView
@@ -66,6 +67,21 @@ from .models import ExportAnswer
 from .models import Report
 from .models import Subject
 from .models import SubjectCreationRequest
+
+
+@cached_function(timeout=600)
+def get_subject_stats():
+    return [
+        import_string(stat)() if isinstance(stat, str) else stat()
+        for stat in settings.CASTELLUM_SUBJECT_STATS
+    ]
+
+
+@cached_function(timeout=600)
+def get_subject_statistics():
+    return render_statistics(
+        Subject.objects.filter(filter_queries.has_consent())
+    )
 
 
 @method_decorator(sensitive_post_parameters(), 'dispatch')
@@ -117,16 +133,8 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         context = super().get_context_data(**kwargs)
 
         context['count_total'] = Contact.objects.count()
-
-        context['stats'] = [
-            import_string(stat)() if isinstance(stat, str) else stat()
-            for stat in settings.CASTELLUM_SUBJECT_STATS
-        ]
-
-        context['statistics'] = render_statistics(
-            Subject.objects.filter(filter_queries.has_consent())
-        )
-
+        context['stats'] = get_subject_stats()
+        context['statistics'] = get_subject_statistics()
         context['subjectcreationrequest'] = self.subjectcreationrequest
 
         form = kwargs.get('form')
