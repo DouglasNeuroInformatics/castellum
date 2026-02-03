@@ -32,33 +32,29 @@ class AppointmentsForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.sessions = self.instance.study.studysession_set.order_by('pk')
+        invited = self.instance.status not in Participation.INVITED_SET
 
         for session in self.sessions:
             key = f'appointment-{session.pk}'
             appointment = self.instance.appointment_set.filter(session=session).first()
 
-            self.fields[key] = Appointment._meta.get_field('start').formfield(
+            self.fields[key] = self.get_formfield(
+                'start',
                 initial=appointment.start if appointment else None,
-                disabled=(
-                    self.instance.status not in Participation.INVITED_SET
-                    or bool(session.schedule_id)
-                ),
+                disabled=invited or bool(session.schedule_id),
                 required=False,
             )
-            self.fields[f'conductors-{key}'] = (
-                Appointment._meta.get_field('assigned_conductors').formfield(
-                    initial=(
-                        appointment.assigned_conductors.all() if appointment else []
-                    ),
-                    queryset=self.instance.study.studymembership_set.filter(
-                        user_id__in=[u.pk for u in self.instance.study.conductors]
-                    ),
-                    disabled=(
-                        self.instance.status not in Participation.INVITED_SET
-                        or (bool(session.schedule_id) and not appointment)
-                    ),
-                )
+            self.fields[f'conductors-{key}'] = self.get_formfield(
+                'assigned_conductors',
+                initial=appointment.assigned_conductors.all() if appointment else [],
+                queryset=self.instance.study.studymembership_set.filter(
+                    user_id__in=[u.pk for u in self.instance.study.conductors]
+                ),
+                disabled=invited or (bool(session.schedule_id) and not appointment),
             )
+
+    def get_formfield(self, field_name, **kwargs):
+        return Appointment._meta.get_field(field_name).formfield(**kwargs)
 
     def get_invitation_url(self, session):
         if (
