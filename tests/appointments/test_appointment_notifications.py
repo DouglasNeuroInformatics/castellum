@@ -13,7 +13,7 @@ def dt(s):
 def test_appointment_notifications(conductor, participation):
     send_appointment_notifications(
         participation,
-        (AppointmentState(dt('2017-01-01 12:00'), set()), None),
+        (AppointmentState(dt('2017-01-01 12:00'), '', set()), None),
         'http://example.com',
     )
     assert len(mail.outbox) == 1
@@ -22,7 +22,7 @@ def test_appointment_notifications(conductor, participation):
 def test_appointment_notifications_no_members(participation):
     send_appointment_notifications(
         participation,
-        (AppointmentState(dt('2017-01-01 12:00'), set()), None),
+        (AppointmentState(dt('2017-01-01 12:00'), '', set()), None),
         'http://example.com',
     )
     assert len(mail.outbox) == 0
@@ -31,7 +31,7 @@ def test_appointment_notifications_no_members(participation):
 def test_appointment_notifications_cc(user, conductor, participation):
     send_appointment_notifications(
         participation,
-        (AppointmentState(dt('2017-01-01 12:00'), set()), None),
+        (AppointmentState(dt('2017-01-01 12:00'), '', set()), None),
         'http://example.com',
         user=user,
     )
@@ -42,7 +42,7 @@ def test_appointment_notifications_cc(user, conductor, participation):
 def test_no_appointment_notifications_if_only_conductor(conductor, participation):
     send_appointment_notifications(
         participation,
-        (AppointmentState(dt('2017-01-01 12:00'), set()), None),
+        (AppointmentState(dt('2017-01-01 12:00'), '', set()), None),
         'http://example.com',
         user=conductor,
     )

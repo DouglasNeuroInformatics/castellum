@@ -44,6 +44,12 @@ class AppointmentsForm(forms.ModelForm):
                 disabled=invited or bool(session.schedule_id),
                 required=False,
             )
+            self.fields[f'location-{key}'] = self.get_formfield(
+                'location',
+                initial=appointment.location if appointment else '',
+                disabled=invited or (bool(session.schedule_id) and not appointment),
+                placeholder=session.location,
+            )
             self.fields[f'conductors-{key}'] = self.get_formfield(
                 'assigned_conductors',
                 initial=appointment.assigned_conductors.all() if appointment else [],
@@ -53,8 +59,11 @@ class AppointmentsForm(forms.ModelForm):
                 disabled=invited or (bool(session.schedule_id) and not appointment),
             )
 
-    def get_formfield(self, field_name, **kwargs):
-        return Appointment._meta.get_field(field_name).formfield(**kwargs)
+    def get_formfield(self, field_name, placeholder=None, **kwargs):
+        field = Appointment._meta.get_field(field_name).formfield(**kwargs)
+        if placeholder:
+            field.widget.attrs['placeholder'] = placeholder
+        return field
 
     def get_invitation_url(self, session):
         if (
@@ -86,8 +95,15 @@ class AppointmentsForm(forms.ModelForm):
         for session in self.sessions:
             key = f'appointment-{session.pk}'
             start = self.cleaned_data.get(key)
+            location = self.cleaned_data.get(f'location-{key}')
             conductors = self.cleaned_data.get(f'conductors-{key}')
-            change = Appointment.change(session, participation, start, conductors)
+            change = Appointment.change(
+                session,
+                participation,
+                start,
+                location=location,
+                conductors=conductors,
+            )
             if change:
                 self.appointment_changes.append(change)
 
@@ -102,6 +118,7 @@ class AppointmentsForm(forms.ModelForm):
                 'first_reminder_days': session.first_reminder_days,
                 'reminder_text': session.reminder_text,
                 'field': self[key],
+                'location': self[f'location-{key}'],
                 'assigned_conductors': self[f'conductors-{key}'],
                 'invitation_url': self.get_invitation_url(session),
             }

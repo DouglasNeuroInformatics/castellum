@@ -530,6 +530,7 @@ class StudySession(models.Model):
         _('External schedule ID'), max_length=64, blank=True, null=True, unique=True
     )
     schedule_updated_at = models.DateTimeField(default=timezone.now)
+    location = models.CharField(_('Lab/Room'), max_length=32, blank=True)
 
     def __str__(self):
         return f'{self.study} - {self.name}'

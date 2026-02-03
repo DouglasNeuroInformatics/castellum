@@ -20,7 +20,9 @@ from castellum.utils.fields import DateTimeField
 
 MINUTE = datetime.timedelta(seconds=60)
 
-AppointmentState = namedtuple('AppointmentState', ['start', 'assigned_conductors'])
+AppointmentState = namedtuple(
+    'AppointmentState', ['start', 'location', 'assigned_conductors']
+)
 
 
 class AppointmentQuerySet(models.QuerySet):
@@ -51,6 +53,7 @@ class Appointment(models.Model):
         blank=True,
         related_name='+',
     )
+    location = models.CharField(_('Lab/Room'), max_length=32, blank=True)
 
     objects = AppointmentQuerySet.as_manager()
 
@@ -81,31 +84,42 @@ class Appointment(models.Model):
     def end(self):
         return self.start + MINUTE * self.session.duration
 
+    def get_location(self):
+        return self.location or self.session.location
+
     @staticmethod
-    def change(session, participation, start, conductors=None):
+    def change(session, participation, start, *, location=None, conductors=None):
         appointment = participation.appointment_set.filter(session=session).first()
 
         if appointment:
             old = AppointmentState(
                 appointment.start,
+                appointment.get_location(),
                 {c.user for c in appointment.assigned_conductors.all()},
             )
             if not start:
                 appointment.delete()
                 return (old, None)
             else:
+                dirty = False
+                if location is not None:
+                    appointment.location = location
+                    dirty = True
                 if conductors is not None:
                     appointment.assigned_conductors.set(conductors)
                 if start != appointment.start:
                     appointment.start = start
                     appointment.first_reminder_sent = False
                     appointment.second_reminder_sent = False
+                    dirty = True
+                if dirty:
                     appointment.save()
         elif start:
             old = None
             appointment = participation.appointment_set.create(
                 session=session,
                 start=start,
+                location=location or '',
             )
             if conductors is not None:
                 appointment.assigned_conductors.set(conductors)
@@ -114,6 +128,7 @@ class Appointment(models.Model):
 
         new = AppointmentState(
             start,
+            appointment.get_location(),
             {c.user for c in appointment.assigned_conductors.all()},
         )
         if old != new:

@@ -86,6 +86,7 @@ class SessionForm(forms.ModelForm):
         fields = [
             'name',
             'duration',
+            'location',
             'resources',
             'type',
             'first_reminder_days',

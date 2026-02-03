@@ -60,7 +60,7 @@ def send_appointment_notifications(participation, change, base_url, user=None):
         assigned = ', '.join(
             str(user) for user in state.assigned_conductors
         ) or _('not assigned')
-        return f'{dt} ({assigned})'
+        return f'{dt} [{state.location}] ({assigned})'
 
     def get_mail_data():
         return {

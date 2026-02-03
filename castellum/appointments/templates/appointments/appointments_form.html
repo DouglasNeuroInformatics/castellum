@@ -29,7 +29,7 @@
         </dl>
 
         {% for entry in form.appointments %}
-            <fieldset class="mb-3">
+            <fieldset class="my-5">
                 <legend>{{ entry.legend }}</legend>
                 <div class="mb-2">
                     {% bootstrap_field entry.field wrapper_class="" %}
@@ -49,6 +49,7 @@
                         </div>
                     {% endif %}
                 </div>
+                {% bootstrap_field entry.location %}
                 <div data-js="d-select2-clear">
                     {% bootstrap_field entry.assigned_conductors %}
                 </div>

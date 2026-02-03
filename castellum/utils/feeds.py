@@ -33,6 +33,8 @@ class BaseCalendarFeed(View):
             if hasattr(self, 'item_attendees'):
                 for user in self.item_attendees(item):
                     event.add('attendee', user.email, {'CN': user.get_full_name()})
+            if hasattr(self, 'item_location'):
+                event.add('location', self.item_location(item))
             cal.add_component(event)
 
         response = HttpResponse(content_type='text/calendar')

@@ -111,6 +111,10 @@
     max-width: var(--bs-breakpoint-lg, 992px);
 }
 
+.container-xl {
+    max-width: var(--bs-breakpoint-xl, 1200px);
+}
+
 .text-hyphens {
     -webkit-hyphens: auto;
     -ms-hyphens: auto;

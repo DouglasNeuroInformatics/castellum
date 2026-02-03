@@ -7,7 +7,7 @@
     <li class="breadcrumb-item"><a href="{% url 'appointments:reception' %}">{% translate "Today's appointments" %}</a></li>
 {% endblock %}
 
-{% block container_class %}container-lg{% endblock%}
+{% block container_class %}container-xl{% endblock%}
 
 {% block content %}
     <table class="table">
@@ -18,6 +18,7 @@
                 <th>{% translate 'Study' %}</th>
                 <th>{% translate 'Session' %}</th>
                 <th>{% translate 'Contact person' %}</th>
+                <th>{% translate 'Lab/Room' %}</th>
                 <th>{% translate 'Assigned conductors' %}</th>
             </tr>
         </thead>
@@ -38,11 +39,12 @@
                         {{ appointment.participation.study|display:'contact_person' }}
                         ({{ appointment.participation.study|display:'phone' }})
                     </td>
+                    <td>{{ appointment|display:'location' }}</td>
                     <td>{{ appointment|display:'assigned_conductors' }}</td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="6" class="fst-italic">{% translate 'No appointments today' %}</td>
+                    <td colspan="7" class="fst-italic">{% translate 'No appointments today' %}</td>
                 </tr>
             {% endfor %}
         </tbody>

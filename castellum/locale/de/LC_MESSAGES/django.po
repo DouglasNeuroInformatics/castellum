@@ -59,6 +59,9 @@ msgstr "Teilnahme"
 msgid "Assigned conductors"
 msgstr "Zugewiesene Durchführer*innen"
 
+msgid "Lab/Room"
+msgstr "Labor/Raum"
+
 msgid "Appointment"
 msgstr "Termin"
 
