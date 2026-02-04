@@ -1,7 +1,7 @@
 import sphinx_rtd_theme
 
 project = 'Castellum'
-copyright = '2018-2025, Max Planck Institute for Human Development'
+copyright = '2018-2026, Max Planck Institute for Human Development'
 author = 'Max Planck Institute for Human Development'
 version = '26.1'
 language = 'en'
