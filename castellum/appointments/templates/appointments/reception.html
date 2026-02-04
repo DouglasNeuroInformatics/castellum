@@ -40,7 +40,11 @@
                         ({{ appointment.participation.study|display:'phone' }})
                     </td>
                     <td>{{ appointment|display:'location' }}</td>
-                    <td>{{ appointment|display:'assigned_conductors' }}</td>
+                    <td>
+                        {% for c in appointment.assigned_conductors.all %}
+                            {{ c.user.get_full_name }}{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </td>
                 </tr>
             {% empty %}
                 <tr>
