@@ -32,6 +32,9 @@ When adding a test session:
     in minutes** (duration will be used for appointment booking)
 -   Additionally, select the **Type** of the session and (if applicable at your
     institute) select :ref:`resources <admin-resources>`
+-   You can also enter a **Lab/Room** for this session. If any specific
+    appointment needs to use a different Lab/Room, they can overwrite this
+    default value.
 -   **Additional text for reminder emails** allows you to provide information
     to subjects prior to the actual appointment. You can send yourself a test
     mail to check the appearance of session reminders by using the
@@ -71,7 +74,8 @@ you to set up appointments for the participants:
        Study execution provides the same feature to make appointments with
        participating subjects. Thus, this can also be done by study conductors.
 
-3. You can also select which conductors will handle this appointment.
+3. You can also select a Lab/Room and which conductors will handle this
+   appointment.
 
 4. The **Calendar** button in the **Appointments** tab opens a new window and
    allows you to have a look at all already appointed sessions of the study.
