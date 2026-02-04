@@ -130,30 +130,26 @@ $$.on(document, 'click', '[data-js="submit"]', function() {
 document.querySelectorAll('[data-js="select2"]').forEach(el => {
     new Select(el, {
         inputClass: 'form-control',
-        valueClass: 'badge text-bg-secondary',
-        valueFocusClass: 'badge text-bg-primary',
+        valueClass: 'badge text-bg-secondary badge-delete',
     });
 });
 document.querySelectorAll('[data-js="d-select2"] select').forEach(el => {
     new Select(el, {
         inputClass: 'form-control',
-        valueClass: 'badge text-bg-secondary',
-        valueFocusClass: 'badge text-bg-primary',
+        valueClass: 'badge text-bg-secondary badge-delete',
     });
 });
 document.querySelectorAll('[data-js="d-select2-clear"] select').forEach(el => {
     new Select(el, {
         inputClass: 'form-control',
-        valueClass: 'badge text-bg-secondary',
-        valueFocusClass: 'badge text-bg-primary',
+        valueClass: 'badge text-bg-secondary badge-delete',
     });
 });
 
 document.querySelectorAll('[data-js="select2-tags"]').forEach(el => {
     new Select(el, {
         inputClass: 'form-control',
-        valueClass: 'badge text-bg-secondary',
-        valueFocusClass: 'badge text-bg-primary',
+        valueClass: 'badge text-bg-secondary badge-delete',
     });
 });
 

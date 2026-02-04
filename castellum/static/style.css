@@ -206,3 +206,12 @@ input:checked + .checkbox-opacity {
 .pseudonym svg {
     display: block;
 }
+
+.badge-delete::after {
+    content: "×" / "";
+    padding-left: var(--bs-badge-padding-x);
+}
+.badge-delete--focus {
+    box-shadow: 0 0 0 var(--bs-focus-ring-width) var(--bs-focus-ring-color);
+}
+
