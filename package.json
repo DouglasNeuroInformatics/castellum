@@ -6,12 +6,10 @@
         "@fortawesome/fontawesome-free": "7.1.0",
         "@fullcalendar/bootstrap5": "6.1.20",
         "@popperjs/core": "2.11.8",
-        "@ttskch/select2-bootstrap4-theme": "1.5.2",
         "bootstrap": "5.3.8",
         "fullcalendar-scheduler": "6.1.20",
         "jdenticon": "3.3.0",
-        "jquery": "3.7.1",
         "qr": "0.5.4",
-        "select2": "4.0.13"
+        "select": "github:xi/select#2e58b0c814fa0b2ff30bc445dd92106d16f414a4"
     }
 }
