@@ -34,6 +34,12 @@ class AppointmentQuerySet(models.QuerySet):
             ),
         )
 
+    def prefetch_assigned_conductors(self):
+        return self.prefetch_related(models.Prefetch(
+            'assigned_conductors',
+            queryset=StudyMembership.objects.select_related('user'),
+        ))
+
 
 class Appointment(models.Model):
     session = models.ForeignKey(

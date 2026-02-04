@@ -688,7 +688,12 @@ class CalendarView(
         }
 
     def get_appointments(self):
-        return super().get_appointments().filter(session__study=self.object)
+        return (
+            super().get_appointments()
+            .filter(session__study=self.object)
+            .select_related('participation__subject', 'session')
+            .prefetch_assigned_conductors()
+        )
 
 
 class ProgressView(

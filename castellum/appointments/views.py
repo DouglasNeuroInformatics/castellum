@@ -33,9 +33,7 @@ class ReceptionView(PermissionRequiredMixin, ListView):
                 'participation__study',
                 'session',
             )
-            .prefetch_related(
-                'assigned_conductors',
-            )
+            .prefetch_assigned_conductors()
         )
 
 
