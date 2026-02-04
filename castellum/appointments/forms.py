@@ -12,6 +12,7 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.models import Participation
+from castellum.studies.models import StudySession
 from castellum.utils import scheduler
 
 from .models import Appointment
@@ -48,7 +49,10 @@ class AppointmentsForm(forms.ModelForm):
                 'location',
                 initial=appointment.location if appointment else '',
                 disabled=invited or (bool(session.schedule_id) and not appointment),
-                placeholder=session.location,
+                widget_attrs={
+                    'placeholder': session.location,
+                    'list': 'locations',  # defined in the template
+                },
             )
             self.fields[f'conductors-{key}'] = self.get_formfield(
                 'assigned_conductors',
@@ -59,10 +63,9 @@ class AppointmentsForm(forms.ModelForm):
                 disabled=invited or (bool(session.schedule_id) and not appointment),
             )
 
-    def get_formfield(self, field_name, placeholder=None, **kwargs):
+    def get_formfield(self, field_name, widget_attrs={}, **kwargs):
         field = Appointment._meta.get_field(field_name).formfield(**kwargs)
-        if placeholder:
-            field.widget.attrs['placeholder'] = placeholder
+        field.widget.attrs.update(widget_attrs)
         return field
 
     def get_invitation_url(self, session):
@@ -122,3 +125,12 @@ class AppointmentsForm(forms.ModelForm):
                 'assigned_conductors': self[f'conductors-{key}'],
                 'invitation_url': self.get_invitation_url(session),
             }
+
+    @property
+    def locations(self):
+        return (
+            StudySession.objects
+            .order_by('location')
+            .values_list('location', flat=True)
+            .distinct()
+        )

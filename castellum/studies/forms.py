@@ -12,6 +12,7 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.castellum_auth.models import User
 from castellum.utils import scheduler
+from castellum.utils.forms import DatalistWidget
 from castellum.utils.forms import TagField
 
 from .models import Study
@@ -96,6 +97,13 @@ class SessionForm(forms.ModelForm):
         ]
         widgets = {
             'type': forms.CheckboxSelectMultiple(),
+            'location': DatalistWidget(
+                datalist=(
+                    StudySession.objects.order_by('location')
+                    .values_list('location', flat=True)
+                    .distinct
+                )
+            ),
         }
 
     def clean_schedule_id(self):

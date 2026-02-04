@@ -28,6 +28,14 @@
             </dd>
         </dl>
 
+        <datalist id="locations">
+            {% for option in form.locations %}
+                {% if option %}
+                    <option value="{{ option }}"></option>
+                {% endif %}
+            {% endfor %}
+        </datalist>
+
         {% for entry in form.appointments %}
             <fieldset class="my-5">
                 <legend>{{ entry.legend }}</legend>
