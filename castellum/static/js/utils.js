@@ -1,3 +1,4 @@
+import { Select } from '../select/select.js';
 import { default as qr } from '../qr/index.js';
 
 window.$$ = {
@@ -126,30 +127,77 @@ $$.on(document, 'click', '[data-js="submit"]', function() {
     });
 });
 
-$.fn.select2.defaults.set('theme', 'bootstrap4');
-$('[data-js="select2"]').select2();
-$('[data-js="select2-tags"]').select2({tags: true});
-$('[data-js="d-select2"] select').select2();
-$('[data-js="d-select2-clear"] select').select2({
-    allowClear: true,
-    placeholder: '---',
+document.querySelectorAll('[data-js="select2"]').forEach(el => {
+    new Select(el, {
+        inputClass: 'form-control',
+        valueClass: 'badge text-bg-secondary',
+        valueFocusClass: 'badge text-bg-primary',
+    });
+});
+document.querySelectorAll('[data-js="d-select2"] select').forEach(el => {
+    new Select(el, {
+        inputClass: 'form-control',
+        valueClass: 'badge text-bg-secondary',
+        valueFocusClass: 'badge text-bg-primary',
+    });
+});
+document.querySelectorAll('[data-js="d-select2-clear"] select').forEach(el => {
+    new Select(el, {
+        inputClass: 'form-control',
+        valueClass: 'badge text-bg-secondary',
+        valueFocusClass: 'badge text-bg-primary',
+    });
 });
 
-var prefixColor = function(state) {
-    if (!state.element) {
-        return null;
-    }
-    var $badge = $('<span class="w-100 badge">&nbsp</span>');
-    $badge.addClass(`text-bg-${state.element.value}`);
-    $badge.attr('aria-label', state.text);
-    return $badge;
-};
-
-$('[data-js="d-select2-color"] select').select2({
-    minimumResultsForSearch: -1,
-    templateResult: prefixColor,
-    templateSelection: prefixColor,
+document.querySelectorAll('[data-js="select2-tags"]').forEach(el => {
+    new Select(el, {
+        inputClass: 'form-control',
+        valueClass: 'badge text-bg-secondary',
+        valueFocusClass: 'badge text-bg-primary',
+    });
 });
+
+// var prefixColor = function(state) {
+//     if (!state.element) {
+//         return null;
+//     }
+//     var $badge = $('<span class="w-100 badge">&nbsp</span>');
+//     $badge.addClass(`text-bg-${state.element.value}`);
+//     $badge.attr('aria-label', state.text);
+//     return $badge;
+// };
+
+// $('[data-js="d-select2-color"] select').select2({
+//     minimumResultsForSearch: -1,
+//     templateResult: prefixColor,
+//     templateSelection: prefixColor,
+// });
+
+
+// $.fn.select2.defaults.set('theme', 'bootstrap4');
+// $('[data-js="select2"]').select2();
+// $('[data-js="select2-tags"]').select2({tags: true});
+// $('[data-js="d-select2"] select').select2();
+// $('[data-js="d-select2-clear"] select').select2({
+//     allowClear: true,
+//     placeholder: '---',
+// });
+
+// var prefixColor = function(state) {
+//     if (!state.element) {
+//         return null;
+//     }
+//     var $badge = $('<span class="w-100 badge">&nbsp</span>');
+//     $badge.addClass(`text-bg-${state.element.value}`);
+//     $badge.attr('aria-label', state.text);
+//     return $badge;
+// };
+
+// $('[data-js="d-select2-color"] select').select2({
+//     minimumResultsForSearch: -1,
+//     templateResult: prefixColor,
+//     templateSelection: prefixColor,
+// });
 
 var firstErrorInTab = document.querySelector(
     '[role="tabpanel"] form .alert-danger, [role="tabpanel"] .is-invalid'
