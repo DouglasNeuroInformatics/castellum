@@ -424,11 +424,11 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
             subject = get_subject(
                 form.cleaned_data['domain'], form.cleaned_data['pseudonym']
             )
-            participation = Participation.objects.filter(
+            participation = Participation.objects.get(
                 study=self.study,
                 subject=subject,
                 status__in=Participation.INVITED_SET,
-            ).get()
+            )
             audit(
                 gettext_noop('pseudonym resolved'),
                 self.request.user.username,
