@@ -42,15 +42,15 @@
                                     <a href="{% subject_media_url object.consent.file.url %}">{% translate 'Download signed document' %}</a>
                                 {% endif %}
                             </small>
-                        {% elif not object.consent.document and object.consent.excluded_by_us %}
-                            <div>{% translate 'This subject has been excluded by us' %}</div>
-                            <small>{% translate 'on' %} {{ object.consent.updated_at|date }}</small>
-                        {% elif not object.consent.document %}
-                            <div>{% translate 'This subject has declined recruitment consent' %}</div>
-                            <small>{% translate 'on' %} {{ object.consent.updated_at|date }}</small>
-                        {% else %}
+                        {% elif object.unknown_consent %}
                             <div>{% translate 'This subject has no recruitment consent yet' %}</div>
                             <small>{% translate 'Subject created on' %} {{ subject.created_at|date }}</small>
+                        {% elif object.consent.excluded_by_us %}
+                            <div>{% translate 'This subject has been excluded by us' %}</div>
+                            <small>{% translate 'on' %} {{ object.consent.updated_at|date }}</small>
+                        {% else %}
+                            <div>{% translate 'This subject has declined recruitment consent' %}</div>
+                            <small>{% translate 'on' %} {{ object.consent.updated_at|date }}</small>
                         {% endif %}
                     </div>
                     {% if not subject.to_be_deleted %}
