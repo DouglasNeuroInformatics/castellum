@@ -89,6 +89,12 @@
             {% has_perm 'subjects.delete_subject' user as can_delete_subject %}
             {% if can_delete_subject %}
                 <li class="nav-item">
+                    <a href="{% url 'subjects:merge' subject.pk %}" class="nav-link {% if view.tab == 'merge' %}active{% endif %}">
+                        {% translate 'Merge' %}
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{% url 'subjects:delete' subject.pk %}" class="nav-link {% if view.tab == 'delete' %}active{% endif %}">
                         {% translate 'Delete' %}
                         {% if subject.to_be_deleted %}
