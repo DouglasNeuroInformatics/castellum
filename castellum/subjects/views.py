@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import models
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -57,12 +58,14 @@ from castellum.utils.expressions import exists
 from castellum.utils.models import value_set
 from castellum.utils.views import BaseProtectedMediaView
 
+from .forms import SubjectMergeForm
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
 from .mixins import BaseConsentChangeView
 from .mixins import BaseDataProtectionUpdateView
 from .mixins import BaseReportView
 from .mixins import SubjectMixin
+from .models import Consent
 from .models import ExportAnswer
 from .models import Report
 from .models import Subject
@@ -330,6 +333,81 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         )
         messages.success(self.request, _('Subject has been deleted.'))
         return response
+
+
+class SubjectMergeView(SubjectMixin, PermissionRequiredMixin, DeleteView):
+    model = Subject
+    form_class = SubjectMergeForm
+    template_name = 'subjects/subject_merge.html'
+    permission_required = 'subjects.delete_subject'
+    tab = 'merge'
+
+    def get_conflicting_studies(self, target):
+        return (
+            Study.objects
+            .filter(participation__subject=self.object)
+            .filter(participation__subject=target)
+        )
+
+    def get_conflicting_domains(self, target):
+        return (
+            Domain.objects
+            .filter(pseudonym__subject=self.object)
+            .filter(pseudonym__subject=target)
+        )
+
+    def merge_reliability_entries_into(self, target):
+        studies = target.reliabilityentry_set.values('study')
+        for source_entry in self.object.reliabilityentry_set.filter(study__in=studies):
+            target_entry = target.reliabilityentry_set.get(study=source_entry.study_id)
+            if target_entry.was_reliable and not source_entry.was_reliable:
+                target.reliabilityentry_set.filter(pk=target_entry.pk).update(was_reliable=False)
+            source_entry.delete()
+
+    def merge_consent_into(self, target):
+        if not hasattr(self.object, 'consent'):
+            return
+        if hasattr(target, 'consent'):
+            if self.object.consent.updated_at > target.consent.updated_at:
+                target.consent.delete()
+            else:
+                return
+        Consent.objects.filter(pk=self.object.consent.pk).update(subject=target)
+
+    def merge_into(self, target):
+        with transaction.atomic():
+            self.merge_reliability_entries_into(target)
+            self.merge_consent_into(target)
+            self.object.participation_set.update(subject=target)
+            self.object.pseudonym_set.update(subject=target)
+            self.object.reliabilityentry_set.update(subject=target)
+            self.object.exportanswer_set.update(subject=target)
+            self.object.consentrevision_set.update(subject=target)
+            self.object.report_set.update(subject=target)
+            self.object.delete()
+
+    def form_valid(self, form):
+        target = get_object_or_404(Subject, pk=form.cleaned_data['target'])
+
+        conflicting_studies = self.get_conflicting_studies(target)
+        conflicting_domains = self.get_conflicting_domains(target)
+        if conflicting_studies or conflicting_domains:
+            return self.render_to_response(self.get_context_data(
+                form=form,
+                target=target,
+                conflicting_studies=conflicting_studies,
+                conflicting_domains=conflicting_domains,
+            ))
+
+        self.merge_into(target)
+        audit(
+            gettext_noop('subject merged'),
+            self.request.user.username,
+            subject_pk=self.object.pk,
+            extra={'target': str(target.pk)},
+        )
+        messages.success(self.request, _('Subject has been deleted.'))
+        return redirect('subjects:detail', target.pk)
 
 
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):

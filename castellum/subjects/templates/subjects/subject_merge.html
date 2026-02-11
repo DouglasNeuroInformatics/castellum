@@ -1,0 +1,44 @@
+{% extends "subjects/subject_base.html" %}
+{% load i18n auth django_bootstrap5 subjects utils %}
+
+{% block title %}{% translate "Merge subjects" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+
+        {% if conflicting_studies %}
+            <div class="alert alert-danger">
+                <p>{% translate "Both subjects have participations in the following studies:" %}</p>
+                <ul class="mb-0">
+                    {% for study in conflicting_studies %}
+                        <li>{{ study }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if conflicting_domains %}
+            <div class="alert alert-danger">
+                <p>{% translate "Both subject have pseudonyms in the following lists:" %}</p>
+                <ul class="mb-0">
+                    {% for domain in conflicting_domains %}
+                        <li>{{ domain }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <p>{% translate "Are you sure you want to <strong>permanently delete</strong> this subject and merge all related data into the target?" %}</p>
+        {% bootstrap_field form.target %}
+
+        <label class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" data-js="confirm-delete">
+            <span class="form-check-label">{% translate "I have manually merged contact data and attributes." %}</span>
+        </label>
+
+        <div class="d-print-none mb-3">
+            <button class="btn btn-danger mb-1" disabled>{% translate 'Confirm' %}</button>
+        </div>
+    </form>
+{% endblock %}

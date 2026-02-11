@@ -116,6 +116,10 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
         return cleaned_data
 
 
+class SubjectMergeForm(forms.Form):
+    target = forms.UUIDField(label=_('Target UUID'), required=True)
+
+
 class AdditionalInfoForm(forms.ModelForm):
     class Meta:
         model = Subject

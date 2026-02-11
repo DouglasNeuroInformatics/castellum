@@ -33,6 +33,7 @@ from .views import SubjectCreationRequestDeleteView
 from .views import SubjectDeleteView
 from .views import SubjectDetailView
 from .views import SubjectExportView
+from .views import SubjectMergeView
 from .views import SubjectPseudonymsView
 from .views import SubjectPseudonymView
 from .views import SubjectResolveView
@@ -96,6 +97,7 @@ urlpatterns = [
         name='pseudonym',
     ),
     path('<uuid:pk>/delete/', SubjectDeleteView.as_view(), name='delete'),
+    path('<uuid:pk>/merge/', SubjectMergeView.as_view(), name='merge'),
     path('<uuid:pk>/export/', SubjectExportView.as_view(), name='export'),
     path('<uuid:pk>/contact/', ContactUpdateView.as_view(), name='contact'),
     path('<uuid:pk>/attributes/', AttributesUpdateView.as_view(), name='attributes'),
