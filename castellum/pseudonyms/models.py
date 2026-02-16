@@ -65,3 +65,37 @@ class Pseudonym(models.Model):
         if not self.pseudonym:
             self.pseudonym = settings.CASTELLUM_PSEUDONYM_GENERATE(self.domain.bits)
         super().save(*args, **kwargs)
+
+
+class SSHKeyPair(models.Model):
+    """SSH key pair for crypto shredding support.
+
+    Each subject has at most one key pair per study.
+    The public key is used by external systems to encrypt data.
+    Deleting the private key makes encrypted data permanently unrecoverable.
+    """
+
+    subject = models.ForeignKey(
+        Subject,
+        on_delete=models.CASCADE,
+        related_name='ssh_key_pairs',
+    )
+    study = models.ForeignKey(
+        'studies.Study',
+        on_delete=models.CASCADE,
+        related_name='ssh_key_pairs',
+    )
+    public_key = models.TextField()
+    private_key = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    shredded_at = models.DateTimeField(null=True, blank=True)
+    algorithm = models.CharField(max_length=16, default='ed25519')
+
+    class Meta:
+        unique_together = [['study', 'subject']]
+        verbose_name = _('SSH Key Pair')
+        verbose_name_plural = _('SSH Key Pairs')
+
+    @property
+    def is_shredded(self):
+        return self.shredded_at is not None or not self.private_key

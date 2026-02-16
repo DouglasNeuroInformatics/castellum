@@ -34,6 +34,8 @@ EXCLUDED = [
     'broadcast_messages.',
     'pseudonyms.Domain.',
     'pseudonyms.Pseudonym.',
+    'pseudonyms.SSHKeyPair.',
+    'subjects.Subject.ssh_key_pairs',
     'recruitment.AttributeCategory.',
     'recruitment.AttributeCategoryTranslation.',
     'recruitment.AttributeChoice.',
