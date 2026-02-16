@@ -361,8 +361,10 @@ class SubjectMergeView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         for source_entry in self.object.reliabilityentry_set.filter(study__in=studies):
             target_entry = target.reliabilityentry_set.get(study=source_entry.study_id)
             if target_entry.was_reliable and not source_entry.was_reliable:
-                target.reliabilityentry_set.filter(pk=target_entry.pk).update(was_reliable=False)
-            source_entry.delete()
+                target_entry.delete()
+            else:
+                source_entry.delete()
+        self.object.reliabilityentry_set.update(subject=target)
 
     def merge_consent_into(self, target):
         if not hasattr(self.object, 'consent'):
@@ -380,7 +382,6 @@ class SubjectMergeView(SubjectMixin, PermissionRequiredMixin, DeleteView):
             self.merge_consent_into(target)
             self.object.participation_set.update(subject=target)
             self.object.pseudonym_set.update(subject=target)
-            self.object.reliabilityentry_set.update(subject=target)
             self.object.exportanswer_set.update(subject=target)
             self.object.consentrevision_set.update(subject=target)
             self.object.report_set.update(subject=target)

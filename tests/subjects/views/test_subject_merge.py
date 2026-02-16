@@ -84,10 +84,10 @@ def test_merge_reliabilityentry_moved(client, user, subject):
     entry = baker.make(ReliabilityEntry, subject=subject)
     url = f'/subjects/{subject.pk}/merge/'
     response = client.post(url, {'target': target.pk})
-
-    entry.refresh_from_db()
     assert response.status_code == 302
-    assert entry.subject == target
+
+    merged_entry = ReliabilityEntry.objects.get(subject=target, study=entry.study)
+    assert merged_entry.subject == target
 
 
 def test_merge_reliabilityentry_merged(client, user, subject):
@@ -95,15 +95,13 @@ def test_merge_reliabilityentry_merged(client, user, subject):
 
     target = baker.make(Subject)
     entry = baker.make(ReliabilityEntry, subject=subject, was_reliable=False)
-    target_entry = baker.make(
-        ReliabilityEntry, subject=target, study=entry.study, was_reliable=True
-    )
+    baker.make(ReliabilityEntry, subject=target, study=entry.study, was_reliable=True)
     url = f'/subjects/{subject.pk}/merge/'
     response = client.post(url, {'target': target.pk})
-
-    target_entry.refresh_from_db()
     assert response.status_code == 302
-    assert target_entry.was_reliable is False
+
+    merged_entry = ReliabilityEntry.objects.get(subject=target, study=entry.study)
+    assert merged_entry.was_reliable is False
 
 
 def test_merge_consent_moved(client, user, subject):
