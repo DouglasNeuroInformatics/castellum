@@ -83,6 +83,6 @@ def subject_media_url(context, url):
     """
     url_prefix = f'/{settings.MEDIA_URL.strip("/")}/subjects/{context["subject"].pk}/'
     if not url.startswith(url_prefix):
-        raise TypeError(url)
+        raise ValueError(url)
     path = unquote(url.removeprefix(url_prefix))
     return context['view'].get_subject_media_url(path)
