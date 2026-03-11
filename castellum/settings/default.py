@@ -194,19 +194,13 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 #   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/
 # get exportable attributes:
 #   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/attributes/
+# get SSH public key:
+#   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/ssh-key/
 # resolve pseudonym to a target domain (can also be a general domain):
 #   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/<target_domain>/
 # get exportable attributes for general domains
 #   /subjects/api/subjects/<domain>/<pseudonym>/attributes/
 CASTELLUM_API_ENABLED = False
-
-# Enables SSH key management for crypto shredding:
-#
-# get or create SSH public key:
-#   GET /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/ssh-key/
-# delete private key (crypto shred):
-#   DELETE /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/ssh-key/
-CASTELLUM_SSH_KEYS_ENABLED = False
 
 # By default, only a small set of models is included in the admin UI (`/admin/`).
 #

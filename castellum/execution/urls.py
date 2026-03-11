@@ -160,15 +160,11 @@ if settings.CASTELLUM_API_ENABLED:
             APIAttributesView.as_view(),
         ),
         path(
-            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
-            APIResolveView.as_view(),
-        ),
-    ]
-
-if settings.CASTELLUM_API_ENABLED and settings.CASTELLUM_SSH_KEYS_ENABLED:
-    urlpatterns += [
-        path(
             'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/ssh-key/',
             APISSHKeyView.as_view(),
+        ),
+        path(
+            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
+            APIResolveView.as_view(),
         ),
     ]

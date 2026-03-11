@@ -9,7 +9,6 @@ from django.db import models
 from django.http import Http404
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.utils import timezone
 from django.utils.translation import gettext_noop
 from django.views.generic import View
 
@@ -19,7 +18,8 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Domain
-from castellum.pseudonyms.models import SSHKeyPair
+from castellum.pseudonyms.models import KeyPair
+from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.attribute_exporters import JSONExporter
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
@@ -155,107 +155,24 @@ class APIAttributesView(BaseAPIView):
 
 
 class APISSHKeyView(BaseAPIView):
-    """Get or create SSH public key for a subject in a study.
-
-    GET: Returns the public key (creates key pair if none exists).
-    DELETE: Performs crypto shredding by deleting the private key.
-    """
-
-    def _get_subject(self):
+    def get(self, request, **kwargs):
         try:
-            pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
+            pseudonym_str = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
         except ValueError as e:
             raise Http404 from e
 
         domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+        pseudonym = get_object_or_404(Pseudonym, pseudonym=pseudonym_str, domain=domain)
 
-        try:
-            subject = get_subject(domain.key, pseudonym)
-        except Subject.DoesNotExist as e:
-            raise Http404 from e
-
-        get_object_or_404(
-            Participation,
-            subject=subject,
-            study=self.study,
-            status__in=Participation.INVITED_SET,
-        )
-
-        if not self.request.user.has_privacy_level(subject.privacy_level):
-            raise PermissionDenied
-
-        return subject
-
-    def get(self, request, **kwargs):
-        subject = self._get_subject()
-
-        key_pair, created = SSHKeyPair.objects.get_or_create(
-            study=self.study,
-            subject=subject,
-            defaults=self._generate_key_defaults(),
-        )
-
-        if key_pair.is_shredded:
-            return JsonResponse(
-                {
-                    'error': 'Key has been shredded',
-                    'shredded_at': key_pair.shredded_at.isoformat(),
-                },
-                status=410,
-            )
+        key_pair, _ = KeyPair.objects.get_or_create(pseudonym=pseudonym)
 
         audit(
             gettext_noop('ssh key accessed'),
             self.request.user.username,
             study_pk=self.study.pk,
-            subject_pk=subject.pk,
+            subject_pk=pseudonym.subject_id,
         )
 
         return JsonResponse({
-            'public_key': key_pair.public_key,
-            'algorithm': key_pair.algorithm,
-            'created_at': key_pair.created_at.isoformat(),
+            'public_key': key_pair.get_ssh_public_key(),
         })
-
-    def delete(self, request, **kwargs):
-        subject = self._get_subject()
-
-        try:
-            key_pair = SSHKeyPair.objects.get(study=self.study, subject=subject)
-        except SSHKeyPair.DoesNotExist as e:
-            raise Http404 from e
-
-        if key_pair.is_shredded:
-            return JsonResponse(
-                {
-                    'error': 'Key already shredded',
-                    'shredded_at': key_pair.shredded_at.isoformat(),
-                },
-                status=409,
-            )
-
-        key_pair.private_key = ''
-        key_pair.shredded_at = timezone.now()
-        key_pair.save()
-
-        audit(
-            gettext_noop('ssh key shredded'),
-            self.request.user.username,
-            study_pk=self.study.pk,
-            subject_pk=subject.pk,
-        )
-
-        return JsonResponse({
-            'status': 'shredded',
-            'shredded_at': key_pair.shredded_at.isoformat(),
-        })
-
-    def _generate_key_defaults(self):
-        from castellum.pseudonyms.ssh_keys import generate_ssh_keypair
-
-        public_key, private_key = generate_ssh_keypair()
-        return {
-            'public_key': public_key,
-            'private_key': private_key,
-            'algorithm': 'ed25519',
-        }
