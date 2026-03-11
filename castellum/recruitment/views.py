@@ -374,6 +374,9 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             for p in participations:
                 p.batch = batch
             Participation.objects.bulk_create(participations)
+            Subject.objects.filter(
+                pk__in=[p.subject_id for p in participations]
+            ).update(updated_at=datetime.date.today())
             self.send_confirmation_mail(len(participations))
 
         return redirect('recruitment:mail', self.study.pk)
