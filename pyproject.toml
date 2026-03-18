@@ -8,18 +8,18 @@ license = {text = "AGPL-3.0-or-later"}
 dependencies = [
     "castellum-pseudonyms == 0.0.3",
     "cologne-phonetics == 2.0.0",
-    "Django == 5.2.11",
-    "django-bootstrap5 == 26.1",
+    "Django == 5.2.12",
+    "django-bootstrap5 == 26.2",
     "django-bootstrap-colors == 5.4.1",
     "django-mfa3 == 1.1.0",
     "django-parlor == 0.0.3",
     "django-phonenumber-field == 8.4.0",
-    "Faker == 40.1.2",
+    "Faker == 40.11.0",
     "geopy == 2.4.1",
-    "icalendar == 6.3.2",
+    "icalendar == 7.0.3",
     "icalevents == 0.3.1",
     "jsonschema == 4.26.0",
-    "phonenumberslite == 9.0.22",
+    "phonenumberslite == 9.0.26",
     "python-dateutil == 2.9.0.post0",
     "requests == 2.32.5",
     "simplecharts == 0.1.1",
@@ -36,8 +36,8 @@ Homepage = "https://git.mpib-berlin.mpg.de/castellum/castellum"
 packages = ["castellum"]
 
 [project.optional-dependencies]
-ldap = ["django-auth-ldap == 5.2.0"]
-axes = ["django-axes[ipware] == 8.0.0"]
+ldap = ["django-auth-ldap == 5.3.0"]
+axes = ["django-axes[ipware] == 8.3.1"]
 model-stats = ["django-model-stats == 0.0.2"]
 storage-timestamps = ["django-storage-timestamps == 0.1.1"]
 test = [
