@@ -1,3 +1,14 @@
+# 26.1.3 (2026-03-24)
+
+-   fix error when reviewing reported subjects
+-   update last contacted date on mail recruitment
+
+
+# 26.1.2 (2026-02-11)
+
+-   fix display of unknown recruitment consent
+
+
 # 26.1.1 (2026-02-03)
 
 -   Update to the Django 5.2.11, which fixes multiple security issues

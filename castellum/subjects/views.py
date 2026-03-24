@@ -498,9 +498,6 @@ class ReportDetailView(PermissionRequiredMixin, DetailView):
     model = Report
     permission_required = ['subjects.view_report']
 
-    def get_object(self):
-        return get_object_or_404(Report, pk=self.kwargs['pk'], subject=self.subject)
-
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
         if request.POST.get('submit') == 'block':
