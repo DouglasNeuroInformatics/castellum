@@ -63,6 +63,20 @@ Relevant guides:
 -   :ref:`subject-get-pseudonym`
 -   :ref:`subject-delete`
 
+Crypto Shredding
+----------------
+
+Crypto shredding is the practice of rendering encrypted data unusable by
+deleting the encryption keys. This can be simpler than deleting the data
+itself.
+
+Castellum provides an SSH key pair (Ed25519) for each pseudonym for this
+purpose. It can be accessed with the `manage_keys` command. The public key is
+also available at
+``/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/ssh-key/``.
+Once created, the key can be used with common encryption tools, e.g. `age
+<https://github.com/FiloSottile/age/>`_.
+
 Deleting pseudonym lists
 ------------------------
 

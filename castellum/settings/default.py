@@ -194,6 +194,8 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 #   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/
 # get exportable attributes:
 #   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/attributes/
+# get SSH public key:
+#   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/ssh-key/
 # resolve pseudonym to a target domain (can also be a general domain):
 #   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/<target_domain>/
 # get exportable attributes for general domains

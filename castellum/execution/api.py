@@ -18,6 +18,8 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Domain
+from castellum.pseudonyms.models import KeyPair
+from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.attribute_exporters import JSONExporter
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
@@ -150,3 +152,27 @@ class APIAttributesView(BaseAPIView):
         )
 
         return JsonResponse(data)
+
+
+class APISSHKeyView(BaseAPIView):
+    def get(self, request, **kwargs):
+        try:
+            pseudonym_str = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
+        except ValueError as e:
+            raise Http404 from e
+
+        domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+        pseudonym = get_object_or_404(Pseudonym, pseudonym=pseudonym_str, domain=domain)
+
+        key_pair, _ = KeyPair.objects.get_or_create(pseudonym=pseudonym)
+
+        audit(
+            gettext_noop('ssh key accessed'),
+            self.request.user.username,
+            study_pk=self.study.pk,
+            subject_pk=pseudonym.subject_id,
+        )
+
+        return JsonResponse({
+            'public_key': key_pair.get_ssh_public_key(),
+        })

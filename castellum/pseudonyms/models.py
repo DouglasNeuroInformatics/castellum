@@ -3,6 +3,8 @@
 # SPDX-FileCopyrightText: 2018-2019 MPIP <http://www.psych.mpg.de/>
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ed25519
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -65,3 +67,32 @@ class Pseudonym(models.Model):
         if not self.pseudonym:
             self.pseudonym = settings.CASTELLUM_PSEUDONYM_GENERATE(self.domain.bits)
         super().save(*args, **kwargs)
+
+
+def generate_private_key():
+    private_key = ed25519.Ed25519PrivateKey.generate()
+    return private_key.private_bytes_raw()
+
+
+class KeyPair(models.Model):
+    pseudonym = models.OneToOneField(Pseudonym, on_delete=models.CASCADE)
+    private_key = models.BinaryField(default=generate_private_key)
+
+    def get_private_key(self):
+        return ed25519.Ed25519PrivateKey.from_private_bytes(self.private_key)
+
+    def get_public_key(self):
+        return self.get_private_key().public_key()
+
+    def get_ssh_private_key(self):
+        return self.get_private_key().private_bytes(
+            serialization.Encoding.PEM,
+            serialization.PrivateFormat.OpenSSH,
+            encryption_algorithm=serialization.NoEncryption(),
+        ).decode('utf-8')
+
+    def get_ssh_public_key(self):
+        return self.get_public_key().public_bytes(
+            serialization.Encoding.OpenSSH,
+            serialization.PublicFormat.OpenSSH,
+        ).decode('utf-8')

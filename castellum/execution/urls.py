@@ -10,6 +10,7 @@ from .api import APIAttributesView
 from .api import APIDomainsView
 from .api import APIPseudonymsView
 from .api import APIResolveView
+from .api import APISSHKeyView
 from .api import APIValidateView
 from .feeds import AppointmentFeedForUser
 from .views import AdditionalInfoUpdateView
@@ -157,6 +158,10 @@ if settings.CASTELLUM_API_ENABLED:
         path(
             'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/attributes/',
             APIAttributesView.as_view(),
+        ),
+        path(
+            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/ssh-key/',
+            APISSHKeyView.as_view(),
         ),
         path(
             'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
