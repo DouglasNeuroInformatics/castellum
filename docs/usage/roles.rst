@@ -3,6 +3,9 @@
 Roles
 =====
 
+.. figure:: /_images/groups.png
+   :alt: Schematic overview of the default roles
+
 .. note::
 
     This section lists the roles that Castellum ships by default. Administrators
@@ -155,9 +158,3 @@ Relevant guides:
 -   :ref:`recruitment-appointments`
 -   :ref:`scheduler-appointment`
 -   :ref:`execution-attribute-export`
-
-Overview
---------
-
-.. figure:: /_images/groups.png
-   :alt: Schematic overview of the default roles
