@@ -69,46 +69,51 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
-    def form_valid(self, form):
-        if settings.CASTELLUM_GDPR_NOTIFICATION_TO:
+    def send_notifications(self):
+        if not settings.CASTELLUM_GDPR_NOTIFICATION_TO:
+            return
+
+        old = Subject.objects.get(pk=self.object.pk)
+
+        with MailContext('internal') as ctx:
+            if self.object.export_requested and not old.export_requested:
+                rel = reverse('subjects:detail', args=[self.object.pk])
+                url = self.request.build_absolute_uri(rel)
+
+                self.object.to_be_deleted_notified = ctx.send_mail(
+                    settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT,
+                    (
+                        lambda: {'url': url},
+                        settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY,
+                        settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY_EN,
+                    ),
+                    settings.CASTELLUM_GDPR_NOTIFICATION_TO,
+                )
+
+            if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
+                rel = reverse('subjects:detail', args=[self.object.pk])
+                url = self.request.build_absolute_uri(rel)
+
+                self.object.to_be_deleted_notified = ctx.send_mail(
+                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
+                    (
+                        lambda: {'url': url},
+                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY,
+                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY_EN,
+                    ),
+                    settings.CASTELLUM_GDPR_NOTIFICATION_TO,
+                )
+
+        # If a user explicitly removes the ``to_be_deleted`` they
+        # expect that this task is done. If there are still reasons
+        # for deletion there should be a new notificaition.
+        if not self.object.to_be_deleted and self.object.to_be_deleted_notified:
             old = Subject.objects.get(pk=self.object.pk)
+            if old.to_be_deleted:
+                self.object.to_be_deleted_notified = False
 
-            with MailContext('internal') as ctx:
-                if self.object.export_requested and not old.export_requested:
-                    rel = reverse('subjects:detail', args=[self.object.pk])
-                    url = self.request.build_absolute_uri(rel)
-
-                    self.object.to_be_deleted_notified = ctx.send_mail(
-                        settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT,
-                        (
-                            lambda: {'url': url},
-                            settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY,
-                            settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY_EN,
-                        ),
-                        settings.CASTELLUM_GDPR_NOTIFICATION_TO,
-                    )
-
-                if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
-                    rel = reverse('subjects:detail', args=[self.object.pk])
-                    url = self.request.build_absolute_uri(rel)
-
-                    self.object.to_be_deleted_notified = ctx.send_mail(
-                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
-                        (
-                            lambda: {'url': url},
-                            settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY,
-                            settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY_EN,
-                        ),
-                        settings.CASTELLUM_GDPR_NOTIFICATION_TO,
-                    )
-
-            # If a user explicitly removes the ``to_be_deleted`` they
-            # expect that this task is done. If there are still reasons
-            # for deletion there should be a new notificaition.
-            if not self.object.to_be_deleted and self.object.to_be_deleted_notified:
-                old = Subject.objects.get(pk=self.object.pk)
-                if old.to_be_deleted:
-                    self.object.to_be_deleted_notified = False
+    def form_valid(self, form):
+        self.send_notifications()
 
         audit(
             gettext_noop('subject updated'),
