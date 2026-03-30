@@ -58,6 +58,9 @@ class SubjectFilter(models.Model):
         return self.attribute.field.get_filter_display(self.operator, self.value)
 
     def to_q(self, include_unknown=True):
-        return self.attribute.field.filter_to_q(
-            self.operator, self.value, include_unknown
-        )
+        from .. import filter_queries
+
+        q = self.attribute.field.filter_to_q(self.operator, self.value, include_unknown)
+        if self.attribute.privacy_level > 0:
+            q &= filter_queries.has_privacy_level(self.attribute.privacy_level)
+        return q
