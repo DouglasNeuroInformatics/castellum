@@ -27,7 +27,7 @@ class Command(BaseCommand):
                             'study': study,
                             'study_url': urljoin(
                                 settings.CASTELLUM_EMAIL_BASE_URL,
-                                reverse('studies:domains', args=[study.pk]),
+                                reverse('studies:sessions', args=[study.pk]),
                             ),
                         },
                         settings.CASTELLUM_SESSIONS_END_MAIL_BODY,
