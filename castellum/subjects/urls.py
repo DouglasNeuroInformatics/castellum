@@ -15,7 +15,6 @@ from .views import DataProtectionUpdateView
 from .views import DeleteRecruitmentDataView
 from .views import MaintenanceAttributesView
 from .views import MaintenanceConsentView
-from .views import MaintenanceContactView
 from .views import MaintenanceDuplicatesView
 from .views import MaintenanceEstrangedSubjectsView
 from .views import MaintenanceReliabilityView
@@ -53,11 +52,6 @@ urlpatterns = [
         'maintenance/attributes/',
         MaintenanceAttributesView.as_view(),
         name='maintenance-attributes',
-    ),
-    path(
-        'maintenance/contact/',
-        MaintenanceContactView.as_view(),
-        name='maintenance-contact',
     ),
     path(
         'maintenance/consent/',

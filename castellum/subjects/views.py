@@ -819,32 +819,6 @@ class MaintenanceAttributesView(BaseMaintenanceView):
         return qs.order_by('completeness', 'total')
 
 
-class MaintenanceContactView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_contact.html'
-    tab = 'contact'
-
-    def get_queryset(self):
-        contacts = Contact.objects\
-            .alias(
-                legal_representative_count=models.Count('legal_representatives'),
-                legal_representative_of_count=models.Count('legal_representative_of'),
-            )\
-            .filter(
-                models.Q(
-                    legal_representative_count=0,
-                    address=None,
-                    email='',
-                    phone_number='',
-                ) | models.Q(
-                    legal_representative_of_count=0,
-                    date_of_birth=None,
-                )
-            )
-        return super().get_queryset().filter(
-            filter_queries.uuid_filter(contacts)
-        ).order_by('pk')
-
-
 class MaintenanceDuplicatesView(BaseMaintenanceView):
     model = Contact
     template_name = 'subjects/maintenance_duplicates.html'

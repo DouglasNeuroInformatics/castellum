@@ -57,30 +57,6 @@ def test_maintenance_attributes_no_underage_subjects(request, client, user):
     'subject_manager',
     pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_maintenance_contact_200(request, client, user_fixture):
-    user = request.getfixturevalue(user_fixture)
-    client.force_login(user)
-    url = '/subjects/maintenance/contact/'
-    response = client.get(url)
-    assert response.status_code == 200
-    assert response.content.count(b'<li class="table-list-item">') == 0
-
-
-def test_maintenance_contact_not_empty(client, user):
-    baker.make(Contact, phone_number='', email='')
-    client.force_login(user)
-    url = '/subjects/maintenance/contact/'
-    response = client.get(url)
-    assert response.status_code == 200
-    assert response.content.count(b'<li class="table-list-item">') == 1
-
-
-@pytest.mark.parametrize('user_fixture', [
-    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
-    'subject_manager',
-    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
-])
 def test_maintenance_duplicates_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)

@@ -16,7 +16,6 @@
         <div class="col-md-3">
             <nav class="list-group mb-3" aria-label="{% translate 'Subtabs' %}">
                 <a href="{% url 'subjects:maintenance-attributes' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'attributes' %}active{% endif %}">{% translate 'Recruitment attributes' %}</a>
-                <a href="{% url 'subjects:maintenance-contact' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'contact' %}active{% endif %}">{% translate 'Contact data' %}</a>
                 <a href="{% url 'subjects:maintenance-duplicates' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'duplicates' %}active{% endif %}">{% translate 'Potential duplicates' %}</a>
                 <a href="{% url 'subjects:maintenance-consent' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'consent' %}active{% endif %}">{% translate 'Outdated consent' %}</a>
                 <a href="{% url 'subjects:maintenance-reliability' %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.tab == 'reliability' %}active{% endif %}">{% translate 'Reliability' %}</a>
