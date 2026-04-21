@@ -151,8 +151,10 @@ class AttributesForm(forms.ModelForm):
         return super().save(*args, **kwargs)
 
     @classmethod
-    def factory(cls):
-        attributes = Attribute.objects.all()
+    def factory(cls, subject):
+        attributes = Attribute.objects.filter(
+            privacy_level__lte=subject.get_effective_privacy_level()
+        )
         form_fields = {attr.json_key: attr.field.formfield() for attr in attributes}
 
         # Date of birth attribute is read-only, it is changed through the "contact" tab

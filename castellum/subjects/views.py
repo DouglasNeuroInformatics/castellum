@@ -816,7 +816,7 @@ class MaintenanceAttributesView(BaseMaintenanceView):
     def get_queryset(self):
         qs = super().get_queryset()
         qs = filter_queries.get_has_missing_attributes(qs)
-        return qs.order_by('completeness')
+        return qs.order_by('completeness', 'total')
 
 
 class MaintenanceContactView(BaseMaintenanceView):

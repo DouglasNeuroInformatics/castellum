@@ -18,6 +18,7 @@ import json
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db import models
+from django.db.models.functions import Ceil
 from django.db.models.functions import Coalesce
 from django.db.models.functions import Greatest
 from django.utils import timezone
@@ -105,6 +106,11 @@ def study_exclusion(study):
 def study_disinterest(study):
     """Exclude subjects who are disinterested in this study's study type."""
     return ~models.Q(study_type_disinterest__in=study.study_type.all())
+
+
+def has_privacy_level(level):
+    # see also Subject.get_effective_privacy_level()
+    return models.Q(privacy_level__gt=level - 1)
 
 
 def study_max_privacy_level(study):
@@ -283,13 +289,12 @@ def reliability(study):
 
 def completeness_expr(exclude_auto_fields=False):
     """Expression that can be used to annotate a queryset."""
-    total = 0
-    completeness = models.Value(0, output_field=models.IntegerField())
     attrs = Attribute.objects.all()
     if exclude_auto_fields:
         attrs = attrs.exclude(pk=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
+
+    completeness = models.Value(0, output_field=models.IntegerField())
     for attribute in attrs:
-        total += 1
         field_name = f'attributes__{attribute.json_key}'
         completeness += models.Case(
             models.When((
@@ -299,6 +304,20 @@ def completeness_expr(exclude_auto_fields=False):
             ), models.Value(0)),
             default=models.Value(1),
         )
+
+    total = models.Subquery(
+        (
+            Attribute.objects
+            .filter(privacy_level__lte=Ceil(models.OuterRef('privacy_level')))
+            .order_by()
+            .annotate(g=models.Value(0))  # we need something to group by
+            .values('g')
+            .annotate(c=models.Count('pk'))
+            .values('c')
+        ),
+        output_field=models.IntegerField(),
+    )
+
     return completeness, total
 
 
@@ -332,7 +351,7 @@ def get_has_missing_attributes(qs):
     completeness, total = completeness_expr()
     qs = qs.annotate(
         completeness=completeness,
-        total=models.Value(total, output_field=models.IntegerField()),
+        total=total,
     ).filter(completeness__lt=total)
 
     # We only consider attributes missing if there is explicit consent.

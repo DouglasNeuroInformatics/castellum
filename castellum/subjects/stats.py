@@ -23,6 +23,7 @@ def get_attribute_filter(pk, operator, value, **kwargs):
         attr.field.get_filter_display(operator, value),
         Subject.objects.filter(
             attr.field.filter_to_q(operator, value, **kwargs)
+            & filter_queries.has_privacy_level(attr.privacy_level)
             & filter_queries.has_consent()
         ).count(),
     )

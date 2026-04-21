@@ -85,6 +85,7 @@ class Attribute(TranslatableModel):
         help_text=_('URL to a formal definition in an ontology'),
         blank=True,
     )
+    privacy_level = models.PositiveSmallIntegerField(default=0)
     order = models.IntegerField(default=0)
     category = models.ForeignKey(
         AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True
