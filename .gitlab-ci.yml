@@ -78,22 +78,22 @@ docs:test:
   stage: test
   image: ghcr.io/astral-sh/uv:bookworm-slim
   before_script:
-  - uv venv .venv
-  - uv pip install sphinx sphinx-rtd-theme
+    - uv venv .venv
+    - uv pip install sphinx sphinx-rtd-theme
   script:
-  - .venv/bin/sphinx-build -W -b html docs/usage/ docs_html
+    - .venv/bin/sphinx-build -W -b html docs/usage/ docs_html
 
 pages:
   stage: push
   image: ghcr.io/astral-sh/uv:bookworm-slim
   before_script:
-  - uv venv .venv
-  - uv pip install sphinx sphinx-rtd-theme
+    - uv venv .venv
+    - uv pip install sphinx sphinx-rtd-theme
   script:
-  - .venv/bin/sphinx-build -b html docs/usage/ public/docs/
+    - .venv/bin/sphinx-build -b html docs/usage/ public/docs/
   artifacts:
     paths:
-    - public
+      - public
     expire_in: 1 month
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
