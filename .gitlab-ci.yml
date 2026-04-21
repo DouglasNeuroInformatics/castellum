@@ -11,7 +11,7 @@ workflow:
 
 test:
   stage: test
-  image: ghcr.io/astral-sh/uv:bookworm-slim
+  image: ghcr.io/astral-sh/uv:trixie-slim
   variables:
     DEBIAN_FRONTEND: noninteractive
     DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
@@ -76,7 +76,7 @@ docker:
 
 docs:test:
   stage: test
-  image: ghcr.io/astral-sh/uv:bookworm-slim
+  image: ghcr.io/astral-sh/uv:trixie-slim
   before_script:
     - uv venv .venv
     - uv pip install sphinx sphinx-rtd-theme
@@ -85,7 +85,7 @@ docs:test:
 
 pages:
   stage: push
-  image: ghcr.io/astral-sh/uv:bookworm-slim
+  image: ghcr.io/astral-sh/uv:trixie-slim
   before_script:
     - uv venv .venv
     - uv pip install sphinx sphinx-rtd-theme
@@ -99,7 +99,7 @@ pages:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
 
 deploy:demo:
-  image: buildpack-deps:bookworm
+  image: buildpack-deps:trixie
   stage: deploy
   script:
     - 'curl https://castellum-demo.mpib-berlin.mpg.de/d4f66ab1-75f6-48cc-8a67-c9b031330f22 -X POST -H "Authorization: Bearer $DEMO_TOKEN"'
