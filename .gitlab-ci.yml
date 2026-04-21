@@ -98,6 +98,29 @@ pages:
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
 
+sbom:backend:
+  stage: push
+  image: ghcr.io/astral-sh/uv:trixie-slim
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends npm
+  script:
+    - uv export -q --format cyclonedx1.5 --extra ldap --extra axes --extra storage-timestamps -o sbom-backend.json
+  artifacts:
+    paths:
+      - sbom-backend.json
+    expire_in: 1 month
+
+sbom:frontend:
+  stage: push
+  image: node
+  script:
+    - npm install
+    - npm sbom --sbom-format cyclonedx > sbom-frontend.json
+  artifacts:
+    paths:
+      - sbom-frontend.json
+    expire_in: 1 month
+
 deploy:demo:
   image: buildpack-deps:trixie
   stage: deploy
