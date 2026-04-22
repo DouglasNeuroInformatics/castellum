@@ -11,8 +11,10 @@ from django.conf import settings
 from django.forms import ValidationError
 from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from phonenumber_field.phonenumber import PhoneNumber
 
+from castellum.audit.helpers import audit
 from castellum.subjects.models import Subject
 from castellum.utils.forms import DatalistWidget
 
@@ -77,7 +79,7 @@ class ContactForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user')
+        self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
         self.address = self.get_address_form(**kwargs)
@@ -91,8 +93,8 @@ class ContactForm(forms.ModelForm):
         ]):
             self.fields['pane'].initial = 'self'
 
-        self.legal_representatives = self.get_legal_representatives_rm_choices(user)
-        if user.has_perm('subjects.change_subject'):
+        self.legal_representatives = self.get_legal_representatives_rm_choices()
+        if self.user.has_perm('subjects.change_subject'):
             self.fields['legal_representatives_remove'] = (
                 forms.ModelMultipleChoiceField(Subject.objects, required=False)
             )
@@ -100,7 +102,7 @@ class ContactForm(forms.ModelForm):
                 self.legal_representatives
             )
             self.fields['legal_representatives_add'] = SubjectMultipleChoiceField(
-                Subject.objects.filter(privacy_level__lte=user.get_privacy_level()),
+                Subject.objects.filter(privacy_level__lte=self.user.get_privacy_level()),
                 required=False,
             )
 
@@ -113,11 +115,11 @@ class ContactForm(forms.ModelForm):
             field.required = False
         return form
 
-    def get_legal_representatives_rm_choices(self, user):
+    def get_legal_representatives_rm_choices(self):
         self.legal_representatives_blocked = 0
         if self.instance.id:
             for contact in self.instance.legal_representatives.all():
-                if user.has_privacy_level(contact.subject.privacy_level):
+                if self.user.has_privacy_level(contact.subject.privacy_level):
                     yield (contact.subject.pk, contact)
                 else:
                     self.legal_representatives_blocked += 1
@@ -179,16 +181,28 @@ class ContactForm(forms.ModelForm):
             contact = Contact.objects.get(pk=contact.pk)
 
         if self.cleaned_data.get('pane') == 'legal_representatives':
-            contact.legal_representatives.remove(*[
-                s.contact
-                for s in self.cleaned_data.get('legal_representatives_remove', [])
-            ])
+            for s in self.cleaned_data.get('legal_representatives_remove', []):
+                contact.legal_representatives.remove(s.contact)
+                audit(
+                    gettext_noop('removed as legal representative'),
+                    self.user.username,
+                    subject_pk=s.pk,
+                )
 
-            contact.legal_representatives.add(*[
-                s.contact
-                for s in self.cleaned_data.get('legal_representatives_add', [])
-            ])
+            for s in self.cleaned_data.get('legal_representatives_add', []):
+                contact.legal_representatives.add(s.contact)
+                audit(
+                    gettext_noop('added as legal representative'),
+                    self.user.username,
+                    subject_pk=s.pk,
+                )
         else:
+            for c in contact.legal_representatives.all():
+                audit(
+                    gettext_noop('removed as legal representative'),
+                    self.user.username,
+                    subject_pk=c.subject_uuid,
+                )
             contact.legal_representatives.set([])
 
         return contact
