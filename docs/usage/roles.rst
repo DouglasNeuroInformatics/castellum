@@ -91,6 +91,7 @@ Relevant guides:
 -   :ref:`data-protection-dashboard`
 -   :ref:`subject-export`
 -   :ref:`subject-delete`
+-   :ref:`subject-merge`
 -   :ref:`subject-block`
 -   :ref:`study-delete`
 

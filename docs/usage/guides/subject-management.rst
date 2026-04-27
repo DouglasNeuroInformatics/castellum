@@ -167,6 +167,24 @@ please proceed as follows:
     the :ref:`audit-trail`.
 
 
+.. _subject-merge:
+
+Merging duplicates
+------------------
+
+In order to merge two entries that refer to the same person, proceed as follows:
+
+1.  Decide which entry to keep.
+2.  Manually merge the contact data and attributes
+3.  Go to the "Merge" tab in subject management (required the permission to
+    delete subjects.)
+4.  Enter the UUID of the target subject and confirm.
+
+If there are any conflicts (e.g. both entries have participations in the same
+study) Castellum will inform you. The conflicts have to be resolved manually
+before the merge can be completed.
+
+
 .. _subject-report:
 
 Report a subject
