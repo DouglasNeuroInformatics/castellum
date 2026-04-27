@@ -12,6 +12,8 @@ from castellum.subjects.models import Subject
 class Command(BaseCommand):
     help = 'Remove high-privacy-level attributes from low-privacy-level subjects.'
 
+    # NOTE: This is not done on delete to avoid accidental data loss.
+
     def handle(self, *args, **options):
         for attr in Attribute.objects.filter(privacy_level__gt=0):
             subjects = Subject.objects.filter(

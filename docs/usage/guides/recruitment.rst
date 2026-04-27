@@ -182,18 +182,20 @@ Create Attributes
 4.  Select an appropriate **Field type** that should be used for the attribute
 5.  **URL** can be used to link to a formal definition. It is currently only
     used when exporting the attributes in BIDS format.
-6.  **Order** and **Category** can be used to position the attribute in the UI
-7.  **Statistics rank** allows to include this attribute in recruitment
+6.  You can restrict this attribute to only be available for subjects with a
+    minimum **privacy level**.
+7.  **Order** and **Category** can be used to position the attribute in the UI
+8.  **Statistics rank** allows to include this attribute in recruitment
     statistics. There can only be one of each, so you may have to deselect a
     primary or secondary attribute before selecting a new one.
-8.  **Label** should be the actual name of the attribute.
-9.  **Filter label** can be useful if you want to use a different label for the
+9.  **Label** should be the actual name of the attribute.
+10. **Filter label** can be useful if you want to use a different label for the
     filter. Otherwise this can be left blank.
-10. **Help text** can be used to provide additional hints to users.
-11. If appropriate, fill in all possible values as **Attribute choices**. The
+11. **Help text** can be used to provide additional hints to users.
+12. If appropriate, fill in all possible values as **Attribute choices**. The
     options **Declined to answer** and **Unknown** are available by default, so
     there is no need to create them explicitly.
-12. Be sure to provide translations for label, help text and choices if
+13. Be sure to provide translations for label, help text and choices if
     Castellum is set up to support more than one language
 
 Change Attributes
