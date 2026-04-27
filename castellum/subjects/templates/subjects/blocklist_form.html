@@ -23,6 +23,7 @@
 
         <div class="d-print-none mb-3">
             <button class="btn btn-primary mb-1">{% translate 'Check' %}</button>
+            <a href="{% url 'subjects:blocklist-batch' %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Batch Mode' %}</a>
         </div>
     </form>
 {% endblock %}

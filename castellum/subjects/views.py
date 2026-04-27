@@ -3,7 +3,9 @@
 # SPDX-FileCopyrightText: 2018-2019 MPIP <http://www.psych.mpg.de/>
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+import csv
 import datetime
+from io import StringIO
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -34,6 +36,7 @@ from castellum.appointments.models import Appointment
 from castellum.audit.helpers import audit
 from castellum.audit.models import AuditEvent
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.contacts.forms import BlockListFileForm
 from castellum.contacts.forms import BlockListForm
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
@@ -985,6 +988,35 @@ class BlockListFormView(BlockListMixin, FormView):
                 ),
             )
         )
+
+
+class BlockListFileView(BlockListMixin, FormView):
+    form_class = BlockListFileForm
+    template_name = 'subjects/blocklist_file_form.html'
+
+    def form_valid(self, form):
+        try:
+            data = self.request.FILES['file'].read().decode('utf-8')
+        except UnicodeDecodeError:
+            form.add_error('file', _('Uploaded file must be UTF-8 encoded.'))
+            return self.form_invalid(form)
+
+        r = csv.DictReader(StringIO(data))
+        for key in ['first_name', 'last_name', 'year_of_birth']:
+            if key not in r.fieldnames:
+                form.add_error('file', _('Missing column: ') + key)
+                return self.form_invalid(form)
+
+        response = HttpResponse(content_type='text/csv')
+        w = csv.DictWriter(response, fieldnames=[*r.fieldnames, 'is_blocked'])
+        w.writeheader()
+
+        for row in r:
+            is_blocked = self.is_blocked(row['first_name'], row['last_name'])
+            row['is_blocked'] = 'yes' if is_blocked else 'no'
+            w.writerow(row)
+
+        return response
 
 
 class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
