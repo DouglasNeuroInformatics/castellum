@@ -34,11 +34,13 @@ from castellum.appointments.models import Appointment
 from castellum.audit.helpers import audit
 from castellum.audit.models import AuditEvent
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.contacts.forms import BlockListForm
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import BlockHash
 from castellum.contacts.models import Contact
+from castellum.contacts.models import PotentialDuplicateError
 from castellum.data_protection.helpers import delete_recruitment_data
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_pseudonym_if_exists
@@ -945,6 +947,43 @@ class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
             SubjectCreationRequest.objects
             .filter(data_is_deleted=False)
             .order_by('created_at')
+        )
+
+
+class BlockListMixin(LoginRequiredMixin):
+    def is_blocked(self, first_name, last_name):
+        if BlockHash.is_blocked(first_name, last_name):
+            return True
+        try:
+            contact = Contact.objects.fuzzy_find(first_name, last_name)
+            if contact:
+                contacts = [contact]
+            else:
+                contacts = []
+        except PotentialDuplicateError as e:
+            contacts = e.duplicates
+        for contact in contacts:
+            if contact.subject.blocked or contact.subject.to_be_deleted:
+                return True
+            elif contact.subject.consent and contact.subject.consent.document is None:
+                # NOTE: also blocks excluded_by_us
+                return True
+        return False
+
+
+class BlockListFormView(BlockListMixin, FormView):
+    form_class = BlockListForm
+    template_name = 'subjects/blocklist_form.html'
+
+    def form_valid(self, form):
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                is_blocked=self.is_blocked(
+                    form.cleaned_data['first_name'],
+                    form.cleaned_data['last_name'],
+                ),
+            )
         )
 
 

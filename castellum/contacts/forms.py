@@ -228,3 +228,8 @@ class SearchForm(forms.Form):
         cleaned_data['email'] = emails[0] if emails else ''
 
         return cleaned_data
+
+
+class BlockListForm(forms.Form):
+    first_name = forms.CharField(label=_('First name'))
+    last_name = forms.CharField(label=_('Last name'))
