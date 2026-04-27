@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-27 11:57+0100\n"
+"POT-Creation-Date: 2026-04-27 13:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -409,6 +409,9 @@ msgstr "Pseudonym abgerufen"
 
 msgid "attributes exported"
 msgstr "Merkmale exportiert"
+
+msgid "ssh key accessed"
+msgstr "SSH Key abgerufen"
 
 msgid "Email subject"
 msgstr "E-Mail Betreff"
@@ -1733,11 +1736,15 @@ msgid ""
 "Note, however, that additional steps might be necessary for full "
 "anonymization of scientific data (e.g. image data)."
 msgstr ""
+"Für die vollständige Anonymisieren wissenschaftlicher Daten (z.B. Bilddaten) "
+"sind allerdings ggf. zusätzliche Schritte notwendig."
 
 msgid ""
 "I understand that I will no longer be able to find subjects based on this "
 "pseudonym list"
 msgstr ""
+"Ich verstehe, dass es nicht mehr möglich sein wird, die Proband*innen zu den "
+"Pseudonymen aus dieser Liste zu finden."
 
 msgid "Filters"
 msgstr "Filter"
@@ -2098,11 +2105,12 @@ msgid ""
 "Changing the Schedule ID will delete existing appointments and break "
 "invitation links."
 msgstr ""
-"Bei Änderungen an der Terminplan-ID werden bestehenden "
-"Terminen gelöscht und Einladungs-Links werden ungültig."
+"Bei Änderungen an der Terminplan-ID werden bestehenden Terminen gelöscht und "
+"Einladungs-Links werden ungültig."
 
 msgid "Adding a Schedule ID will delete existing appointments."
-msgstr "Beim Hinzufügen einer Terminplan-ID werden bestehende Termine gelöscht."
+msgstr ""
+"Beim Hinzufügen einer Terminplan-ID werden bestehende Termine gelöscht."
 
 msgid "Change at your own risk!"
 msgstr "Ändern auf eigene Gefahr!"
@@ -2169,6 +2177,9 @@ msgid ""
 msgstr ""
 "Proband*innen können entweder zur Löschung vorgemerkt werden oder eine "
 "Rekrutierungseinwilligung haben, nicht beides."
+
+msgid "Target UUID"
+msgstr "Ziel UUID"
 
 msgid "Excluded by us (e.g. because they were unreliable or inactive)"
 msgstr ""
@@ -2431,9 +2442,6 @@ msgstr "Einwilligungserklärung von vor der Volljährigkeit"
 msgid "deprecated"
 msgstr "überholt"
 
-msgid "The following subjects have incomplete contact data:"
-msgstr "Die folgenden Proband*innen haben unvollständige Kontaktdaten:"
-
 msgid "The following names exist more than once:"
 msgstr "Die folgenden Namen gibt es mehr als einmal:"
 
@@ -2518,6 +2526,9 @@ msgstr "Proband*in sperren"
 msgid "Discard report"
 msgstr "Meldung verwerfen"
 
+msgid "Merge"
+msgstr "Zusammenführen"
+
 msgid "Delete subject"
 msgstr "Proband*in löschen"
 
@@ -2590,17 +2601,17 @@ msgstr "läuft ab am"
 msgid "Download signed document"
 msgstr "Unterschriebenes Dokument herunterladen"
 
-msgid "This subject has been excluded by us"
-msgstr "Diese Proband*in wurde von uns ausgeschlossen"
-
-msgid "This subject has declined recruitment consent"
-msgstr "Diese Proband*in hat die Rekrutierungseinwilligung abgelehnt"
-
 msgid "This subject has no recruitment consent yet"
 msgstr "Diese Proband*in hat noch keine Rekrutierungseinwilligung"
 
 msgid "Subject created on"
 msgstr "Proband*in erstellt am"
+
+msgid "This subject has been excluded by us"
+msgstr "Diese Proband*in wurde von uns ausgeschlossen"
+
+msgid "This subject has declined recruitment consent"
+msgstr "Diese Proband*in hat die Rekrutierungseinwilligung abgelehnt"
 
 msgid "Change"
 msgstr "Ändern"
@@ -2785,6 +2796,25 @@ msgstr "Ein-/Ausschlusskriterien überprüft"
 msgid "Contact attempts"
 msgstr "Kontaktversuche"
 
+msgid "Merge subjects"
+msgstr "Proband*innen zusammenführen"
+
+msgid "Both subjects have participations in the following studies:"
+msgstr "Beide Proband*innen haben Teilnahmen in den folgenden Studien:"
+
+msgid "Both subject have pseudonyms in the following lists:"
+msgstr "Beide Proband*innen haben Pseudonyme in den folgenden Listen:"
+
+msgid ""
+"Are you sure you want to <strong>permanently delete</strong> this subject "
+"and merge all related data into the target?"
+msgstr ""
+"Sind Sie sicher, dass Sie diese Proband*in <strong>unwiederbringlich</"
+"strong> löschen und die zugehörigen Daten in das Ziel übertragen möchten?"
+
+msgid "I have manually merged contact data and attributes."
+msgstr "Ich habe die Kontaktdaten und Merkmale manuell übertragen."
+
 msgid "General pseudonyms"
 msgstr "Allgemeine Pseudonyme"
 
@@ -2861,6 +2891,9 @@ msgstr "Proband*in gelöscht"
 
 msgid "Subject has been deleted."
 msgstr "Die Proband*in wurde gelöscht"
+
+msgid "subject merged"
+msgstr "Proband*in zusammengeführt"
 
 msgid "subject exported"
 msgstr "Proband*in exportiert"
@@ -3160,18 +3193,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid ""
-#~ "Deleting this list also indicates that the corresponding research data is "
-#~ "either fully anonymous or has already been deleted."
-#~ msgstr ""
-#~ "Die Löschung dieser Liste weist auch darauf hin, dass die entsprechenden "
-#~ "Forschungsdaten entweder vollständig anonymisiert sind oder bereits "
-#~ "gelöscht wurden."
-
-#~ msgid ""
-#~ "I confirm that the research data can and should no longer be linked to "
-#~ "individual participants."
-#~ msgstr ""
-#~ "Ich bestätige, dass die Forschungsdaten nicht mehr mit einzelnen "
-#~ "Teilnehmenden in Verbindung gebracht werden können und sollen."
