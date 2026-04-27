@@ -4,6 +4,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import datetime
+import hashlib
+import unicodedata
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -395,3 +397,71 @@ class ContactCreationRequest(BaseContact):
             phone_number=self.phone_number,
             email=self.email,
         )
+
+
+class BlockHash(models.Model):
+    """Store hashes of contact data of blocked people.
+
+    This allows us to fulfill the desire to "delete all of my data and
+    never contact me again". Never contacting someone again is not so
+    easy when you are not allowed to store any information about them.
+    But by storing a hash of their contact data we can get pretty close.
+
+    Downsides:
+
+    -   Possible false positives because different contact data can
+        result in the same hash
+    -   Possible false positives because two people can have the same
+        contact data
+    -   Possible false negatives because of typos
+    -   Possible false negauives because of incomplete data
+
+    The same downsides also exist for storing plain contact data, just
+    to a lesser degree.
+
+    We need to strike a balance: If we put too much information into the
+    hash, the risk of false negatives rises. If we put too little
+    information into the hash, the risk of false positives rises.
+
+    We can also not easily refine the hashing function later on, because
+    that would invalidate all existing hashes. We can however add
+    additional hashes.
+    """
+
+    hash = models.BinaryField(max_length=32)
+
+    def __str__(self):
+        return self.hash.hex()
+
+    @classmethod
+    def normalize_text(cls, s):
+        return (
+            unicodedata.normalize('NFKD', s)
+            .strip()
+            .replace('ß', 'ss')
+            .replace('-', ' ')
+            .casefold()
+            .encode('ascii', 'ignore')
+            .decode('ascii')
+        )
+
+    @classmethod
+    def normalize(cls, first_name, last_name):
+        first_name = cls.normalize_text(first_name).split()[0]
+        last_name = cls.normalize_text(last_name)
+        return f'{first_name} {last_name}'
+
+    @classmethod
+    def hash_name(cls, first_name, last_name):
+        name = cls.normalize(first_name, last_name)
+        return hashlib.sha256(name.encode('utf-8')).digest()
+
+    @classmethod
+    def block(cls, first_name, last_name):
+        h = cls.hash_name(first_name, last_name)
+        cls.objects.create(hash=h)
+
+    @classmethod
+    def is_blocked(cls, first_name, last_name):
+        h = cls.hash_name(first_name, last_name)
+        return cls.objects.filter(hash=h).exists()

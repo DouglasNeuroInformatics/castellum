@@ -9,6 +9,7 @@ from django.contrib import admin
 from castellum.utils.admin import NoCreateModelAdmin
 
 from .models import Address
+from .models import BlockHash
 from .models import Contact
 from .models import ContactCreationRequest
 from .models import Street
@@ -46,6 +47,7 @@ class ContactAdmin(admin.ModelAdmin):
 
 
 if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+    admin.site.register(BlockHash)
     admin.site.register(Contact, ContactAdmin)
     admin.site.register(ContactCreationRequest, NoCreateModelAdmin)
     admin.site.register(Street)

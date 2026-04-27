@@ -19,6 +19,7 @@ EXCLUDED = [
     'audit.',
     'auth.',
     'castellum_auth',
+    'contacts.BlockHash.',
     'contacts.Contact.first_name_phonetic',
     'contacts.Contact.geolocation',
     'contacts.Contact.id',
