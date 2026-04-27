@@ -116,6 +116,18 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
         return cleaned_data
 
 
+class SubjectDeleteForm(forms.Form):
+    create_block_hash = forms.BooleanField(
+        label=_('Block this subject from future recruitment'),
+        required=False,
+        help_text=_(
+            'A hash of the name will be retained so that contacting '
+            'this subject again can be avoided even after all contact '
+            'data has been deleted.'
+        ),
+    )
+
+
 class SubjectMergeForm(forms.Form):
     target = forms.UUIDField(label=_('Target UUID'), required=True)
 

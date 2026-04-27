@@ -37,6 +37,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.contacts.models import BlockHash
 from castellum.contacts.models import Contact
 from castellum.data_protection.helpers import delete_recruitment_data
 from castellum.pseudonyms.forms import PseudonymForm
@@ -58,6 +59,7 @@ from castellum.utils.expressions import exists
 from castellum.utils.models import value_set
 from castellum.utils.views import BaseProtectedMediaView
 
+from .forms import SubjectDeleteForm
 from .forms import SubjectMergeForm
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
@@ -298,6 +300,7 @@ class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
 class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     model = Subject
     permission_required = 'subjects.delete_subject'
+    form_class = SubjectDeleteForm
     tab = 'delete'
 
     def is_last_legal_representative(self):
@@ -321,6 +324,11 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     def form_valid(self, form):
         if self.object.participation_set.exists():
             return self.get(self.request, **self.kwargs)
+        if form.cleaned_data['create_block_hash']:
+            BlockHash.block(
+                self.object.contact.first_name,
+                self.object.contact.last_name,
+            )
         response = super().form_valid(form)
         audit_extra = {}
         if self.object.to_be_deleted:
