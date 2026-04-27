@@ -1,3 +1,41 @@
+# 26.4.0 (unreleased)
+
+## breaking changes
+
+-   Remove the maintenance list for incomplete contact data. If the
+    subject is not reachable, there is no way to reach them and the
+    entry must be deleted anyway. It is therefore sufficient to include
+    them in the data protection dashboard.
+-   Subject creation requests are deprecated and will be removed in an
+    upcoming release.
+
+## new features
+
+-   When deleting a subject, it is now possible to merge the data
+    (participations, pseudonyms, consent history, …) into
+    another subject instead.
+-   Appointments have gained an optional location field.
+-   Attributes can now be restricted so they can only be used on
+    subjects with a minimum privacy level. To avoid accidental data
+    loss, inaccessible data is not deleted automatically. The
+    `cleanup_attributes` command should be used for that. (Thanks to
+    Stefan Fürtinger)
+-   Each pseudonym can now have an SSH key pair that may be used for
+    crypto shredding. Key pairs can be managed by using the `manage_keys`
+    command. Public keys can also be retrieved from the API. (Thanks to
+    Blake Fitch)
+
+## bug fixes
+
+-   Work around a Webkit bug in date validation
+-   fix: correct link in sessions end notification
+
+## other changes
+
+-   Display assigned conductors with full name in the "Today's
+    appointments" list.
+
+
 # 26.1.3 (2026-03-24)
 
 -   fix error when reviewing reported subjects
