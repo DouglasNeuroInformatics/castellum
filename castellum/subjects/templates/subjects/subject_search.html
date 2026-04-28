@@ -200,7 +200,11 @@
 
     <aside class="border bg-body-tertiary p-3 mb-3 mt-5" aria-labelledby="stats">
         <div class="float-end">
-            <a href="{% url 'subjects:blocklist' %}" class="btn btn-outline-primary">{% translate 'Block List' %}</a>
+            {% has_perm 'contacts.view_blockhash' user as can_view_blockhash %}
+            {% if can_view_blockhash %}
+                <a href="{% url 'subjects:blocklist' %}" class="btn btn-outline-primary">{% translate 'Block List' %}</a>
+            {% endif %}
+
             {% has_perm 'subjects.change_subject' user as can_change_subject %}
             {% if can_change_subject %}
                 <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-outline-primary">{% translate 'Maintenance' %}</a>
