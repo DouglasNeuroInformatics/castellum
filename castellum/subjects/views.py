@@ -330,9 +330,14 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         if self.object.participation_set.exists():
             return self.get(self.request, **self.kwargs)
         if form.cleaned_data['create_block_hash']:
+            if self.object.contact.date_of_birth:
+                year_of_birth = self.object.contact.date_of_birth.year
+            else:
+                year_of_birth = None
             BlockHash.block(
                 self.object.contact.first_name,
                 self.object.contact.last_name,
+                year_of_birth,
             )
         response = super().form_valid(form)
         audit_extra = {}
@@ -954,8 +959,8 @@ class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
 
 
 class BlockListMixin(LoginRequiredMixin):
-    def is_blocked(self, first_name, last_name):
-        if BlockHash.is_blocked(first_name, last_name):
+    def is_blocked(self, first_name, last_name, year_of_birth):
+        if BlockHash.is_blocked(first_name, last_name, year_of_birth):
             return True
         try:
             contact = Contact.objects.fuzzy_find(first_name, last_name)
@@ -966,6 +971,8 @@ class BlockListMixin(LoginRequiredMixin):
         except PotentialDuplicateError as e:
             contacts = e.duplicates
         for contact in contacts:
+            if contact.date_of_birth and contact.date_of_birth.year != year_of_birth:
+                continue
             if contact.subject.blocked or contact.subject.to_be_deleted:
                 return True
             elif contact.subject.consent and contact.subject.consent.document is None:
@@ -985,6 +992,7 @@ class BlockListFormView(BlockListMixin, FormView):
                 is_blocked=self.is_blocked(
                     form.cleaned_data['first_name'],
                     form.cleaned_data['last_name'],
+                    form.cleaned_data['year_of_birth'],
                 ),
             )
         )
@@ -1012,7 +1020,9 @@ class BlockListFileView(BlockListMixin, FormView):
         w.writeheader()
 
         for row in r:
-            is_blocked = self.is_blocked(row['first_name'], row['last_name'])
+            is_blocked = self.is_blocked(
+                row['first_name'], row['last_name'], int(row['year_of_birth'], 10)
+            )
             row['is_blocked'] = 'yes' if is_blocked else 'no'
             w.writerow(row)
 

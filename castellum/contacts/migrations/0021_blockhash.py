@@ -24,6 +24,7 @@ class Migration(migrations.Migration):
                     models.DateField(auto_now_add=True, verbose_name='Created at'),
                 ),
                 ('hash', models.BinaryField(max_length=32)),
+                ('year_of_birth', models.PositiveIntegerField(blank=True, null=True)),
             ],
         ),
     ]

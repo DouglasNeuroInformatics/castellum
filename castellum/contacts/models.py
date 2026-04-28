@@ -430,6 +430,7 @@ class BlockHash(models.Model):
 
     created_at = models.DateField(_('Created at'), auto_now_add=True)
     hash = models.BinaryField(max_length=32)
+    year_of_birth = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.hash.hex()
@@ -458,11 +459,12 @@ class BlockHash(models.Model):
         return hashlib.sha256(name.encode('utf-8')).digest()
 
     @classmethod
-    def block(cls, first_name, last_name):
+    def block(cls, first_name, last_name, year_of_birth=None):
         h = cls.hash_name(first_name, last_name)
-        cls.objects.create(hash=h)
+        cls.objects.create(hash=h, year_of_birth=year_of_birth)
 
     @classmethod
-    def is_blocked(cls, first_name, last_name):
+    def is_blocked(cls, first_name, last_name, year_of_birth):
         h = cls.hash_name(first_name, last_name)
-        return cls.objects.filter(hash=h).exists()
+        q_year = models.Q(year_of_birth=year_of_birth) | models.Q(year_of_birth=None)
+        return cls.objects.filter(q_year, hash=h).exists()

@@ -234,6 +234,9 @@ class SearchForm(forms.Form):
 class BlockListForm(forms.Form):
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))
+    year_of_birth = forms.IntegerField(
+        label=_('Year of birth'), min_value=1000, max_value=9999
+    )
 
 
 class BlockListFileForm(forms.Form):
@@ -242,7 +245,7 @@ class BlockListFileForm(forms.Form):
         content_types=['text/csv'],
         help_text=_(
             'The file must use UTF-8 encoding and contain at least the '
-            'columns "first_name" and "last_name". '
+            'columns "first_name", "last_name", and "year_of_birth". '
             'The processed file will have an additional column called "is_blocked".'
         ),
     )
