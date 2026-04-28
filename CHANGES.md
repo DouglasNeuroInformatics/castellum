@@ -1,4 +1,4 @@
-# 26.4.0 (unreleased)
+# 26.4.0 (2026-04-28)
 
 ## breaking changes
 
@@ -24,6 +24,15 @@
     crypto shredding. Key pairs can be managed by using the `manage_keys`
     command. Public keys can also be retrieved from the API. (Thanks to
     Blake Fitch)
+-   It is now possible to store a hash of contact data when deleting a
+    subject. This allows to avoid contacting the subject again even
+    after all contact data has been deleted.
+-   The new "block list" UI allows to check whether there are any
+    reasons not to contact a person. This includes the previously
+    mentioned hashes, but also existing mechanisms such as blocked
+    subjects or declined recruitment consent. It also provides batch
+    processing of CSV files. To use it, users need the
+    `contacts.view_blockhash` permission.
 
 ## bug fixes
 

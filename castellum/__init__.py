@@ -3,4 +3,4 @@
 # SPDX-FileCopyrightText: 2018-2019 MPIP <http://www.psych.mpg.de/>
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-__version__ = '26.1.3'
+__version__ = '26.4.0'
