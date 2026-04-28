@@ -266,6 +266,7 @@ These are the permissions that are actively used:
 -   ``subjects.export_subject``
 -   ``subjects.view_audit_trail``
 -   ``subjects.view_report``
+-   ``contacts.view_blockhash``
 -   ``recruitment.recruit``
 -   ``recruitment.conduct_study``
 -   ``recruitment.change_appointments``

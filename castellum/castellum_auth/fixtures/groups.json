@@ -38,6 +38,11 @@
                 "change_subject",
                 "subjects",
                 "subject"
+            ],
+            [
+                "view_blockhash",
+                "contacts",
+                "blockhash"
             ]
         ]
     }
@@ -67,6 +72,11 @@
                 "view_audit_trail",
                 "subjects",
                 "subject"
+            ],
+            [
+                "view_blockhash",
+                "contacts",
+                "blockhash"
             ],
             [
                 "access_study",

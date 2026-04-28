@@ -958,7 +958,9 @@ class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
         )
 
 
-class BlockListMixin(LoginRequiredMixin):
+class BlockListMixin(PermissionRequiredMixin):
+    permission_required = 'contacts.view_blockhash'
+
     def is_blocked(self, first_name, last_name, year_of_birth):
         if BlockHash.is_blocked(first_name, last_name, year_of_birth):
             return True
