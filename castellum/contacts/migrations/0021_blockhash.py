@@ -19,6 +19,10 @@ class Migration(migrations.Migration):
                         verbose_name='ID',
                     ),
                 ),
+                (
+                    'created_at',
+                    models.DateField(auto_now_add=True, verbose_name='Created at'),
+                ),
                 ('hash', models.BinaryField(max_length=32)),
             ],
         ),

@@ -428,6 +428,7 @@ class BlockHash(models.Model):
     additional hashes.
     """
 
+    created_at = models.DateField(_('Created at'), auto_now_add=True)
     hash = models.BinaryField(max_length=32)
 
     def __str__(self):
