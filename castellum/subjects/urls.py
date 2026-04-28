@@ -9,6 +9,8 @@ from django.urls import path
 from .api import APIAttributesView
 from .views import AdditionalInfoUpdateView
 from .views import AttributesUpdateView
+from .views import BlockListFileView
+from .views import BlockListFormView
 from .views import ConsentChangeView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
@@ -78,6 +80,8 @@ urlpatterns = [
         MaintenanceSubjectCreationRequestView.as_view(),
         name='maintenance-subjectcreationrequest',
     ),
+    path('blocklist/', BlockListFormView.as_view(), name='blocklist'),
+    path('blocklist/batch/', BlockListFileView.as_view(), name='blocklist-batch'),
     path(
         'subjectcreationrequest/<int:pk>/delete/',
         SubjectCreationRequestDeleteView.as_view(),

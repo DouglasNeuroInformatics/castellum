@@ -1,5 +1,5 @@
 {% extends "subjects/subject_base.html" %}
-{% load i18n auth subjects utils %}
+{% load i18n auth django_bootstrap5 subjects utils %}
 
 {% block title %}{% translate "Delete subject" %} &middot; {{ block.super }}{% endblock %}
 
@@ -85,6 +85,7 @@
                 <span class="form-check-label">{% translate "I have made sure that all external data related to this subject is either covered by retention periods or has been destroyed." %}</span>
             </label>
         {% endif %}
+        {% bootstrap_field form.create_block_hash %}
         <div class="d-print-none mb-3">
             <a href="{% url 'subjects:detail' object.pk %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
             <button class="btn btn-danger mb-1" {% if has_participations or has_pseudonym_in_general_domain %}disabled{% endif %} >{% translate 'Confirm' %}</button>

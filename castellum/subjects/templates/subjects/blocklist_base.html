@@ -1,0 +1,16 @@
+{% extends "subjects/base.html" %}
+{% load i18n django_bootstrap5 %}
+
+{% block title %}{% translate 'Block List' %} &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'subjects:blocklist' %}">{% translate 'Block List' %}</a></li>
+{% endblock %}
+
+{% block header %}
+    <div class="container text-center my-4">
+        <h1>{% translate 'Block List' %}</h1>
+        <p>{% translate 'Check whether a person may already have expressed that they no longer want to be contacted for recruitment.' %}</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "subjects/blocklist_base.html" %}
+{% load i18n django_bootstrap5 %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="row gx-2">
+            <div class="col-md-5">
+                {% bootstrap_field form.first_name %}
+            </div>
+            <div class="col-md-5">
+                {% bootstrap_field form.last_name %}
+            </div>
+            <div class="col-md-2">
+                {% bootstrap_field form.year_of_birth %}
+            </div>
+        </div>
+
+        {% if form.is_valid %}
+            {% if is_blocked %}
+                <p class="alert alert-danger">{% translate 'We have found a match. It is better not to contact this person.' %}</p>
+            {% else %}
+                <p class="alert alert-success">{% translate 'No match found. It is safe to contact this person.' %}</p>
+            {% endif %}
+        {% endif %}
+
+        <div class="d-print-none mb-3">
+            <button class="btn btn-primary mb-1">{% translate 'Check' %}</button>
+            <a href="{% url 'subjects:blocklist-batch' %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Batch Mode' %}</a>
+        </div>
+    </form>
+{% endblock %}

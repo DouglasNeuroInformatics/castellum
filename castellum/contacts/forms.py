@@ -15,6 +15,7 @@ from phonenumber_field.phonenumber import PhoneNumber
 
 from castellum.subjects.models import Subject
 from castellum.utils.forms import DatalistWidget
+from castellum.utils.forms import RestrictedFileField
 
 from .models import Address
 from .models import Contact
@@ -228,3 +229,23 @@ class SearchForm(forms.Form):
         cleaned_data['email'] = emails[0] if emails else ''
 
         return cleaned_data
+
+
+class BlockListForm(forms.Form):
+    first_name = forms.CharField(label=_('First name'))
+    last_name = forms.CharField(label=_('Last name'))
+    year_of_birth = forms.IntegerField(
+        label=_('Year of birth'), min_value=1000, max_value=9999
+    )
+
+
+class BlockListFileForm(forms.Form):
+    file = RestrictedFileField(
+        label=_('CSV File'),
+        content_types=['text/csv'],
+        help_text=_(
+            'The file must use UTF-8 encoding and contain at least the '
+            'columns "first_name", "last_name", and "year_of_birth". '
+            'The processed file will have an additional column called "is_blocked".'
+        ),
+    )

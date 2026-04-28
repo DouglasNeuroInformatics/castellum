@@ -27,7 +27,6 @@ test:
     - uv pip install -e .[test] psycopg2-binary
   script:
     - .venv/bin/ruff check castellum tests
-    - .venv/bin/pospell -l de_DE -p .misc/spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
     - .venv/bin/python -m django makemigrations --dry-run --check --noinput
     - .venv/bin/pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'

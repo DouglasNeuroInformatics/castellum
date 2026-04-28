@@ -261,6 +261,21 @@ msgstr "Vorname"
 msgid "Last name"
 msgstr "Nachname"
 
+msgid "Year of birth"
+msgstr "Geburtsjahr"
+
+msgid "CSV File"
+msgstr "CSV Datei"
+
+msgid ""
+"The file must use UTF-8 encoding and contain at least the columns "
+"\"first_name\", \"last_name\", and \"year_of_birth\". The processed file "
+"will have an additional column called \"is_blocked\"."
+msgstr ""
+"Die Datei muss das UTF-8 Encoding benutzen und mindestens die Spalten "
+"\"first_name\", \"last_name\" und \"year_of_birth\" enthalten. Die Ergebnis-"
+"Datei enthält die zusätzliche Spalte \"is_blocked\"."
+
 msgid "Title"
 msgstr "Titel"
 
@@ -2178,6 +2193,16 @@ msgstr ""
 "Proband*innen können entweder zur Löschung vorgemerkt werden oder eine "
 "Rekrutierungseinwilligung haben, nicht beides."
 
+msgid "Block this subject from future recruitment"
+msgstr "Diese Proband*in für zukünftige Rekrutierung sperren"
+
+msgid ""
+"A hash of the name will be retained so that contacting this subject again "
+"can be avoided even after all contact data has been deleted."
+msgstr ""
+"Ein Hash des Namens wird aufgehoben, sodass ein erneutes Kontaktieren dieser "
+"Proband*in auch nach der Löschung der Kontaktdaten vermieden werden kann."
+
 msgid "Target UUID"
 msgstr "Ziel UUID"
 
@@ -2392,6 +2417,34 @@ msgstr "Aktuell rekrutierbar"
 
 msgid "Subjects"
 msgstr "Proband*innen"
+
+msgid "Block List"
+msgstr "Sperrliste"
+
+msgid ""
+"Check whether a person may already have expressed that they no longer want "
+"to be contacted for recruitment."
+msgstr ""
+"Prüfen, ob eine Person möglicherweise bereits mitgeteilt hat, dass sie nicht "
+"mehr für Rekrutierungszwecke kontaktiert werden möchte."
+
+msgid "Check"
+msgstr "Prüfen"
+
+msgid "Single Mode"
+msgstr "Einzel-Modus"
+
+msgid "We have found a match. It is better not to contact this person."
+msgstr ""
+"Es wurde ein Treffer gefunden. Es ist besser, diese Person nicht zu "
+"kontaktieren."
+
+msgid "No match found. It is safe to contact this person."
+msgstr ""
+"Kein Treffer gefunden. Diese Person kann ohne Bedenken kontaktiert werden."
+
+msgid "Batch Mode"
+msgstr "Batch-Modus"
 
 msgid "Delete recruitment data"
 msgstr "Rekrutierungsdaten löschen"
@@ -2907,6 +2960,12 @@ msgstr "Die Meldung wurde verworfen. Die Sperrung wurde aufgehoben."
 msgid "participation deleted"
 msgstr "Teilnahme gelöscht"
 
+msgid "Uploaded file must be UTF-8 encoded."
+msgstr "Die Datei muss mit UTF-8 kodiert sein."
+
+msgid "Missing column: "
+msgstr "Fehlende Spalte: "
+
 msgid "Forbidden"
 msgstr "Verboten"
 
@@ -3184,9 +3243,6 @@ msgstr "Ungültige Datei"
 
 msgid "Uploaded file does not contain valid JSON."
 msgstr "Die hochgeladene Datei enthält kein valides JSON."
-
-msgid "Uploaded file must be UTF-8 encoded."
-msgstr "Die Datei muss mit UTF-8 kodiert sein."
 
 msgid "Please correct the errors listed on the fields."
 msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
