@@ -58,7 +58,7 @@
 
 # 26.1.1 (2026-02-03)
 
--   Update to the Django 5.2.11, which fixes multiple security issues
+-   Update to Django 5.2.11, which fixes multiple security issues
     (see https://docs.djangoproject.com/en/5.2/releases/5.2.11/)
 -   Fix multiple issues in the `cleanup_scheduler` command
 -   Fix multi-select inputs by downgrading jquery
