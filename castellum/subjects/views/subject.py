@@ -3,11 +3,8 @@
 # SPDX-FileCopyrightText: 2018-2019 MPIP <http://www.psych.mpg.de/>
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-import csv
 import datetime
-from io import StringIO
 
-from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,7 +17,6 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.module_loading import import_string
@@ -37,14 +33,11 @@ from castellum.appointments.models import Appointment
 from castellum.audit.helpers import audit
 from castellum.audit.models import AuditEvent
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.forms import BlockListFileForm
-from castellum.contacts.forms import BlockListForm
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import BlockHash
 from castellum.contacts.models import Contact
-from castellum.contacts.models import PotentialDuplicateError
 from castellum.data_protection.helpers import delete_recruitment_data
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_pseudonym_if_exists
@@ -57,27 +50,23 @@ from castellum.recruitment.mixins import BaseRelationDeleteView
 from castellum.recruitment.models import Attribute
 from castellum.recruitment.models import Participation
 from castellum.recruitment.statistics import render_statistics
-from castellum.studies.forms import StudyFilterForm
-from castellum.studies.mixins import with_study_lock
 from castellum.studies.models import Study
 from castellum.utils import cached_function
-from castellum.utils.expressions import exists
-from castellum.utils.models import value_set
 from castellum.utils.views import BaseProtectedMediaView
 
-from .forms import SubjectDeleteForm
-from .forms import SubjectMergeForm
-from .forms import SubjectPrivacyLevelForm
-from .mixins import BaseAdditionalInfoUpdateView
-from .mixins import BaseConsentChangeView
-from .mixins import BaseDataProtectionUpdateView
-from .mixins import BaseReportView
-from .mixins import SubjectMixin
-from .models import Consent
-from .models import ExportAnswer
-from .models import Report
-from .models import Subject
-from .models import SubjectCreationRequest
+from ..forms import SubjectDeleteForm
+from ..forms import SubjectMergeForm
+from ..forms import SubjectPrivacyLevelForm
+from ..mixins import BaseAdditionalInfoUpdateView
+from ..mixins import BaseConsentChangeView
+from ..mixins import BaseDataProtectionUpdateView
+from ..mixins import BaseReportView
+from ..mixins import SubjectMixin
+from ..models import Consent
+from ..models import ExportAnswer
+from ..models import Report
+from ..models import Subject
+from ..models import SubjectCreationRequest
 
 
 @cached_function(timeout=600)
@@ -631,148 +620,6 @@ class ReportDetailView(PermissionRequiredMixin, DetailView):
         return redirect('index')
 
 
-class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
-    model = Participation
-    template_name = 'subjects/participation_list.html'
-    permission_required = 'subjects.list_participations'
-    tab = 'participations'
-    subtab = 'list'
-
-    def get_queryset(self):
-        return (
-            self.subject.participation_set
-            .filter(status__in=Participation.INVITED_SET)
-            .order_by('-updated_at')
-        )
-
-
-class BaseParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
-    model = Study
-    tab = 'participations'
-
-    def get(self, request, *args, **kwargs):
-        self.form = StudyFilterForm(self.request.GET)
-        self.form.full_clean()
-        return super().get(request, *args, **kwargs)
-
-    def get_queryset(self):
-        q = self.form.cleaned_data.get('q', '')
-        if not q:
-            return Study.objects.none()
-
-        qs = super().get_queryset()
-
-        for part in q.split():
-            qs = qs.filter(
-                models.Q(name__icontains=part)
-                | models.Q(contact_person__icontains=part)
-            )
-
-        # study.p is the list that contains the particiaption (if it exists)
-        # or nothing.
-        # I did not find a better way to do this.
-        return qs.prefetch_related(models.Prefetch(
-            'participation_set',
-            queryset=self.subject.participation_set.all(),
-            to_attr='p',
-        ))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.form
-        return context
-
-
-class ParticipationRecruitView(BaseParticipationAddView):
-    template_name = 'subjects/participation_recruit.html'
-    permission_required = 'subjects.view_subject'
-    subtab = 'recruit'
-
-    def get_queryset(self):
-        perms = ['recruitment.recruit', 'studies.access_study']
-        studies = super().get_queryset().filter(status=Study.EXECUTION)
-
-        return studies.filter(pk__in=[
-            study.pk for study in studies if (
-                self.request.user.has_perms(perms, obj=study)
-                and Subject.objects.filter(
-                    filter_queries.study_criteria(study), pk=self.subject.pk
-                ).exists()
-            )
-        ])
-
-    @with_study_lock
-    def create_participation(self):
-        participation, __ = Participation.objects.get_or_create(
-            subject=self.subject, study=self.study
-        )
-
-        url = reverse('recruitment:contact', args=[self.study.pk, participation.pk])
-        return redirect(url)
-
-    def post(self, request, *args, **kwargs):
-        self.study = get_object_or_404(
-            Study, pk=request.POST['study'], status=Study.EXECUTION
-        )
-
-        perms = ['recruitment.recruit', 'studies.access_study']
-        if not request.user.has_perms(perms, obj=self.study):
-            raise PermissionDenied
-
-        return self.create_participation()
-
-
-class ParticipationAddView(BaseParticipationAddView):
-    template_name = 'subjects/participation_add.html'
-    permission_required = 'subjects.add_to_study'
-    subtab = 'add'
-
-    @with_study_lock
-    def create_participation(self):
-        Participation.objects.update_or_create(
-            subject=self.subject, study=self.study, defaults={
-                'status': Participation.PARTICIPATING,
-                'batch': None,
-            }
-        )
-
-        return self.get(self.request, *self.args, **self.kwargs)
-
-    def post(self, request, *args, **kwargs):
-        self.study = get_object_or_404(Study, pk=request.POST['study'])
-        return self.create_participation()
-
-
-class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
-    model = Participation
-    permission_required = ['subjects.delete_subject']
-    tab = 'delete'
-
-    def get_object(self):
-        return get_object_or_404(
-            Participation, pk=self.kwargs['pk'], subject=self.subject
-        )
-
-    def get_success_url(self):
-        return reverse('subjects:delete', args=[self.subject.pk])
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-
-        self.subject.pseudonym_set.filter(
-            domain__in=self.object.study.domains.all(),
-        ).update(subject=None)
-
-        audit(
-            gettext_noop('participation deleted'),
-            self.request.user.username,
-            subject_pk=self.object.subject.pk,
-            study_pk=self.object.study.pk,
-        )
-
-        return response
-
-
 @method_decorator(sensitive_post_parameters(), 'dispatch')
 class SubjectSearchPopup(PermissionRequiredMixin, SubjectSearchView):
     template_name = 'subjects/subject_search_popup.html'
@@ -834,240 +681,6 @@ class SubjectSearchPopup(PermissionRequiredMixin, SubjectSearchView):
             privacy_level_form=privacy_level_form,
             contact_form=contact_form,
         ))
-
-
-class BaseMaintenanceView(PermissionRequiredMixin, ListView):
-    model = Subject
-    paginate_by = 20
-    permission_required = 'subjects.change_subject'
-
-    def get_queryset(self):
-        return super().get_queryset().filter(
-            filter_queries.to_be_deleted(),
-            deceased=False,
-            blocked=False,
-        )
-
-
-class MaintenanceAttributesView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_attributes.html'
-    tab = 'attributes'
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        qs = filter_queries.get_has_missing_attributes(qs)
-        return qs.order_by('completeness', 'total')
-
-
-class MaintenanceDuplicatesView(BaseMaintenanceView):
-    model = Contact
-    template_name = 'subjects/maintenance_duplicates.html'
-    tab = 'duplicates'
-
-    def get_queryset(self):
-        to_be_deleted = value_set(
-            Subject.objects.filter(to_be_deleted__isnull=False), 'pk'
-        )
-
-        return (
-            Contact.objects
-            .values('first_name', 'last_name')
-            .exclude(subject_uuid__in=to_be_deleted)
-            .alias(
-                count=models.Count('id'),
-                date_of_birth_count=models.Count('date_of_birth', distinct=True),
-            )
-            .filter(
-                count__gt=1,
-                date_of_birth_count__lt=models.F('count'),
-            )
-            .order_by('last_name', 'first_name')
-        )
-
-
-class MaintenanceConsentView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_consent.html'
-    tab = 'consent'
-
-    def get_by_consent_from_before_full_age(self):
-        today = datetime.date.today()
-
-        full_age = Contact.objects.exclude(
-            date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
-        )
-
-        return super().get_queryset().filter(
-            filter_queries.uuid_filter(full_age),
-            filter_queries.has_consent(),
-            consent__underage_when_given=True,
-        )
-
-    def get_by_deprecated_document(self):
-        return (
-            super().get_queryset()
-            .filter(filter_queries.has_consent())
-            .exclude(pk__in=Subject.objects.filter(
-                filter_queries.has_consent(exclude_deprecated=True)
-            ))
-        )
-
-    def get_queryset(self):
-        return (
-            Subject.objects
-            .annotate(
-                consent_document_deprecated=exists(
-                    self.get_by_deprecated_document(), pk=models.OuterRef('pk')
-                ),
-                consent_from_before_full_age=exists(
-                    self.get_by_consent_from_before_full_age(), pk=models.OuterRef('pk')
-                ),
-            )
-            .exclude(
-                consent_document_deprecated=False,
-                consent_from_before_full_age=False,
-            )
-            .select_related('consent__document')
-            .order_by('pk')
-        )
-
-
-class MaintenanceReliabilityView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_reliability.html'
-    tab = 'reliability'
-
-    def get_queryset(self):
-        return (
-            super().get_queryset()
-            .annotate_reliability()
-            .annotate(
-                ratio=100
-                * models.F('reliability_issues')
-                / models.F('reliability_total')
-            )
-            .filter(
-                reliability_issues__gt=1,
-                ratio__gte=50,
-            )
-            .order_by('-ratio')
-        )
-
-
-class MaintenanceEstrangedSubjectsView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_estranged_subjects.html'
-    tab = 'estranged_subjects'
-
-    def get_queryset(self):
-        return super().get_queryset().filter(
-            filter_queries.has_consent(include_waiting=True),
-            updated_at__lte=(
-                timezone.now() - settings.CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD
-            ),
-        ).order_by('updated_at')
-
-
-class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
-    model = SubjectCreationRequest
-    paginate_by = 20
-    permission_required = 'subjects.change_subject'
-    template_name = 'subjects/maintenance_subjectcreationrequest.html'
-    tab = 'subjectcreationrequest'
-
-    def get_queryset(self):
-        return (
-            SubjectCreationRequest.objects
-            .filter(data_is_deleted=False)
-            .order_by('created_at')
-        )
-
-
-class BlockListMixin(PermissionRequiredMixin):
-    permission_required = 'contacts.view_blockhash'
-
-    def is_blocked(self, first_name, last_name, year_of_birth):
-        if BlockHash.is_blocked(first_name, last_name, year_of_birth):
-            return True
-        try:
-            contact = Contact.objects.fuzzy_find(first_name, last_name)
-            if contact:
-                contacts = [contact]
-            else:
-                contacts = []
-        except PotentialDuplicateError as e:
-            contacts = e.duplicates
-        for contact in contacts:
-            if contact.date_of_birth and contact.date_of_birth.year != year_of_birth:
-                continue
-            if contact.subject.blocked or contact.subject.to_be_deleted:
-                return True
-            elif contact.subject.consent and contact.subject.consent.document is None:
-                # NOTE: also blocks excluded_by_us
-                return True
-        return False
-
-
-class BlockListFormView(BlockListMixin, FormView):
-    form_class = BlockListForm
-    template_name = 'subjects/blocklist_form.html'
-
-    def form_valid(self, form):
-        return self.render_to_response(
-            self.get_context_data(
-                form=form,
-                is_blocked=self.is_blocked(
-                    form.cleaned_data['first_name'],
-                    form.cleaned_data['last_name'],
-                    form.cleaned_data['year_of_birth'],
-                ),
-            )
-        )
-
-
-class BlockListFileView(BlockListMixin, FormView):
-    form_class = BlockListFileForm
-    template_name = 'subjects/blocklist_file_form.html'
-
-    def form_valid(self, form):
-        try:
-            data = self.request.FILES['file'].read().decode('utf-8')
-        except UnicodeDecodeError:
-            form.add_error('file', _('Uploaded file must be UTF-8 encoded.'))
-            return self.form_invalid(form)
-
-        r = csv.DictReader(StringIO(data))
-        for key in ['first_name', 'last_name', 'year_of_birth']:
-            if key not in r.fieldnames:
-                form.add_error('file', _('Missing column: ') + key)
-                return self.form_invalid(form)
-
-        response = HttpResponse(content_type='text/csv')
-        w = csv.DictWriter(response, fieldnames=[*r.fieldnames, 'is_blocked'])
-        w.writeheader()
-
-        for row in r:
-            is_blocked = self.is_blocked(
-                row['first_name'], row['last_name'], int(row['year_of_birth'], 10)
-            )
-            row['is_blocked'] = 'yes' if is_blocked else 'no'
-            w.writerow(row)
-
-        return response
-
-
-class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
-    model = SubjectCreationRequest
-    permission_required = 'subjects.change_subject'
-    tab = 'subjectcreationrequest'
-
-    def get_success_url(self):
-        return reverse('subjects:maintenance-subjectcreationrequest')
-
-    def get_queryset(self):
-        return super().get_queryset().filter(data_is_deleted=False)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        self.object.mark_as_deleted()
-        return redirect(self.get_success_url())
 
 
 class SubjectProtectedMediaView(

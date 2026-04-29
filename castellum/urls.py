@@ -26,7 +26,7 @@ from castellum.recruitment.views import RecruitmentProtectedMediaView
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.studies.views.studies import StudyProtectedMediaView
-from castellum.subjects.views import SubjectProtectedMediaView
+from castellum.subjects.views.subject import SubjectProtectedMediaView
 from castellum.utils.views import ProtectedMediaView
 
 

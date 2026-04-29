@@ -17,7 +17,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.attribute_exporters import JSONExporter
 
-from .models import Subject
+from ..models import Subject
 
 
 class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
