@@ -2945,6 +2945,9 @@ msgstr "Proband*in gelöscht"
 msgid "Subject has been deleted."
 msgstr "Die Proband*in wurde gelöscht"
 
+msgid "Cannot merge subject into itself"
+msgstr "Die Proband*in kann nicht mit sich selbst zusammengeführt werden."
+
 msgid "subject merged"
 msgstr "Proband*in zusammengeführt"
 

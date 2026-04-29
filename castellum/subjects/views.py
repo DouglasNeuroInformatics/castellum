@@ -424,6 +424,10 @@ class SubjectMergeView(SubjectMixin, PermissionRequiredMixin, DeleteView):
             self.object.delete()
 
     def form_valid(self, form):
+        if form.cleaned_data['target'] == self.object.pk:
+            form.add_error('target', _('Cannot merge subject into itself'))
+            return self.form_invalid(form)
+
         target = get_object_or_404(Subject, pk=form.cleaned_data['target'])
 
         conflicting_studies = self.get_conflicting_studies(target)
