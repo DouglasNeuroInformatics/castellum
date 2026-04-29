@@ -12,6 +12,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.core.files.storage import default_storage
 from django.db import models
 from django.db import transaction
 from django.http import HttpResponse
@@ -384,6 +385,15 @@ class SubjectMergeView(SubjectMixin, PermissionRequiredMixin, DeleteView):
                 source_entry.delete()
         self.object.reliabilityentry_set.update(subject=target)
 
+    def move_file(self, name, target):
+        # Actually copy to avoid data loss on errors.
+        # `cleanup_media` will take care of deleting orphans.
+        if not name:
+            return name
+        dst_name = name.replace(f'subjects/{self.subject.pk}', f'subjects/{target.pk}')
+        with default_storage.open(name) as fh:
+            return default_storage.save(dst_name, fh)
+
     def merge_consent_into(self, target):
         if not hasattr(self.object, 'consent'):
             return
@@ -392,7 +402,11 @@ class SubjectMergeView(SubjectMixin, PermissionRequiredMixin, DeleteView):
                 target.consent.delete()
             else:
                 return
-        Consent.objects.filter(pk=self.object.consent.pk).update(subject=target)
+        consent = Consent.objects.get(pk=self.object.consent.pk)
+        name = self.move_file(consent.file.name, target)
+        Consent.objects.filter(pk=self.object.consent.pk).update(
+            subject=target, file=name
+        )
 
     def merge_into(self, target):
         with transaction.atomic():
@@ -401,6 +415,10 @@ class SubjectMergeView(SubjectMixin, PermissionRequiredMixin, DeleteView):
             self.object.participation_set.update(subject=target)
             self.object.pseudonym_set.update(subject=target)
             self.object.exportanswer_set.update(subject=target)
+            for revision in self.object.consentrevision_set.all():
+                name = self.move_file(revision.file.name, target)
+                revision.file.name = name
+                revision.save(update_fields=['file'])
             self.object.consentrevision_set.update(subject=target)
             self.object.report_set.update(subject=target)
             self.object.delete()
