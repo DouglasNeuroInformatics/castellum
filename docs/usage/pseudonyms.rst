@@ -77,6 +77,9 @@ also available at
 Once created, the key can be used with common encryption tools, e.g. `age
 <https://github.com/FiloSottile/age/>`_.
 
+A key pair can be deleted manually using the `manage_keys` command. It will
+also get deleted automatically along with the pseudonym list or subject.
+
 Deleting pseudonym lists
 ------------------------
 
