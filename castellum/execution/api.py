@@ -162,7 +162,8 @@ class APISSHKeyView(BaseAPIView):
             raise Http404 from e
 
         domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
-        pseudonym = get_object_or_404(Pseudonym, pseudonym=pseudonym_str, domain=domain)
+        qs = Pseudonym.objects.exclude(subject=None)
+        pseudonym = get_object_or_404(qs, pseudonym=pseudonym_str, domain=domain)
 
         key_pair, _ = KeyPair.objects.get_or_create(pseudonym=pseudonym)
 

@@ -26,7 +26,7 @@ def test_get_ssh_keys(db):
 
 def test_get_creates_key(client, conductor, study, subject):
     domain = baker.make(Domain, context=study)
-    pseudonym = baker.make(Pseudonym, domain=domain)
+    pseudonym = baker.make(Pseudonym, domain=domain, subject=subject)
 
     url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym}/ssh-key/'
     response = client.get(url, HTTP_AUTHORIZATION=f'Bearer {conductor.token}')
@@ -47,3 +47,20 @@ def test_404_on_invalid_pseudonym(client, conductor, study, subject):
     response = client.get(url, HTTP_AUTHORIZATION=f'Bearer {conductor.token}')
 
     assert response.status_code == 404
+
+
+def test_404_on_deleted_subject(client, conductor, study, subject):
+    domain = baker.make(Domain, context=study)
+    pseudonym = baker.make(Pseudonym, domain=domain, subject=subject)
+
+    url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym}/ssh-key/'
+    response = client.get(url, HTTP_AUTHORIZATION=f'Bearer {conductor.token}')
+    assert response.status_code == 200
+    assert KeyPair.objects.exists()
+
+    subject.delete()
+
+    url = f'/execution/api/studies/{study.pk}/domains/{domain.key}/{pseudonym}/ssh-key/'
+    response = client.get(url, HTTP_AUTHORIZATION=f'Bearer {conductor.token}')
+    assert response.status_code == 404
+    assert not KeyPair.objects.exists()

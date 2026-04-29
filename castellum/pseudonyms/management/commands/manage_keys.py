@@ -16,7 +16,8 @@ class Command(BaseCommand):
         parser.add_argument('pseudonym')
 
     def handle(self, action, domain, pseudonym, **options):
-        p = Pseudonym.objects.get(pseudonym=pseudonym, domain__key=domain)
+        pseudonyms = Pseudonym.objects.exclude(subject=None)
+        p = pseudonyms.get(pseudonym=pseudonym, domain__key=domain)
         key_pair, _ = KeyPair.objects.get_or_create(pseudonym=p)
         if action == 'delete':
             key_pair.delete()
