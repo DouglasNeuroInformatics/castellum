@@ -29,6 +29,7 @@ populate:
 .PHONY: lint
 lint:
 	$(VIRTUAL_ENV)/bin/ruff check --fix castellum tests
+	$(VIRTUAL_ENV)/bin/python .misc/check_spelling.py
 
 .PHONY: test
 test:
