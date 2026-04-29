@@ -24,4 +24,3 @@ class Command(BaseCommand):
             self.stdout.write(key_pair.get_ssh_private_key())
         else:
             self.stdout.write(key_pair.get_ssh_public_key())
-
