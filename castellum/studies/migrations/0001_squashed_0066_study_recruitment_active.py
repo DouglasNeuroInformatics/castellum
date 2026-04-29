@@ -60,7 +60,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=128, verbose_name='Name')),
-                ('url', models.URLField(blank=True, help_text='Any "{start}"- and "{end}-tags included in the URL will automatically be replaced by the relevant datetime in ISO 8601 format.', verbose_name='Calendar URL')),
+                ('url', models.URLField(blank=True, help_text='Any "{start}"- and "{end}"-tags included in the URL will automatically be replaced by the relevant datetime in ISO 8601 format.', verbose_name='Calendar URL')),
                 ('color', castellum.utils.fields.ColorField(default='#000000', max_length=7, verbose_name='Calendar color')),
                 ('managers', models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL, verbose_name='Managers')),
             ],

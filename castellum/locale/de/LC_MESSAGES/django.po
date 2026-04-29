@@ -1683,10 +1683,10 @@ msgstr "Kalender URL"
 
 #, python-brace-format
 msgid ""
-"Any \"{start}\"- and \"{end}-tags included in the URL will automatically be "
-"replaced by the relevant datetime in ISO 8601 format."
+"Any \"{start}\"- and \"{end}\"-tags included in the URL will automatically "
+"be replaced by the relevant datetime in ISO 8601 format."
 msgstr ""
-"Alle \"{start}\"- und \"{end}-Tags in der URL werden automatisch durch die "
+"Alle \"{start}\"- und \"{end}\"-Tags in der URL werden automatisch durch die "
 "relevante Zeitangabe im ISO 8601-Format ersetzt."
 
 msgid "Calendar color"

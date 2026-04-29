@@ -491,7 +491,7 @@ class Resource(models.Model):
     url = models.URLField(
         _('Calendar URL'),
         help_text=_(
-            'Any "{start}"- and "{end}-tags included in the URL will '
+            'Any "{start}"- and "{end}"-tags included in the URL will '
             'automatically be replaced by the relevant datetime in ISO 8601 format.'
         ),
         blank=True,
