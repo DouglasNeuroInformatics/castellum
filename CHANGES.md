@@ -1,3 +1,10 @@
+# 26.4.1 (2026-04-29)
+
+-   delete pseudonym key pair when the corresponding subject is deleted
+-   move consent files on subject merge
+-   prevent deletion of subjects by merging them with themselves
+
+
 # 26.4.0 (2026-04-28)
 
 ## breaking changes
