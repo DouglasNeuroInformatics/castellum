@@ -35,6 +35,7 @@ Relevant guides:
 -   :ref:`subject-report`
 -   :ref:`subject-consent`
 -   :ref:`subject-add-to-study`
+-   :ref:`subject-blocklist`
 
 Study Coordinator
 ~~~~~~~~~~~~~~~~~
@@ -93,6 +94,7 @@ Relevant guides:
 -   :ref:`subject-delete`
 -   :ref:`subject-merge`
 -   :ref:`subject-block`
+-   :ref:`subject-blocklist`
 -   :ref:`study-delete`
 
 Administrator
@@ -137,6 +139,7 @@ Relevant guides:
 -   :ref:`subject-search`
 -   :ref:`subject-edit`
 -   :ref:`subject-report`
+-   :ref:`subject-blocklist`
 -   :ref:`recruitment`
 -   :ref:`recruitment-mail`
 -   :ref:`recruitment-appointments`
@@ -155,6 +158,7 @@ Relevant guides:
 -   :ref:`subject-search`
 -   :ref:`subject-edit`
 -   :ref:`subject-report`
+-   :ref:`subject-blocklist`
 -   :ref:`subject-get-pseudonym`
 -   :ref:`recruitment-appointments`
 -   :ref:`scheduler-appointment`
