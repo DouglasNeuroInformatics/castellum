@@ -410,6 +410,8 @@ class SubjectMergeView(SubjectMixin, PermissionRequiredMixin, DeleteView):
                 revision.save(update_fields=['file'])
             self.object.consentrevision_set.update(subject=target)
             self.object.report_set.update(subject=target)
+            for child in self.object.contact.legal_representative_of.all():
+                child.legal_representatives.add(target.contact)
             self.object.delete()
 
     def form_valid(self, form):

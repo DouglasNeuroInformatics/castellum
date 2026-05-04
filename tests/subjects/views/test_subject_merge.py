@@ -2,6 +2,7 @@ import pytest
 from freezegun import freeze_time
 from model_bakery import baker
 
+from castellum.contacts.models import Contact
 from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import ReliabilityEntry
@@ -131,3 +132,18 @@ def test_merge_consent_merged(client, user, subject):
     consent.refresh_from_db()
     assert response.status_code == 302
     assert consent.subject == target
+
+
+def test_merge_legal_rep_of_copies(client, user, subject):
+    client.force_login(user)
+
+    child = baker.make(Contact)
+    child.legal_representatives.add(subject.contact)
+
+    target = baker.make(Contact)
+    url = f'/subjects/{subject.pk}/merge/'
+    response = client.post(url, {'target': target.subject_uuid})
+
+    child.refresh_from_db()
+    assert response.status_code == 302
+    assert child.legal_representatives.get() == target
