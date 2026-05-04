@@ -148,6 +148,11 @@ please proceed as follows:
     **Are you sure you want to permanently delete this subject and all related
     data?** You can now click **Confirm** and the subject will be deleted.
 
+5.  You may select to block this subject from future recruitment. In this
+    case, a hash of the name will be retained so that :ref:`contacting this
+    subject again can be avoided <subject-blocklist>` even after all contact
+    data has been deleted.
+
 .. warning::
 
     There may still be data stored in a backup. Please check with your local IT

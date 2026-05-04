@@ -342,3 +342,31 @@ Thus, Castellum additionally allows to cleanup by mail batches:
    **Previous mails** list. Select **Cleanup**.
 2. Confirm that you want to cleanup all potential participants of the mail batch
    who did not respond.
+
+
+.. _subject-blocklist:
+
+Check if a subject has been blocked in the past
+-----------------------------------------------
+
+Studies may be able to cooperate with public institutions to contact potential
+participants who are not in the database yet. However, you may want to skip
+subjects who have already been excluded in the past. Castellum provides a
+**Block List** that allows you to do exactly that.
+
+1.  Click on **Subjects** on the front page.
+2.  Click on **Block List**.
+3.  Enter the first name, last name, and year of birth of the person in question
+4.  Castellum will tell you if there is any data that suggests that this person
+    should not be contacted.
+5.  To check a list of people, switch to the **Batch Mode** and follow the
+    instructions.
+
+A person will show up as blocked in any of the following cases:
+
+-   There is a matching entry in Castellum and they have :ref:`explictly
+    rejected recruitment consent <subject-consent>`.
+-   There is a matching entry in Castellum and the have been :ref:`blocked for
+    inappropriate behavior <subject-block>`.
+-   There was a matching entry and during :ref:`deletion <subject-delete>`, the
+    option "Block this subject from future recruitment" was selected.
