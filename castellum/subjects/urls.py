@@ -153,7 +153,7 @@ urlpatterns = [
     path('reports/<int:pk>/', ReportDetailView.as_view(), name='report-detail'),
 ]
 
-if settings.CASTELLUM_AUDIT_TRAIL_ENABLED:
+if settings.CASTELLUM_AUDIT_TRAIL_ENABLED:  # pragma: no branch
     urlpatterns += [
         path(
             '<uuid:pk>/audit-trail/',
@@ -162,7 +162,7 @@ if settings.CASTELLUM_AUDIT_TRAIL_ENABLED:
         ),
     ]
 
-if settings.CASTELLUM_API_ENABLED:
+if settings.CASTELLUM_API_ENABLED:  # pragma: no branch
     urlpatterns += [
         path(
             'api/subjects/<uuid:domain>/<pseudonym>/attributes/',

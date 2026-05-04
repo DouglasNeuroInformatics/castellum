@@ -105,7 +105,7 @@ urlpatterns = [
     path('media/consent/<path:path>', ProtectedMediaView.as_view(prefix='consent')),
 ]
 
-if 'model_stats' in settings.INSTALLED_APPS:
+if 'model_stats' in settings.INSTALLED_APPS:  # pragma: no branch
     urlpatterns = [
         path('admin/stats/', include('model_stats.urls')),
         *urlpatterns,
@@ -118,5 +118,5 @@ try:
         *urlpatterns,
         path('__debug__/', include(debug_toolbar.urls)),
     ]
-except ImportError:
+except ImportError:  # pragma: no cover
     pass

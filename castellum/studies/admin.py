@@ -29,6 +29,6 @@ admin.site.register(models.Resource)
 admin.site.register(models.StudyGroup, StudyGroupAdmin)
 admin.site.register(models.StudyType, TranslatableAdmin)
 
-if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:  # pragma: no branch
     admin.site.register(models.Study, StudyAdmin)
     admin.site.register(models.StudyMembership)

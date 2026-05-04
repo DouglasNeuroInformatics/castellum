@@ -9,5 +9,5 @@ from django.contrib.gis.admin import GISModelAdmin
 
 from . import models
 
-if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:  # pragma: no branch
     admin.site.register(models.Geolocation, GISModelAdmin)

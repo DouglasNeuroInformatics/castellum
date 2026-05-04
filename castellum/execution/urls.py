@@ -145,7 +145,7 @@ urlpatterns = [
     path('<int:study_pk>/<int:pk>/report/', ReportView.as_view(), name='report'),
 ]
 
-if settings.CASTELLUM_API_ENABLED:
+if settings.CASTELLUM_API_ENABLED:  # pragma: no branch
     urlpatterns += [
         path('api/studies/<int:pk>/domains/', APIDomainsView.as_view()),
         path(

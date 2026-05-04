@@ -18,5 +18,5 @@ class DomainAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Domain, DomainAdmin)
 
-if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:  # pragma: no branch
     admin.site.register(models.Pseudonym)

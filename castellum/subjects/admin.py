@@ -22,7 +22,7 @@ class ConsentDocumentAdmin(admin.ModelAdmin):
 
 admin.site.register(models.ConsentDocument, ConsentDocumentAdmin)
 
-if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:  # pragma: no branch
     admin.site.register(models.Subject, SubjectAdmin)
     admin.site.register(models.SubjectCreationRequest, NoCreateModelAdmin)
     admin.site.register(models.Consent)

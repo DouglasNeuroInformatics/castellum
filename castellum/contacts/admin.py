@@ -46,7 +46,7 @@ class ContactAdmin(admin.ModelAdmin):
         return super().get_queryset(request).select_related('address')
 
 
-if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:  # pragma: no branch
     admin.site.register(BlockHash)
     admin.site.register(Contact, ContactAdmin)
     admin.site.register(ContactCreationRequest, NoCreateModelAdmin)

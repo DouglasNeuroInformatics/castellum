@@ -8,5 +8,5 @@ from django.contrib import admin
 
 from .models import Appointment
 
-if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:  # pragma: no branch
     admin.site.register(Appointment)

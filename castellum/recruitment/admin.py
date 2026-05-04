@@ -45,7 +45,7 @@ admin.site.register(AttributeChoice, AttributeChoiceAdmin)
 admin.site.register(RelationType, TranslatableAdmin)
 admin.site.register(Attribute, AttributeAdmin)
 
-if settings.CASTELLUM_ADVANCED_ADMIN_UI:
+if settings.CASTELLUM_ADVANCED_ADMIN_UI:  # pragma: no branch
     admin.site.register(ReliabilityEntry)
     admin.site.register(MailBatch)
     admin.site.register(NewsMailBatch)
