@@ -91,11 +91,11 @@ def test_action_required_sessions_end(client, user):
 
     response = client.get('/studies/?member=all&status=action-required')
     assert response.status_code == 200
-    assert response.content.count(b'class="table-list-item"') == 3
+    assert response.content.count(b'class="table-list-item"') == 2
 
     response = client.get('/studies/?member=all')
     assert response.content.count(b'class="table-list-item"') == 6
-    assert response.content.count(b'exclamation-triangle') == 3
+    assert response.content.count(b'exclamation-triangle') == 2
 
 
 @freeze_time('1971-01-01')

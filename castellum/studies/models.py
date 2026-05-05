@@ -414,7 +414,7 @@ class Study(TimeStampedModel):
     @property
     def action_required(self):
         return (
-            self.should_enter_sessions_end
+            (self.should_enter_sessions_end and self.status != self.DRAFT)
             or self.should_finish_study
             or self.should_enter_pseudonyms_delete_date
             or self.should_delete_domains

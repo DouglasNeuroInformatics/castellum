@@ -65,7 +65,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
     def q_action_required(self):
         today = datetime.date.today()
         return (
-            (models.Q(sessions_end=None) & ~models.Q(status=Study.FINISHED))
+            (models.Q(sessions_end=None, status=Study.EXECUTION))
             | (models.Q(sessions_end__lt=today) & ~models.Q(status=Study.FINISHED))
             | (models.Q(pseudonyms_delete_date=None) & ~models.Q(domains=None))
             | (models.Q(pseudonyms_delete_date__lt=today) & ~models.Q(domains=None))
