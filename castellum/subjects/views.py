@@ -999,7 +999,9 @@ class BlockListMixin(PermissionRequiredMixin):
                 continue
             if contact.subject.blocked or contact.subject.to_be_deleted:
                 return True
-            elif contact.subject.consent and contact.subject.consent.document is None:
+            if Consent.objects.filter(
+                subject=contact.subject_uuid, document=None
+            ).exists():
                 # NOTE: also blocks excluded_by_us
                 return True
         return False
