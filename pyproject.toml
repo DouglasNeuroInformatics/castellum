@@ -9,7 +9,7 @@ dependencies = [
     "castellum-pseudonyms == 0.0.3",
     "cryptography >= 41.0.0",
     "cologne-phonetics == 2.0.0",
-    "Django == 5.2.13",
+    "Django == 5.2.14",
     "django-bootstrap5 == 26.2",
     "django-bootstrap-colors == 5.4.1",
     "django-mfa3 == 1.1.0",
