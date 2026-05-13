@@ -1035,14 +1035,23 @@ class BlockListFileView(BlockListMixin, FormView):
             form.add_error('file', _('Uploaded file must be UTF-8 encoded.'))
             return self.form_invalid(form)
 
+        keys = ['first_name', 'last_name', 'year_of_birth']
         r = csv.DictReader(StringIO(data))
-        for key in ['first_name', 'last_name', 'year_of_birth']:
-            if key not in r.fieldnames:
+        missing = [key for key in keys if key not in r.fieldnames]
+        if missing == keys:
+            r = csv.DictReader(StringIO(data), delimiter=';')
+            missing = [key for key in keys if key not in r.fieldnames]
+        if missing:
+            for key in missing:
                 form.add_error('file', _('Missing column: ') + key)
-                return self.form_invalid(form)
+            return self.form_invalid(form)
 
         response = HttpResponse(content_type='text/csv')
-        w = csv.DictWriter(response, fieldnames=[*r.fieldnames, 'is_blocked'])
+        w = csv.DictWriter(
+            response,
+            fieldnames=[*r.fieldnames, 'is_blocked'],
+            dialect=r.reader.dialect,
+        )
         w.writeheader()
 
         for row in r:
