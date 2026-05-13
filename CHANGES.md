@@ -1,3 +1,11 @@
+# 26.4.2 (2026-05-13)
+
+-   fix error on missing recruitment consent in the block list
+-   allow semicolons as CSV delimiter in block list batch mode (as
+    common in european locales)
+-   fix some typos in the german translation
+
+
 # 26.4.1 (2026-04-29)
 
 -   delete pseudonym key pair when the corresponding subject is deleted
