@@ -36,21 +36,6 @@ def test_maintenance_attributes_list(request, client, user, subject):
     assert response.content.count(b'<li class="table-list-item">') == 1
 
 
-@pytest.mark.django_db
-def test_maintenance_attributes_no_underage_subjects(request, client, user):
-    contact = baker.make(Contact, date_of_birth=date(2020, 1, 1))
-    baker.make(Consent, subject=contact.subject, _fill_optional=['document'])
-    contact.subject.attributes = {}
-    contact.subject.save()
-
-    with freeze_time('2020-02-02 12:00'):
-        client.force_login(user)
-        url = '/subjects/maintenance/attributes/'
-        response = client.get(url)
-        assert response.status_code == 200
-        assert response.content.count(b'<li class="table-list-item">') == 0
-
-
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),

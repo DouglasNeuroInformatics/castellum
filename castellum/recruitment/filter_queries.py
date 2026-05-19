@@ -15,7 +15,6 @@ which can be passed to ``Subjects.objects.filter()``.
 import datetime
 import json
 
-from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db import models
 from django.db.models.functions import Ceil
@@ -359,13 +358,5 @@ def get_has_missing_attributes(qs):
     # or may not have attributes. We do not warn in either direction in
     # those cases.
     qs = qs.filter(has_consent())
-
-    # some attributes may still develop for children, so we don't warn
-    # about them either.
-    today = datetime.date.today()
-    full_age = Contact.objects.exclude(
-        date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
-    )
-    qs = qs.filter(uuid_filter(full_age))
 
     return qs
