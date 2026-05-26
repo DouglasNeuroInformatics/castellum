@@ -159,7 +159,7 @@ class AttributesForm(forms.ModelForm):
 
         # Date of birth attribute is read-only, it is changed through the "contact" tab
         date_of_birth_attribute_key = cls.get_date_of_birth_attribute_json_key()
-        if date_of_birth_attribute_key:
+        if date_of_birth_attribute_key and date_of_birth_attribute_key in form_fields:
             form_fields[date_of_birth_attribute_key].disabled = True
 
         return type('AttributesForm', (cls,), form_fields)
