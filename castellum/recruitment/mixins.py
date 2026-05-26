@@ -134,10 +134,11 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
 
         categories = Attribute.objects.by_category()
         context['uncategorized'] = get_bound_fields(categories.pop(UNCATEGORIZED))
-        context['categories'] = {
-            category: get_bound_fields(attributes)
-            for category, attributes in categories.items()
-        }
+        context['categories'] = {}
+        for category, attributes in categories.items():
+            items = list(get_bound_fields(attributes))
+            if items:
+                context['categories'][category] = items
 
         context['contact_url'] = self.get_contact_url()
 
