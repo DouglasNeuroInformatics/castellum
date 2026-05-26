@@ -80,7 +80,7 @@ the uploaded files in the `media` folder.
 
 However, you should coordinate with your local data protection officer
 to discuss the implications for data protection, e.g. [deletion of
-subject data](https://castellum.mpib.berlin/documentation/en/guides/subject-management.html#delete-a-subject).
+subject data](https://castellum.mpib.berlin/castellum/docs/guides/subject-management.html#delete-a-subject).
 We recommend to keep backups only for a short amount of time (e.g. 14
 days) and inform subjects about the date when all their data, including
 backups, will be deleted.
@@ -148,7 +148,7 @@ before you can start using it:
         python3 -m django createsuperuser --username admin
         python3 -m django activate_user admin
 
-    See the [end-user documentation](https://castellum.mpib.berlin/documentation/en/roles.html#administrator)
+    See the [end-user documentation](https://castellum.mpib.berlin/castellum/docs/roles.html#administrator)
     for further information.
 
 ## Updates

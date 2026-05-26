@@ -91,4 +91,4 @@ Contact
 
 -   Contact: castellum@mpib-berlin.mpg.de
 -   Source code: https://git.mpib-berlin.mpg.de/castellum/castellum/
--   End-user documentation: https://castellum.mpib.berlin/documentation/en/
+-   End-user documentation: https://castellum.mpib.berlin/castellum/docs/

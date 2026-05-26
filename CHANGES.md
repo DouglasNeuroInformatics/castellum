@@ -1729,7 +1729,7 @@ You need to update to at least 0.67.0 before updating to this version.
 ## new features
 
 -   For data that is not directly related to a specific study there are
-    now [general pseudonym domains](https://castellum.mpib.berlin/documentation/en/privacy.html#using-pseudonyms-from-general-domains)
+    now [general pseudonym domains](https://castellum.mpib.berlin/castellum/docs/pseudonyms.html#using-pseudonyms-from-general-pseudonym-lists)
 -   Access to pseudonyms is now included in the monitoring log. In the
     UI, pseudonyms therefore now have to be requested individually and
     are no longer shown all at once.
