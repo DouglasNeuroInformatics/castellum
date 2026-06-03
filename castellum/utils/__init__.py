@@ -6,7 +6,6 @@
 import uuid
 
 import requests
-from django.conf import settings
 from django.core.cache import cache
 
 
@@ -44,11 +43,6 @@ def contrast_color(color: str) -> str:
     b = (int(color[5:7], 16) / 255) ** 2.4
     lightness = 0.2126 * r + 0.7152 * g + 0.0722 * b
     return '#ffffff' if lightness < 0.18 else '#000000'
-
-
-def get_languages():
-    names = dict(settings.LANGUAGES)
-    return [(code, names[code]) for code in settings.CASTELLUM_LANGUAGES]
 
 
 class Exclusion:

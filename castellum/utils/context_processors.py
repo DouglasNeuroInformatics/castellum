@@ -27,6 +27,7 @@ def get_settings(request):
         'CASTELLUM_REPORT_TEXT': settings.CASTELLUM_REPORT_TEXT,
         'CASTELLUM_AUDIT_TRAIL_ENABLED': settings.CASTELLUM_AUDIT_TRAIL_ENABLED,
         'SCHEDULER_URL': settings.SCHEDULER_URL,
+        'LANGUAGES': settings.LANGUAGES,
 
         # Error templates do not get a context. Invert this value to
         # avoid demo warnings in that case.

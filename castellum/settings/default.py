@@ -41,7 +41,6 @@ SESSION_COOKIE_SECURE = True
 
 # Internationalization
 LANGUAGE_CODE = 'en'
-CASTELLUM_LANGUAGES = ['de', 'en']
 TIME_ZONE = 'Europe/Berlin'
 PHONENUMBER_DEFAULT_REGION = 'DE'
 

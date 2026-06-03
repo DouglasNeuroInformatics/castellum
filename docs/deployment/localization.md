@@ -13,19 +13,19 @@ to change the set of available languages.
     UI and can therefore be translated.
 -   Users can select a language using the language switcher that is
     always available in the header.
--   The available languages are defined in `settings.CASTELLUM_LANGUAGES`.
+-   The available languages are defined in `settings.LANGUAGES`.
 -   The default language is defined in `settings.LANGUAGE_CODE`
 
 ### Changing the set of available languages
 
-You are free to change `settings.CASTELLUM_LANGUAGES` and
+You are free to change `settings.LANGUAGES` and
 `settings.LANGUAGE_CODE`. However, there are some caveats:
 
 -   Apart from the english default, only a german translation is
     included. If you want to add another language you should create the
     relevant translation file yourself. See
     <https://docs.djangoproject.com/en/stable/ref/django-admin/#makemessages>.
--   If you change `settings.CASTELLUM_LANGUAGES` django will warn you that
+-   If you change `settings.LANGUAGES` django will warn you that
     some model changes are not reflected in the migrations. It is
     usually safe to ignore that warning because this specific migration
     would not actually change the database. Of course you can also
@@ -66,7 +66,7 @@ tedious. So the simplest option is to remove german from the set of
 available languages, which only leaves english:
 
     LANGUAGE_CODE = 'en'
-    CASTELLUM_LANGUAGES = ['en']
+    LANGUAGES = ['en']
 
 Even though italian is not available in the UI, you can provide italian
 texts for all recruitment mails and configure Castellum to use the
