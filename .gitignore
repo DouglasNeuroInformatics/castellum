@@ -6,6 +6,7 @@ castellum.egg-info/
 /media/
 htmlcov/
 .coverage
+coverage.xml
 *.mo
 *.pyc
 *.sqlite3

@@ -89,6 +89,7 @@ addopts = [
     "--cov-branch",
     "--cov-report=term-missing:skip-covered",
     "--cov-report=html",
+    "--cov-report=xml:coverage.xml",
     "--no-cov-on-fail",
     "--strict-markers",
 ]
