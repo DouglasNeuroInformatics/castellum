@@ -37,7 +37,7 @@ def get_pseudonym(subject, target_domain_key):
 def get_pseudonym_if_exists(subject, key):
     # You should use ``get_pseudonym()`` in most cases as it does not
     # leak whether a pseudony exists.
-    target = Pseudonym.objects.filter( subject=subject, domain__key=key).first()
+    target = Pseudonym.objects.filter(subject=subject, domain__key=key).first()
     return target.pseudonym if target else None
 
 
