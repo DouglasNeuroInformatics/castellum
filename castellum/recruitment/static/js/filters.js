@@ -10,7 +10,7 @@ $$.on(document, 'click', '[data-js="filter-add"]', function() {
         formrow.innerHTML = template.innerHTML.replace(/{prefix}/g, `form-${totalForms.value}`);
         container.append(formrow);
         totalForms.value = parseInt(totalForms.value, 10) + 1;
-        $$.trigger(totalForms, 'change');
+        totalForms.dispatchEvent(new Event('change', {bubbles: true}));
         formrow.querySelector('select').focus();
     }
 });
@@ -29,5 +29,6 @@ $$.on(document, 'click', '[data-js="filter-delete"]', function() {
     formrow.append(hidden);
     formrow.hidden = true;
 
-    $$.trigger(formrow.querySelector('input'), 'change');
+    var input = formrow.querySelector('input');
+    input.dispatchEvent(new Event('change', {bubbles: true}));
 });

@@ -9,11 +9,6 @@ window.$$ = {
             }
         });
     },
-    trigger: function(el, eventName) {
-        var event = document.createEvent('HTMLEvents');
-        event.initEvent(eventName, true, false);
-        el.dispatchEvent(event);
-    },
     throttled: function(fn, timeout) {
         var blocked = false;
         return function() {
@@ -84,7 +79,7 @@ $$.on(document, 'click', '[data-js="popup"]', function(event) {
 $$.on(document, 'click', '[data-js="clear-datetime"]', function() {
     this.closest('.row').querySelectorAll('input').forEach(el => {
         el.value = '';
-        $$.trigger(el, 'change');
+        el.dispatchEvent(new Event('change', {bubbles: true}));
     });
 });
 
