@@ -26,6 +26,7 @@
     <template id="i18n-years">{% translate '%i years' %}</template>
     <template id="i18n-months">{% translate '%i months' %}</template>
     <template id="i18n-days">{% translate '%i days' %}</template>
+    <template id="i18n-delete">{% translate 'Delete' %}</template>
 </head>
 <body {% if user.is_authenticated %}data-logout-timeout="{{ CASTELLUM_LOGOUT_TIMEOUT.total_seconds }}"{% endif %}>
     {% if DEMO %}
