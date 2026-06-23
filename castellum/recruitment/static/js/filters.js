@@ -30,6 +30,5 @@ $$.on(document, 'click', '[data-js="filter-delete"]', function() {
     formRow.append(hidden);
     formRow.hidden = true;
 
-    var input = formRow.querySelector('input');
-    input.dispatchEvent(new Event('change', {bubbles: true}));
+    hidden.dispatchEvent(new Event('change', {bubbles: true}));
 });
