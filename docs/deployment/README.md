@@ -161,7 +161,6 @@ For non-docker installations, you also need to update the dependencies:
 ```
 pip install -e .
 npm install
-.misc/extract_fullcalendar_css.sh
 python3 -m django collectstatic
 python3 -m django compilemessages -l de
 ```
