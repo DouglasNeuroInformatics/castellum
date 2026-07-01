@@ -69,7 +69,7 @@ class BlockListFileView(BlockListMixin, FormView):
 
     def form_valid(self, form):
         try:
-            data = self.request.FILES['file'].read().decode('utf-8')
+            data = self.request.FILES['file'].read().decode('utf-8-sig')
         except UnicodeDecodeError:
             form.add_error('file', _('Uploaded file must be UTF-8 encoded.'))
             return self.form_invalid(form)

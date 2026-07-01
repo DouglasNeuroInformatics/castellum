@@ -109,3 +109,25 @@ Bar,Test,1970,2,no
     response = client.post(url, {'file': file})
     assert response.status_code == 200
     assert response.content == csv_out
+
+
+def test_blocklist_file_view_bom(request, client, user):
+    BlockHash.block(first_name='Foo', last_name='Test', year_of_birth=1970)
+
+    csv_in = b"""
+\xef\xbb\xbffirst_name,last_name,year_of_birth,extra
+Foo,Test,1970,1
+Bar,Test,1970,2
+""".lstrip()
+    csv_out = b"""
+first_name,last_name,year_of_birth,extra,is_blocked
+Foo,Test,1970,1,yes
+Bar,Test,1970,2,no
+""".lstrip().replace(b'\n', b'\r\n')
+
+    client.force_login(user)
+    url = '/subjects/blocklist/batch/'
+    file = SimpleUploadedFile('test.csv', csv_in, content_type='text/csv')
+    response = client.post(url, {'file': file})
+    assert response.status_code == 200
+    assert response.content == csv_out
