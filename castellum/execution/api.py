@@ -43,12 +43,14 @@ class APIDomainsView(BaseAPIView):
 
 class APIValidateView(BaseAPIView):
     def get(self, request, **kwargs):
-        try:
-            pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
-        except ValueError as e:
-            raise Http404 from e
-
+        pseudonym = self.kwargs['pseudonym']
         domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+
+        if domain.validate:
+            try:
+                pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(pseudonym)
+            except ValueError as e:
+                raise Http404 from e
 
         try:
             subject = get_subject(domain.key, pseudonym)
@@ -80,12 +82,14 @@ class APIPseudonymsView(BaseAPIView):
 
 class APIResolveView(BaseAPIView):
     def get(self, request, **kwargs):
-        try:
-            pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
-        except ValueError as e:
-            raise Http404 from e
-
+        pseudonym = self.kwargs['pseudonym']
         domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+
+        if domain.validate:
+            try:
+                pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(pseudonym)
+            except ValueError as e:
+                raise Http404 from e
 
         try:
             subject = get_subject(domain.key, pseudonym)
@@ -119,12 +123,14 @@ class APIResolveView(BaseAPIView):
 
 class APIAttributesView(BaseAPIView):
     def get(self, request, **kwargs):
-        try:
-            pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
-        except ValueError as e:
-            raise Http404 from e
-
+        pseudonym = self.kwargs['pseudonym']
         domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+
+        if domain.validate:
+            try:
+                pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(pseudonym)
+            except ValueError as e:
+                raise Http404 from e
 
         try:
             subject = get_subject(domain.key, pseudonym)
@@ -156,22 +162,25 @@ class APIAttributesView(BaseAPIView):
 
 class APISSHKeyView(BaseAPIView):
     def get(self, request, **kwargs):
-        try:
-            pseudonym_str = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
-        except ValueError as e:
-            raise Http404 from e
-
+        pseudonym = self.kwargs['pseudonym']
         domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
-        qs = Pseudonym.objects.exclude(subject=None)
-        pseudonym = get_object_or_404(qs, pseudonym=pseudonym_str, domain=domain)
 
-        key_pair, _ = KeyPair.objects.get_or_create(pseudonym=pseudonym)
+        if domain.validate:
+            try:
+                pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(pseudonym)
+            except ValueError as e:
+                raise Http404 from e
+
+        qs = Pseudonym.objects.exclude(subject=None)
+        p = get_object_or_404(qs, pseudonym=pseudonym, domain=domain)
+
+        key_pair, _ = KeyPair.objects.get_or_create(pseudonym=p)
 
         audit(
             gettext_noop('ssh key accessed'),
             self.request.user.username,
             study_pk=self.study.pk,
-            subject_pk=pseudonym.subject_id,
+            subject_pk=p.subject_id,
         )
 
         return JsonResponse({

@@ -20,6 +20,7 @@ class Domain(models.Model):
     key = models.CharField(max_length=64, default=uuid_str, unique=True, editable=False)
     name = models.CharField(max_length=64, blank=True)
     bits = models.PositiveIntegerField(default=40)
+    validate = models.BooleanField(default=True)
 
     content_type = models.ForeignKey(
         ContentType, on_delete=models.CASCADE, null=True, blank=True

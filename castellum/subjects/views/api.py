@@ -24,14 +24,16 @@ class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
     permission_required = ['subjects.view_subject']
 
     def get(self, request, **kwargs):
-        try:
-            pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
-        except ValueError as e:
-            raise Http404 from e
-
+        pseudonym = self.kwargs['pseudonym']
         domain = get_object_or_404(
             request.user.general_domains, key=self.kwargs['domain']
         )
+
+        if domain.validate:
+            try:
+                pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(pseudonym)
+            except ValueError as e:
+                raise Http404 from e
 
         try:
             subject = get_subject(domain.key, pseudonym)

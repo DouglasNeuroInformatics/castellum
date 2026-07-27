@@ -43,7 +43,7 @@ After that you can create the pseudonyms themselves:
 
     mydata = […]
 
-    mydomain = Domain.objects.create()
+    mydomain = Domain.objects.create(validate=False)
     print(mydomain.key)
 
     for subject, legacy_pseudonym in mydata:
@@ -53,13 +53,7 @@ After that you can create the pseudonyms themselves:
             pseudonym=legacy_pseudonym,
         )
 
-### Adapt validation
-
-Pseudonyms entered by users are validated. Since legacy pseudonyms will
-usually have a different format, you need to globally disable that
-validation in the settings:
-
-    CASTELLUM_PSEUDONYM_CLEAN = lambda x: x
-
-Of course you can also write a custom validation that can handle the
-legacy pseudonyms.
+Since legacy pseudonyms will usually have a different format, we disable
+validation for this domain (see `CASTELLUM_PSEUDONYM_CLEAN`). Of course
+you can also write a custom validation that can handle the legacy
+pseudonyms.
