@@ -42,11 +42,10 @@ docker:test:
   image:
     name: quay.io/buildah/stable
   script:
-    - >
-      buildah build \
-      --tag "$CI_REGISTRY_IMAGE:latest" \
-      --layers \
-      --cache-to "$CI_REGISTRY_IMAGE/cache" \
+    - buildah build
+      --tag "$CI_REGISTRY_IMAGE:latest"
+      --layers
+      --cache-to "$CI_REGISTRY_IMAGE/cache"
       --cache-from "$CI_REGISTRY_IMAGE/cache"
 
 docker:
