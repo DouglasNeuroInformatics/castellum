@@ -41,6 +41,8 @@ docker:test:
   stage: test
   image:
     name: quay.io/buildah/stable
+  tags:
+    - unconfined
   script:
     - buildah build
       --tag "$CI_REGISTRY_IMAGE:latest"
@@ -52,6 +54,8 @@ docker:
   stage: push
   image:
     name: quay.io/buildah/stable
+  tags:
+    - unconfined
   script:
     - buildah login -u "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
     - buildah build \
