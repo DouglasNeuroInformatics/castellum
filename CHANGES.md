@@ -1,3 +1,40 @@
+# 26.7.0 (2026-08-03)
+
+## breaking changes
+
+-   The setting `CASTELLUM_LANGUAGES` has been removed. Instead,
+    Django's
+    [`LANGUAGES`](https://docs.djangoproject.com/en/5.2/ref/settings/#languages)
+    setting is used.
+-   Incomplete recruitment attributes are no longer igored for underage
+    subjects. This was an imperfect heuristic with a heavy performance
+    impact.
+
+## new features
+
+-   Pseudonym validation can be disabled for individual pseudonym lists
+    (via the admin UI). This can be useful when importing legacy
+    pseudonyms.
+-   When merging subjects, legal representatives are now also included
+    in the merge.
+
+## bug fixes
+
+-   When submitting a CSV file to check for blocked subjects, ignore a
+    leading unicode byte order mark (produced by Microsoft Excel).
+-   Do not render attribute categories if they contain no entries.
+-   fix crash if `CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID` and the
+    respective attribute has an elevated privacy level.
+
+## other changes
+
+-   Dependencies are no longer pinned to exact versions. This allows to
+    install security updates in dependencies without needing a new
+    release.
+-   Incomplete draft studies are no longer included in the "action
+    required" category.
+
+
 # 26.4.2 (2026-05-13)
 
 -   fix error on missing recruitment consent in the block list
