@@ -6,7 +6,7 @@
     Django's
     [`LANGUAGES`](https://docs.djangoproject.com/en/5.2/ref/settings/#languages)
     setting is used.
--   Incomplete recruitment attributes are no longer igored for underage
+-   Incomplete recruitment attributes are no longer ignored for underage
     subjects. This was an imperfect heuristic with a heavy performance
     impact.
 
@@ -23,7 +23,7 @@
 -   When submitting a CSV file to check for blocked subjects, ignore a
     leading unicode byte order mark (produced by Microsoft Excel).
 -   Do not render attribute categories if they contain no entries.
--   fix crash if `CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID` and the
+-   fix crash if `CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID` is set and the
     respective attribute has an elevated privacy level.
 
 ## other changes
@@ -31,8 +31,8 @@
 -   Dependencies are no longer pinned to exact versions. This allows to
     install security updates in dependencies without needing a new
     release.
--   Incomplete draft studies are no longer included in the "action
-    required" category.
+-   Draft studies with an unknown end of data collection are no longer
+    included in the "action required" category.
 
 
 # 26.4.2 (2026-05-13)
