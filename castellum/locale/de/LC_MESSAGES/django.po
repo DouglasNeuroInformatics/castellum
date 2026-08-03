@@ -1417,6 +1417,12 @@ msgstr "E-Mails erfolgreich versendet!"
 msgid "Appointments for this participation have been deleted."
 msgstr "Termine für diese Teilnahme wurden gelöscht."
 
+msgid "German"
+msgstr "Deutsch"
+
+msgid "English"
+msgstr "Englisch"
+
 msgid "Membership"
 msgstr "Mitgliedschaft"
 
