@@ -5,7 +5,6 @@
 
 import secrets
 
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -21,7 +20,7 @@ class User(AbstractUser):
     DEMO_PASSWORD = 'password'
 
     language = models.CharField(
-        _('Language'), max_length=5, choices=settings.LANGUAGES, blank=True
+        _('Language'), max_length=5, blank=True
     )
     expiration_date = DateTimeField(_('Expiration date'), blank=True, null=True)
     token = models.CharField(max_length=64, unique=True, default=generate_token)
