@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-27 13:43+0200\n"
+"POT-Creation-Date: 2026-08-03 09:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -252,9 +252,6 @@ msgstr ""
 "Mindestens der volle Name, Telefonnummer oder E-Mail Adresse müssen "
 "angegeben werden"
 
-msgid "subject updated"
-msgstr "Proband*in aktualisiert"
-
 msgid "First name"
 msgstr "Vorname"
 
@@ -275,6 +272,9 @@ msgstr ""
 "Die Datei muss das UTF-8 Encoding benutzen und mindestens die Spalten "
 "\"first_name\", \"last_name\" und \"year_of_birth\" enthalten. Die Ergebnis-"
 "Datei enthält die zusätzliche Spalte \"is_blocked\"."
+
+msgid "subject updated"
+msgstr "Proband*in aktualisiert"
 
 msgid "Title"
 msgstr "Titel"
@@ -320,6 +320,9 @@ msgstr "Adresse"
 
 msgid "Addresses"
 msgstr "Adressen"
+
+msgid "Created at"
+msgstr "Erstellt am"
 
 msgid "Not all members of this study can access this subject"
 msgstr "Nicht alle Mitglieder der Studie können auf diese Proband*in zugreifen"
@@ -768,14 +771,14 @@ msgstr "Es sind Fehler aufgetreten."
 msgid "Tag has been deleted."
 msgstr "Tag wurde gelöscht"
 
-msgid "Invalid pseudonym"
-msgstr "Ungültiges Pseudonym"
-
 msgid "Pseudonym list"
 msgstr "Pseudonym-Liste"
 
 msgid "All pseudonym lists have been deleted."
 msgstr "Alle Pseudonym-Listen wurden gelöscht"
+
+msgid "Invalid pseudonym"
+msgstr "Ungültiges Pseudonym"
 
 msgid "Users who can access this pseudonym list"
 msgstr "Nutzer*innen, die auf diese Pseudonym-Liste zugreifen können"
@@ -986,9 +989,6 @@ msgstr "Die Proband*in wurde durch die Aufräumfunktion ausgeschlossen."
 
 msgid "The subject has completed all tests."
 msgstr "Die Proband*in hat alle Tests abgeschlossen."
-
-msgid "Created at"
-msgstr "Erstellt am"
 
 msgid "Updated at"
 msgstr "Aktualisiert am"
@@ -1987,12 +1987,6 @@ msgid "Public information that is meant to be shared with participants."
 msgstr ""
 "Öffentliche Informationen die mit den Proband*innen geteilt werden sollen."
 
-msgid "Import"
-msgstr "Importieren"
-
-msgid "Import study"
-msgstr "Studie importieren"
-
 msgid "All studies"
 msgstr "Alle Studien"
 
@@ -2928,6 +2922,15 @@ msgstr ""
 "Sind Sie sicher, dass Sie diese Anfrage zur Erstellung einer Proband*in und "
 "alle zugehörigen Daten <strong>unwiederbringlich</strong> löschen möchten?"
 
+msgid "Uploaded file must be UTF-8 encoded."
+msgstr "Die Datei muss mit UTF-8 kodiert sein."
+
+msgid "Missing column: "
+msgstr "Fehlende Spalte: "
+
+msgid "participation deleted"
+msgstr "Teilnahme gelöscht"
+
 msgid "subject searched"
 msgstr "Proband*in gesucht"
 
@@ -2959,15 +2962,6 @@ msgstr "Proband*in bleibt gesperrt"
 
 msgid "Report has been discarded. The subject has been un-blocked."
 msgstr "Die Meldung wurde verworfen. Die Sperrung wurde aufgehoben."
-
-msgid "participation deleted"
-msgstr "Teilnahme gelöscht"
-
-msgid "Uploaded file must be UTF-8 encoded."
-msgstr "Die Datei muss mit UTF-8 kodiert sein."
-
-msgid "Missing column: "
-msgstr "Fehlende Spalte: "
 
 msgid "Forbidden"
 msgstr "Verboten"
