@@ -37,6 +37,17 @@ test-py310:
   variables:
     UV_PYTHON: '3.10'
 
+docker:test:
+  stage: test
+  image:
+    name: quay.io/buildah/stable
+  script:
+    - buildah build \
+      --tag "$CI_REGISTRY_IMAGE:latest" \
+      --layers \
+      --cache-to "$CI_REGISTRY_IMAGE/cache" \
+      --cache-from "$CI_REGISTRY_IMAGE/cache"
+
 docker:
   stage: push
   image:
