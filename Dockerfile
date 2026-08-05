@@ -7,12 +7,10 @@ ENV DJANGO_SETTINGS_MODULE=django_settings
 
 RUN adduser -D -g '' user
 
-RUN mkdir -p /app/log
-RUN chown user /app/log
+RUN mkdir -p /app/log && chown user /app/log
 VOLUME /app/log
 
-RUN mkdir -p /app/media
-RUN chown user /app/media
+RUN mkdir -p /app/media && chown user /app/media
 VOLUME /app/media
 
 EXPOSE 8000/tcp
