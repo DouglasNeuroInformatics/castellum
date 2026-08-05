@@ -40,7 +40,7 @@ test-py310:
 docker:test:
   stage: test
   image:
-    name: quay.io/buildah/stable
+    name: quay.io/buildah/stable:latest
   tags:
     - unconfined
   script:
@@ -53,7 +53,7 @@ docker:test:
 docker:
   stage: push
   image:
-    name: quay.io/buildah/stable
+    name: quay.io/buildah/stable:latest
   tags:
     - unconfined
   script:
