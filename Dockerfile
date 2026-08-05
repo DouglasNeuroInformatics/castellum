@@ -34,7 +34,7 @@ RUN apk update && apk add \
 WORKDIR /app/
 
 RUN mkdir castellum
-COPY pyproject.toml package.json uwsgi.ini LICENSE COPYRIGHT ./
+COPY pyproject.toml uwsgi.ini LICENSE COPYRIGHT ./
 COPY castellum/__init__.py castellum/
 
 RUN pip3 install -e .[ldap,axes,model-stats,storage-timestamps] && pip cache purge
@@ -44,9 +44,13 @@ COPY castellum/ castellum
 RUN python3 -m django compilemessages -l de --settings=castellum.settings.bare
 
 
-FROM base AS static
-RUN apk add npm
+FROM docker.io/library/node:latest AS node
+COPY package.json ./
 RUN npm install --omit=dev
+
+
+FROM base AS static
+COPY --from=node node_modules node_modules
 COPY .misc/extract_fullcalendar_css.sh extract_fullcalendar_css.sh
 RUN ./extract_fullcalendar_css.sh
 RUN python3 -m django collectstatic --no-input --settings=castellum.settings.bare
