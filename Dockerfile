@@ -37,7 +37,7 @@ RUN mkdir castellum
 COPY pyproject.toml package.json uwsgi.ini LICENSE COPYRIGHT ./
 COPY castellum/__init__.py castellum/
 
-RUN pip3 install -e .[ldap,axes,model-stats,storage-timestamps]
+RUN pip3 install -e .[ldap,axes,model-stats,storage-timestamps] && pip cache purge
 
 COPY castellum/ castellum
 
