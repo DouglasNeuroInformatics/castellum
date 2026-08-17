@@ -10,6 +10,3 @@ coverage.xml
 *.mo
 *.pyc
 *.sqlite3
-
-castellum/static/fullcalendar.css
-castellum/static/fullcalendar.js

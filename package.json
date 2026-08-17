@@ -4,14 +4,16 @@
     "private": true,
     "dependencies": {
         "@fortawesome/fontawesome-free": "^7.2.0",
-        "@fullcalendar/bootstrap5": "^6.1.21",
+        "@fullcalendar/bootstrap5": "^7.0.2",
         "@popperjs/core": "^2.11.8",
         "@ttskch/select2-bootstrap4-theme": "^1.5.2",
         "bootstrap": "^5.3.8",
-        "fullcalendar-scheduler": "^6.1.21",
+        "fullcalendar": "^7.0.2",
+        "fullcalendar-scheduler": "^7.0.2",
         "jdenticon": "^3.3.0",
         "jquery": "^3.7.1",
         "qr": "^0.6.0",
-        "select2": "4.0.13"
+        "select2": "4.0.13",
+        "temporal-polyfill": "^1.0.1"
     }
 }

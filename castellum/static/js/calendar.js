@@ -1,22 +1,20 @@
-FullCalendar.Bootstrap5.Internal.BootstrapTheme.prototype.baseIconClass = 'fa';
-FullCalendar.Bootstrap5.Internal.BootstrapTheme.prototype.iconClasses = {
-    close: 'fa-times',
-    prev: 'fa-chevron-left',
-    next: 'fa-chevron-right',
-    prevYear: 'fa-angle-double-left',
-    nextYear: 'fa-angle-double-right',
-};
-FullCalendar.Bootstrap5.Internal.BootstrapTheme.prototype.rtlIconClasses = {
-    prev: 'fa-chevron-right',
-    next: 'fa-chevron-left',
-    prevYear: 'fa-angle-double-right',
-    nextYear: 'fa-angle-double-left',
-};
+for (let plugin of FullCalendar.globalPlugins) {
+    if (plugin.name === 'theme-bootstrap5') {
+        for (let key of ['prev', 'next', 'prevYear', 'nextYear']) {
+            let opt = plugin.optionDefaults.buttons[key];
+            opt.iconClass = opt.iconClass
+                .replace('bi bi-chevron-left', 'fa fa-chevron-left')
+                .replace('bi bi-chevron-right', 'fa fa-chevron-right')
+                .replace('bi bi-chevron-double-left', 'fa fa-angle-double-left')
+                .replace('bi bi-chevron-double-right', 'fa fa-angle-double-right');
+        }
+    }
+}
 
 document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
     var layout = el.dataset.layout;
     var calendar = new FullCalendar.Calendar(el, {
-        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+        schedulerLicenseKey: 'AGPL-My-Frontend-And-Backend-Are-Open-Source',
         themeSystem: 'bootstrap5',
         locale: document.documentElement.lang,
         events: location.search ? (location.search + '&events') : '?events',

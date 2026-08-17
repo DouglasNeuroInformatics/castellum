@@ -51,8 +51,6 @@ RUN npm install --omit=dev
 
 FROM base AS static
 COPY --from=node node_modules node_modules
-COPY .misc/extract_fullcalendar_css.sh extract_fullcalendar_css.sh
-RUN ./extract_fullcalendar_css.sh
 RUN python3 -m django collectstatic --no-input --settings=castellum.settings.bare
 
 

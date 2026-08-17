@@ -25,12 +25,14 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static 'fullcalendar.js' %}"></script>
-    <script src="{% static '@fullcalendar/bootstrap5/index.global.min.js' %}"></script>
-    <script src="{% static '@fullcalendar/core/locales/de.global.min.js' %}"></script>
+    <script src="{% static 'fullcalendar/all/global.js' %}"></script>
+    <script src="{% static 'fullcalendar-scheduler/all/global.js' %}"></script>
+    <script src="{% static 'fullcalendar/locales/de/global.js' %}"></script>
+    <script src="{% static '@fullcalendar/bootstrap5/global.js' %}"></script>
     <script type="module" src="{% static 'js/calendar.js' %}"></script>
 {% endblock %}
 
 {% block extra_styles %}
-    <link rel="stylesheet" href="{% static 'fullcalendar.css' %}">
+    <link rel="stylesheet" href="{% static 'fullcalendar/skeleton.css' %}">
+    <link rel="stylesheet" href="{% static '@fullcalendar/bootstrap5/theme.css' %}">
 {% endblock %}
