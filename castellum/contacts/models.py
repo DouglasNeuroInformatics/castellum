@@ -106,9 +106,8 @@ class ContactQuerySet(models.QuerySet):
             else:
                 q_certain &= q_family
 
-            certain = self.filter(q_certain).first()
-            if certain:
-                return certain
+            if self.filter(q_certain).count() == 1:
+                return self.filter(q_certain).get()
 
         # If we can compare date_of_birth, it and one of the others must match.
         # Otherwise, first name and one of the others must match.
