@@ -109,16 +109,19 @@ class ContactQuerySet(models.QuerySet):
             if self.filter(q_certain).count() == 1:
                 return self.filter(q_certain).get()
 
-        # If we can compare date_of_birth, it and one of the others must match.
-        # Otherwise, first name and one of the others must match.
+        # At least two of first name, last name/family, and date of birth
+        # must match.
         q_uncertain = self.q_name_is_matched(first_name.split(), 'first')
         q_uncertain &= self.q_name_is_matched(last_name.split(), 'last') | q_family
         if date_of_birth:
-            q_uncertain &= models.Q(date_of_birth=None)
-            q_uncertain |= self.q_fuzzy_date_of_birth(date_of_birth) & (
+            q_uncertain |= models.Q(date_of_birth=date_of_birth) & (
                 self.q_name_is_matched(first_name.split(), 'first')
                 | self.q_name_is_matched(last_name.split(), 'last')
                 | q_family
+            )
+            q_uncertain &= (
+                models.Q(date_of_birth=None)
+                | self.q_fuzzy_date_of_birth(date_of_birth)
             )
         q_uncertain &= (
             self.q_sub_name(first_name, 'first')
