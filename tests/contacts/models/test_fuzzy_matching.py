@@ -297,3 +297,9 @@ def test_fuzzy_find_none_date_of_birth():
 def test_fuzzy_find_none_everything_fuzzy():
     baker.make(Contact, first_name='Kristin', last_name='Heiner', date_of_birth=datetime.date(1970, 1, 1))  # noqa
     assert Contact.objects.fuzzy_find('Christin', 'Haina', datetime.date(1970, 5, 1)) is None  # noqa
+
+
+@pytest.mark.django_db
+def test_fuzzy_find_none_first_name_and_fuzzy_date_of_birth():
+    baker.make(Contact, first_name='Kristin', last_name='Heiner', date_of_birth=datetime.date(1970, 1, 1))  # noqa
+    assert Contact.objects.fuzzy_find('Kristin', 'Berg', datetime.date(1970, 5, 1)) is None  # noqa
