@@ -97,7 +97,7 @@ def send_appointment_reminders(base_url):
                     appointments.update(first_reminder_sent=True)
 
         if not_reachable:
-            with MailContext('internal', ctx.connection) as internal_ctx:
+            with MailContext('internal') as internal_ctx:
                 send_mail_to_study_conductors(
                     study, not_reachable, base_url, internal_ctx
                 )
