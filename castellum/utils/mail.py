@@ -40,21 +40,13 @@ class MailContext:
             self.data.update(settings.CASTELLUM_MAIL[name])
 
     def __enter__(self):
-        if not self.connection:
-            self.connection = get_connection(**self.data['connection'])
-            self.close_connection = True
-            try:
-                self.connection.open()
-            except Exception:
-                self.connection.close()
-                self.connection = None
-                raise
         return self
 
     def __exit__(self, type, value, traceback):
         if self.close_connection:
             self.connection.close()
         self.connection = None
+        self.close_connection = False
 
     def prepare_body(self, body, recipients_string=''):
         if not isinstance(body, str):
@@ -67,7 +59,17 @@ class MailContext:
         return body
 
     def send_mail(self, subject, body, recipients, recipients_string='', **kwargs):
-        assert self.connection
+        if not self.connection:
+            self.connection = get_connection(**self.data['connection'])
+            self.close_connection = True
+            try:
+                self.connection.open()
+            except Exception:
+                self.connection.close()
+                self.connection = None
+                self.close_connection = False
+                raise
+
         msg = EmailMessage(
             subject=self.data['subject_prefix'] + subject,
             body=self.prepare_body(body, recipients_string),
