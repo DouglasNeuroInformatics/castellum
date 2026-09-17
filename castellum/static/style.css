@@ -184,20 +184,6 @@ input:checked + .checkbox-opacity {
     opacity: 0.5;
 }
 
-/* workaround for https://github.com/fullcalendar/fullcalendar/issues/7465 */
-.fc {
-    --fc-list-event-hover-bg-color: var(--bs-tertiary-bg);
-}
-.fc .fc-list,
-.fc .fc-scrollgrid,
-.fc td,
-.fc th {
-    border: 1px solid var(--bs-border-color);
-}
-.fc-theme-bootstrap5-shaded {
-    background-color: var(--bs-secondary-bg);
-}
-
 .select2-container--bootstrap4 .select2-results__option--highlighted,
 .select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected="true"] {
     background-color: var(--bs-primary);
