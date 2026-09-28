@@ -451,8 +451,11 @@ class BlockHash(models.Model):
 
     @classmethod
     def normalize(cls, first_name, last_name):
-        first_name = cls.normalize_text(first_name).split()[0]
+        first_name = cls.normalize_text(first_name)
         last_name = cls.normalize_text(last_name)
+        if not first_name or not last_name:
+            raise ValueError('incomplete name')
+        first_name = first_name.split()[0]
         return f'{first_name} {last_name}'
 
     @classmethod

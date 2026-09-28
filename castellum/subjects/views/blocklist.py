@@ -94,10 +94,15 @@ class BlockListFileView(BlockListMixin, FormView):
         w.writeheader()
 
         for row in r:
-            is_blocked = self.is_blocked(
-                row['first_name'], row['last_name'], int(row['year_of_birth'], 10)
-            )
-            row['is_blocked'] = 'yes' if is_blocked else 'no'
+            try:
+                is_blocked = self.is_blocked(
+                    row['first_name'],
+                    row['last_name'],
+                    int(row['year_of_birth'], 10),
+                )
+                row['is_blocked'] = 'yes' if is_blocked else 'no'
+            except ValueError:
+                row['is_blocked'] = 'invalid'
             w.writerow(row)
 
         return response
