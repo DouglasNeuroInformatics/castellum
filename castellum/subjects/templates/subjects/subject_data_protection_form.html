@@ -57,7 +57,7 @@
                         <a href="consent/" class="btn btn-outline-primary">{% translate "Change" %}</a>
                     {% endif %}
                 </div>
-                {% if object.consent.document.is_deprecated %}
+                {% if object.has_consent and object.consent.document.is_deprecated %}
                     <div class="form-text text-bg-warning p-2 mb-2">
                         {% blocktranslate trimmed %}
                             The current consent refers to an outdated document and will soon expire, thus rendering the recruitment consent invalid.
