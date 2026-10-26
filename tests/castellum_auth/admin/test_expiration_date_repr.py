@@ -1,5 +1,4 @@
-from datetime import datetime
-from datetime import timezone
+import datetime
 
 from freezegun import freeze_time
 from model_bakery import baker
@@ -15,7 +14,7 @@ def test_no_expiration_date_is_set():
 
 def test_user_account_is_expired():
     user = baker.prepare(
-        User, expiration_date=datetime(2010, 1, 1, tzinfo=timezone.utc)
+        User, expiration_date=datetime.datetime(2010, 1, 1, tzinfo=datetime.UTC)
     )
     assert expiration_date_repr(user) == '01/01/2010 (expired)'
 
@@ -23,7 +22,7 @@ def test_user_account_is_expired():
 @freeze_time('2018-01-01')
 def test_expiration_date_is_today():
     user = baker.prepare(
-        User, expiration_date=datetime(2018, 1, 1, tzinfo=timezone.utc)
+        User, expiration_date=datetime.datetime(2018, 1, 1, tzinfo=datetime.UTC)
     )
     assert expiration_date_repr(user) == '01/01/2018 (0 days left)'
 
@@ -31,6 +30,6 @@ def test_expiration_date_is_today():
 @freeze_time('2018-01-01')
 def test_expiration_date_is_in_the_future():
     user = baker.prepare(
-        User, expiration_date=datetime(2019, 1, 1, tzinfo=timezone.utc)
+        User, expiration_date=datetime.datetime(2019, 1, 1, tzinfo=datetime.UTC)
     )
     assert expiration_date_repr(user) == '01/01/2019 (365 days left)'
