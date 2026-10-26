@@ -32,10 +32,10 @@ test:
     - .venv/bin/pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
 
-test-py310:
+test-py311:
   extends: test
   variables:
-    UV_PYTHON: '3.10'
+    UV_PYTHON: '3.11'
 
 docker:
   stage: push
