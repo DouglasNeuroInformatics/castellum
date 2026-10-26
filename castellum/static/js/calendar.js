@@ -48,7 +48,7 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
             arg.el.title = arg.event.title;
 
             if (arg.event.extendedProps.min_subject_count) {
-                var container = arg.el.querySelector('.fc-event-title');
+                var container = arg.el.querySelector('div > div');
                 var span = document.createElement('span');
                 var iconLabel = $$.gettext('participants');
                 span.append('(', $$.icon('fa-solid fa-users', iconLabel), ' ', arg.event.extendedProps.min_subject_count, ')');
