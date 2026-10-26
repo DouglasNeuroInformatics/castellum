@@ -1,3 +1,23 @@
+# 26.10.0 (2026-10-26)
+
+## breaking changes
+
+-   Dropped support for python 3.10 (end of life)
+-   Fullcalendar was updated to a new version. As a result, it is no
+    longer necessary to run `.misc/extract_fullcalendar_css.sh` during
+    installation.
+-   fuzzy-find: do not return a certain match if there is more than one
+    candidate
+-   fuzzy-find: do not treat same first name and similar date of birth
+    as a potential duplicate (because this is too common)
+
+## bug fixes
+
+-   blocklist: mark individual rows as invalid instead of failing the
+    complete request in batch mode
+-   consent: only show deprecation warning if consent is otherwise valid
+
+
 # 26.7.0 (2026-08-03)
 
 ## breaking changes
