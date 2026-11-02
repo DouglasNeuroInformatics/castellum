@@ -2425,7 +2425,7 @@ msgid ""
 "Check whether a person may already have expressed that they no longer want "
 "to be contacted for recruitment."
 msgstr ""
-"Prüfen, ob eine Person möglicherweise bereits mitgeteilt hat, dass sie nicht "
+"Prüfen, ob eine Person bereits mitgeteilt hat, dass sie nicht "
 "mehr für Rekrutierungszwecke kontaktiert werden möchte."
 
 msgid "Check"
