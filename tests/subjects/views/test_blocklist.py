@@ -32,24 +32,7 @@ def test_blocklist_no_match(request, client, user):
     assert b'No match found' in response.content
 
 
-def test_blocklist_blocked(request, client, user, subject):
-    subject.blocked = True
-    subject.save()
-
-    client.force_login(user)
-    url = '/subjects/blocklist/'
-    response = client.post(url, {
-        'first_name': subject.contact.first_name,
-        'last_name': subject.contact.last_name,
-        'year_of_birth': '1970',
-    })
-    assert response.status_code == 200
-    assert b'We have found a match' in response.content
-
-
-def test_blocklist_consent_denied(request, client, user, subject):
-    baker.make(Consent, subject=subject, document=None)
-
+def test_blocklist_subject_exists(request, client, user, subject):
     client.force_login(user)
     url = '/subjects/blocklist/'
     response = client.post(url, {

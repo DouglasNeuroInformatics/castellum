@@ -25,6 +25,7 @@ class BlockListMixin(PermissionRequiredMixin):
     def is_blocked(self, first_name, last_name, year_of_birth):
         if BlockHash.is_blocked(first_name, last_name, year_of_birth):
             return True
+
         try:
             contact = Contact.objects.fuzzy_find(first_name, last_name)
             if contact:
@@ -33,17 +34,11 @@ class BlockListMixin(PermissionRequiredMixin):
                 contacts = []
         except PotentialDuplicateError as e:
             contacts = e.duplicates
-        for contact in contacts:
-            if contact.date_of_birth and contact.date_of_birth.year != year_of_birth:
-                continue
-            if contact.subject.blocked or contact.subject.to_be_deleted:
-                return True
-            if Consent.objects.filter(
-                subject=contact.subject_uuid, document=None
-            ).exists():
-                # NOTE: also blocks excluded_by_us
-                return True
-        return False
+
+        return any(
+            not contact.date_of_birth or contact.date_of_birth.year == year_of_birth
+            for contact in contacts
+        )
 
 
 class BlockListFormView(BlockListMixin, FormView):
