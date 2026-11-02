@@ -42,8 +42,8 @@ class ContactQuerySet(models.QuerySet):
         return q_any([self.q_match_name(name, prefix) for name in names])
 
     def q_sub_name(self, name, prefix):
-        return models.Q(**{f'{prefix}_name': name}) | q_any([
-            models.Q(**{f'{prefix}_name': sub})
+        return models.Q(**{f'{prefix}_name__iexact': name}) | q_any([
+            models.Q(**{f'{prefix}_name__iexact': sub})
             for sub in name.split()
         ])
 

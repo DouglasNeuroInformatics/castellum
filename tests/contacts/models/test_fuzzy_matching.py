@@ -184,6 +184,13 @@ def test_fuzzy_find_exact_date_of_birth():
 
 
 @pytest.mark.django_db
+def test_fuzzy_case_insensitive():
+    date = datetime.date(1970, 1, 1)
+    baker.make(Contact, first_name='Foo', last_name='Bar', date_of_birth=date)
+    assert Contact.objects.fuzzy_find('foo', 'bar', date)
+
+
+@pytest.mark.django_db
 def test_fuzzy_find_exact_email():
     baker.make(Contact, first_name='foo', last_name='bar', email='foo@example.com')
     assert Contact.objects.fuzzy_find('foo', 'bar', emails=['foo@example.com'])
